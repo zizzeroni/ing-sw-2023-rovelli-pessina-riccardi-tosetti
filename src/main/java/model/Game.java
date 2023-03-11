@@ -1,4 +1,4 @@
-package org.model;
+package model;
 
 public class Game {
 
