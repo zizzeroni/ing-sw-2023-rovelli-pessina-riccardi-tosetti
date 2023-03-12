@@ -1,10 +1,10 @@
-Personal_Goal1package model;
+package model;
 
 import java.util.ArrayList;
 
-public class Personal_Goal3  implements interface Card{
+public class TenthPersonalGoal  implements interface Card{
     private ArrayList<Player> players; // eredità di player
-    public Personal_Goal3 {
+    public Personal_Goal4 {
         //... costruttore
     }
     //metodi

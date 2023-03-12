@@ -2,13 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
-public class Personal_Goal1 implements interface Card{
+public class TwelfthPersonalGoal implements interface Card{
     private ArrayList<Player> players; // eredità di player
-    public Personal_Goal1{
+    public Personal_Goal6 {
         //... costruttore
     }
     //metodi
-    #Override
+    @Override
     public boolean goalPattern(...){
         //...
     }
