@@ -1,7 +1,9 @@
-package model;
+package model.commongoal;
 
-public class FourRowsPatternGoal extends CommonGoal{
-    public FourRowsPatternGoal(String image, int patternRepetition, TileType type) {
+import model.CommonGoal;
+
+public class FourRowsPatternGoal extends CommonGoal {
+    public FourRowsPatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
 

@@ -1,16 +1,18 @@
-package model;
+package model.commongoal;
 
-abstract class CommonGoal extends Card{
+import model.Card;
+
+abstract class CommonGoal extends Card {
 
     private int patternRepetition;
-    private TileType type;
+    private CheckType type;
     private GoalTile[] scoreTiles;
 
     public CommonGoal() {
         super();
     }
 
-    public CommonGoal(String image, int patternRepetition, TileType type) {
+    public CommonGoal(String image, int patternRepetition, CheckType type) {
         super(image);
         this.patternRepetition = patternRepetition;
         this.type = type;
@@ -29,7 +31,7 @@ abstract class CommonGoal extends Card{
         return patternRepetition;
     }
 
-    public TileType getType() {
+    public CheckType getType() {
         return type;
     }
 
@@ -37,7 +39,7 @@ abstract class CommonGoal extends Card{
         this.patternRepetition = patternRepetition;
     }
 
-    public void setType(TileType type) {
+    public void setType(CheckType type) {
         this.type = type;
     }
 

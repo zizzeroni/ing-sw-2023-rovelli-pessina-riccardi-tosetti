@@ -1,7 +1,9 @@
-package model;
+package model.commongoal;
 
-public class FiveXShapePatternGoal extends CommonGoal{
-    public FiveXShapePatternGoal(String image, int patternRepetition, TileType type) {
+import model.CommonGoal;
+
+public class FiveXShapePatternGoal extends CommonGoal {
+    public FiveXShapePatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
     public boolean goalPattern() {
