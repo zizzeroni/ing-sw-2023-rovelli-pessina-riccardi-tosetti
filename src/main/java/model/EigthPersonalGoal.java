@@ -2,9 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
-public class EigthPersonalGoal implements interface Card{
+public class EigthPersonalGoal extends Card{
     private ArrayList<Player> players; // eredità di player
-    public Personal_Goal2 {
+    public EigthPersonalGoal {
         //... costruttore
     }
     //metodi
