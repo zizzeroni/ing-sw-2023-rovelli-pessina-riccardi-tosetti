@@ -1,7 +1,9 @@
-package model;
+package model.commongoal;
 
-public class SixTwoShapelessPatternGoal extends CommonGoal{
-    public SixTwoShapelessPatternGoal(String image, int patternRepetition, TileType type) {
+import model.CommonGoal;
+
+public class SixTwoShapelessPatternGoal extends CommonGoal {
+    public SixTwoShapelessPatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
 

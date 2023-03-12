@@ -1,7 +1,9 @@
-package model;
+package model.commongoal;
 
-public class EightShaplessPatternGoal extends CommonGoal{
-    public EightShaplessPatternGoal(String image, int patternRepetition, TileType type) {
+import model.CommonGoal;
+
+public class EightShaplessPatternGoal extends CommonGoal {
+    public EightShaplessPatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
 

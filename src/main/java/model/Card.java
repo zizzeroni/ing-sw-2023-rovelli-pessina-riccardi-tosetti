@@ -1,6 +1,6 @@
 package model;
 
-abstract class Card {
+public abstract class Card {
     private String image;
 
     public Card() {
