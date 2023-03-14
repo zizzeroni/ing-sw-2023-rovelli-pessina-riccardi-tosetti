@@ -1,5 +1,8 @@
 package model;
 
+import model.commongoal.CommonGoal;
+import model.tile.Tile;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 

@@ -1,10 +1,13 @@
-package model;
+package model.personalgoal;
+
+import model.Card;
+import model.Player;
 
 import java.util.ArrayList;
 
-public class TenthPersonalGoal  extends Card{
+public class EigthPersonalGoal extends Card {
     private ArrayList<Player> players; // eredità di player
-    public TenthPersonalGoal {
+    public EigthPersonalGoal {
         //... costruttore
     }
     //metodi

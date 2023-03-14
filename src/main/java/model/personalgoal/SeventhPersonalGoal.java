@@ -1,14 +1,17 @@
-package model;
+package model.personalgoal;
+
+import model.Card;
+import model.Player;
 
 import java.util.ArrayList;
 
-public class EigthPersonalGoal extends Card{
+public class SeventhPersonalGoal extends Card {
     private ArrayList<Player> players; // eredità di player
-    public EigthPersonalGoal {
+    public SeventhPersonalGoal{
         //... costruttore
     }
     //metodi
-    @Override
+    #Override
     public boolean goalPattern(...){
         //...
     }

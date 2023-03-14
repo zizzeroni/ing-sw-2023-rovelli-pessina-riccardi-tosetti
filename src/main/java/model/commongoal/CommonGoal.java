@@ -1,8 +1,9 @@
 package model.commongoal;
 
 import model.Card;
+import model.tile.GoalTile;
 
-abstract class CommonGoal extends Card {
+public abstract class CommonGoal extends Card {
 
     private int patternRepetition;
     private CheckType type;
@@ -16,7 +17,7 @@ abstract class CommonGoal extends Card {
         super(image);
         this.patternRepetition = patternRepetition;
         this.type = type;
-        scoreTiles = {new GoalTile(8),new GoalTile(6),new GoalTile(4),new GoalTile(2)};
+        scoreTiles = new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
     }
 
     public GoalTile[] getScoreTiles() {
