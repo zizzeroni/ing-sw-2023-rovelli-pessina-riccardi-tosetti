@@ -2,6 +2,7 @@ package org.example;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.Game;
 import model.PersonalGoal;
 import model.Player;
 
@@ -25,7 +26,7 @@ public class App
         ArrayList<Player> players = new ArrayList<Player>(numPlayers);
         ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
 
-        players.add(new Player("Alessandro", true,  null, null));
+        players.add(new Player("Alessandro", true, null,  null, null));
         players.add(new Player("Andrea", true, null, null, null));
         players.add(new Player("Francesco", true, null, null, null));
         players.add(new Player("Luca", true, null, null, null));
@@ -35,7 +36,7 @@ public class App
 
         //read available personal goals from a file
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("personal-goals.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/storage/personal-goals.json"));
             personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {}.getType());
             reader.close();
 
@@ -43,11 +44,9 @@ public class App
             System.out.println(e.getMessage());
         }
 
-        personalGoals.forEach(System.out::println);
+        Game game = new Game(numPlayers, players, personalGoals);
 
-        // Game game = new Game(numPlayers, players, personalGoals);
-
-        // game.changeTurn();
+        game.changeTurn();
 
 
     }

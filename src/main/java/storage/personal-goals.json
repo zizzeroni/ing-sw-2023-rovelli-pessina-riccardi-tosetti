@@ -1,22 +1,22 @@
 [
   {
     "pattern": [
-      ["PURPLE", null, "BLUE", null, null],
-      [null, null, null, null, "GREEN"],
-      [null, null, null, "WHITE", null],
-      [null, "YELLOW", null, null, null],
-      [null, null, null, null, null],
-      [null, null, "CYAN", null, null]
+      [{"color":  "PURPLE"}, {"color":  null}, {"color":  "BLUE"}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}, {"color":  "GREEN"}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  "WHITE"}, {"color":  null}],
+      [{"color":  null}, {"color":  "YELLOW"}, {"color":  null}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  "CYAN"}, {"color":  null}, {"color":  null}]
     ]
   },
   {
     "pattern": [
-      ["BLUE", null, "PURPLE", null, null],
-      [null, null, null, null, "GREEN"],
-      [null, null, null, "WHITE", null],
-      [null, "YELLOW", null, null, null],
-      [null, null, null, null, null],
-      [null, null, "CYAN", null, null]
+      [{"color":  "BLUE"}, {"color":  null}, {"color":  "PURPLE"}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}, {"color":  "GREEN"}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  "WHITE"}, {"color":  null}],
+      [{"color":  null}, {"color":  "YELLOW"}, {"color":  null}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}, {"color":  null}],
+      [{"color":  null}, {"color":  null}, {"color":  "CYAN"}, {"color":  null}, {"color":  null}]
     ]
   }
 ]
