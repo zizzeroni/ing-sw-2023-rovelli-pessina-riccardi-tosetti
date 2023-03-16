@@ -17,7 +17,6 @@ import model.commongoal.FourCornersPatternGoal;
 import model.tile.Tile;
 import model.tile.TileColor;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collections;
@@ -26,7 +25,6 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-    private boolean hasStarted;
     private int numPlayers;
     private int activePlayerIndex;
     private ArrayList<Player> players;
@@ -35,24 +33,27 @@ public class Game {
     private ArrayList<CommonGoal> commonGoals;
     private final Random randomizer = new Random();
 
-    public Game() {
-        this.numPlayers = 0;
-        this.hasStarted = false;
+    public Game(int numPlayers, ArrayList<Player> players, ArrayList<PersonalGoal> personalGoals) {
+        this.players = players;
         this.board = new Board();
         this.activePlayerIndex = 0;
+        this.numPlayers = numPlayers;
         this.bag = new ArrayList<Tile>(132);
-        this.players = new ArrayList<Player>(numPlayers);
         this.commonGoals = new ArrayList<CommonGoal>(2);
 
         //initialize bag and shuffle items
         for (int i = 0; i < 132; i++){
             this.bag.add(new Tile(TileColor.values()[i % 6]));
         }
-        Collections.shuffle(bag);
+
+        Collections.shuffle(personalGoals);
 
         //initialize players
-        for (int i = 0; i < this.numPlayers; i++){
-            this.players.add(new Player());
+        for (Player player: players) {
+            player.setBookshelf(new Bookshelf());
+            player.setGoalTile(new ArrayList<>(3));
+            player.setPersonalGoal(personalGoals.get(0));
+            personalGoals.remove(0);
         }
 
         //initialize common goals
@@ -67,23 +68,17 @@ public class Game {
                 System.out.println(e.getMessage());
             }
         }
+
+        this.refillBoard();
     }
 
-    public Game(boolean hasStarted, int numPlayers, int activePlayerIndex, ArrayList<Player> players, ArrayList<Tile> bag, Board board, ArrayList<CommonGoal> commonGoals) {
-        this.hasStarted = hasStarted;
+    public Game(int numPlayers, int activePlayerIndex, ArrayList<Player> players, ArrayList<Tile> bag, Board board, ArrayList<CommonGoal> commonGoals) {
         this.numPlayers = numPlayers;
         this.activePlayerIndex = activePlayerIndex;
         this.players = players;
         this.bag = bag;
         this.board = board;
         this.commonGoals = commonGoals;
-    }
-
-    public boolean getHasStarted() {
-        return hasStarted;
-    }
-    public void setHasStarted(boolean hasStarted) {
-        this.hasStarted = hasStarted;
     }
 
     public int getNumPlayers() {
@@ -149,10 +144,10 @@ public class Game {
         return this.connectedPlayers().size() == 1;
     }
 
-    private List<Player> connectedPlayers() {
+    private ArrayList<Player> connectedPlayers() {
         return this.players.stream()
                 .filter(Player::isConnected)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {

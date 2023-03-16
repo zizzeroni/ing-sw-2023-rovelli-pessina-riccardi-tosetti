@@ -1,5 +1,16 @@
 package org.example;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import model.PersonalGoal;
+import model.Player;
+
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Hello world!
  *
@@ -8,6 +19,36 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        int numPlayers = 4;
+        Gson gson = new Gson();
+
+        ArrayList<Player> players = new ArrayList<Player>(numPlayers);
+        ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
+
+        players.add(new Player("Alessandro", true,  null, null));
+        players.add(new Player("Andrea", true, null, null, null));
+        players.add(new Player("Francesco", true, null, null, null));
+        players.add(new Player("Luca", true, null, null, null));
+
+        //randomize player's starting order
+        Collections.shuffle(players);
+
+        //read available personal goals from a file
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("personal-goals.json"));
+            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {}.getType());
+            reader.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        personalGoals.forEach(System.out::println);
+
+        // Game game = new Game(numPlayers, players, personalGoals);
+
+        // game.changeTurn();
+
+
     }
 }

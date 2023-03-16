@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ing-sw-2023-rovelli-pessina-riccardi-tosetti" target="1.5" />
+      <module name="ing-sw-2023-rovelli-pessina-riccardi-tosetti" target="19" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,22 @@
+[
+  {
+    "pattern": [
+      ["PURPLE", null, "BLUE", null, null],
+      [null, null, null, null, "GREEN"],
+      [null, null, null, "WHITE", null],
+      [null, "YELLOW", null, null, null],
+      [null, null, null, null, null],
+      [null, null, "CYAN", null, null]
+    ]
+  },
+  {
+    "pattern": [
+      ["BLUE", null, "PURPLE", null, null],
+      [null, null, null, null, "GREEN"],
+      [null, null, null, "WHITE", null],
+      [null, "YELLOW", null, null, null],
+      [null, null, null, null, null],
+      [null, null, "CYAN", null, null]
+    ]
+  }
+]
