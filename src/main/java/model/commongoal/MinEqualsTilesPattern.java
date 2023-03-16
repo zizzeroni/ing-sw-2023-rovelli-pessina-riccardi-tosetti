@@ -59,7 +59,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
                         cAppearances++;
                     }
                 }
-                if(cAppearances>=patternRepetition) {
+                if(cAppearances>=this.getPatternRepetition()) {
                     return 1;
                 }
                 break;

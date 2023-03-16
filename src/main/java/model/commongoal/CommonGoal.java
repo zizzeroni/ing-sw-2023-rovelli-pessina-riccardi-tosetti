@@ -11,6 +11,9 @@ public abstract class CommonGoal extends Card {
 
     public CommonGoal() {
         super();
+        type=null;
+        scoreTiles=new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
+        patternRepetition=0;
     }
 
     public CommonGoal(String image, int patternRepetition, CheckType type) {
