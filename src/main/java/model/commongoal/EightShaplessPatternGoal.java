@@ -1,16 +1,26 @@
 package model.commongoal;
 
-import model.CommonGoal;
+
+import model.Bookshelf;
+import model.tile.Tile;
+import model.tile.TileColor;
+
+import java.awt.print.Book;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 public class EightShaplessPatternGoal extends CommonGoal {
+    public EightShaplessPatternGoal() {
+    }
+
     public EightShaplessPatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
 
-    public boolean goalPattern() {
-        /* Implementa controllo del pattern con 8 tiles,
-           uguali tra loro e in qualsiasi posizione.
-         */
-        return false;
+    public int goalPattern(Bookshelf b) {
+        Map<TileColor,List<Tile>> prova = Arrays.stream(b.getTiles()).flatMap(rows -> Arrays.stream(rows)).collect(groupingBy(Tile::getColor,mapping(tile->tile,toList())));
+        return prova.entrySet().stream().filter(x->x.getValue().size()>=8).count()>0 ? 1 : 0;
     }
 }

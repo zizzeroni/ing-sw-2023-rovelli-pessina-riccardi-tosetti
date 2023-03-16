@@ -10,7 +10,7 @@ public abstract class Card {
         this.image = image;
     }
 
-    public abstract boolean goalPattern();
+    public abstract int goalPattern(Bookshelf b);
 
     public String getImage() {
         return image;
