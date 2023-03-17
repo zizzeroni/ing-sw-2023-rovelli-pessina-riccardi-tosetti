@@ -60,6 +60,13 @@ public class Bookshelf {
         this.tiles = tiles;
     }
 
-}
+    public Tile getSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
+        return tiles[i][j];
+    }
 
+    public void setSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
+        this.tiles[i][j] = tiles[i][j];
+    }
+
+}
 
