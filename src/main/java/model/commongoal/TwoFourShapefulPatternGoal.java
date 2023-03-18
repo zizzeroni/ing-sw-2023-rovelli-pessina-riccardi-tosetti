@@ -1,6 +1,5 @@
 package model.commongoal;
 
-import model.CommonGoal;
 
 public class TwoFourShapefulPatternGoal extends CommonGoal {
     public TwoFourShapefulPatternGoal(String image, int patternRepetition, CheckType type) {
