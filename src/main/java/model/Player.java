@@ -1,6 +1,12 @@
 package model;
 
+import model.tile.GoalTile;
+import model.tile.Tile;
+
+import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class Player {
 
@@ -68,29 +74,69 @@ public class Player {
 
 
     //class methods
-    public int score(){
-        int score = 0;
+    public int score() {
+        int score=0;/*
+        int i = 0;
+        Player player = new Player(nickname, connected, personalGoal, goalTile, bookshelf);
+        Tile tile = new Tile();
+        if (player.isConnected() == true) {
+            while (i <= Game.getNumPlayers()) {
+                score += player.getGoalTile().get(i).getScore(); //accesso a goal tile ?
+            }
+            if(personalGoalAchieved == true){ //serve ?
+                score += player.goalTile.getScore(); //accesso a personal Goal ?
+            }
 
-        return score ;
+        }*/
+        return score;// viene calcolato in base al numero di giocatori
     }
 
-    public ArrayList<Tile> selectTile(){
+    // ma è goal o tile ? Dove viene indicato il punteggio obbiettivo
 
-        ArrayList<Tile> selected = new ArrayList<Tile>();
+    public Tile selectTile(){
+         // array ?
+        Tile selected = new Tile();
+        Bookshelf bookshelf1 = new Bookshelf();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("inserire valori per x");
+        int x = scan.nextInt();
+        System.out.println("inserire valori per y");
+        int y = scan.nextInt();
+
+        // ? ArrayList<Tile> selected = new ArrayList<Tile>();
 
         return selected;
     }
-    public ArrayList<Tile> orderSelectedTile(){
 
+   /* public ArrayList<Tile> orderSelectedTile() { // no perchè sono tessere non tessere punteggio -> accesso da bookshelf
+        int i = 0;
         ArrayList<Tile> orderSelected = new ArrayList<Tile>();
 
+        }
         return orderSelected;
+    }*/
+    public int selectColumn(int c) {
+        int i = 0;/*
+        ArrayList<Tile> selection = new ArrayList<Tile>();
+        playerBookshelf.getTiles();
+        while (i < 6) {
+            selection.add(playerBookshelf[i][c],i);
+            i++;
+        }*/
+        return i;
     }
 
-    public int selectColumn(){
-        int c = 1;
-
-        return c;
+    public ArrayList<Tile> SelectTiles(Board board){
+        ArrayList<Tile> selected = new ArrayList<Tile>();
+        Tile[][] tiles;
+        tiles = board.getTiles();
+        for(int i = 0; i< tiles.length; i++){
+            for(int j = 0; j< tiles.length; j++){
+                selected.add(tiles[i][j]);
+            }
+        }
+        return selected;
     }
+
 
 }

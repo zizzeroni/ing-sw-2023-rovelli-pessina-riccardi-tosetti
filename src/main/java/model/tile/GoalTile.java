@@ -4,6 +4,7 @@ import model.Player;
 import model.commongoal.CommonGoal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoalTile {
     private int value;
@@ -14,4 +15,6 @@ public class GoalTile {
     public GoalTile(int value) {
         this.value = value;
     }
+
+    public int getValue(){return this.value;}
 }
