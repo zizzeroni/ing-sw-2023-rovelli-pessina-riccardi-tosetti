@@ -56,7 +56,7 @@ public class Bookshelf {
         return tiles;
     }
 
-    public void setTiles(Tile tile, int i, int j) {
+    public void setSingleTiles(Tile tile, int i, int j) {
         this.tiles[i][j] = tile;
     }
 
@@ -88,8 +88,8 @@ public class Bookshelf {
     }
 
 
-    public void setSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
-        this.tiles[i][j] = tiles[i][j];
+    public void setTiles(Tile[][] tiles){ // funzione estrazione singola Tile selezionata
+        this.tiles = tiles;
     }
 
 }
