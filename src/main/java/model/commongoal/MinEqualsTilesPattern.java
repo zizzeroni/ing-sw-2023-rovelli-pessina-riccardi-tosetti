@@ -50,14 +50,19 @@ public class MinEqualsTilesPattern extends CommonGoal{
                         continue;
                     }
                     for(int j=0;j<b.getNumColumns();j++) {
-                        recentTiles.add(b.getTile(i,j));
+                        recentTiles.add(b.getSingleTile(i,j).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
-                    if((b.getNumColumns() - recentTiles.size())>= maxEqualsTiles) {
-                        cAppearances++;
+                    switch(this.getType()) {
+                        case DIFFERENT:
+                            if((b.getNumColumns() - recentTiles.size()) >= maxEqualsTiles) {
+                                cAppearances++;
+                            }
+                            break;
                     }
+
                 }
                 if(cAppearances>=this.getPatternRepetition()) {
                     return 1;
@@ -69,7 +74,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
                         continue;
                     }
                     for (int j = 0; j < b.getNumRows(); j++) {
-                        recentTiles.add(b.getTile(i, j));
+                        recentTiles.add(b.getSingleTile(i, j).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
@@ -81,5 +86,11 @@ public class MinEqualsTilesPattern extends CommonGoal{
                 break;
         }
         return 0;
+    }
+
+    private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) {
+        switch(typeOfChecking) {
+
+        }
     }
 }

@@ -29,7 +29,7 @@ public class PersonalGoal extends Card {
         int counter=0;
         for(int i=0;i<numRows;i++) {
             for(int j=0;j<numColumns;j++) {
-                if(b.getTile(i,j).equals(pattern[i][j])) {
+                if(b.getSingleTile(i,j).equals(pattern[i][j])) {
                     counter++;
                 }
             }
