@@ -56,16 +56,40 @@ public class Bookshelf {
         return tiles;
     }
 
-    public void setTiles(Tile[][] tiles) {
-        this.tiles = tiles;
+    public void setSingleTiles(Tile tile, int i, int j) {
+        this.tiles[i][j] = tile;
     }
 
-    public Tile getSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
+    public Tile getSingleTile(int i, int j){ // funzione estrazione singola Tile selezionata
         return tiles[i][j];
     }
 
-    public void setSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
-        this.tiles[i][j] = tiles[i][j];
+
+
+    // numero colonne e numero righe
+    // is row full is col full
+
+    public boolean isRowFull(int r) throws NotImplementedException {
+        for (int i = 0; i < numColumns; i++) {
+            if (tiles[i][r] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isColumnFull(int c) throws NotImplementedException {
+        for (int i = 0; i < numRows; i++) {
+            if (tiles[c][i] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void setTiles(Tile[][] tiles){ // funzione estrazione singola Tile selezionata
+        this.tiles = tiles;
     }
 
 }
