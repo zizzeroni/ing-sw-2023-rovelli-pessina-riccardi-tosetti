@@ -1,16 +1,25 @@
 package model.commongoal;
 
-import model.CommonGoal;
+
+import model.Bookshelf;
+
+import java.util.Arrays;
 
 public class FourCornersPatternGoal extends CommonGoal {
+    public FourCornersPatternGoal() {
+    }
+
     public FourCornersPatternGoal(String image, int patternRepetition, CheckType type) {
         super(image, patternRepetition, type);
     }
 
-    public boolean goalPattern() {
-        /* Implementa controllo del pattern con 4 tiles agli
-           angoli, uguali tra loro
-         */
-        return false;
+    public int goalPattern(Bookshelf b) {
+        if(b.getTile(0,0).equals(b.getTile(0,b.getNumColumns-1))
+                && b.getTile(0,b.getNumColumns-1).equals(b.getTile(b.getNumRows-1,0))
+                    && b.getTile(b.getNumRows-1,0).equals(b.getTile(b.getNumRows-1,b.getNumColumns-1))) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
