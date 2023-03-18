@@ -92,5 +92,6 @@ public class MinEqualsTilesPattern extends CommonGoal{
         switch(typeOfChecking) {
 
         }
+        return false;
     }
 }

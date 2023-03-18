@@ -2,16 +2,11 @@ package model;
 
 import model.commongoal.CommonGoal;
 import model.commongoal.EightShaplessPatternGoal;
-import model.commongoal.FourFourShapelessPatternGoal;
-import model.commongoal.FourRowsPatternGoal;
 import model.commongoal.FiveXShapePatternGoal;
-import model.commongoal.TwoColumnsPatternGoal;
+import model.commongoal.MinEqualsTilesPattern;
 import model.commongoal.StairPatternGoal;
-import model.commongoal.ThreeColumnsPatternGoal;
+import model.commongoal.GoalPattern_1_3_4;
 import model.commongoal.FiveDiagonalPatternGoal;
-import model.commongoal.TwoRowsPatternGoal;
-import model.commongoal.SixTwoShapelessPatternGoal;
-import model.commongoal.TwoFourShapefulPatternGoal;
 import model.commongoal.FourCornersPatternGoal;
 
 import model.tile.Tile;
@@ -51,23 +46,38 @@ public class Game {
         //initialize players
         for (Player player: players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTile(new ArrayList<>(3));
-            player.setPersonalGoal(personalGoals.get(0));
-            personalGoals.remove(0);
+//            player.setGoalTile(new ArrayList<>(3));
+//            player.setPersonalGoal(personalGoals.get(0));
+//            personalGoals.remove(0);
         }
 
         //initialize common goals
-        CommonGoal newCommonGoal;
-        while(this.commonGoals.size() == 2) {
-            try{
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if(!this.commonGoals.contains(newCommonGoal)){
-                    this.commonGoals.add(newCommonGoal);
-                }
-            } catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-        }
+//        CommonGoal newCommonGoal;
+//        while(this.commonGoals.size() == 2) {
+//            try{
+//                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+//                if(!this.commonGoals.contains(newCommonGoal)){
+//                    this.commonGoals.add(newCommonGoal);
+//                }
+//            } catch(Exception e){
+//                System.out.println(e.getMessage());
+//            }
+//        }
+
+        CommonGoal testCommonGoal = new GoalPattern_1_3_4();
+        Tile[][] tiles = {
+            {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
+            {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+            {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+            {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+            {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+            {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}
+        };
+
+        this.players.get(0).setBookshelf(new Bookshelf("", tiles));
+        testCommonGoal.goalPattern(this.players.get(0).getBookshelf());
+
+
 
         this.refillBoard();
     }
@@ -156,34 +166,37 @@ public class Game {
                 return new EightShaplessPatternGoal();
             }
             case 1 -> {
-                return new FourFourShapelessPatternGoal();
+                return new MinEqualsTilesPattern();
             }
             case 2 -> {
-                return new FourRowsPatternGoal();
+                return new MinEqualsTilesPattern();
             }
             case 3 -> {
-                return new FiveXShapePatternGoal();
+                return new EightShaplessPatternGoal();
+                // return new FiveXShapePatternGoal();
             }
             case 4 -> {
-                return new TwoColumnsPatternGoal();
+                return new MinEqualsTilesPattern();
             }
             case 5 -> {
-                return new StairPatternGoal();
+                return new EightShaplessPatternGoal();
+                // return new StairPatternGoal();
             }
             case 6 -> {
-                return new ThreeColumnsPatternGoal();
+                return new MinEqualsTilesPattern();
             }
             case 7 -> {
-                return new FiveDiagonalPatternGoal();
+                return new EightShaplessPatternGoal();
+                // return new FiveDiagonalPatternGoal();
             }
             case 8 -> {
-                return new TwoRowsPatternGoal();
+                return new GoalPattern_1_3_4();
             }
             case 9 -> {
-                return new SixTwoShapelessPatternGoal();
+                return new GoalPattern_1_3_4();
             }
             case 10 -> {
-                return new TwoFourShapefulPatternGoal();
+                return new GoalPattern_1_3_4();
             }
             case 11 -> {
                 return new FourCornersPatternGoal();

@@ -2,8 +2,6 @@ package model;
 
 import model.tile.Tile;
 
-import java.util.ArrayList;
-
 public class Bookshelf {
     private final int numColumns = 5;
     private final int numRows = 6;
@@ -51,7 +49,7 @@ public class Bookshelf {
     }
 
 
-    public Tile[][] getTiles() {
+    public Tile[][] getSingleTile() {
         return tiles;
     }
 

@@ -1,6 +1,7 @@
 package model.commongoal;
 
 import model.Bookshelf;
+import model.tile.TileColor;
 
 public class GoalPattern_1_3_4 extends CommonGoal{
 
@@ -36,30 +37,32 @@ public class GoalPattern_1_3_4 extends CommonGoal{
         //Qua abbiamo i 5 cicli delle colonne
         for (int c = 0; c < 5; c++) {
             //Per ogni colonna rimandiamo il puntatore riga alla prima riga
-            r = 0;
+            r = 5;
 
             //Passo ogni singolo elementi della matrice, non posso uscire se trovo un true perchè potrebbero esserci
             //elementi true con sopra di essi elementi false dato che vengono segnati i blocchi
 
-            while ((r < 6) || support_matrix[r][c] == 1) {
+            while ((r >= 0) && support_matrix[r][c] != 1) {
 
                 //Se l'elemento non è già stato visitato
                 if (support_matrix[r][c] == 0) {
                     support_matrix[r][c] = gruppo;
                     //Deve far parte di un nuovo gruppo
 
-                    if ((r + 1 < 6) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r + 1, c).getColor())) && (support_matrix[r + 1][c] == 0)) {
+                    TileColor currentTileColor = B.getSingleTile(r, c).getColor();
+                    
+                    if ((r + 1 < 6) && (currentTileColor.equals(B.getSingleTile(r + 1, c) != null ? B.getSingleTile(r + 1, c).getColor() : null)) && (support_matrix[r + 1][c] == 0)) {
                         support_matrix[r + 1][c] = gruppo;
                     }
-                    if ((c != 0) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r, c - 1).getColor())) && (support_matrix[r][c - 1] == 0)) {
+                    if ((c != 0) && (currentTileColor.equals(B.getSingleTile(r, c - 1) != null ? B.getSingleTile(r, c - 1).getColor() : null)) && (support_matrix[r][c - 1] == 0)) {
                         support_matrix[r][c - 1] = gruppo;
                     }
-                    if ((c + 1 < 5) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r, c + 1).getColor())) && (support_matrix[r][c + 1] == 0)) {
+                    if ((c + 1 < 5) && (currentTileColor.equals(B.getSingleTile(r, c + 1) != null ? B.getSingleTile(r , c + 1).getColor() : null)) && (support_matrix[r][c + 1] == 0)) {
                         support_matrix[r][c + 1] = gruppo;
                     }
 
                     //Sistema
-                    if ((r != 0) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r - 1, c).getColor())) && (support_matrix[r - 1][c] == 0)) {
+                    if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] == 0)) {
                         support_matrix[r - 1][c] = gruppo;
                     }
 
@@ -78,16 +81,20 @@ public class GoalPattern_1_3_4 extends CommonGoal{
                     if ((c + 1 < 5) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r, c + 1))) && (support_matrix[r][c + 1] == 0)) {
                         support_matrix[r][c + 1] = support_matrix[r][c];
                     }
-
                     //Sistema
                     if ((r != 0) && ((B.getSingleTile(r, c).getColor()).equals(B.getSingleTile(r - 1, c))) && (support_matrix[r - 1][c] == 0)) {
                         support_matrix[r - 1][c] = support_matrix[r][c];
                     }
 
                 }
-                r++;
+                r--;
             }
         }
+
+        for(int i = 0; i < 6; i++)
+            for(int j = 0; j < 5; j++)
+                System.out.println(support_matrix[i][j]);
+
 
         int h = 1;
 

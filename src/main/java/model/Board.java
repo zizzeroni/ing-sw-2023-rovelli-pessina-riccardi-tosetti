@@ -1,7 +1,6 @@
 package model;
 
 import model.tile.Tile;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -88,16 +87,15 @@ public class Board {
         this.tiles = tiles;
     }
 
-    public void addTiles(Tile[] tilesSet) {
+    public void addTiles(ArrayList<Tile> tilesSet) {
         /*Object[] board;
-        board = tilesSet.toArray();*/
+        board = tilesSet.toArray();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) tiles[i][j] = tilesSet[i];
-        }
+        }*/
     }
     public int needRefill() {
-
-        throw new NotImplementedException();
+        return 0;
     }
     public void removeTiles(Tile[] tilesSet) {
         for (int i = 0; i < 9; i++) {

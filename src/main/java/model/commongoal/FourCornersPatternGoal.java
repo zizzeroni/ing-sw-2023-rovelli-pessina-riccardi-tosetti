@@ -3,8 +3,6 @@ package model.commongoal;
 
 import model.Bookshelf;
 
-import java.util.Arrays;
-
 public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal() {
     }
@@ -14,9 +12,9 @@ public class FourCornersPatternGoal extends CommonGoal {
     }
 
     public int goalPattern(Bookshelf b) {
-        if(b.getTile(0,0).equals(b.getTile(0,b.getNumColumns-1))
-                && b.getTile(0,b.getNumColumns-1).equals(b.getTile(b.getNumRows-1,0))
-                    && b.getTile(b.getNumRows-1,0).equals(b.getTile(b.getNumRows-1,b.getNumColumns-1))) {
+        if(b.getSingleTile(0,0).equals(b.getSingleTile(0,b.getNumColumns()-1))
+                && b.getSingleTile(0,b.getNumColumns()-1).equals(b.getSingleTile(b.getNumRows()-1,0))
+                    && b.getSingleTile(b.getNumRows()-1,0).equals(b.getSingleTile(b.getNumRows()-1,b.getNumColumns()-1))) {
             return 1;
         } else {
             return 0;

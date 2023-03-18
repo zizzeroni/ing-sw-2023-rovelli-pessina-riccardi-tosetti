@@ -7,9 +7,7 @@ public class Tile {
 
     public Tile() {
     }
-    public Tile(int x, int y, TileColor color) {
-        this.x = x;
-        this.y = y;
+    public Tile(TileColor color) {
         this.color = color;
     }
 
