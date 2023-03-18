@@ -88,14 +88,21 @@ public class Board {
         this.tiles = tiles;
     }
 
-    public void addTiles(ArrayList<Tile> tiles) {
-
+    public void addTiles(Tile[] tilesSet) {
+        /*Object[] board;
+        board = tilesSet.toArray();*/
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) tiles[i][j] = tilesSet[i];
+        }
     }
     public int needRefill() {
+
         throw new NotImplementedException();
     }
-    public void removeTiles(ArrayList<Tile> tiles) {
-
+    public void removeTiles(Tile[] tilesSet) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) tiles[i][j] = null;
+        }
     }
 
     public String getImage() {

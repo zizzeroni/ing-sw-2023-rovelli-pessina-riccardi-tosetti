@@ -1,7 +1,6 @@
 package model;
 
 import model.tile.Tile;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ public class Bookshelf {
                 tiles[i][j] = null;
     }
 
-    public boolean isFull() throws NotImplementedException {
+    public boolean isFull() {
         for (int i = 0; i < numColumns; i++) {
             if (tiles[i][numRows] != null) {
                 return true;
@@ -35,7 +34,7 @@ public class Bookshelf {
     }
 
     public int emptyCellsInColumn(int i) {
-        throw new NotImplementedException();
+        return i;
     }
 
     public Bookshelf(String image, Tile[][] tiles) {
@@ -56,7 +55,7 @@ public class Bookshelf {
         return tiles;
     }
 
-    public void setTiles(Tile tile, int i, int j) {
+    public void setSingleTiles(Tile tile, int i, int j) {
         this.tiles[i][j] = tile;
     }
 
@@ -64,12 +63,15 @@ public class Bookshelf {
         return tiles[i][j];
     }
 
+    public int getNumColumns() {
+        return numColumns;
+    }
 
+    public int getNumRows() {
+        return numRows;
+    }
 
-    // numero colonne e numero righe
-    // is row full is col full
-
-    public boolean isRowFull(int r) throws NotImplementedException {
+    public boolean isRowFull(int r) {
         for (int i = 0; i < numColumns; i++) {
             if (tiles[i][r] != null) {
                 return true;
@@ -78,7 +80,7 @@ public class Bookshelf {
         return false;
     }
 
-    public boolean isColumnFull(int c) throws NotImplementedException {
+    public boolean isColumnFull(int c) {
         for (int i = 0; i < numRows; i++) {
             if (tiles[c][i] != null) {
                 return true;
@@ -88,8 +90,8 @@ public class Bookshelf {
     }
 
 
-    public void setSingleTile(Tile[][] tiles, int i, int j){ // funzione estrazione singola Tile selezionata
-        this.tiles[i][j] = tiles[i][j];
+    public void setTiles(Tile[][] tiles){ // funzione estrazione singola Tile selezionata
+        this.tiles = tiles;
     }
 
 }

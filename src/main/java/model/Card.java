@@ -3,6 +3,8 @@ package model;
 public abstract class Card {
     private String image;
 
+    private int score;
+
     public Card() {
     }
 
@@ -18,5 +20,13 @@ public abstract class Card {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(String image) {
+        this.score = score;
     }
 }

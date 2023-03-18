@@ -34,7 +34,7 @@ public class Game {
         this.hasStarted = hasStarted;
     }
 
-    public int getNumPlayers() {
+    public static int getNumPlayers() {
         return numPlayers;
     }
 
