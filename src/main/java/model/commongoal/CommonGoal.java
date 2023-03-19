@@ -11,20 +11,25 @@ public abstract class CommonGoal extends Card {
 
     public CommonGoal() {
         super();
-        type=null;
-        scoreTiles=new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
-        patternRepetition=0;
+        this.type=null;
+        this.scoreTiles=new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
+        this.patternRepetition=0;
     }
-
     public CommonGoal(String image, int patternRepetition, CheckType type) {
         super(image);
         this.patternRepetition = patternRepetition;
         this.type = type;
-        scoreTiles = new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
+        this.scoreTiles = new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
+    }
+    public CommonGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
+        super(image);
+        this.patternRepetition = patternRepetition;
+        this.type = type;
+        this.scoreTiles = scoreTiles;
     }
 
     public GoalTile[] getScoreTiles() {
-        return scoreTiles;
+        return this.scoreTiles;
     }
 
     public void setScoreTiles(GoalTile[] scoreTiles) {
@@ -32,7 +37,7 @@ public abstract class CommonGoal extends Card {
     }
 
     public int getPatternRepetition() {
-        return patternRepetition;
+        return this.patternRepetition;
     }
 
     public CheckType getType() {

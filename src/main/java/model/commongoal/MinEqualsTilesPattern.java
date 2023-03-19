@@ -1,6 +1,7 @@
 package model.commongoal;
 
 import model.Bookshelf;
+import model.tile.GoalTile;
 import model.tile.TileColor;
 
 import java.util.*;
@@ -23,8 +24,14 @@ public class MinEqualsTilesPattern extends CommonGoal{
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
+    public MinEqualsTilesPattern(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles, Direction direction, int maxEqualsTiles) {
+        super(image, patternRepetition, type, scoreTiles);
+        this.direction = direction;
+        this.maxEqualsTiles = maxEqualsTiles;
+    }
+
     public Direction getDirection() {
-        return direction;
+        return this.direction;
     }
 
     public void setDirection(Direction direction) {
@@ -32,7 +39,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
     }
 
     public int getMaxEqualsTiles() {
-        return maxEqualsTiles;
+        return this.maxEqualsTiles;
     }
 
     public void setMaxEqualsTiles(int maxEqualsTiles) {
@@ -43,7 +50,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
     public int goalPattern(Bookshelf b) {
         List<TileColor> recentTiles = new ArrayList<TileColor>();
         int cAppearances=0;
-        switch (direction) {
+        switch (this.direction) {
             case HORIZONTAL -> {
                 for (int i = 0; i < b.getNumRows(); i++) {
                     if (!b.isRowFull(i)) {
@@ -108,12 +115,12 @@ public class MinEqualsTilesPattern extends CommonGoal{
     private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) throws Exception{
         switch (typeOfChecking) {
             case DIFFERENT -> {
-                if (numDiff == maxEqualsTiles) {
+                if (numDiff == this.maxEqualsTiles) {
                     return true;
                 }
             }
             case INDIFFERENT -> {
-                if (numDiff >= maxEqualsTiles) {
+                if (numDiff >= this.maxEqualsTiles) {
                     return true;
                 }
             }

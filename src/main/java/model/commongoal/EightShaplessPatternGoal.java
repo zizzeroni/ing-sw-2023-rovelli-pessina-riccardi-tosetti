@@ -2,6 +2,7 @@ package model.commongoal;
 
 
 import model.Bookshelf;
+import model.tile.GoalTile;
 import model.tile.Tile;
 import model.tile.TileColor;
 
@@ -10,8 +11,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
-public class
-EightShaplessPatternGoal extends CommonGoal {
+public class EightShaplessPatternGoal extends CommonGoal {
     public EightShaplessPatternGoal() {
         super();
     }
@@ -20,6 +20,11 @@ EightShaplessPatternGoal extends CommonGoal {
         super(image, patternRepetition, type);
     }
 
+    public EightShaplessPatternGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
+        super(image, patternRepetition, type, scoreTiles);
+    }
+
+    @Override
     public int goalPattern(Bookshelf b) {
         return Arrays.stream(b.getTiles())                                              //Trasforma la bookshelf in uno Stream di ARRAY di tiles
                 .flatMap(Arrays::stream)                                                //Trasforma la Stream di ARRAY di tiles, in una Stream di SOLI tiles

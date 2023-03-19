@@ -45,7 +45,7 @@ public class PersonalGoal extends Card {
         int counter=0;
         for(int i=0;i<this.numRows;i++) {
             for(int j=0;j<this.numColumns;j++) {
-                if(b.getSingleTile(i,j).equals(this.pattern[i][j])) {
+                if(this.pattern[i][j] != null && b.getSingleTile(i, j) != null && b.getSingleTile(i, j).getColor().equals(this.pattern[i][j].getColor())) {
                     counter++;
                 }
             }
