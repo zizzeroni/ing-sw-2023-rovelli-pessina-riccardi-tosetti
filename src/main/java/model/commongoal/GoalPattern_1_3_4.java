@@ -14,6 +14,8 @@ public class GoalPattern_1_3_4 extends CommonGoal{
         int counter = 0;
         int gruppo = 2;
 
+        int temp=0; //Gruppo eliminato, servirà dopo
+
         //Matrice di appoggio che contiene gli elementi visitati della bookshelf
         int support_matrix[][] = new int[6][5];
 
@@ -45,7 +47,7 @@ public class GoalPattern_1_3_4 extends CommonGoal{
             //elementi true con sopra di essi elementi false dato che vengono segnati i blocchi
             int contare_sotto = 1;
             while ((r >= 0) && support_matrix[r][c] != 1) {
-
+                System.out.println("Sto guardando alla tile in posizione--> riga: " + r + ", colonna: " + c);
                 //Se l'elemento non è già stato visitato
                 if (support_matrix[r][c] == 0) {
                     support_matrix[r][c] = gruppo;
@@ -58,35 +60,52 @@ public class GoalPattern_1_3_4 extends CommonGoal{
                     if ((r + 1 < 6) && (currentTileColor.equals(B.getSingleTile(r + 1, c) != null ? B.getSingleTile(r + 1, c).getColor() : null)) && (support_matrix[r + 1][c] == 0)) {
                         support_matrix[r + 1][c] = gruppo;
 
-                        System.out.println(B.getSingleTile(r + 1, c).getColor() + " aggiunto al gruppo: " + gruppo);
-                    }
+                        System.out.println(B.getSingleTile(r + 1, c).getColor() + " aggiunto al gruppo: " + gruppo + " posizione--> riga: " + (r+1) + ", colonna: " + c);
+                    }/*else if((r + 1 < 6) && (currentTileColor.equals(B.getSingleTile(r + 1, c) != null ? B.getSingleTile(r + 1, c).getColor() : null)) && (support_matrix[r + 1][c] != 0) && (support_matrix[r + 1][c] != 1)){
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        support_matrix[r][c]=support_matrix[r + 1][c];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " Il gruppo: " + support_matrix[r+1][c]);
+                    }*/
+
+
                     if ((c != 0) && (currentTileColor.equals(B.getSingleTile(r, c - 1) != null ? B.getSingleTile(r, c - 1).getColor() : null)) && (support_matrix[r][c - 1] == 0)) {
                         support_matrix[r][c - 1] = gruppo;
 
-                        System.out.println(B.getSingleTile(r, c-1).getColor() + " aggiunto al gruppo: " + gruppo);
-                    }
+                        System.out.println(B.getSingleTile(r, c-1).getColor() + " aggiunto al gruppo: " + gruppo + " posizione--> riga: " + r + ", colonna: " + (c-1));
+                    }/*else if((c != 0) && (currentTileColor.equals(B.getSingleTile(r, c - 1) != null ? B.getSingleTile(r, c - 1).getColor() : null)) && (support_matrix[r][c - 1] != 0) && (support_matrix[r][c - 1] != 1)){
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        support_matrix[r][c]=support_matrix[r][c-1];
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " Il gruppo: " + support_matrix[r][c-1]);
+                    }*/
                     if ((c + 1 < 5) && (currentTileColor.equals(B.getSingleTile(r, c + 1) != null ? B.getSingleTile(r , c + 1).getColor() : null)) && (support_matrix[r][c + 1] == 0)) {
                         support_matrix[r][c + 1] = gruppo;
 
-                        System.out.println(B.getSingleTile(r , c +1).getColor() + " aggiunto al gruppo: " + gruppo);
-                    }
+                        System.out.println(B.getSingleTile(r , c +1).getColor() + " aggiunto al gruppo: " + gruppo+ " posizione--> riga: " + r + ", colonna: " + (c+1));
+                    }/*else if((c+1 <5) && (currentTileColor.equals(B.getSingleTile(r, c + 1) != null ? B.getSingleTile(r, c + 1).getColor() : null)) && (support_matrix[r][c + 1] != 0) && (support_matrix[r][c + 1] != 1)){
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        support_matrix[r][c]=support_matrix[r][c+1];
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " Il gruppo: " + support_matrix[r][c+1]);
+                    }*/
 
-                    while((r != 0) && (currentTileColor.equals(B.getSingleTile(r - contare_sotto, c) != null ? B.getSingleTile(r -  contare_sotto, c).getColor() : null)) && (support_matrix[r -  contare_sotto][c] == 0) ){
+                    /*while((r != 0) && (currentTileColor.equals(B.getSingleTile(r - contare_sotto, c) != null ? B.getSingleTile(r -  contare_sotto, c).getColor() : null)) && (support_matrix[r -  contare_sotto][c] == 0) ){
                         support_matrix[r -  contare_sotto][c] = gruppo;
 
                         System.out.println(B.getSingleTile(r -  contare_sotto, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
                         contare_sotto++;
                     }
-                    contare_sotto=1;
+                    contare_sotto=1;*/
 
-                    /*if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] == 0)) {
+                    if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] == 0)) {
                         support_matrix[r - 1][c] = gruppo;
 
-                        System.out.println(B.getSingleTile(r - 1, c).getColor() + " aggiunto al gruppo: " + gruppo);
+                        System.out.println(B.getSingleTile(r - 1, c).getColor() + " aggiunto al gruppo: " + gruppo + " posizione--> riga: " + (r-1) + ", colonna: " + c);
+                    }/*else if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] != 0) && (support_matrix[r - 1][c] != 1)) {
+                        support_matrix[r][c] = support_matrix[r - 1][c];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " Il gruppo: " + support_matrix[r-1][c]);
                     }*/
-
-
-                    gruppo++;
+                        gruppo++;
                 } else if (support_matrix[r][c] != 1) {
                     //Fa parte di un gruppo già creato
 
@@ -95,34 +114,79 @@ public class GoalPattern_1_3_4 extends CommonGoal{
                     if ((r + 1 < 6) && (currentTileColor.equals(B.getSingleTile(r + 1, c) != null ? B.getSingleTile(r + 1, c).getColor() : null)) && (support_matrix[r + 1][c] == 0)) {
                         support_matrix[r + 1][c] = support_matrix[r][c];
 
-                        System.out.println(B.getSingleTile(r + 1, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
+                        System.out.println(B.getSingleTile(r + 1, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c] + " posizione--> riga: " + (r+1) + ", colonna: " + c);
 
+                    }else if(
+                                    (r + 1 < 6) && support_matrix[r][c]==support_matrix[r+1][c] &&
+                                    (currentTileColor.equals(B.getSingleTile(r + 1, c) != null ? B.getSingleTile(r + 1, c).getColor() : null)) &&
+                                    (support_matrix[r + 1][c] != 0) && (support_matrix[r + 1][c] != 1)){
+
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        temp = support_matrix[r+1][c];
+                        support_matrix[r][c] = support_matrix[r+1][c];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " dal gruppo: " + temp + " al gruppo: " + support_matrix[r+1][c] );
                     }
+
+
                     if ((c != 0) && (currentTileColor.equals(B.getSingleTile(r, c - 1) != null ? B.getSingleTile(r, c - 1).getColor() : null)) && (support_matrix[r][c - 1] == 0)) {
                         support_matrix[r][c - 1] = support_matrix[r][c];
 
-                        System.out.println(B.getSingleTile(r, c -1).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
+                        System.out.println(B.getSingleTile(r, c -1).getColor() + " aggiunto al gruppo: " + support_matrix[r][c] + " posizione--> riga: " + r + ", colonna: " + (c-1));
+
+                    }else if(
+
+                                    (c != 0) && support_matrix[r][c]==support_matrix[r][c-1] &&
+                                    (currentTileColor.equals(B.getSingleTile(r, c - 1) != null ? B.getSingleTile(r, c - 1).getColor() : null)) &&
+                                    (support_matrix[r][c - 1] != 0) && (support_matrix[r][c - 1] != 1)){
+
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        temp = support_matrix[r][c - 1];
+                        support_matrix[r][c] = support_matrix[r][c - 1];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " dal gruppo: " + temp + " al gruppo: " + support_matrix[r][c-1] );
                     }
+
                     if ((c + 1 < 5) && (currentTileColor.equals(B.getSingleTile(r, c + 1) != null ? B.getSingleTile(r, c + 1).getColor() : null)) && (support_matrix[r][c + 1] == 0)) {
                         support_matrix[r][c + 1] = support_matrix[r][c];
 
-                        System.out.println(B.getSingleTile(r, c +1).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
+                        System.out.println(B.getSingleTile(r, c +1).getColor() + " aggiunto al gruppo: " + support_matrix[r][c] + " posizione--> riga: " + r + ", colonna: " + (c+1));
+
+                    }else if(
+                                    (c+1 <5) && support_matrix[r][c]==support_matrix[r][c+1] &&
+                                    (currentTileColor.equals(B.getSingleTile(r, c + 1) != null ? B.getSingleTile(r, c + 1).getColor() : null)) &&
+                                    (support_matrix[r][c + 1] != 0) && (support_matrix[r][c + 1] != 1)){
+
+                        //Sono dello stesso colore ma di due gruppi diversi ==> cambio il gruppo dell'ultimo creato
+                        temp = support_matrix[r][c+1];
+                        support_matrix[r][c] = support_matrix[r][c+1];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " dal gruppo: " + temp + " al gruppo: " + support_matrix[r][c+1] );
                     }
                     //Sistema
 
-                    while((r-contare_sotto >= 0) && (currentTileColor.equals(B.getSingleTile(r - contare_sotto, c) != null ? B.getSingleTile(r -  contare_sotto, c).getColor() : null)) && (support_matrix[r -  contare_sotto][c] == 0) ){
+                    /*while((r-contare_sotto >= 0) && (currentTileColor.equals(B.getSingleTile(r - contare_sotto, c) != null ? B.getSingleTile(r -  contare_sotto, c).getColor() : null)) && (support_matrix[r -  contare_sotto][c] == 0) ){
                         support_matrix[r -  contare_sotto][c] = support_matrix[r][c];
 
                         System.out.println(B.getSingleTile(r -  contare_sotto, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
                         contare_sotto++;
                     }
-                    contare_sotto=1;
+                    contare_sotto=1; */
 
-                    /*if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] == 0)) {
+                    if ((r != 0) && (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) && (support_matrix[r - 1][c] == 0)) {
                         support_matrix[r - 1][c] = support_matrix[r][c];
 
-                        System.out.println(B.getSingleTile(r - 1, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c]);
-                    }*/
+                        System.out.println(B.getSingleTile(r - 1, c).getColor() + " aggiunto al gruppo: " + support_matrix[r][c] + " posizione--> riga: " + (r-1) + ", colonna: " + c);
+
+                    }else if (
+                                    (r != 0) && support_matrix[r][c]==support_matrix[r-1][c] &&
+                                    (currentTileColor.equals(B.getSingleTile(r - 1, c) != null ? B.getSingleTile(r - 1, c).getColor() : null)) &&
+                                    (support_matrix[r - 1][c] != 0) && (support_matrix[r - 1][c] != 1)) {
+                        temp = support_matrix[r - 1][c];
+                        support_matrix[r][c] = support_matrix[r - 1][c];
+
+                        System.out.println("Riassegno alla tile in posizione " + r + ", " + c + " dal gruppo: " + temp + " al gruppo: " + support_matrix[r-1][c] );
+                    }
 
                 }
                 r--;
