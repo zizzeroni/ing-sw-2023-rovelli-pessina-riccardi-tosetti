@@ -2,9 +2,11 @@ package org.example;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.Bookshelf;
 import model.Game;
 import model.PersonalGoal;
 import model.Player;
+import model.tile.GoalTile;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -26,10 +28,10 @@ public class App
         ArrayList<Player> players = new ArrayList<Player>(numPlayers);
         ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
 
-        players.add(new Player("Alessandro", true, null,  null, null));
-        players.add(new Player("Andrea", true, null, null, null));
-        players.add(new Player("Francesco", true, null, null, null));
-        players.add(new Player("Luca", true, null, null, null));
+        players.add(new Player("Alessandro", true));
+        players.add(new Player("Andrea", true));
+        players.add(new Player("Francesco", true));
+        players.add(new Player("Luca", true));
 
         //randomize player's starting order
         Collections.shuffle(players);
