@@ -3,37 +3,31 @@ package commongoal;
 import model.Bookshelf;
 import model.commongoal.CheckType;
 import model.commongoal.Direction;
+import model.commongoal.EightShaplessPatternGoal;
 import model.commongoal.MinEqualsTilesPattern;
 import model.tile.Tile;
 import model.tile.TileColor;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MinEqualsTilesPatternTest {
-    private Bookshelf b;
-    private MinEqualsTilesPattern horizontal3NotEquals;
-    private MinEqualsTilesPattern vertical3NotEquals;
-    private MinEqualsTilesPattern horizontalAllDifferent;
-    private MinEqualsTilesPattern verticalAllDifferent;
+public class EightShapelessPatternGoalTest {
+    private EightShaplessPatternGoal cg;
 
+    private Bookshelf b;
 
     @BeforeEach
     public void cleanGoal() {
-        b=null;
-        horizontalAllDifferent = null;
-        horizontal3NotEquals = null;
-        verticalAllDifferent = null;
-        vertical3NotEquals = null;
+        cg = null;
+        b = null;
     }
 
     @Test
     @DisplayName("Test with generic bookshelf")
     public void GenericBookshelf() {
-        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
-        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
-        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -43,18 +37,13 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(1, horizontal3NotEquals.goalPattern(b));
-        assertEquals(1, vertical3NotEquals.goalPattern(b));
-        assertEquals(0, horizontalAllDifferent.goalPattern(b));
-        assertEquals(0, verticalAllDifferent.goalPattern(b));
+        assertEquals(1, cg.goalPattern(b));
     }
+
     @Test
     @DisplayName("Test with Rulebook's example bookshelf")
     public void RulebookBookshelf() {
-        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
-        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
-        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null, null, null},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null},
@@ -64,19 +53,13 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, horizontal3NotEquals.goalPattern(b));
-        assertEquals(0, vertical3NotEquals.goalPattern(b));
-        assertEquals(0, horizontalAllDifferent.goalPattern(b));
-        assertEquals(0, verticalAllDifferent.goalPattern(b));
+        assertEquals(1, cg.goalPattern(b));
     }
 
     @Test
     @DisplayName("Test with bookshelf with all items = null")
     public void NullBookshelf() {
-        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
-        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
-        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -86,19 +69,13 @@ public class MinEqualsTilesPatternTest {
                 {null, null, null, null, null}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, horizontal3NotEquals.goalPattern(b));
-        assertEquals(0, vertical3NotEquals.goalPattern(b));
-        assertEquals(0, horizontalAllDifferent.goalPattern(b));
-        assertEquals(0, verticalAllDifferent.goalPattern(b));
+        assertEquals(0, cg.goalPattern(b));
     }
 
     @Test
     @DisplayName("Test with bookshelf with all items equals to each other")
     public void EqualsBookshelf() {
-        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
-        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
-        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -108,19 +85,13 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, horizontal3NotEquals.goalPattern(b));
-        assertEquals(1, vertical3NotEquals.goalPattern(b));
-        assertEquals(0, horizontalAllDifferent.goalPattern(b));
-        assertEquals(0, verticalAllDifferent.goalPattern(b));
+        assertEquals(1, cg.goalPattern(b));
     }
 
     @Test
     @DisplayName("Test with bookshelf with all items different to each other")
     public void AllDifferentBookshelf() {
-        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
-        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
-        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE)},
@@ -130,11 +101,6 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, horizontal3NotEquals.goalPattern(b));
-        assertEquals(0, vertical3NotEquals.goalPattern(b));
-        assertEquals(1, horizontalAllDifferent.goalPattern(b));
-        assertEquals(1, verticalAllDifferent.goalPattern(b));
+        assertEquals(0, cg.goalPattern(b));
     }
-
-
 }
