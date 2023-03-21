@@ -1,6 +1,7 @@
 package model;
 
 import model.*;
+import model.commongoal.FourCornersPatternGoal;
 import model.tile.*;
 
 public class PersonalGoal extends Card {
@@ -35,5 +36,34 @@ public class PersonalGoal extends Card {
             }
         }
         return counter;
+    }
+
+    public int score(Bookshelf b){
+        switch (this.goalPattern(b)){
+            case 0 -> {
+                return 0;
+            }
+            case 1 -> {
+                return 1;
+            }
+            case 2 -> {
+                return 2;
+            }
+            case 3 -> {
+                return 4;
+            }
+            case 4 -> {
+                return 6;
+            }
+            case 5 -> {
+                return 9;
+            }
+            case 6 -> {
+                return 12;
+            }
+            default -> {
+                return 12;
+            }
+        }
     }
 }

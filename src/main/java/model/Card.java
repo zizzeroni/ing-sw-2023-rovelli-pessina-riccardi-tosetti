@@ -22,11 +22,5 @@ public abstract class Card {
         this.image = image;
     }
 
-    public int getScore() {
-        return score;
-    }
 
-    public void setScore(String image) {
-        this.score = score;
-    }
 }
