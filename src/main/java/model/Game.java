@@ -91,6 +91,7 @@ public class Game {
         this.commonGoals = commonGoals;
     }
 
+
     public int getNumPlayers() {
         return numPlayers;
     }

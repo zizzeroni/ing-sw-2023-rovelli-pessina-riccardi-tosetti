@@ -4,6 +4,7 @@ public class Tile {
     private int x;
     private int y;
     private TileColor color;
+    private int score;
 
     public Tile() {
     }
@@ -30,5 +31,13 @@ public class Tile {
     }
     public void setColor(TileColor color) {
         this.color = color;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(String image) {
+        this.score = score;
     }
 }

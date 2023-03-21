@@ -2,31 +2,34 @@ package model;
 
 import model.tile.Tile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board {
     private String image;
     private int maxNumTiles;
 
+    private final int numColumns = 9;
+
+    private final int numRows = 9;
+
     private Tile [][] tiles;
 
     public Board() {
-        image = null;
-        maxNumTiles = 0;
-        tiles = new Tile[9][9];
-        for(int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++)
-                tiles[i][j] = null;
+        this.image = null;
+        this.maxNumTiles = 0;
+        this.tiles = new Tile[this.numRows][this.numColumns];
+        for(int i = 0; i < this.numRows; i++)
+            for (int j = 0; j < this.numColumns; j++)
+                this.tiles[i][j] = null;
     }
     public Board(int numPlayer){
-        tiles = new Tile[9][9];
+        this.tiles = new Tile[this.numRows][this.numColumns];
         switch (numPlayer) {
-            case 2: maxNumTiles = 29;
+            case 2: this.maxNumTiles = 29;
                 break;
-            case 3: maxNumTiles = 37;
+            case 3: this.maxNumTiles = 37;
                 break;
-            case 4: maxNumTiles = 45;
+            case 4: this.maxNumTiles = 45;
                 break;
 
         }
@@ -86,39 +89,55 @@ public class Board {
         this.maxNumTiles = maxNumTiles;
         this.tiles = tiles;
     }
-
+// da integrare con json
     public void addTiles(ArrayList<Tile> tilesSet) {
-        /*Object[] board;
-        board = tilesSet.toArray();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) tiles[i][j] = tilesSet[i];
-        }*/
+        for (int i = 0; i < this.numRows; i++) {
+            for (int j = 0; j < this.numColumns; j++) {
+                if (this.tiles[i][j] == null) {
+                    this.tiles[i][j] = tilesSet.get(i);
+                }
+            }
+        }
     }
-    public int needRefill() {
-        return 0;
+    public int needRefill() { //numero tiles che richiedono refill o indice tile che need refill ?
+
+        int counter = 0;
+        for (int i = 0; i < this.numRows; i++) {
+            for (int j = 0; j < this.numColumns; j++){
+                if(this.tiles[i][j] != null && (this.tiles[i][j+1] != null || this.tiles[i+1][j] != null)) {
+                    return 0;
+                }
+                if(this.tiles[i][j] != null){
+                    counter++;
+                }
+            }
+        }
+        return this.maxNumTiles - counter;
     }
-    public void removeTiles(Tile[] tilesSet) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) tiles[i][j] = null;
+    public void removeTiles(Tile[] tilesToRemove, int[] positions) {
+        int i = 0;
+        for (Tile tile : tilesToRemove) {
+            this.tiles[positions[i]][positions[i+1]] = null;
+            i += 2;
         }
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
     public void setImage(String image) {
         this.image = image;
     }
 
     public int getMaxNumTiles() {
-        return maxNumTiles;
+        return this.maxNumTiles;
     }
     public void setMaxNumTiles(int maxNumTiles) {
         this.maxNumTiles = maxNumTiles;
     }
 
     public Tile[][] getTiles() {
-        return tiles;
+        return this.tiles;
     }
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
