@@ -8,21 +8,43 @@ public class FiveXShapePatternGoal extends CommonGoal {
         super(image, patternRepetition, type);
     }
 
-    public int goalPattern(Bookshelf B) {
-            for(int i=1; i<B.getNumRows(); i++){
-                for(int j=1; j<B.getNumColumns(); j++){
+    public int goalPattern(Bookshelf b) {
 
-                    TileColor currentTileColor = B.getSingleTile(i, j).getColor();
+        //[1,0,1,0,0
+        // 0,1,0,0,0
+        // 1,0,1,0,0
+        // 0,0,0,0,0
+        // 0,0,0,0,0
+        // 0,0,0,0,0]
 
-                    if(currentTileColor==B.getSingleTile(i+1, j+1).getColor()
-                    && currentTileColor==B.getSingleTile(i-1, j-1).getColor()
-                    && currentTileColor==B.getSingleTile(i+1, j-1).getColor()
-                    && currentTileColor==B.getSingleTile(i-1, j+1).getColor()){
+        int count = 0;
+        for(int h=1; h<b.getNumColumn()-1; h++){
+            for(int k=1; k<b.getNumRows()-1; k++) {
+                TileColor currentTileColor = b.getSingleTile(h, k).getColor();
+                    if( currentTileColor==b.getSingleTile(h+1, k+1).getColor() &&
+                        currentTileColor==b.getSingleTile(h-1, k-1).getColor() &&
+                        currentTileColor==b.getSingleTile(h+1, k-1).getColor() &&
+                        currentTileColor==b.getSingleTile(h-1, k+1).getColor()){
+                    count++;
+                }
+            }
+        }
+        return count;
+
+        /*for(int i=1; i<b.getNumRows()-1; i++){
+                for(int j = 1; j<b.getNumColumn()-1; j++){
+
+                    TileColor currentTileColor = b.getSingleTile(i, j).getColor();
+
+                    if(currentTileColor==b.getSingleTile(i+1, j+1).getColor()
+                    && currentTileColor==b.getSingleTile(i-1, j-1).getColor()
+                    && currentTileColor==b.getSingleTile(i+1, j-1).getColor()
+                    && currentTileColor==b.getSingleTile(i-1, j+1).getColor()){
                         return 1;
                     }
                 }
             }
-        return 0;
+        return 0;*/
     }
 
 
