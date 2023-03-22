@@ -132,8 +132,49 @@ public class MinEqualsTilesPatternTest {
 
         assertEquals(0, horizontal3NotEquals.goalPattern(b));
         assertEquals(0, vertical3NotEquals.goalPattern(b));
-        assertEquals(1, horizontalAllDifferent.goalPattern(b));
-        assertEquals(1, verticalAllDifferent.goalPattern(b));
+        assertEquals(3, horizontalAllDifferent.goalPattern(b));
+        assertEquals(2, verticalAllDifferent.goalPattern(b));
+    }
+
+    @Test
+    @DisplayName("Test with a bigger bookshelf (9x6) with all items equals to each other")
+    public void BiggerBookshelf() {
+        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
+        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
+        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
+        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+        Tile[][] temp = {
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
+
+        class PersonalizedBookshelf extends Bookshelf {
+            int numeroRighe=9;
+            int numeroColonne=6;
+            public PersonalizedBookshelf(String image, Tile[][] tiles) {
+                super(image, tiles);
+            }
+            @Override
+            public int getNumColumns() {
+                return numeroColonne;
+            }
+            @Override
+            public int getNumRows() {
+                return numeroRighe;
+            }
+        }
+
+        b=new PersonalizedBookshelf("", temp);
+        assertEquals(2, horizontal3NotEquals.goalPattern(b));
+        assertEquals(2, vertical3NotEquals.goalPattern(b));
+        assertEquals(0, horizontalAllDifferent.goalPattern(b));
+        assertEquals(0, verticalAllDifferent.goalPattern(b));
     }
 
 
