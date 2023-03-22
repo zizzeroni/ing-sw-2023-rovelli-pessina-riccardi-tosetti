@@ -103,4 +103,20 @@ public class EightShapelessPatternGoalTest {
 
         assertEquals(0, cg.goalPattern(b));
     }
+
+    @Test
+    @DisplayName("Test with a bookshelf with 3 groups of 8 (or more) tiles equals to each other")
+    public void DoubleGoalBookshelf() {
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
+        Tile[][] temp = {
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)}};
+        b=new Bookshelf("",temp);
+
+        assertEquals(3, cg.goalPattern(b));
+    }
 }

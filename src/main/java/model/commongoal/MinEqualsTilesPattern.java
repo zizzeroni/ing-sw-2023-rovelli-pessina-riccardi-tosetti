@@ -49,6 +49,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
     @Override
     public int goalPattern(Bookshelf b) {
         List<TileColor> recentTiles = new ArrayList<TileColor>();
+        int patternAppearances=0;
         int cAppearances=0;
         switch (this.direction) {
             case HORIZONTAL -> {
@@ -72,9 +73,6 @@ public class MinEqualsTilesPattern extends CommonGoal{
 
                     recentTiles.clear();
                 }
-                if (cAppearances >= this.getPatternRepetition()) {
-                    return 1;
-                }
             }
             case VERTICAL -> {
                 for (int i = 0; i < b.getNumColumns(); i++) {
@@ -97,9 +95,6 @@ public class MinEqualsTilesPattern extends CommonGoal{
 
                     recentTiles.clear();
                 }
-                if (cAppearances >= this.getPatternRepetition()) {
-                    return 1;
-                }
             }
             default -> {
                 try {
@@ -109,12 +104,13 @@ public class MinEqualsTilesPattern extends CommonGoal{
                 }
             }
         }
-        return 0;
+        patternAppearances = cAppearances / this.getPatternRepetition();
+        return patternAppearances;
     }
 
     private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) throws Exception{
         switch (typeOfChecking) {
-            case DIFFERENT -> {
+            case EQUALS, DIFFERENT -> {
                 if (numDiff == this.maxEqualsTiles) {
                     return true;
                 }
