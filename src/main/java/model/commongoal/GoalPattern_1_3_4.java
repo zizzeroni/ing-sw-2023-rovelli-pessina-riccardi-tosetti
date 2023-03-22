@@ -6,10 +6,10 @@ import model.tile.TileColor;
 public class GoalPattern_1_3_4 extends CommonGoal {
 
     public int goalPattern(Bookshelf b) {
-        int[][] support_matrix = new int[b.getNumRows()][b.getNumColumn()];
+        int[][] support_matrix = new int[b.getNumRows()][b.getNumColumns()];
 
         for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumn(); j++) {
+            for (int j = 0; j < b.getNumColumns(); j++) {
                 if (b.getSingleTile(i, j) == null) {
                     support_matrix[i][j] = 0;
                 } else {
@@ -21,7 +21,7 @@ public class GoalPattern_1_3_4 extends CommonGoal {
         int group = 1;
 
         for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumn(); j++) {
+            for (int j = 0; j < b.getNumColumns(); j++) {
                 if(support_matrix[i][j]==1){
                     group++;
                     searchGroup(b, support_matrix, i, j, group, b.getSingleTile(i, j).getColor());
@@ -44,7 +44,7 @@ public class GoalPattern_1_3_4 extends CommonGoal {
        int singleGroupCounter=0;
        for(int i=2; i<=group; i++){
            for (int k = 0; k < b.getNumRows(); k++) {
-               for (int h = 0; h < b.getNumColumn(); h++) {
+               for (int h = 0; h < b.getNumColumns(); h++) {
                    if(support_matrix[k][h]==i){
                        singleGroupCounter++;
                    }
@@ -79,7 +79,7 @@ public class GoalPattern_1_3_4 extends CommonGoal {
                 searchGroup(b, support_matrix, r+1, c, group, currentTileColor);
             }
 
-            if(c!=b.getNumColumn()-1){
+            if(c!=b.getNumColumns()-1){
                 searchGroup(b, support_matrix, r, c+1, group, currentTileColor);
             }
         }

@@ -18,14 +18,16 @@ public class FiveXShapePatternGoal extends CommonGoal {
         // 0,0,0,0,0]
 
         int count = 0;
-        for(int h=1; h<b.getNumColumn()-1; h++){
+        for(int h=1; h<b.getNumColumns()-1; h++){
             for(int k=1; k<b.getNumRows()-1; k++) {
-                TileColor currentTileColor = b.getSingleTile(h, k).getColor();
-                    if( currentTileColor==b.getSingleTile(h+1, k+1).getColor() &&
-                        currentTileColor==b.getSingleTile(h-1, k-1).getColor() &&
-                        currentTileColor==b.getSingleTile(h+1, k-1).getColor() &&
-                        currentTileColor==b.getSingleTile(h-1, k+1).getColor()){
-                    count++;
+                if(b.getSingleTile(k, h)!=null) {
+                    TileColor currentTileColor = b.getSingleTile(k, h).getColor();
+                    if (currentTileColor == b.getSingleTile(k + 1, h + 1).getColor() &&
+                            currentTileColor == b.getSingleTile(k - 1, h - 1).getColor() &&
+                            currentTileColor == b.getSingleTile(k + 1, h - 1).getColor() &&
+                            currentTileColor == b.getSingleTile(k - 1, h + 1).getColor()) {
+                        count++;
+                    }
                 }
             }
         }
