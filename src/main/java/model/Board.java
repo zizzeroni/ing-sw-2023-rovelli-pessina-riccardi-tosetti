@@ -3,6 +3,7 @@ package model;
 import model.tile.Tile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private String image;
@@ -90,7 +91,7 @@ public class Board {
         this.tiles = tiles;
     }
 // da integrare con json
-    public void addTiles(ArrayList<Tile> tilesSet) {
+    public void addTiles(List<Tile> tilesSet) {
         for (int i = 0; i < this.numRows; i++) {
             for (int j = 0; j < this.numColumns; j++) {
                 if (this.tiles[i][j] == null) {
