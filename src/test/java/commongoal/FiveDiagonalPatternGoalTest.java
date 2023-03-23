@@ -1,3 +1,5 @@
+package commongoal;
+
 import model.Bookshelf;
 import model.commongoal.CheckType;
 import model.commongoal.FiveDiagonalPatternGoal;
