@@ -24,7 +24,7 @@ public class FourCornersPatternGoalTest {
 
     @Test
     @DisplayName("Test with generic bookshelf")
-    public void GenericBookshelf() {
+    public void givenGenericBookshelf_when() {
         cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
