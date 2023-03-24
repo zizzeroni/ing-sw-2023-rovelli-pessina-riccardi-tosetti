@@ -31,8 +31,8 @@ public class PersonalGoalTest {
     }
 
     @Test
-    @DisplayName("Test personal goals on file JSON with generic bookshelf")
-    public void GoalsGenericBookshelf() {
+    @DisplayName("Test that personal goal on the given bookshelf matches one time")
+    public void givenGenericBookshelf_whenCountingMatches_thenReturnOne() {
         Tile[][] bs = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -46,8 +46,8 @@ public class PersonalGoalTest {
     }
 
     @Test
-    @DisplayName("Test personal goals on file JSON with Rulebook's example bookshelf")
-    public void GoalsRulebookBookshelf() {
+    @DisplayName("Test that personal goal on the rulebook's bookshelf matches 0 times")
+    public void givenRulebookBookshelf_whenCountingMatches_thenReturnZero() {
         Tile[][] bs = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null, null, null},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null},
@@ -61,8 +61,8 @@ public class PersonalGoalTest {
     }
 
     @Test
-    @DisplayName("Test personal goals on file JSON with bookshelf with all items = null")
-    public void GoalsNullBookshelf() {
+    @DisplayName("Test that personal goal matches zero times on a bookshelf filled with nulls")
+    public void givenBookshelfFilledWithNulls_whenCountingMatches_thenReturnZero() {
         Tile[][] bs = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -76,8 +76,8 @@ public class PersonalGoalTest {
     }
 
     @Test
-    @DisplayName("")
-    public void givenBookshelfWithGroupsOfOneSingleTile_when() {
+    @DisplayName("Test that personal goal matches three times on a bookshelf with tiles groups consisting of a single tile")
+    public void givenBookshelfWithGroupsOfOneSingleTile_whenCountingMatches_thenReturnThree() {
         Tile[][] bs = {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE)},
