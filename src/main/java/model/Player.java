@@ -20,6 +20,14 @@ public class Player {
     private Bookshelf bookshelf; //The bookshelf of the player
 
     //Constructor
+    public Player(String nickname, boolean connected) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.personalGoal = null;
+        this.goalTiles = null;
+        this.bookshelf = null;
+    }
+
     public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<GoalTile> goalTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;

@@ -68,6 +68,8 @@ public class Game {
         this.refillBoard();
     }
 
+
+
     public Game(int numPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numPlayers = numPlayers;
         this.activePlayerIndex = activePlayerIndex;
