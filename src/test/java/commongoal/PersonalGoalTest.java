@@ -27,7 +27,7 @@ public class PersonalGoalTest {
                 {null, new Tile(TileColor.BLUE), null, null, null},
                 {null, null, null, new Tile(TileColor.PURPLE), null}};
         b = null;
-        personalGoal1 = new PersonalGoal("",patternPersonalGoal1);
+        personalGoal1 = new PersonalGoal(1,patternPersonalGoal1);
     }
 
     @Test
