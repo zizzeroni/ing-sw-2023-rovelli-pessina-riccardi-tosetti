@@ -1,26 +1,23 @@
 package model;
 
 public abstract class Card {
-    private String image;
-
-    private int score;
+    private int imageID;
 
     public Card() {
+        this.imageID = 0;
     }
 
-    public Card(String image) {
-        this.image = image;
+    public Card(int imageID) {
+        this.imageID = imageID;
     }
 
     public abstract int goalPattern(Bookshelf b);
 
-    public String getImage() {
-        return image;
+    public int getImageID() {
+        return this.imageID;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
     }
-
-
 }

@@ -16,12 +16,12 @@ public class EightShaplessPatternGoal extends CommonGoal {
         super();
     }
 
-    public EightShaplessPatternGoal(String image, int patternRepetition, CheckType type) {
-        super(image, patternRepetition, type);
+    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type) {
+        super(imageID, patternRepetition, type);
     }
 
-    public EightShaplessPatternGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super(image, patternRepetition, type, scoreTiles);
+    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
+        super(imageID, patternRepetition, type, scoreTiles);
     }
 
     @Override
