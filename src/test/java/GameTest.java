@@ -1,15 +1,14 @@
-import model.Board;
-import model.Game;
-import model.PersonalGoal;
-import model.Player;
+import model.*;
 import model.commongoal.CommonGoal;
 import model.commongoal.EightShaplessPatternGoal;
 import model.commongoal.FourCornersPatternGoal;
+import model.tile.GoalTile;
 import model.tile.Tile;
 import model.tile.TileColor;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,10 +23,12 @@ public class GameTest {
         this.players = new ArrayList<Player>(4);
         this.commonGoals = new ArrayList<CommonGoal>(2);
 
-        this.players.add(new Player("Alessandro", true));
-        this.players.add(new Player("Andrea", true));
-        this.players.add(new Player("Francesco", true));
-        this.players.add(new Player("Luca", true));
+        List<GoalTile> goalTiles = new ArrayList<>();
+
+        this.players.add(new Player("Alessandro", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
+        this.players.add(new Player("Andrea", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
+        this.players.add(new Player("Francesco", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
+        this.players.add(new Player("Luca", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
 
         this.commonGoals.add(new FourCornersPatternGoal());
         this.commonGoals.add(new EightShaplessPatternGoal());
@@ -84,6 +85,7 @@ public class GameTest {
             {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
             {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()}
         });
+
         List<Tile> bag = new ArrayList<>();
 
         for (int i = 0; i < 132; i++){
@@ -93,9 +95,42 @@ public class GameTest {
         int size = bag.size();
 
         this.game = new Game(4, 0, this.players, bag, board, this.commonGoals);
-
         this.game.changeTurn();
 
-        assertEquals(this.game.getBag().size(), size);
+        assertEquals(size, this.game.getBag().size());
+    }
+
+    @Test
+    @DisplayName("Check if on turn change the size of the bag reduces by the size of the tiles that are need to refill the board")
+    public void bag_size_reduces_by_the_number_of_tiles_that_are_needed_to_refill_the_board_on_turn_change() {
+
+        Board board = new Board();
+        board.setMaxNumTiles(45);
+        board.setTiles(new Tile[][]{
+            {new Tile(), new Tile(), new Tile(), null, null, new Tile(), new Tile(), new Tile(), new Tile()},
+            {new Tile(), new Tile(), new Tile(), null, null, null, new Tile(), new Tile(), new Tile()},
+            {new Tile(), new Tile(), null, null, null, null, null, new Tile(), new Tile()},
+            {new Tile(), null, null, null, null, null, null, new Tile(), new Tile()},
+            {null, null, null, null, null, null, null, null, null},
+            {null, null, null, null, null, null, null, null, new Tile()},
+            {new Tile(), new Tile(), null, null, null, null, null, new Tile(), new Tile()},
+            {new Tile(), new Tile(), new Tile(), null, null, null, new Tile(), new Tile(), new Tile()},
+            {new Tile(), new Tile(), new Tile(), new Tile(), null, null, new Tile(), new Tile(), new Tile()}
+        });
+
+        List<Tile> bag = new ArrayList<>();
+
+        for (int i = 0; i < 132; i++){
+            bag.add(new Tile(TileColor.values()[i % 6]));
+        }
+
+        int size = bag.size();
+        System.out.println(size);
+
+        this.game = new Game(4, 0, this.players, bag, board, this.commonGoals);
+        this.game.changeTurn();
+        System.out.println(size);
+
+        assertEquals(45, size - this.game.getBag().size());
     }
 }

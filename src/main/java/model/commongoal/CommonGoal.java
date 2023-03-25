@@ -16,13 +16,13 @@ public abstract class CommonGoal extends Card {
         this.patternRepetition=0;
     }
     public CommonGoal(String image, int patternRepetition, CheckType type) {
-        super(image);
+        super();
         this.patternRepetition = patternRepetition;
         this.type = type;
         this.scoreTiles = new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
     }
     public CommonGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super(image);
+        super();
         this.patternRepetition = patternRepetition;
         this.type = type;
         this.scoreTiles = scoreTiles;

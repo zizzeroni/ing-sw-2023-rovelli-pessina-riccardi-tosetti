@@ -15,8 +15,8 @@ public class Bookshelf {
     public Bookshelf() {
         image = null;
         tiles = new Tile[numRows][numColumns];
-        for (int i = 0; i < numColumns; i++)
-            for (int j = 0; j < numRows; j++)
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numColumns; j++)
                 tiles[i][j] = null;
     }
 
@@ -51,7 +51,7 @@ public class Bookshelf {
     }
 
 
-    public Tile[][] getSingleTile() {
+    public Tile[][] getTiles() {
         return tiles;
     }
 

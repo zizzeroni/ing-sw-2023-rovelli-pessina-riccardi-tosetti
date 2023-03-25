@@ -47,7 +47,7 @@ public class Game {
         //initialize players
         for (Player player: this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTile(new ArrayList<>(3));
+            player.setGoalTiles(new ArrayList<>(3));
             player.setPersonalGoal(personalGoals.get(0));
             personalGoals.remove(0);
         }
@@ -215,11 +215,11 @@ public class Game {
 
         if(receiver == null) {
             for (Player player: this.players) {
-                player.addMessage(new Message(player.getNickname(), senderNickname, content));
+//                player.addMessage(new Message(player.getNickname(), senderNickname, content));
             }
         } else {
-            sender.addMessage(new Message(receiverNickname, senderNickname, content));
-            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
+//            sender.addMessage(new Message(receiverNickname, senderNickname, content));
+//            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
         }
     }
 

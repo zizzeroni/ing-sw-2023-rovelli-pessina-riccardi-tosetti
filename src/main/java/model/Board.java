@@ -3,6 +3,7 @@ package model;
 import model.tile.Tile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private String image;
@@ -90,24 +91,26 @@ public class Board {
         this.tiles = tiles;
     }
 // da integrare con json
-    public void addTiles(ArrayList<Tile> tilesSet) {
+    public void addTiles(List<Tile> tilesToAdd) {
         for (int i = 0; i < this.numRows; i++) {
             for (int j = 0; j < this.numColumns; j++) {
                 if (this.tiles[i][j] == null) {
-                    this.tiles[i][j] = tilesSet.get(i);
+                    this.tiles[i][j] = tilesToAdd.get(i);
                 }
             }
         }
     }
-    public int needRefill() { //numero tiles che richiedono refill o indice tile che need refill ?
+    public int needRefill() { //returns the number of tiles required for refill. 0 if not needed
 
         int counter = 0;
         for (int i = 0; i < this.numRows; i++) {
             for (int j = 0; j < this.numColumns; j++){
-                if(this.tiles[i][j] != null && (this.tiles[i][j+1] != null || this.tiles[i+1][j] != null)) {
-                    return 0;
-                }
-                if(this.tiles[i][j] != null){
+                //if the current tile and one of his neighbours (right or bottom) are not null, then there is no need to refill
+                if(this.tiles[i][j] != null && this.tiles[i][j].getColor() != null) {
+                    if((this.tiles[i][j+1] != null && this.tiles[i][j+1].getColor() != null) || (this.tiles[i+1][j] != null && this.tiles[i+1][j].getColor() != null)){
+                        return 0;
+                    }
+                    //we keep the count of the number of tiles that are not null
                     counter++;
                 }
             }
