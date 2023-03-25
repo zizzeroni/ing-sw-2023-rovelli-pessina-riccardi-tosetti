@@ -18,14 +18,14 @@ public class MinEqualsTilesPattern extends CommonGoal{
         maxEqualsTiles = 0;
     }
 
-    public MinEqualsTilesPattern(String image, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
-        super(image, patternRepetition, type);
+    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
+        super(imageID, patternRepetition, type);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles, Direction direction, int maxEqualsTiles) {
-        super(image, patternRepetition, type, scoreTiles);
+    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles, Direction direction, int maxEqualsTiles) {
+        super(imageID, patternRepetition, type, scoreTiles);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }

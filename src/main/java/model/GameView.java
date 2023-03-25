@@ -12,7 +12,7 @@ public class GameView extends Observable implements Observer {
 
     public GameView(Game model) {
         this.model = model;
-        model.addObserver(this);
+        //model.addObserver(this);
     }
 
     public int getNumPlayers() {

@@ -4,6 +4,7 @@ public abstract class Card {
     private int imageID;
 
     public Card() {
+        this.imageID = 0;
     }
 
     public Card(int imageID) {
