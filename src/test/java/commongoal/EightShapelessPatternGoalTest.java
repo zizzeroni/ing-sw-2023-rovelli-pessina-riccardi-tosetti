@@ -105,9 +105,15 @@ public class EightShapelessPatternGoalTest {
     }
 
     @Test
+<<<<<<< Updated upstream
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches three times on a bookshelf containing three different groups of eight or more tiles equals to each others")
     public void givenBookshelfWithThreeDifferentGroupsOfEightOrMoreTilesEqualsToEachOther_whenSearchingEightTilesEqualsToEachOther_returnThree() {
         cg = new EightShaplessPatternGoal(0,1, CheckType.EQUALS);
+=======
+    @DisplayName("Test with a bookshelf with 3 groups of 8 (or more) tiles equals to each other")
+    public void DoubleGoalBookshelf() {
+        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
+>>>>>>> Stashed changes
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},

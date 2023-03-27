@@ -51,7 +51,7 @@ public class Bookshelf {
     }
 
 
-    public Tile[][] getSingleTile() {
+    public Tile[][] getTiles() {
         return tiles;
     }
 

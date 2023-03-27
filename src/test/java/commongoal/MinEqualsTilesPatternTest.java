@@ -137,12 +137,21 @@ public class MinEqualsTilesPatternTest {
     }
 
     @Test
+<<<<<<< Updated upstream
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively two times, two times, zero times and zero times on the given bookshelf")
     public void givenBookshelfCompletelyFilledWithTilesOfTheSameColorWith9x6Size_whenSearchingForRowsAndColumnsWithMaxThreeNotEqualsTilesAndRowsAndColumnsWithAllTileDifferentToEachOther_returnRespectivelyTwoTwoZeroZero() {
         horizontal3NotEquals = new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
         vertical3NotEquals = new MinEqualsTilesPattern(0,3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
         horizontalAllDifferent = new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
         verticalAllDifferent = new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+=======
+    @DisplayName("Test with a bigger bookshelf (9x6) with all items equals to each other")
+    public void BiggerBookshelf() {
+        horizontal3NotEquals = new MinEqualsTilesPattern("", 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
+        vertical3NotEquals = new MinEqualsTilesPattern("",3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
+        horizontalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
+        verticalAllDifferent = new MinEqualsTilesPattern("",2,CheckType.DIFFERENT,Direction.VERTICAL,0);
+>>>>>>> Stashed changes
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},

@@ -87,11 +87,15 @@ public class Board {
         this.tiles = tiles;
     }
 // da integrare con json
+<<<<<<< Updated upstream
     public void addTiles(ArrayList<Tile> tilesSet) {
+=======
+    public void addTiles(List<Tile> tiles) {
+>>>>>>> Stashed changes
         for (int i = 0; i < this.numRows; i++) {
             for (int j = 0; j < this.numColumns; j++) {
                 if (this.tiles[i][j] == null) {
-                    this.tiles[i][j] = tilesSet.get(i);
+                    this.tiles[i][j] = tiles.get(i);
                 }
             }
         }
