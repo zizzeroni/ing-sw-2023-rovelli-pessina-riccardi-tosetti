@@ -21,11 +21,10 @@ public class StairPatternGoalTest {
         sp = null;
         b = null;
     }
-
     @Test
-    @DisplayName("Test with generic bookshelf")
-    public void GenericBookshelf() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with stair on columns in a bookshelf full of tiles matches zero times")
+    public void GivenGenericBookshelf_whenSearchingTheStairPattern_thenReturnZero() {
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -39,9 +38,9 @@ public class StairPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with all items = null")
-    public void NullBookshelf() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with stair on columns matches zero times on a bookshelf completely filled with nulls")
+    public void GivenFullOfNullsBookshelf_whenSearchingTheStairPattern_thenReturnZero() {
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -55,9 +54,10 @@ public class StairPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 1 to 5")
-    public void FromOneToFive() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with one element on the first column, two on the second, three on the third" +
+            " four on the fourth and five in the fifth")
+    public void GivenStairBookshelfFromLeftToRightStartByOne_whenSearchingTheStairPattern_thenReturnOne() {
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, new Tile(TileColor.BLUE)},
@@ -71,9 +71,10 @@ public class StairPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 5 to 1")
-    public void FromFiveToOne() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with five element on the first column, four on the second, three on the third" +
+            " two on the fourth and one in the fifth")
+    public void GivenStairBookshelfFromRightToLeftStartByOne_whenSearchingTheStairPattern_thenReturnOne() {
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {new Tile(TileColor.BLUE), null, null, null, null,},
@@ -87,9 +88,10 @@ public class StairPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 0 to 4")
-    public void FromZeroToFour() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with zero element on the first column, one on the second, two on the third" +
+            " three on the fourth and four in the fifth")
+    public void GivenStairBookshelfFromLeftToRightStartByZero_whenSearchingTheStairPattern_thenReturnOne() {
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null,},
