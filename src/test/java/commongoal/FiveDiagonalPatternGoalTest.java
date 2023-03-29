@@ -24,7 +24,7 @@ public class FiveDiagonalPatternGoalTest {
     @Test
     @DisplayName("Test with generic bookshelf")
     public void GenericBookshelf() {
-        fd = new FiveDiagonalPatternGoal("",1, CheckType.EQUALS);
+        fd = new FiveDiagonalPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -40,7 +40,7 @@ public class FiveDiagonalPatternGoalTest {
     @Test
     @DisplayName("Test with generic bookshelf with the first 2 rows null")
     public void GenericNullBookshelf() {
-        fd = new FiveDiagonalPatternGoal("",1, CheckType.EQUALS);
+        fd = new FiveDiagonalPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -56,7 +56,7 @@ public class FiveDiagonalPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with all items = null")
     public void NullBookshelf() {
-        fd = new FiveDiagonalPatternGoal("",1, CheckType.EQUALS);
+        fd = new FiveDiagonalPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -72,7 +72,7 @@ public class FiveDiagonalPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with all items equals to each other")
     public void EqualsBookshelf() {
-        fd = new FiveDiagonalPatternGoal("",1, CheckType.EQUALS);
+        fd = new FiveDiagonalPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -88,7 +88,7 @@ public class FiveDiagonalPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with two diagonals of five element")
     public void TwoDiagonal() {
-        fd = new FiveDiagonalPatternGoal("",1, CheckType.EQUALS);
+        fd = new FiveDiagonalPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, new Tile(TileColor.PURPLE)},
                 {null, null, null, new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE)},

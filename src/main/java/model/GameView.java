@@ -1,13 +1,15 @@
 package model;
 
+import controller.GameController;
 import model.commongoal.CommonGoal;
 import model.tile.Tile;
+import utils.Observable;
+import utils.Observer;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class GameView extends Observable implements Observer {
+
+public class GameView extends Observable<Event> implements Observer<Game, Event> {
     private final Game model;
 
     public GameView(Game model) {
@@ -35,8 +37,7 @@ public class GameView extends Observable implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        setChanged();
-        notifyObservers(arg);
+    public void update(Game o, Event arg) {
+
     }
 }

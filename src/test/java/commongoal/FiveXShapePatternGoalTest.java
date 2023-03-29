@@ -25,7 +25,7 @@ public class FiveXShapePatternGoalTest {
     @Test
     @DisplayName("Test with generic bookshelf")
     public void GenericBookshelf() {
-        cg = new FiveXShapePatternGoal("",1, CheckType.EQUALS);
+        cg = new FiveXShapePatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -41,7 +41,7 @@ public class FiveXShapePatternGoalTest {
     @Test
     @DisplayName("Test with generic bookshelf with the first 2 rows null")
     public void GenericNullBookshelf() {
-        cg = new FiveXShapePatternGoal("",1, CheckType.EQUALS);
+        cg = new FiveXShapePatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -57,7 +57,7 @@ public class FiveXShapePatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with all items = null")
     public void NullBookshelf() {
-        cg = new FiveXShapePatternGoal("",1, CheckType.EQUALS);
+        cg = new FiveXShapePatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -73,7 +73,7 @@ public class FiveXShapePatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with all items equals to each other")
     public void EqualsBookshelf() {
-        cg = new FiveXShapePatternGoal("",1, CheckType.EQUALS);
+        cg = new FiveXShapePatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -89,7 +89,7 @@ public class FiveXShapePatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with the first 3 column of inverted color")
     public void FirstThreeInverted() {
-        cg = new FiveXShapePatternGoal("",1, CheckType.EQUALS);
+        cg = new FiveXShapePatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), null, null},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), null, null},

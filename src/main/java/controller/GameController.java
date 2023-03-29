@@ -1,17 +1,16 @@
 package controller;
 
-import model.Bookshelf;
-import model.Game;
-import model.Player;
+import model.*;
 import model.tile.Tile;
+import utils.Observer;
 import view.UI;
 
-import java.awt.print.Book;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
-public class GameController implements Observer {
+
+public class GameController implements Observer<UI, Event> {
     private final Game model;
-    private final Bookshelf bookshelfController;
     private final UI view;
 
     public GameController(Game model, UI view) {
@@ -38,11 +37,10 @@ public class GameController implements Observer {
     private void addTilesToPlayerBookshelf(Choice pChoice) {
         //Togliere le tiles dalla board
         Bookshelf activePlayerBookshelf = model.getPlayers().get(model.getActivePlayerIndex()).getBookshelf();
-        int column = pChoice.getChoosedColumn();
-        List<Tile> pChoosedTiles = pChoice.getChoosedTiles();
+        int column = pChoice.getChosenColumn();
+        List<Tile> pChoosedTiles = pChoice.getChosenTiles();
         for (Tile pChoosedTile : pChoosedTiles) {
             activePlayerBookshelf.addTile(pChoosedTile, column);
-            bookshelfController.addTile(pChoosedTile,column);
         }
     }
     //Trasposizione del metodo changeTurn già presente nella classe game
@@ -78,18 +76,11 @@ public class GameController implements Observer {
         //Es: il suo punteggio; lo stato della sua bookshelf; recap common goal da completare/completati con relative goal tile; avanzamento del suo personal goal...
     }
 
-
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(UI o, Event arg) {
         if(o != view) {
             System.err.println("Discarding notification from " + o);
             return;
-        }
-        if(arg instanceof List && ((List<?>)arg).size()>0 && ((List<?>)arg).get(0) instanceof Tile) {
-            List<Tile> selectedOrderedTiles = (List<Tile>) arg;
-            addTilesToPlayerBookshelf(selectedOrderedTiles);
-        } else {
-            System.err.println("Discarding event from " + o + ": " + arg);
         }
     }
 }

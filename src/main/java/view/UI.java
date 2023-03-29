@@ -1,21 +1,17 @@
 package view;
 
+import model.Event;
 import model.Game;
+import model.GameView;
+import utils.Observable;
+import utils.Observer;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Observable;
 
-public class UI implements PropertyChangeListener {
-    private Game model;
-    private void stampaCommonGoaol() {
-        model.getCommonGoals();
-    }
+public abstract class UI extends Observable<Event> implements Runnable, Observer<GameView, Event> {
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
 
-    }
     //ESEMPIO INTERAZIONE TESTUALE
     /*
         >>  ---NEW TURN---

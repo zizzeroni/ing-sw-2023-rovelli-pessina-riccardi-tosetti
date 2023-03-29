@@ -25,7 +25,7 @@ public class StairPatternGoalTest {
     @Test
     @DisplayName("Test with generic bookshelf")
     public void GenericBookshelf() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -41,7 +41,7 @@ public class StairPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with all items = null")
     public void NullBookshelf() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -57,7 +57,7 @@ public class StairPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with the stair start from 1 to 5")
     public void FromOneToFive() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, new Tile(TileColor.BLUE)},
@@ -73,7 +73,7 @@ public class StairPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with the stair start from 5 to 1")
     public void FromFiveToOne() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {new Tile(TileColor.BLUE), null, null, null, null,},
@@ -89,7 +89,7 @@ public class StairPatternGoalTest {
     @Test
     @DisplayName("Test with bookshelf with the stair start from 0 to 4")
     public void FromZeroToFour() {
-        sp = new StairPatternGoal("",1, CheckType.EQUALS);
+        sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null,},

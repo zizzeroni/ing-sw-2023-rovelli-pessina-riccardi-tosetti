@@ -3,8 +3,8 @@ package model.commongoal;
 import model.Bookshelf;
 
 public class StairPatternGoal extends CommonGoal {
-    public StairPatternGoal(String image, int patternRepetition, CheckType type) {
-        super(image, patternRepetition, type);
+    public StairPatternGoal(int imageID, int patternRepetition, CheckType type) {
+        super(imageID, patternRepetition, type);
     }
 
     public int goalPattern(Bookshelf b) {

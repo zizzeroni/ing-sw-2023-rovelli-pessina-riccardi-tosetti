@@ -17,7 +17,7 @@ public class Bookshelf {
         tiles = new Tile[numRows][numColumns];
         for (int i = 0; i < numColumns; i++)
             for (int j = 0; j < numRows; j++)
-                tiles[i][j] = null;
+                tiles[j][i] = null;
     }
 
     public boolean isFull() {
@@ -51,7 +51,7 @@ public class Bookshelf {
     }
 
 
-    public Tile[][] getSingleTile() {
+    public Tile[][] getTiles() {
         return tiles;
     }
 
