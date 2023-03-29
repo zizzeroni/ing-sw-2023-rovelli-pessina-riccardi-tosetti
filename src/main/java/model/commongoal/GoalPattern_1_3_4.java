@@ -8,10 +8,12 @@ public class GoalPattern_1_3_4 extends CommonGoal {
 
     public GoalPattern_1_3_4() {
         super();
+        positions = new int[5][6];
     }
 
-    public GoalPattern_1_3_4(int imageID, int patternRepetition, CheckType type, int[][] positions) {
-        super(imageID, patternRepetition, type, positions);
+    public GoalPattern_1_3_4(int imageID, int patternRepetition, CheckType type, int[][] Positions) {
+        super(imageID, patternRepetition, type);
+        positions = Positions;
     }
     public int consecutiveColumn(int[][] positions){
         int consecutiveColumn = 1;
@@ -95,8 +97,8 @@ public class GoalPattern_1_3_4 extends CommonGoal {
             for (int r=0; r<b.getNumRows();r++) {
                 for (int c = 0; c < b.getNumColumns(); c++) {
                     if (support_matrix[r][c] == g) {
-                        for (int k = 0; k < b.getNumRows(); k++) {
-                            for (int h = 0; h < b.getNumColumns(); h++) {
+                        for (int k = 0; k < b.getNumRows()-1; k++) {
+                            for (int h = 0; h < b.getNumColumns()-1; h++) {
 
                                 if (positions[k][h] == 1 && ((r + k) < b.getNumRows()) && ((c + h) < b.getNumColumns()) && support_matrix[r + k][c + h] == g) {
                                     NumberOfCorrispective++;

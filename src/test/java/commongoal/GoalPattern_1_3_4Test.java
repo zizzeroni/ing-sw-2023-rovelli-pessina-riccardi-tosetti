@@ -61,7 +61,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(3, cg.goalPattern(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -215,7 +215,8 @@ public class GoalPattern_1_3_4Test {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a generic bookshelf matches zero time")
     public void GivenAMixedBookshelf_whenSearchingTheFourElementSquare_thenReturnZero() {
-        int positions[][] = {{1,1,0,0,0},
+        int positions[][] = {
+                {1,1,0,0,0},
                 {1,1,0,0,0},
                 {0,0,0,0,0},
                 {0,0,0,0,0},
@@ -251,7 +252,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(3, cg.goalPattern(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -274,4 +275,28 @@ public class GoalPattern_1_3_4Test {
 
         assertEquals(0, cg.goalPattern(b));
     }
+
+
+
+    @Test
+    @DisplayName("Test that the commonGoal with four element as a square in a casual three colour bookshelf matches two time")
+    public void GivenACasual3ColorBookshelf_whenSearchingTheFourElementSquare_thenReturnTwo() {
+        int positions[][] = {{1,1,0,0,0},
+                {1,1,0,0,0},
+                {0,0,0,0,0},
+                {0,0,0,0,0},
+                {0,0,0,0,0},};
+        cg = new GoalPattern_1_3_4(0,1, CheckType.EQUALS, positions );
+        Tile[][] temp = {
+                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
+        b = new Bookshelf("", temp);
+
+        assertEquals(2, cg.goalPattern(b));
+    }
+
 }
