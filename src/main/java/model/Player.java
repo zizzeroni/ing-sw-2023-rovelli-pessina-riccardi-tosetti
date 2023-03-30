@@ -5,6 +5,7 @@ import model.tile.Tile;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -13,13 +14,12 @@ public class Player {
     private String nickname;
     //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
     private boolean connected;
-    private Game game;
     private PersonalGoal personalGoal; //The single goal of the player
-    private ArrayList<GoalTile> goalTiles; // new ArrayList<Tile>(); //The array of tile...
+    private List<GoalTile> goalTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
 
     //Constructor
-    public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<GoalTile> goalTiles, Bookshelf bookshelf) {
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<GoalTile> goalTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = personalGoal;
@@ -36,11 +36,11 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public ArrayList<GoalTile> getGoalTiles() {
+    public List<GoalTile> getGoalTiles() {
         return goalTiles;
     }
 
-    public void setGoalTiles(ArrayList<GoalTile> goalTiles) {
+    public void setGoalTiles(List<GoalTile> goalTiles) {
         this.goalTiles = goalTiles;
     }
 

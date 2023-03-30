@@ -7,6 +7,7 @@ import model.*;
 import model.tile.GoalTile;
 import model.tile.Tile;
 import model.tile.TileColor;
+import model.view.GameView;
 import view.TextualUI;
 import view.UI;
 
@@ -14,8 +15,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Hello world!

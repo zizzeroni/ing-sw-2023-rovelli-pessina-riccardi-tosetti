@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameController;
 import model.commongoal.CommonGoal;
 import model.commongoal.EightShaplessPatternGoal;
 import model.commongoal.FiveXShapePatternGoal;
@@ -11,6 +12,8 @@ import model.commongoal.FourCornersPatternGoal;
 
 import model.tile.Tile;
 import model.tile.TileColor;
+import model.view.GameView;
+import utils.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.Collections;
 
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game extends Observable<Event> {
 
     private int numPlayers;
     private int activePlayerIndex;

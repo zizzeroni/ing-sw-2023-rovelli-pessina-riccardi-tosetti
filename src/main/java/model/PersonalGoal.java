@@ -39,6 +39,10 @@ public class PersonalGoal extends Card {
         this.pattern = pattern;
     }
 
+    public Tile getSingleTile(int x, int y) {
+        return this.pattern[x][y];
+    }
+
     @Override
     public int goalPattern(Bookshelf b) {
         int counter=0;

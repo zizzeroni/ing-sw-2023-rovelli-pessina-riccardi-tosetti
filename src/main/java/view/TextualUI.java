@@ -4,8 +4,7 @@ import model.*;
 import model.commongoal.CommonGoal;
 import model.tile.GoalTile;
 import model.tile.Tile;
-import utils.Observable;
-import utils.Observer;
+import model.view.GameView;
 
 import java.util.List;
 import java.util.Optional;

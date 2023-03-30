@@ -1,13 +1,9 @@
 package view;
 
 import model.Event;
-import model.Game;
-import model.GameView;
+import model.view.GameView;
 import utils.Observable;
 import utils.Observer;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public abstract class UI extends Observable<Event> implements Runnable, Observer<GameView, Event> {
 

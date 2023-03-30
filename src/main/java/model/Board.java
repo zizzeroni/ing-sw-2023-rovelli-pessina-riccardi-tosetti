@@ -131,4 +131,13 @@ public class Board {
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
     }
+    public int getNumColumns() {
+        return numColumns;
+    }
+    public int getNumRows() {
+        return numRows;
+    }
+    public Tile getSingleTile(int x, int y) {
+        return tiles[x][y];
+    }
 }
