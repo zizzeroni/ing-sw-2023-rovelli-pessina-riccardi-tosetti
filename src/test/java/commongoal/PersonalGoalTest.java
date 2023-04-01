@@ -7,8 +7,6 @@ import model.tile.TileColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -173,25 +171,25 @@ public class PersonalGoalTest {
 
         b = new Bookshelf("", bs);
 <<<<<<< Updated upstream
-        assertEquals(1,personalGoal1.goalPattern(b));
+        assertEquals(1,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
     @DisplayName("Test that personal goal on the rulebook's bookshelf matches 0 times")
     public void givenRulebookBookshelf_whenCountingMatches_thenReturnZero() {
 =======
-        assertEquals(1,obj1.goalPattern(b));
-        assertEquals(1,obj2.goalPattern(b));
-        assertEquals(1,obj3.goalPattern(b));
-        assertEquals(0,obj4.goalPattern(b));
-        assertEquals(1,obj5.goalPattern(b));
-        assertEquals(1,obj6.goalPattern(b));
-        assertEquals(1,obj7.goalPattern(b));
-        assertEquals(1,obj8.goalPattern(b));
-        assertEquals(1,obj9.goalPattern(b));
-        assertEquals(1,obj10.goalPattern(b));
-        assertEquals(1,obj11.goalPattern(b));
-        assertEquals(1,obj12.goalPattern(b));
+        assertEquals(1,obj1.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj2.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj3.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(0,obj4.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj5.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj6.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj7.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj8.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj9.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj10.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj11.numberOfPatternRepetitionInBookshelf(b));
+        assertEquals(1,obj12.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -209,29 +207,29 @@ public class PersonalGoalTest {
 =======
 
         b = new Bookshelf("", bs);
-        assertEquals(0,obj1.goalPattern(b));
+        assertEquals(0,obj1.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj2.goalPattern(b));
+        assertEquals(1,obj2.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(2,obj3.goalPattern(b));
+        assertEquals(2,obj3.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(3,obj4.goalPattern(b));
+        assertEquals(3,obj4.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj5.goalPattern(b));
+        assertEquals(1,obj5.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj6.goalPattern(b));
+        assertEquals(1,obj6.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj7.goalPattern(b));
+        assertEquals(0,obj7.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(2,obj8.goalPattern(b));
+        assertEquals(2,obj8.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj9.goalPattern(b));
+        assertEquals(0,obj9.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj10.goalPattern(b));
+        assertEquals(0,obj10.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj11.goalPattern(b));
+        assertEquals(1,obj11.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj12.goalPattern(b));
+        assertEquals(1,obj12.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -246,29 +244,29 @@ public class PersonalGoalTest {
                 {null, null, null, null, null}};
 
         b = new Bookshelf("", bs);
-        assertEquals(0,obj1.goalPattern(b));
+        assertEquals(0,obj1.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj2.goalPattern(b));
+        assertEquals(0,obj2.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj3.goalPattern(b));
+        assertEquals(0,obj3.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj4.goalPattern(b));
+        assertEquals(0,obj4.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj5.goalPattern(b));
+        assertEquals(0,obj5.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj6.goalPattern(b));
+        assertEquals(0,obj6.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj7.goalPattern(b));
+        assertEquals(0,obj7.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj8.goalPattern(b));
+        assertEquals(0,obj8.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj9.goalPattern(b));
+        assertEquals(0,obj9.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj10.goalPattern(b));
+        assertEquals(0,obj10.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj11.goalPattern(b));
+        assertEquals(0,obj11.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj12.goalPattern(b));
+        assertEquals(0,obj12.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test personal goals on file JSON with bookshelf with all items equals to each other")
@@ -282,29 +280,29 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(1,obj1.goalPattern(b));
+        assertEquals(1,obj1.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj2.goalPattern(b));
+        assertEquals(1,obj2.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj3.goalPattern(b));
+        assertEquals(1,obj3.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj4.goalPattern(b));
+        assertEquals(1,obj4.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj5.goalPattern(b));
+        assertEquals(1,obj5.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj6.goalPattern(b));
+        assertEquals(1,obj6.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj7.goalPattern(b));
+        assertEquals(0,obj7.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj8.goalPattern(b));
+        assertEquals(1,obj8.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj9.goalPattern(b));
+        assertEquals(1,obj9.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj10.goalPattern(b));
+        assertEquals(1,obj10.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj11.goalPattern(b));
+        assertEquals(1,obj11.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj12.goalPattern(b));
+        assertEquals(1,obj12.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test personal goals on file JSON with bookshelf with all items different to each other")
@@ -318,33 +316,33 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(3,obj1.goalPattern(b));
+        assertEquals(3,obj1.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj2.goalPattern(b));
+        assertEquals(1,obj2.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj3.goalPattern(b));
+        assertEquals(1,obj3.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj4.goalPattern(b));
+        assertEquals(0,obj4.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj5.goalPattern(b));
+        assertEquals(1,obj5.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj6.goalPattern(b));
+        assertEquals(1,obj6.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(1,obj7.goalPattern(b));
+        assertEquals(1,obj7.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj8.goalPattern(b));
+        assertEquals(0,obj8.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(2,obj9.goalPattern(b));
+        assertEquals(2,obj9.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj10.goalPattern(b));
+        assertEquals(0,obj10.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(0,obj11.goalPattern(b));
+        assertEquals(0,obj11.numberOfPatternRepetitionInBookshelf(b));
 
-        assertEquals(2,obj12.goalPattern(b));
+        assertEquals(2,obj12.numberOfPatternRepetitionInBookshelf(b));
 >>>>>>> Stashed changes
 
         b = new Bookshelf("", bs);
-        assertEquals(0,personalGoal1.goalPattern(b));
+        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -365,7 +363,7 @@ public class PersonalGoalTest {
 
         b = new Bookshelf("", bs);
 <<<<<<< Updated upstream
-        assertEquals(0,personalGoal1.goalPattern(b));
+        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -404,7 +402,7 @@ public class PersonalGoalTest {
 
         b = new Bookshelf("", bs);
 <<<<<<< Updated upstream
-        assertEquals(3,personalGoal1.goalPattern(b));
+        assertEquals(3,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
 
@@ -428,7 +426,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(0,personalGoal1.goalPattern(b));
+        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -443,7 +441,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(1,personalGoal1.goalPattern(b));
+        assertEquals(1,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -458,7 +456,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(2,personalGoal1.goalPattern(b));
+        assertEquals(2,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -473,7 +471,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(3,personalGoal1.goalPattern(b));
+        assertEquals(3,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -488,7 +486,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(4,personalGoal1.goalPattern(b));
+        assertEquals(4,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -503,7 +501,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(5,personalGoal1.goalPattern(b));
+        assertEquals(5,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -518,7 +516,7 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE)}};
 
         b = new Bookshelf("", bs);
-        assertEquals(6,personalGoal1.goalPattern(b));
+        assertEquals(6,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
     }
 
 

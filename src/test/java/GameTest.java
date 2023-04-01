@@ -2,7 +2,7 @@ import model.*;
 import model.commongoal.CommonGoal;
 import model.commongoal.EightShaplessPatternGoal;
 import model.commongoal.FourCornersPatternGoal;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.Tile;
 import model.tile.TileColor;
 import org.junit.jupiter.api.*;
@@ -23,12 +23,12 @@ public class GameTest {
         this.players = new ArrayList<Player>(4);
         this.commonGoals = new ArrayList<CommonGoal>(2);
 
-        List<GoalTile> goalTiles = new ArrayList<>();
+        List<ScoreTile> scoreTiles = new ArrayList<>();
 
-        this.players.add(new Player("Alessandro", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
-        this.players.add(new Player("Andrea", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
-        this.players.add(new Player("Francesco", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
-        this.players.add(new Player("Luca", true, Arrays.asList(new GoalTile(1), new GoalTile(2), new GoalTile(4)), new Bookshelf()));
+        this.players.add(new Player("Alessandro", true, Arrays.asList(new ScoreTile(1), new ScoreTile(2), new ScoreTile(4)), new Bookshelf()));
+        this.players.add(new Player("Andrea", true, Arrays.asList(new ScoreTile(1), new ScoreTile(2), new ScoreTile(4)), new Bookshelf()));
+        this.players.add(new Player("Francesco", true, Arrays.asList(new ScoreTile(1), new ScoreTile(2), new ScoreTile(4)), new Bookshelf()));
+        this.players.add(new Player("Luca", true, Arrays.asList(new ScoreTile(1), new ScoreTile(2), new ScoreTile(4)), new Bookshelf()));
 
         this.commonGoals.add(new FourCornersPatternGoal());
         this.commonGoals.add(new EightShaplessPatternGoal());
@@ -105,7 +105,7 @@ public class GameTest {
     public void bag_size_reduces_by_the_number_of_tiles_that_are_needed_to_refill_the_board_on_turn_change() {
 
         Board board = new Board();
-        board.setMaxNumTiles(45);
+        board.setNumberOfUsableTiles(45);
         board.setTiles(new Tile[][]{
             {new Tile(), new Tile(), new Tile(), null, null, new Tile(), new Tile(), new Tile(), new Tile()},
             {new Tile(), new Tile(), new Tile(), null, null, null, new Tile(), new Tile(), new Tile()},

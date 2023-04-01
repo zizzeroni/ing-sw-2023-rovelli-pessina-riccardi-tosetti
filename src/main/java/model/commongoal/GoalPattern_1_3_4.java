@@ -52,14 +52,14 @@ public class GoalPattern_1_3_4 extends CommonGoal {
         return numberOfElement;
     }
 
-    public int goalPattern(Bookshelf b) {
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
 
 
-        int[][] support_matrix = new int[b.getNumRows()][b.getNumColumns()];
+        int[][] support_matrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
 
-        for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumns(); j++) {
-                if (b.getSingleTile(i, j) == null) {
+        for (int i = 0; i < bookshelf.getNumRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+                if (bookshelf.getSingleTile(i, j) == null) {
                     support_matrix[i][j] = 0;
                 } else {
                     support_matrix[i][j] = 1;
@@ -69,11 +69,11 @@ public class GoalPattern_1_3_4 extends CommonGoal {
 
         int group = 1;
 
-        for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
                 if (support_matrix[i][j] == 1) {
                     group++;
-                    searchGroup(b, support_matrix, i, j, group, b.getSingleTile(i, j).getColor());
+                    searchGroup(bookshelf, support_matrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
                 }
             }
         }
@@ -94,13 +94,13 @@ public class GoalPattern_1_3_4 extends CommonGoal {
         int CounterGroup=0;
 
         for (int g = 2; g <= group; g++) {
-            for (int r=0; r<b.getNumRows();r++) {
-                for (int c = 0; c < b.getNumColumns(); c++) {
+            for (int r = 0; r< bookshelf.getNumRows(); r++) {
+                for (int c = 0; c < bookshelf.getNumColumns(); c++) {
                     if (support_matrix[r][c] == g) {
-                        for (int k = 0; k < b.getNumRows()-1; k++) {
-                            for (int h = 0; h < b.getNumColumns()-1; h++) {
+                        for (int k = 0; k < bookshelf.getNumRows()-1; k++) {
+                            for (int h = 0; h < bookshelf.getNumColumns()-1; h++) {
 
-                                if (positions[k][h] == 1 && ((r + k) < b.getNumRows()) && ((c + h) < b.getNumColumns()) && support_matrix[r + k][c + h] == g) {
+                                if (positions[k][h] == 1 && ((r + k) < bookshelf.getNumRows()) && ((c + h) < bookshelf.getNumColumns()) && support_matrix[r + k][c + h] == g) {
                                     NumberOfCorrispective++;
                                 }
                             }

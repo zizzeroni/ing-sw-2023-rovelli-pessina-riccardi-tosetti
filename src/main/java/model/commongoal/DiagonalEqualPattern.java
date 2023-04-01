@@ -1,7 +1,6 @@
 package model.commongoal;
 
 import model.Bookshelf;
-import model.tile.GoalTile;
 import model.tile.TileColor;
 
 public class DiagonalEqualPattern extends CommonGoal{
@@ -12,17 +11,17 @@ public class DiagonalEqualPattern extends CommonGoal{
         this.positions = positions;
     }
 
-    public DiagonalEqualPattern(String image, int patternRepetition, CheckType type, int[][] positions) {
-        super(image, patternRepetition, type);
+    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] positions) {
+        super(imageID, patternRepetition, type);
         this.positions = positions;
     }
 
-    public DiagonalEqualPattern(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles, int[][] positions) {
-        super(image, patternRepetition, type, scoreTiles);
+    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, int[][] positions) {
+        super(imageID, patternRepetition, type, numberOfPlayers);
         this.positions = positions;
     }
 
-    public int goalPattern(Bookshelf bookshelf) {
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
 
         int[][] supportMatrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
         int[][] alreadyChecked = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
@@ -44,18 +43,9 @@ public class DiagonalEqualPattern extends CommonGoal{
             for (int j = 0; j < bookshelf.getNumColumns(); j++) {
                 if (supportMatrix[i][j] == 1) {
                     group++;
-                    searchGroup(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
+                    assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
                 }
             }
-        }
-
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
-
-                System.out.print(supportMatrix[i][j] + " ");
-
-            }
-            System.out.println(" ");
         }
 
         int repetitions = 0;
@@ -90,31 +80,29 @@ public class DiagonalEqualPattern extends CommonGoal{
             }
         }
 
-        System.out.println(repetitions);
-
        return repetitions;
     }
 
-    private void searchGroup(Bookshelf bookshelf, int[][] supportMatrix, int r, int c, int group, TileColor currentTileColor) {
+    private void assignGroupToDiagonalEqualTiles(Bookshelf bookshelf, int[][] supportMatrix, int r, int c, int group, TileColor currentTileColor) {
 
         if ((supportMatrix[r][c] == 1) && currentTileColor.equals(bookshelf.getSingleTile(r,c).getColor())) {
             supportMatrix[r][c] = group;
 
             //up left
             if(r!=0 && c!=0){
-                searchGroup(bookshelf, supportMatrix, r-1, c-1, group, currentTileColor);
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c-1, group, currentTileColor);
             }
             //up right
             if(r != 0 && c!=bookshelf.getNumColumns()-1){
-                searchGroup(bookshelf, supportMatrix, r-1, c+1, group, currentTileColor);
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c+1, group, currentTileColor);
             }
             //down left
             if(r!=bookshelf.getNumRows()-1 && c!=0){
-                searchGroup(bookshelf, supportMatrix, r+1, c-1, group, currentTileColor);
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c-1, group, currentTileColor);
             }
             //down right
             if(r!=bookshelf.getNumRows()-1 && c!=bookshelf.getNumColumns()-1){
-                searchGroup(bookshelf, supportMatrix, r+1, c+1, group, currentTileColor);
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c+1, group, currentTileColor);
             }
         }
     }

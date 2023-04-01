@@ -4,15 +4,14 @@ import model.Player;
 import model.commongoal.CommonGoal;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class GoalTile {
+public class ScoreTile {
     private int value;
     private ArrayList<Player> players; // eredità di player
     private ArrayList<CommonGoal> commonGoals; // eredità di commonGoal
 
 
-    public GoalTile(int value) {
+    public ScoreTile(int value) {
         this.value = value;
     }
 

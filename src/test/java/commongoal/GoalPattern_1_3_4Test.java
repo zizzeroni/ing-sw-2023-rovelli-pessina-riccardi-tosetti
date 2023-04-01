@@ -2,7 +2,6 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.FiveXShapePatternGoal;
 import model.commongoal.GoalPattern_1_3_4;
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -40,7 +39,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -61,7 +60,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(3, cg.goalPattern(b));
+        assertEquals(3, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -82,7 +81,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -103,7 +102,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a full of blue element bookshelf matches one time")
@@ -124,7 +123,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a full of blue bookshelf matches one time")
@@ -145,7 +144,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -167,7 +166,7 @@ public class GoalPattern_1_3_4Test {
                 {null, null, null, null, null}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a full of null element bookshelf matches zero time")
@@ -188,7 +187,7 @@ public class GoalPattern_1_3_4Test {
                 {null, null, null, null, null}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a full of null bookshelf matches zero time")
@@ -209,7 +208,7 @@ public class GoalPattern_1_3_4Test {
                 {null, null, null, null, null}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -231,7 +230,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -252,7 +251,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(3, cg.goalPattern(b));
+        assertEquals(3, cg.numberOfPatternRepetitionInBookshelf(b));
     }
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -273,7 +272,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
 
@@ -296,7 +295,7 @@ public class GoalPattern_1_3_4Test {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(2, cg.goalPattern(b));
+        assertEquals(2, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
 }
