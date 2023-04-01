@@ -87,6 +87,7 @@ public class Board {
         this.maxNumTiles = maxNumTiles;
         this.tiles = tiles;
     }
+    
 // da integrare con json
     public void addTiles(List<Tile> tilesToAdd) {
         for (int i = 0; i < this.numRows; i++) {
