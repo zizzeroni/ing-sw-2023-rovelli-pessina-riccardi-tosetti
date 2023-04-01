@@ -4,8 +4,8 @@ import model.Bookshelf;
 import model.tile.TileColor;
 
 public class FiveDiagonalPatternGoal extends CommonGoal {
-    public FiveDiagonalPatternGoal(String image, int patternRepetition, CheckType type) {
-        super(image, patternRepetition, type);
+    public FiveDiagonalPatternGoal(int imageID, int patternRepetition, CheckType type) {
+        super(imageID, patternRepetition, type);
     }
 
     public int goalPattern(Bookshelf b) {

@@ -4,10 +4,10 @@ import model.Card;
 import model.tile.GoalTile;
 
 public abstract class CommonGoal extends Card {
-
     private int patternRepetition;
     private CheckType type;
     private GoalTile[] scoreTiles;
+    private int[][] positions;
 
     public CommonGoal() {
         super();
@@ -15,17 +15,24 @@ public abstract class CommonGoal extends Card {
         this.scoreTiles=new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
         this.patternRepetition=0;
     }
-    public CommonGoal(String image, int patternRepetition, CheckType type) {
-        super();
+    public CommonGoal(int imageID, int patternRepetition, CheckType type) {
+        super(imageID);
         this.patternRepetition = patternRepetition;
         this.type = type;
         this.scoreTiles = new GoalTile[]{new GoalTile(8), new GoalTile(6), new GoalTile(4), new GoalTile(2)};
     }
-    public CommonGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super();
+    public CommonGoal(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
+        super(imageID);
         this.patternRepetition = patternRepetition;
         this.type = type;
         this.scoreTiles = scoreTiles;
+    }
+
+    public CommonGoal(int imageID, int patternRepetition, CheckType type, int[][] positions) {
+        super(imageID);
+        this.patternRepetition = patternRepetition;
+        this.type = type;
+        this.positions = positions;
     }
 
     public GoalTile[] getScoreTiles() {
