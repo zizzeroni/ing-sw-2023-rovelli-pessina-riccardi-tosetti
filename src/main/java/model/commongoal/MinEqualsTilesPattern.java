@@ -1,7 +1,7 @@
 package model.commongoal;
 
 import model.Bookshelf;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.TileColor;
 
 import java.util.*;
@@ -24,8 +24,8 @@ public class MinEqualsTilesPattern extends CommonGoal{
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type, scoreTiles);
+    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
+        super(imageID, patternRepetition, type, numberOfPlayers);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }

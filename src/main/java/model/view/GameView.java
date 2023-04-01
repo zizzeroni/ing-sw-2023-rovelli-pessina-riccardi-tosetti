@@ -7,13 +7,14 @@ import model.Player;
 import model.commongoal.CommonGoal;
 import model.tile.Tile;
 import utils.Observable;
+import utils.ObservableType;
 import utils.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameView extends Observable<Event> implements Observer<Game, Event> {
+public class GameView extends Observable<ObservableType> implements Observer<Game, ObservableType> {
     private final Game gameModel;
 
     public GameView(Game gameModel) {
@@ -47,13 +48,13 @@ public class GameView extends Observable<Event> implements Observer<Game, Event>
     public List<CommonGoalView> getCommonGoals() {
         List<CommonGoalView> temp = new ArrayList<>();
         for(CommonGoal commonGoal: this.gameModel.getCommonGoals()) {
-            temp.add(new CommonGoalView());
+            temp.add(new CommonGoalView(commonGoal));
         }
         return temp;
     }
 
     @Override
-    public void update(Game o, Event arg) {
+    public void update(Game o, ObservableType arg) {
 
     }
 }

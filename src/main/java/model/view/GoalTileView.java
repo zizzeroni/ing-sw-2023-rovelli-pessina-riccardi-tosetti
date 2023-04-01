@@ -1,23 +1,23 @@
 package model.view;
 
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 
 public class GoalTileView {
-    private final GoalTile goalTileModel;
+    private final ScoreTile scoreTileModel;
 
-    public GoalTileView(GoalTile goalTileModel) {
-        this.goalTileModel = goalTileModel;
+    public GoalTileView(ScoreTile scoreTileModel) {
+        this.scoreTileModel = scoreTileModel;
     }
 
     public int getPlayerID() {
-        return this.goalTileModel.getPlayerID();
+        return this.scoreTileModel.getPlayerID();
     }
 
     public int getCommonGoalID() {
-        return this.goalTileModel.getCommonGoalID();
+        return this.scoreTileModel.getCommonGoalID();
     }
 
     public int getValue(){
-        return this.goalTileModel.getValue();
+        return this.scoreTileModel.getValue();
     }
 }

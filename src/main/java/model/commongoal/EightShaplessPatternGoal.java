@@ -2,9 +2,8 @@ package model.commongoal;
 
 
 import model.Bookshelf;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.Tile;
-import model.tile.TileColor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,8 +19,8 @@ public class EightShaplessPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
     }
 
-    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super(imageID, patternRepetition, type, scoreTiles);
+    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
+        super(imageID, patternRepetition, type, numberOfPlayers);
     }
 
     @Override

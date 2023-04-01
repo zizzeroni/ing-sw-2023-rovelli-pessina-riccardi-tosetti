@@ -3,9 +3,10 @@ package view;
 import model.Event;
 import model.view.GameView;
 import utils.Observable;
+import utils.ObservableType;
 import utils.Observer;
 
-public abstract class UI extends Observable<Event> implements Runnable, Observer<GameView, Event> {
+public abstract class UI extends Observable<ObservableType> implements Runnable, Observer<GameView, ObservableType> {
 
 
     //ESEMPIO INTERAZIONE TESTUALE

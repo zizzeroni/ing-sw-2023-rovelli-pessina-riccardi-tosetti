@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import model.tile.Tile;
+import model.view.TileView;
+import utils.ObservableType;
 import utils.Observer;
 import view.UI;
 
@@ -9,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class GameController implements Observer<UI, Event> {
+public class GameController implements Observer<UI, ObservableType> {
     private final Game model;
     private final UI view;
 
@@ -38,9 +40,9 @@ public class GameController implements Observer<UI, Event> {
         //Togliere le tiles dalla board
         Bookshelf activePlayerBookshelf = model.getPlayers().get(model.getActivePlayerIndex()).getBookshelf();
         int column = pChoice.getChosenColumn();
-        List<Tile> pChoosedTiles = pChoice.getChosenTiles();
-        for (Tile pChoosedTile : pChoosedTiles) {
-            activePlayerBookshelf.addTile(pChoosedTile, column);
+        List<TileView> pChoosedTiles = pChoice.getChosenTiles();
+        for (TileView pChoosedTile : pChoosedTiles) {
+            activePlayerBookshelf.addTile(new Tile(pChoosedTile.getColor()), column);
         }
     }
     //Trasposizione del metodo changeTurn già presente nella classe game
@@ -77,10 +79,16 @@ public class GameController implements Observer<UI, Event> {
     }
 
     @Override
-    public void update(UI o, Event arg) {
+    public void update(UI o, ObservableType arg) {
         if(o != view) {
             System.err.println("Discarding notification from " + o);
             return;
+        } else {
+            switch(arg.getEvent()) {
+                case USER_INPUT -> {
+                    Choice temp=(Choice)arg;
+                }
+            }
         }
     }
 }

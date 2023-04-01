@@ -1,6 +1,6 @@
 package model;
 
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.Tile;
 
 
@@ -15,15 +15,15 @@ public class Player {
     //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
     private boolean connected;
     private PersonalGoal personalGoal; //The single goal of the player
-    private List<GoalTile> goalTiles; // new ArrayList<Tile>(); //The array of tile...
+    private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
 
     //Constructor
-    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<GoalTile> goalTiles, Bookshelf bookshelf) {
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = personalGoal;
-        this.goalTiles = goalTiles;
+        this.scoreTiles = scoreTiles;
         this.bookshelf = bookshelf;
     }
 
@@ -36,12 +36,12 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public List<GoalTile> getGoalTiles() {
-        return goalTiles;
+    public List<ScoreTile> getGoalTiles() {
+        return scoreTiles;
     }
 
-    public void setGoalTiles(List<GoalTile> goalTiles) {
-        this.goalTiles = goalTiles;
+    public void setGoalTiles(List<ScoreTile> scoreTiles) {
+        this.scoreTiles = scoreTiles;
     }
 
     public Bookshelf getBookshelf() {
@@ -73,8 +73,8 @@ public class Player {
     //class methods
     public int score() {
         int score = 0;
-        for (GoalTile goalTile : this.goalTiles) {
-            score += goalTile.getValue();
+        for (ScoreTile scoreTile : this.scoreTiles) {
+            score += scoreTile.getValue();
         }
         score += this.bookshelf.score();
         score += this.personalGoal.score(this.bookshelf);

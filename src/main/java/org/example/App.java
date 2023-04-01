@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import controller.GameController;
 import model.*;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.Tile;
 import model.tile.TileColor;
 import model.view.GameView;
@@ -67,10 +67,10 @@ public class App
             System.out.println(e.getMessage());
         }
 
-        players.add(new Player("Alessandro", true, personalGoals.get(0), new ArrayList<GoalTile>(), new Bookshelf()));
-        players.add(new Player("Andrea", true, personalGoals.get(1), new ArrayList<GoalTile>(), new Bookshelf()));
-        players.add(new Player("Francesco", true, personalGoals.get(2), new ArrayList<GoalTile>(), new Bookshelf()));
-        players.add(new Player("Luca", true, personalGoals.get(3), new ArrayList<GoalTile>(), new Bookshelf()));
+        players.add(new Player("Alessandro", true, personalGoals.get(0), new ArrayList<ScoreTile>(), new Bookshelf()));
+        players.add(new Player("Andrea", true, personalGoals.get(1), new ArrayList<ScoreTile>(), new Bookshelf()));
+        players.add(new Player("Francesco", true, personalGoals.get(2), new ArrayList<ScoreTile>(), new Bookshelf()));
+        players.add(new Player("Luca", true, personalGoals.get(3), new ArrayList<ScoreTile>(), new Bookshelf()));
 
         Game model = new Game(numPlayers, players, personalGoals);
         Tile[][] temp = {

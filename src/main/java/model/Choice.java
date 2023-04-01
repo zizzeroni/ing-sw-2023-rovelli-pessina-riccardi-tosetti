@@ -1,16 +1,19 @@
 package model;
 
 import model.tile.Tile;
+import model.view.TileView;
+import utils.ObservableType;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Choice {
-    private List<Tile> chosenTiles;
+public class Choice implements ObservableType {
+    private List<TileView> chosenTiles;
     private int[] positions;
     private int chosenColumn;
 
     public Choice() {
-        this.chosenTiles = null;
+        this.chosenTiles = new ArrayList<>();
         this.positions = new int[3];
         for(int i=0;i<this.positions.length;i++) {
             positions[i]=0;
@@ -18,17 +21,17 @@ public class Choice {
         this.chosenColumn = 0;
     }
 
-    public Choice(List<Tile> chosenTiles, int[] positions, int chosenColumn) {
+    public Choice(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
         this.chosenTiles = chosenTiles;
         this.positions = positions;
         this.chosenColumn = chosenColumn;
     }
 
-    public List<Tile> getChosenTiles() {
+    public List<TileView> getChosenTiles() {
         return chosenTiles;
     }
 
-    public void setChosenTiles(List<Tile> chosenTiles) {
+    public void setChosenTiles(List<TileView> chosenTiles) {
         this.chosenTiles = chosenTiles;
     }
 
@@ -46,5 +49,13 @@ public class Choice {
 
     public void setChosenColumn(int chosenColumn) {
         this.chosenColumn = chosenColumn;
+    }
+
+    public void addTile(TileView tile) {
+        this.chosenTiles.add(tile);
+    }
+    @Override
+    public Event getEvent() {
+        return Event.USER_INPUT;
     }
 }

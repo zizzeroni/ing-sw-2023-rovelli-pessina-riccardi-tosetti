@@ -14,4 +14,8 @@ public class TileView {
     public TileColor getColor() {
         return this.tileModel.getColor();
     }
+    //TODO: Verificare se è necessario inserire tale metodo
+    public boolean isNull() {
+        return this.tileModel == null;
+    }
 }

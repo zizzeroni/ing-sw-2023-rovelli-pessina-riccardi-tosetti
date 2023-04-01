@@ -2,7 +2,7 @@ package model.commongoal;
 
 
 import model.Bookshelf;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 
 public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal() {
@@ -12,8 +12,8 @@ public class FourCornersPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
     }
 
-    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super(imageID, patternRepetition, type, scoreTiles);
+    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
+        super(imageID, patternRepetition, type, numberOfPlayers);
     }
 
     public int goalPattern(Bookshelf b) {

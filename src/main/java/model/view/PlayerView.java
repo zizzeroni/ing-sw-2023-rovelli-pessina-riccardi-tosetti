@@ -1,9 +1,7 @@
 package model.view;
 
-import model.Bookshelf;
-import model.PersonalGoal;
 import model.Player;
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,8 @@ public class PlayerView {
     }
     public List<GoalTileView> getGoalTiles() {
         List<GoalTileView> temp = new ArrayList<>();
-        for(GoalTile goalTile: this.playerModel.getGoalTiles()) {
-            temp.add(new GoalTileView(goalTile));
+        for(ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
+            temp.add(new GoalTileView(scoreTile));
         }
         return temp;
     }
@@ -33,5 +31,17 @@ public class PlayerView {
     }
     public boolean isConnected() {
         return this.playerModel.isConnected();
+    }
+
+    //TODO: Chiedere se è una soluzione corretta
+    public int score() {
+        int score = 0;
+        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
+            score += scoreTile.getValue();
+        }
+        score += this.playerModel.getBookshelf().score();
+        score += this.playerModel.getPersonalGoal().score(this.playerModel.getBookshelf());
+
+        return score;// viene calcolato in base al numero di giocatori
     }
 }

@@ -1,29 +1,23 @@
 package model.tile;
 
-import model.Player;
-import model.commongoal.CommonGoal;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class GoalTile {
+public class ScoreTile {
     private int value;
     private int playerID; // eredità di player
     private int commonGoalID; // eredità di commonGoal
 
-    public GoalTile(int value, int playerID, int commonGoalID) {
+    public ScoreTile(int value, int playerID, int commonGoalID) {
         this.value = value;
         this.playerID = playerID;
         this.commonGoalID = commonGoalID;
     }
 
-    public GoalTile() {
+    public ScoreTile() {
         this.value = 0;
         this.playerID = 0;
         this.commonGoalID = 0;
     }
 
-    public GoalTile(int value) {
+    public ScoreTile(int value) {
         this.value = value;
         this.playerID = 0;
         this.commonGoalID = 0;
