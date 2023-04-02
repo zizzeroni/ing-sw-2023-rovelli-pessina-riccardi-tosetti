@@ -34,13 +34,23 @@ public class GameController implements Observer<UI, ObservableType> {
 
     }
     private boolean checkIfUserInputIsCorrect(Choice choice) {
-        if(choice.getChosenTiles().size()!=choice.getTileOrder().length ) {
-            return false;
+        if(choice.getChosenTiles().size()==choice.getTileOrder().length && choice.getTileOrder().length == choice.getTileCoords().size()) {
+            if(choice.getChosenColumn()<=0 && choice.getChosenColumn()>model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+
+                return true;
+            }
         }
-        if(choice.getChosenColumn()<=0 && choice.getChosenColumn()>model.getPlayers().get(0).getBookshelf().getNumColumns()) {
-            return false;
+        return false;
+    }
+
+    private boolean checkIfCoordsArePlausible(List<Choice.Coord> coords) {
+        int firstTileRow, firstTileColumn;
+        firstTileRow = coords.get(0).getX();
+        firstTileColumn = coords.get(0).getY();
+        for(Choice.Coord coordinates : coords) {
+
         }
-        if(choice.ge)
+        return false;
     }
     private void addTilesToPlayerBookshelf(Choice pChoice) {
         //Togliere le tiles dalla board

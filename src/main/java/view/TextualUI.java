@@ -1,6 +1,7 @@
 package view;
 
 import model.*;
+import model.commongoal.Direction;
 import model.view.*;
 import utils.ObservableType;
 
@@ -32,7 +33,7 @@ public class TextualUI extends UI {
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             showNewTurnIntro();
             Optional<Choice> c = askPlayer();
         }
@@ -50,7 +51,7 @@ public class TextualUI extends UI {
     private Optional<Choice> askPlayer() {
         Scanner s = new Scanner(System.in);
 
-        while(true) {
+        while (true) {
             System.out.println("Seleziona l'azione(Digita il numero associato all'azione):");
             System.out.println("1)Recap situazione personale");
             System.out.println("2)Scegli tessere");
@@ -65,23 +66,20 @@ public class TextualUI extends UI {
                     TileView[][] boardMatrix = model.getBoard().getTiles();
                     printTilesMatrix(boardMatrix);
 
-                    int counter=0;
+                    int counter = 0, firstRow = 0, firstColumn = 0;
                     boolean isInsertCorrect;
-                    Optional<Integer> prevColumn = Optional.empty();
-                    Optional<Integer> prevRow = Optional.empty();
                     Choice playerChoice = new Choice();
-
+                    Direction directionToCheck = null;
 
                     //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
                     do {
-                        isInsertCorrect  = false;
-                        int row=0;
-                        int column=0;
-                        while(!isInsertCorrect) {
-                            System.out.println("Inserisci la riga della " + (counter+1) + "° tessera che vuoi prendere:");
+                        isInsertCorrect = false;
+                        int row = 0, column = 0;
+                        while (!isInsertCorrect) {
+                            System.out.println("Inserisci la riga della " + (counter + 1) + "° tessera che vuoi prendere:");
                             row = s.nextInt();
 
-                            if(row <= model.getBoard().getNumRows() && row > 0) {
+                            if (row <= model.getBoard().getNumRows() && row > 0) {
                                 isInsertCorrect = true;
                             } else {
                                 System.out.println("Inserisci una riga valida (Un numero compreso tra 0 e " + model.getBoard().getNumRows() + "!)");
@@ -90,11 +88,11 @@ public class TextualUI extends UI {
 
                         isInsertCorrect = false;
 
-                        while(!isInsertCorrect) {
-                            System.out.println("Inserisci la colonna della " + (counter+1) + "° tessera che vuoi prendere:");
+                        while (!isInsertCorrect) {
+                            System.out.println("Inserisci la colonna della " + (counter + 1) + "° tessera che vuoi prendere:");
                             column = s.nextInt();
 
-                            if(column <= model.getBoard().getNumColumns() && column > 0) {
+                            if (column <= model.getBoard().getNumColumns() && column > 0) {
                                 isInsertCorrect = true;
 
                             } else {
@@ -102,28 +100,40 @@ public class TextualUI extends UI {
                             }
                         }
 
-                        if(checkIfPickable(row-1,column-1)) {
-                            if(checkIfInLine(row,column,prevRow,prevColumn)) {
-                                prevRow = Optional.of(row);
-                                prevColumn = Optional.of(column);
-                                counter++;
-                                playerChoice.addTile(this.model.getBoard().getTiles()[row-1][column-1]);
-                                playerChoice.addCoords(new Choice.Coord(row-1,column-1));
-                            } else {
-                                System.out.println("Le tessere selezionate devono formare una linea retta, riprova!");
+                        if (checkIfPickable(row - 1, column - 1)) {
+                            switch (counter) {
+                                case 0 -> {
+                                    counter++;
+                                    firstRow = row;
+                                    firstColumn = column;
+                                    playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                    playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                }
+                                case 1 -> {
+                                    Direction res = checkIfInLine(row, column, firstRow, firstColumn);
+                                    if (res != null) {
+                                        directionToCheck = res;
+                                        counter++;
+                                        playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                    }
+                                }
+                                case 2 -> {
+                                    if (checkIfInLine(row, column, playerChoice.getTileCoords(), directionToCheck)) {
+                                        counter++;
+                                        playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                    }
+                                }
                             }
                         } else {
                             System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
                         }
-
-                        if(counter>0) {
+                        if (counter > 0) {
                             System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                             input = s.next();
                         }
-
                     } while (!input.equals("NO") && counter < 3);
-
-
 
 
                     //---------------------------------SCELTA COLONNA---------------------------------
@@ -133,39 +143,75 @@ public class TextualUI extends UI {
                     do {
                         System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
                         chosenColumn = s.nextInt();
-                        if(chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+                        if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns()) {
                             System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                                    " 0 e " + this.model.getPlayers().get(0).getBookshelf().getNumColumns() + "!");
+                                    " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumColumns() + "!");
                         }
-                    } while(chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns());
+                    } while (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns());
 
                     playerChoice.setChosenColumn(chosenColumn);
 
 
                     //---------------------------------SCELTA ORDINE---------------------------------
-                    System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza)");
+                    System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
                     isInsertCorrect = false;
                     do {
                         input = s.next();
                         String[] temp;
                         temp = input.split(",");
-                        Stream<String> tempStream = Arrays.stream(temp);
-                        if(temp.length == counter && tempStream.anyMatch(elem -> elem.equals("1")) && tempStream.anyMatch(elem -> elem.equals("2")) && tempStream.anyMatch(elem -> elem.equals("3"))) {
-                            int[] chosenPositions = new int[temp.length];
-                            for(int i=0;i< temp.length;i++) {
-                                chosenPositions[i] = Integer.parseInt(temp[i])-1;
+                        boolean res = false;
+                        if (temp.length == counter) {
+                            switch (counter) {
+                                case 1 -> {
+                                    res = Arrays.asList(temp).contains("1");
+                                }
+                                case 2 -> {
+                                    res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2"));
+                                }
+                                case 3 -> {
+                                    res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2", "3"));
+                                }
+                                default -> {
+                                    System.err.println("Unexpected value of chosen tiles");
+                                }
                             }
-                            playerChoice.setTileOrder(chosenPositions);
-                            isInsertCorrect = true;
+
+                            if (res) {
+                                int[] chosenPositions = new int[temp.length];
+                                for (int i = 0; i < temp.length; i++) {
+                                    chosenPositions[i] = Integer.parseInt(temp[i]) - 1;
+                                }
+                                playerChoice.setTileOrder(chosenPositions);
+                                isInsertCorrect = true;
+                            } else {
+                                System.out.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
+                            }
                         } else {
-                            System.out.println("Hai inserito un numero di cifre o un loro valore, non coerente con il numero di tessere scelte. Oppure un inserimento che non rispetta" +
+                            System.out.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
                                     " la formattazione richiesta, riprova!");
                         }
-                    } while(!isInsertCorrect);
+                    } while (!isInsertCorrect);
 
                     //---------------------------------NOTIFICA CONTROLLER---------------------------------
                     setChanged();
                     notifyObservers(playerChoice);
+
+                    /*
+                    int c = 0;
+                    for(int i=0;i<model.getPlayers().get(0).getBookshelf().getNumRows();i++) {
+                        System.out.print("[ ");
+                        for(int j=0;j<model.getPlayers().get(0).getBookshelf().getNumColumns();j++) {
+                            if(playerChoice.getChosenColumn()-1==j && i==(model.getPlayers().get(0).getBookshelf().getNumRows() - 1) - model.getPlayers().get(0).getBookshelf().getNumElemColumn(j) - (playerChoice.getChosenTiles().size()-1-c)) {
+                                System.out.print(playerChoice.getChosenTiles().get(playerChoice.getTileOrder()[c]).getColor()+" ");
+                                c++;
+                            } else {
+                                System.out.print("0 ");
+                            }
+
+                        }
+                        System.out.println("]");
+                    }
+                    */
 
                 }
                 case "3" -> {
@@ -175,24 +221,76 @@ public class TextualUI extends UI {
         }
     }
 
-    private boolean checkIfInLine(int row, int column, Optional<Integer> prevRow, Optional<Integer> prevColumn) {
-        return prevRow.isEmpty() || prevColumn.isEmpty() || ((row == prevRow.get()) && (column - 1 == prevColumn.get() || column + 1 == prevColumn.get()))
-                || ((column == prevColumn.get()) && (row - 1 == prevRow.get() || row + 1 == prevRow.get()));
+    private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
+        if (row == firstRow && column == firstColumn) {
+            System.out.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            return null;
+        }
+        if ((row == firstRow) && (column - 1 == firstColumn || column + 1 == firstColumn)) {
+            return Direction.HORIZONTAL;
+        }
+        if ((column == firstColumn) && (row - 1 == firstRow || row + 1 == firstRow)) {
+            return Direction.VERTICAL;
+        }
+        System.out.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
+        return null;
     }
+
+    private boolean checkIfInLine(int row, int column, List<Choice.Coord> prevTilesCoords, Direction directionToCheck) {
+        if (prevTilesCoords.contains(new Choice.Coord(row, column))) {
+            System.out.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            return false;
+        }
+        switch (directionToCheck) {
+            case HORIZONTAL -> {
+                if (row != prevTilesCoords.get(0).getX()) {
+                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    return false;
+                } else {
+                    for (Choice.Coord coords : prevTilesCoords) {
+                        if (coords.getY() == column + 1 || coords.getY() == column - 1) {
+                            return true;
+                        }
+                    }
+                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                }
+                return false;
+            }
+            case VERTICAL -> {
+                if (column != prevTilesCoords.get(0).getY()) {
+                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    return false;
+                } else {
+                    for (Choice.Coord coords : prevTilesCoords) {
+                        if (coords.getX() == row + 1 || coords.getX() == row - 1) {
+                            return true;
+                        }
+                    }
+                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                }
+                return false;
+            }
+            default -> {
+                System.err.println("Something went wrong, i didn't expected this value");
+                return false;
+            }
+        }
+    }
+
+
     private boolean checkIfPickable(int row, int column) {
         BoardView board = model.getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if((!boardMatrix[row][column].isNull()) && (
-                (row!=0 && boardMatrix[row-1][column].isNull()) ||
-                    (row!=board.getNumRows() && boardMatrix[row+1][column].isNull()) ||
-                        (column!=board.getNumColumns() && boardMatrix[row][column+1].isNull()) ||
-                            (column!=0 && boardMatrix[row][column-1].isNull()))) {
+        if ((!boardMatrix[row][column].isNull()) && (
+                (row != 0 && boardMatrix[row - 1][column].isNull()) ||
+                        (row != board.getNumRows() && boardMatrix[row + 1][column].isNull()) ||
+                        (column != board.getNumColumns() && boardMatrix[row][column + 1].isNull()) ||
+                        (column != 0 && boardMatrix[row][column - 1].isNull()))) {
             return true;
         }
         return false;
     }
-
 
 
     private void showPersonalRecap() {
@@ -211,14 +309,16 @@ public class TextualUI extends UI {
 
         showBookshelf(playerBookshelf);
         showPersonalObjective(playerPersonalGoal);
-        showCommonGoals(playerGoalTiles,commonGoals);
+        showCommonGoals(playerGoalTiles, commonGoals);
         showScore(playerScore);
     }
+
     private void showBookshelf(BookshelfView bookshelf) {
         TileView[][] bookshelfMatrix = bookshelf.getTiles();
         System.out.println("Stato della tua bookshelf:");
         printTilesMatrix(bookshelfMatrix);
     }
+
     private void showPersonalObjective(PersonalGoalView personalGoal) {
         TileView[][] personalGoalMatrix = personalGoal.getPattern();
         System.out.println("Il tuo obiettivo personale:");
@@ -229,21 +329,21 @@ public class TextualUI extends UI {
         GoalTileView goalTile1;
         GoalTileView goalTile2;
         GoalTileView goalTile3;
-        switch(goalTiles.size()) {
+        switch (goalTiles.size()) {
             case 0 -> {
-                goalTile1=null;
-                goalTile2=null;
-                goalTile3=null;
+                goalTile1 = null;
+                goalTile2 = null;
+                goalTile3 = null;
             }
             case 1 -> {
                 goalTile1 = goalTiles.get(0);
-                goalTile2=null;
-                goalTile3=null;
+                goalTile2 = null;
+                goalTile3 = null;
             }
             case 2 -> {
                 goalTile1 = goalTiles.get(0);
                 goalTile2 = goalTiles.get(1);
-                goalTile3=null;
+                goalTile3 = null;
             }
             case 3 -> {
                 goalTile1 = goalTiles.get(0);
@@ -251,9 +351,9 @@ public class TextualUI extends UI {
                 goalTile3 = goalTiles.get(2);
             }
             default -> {
-                goalTile1=null;
-                goalTile2=null;
-                goalTile3=null;
+                goalTile1 = null;
+                goalTile2 = null;
+                goalTile3 = null;
                 System.err.println("Error! Player ha less than 0 goal tiles, or more than 3");
             }
         }
@@ -273,9 +373,9 @@ public class TextualUI extends UI {
     //TODO: Si è rivelato necessario aggiungere in TileView un metodo isNull(), per verificare se l'attributo tileModel risultava nullo. Questo può accadere poichè la TileView viene
     //      creata a partire dalla Tile che può essere NULL cosa che non comporta che anche TileView lo sia (Da qui la necessità di questo metodo)
     private void printTilesMatrix(TileView[][] matrix) {
-        for(int i=0;i<matrix.length;i++) {
+        for (int i = 0; i < matrix.length; i++) {
             System.out.print("[ ");
-            for(int j=0;j<matrix[0].length;j++) {
+            for (int j = 0; j < matrix[0].length; j++) {
                 TileView currentTile = matrix[i][j];
                 System.out.print(currentTile.isNull() ? "0 " : currentTile.getColor() + " ");
             }
