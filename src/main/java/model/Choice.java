@@ -1,6 +1,5 @@
 package model;
 
-import model.tile.Tile;
 import model.view.TileView;
 import utils.ObservableType;
 
@@ -8,23 +7,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Choice implements ObservableType {
+
+    public static class Coord {
+        private int x;
+        private int y;
+
+        public Coord(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Coord() {
+            x = 0;
+            y = 0;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+    }
+
     private List<TileView> chosenTiles;
-    private int[] positions;
+    private List<Coord> tileCoords;
+    private int[] tileOrder;
     private int chosenColumn;
 
     public Choice() {
         this.chosenTiles = new ArrayList<>();
-        this.positions = new int[3];
-        for(int i=0;i<this.positions.length;i++) {
-            positions[i]=0;
+        this.tileOrder = new int[3];
+        for (int i = 0; i < this.tileOrder.length; i++) {
+            tileOrder[i] = 0;
         }
         this.chosenColumn = 0;
+        tileCoords = new ArrayList<>();
     }
 
-    public Choice(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
+    public Choice(List<TileView> chosenTiles, List<Coord> tileCoords, int[] tileOrder, int chosenColumn) {
         this.chosenTiles = chosenTiles;
-        this.positions = positions;
+        this.tileOrder = tileOrder;
         this.chosenColumn = chosenColumn;
+        this.tileCoords = tileCoords;
+    }
+
+    public List<Coord> getTileCoords() {
+        return tileCoords;
+    }
+
+    public void setTileCoords(List<Coord> tileCoords) {
+        this.tileCoords = tileCoords;
     }
 
     public List<TileView> getChosenTiles() {
@@ -35,12 +77,12 @@ public class Choice implements ObservableType {
         this.chosenTiles = chosenTiles;
     }
 
-    public int[] getPositions() {
-        return positions;
+    public int[] getTileOrder() {
+        return tileOrder;
     }
 
-    public void setPositions(int[] positions) {
-        this.positions = positions;
+    public void setTileOrder(int[] tileOrder) {
+        this.tileOrder = tileOrder;
     }
 
     public int getChosenColumn() {
@@ -54,6 +96,11 @@ public class Choice implements ObservableType {
     public void addTile(TileView tile) {
         this.chosenTiles.add(tile);
     }
+
+    public void addCoords(Coord coord) {
+        this.tileCoords.add(coord);
+    }
+
     @Override
     public Event getEvent() {
         return Event.USER_INPUT;

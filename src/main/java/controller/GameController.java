@@ -33,8 +33,14 @@ public class GameController implements Observer<UI, ObservableType> {
     private void checkIfPickable(int x, int y) {
 
     }
-    private void checkIfInsertable(int column, int numTiles) {
-
+    private boolean checkIfUserInputIsCorrect(Choice choice) {
+        if(choice.getChosenTiles().size()!=choice.getTileOrder().length ) {
+            return false;
+        }
+        if(choice.getChosenColumn()<=0 && choice.getChosenColumn()>model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+            return false;
+        }
+        if(choice.ge)
     }
     private void addTilesToPlayerBookshelf(Choice pChoice) {
         //Togliere le tiles dalla board
@@ -86,7 +92,8 @@ public class GameController implements Observer<UI, ObservableType> {
         } else {
             switch(arg.getEvent()) {
                 case USER_INPUT -> {
-                    Choice temp=(Choice)arg;
+                    Choice choice = (Choice)arg;
+                    checkIfUserInputIsCorrect(choice);
                 }
             }
         }

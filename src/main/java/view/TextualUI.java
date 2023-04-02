@@ -4,9 +4,8 @@ import model.*;
 import model.view.*;
 import utils.ObservableType;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class TextualUI extends UI {
     private GameView model;
@@ -72,6 +71,8 @@ public class TextualUI extends UI {
                     Optional<Integer> prevRow = Optional.empty();
                     Choice playerChoice = new Choice();
 
+
+                    //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
                     do {
                         isInsertCorrect  = false;
                         int row=0;
@@ -107,6 +108,7 @@ public class TextualUI extends UI {
                                 prevColumn = Optional.of(column);
                                 counter++;
                                 playerChoice.addTile(this.model.getBoard().getTiles()[row-1][column-1]);
+                                playerChoice.addCoords(new Choice.Coord(row-1,column-1));
                             } else {
                                 System.out.println("Le tessere selezionate devono formare una linea retta, riprova!");
                             }
@@ -121,6 +123,10 @@ public class TextualUI extends UI {
 
                     } while (!input.equals("NO") && counter < 3);
 
+
+
+
+                    //---------------------------------SCELTA COLONNA---------------------------------
                     showBookshelf(model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf());
 
                     int chosenColumn;
@@ -136,6 +142,30 @@ public class TextualUI extends UI {
                     playerChoice.setChosenColumn(chosenColumn);
 
 
+                    //---------------------------------SCELTA ORDINE---------------------------------
+                    System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza)");
+                    isInsertCorrect = false;
+                    do {
+                        input = s.next();
+                        String[] temp;
+                        temp = input.split(",");
+                        Stream<String> tempStream = Arrays.stream(temp);
+                        if(temp.length == counter && tempStream.anyMatch(elem -> elem.equals("1")) && tempStream.anyMatch(elem -> elem.equals("2")) && tempStream.anyMatch(elem -> elem.equals("3"))) {
+                            int[] chosenPositions = new int[temp.length];
+                            for(int i=0;i< temp.length;i++) {
+                                chosenPositions[i] = Integer.parseInt(temp[i])-1;
+                            }
+                            playerChoice.setTileOrder(chosenPositions);
+                            isInsertCorrect = true;
+                        } else {
+                            System.out.println("Hai inserito un numero di cifre o un loro valore, non coerente con il numero di tessere scelte. Oppure un inserimento che non rispetta" +
+                                    " la formattazione richiesta, riprova!");
+                        }
+                    } while(!isInsertCorrect);
+
+                    //---------------------------------NOTIFICA CONTROLLER---------------------------------
+                    setChanged();
+                    notifyObservers(playerChoice);
 
                 }
                 case "3" -> {
