@@ -14,6 +14,7 @@ import model.tile.Tile;
 import model.tile.TileColor;
 import model.view.GameView;
 import utils.Observable;
+import utils.ObservableType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Collections;
 
 import java.util.stream.Collectors;
 
-public class Game extends Observable<Event> {
+public class Game extends Observable<ObservableType> {
 
     private int numPlayers;
     private int activePlayerIndex;
@@ -50,7 +51,7 @@ public class Game extends Observable<Event> {
         //initialize players
         for (Player player: this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTile(new ArrayList<>(3));
+            //player.setGoalTile(new ArrayList<>(3));
             player.setPersonalGoal(personalGoals.get(0));
             personalGoals.remove(0);
         }
@@ -143,7 +144,10 @@ public class Game extends Observable<Event> {
         Collections.shuffle(this.bag);
 
         List<Tile> drawedTiles = this.bag.subList(0, this.board.needRefill());
-        this.board.addTiles(drawedTiles);
+        if(drawedTiles.size()>0) {
+            this.board.addTiles(drawedTiles);
+        }
+
         drawedTiles.clear();
     }
 
@@ -216,11 +220,11 @@ public class Game extends Observable<Event> {
 
         if(receiver == null) {
             for (Player player: this.players) {
-                player.addMessage(new Message(player.getNickname(), senderNickname, content));
+                //player.addMessage(new Message(player.getNickname(), senderNickname, content));
             }
         } else {
-            sender.addMessage(new Message(receiverNickname, senderNickname, content));
-            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
+            //sender.addMessage(new Message(receiverNickname, senderNickname, content));
+            //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
         }
     }
 
@@ -229,5 +233,16 @@ public class Game extends Observable<Event> {
                         .filter(player -> player.getNickname().equals(nickname))
                         .findFirst()
                         .orElse(null);
+    }
+
+    public void boardModified() {
+        setChangedAndNotifyObservers(Event.REMOVE_TILES_BOARD);
+    }
+    public void bookshelfModified() {
+        setChangedAndNotifyObservers(Event.ADD_TILES_BOOKSHELF);
+    }
+    private void setChangedAndNotifyObservers(ObservableType arg) {
+        setChanged();
+        notifyObservers(arg);
     }
 }

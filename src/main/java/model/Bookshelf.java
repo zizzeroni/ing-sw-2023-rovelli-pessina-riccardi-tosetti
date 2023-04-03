@@ -30,7 +30,7 @@ public class Bookshelf {
     }
 
     public void addTile(Tile tile, int i) {
-        // ...
+        this.tiles[(getNumRows() - 1) - getNumElemColumn(i)][i] = tile;
     }
 
     public int emptyCellsInColumn(int i) {

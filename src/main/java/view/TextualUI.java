@@ -77,12 +77,17 @@ public class TextualUI extends UI {
                         int row = 0, column = 0;
                         while (!isInsertCorrect) {
                             System.out.println("Inserisci la riga della " + (counter + 1) + "° tessera che vuoi prendere:");
-                            row = s.nextInt();
+                            try {
+                                row = s.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Hai inserito un valore non valido, riprova!");
+                                s.next();
+                            }
 
                             if (row <= model.getBoard().getNumRows() && row > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una riga valida (Un numero compreso tra 0 e " + model.getBoard().getNumRows() + "!)");
+                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + model.getBoard().getNumRows() + "!)");
                             }
                         }
 
@@ -90,13 +95,17 @@ public class TextualUI extends UI {
 
                         while (!isInsertCorrect) {
                             System.out.println("Inserisci la colonna della " + (counter + 1) + "° tessera che vuoi prendere:");
-                            column = s.nextInt();
+                            try {
+                                column = s.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Hai inserito un valore non valido, riprova!");
+                                s.next();
+                            }
 
                             if (column <= model.getBoard().getNumColumns() && column > 0) {
                                 isInsertCorrect = true;
-
                             } else {
-                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 0 e " + model.getBoard().getNumColumns() + "!");
+                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + model.getBoard().getNumColumns() + "!");
                             }
                         }
 
@@ -119,17 +128,18 @@ public class TextualUI extends UI {
                                     }
                                 }
                                 case 2 -> {
-                                    if (checkIfInLine(row, column, playerChoice.getTileCoords(), directionToCheck)) {
+                                    if (checkIfInLine(row-1, column-1, playerChoice.getTileCoords(), directionToCheck)) {
                                         counter++;
                                         playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
                                         playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
                                     }
                                 }
+                                default -> {
+                                    System.err.println("ERROR: Unexpected number of chosen tiles, found: " + counter + ", expected value < 3");
+                                }
                             }
-                        } else {
-                            System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
                         }
-                        if (counter > 0) {
+                        while (counter > 0 && counter!=3 && (!input.equals("NO") && !input.equals("SI"))) {
                             System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                             input = s.next();
                         }
@@ -139,17 +149,24 @@ public class TextualUI extends UI {
                     //---------------------------------SCELTA COLONNA---------------------------------
                     showBookshelf(model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf());
 
-                    int chosenColumn;
+                    int chosenColumn=0;
                     do {
                         System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
-                        chosenColumn = s.nextInt();
-                        if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns()) {
-                            System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                                    " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumColumns() + "!");
+                        try {
+                            chosenColumn = s.nextInt();
+
+                            if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+                                System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
+                                        " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumColumns() + "!");
+                            }
+                        } catch (InputMismatchException ignored) {
+                            System.out.println("Non hai inserito un valore valido, riprova!");
                         }
+
+
                     } while (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns());
 
-                    playerChoice.setChosenColumn(chosenColumn);
+                    playerChoice.setChosenColumn(chosenColumn - 1);
 
 
                     //---------------------------------SCELTA ORDINE---------------------------------
@@ -217,6 +234,9 @@ public class TextualUI extends UI {
                 case "3" -> {
                     System.out.println("Invio messaggio");
                 }
+                default -> {
+                    System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");
+                }
             }
         }
     }
@@ -282,13 +302,19 @@ public class TextualUI extends UI {
         BoardView board = model.getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if ((!boardMatrix[row][column].isNull()) && (
-                (row != 0 && boardMatrix[row - 1][column].isNull()) ||
-                        (row != board.getNumRows() && boardMatrix[row + 1][column].isNull()) ||
+        if (!boardMatrix[row][column].isNull()) {
+            if ((row != 0 && boardMatrix[row - 1][column].isNull()) ||
+                    (row != board.getNumRows() && boardMatrix[row + 1][column].isNull()) ||
                         (column != board.getNumColumns() && boardMatrix[row][column + 1].isNull()) ||
-                        (column != 0 && boardMatrix[row][column - 1].isNull()))) {
-            return true;
+                            (column != 0 && boardMatrix[row][column - 1].isNull())) {
+                return true;
+            } else {
+                System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
+            }
+        } else {
+            System.out.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
         }
+
         return false;
     }
 
@@ -385,9 +411,19 @@ public class TextualUI extends UI {
 
     @Override
     public void update(GameView o, ObservableType arg) {
-
+        switch (arg.getEvent()) {
+            case REMOVE_TILES_BOARD,ADD_TILES_BOOKSHELF -> {
+                updateModel(o);
+            }
+            default -> {
+                System.err.println("Ignoring event from " + o + ": " + arg);
+            }
+        }
     }
 
+    private void updateModel(GameView model) {
+        this.model = model;
+    }
     /*
     @Override
     public void run() {

@@ -18,8 +18,11 @@ public class GameView extends Observable<ObservableType> implements Observer<Gam
     private final Game gameModel;
 
     public GameView(Game gameModel) {
+        if (gameModel == null) {
+            throw new IllegalArgumentException();
+        }
         this.gameModel = gameModel;
-        //model.addObserver(this);
+        gameModel.addObserver(this);
     }
 
     public int getNumPlayers() {
@@ -55,6 +58,7 @@ public class GameView extends Observable<ObservableType> implements Observer<Gam
 
     @Override
     public void update(Game o, ObservableType arg) {
-
+        setChanged();
+        notifyObservers(arg);
     }
 }

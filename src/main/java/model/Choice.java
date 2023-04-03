@@ -37,6 +37,10 @@ public class Choice implements ObservableType {
         public void setY(int y) {
             this.y = y;
         }
+
+        public boolean equals(Coord obj) {
+            return obj.getX()==this.getX() && obj.getY()==this.getY();
+        }
     }
 
     private List<TileView> chosenTiles;
