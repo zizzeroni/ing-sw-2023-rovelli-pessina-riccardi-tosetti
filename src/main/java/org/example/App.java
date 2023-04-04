@@ -79,20 +79,20 @@ public class App
         players.add(new Player("Francesco", true, personalGoals.get(2), new ArrayList<ScoreTile>(), new Bookshelf()));
         players.add(new Player("Luca", true, personalGoals.get(3), new ArrayList<ScoreTile>(), new Bookshelf()));
 
-        Game model = new Game(numPlayers, players, personalGoals);
-        Tile[][] temp = {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, null, null},
-                {null, null, null, new Tile(TileColor.BLUE), new Tile(TileColor.WHITE), new Tile(TileColor.PURPLE), null, null, null},
-                {null, null, new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.WHITE), null},
-                {null, new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
-                {null, new Tile(TileColor.PURPLE), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.YELLOW), null, null},
-                {null, null, null, new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.YELLOW), null, null, null},
-                {null, null, null, null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-        };
-        Board board = new Board("",29,temp);
-        model.setBoard(board);
+        int[][] temp = {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 1, 1, 1, 1, 1, 1, 1, 0},
+                {0, 1, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+        
+        JsonBoardPattern board = new JsonBoardPattern(numPlayers,temp);
+        Game model = new Game(numPlayers, players, personalGoals,board);
+
         GameView modelView = new GameView(model);
         UI view = new TextualUI(modelView);
         GameController controller = new GameController(model, view);

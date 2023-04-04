@@ -140,10 +140,12 @@ public class TextualUI extends UI {
                             }
                         }
                         if (counter > 0 && counter!=3) {
-                            System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
-                            input = s.next();
+                            while(!input.equalsIgnoreCase("SI") && ! input.equalsIgnoreCase("NO")) {
+                                System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
+                                input = s.next();
+                            }
                         }
-                    } while (!input.equals("NO") && counter < 3);
+                    } while (!input.equalsIgnoreCase("NO") && counter < 3);
 
 
                     //---------------------------------SCELTA COLONNA---------------------------------
