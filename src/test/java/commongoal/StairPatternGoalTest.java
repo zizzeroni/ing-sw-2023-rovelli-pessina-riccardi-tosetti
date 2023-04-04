@@ -2,7 +2,6 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.FiveXShapePatternGoal;
 import model.commongoal.StairPatternGoal;
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -34,7 +33,7 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, sp.goalPattern(b));
+        assertEquals(0, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -50,7 +49,7 @@ public class StairPatternGoalTest {
                 {null, null, null, null, null}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, sp.goalPattern(b));
+        assertEquals(0, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -67,7 +66,7 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -84,7 +83,7 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -101,6 +100,6 @@ public class StairPatternGoalTest {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 }

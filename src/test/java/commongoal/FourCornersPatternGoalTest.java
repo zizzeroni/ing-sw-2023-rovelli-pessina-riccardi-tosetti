@@ -2,7 +2,6 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.EightShaplessPatternGoal;
 import model.commongoal.FourCornersPatternGoal;
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -35,7 +34,7 @@ public class FourCornersPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -51,7 +50,7 @@ public class FourCornersPatternGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -67,7 +66,7 @@ public class FourCornersPatternGoalTest {
                 {null, null, null, null, null}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -83,7 +82,7 @@ public class FourCornersPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -99,6 +98,6 @@ public class FourCornersPatternGoalTest {
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 }

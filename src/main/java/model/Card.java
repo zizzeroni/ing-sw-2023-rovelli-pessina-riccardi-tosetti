@@ -11,7 +11,7 @@ public abstract class Card {
         this.imageID = imageID;
     }
 
-    public abstract int goalPattern(Bookshelf b);
+    public abstract int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf);
 
     public int getImageID() {
         return this.imageID;

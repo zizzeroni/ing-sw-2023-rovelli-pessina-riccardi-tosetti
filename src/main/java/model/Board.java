@@ -1,124 +1,80 @@
 package model;
 
+import java.util.List;
 import model.tile.Tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Board {
-    private int maxNumTiles;
+    private int numberOfUsableTiles;
 
-    private final int numColumns = 9;
+    private final int numberOfColumns = 9;
 
-    private final int numRows = 9;
+    private final int numberOfRows = 9;
 
-    private Tile [][] tiles;
+    private Tile[][] tiles;
 
     public Board() {
-        this.maxNumTiles = 0;
-        this.tiles = new Tile[this.numRows][this.numColumns];
-        for(int i = 0; i < this.numRows; i++)
-            for (int j = 0; j < this.numColumns; j++)
-                this.tiles[i][j] = null;
+        this.numberOfUsableTiles = 0;
+        this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
+        for(int i = 0; i < this.numberOfRows; i++)
+            for (int j = 0; j < this.numberOfColumns; j++)
+                this.tiles[i][j] = new Tile();
     }
-    public Board(int numPlayer){
-        this.tiles = new Tile[this.numRows][this.numColumns];
-        switch (numPlayer) {
-            case 2: this.maxNumTiles = 29;
-                break;
-            case 3: this.maxNumTiles = 37;
-                break;
-            case 4: this.maxNumTiles = 45;
-                break;
+    public Board(JsonBoardPattern jsonBoardPattern){
+        this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
+        this.numberOfUsableTiles = 0;
 
+        int[][] pattern = jsonBoardPattern.pattern();
+
+        for(int i = 0; i < pattern.length; i++){
+            for(int j = 0; j < pattern[0].length; j++) {
+                System.out.print(pattern[i][j] + " ");
+                if(pattern[i][j] == 1) {
+                    this.numberOfUsableTiles++;
+                } else {
+                    //set non-usable tiles as tiles without color
+                    this.tiles[i][j] = new Tile();
+                }
+            }
+            System.out.println(" ");
         }
-        switch(numPlayer) {
-            case 4:
-                tiles[0][4] = new Tile();
-                tiles[1][5] = new Tile();
-                tiles[3][1] = new Tile();
-                tiles[4][0] = new Tile();
-                tiles[4][8] = new Tile();
-                tiles[5][7] = new Tile();
-                tiles[7][3] = new Tile();
-                tiles[8][4] = new Tile();
-            case 3:
-                tiles[0][3] = new Tile();
-                tiles[2][2] = new Tile();
-                tiles[2][6] = new Tile();
-                tiles[5][0] = new Tile();
-                tiles[6][2] = new Tile();
-                tiles[6][6] = new Tile();
-                tiles[8][5] = new Tile();
-            case 2:
-                tiles[1][3] = new Tile();
-                tiles[1][4] = new Tile();
-                tiles[2][3] = new Tile();
-                tiles[2][4] = new Tile();
-                tiles[2][5] = new Tile();
-                tiles[3][2] = new Tile();
-                tiles[3][3] = new Tile();
-                tiles[3][4] = new Tile();
-                tiles[3][5] = new Tile();
-                tiles[3][6] = new Tile();
-                tiles[4][1] = new Tile();
-                tiles[4][2] = new Tile();
-                tiles[4][3] = new Tile();
-                tiles[4][4] = new Tile();
-                tiles[4][5] = new Tile();
-                tiles[4][6] = new Tile();
-                tiles[4][7] = new Tile();
-                tiles[5][2] = new Tile();
-                tiles[5][3] = new Tile();
-                tiles[5][4] = new Tile();
-                tiles[5][5] = new Tile();
-                tiles[5][6] = new Tile();
-                tiles[6][3] = new Tile();
-                tiles[6][4] = new Tile();
-                tiles[6][5] = new Tile();
-                tiles[7][4] = new Tile();
-                tiles[7][5] = new Tile();
-                break;
-            default:
-                break;
+        for(int i = 0; i < pattern.length; i++){
+            for(int j = 0; j < pattern[0].length; j++) {
+                System.out.print(this.tiles[i][j] + " ");
+            }
+            System.out.println(" ");
         }
+        System.out.println(" ");
     }
-    public Board(String image, int maxNumTiles, Tile[][] tiles) {
-        this.maxNumTiles = maxNumTiles;
+
+    public Board(int numberOfUsableTiles, Tile[][] tiles) {
+        this.numberOfUsableTiles = numberOfUsableTiles;
         this.tiles = tiles;
     }
-// da integrare con json
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    public void addTiles(ArrayList<Tile> tilesSet) {
-=======
-    public void addTiles(List<Tile> tiles) {
->>>>>>> Stashed changes
-=======
-    public void addTiles(List<Tile> tilesSet) {
->>>>>>> 0517853775e1702ee3121ae25f009405811711eb
-        for (int i = 0; i < this.numRows; i++) {
-            for (int j = 0; j < this.numColumns; j++) {
+
+    public void addTiles(List<Tile> tilesToAdd) {
+        for (int i = 0; i < this.numberOfRows; i++) {
+            for (int j = 0; j < this.numberOfColumns; j++) {
                 if (this.tiles[i][j] == null) {
-                    this.tiles[i][j] = tiles.get(i);
+                    this.tiles[i][j] = tilesToAdd.remove(0);
                 }
             }
         }
     }
-    public int needRefill() { //numero tiles che richiedono refill o indice tile che need refill ?
-
-        int counter = 0;
-        for (int i = 0; i < this.numRows; i++) {
-            for (int j = 0; j < this.numColumns; j++){
-                if(this.tiles[i][j] != null && (this.tiles[i][j+1] != null || this.tiles[i+1][j] != null)) {
-                    return 0;
-                }
-                if(this.tiles[i][j] != null){
-                    counter++;
+    public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
+        int usableTilesStillAvailable = 0;
+        for (int i = 0; i < this.numberOfRows; i++) {
+            for (int j = 0; j < this.numberOfColumns; j++){
+                //if the current tile and one of his neighbours (right or bottom) are not null, then there is no need to refill
+                if(this.tiles[i][j] != null && this.tiles[i][j].getColor() != null) {
+                    if((this.tiles[i][j+1] != null && this.tiles[i][j+1].getColor() != null) || (this.tiles[i+1][j] != null && this.tiles[i+1][j].getColor() != null)){
+                        return 0;
+                    }
+                    //we keep the count of the number of tiles that are not null
+                    usableTilesStillAvailable++;
                 }
             }
         }
-        return this.maxNumTiles - counter;
+        return this.numberOfUsableTiles - usableTilesStillAvailable;
     }
     public void removeTiles(Tile[] tilesToRemove, int[] positions) {
         int i = 0;
@@ -127,11 +83,11 @@ public class Board {
             i += 2;
         }
     }
-    public int getMaxNumTiles() {
-        return this.maxNumTiles;
+    public int getNumberOfUsableTiles() {
+        return this.numberOfUsableTiles;
     }
-    public void setMaxNumTiles(int maxNumTiles) {
-        this.maxNumTiles = maxNumTiles;
+    public void setNumberOfUsableTiles(int numberOfUsableTiles) {
+        this.numberOfUsableTiles = numberOfUsableTiles;
     }
     public Tile[][] getTiles() {
         return this.tiles;

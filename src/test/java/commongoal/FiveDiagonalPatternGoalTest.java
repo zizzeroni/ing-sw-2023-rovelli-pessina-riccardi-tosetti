@@ -2,7 +2,6 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.FiveDiagonalPatternGoal;
 import model.tile.Tile;
 import model.tile.TileColor;
 import org.junit.jupiter.api.BeforeEach;

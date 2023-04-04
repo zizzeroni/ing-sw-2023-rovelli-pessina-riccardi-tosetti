@@ -2,7 +2,6 @@ package model;
 
 import model.tile.Tile;
 import model.tile.TileColor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -190,7 +189,7 @@ public <T> List<T> twoDArrayToList(T[][] twoDArray) { /* correggere */
 
         board.addTiles(tilesList);  //init board, init array ?? Element[] array = {new Element(1), new Element(2), new Element(3)};
 
-        assertEquals(76,board.needRefill()); // num tile che richiede refill 81 - 5 ?
+        assertEquals(76,board.numberOfTilesToRefill()); // num tile che richiede refill 81 - 5 ?
 
     }
 }

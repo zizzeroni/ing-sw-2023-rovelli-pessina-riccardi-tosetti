@@ -1,7 +1,6 @@
 package model.commongoal;
 
 import model.Bookshelf;
-import model.tile.GoalTile;
 import model.tile.TileColor;
 
 import java.util.*;
@@ -24,8 +23,8 @@ public class MinEqualsTilesPattern extends CommonGoal{
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type, scoreTiles);
+    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
+        super(imageID, patternRepetition, type, numberOfPlayers);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
@@ -47,24 +46,24 @@ public class MinEqualsTilesPattern extends CommonGoal{
     }
 
     @Override
-    public int goalPattern(Bookshelf b) {
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         List<TileColor> recentTiles = new ArrayList<TileColor>();
         int patternAppearances=0;
         int cAppearances=0;
         switch (this.direction) {
             case HORIZONTAL -> {
-                for (int i = 0; i < b.getNumRows(); i++) {
-                    if (!b.isRowFull(i)) {
+                for (int i = 0; i < bookshelf.getNumRows(); i++) {
+                    if (!bookshelf.isRowFull(i)) {
                         continue;
                     }
-                    for (int j = 0; j < b.getNumColumns(); j++) {
-                        recentTiles.add(b.getSingleTile(i, j).getColor());
+                    for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+                        recentTiles.add(bookshelf.getSingleTile(i, j).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(b.getNumColumns() - recentTiles.size(), this.getType())) {
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumColumns() - recentTiles.size(), this.getType())) {
                             cAppearances++;
                         }
                     } catch (Exception e) {
@@ -75,18 +74,18 @@ public class MinEqualsTilesPattern extends CommonGoal{
                 }
             }
             case VERTICAL -> {
-                for (int i = 0; i < b.getNumColumns(); i++) {
-                    if (!b.isColumnFull(i)) {
+                for (int i = 0; i < bookshelf.getNumColumns(); i++) {
+                    if (!bookshelf.isColumnFull(i)) {
                         continue;
                     }
-                    for (int j = 0; j < b.getNumRows(); j++) {
-                        recentTiles.add(b.getSingleTile(j, i).getColor());
+                    for (int j = 0; j < bookshelf.getNumRows(); j++) {
+                        recentTiles.add(bookshelf.getSingleTile(j, i).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(b.getNumRows() - recentTiles.size(), this.getType())) {
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumRows() - recentTiles.size(), this.getType())) {
                             cAppearances++;
                         }
                     } catch (Exception e) {
@@ -104,7 +103,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
                 }
             }
         }
-        patternAppearances = cAppearances / this.getPatternRepetition();
+        patternAppearances = cAppearances / this.getNumberOfPatternRepetitionsRequired();
         return patternAppearances;
     }
 

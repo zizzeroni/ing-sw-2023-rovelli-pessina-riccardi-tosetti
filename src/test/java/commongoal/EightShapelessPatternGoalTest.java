@@ -2,9 +2,7 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.Direction;
 import model.commongoal.EightShaplessPatternGoal;
-import model.commongoal.MinEqualsTilesPattern;
 import model.tile.Tile;
 import model.tile.TileColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +35,7 @@ public class EightShapelessPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -53,7 +51,7 @@ public class EightShapelessPatternGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -69,7 +67,7 @@ public class EightShapelessPatternGoalTest {
                 {null, null, null, null, null}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -85,7 +83,7 @@ public class EightShapelessPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, cg.goalPattern(b));
+        assertEquals(1, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
@@ -101,19 +99,13 @@ public class EightShapelessPatternGoalTest {
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, cg.goalPattern(b));
+        assertEquals(0, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
-<<<<<<< Updated upstream
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches three times on a bookshelf containing three different groups of eight or more tiles equals to each others")
     public void givenBookshelfWithThreeDifferentGroupsOfEightOrMoreTilesEqualsToEachOther_whenSearchingEightTilesEqualsToEachOther_returnThree() {
         cg = new EightShaplessPatternGoal(0,1, CheckType.EQUALS);
-=======
-    @DisplayName("Test with a bookshelf with 3 groups of 8 (or more) tiles equals to each other")
-    public void DoubleGoalBookshelf() {
-        cg = new EightShaplessPatternGoal("",1, CheckType.EQUALS);
->>>>>>> Stashed changes
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
@@ -123,6 +115,6 @@ public class EightShapelessPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(3, cg.goalPattern(b));
+        assertEquals(3, cg.numberOfPatternRepetitionInBookshelf(b));
     }
 }
