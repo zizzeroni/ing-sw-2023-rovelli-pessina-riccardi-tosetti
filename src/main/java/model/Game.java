@@ -4,6 +4,9 @@ import model.commongoal.*;
 
 import model.tile.Tile;
 import model.tile.TileColor;
+import model.view.GameView;
+import utils.Observable;
+import utils.ObservableType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.Collections;
 
 import java.util.stream.Collectors;
 
-public class Game {
+public class Game extends Observable<ObservableType> {
 
     private int numPlayers;
     private int activePlayerIndex;
@@ -214,11 +217,11 @@ public class Game {
 
         if(receiver == null) {
             for (Player player: this.players) {
-//                player.addMessage(new Message(player.getNickname(), senderNickname, content));
+                //player.addMessage(new Message(player.getNickname(), senderNickname, content));
             }
         } else {
-//            sender.addMessage(new Message(receiverNickname, senderNickname, content));
-//            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
+            //sender.addMessage(new Message(receiverNickname, senderNickname, content));
+            //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
         }
     }
 
@@ -227,5 +230,16 @@ public class Game {
                         .filter(player -> player.getNickname().equals(nickname))
                         .findFirst()
                         .orElse(null);
+    }
+
+    public void boardModified() {
+        setChangedAndNotifyObservers(Event.REMOVE_TILES_BOARD);
+    }
+    public void bookshelfModified() {
+        setChangedAndNotifyObservers(Event.ADD_TILES_BOOKSHELF);
+    }
+    private void setChangedAndNotifyObservers(ObservableType arg) {
+        setChanged();
+        notifyObservers(arg);
     }
 }

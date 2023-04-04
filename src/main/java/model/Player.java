@@ -12,7 +12,6 @@ public class Player {
     private String nickname;
     //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
     private boolean connected;
-    private Game game;
     private PersonalGoal personalGoal; //The single goal of the player
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
