@@ -3,71 +3,68 @@ package model.commongoal;
 import model.Card;
 import model.tile.ScoreTile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class CommonGoal extends Card {
-    private final int scoreTilesNumber = 3;
-    private int patternRepetition;
+    private int numberOfPatternRepetitionsRequired;
     private CheckType type;
-    private ScoreTile[] scoreTiles;
+    private List<ScoreTile> scoreTiles;
 
     public CommonGoal() {
         super();
-        this.type=null;
-        this.scoreTiles=null;
-        this.patternRepetition=0;
+        this.type = null;
+        this.scoreTiles = null;
+        this.numberOfPatternRepetitionsRequired = 0;
     }
-    public CommonGoal(int imageID, int patternRepetition, CheckType type) {
+    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type) {
         super(imageID);
-        this.patternRepetition = patternRepetition;
+        this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
-        this.scoreTiles = new ScoreTile[]{new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)};
+        this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
     }
-    public CommonGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
+    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(imageID);
-        this.patternRepetition = patternRepetition;
+        this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
         this.initScoreTiles(numberOfPlayers);
     }
 
-
-
-    public ScoreTile[] getScoreTiles() {
+    public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
 
-    public void setScoreTiles(ScoreTile[] scoreTiles) {
+    public void setScoreTiles(List<ScoreTile> scoreTiles) {
         this.scoreTiles = scoreTiles;
     }
 
-    public int getPatternRepetition() {
-        return this.patternRepetition;
+    public int getNumberOfPatternRepetitionsRequired() {
+        return this.numberOfPatternRepetitionsRequired;
     }
 
     public CheckType getType() {
         return type;
     }
 
-    public void setPatternRepetition(int patternRepetition) {
-        this.patternRepetition = patternRepetition;
+    public void setNumberOfPatternRepetitionsRequired(int numberOfPatternRepetitionsRequired) {
+        this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
     }
 
     public void setType(CheckType type) {
         this.type = type;
     }
 
-    public int getScoreTilesNumber() {
-        return scoreTilesNumber;
-    }
-
     private void initScoreTiles(int numberOfPlayers) {
         switch(numberOfPlayers) {
             case 2 -> {
-                this.scoreTiles = new ScoreTile[]{new ScoreTile(8),new ScoreTile(4)};
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8),new ScoreTile(4)));
             }
             case 3 -> {
-                this.scoreTiles = new ScoreTile[]{new ScoreTile(8),new ScoreTile(6),new ScoreTile(4)};
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8),new ScoreTile(6),new ScoreTile(4)));
             }
             case 4 -> {
-                this.scoreTiles = new ScoreTile[]{new ScoreTile(8),new ScoreTile(6),new ScoreTile(4),new ScoreTile(2)};
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));p
             }
             default -> {
                 this.scoreTiles = null;

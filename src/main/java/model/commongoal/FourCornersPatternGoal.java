@@ -16,12 +16,12 @@ public class FourCornersPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type, numberOfPlayers);
     }
 
-    public int goalPattern(Bookshelf b) {
-        return (b.getSingleTile(0,0)!=null && b.getSingleTile(0,b.getNumColumns()-1)!=null
-                    && b.getSingleTile(b.getNumRows()-1,0)!=null && b.getSingleTile(b.getNumRows()-1,b.getNumColumns()-1)!=null)
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
+        return (bookshelf.getSingleTile(0,0)!=null && bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1)!=null
+                    && bookshelf.getSingleTile(bookshelf.getNumRows()-1,0)!=null && bookshelf.getSingleTile(bookshelf.getNumRows()-1, bookshelf.getNumColumns()-1)!=null)
 
-                        && (b.getSingleTile(0,0).getColor().equals(b.getSingleTile(0,b.getNumColumns()-1).getColor())
-                            && b.getSingleTile(0,b.getNumColumns()-1).getColor().equals(b.getSingleTile(b.getNumRows()-1,0).getColor())
-                                && b.getSingleTile(b.getNumRows()-1,0).getColor().equals(b.getSingleTile(b.getNumRows()-1,b.getNumColumns()-1).getColor())) ? 1 : 0;
+                        && (bookshelf.getSingleTile(0,0).getColor().equals(bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1).getColor())
+                            && bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumRows()-1,0).getColor())
+                                && bookshelf.getSingleTile(bookshelf.getNumRows()-1,0).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumRows()-1, bookshelf.getNumColumns()-1).getColor())) ? 1 : 0;
     }
 }

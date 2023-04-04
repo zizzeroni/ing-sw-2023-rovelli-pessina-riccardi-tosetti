@@ -7,7 +7,6 @@ public class PersonalGoal extends Card {
     private final int numRows = 6;
     private Tile[][] pattern;
 
-
     public PersonalGoal() {
         super();
         this.pattern = new Tile[this.numRows][this.numColumns];
@@ -44,11 +43,11 @@ public class PersonalGoal extends Card {
     }
 
     @Override
-    public int goalPattern(Bookshelf b) {
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int counter=0;
         for(int i=0;i<this.numRows;i++) {
             for(int j=0;j<this.numColumns;j++) {
-                if(this.pattern[i][j] != null && b.getSingleTile(i, j) != null && b.getSingleTile(i, j).getColor().equals(this.pattern[i][j].getColor())) {
+                if(this.pattern[i][j] != null && bookshelf.getSingleTile(i, j) != null && bookshelf.getSingleTile(i, j).getColor().equals(this.pattern[i][j].getColor())) {
                     counter++;
                 }
             }
@@ -57,7 +56,7 @@ public class PersonalGoal extends Card {
     }
 
     public int score(Bookshelf b){
-        switch (this.goalPattern(b)){
+        switch (this.numberOfPatternRepetitionInBookshelf(b)){
             case 0 -> {
                 return 0;
             }

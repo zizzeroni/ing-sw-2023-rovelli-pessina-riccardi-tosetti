@@ -1,14 +1,6 @@
 package model;
 
-import controller.GameController;
-import model.commongoal.CommonGoal;
-import model.commongoal.EightShaplessPatternGoal;
-import model.commongoal.FiveXShapePatternGoal;
-import model.commongoal.MinEqualsTilesPattern;
-import model.commongoal.StairPatternGoal;
-import model.commongoal.GoalPattern_1_3_4;
-import model.commongoal.FiveDiagonalPatternGoal;
-import model.commongoal.FourCornersPatternGoal;
+import model.commongoal.*;
 
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -33,13 +25,13 @@ public class Game extends Observable<ObservableType> {
     private List<CommonGoal> commonGoals;
     private final Random randomizer = new Random();
 
-    public Game(int numPlayers, List<Player> players, List<PersonalGoal> personalGoals) {
+    public Game(int numPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.players = players;
-        this.board = new Board();
         this.activePlayerIndex = 0;
+        this.board = new Board(boardPattern);
         this.numPlayers = numPlayers;
-        this.bag = new ArrayList<Tile>(132);
-        this.commonGoals = new ArrayList<CommonGoal>(2);
+        this.bag = new ArrayList<>(132);
+        this.commonGoals = new ArrayList<>(2);
 
         //initialize bag and shuffle items
         for (int i = 0; i < 132; i++){
@@ -51,9 +43,8 @@ public class Game extends Observable<ObservableType> {
         //initialize players
         for (Player player: this.players) {
             player.setBookshelf(new Bookshelf());
-            //player.setGoalTile(new ArrayList<>(3));
-            player.setPersonalGoal(personalGoals.get(0));
-            personalGoals.remove(0);
+            player.setGoalTiles(new ArrayList<>(3));
+            player.setPersonalGoal(personalGoals.remove(0));
         }
 
         //initialize common goals
@@ -71,7 +62,6 @@ public class Game extends Observable<ObservableType> {
 
         this.refillBoard();
     }
-
     public Game(int numPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numPlayers = numPlayers;
         this.activePlayerIndex = activePlayerIndex;
@@ -127,7 +117,7 @@ public class Game extends Observable<ObservableType> {
     public void changeTurn() {
 
         //if board needs to be refilled, remove tiles from the bag and add them to the board
-        if(this.board.needRefill() != 0) {
+        if(this.board.numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
 
@@ -143,12 +133,9 @@ public class Game extends Observable<ObservableType> {
     private void refillBoard(){
         Collections.shuffle(this.bag);
 
-        List<Tile> drawedTiles = this.bag.subList(0, this.board.needRefill());
-        if(drawedTiles.size()>0) {
-            this.board.addTiles(drawedTiles);
-        }
-
-        drawedTiles.clear();
+        List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());
+        this.board.addTiles(drawnTiles);
+        drawnTiles.clear();
     }
 
     private void updatePlayerScore(Player player){
@@ -171,37 +158,47 @@ public class Game extends Observable<ObservableType> {
                 return new EightShaplessPatternGoal();
             }
             case 1 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
             }
             case 2 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
             }
             case 3 -> {
-                return new EightShaplessPatternGoal();
-                // return new FiveXShapePatternGoal();
+                return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 0, 1},
+                    {0, 1, 0},
+                    {1, 0, 1},
+                });
             }
             case 4 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
             }
             case 5 -> {
-                return new EightShaplessPatternGoal();
-                // return new StairPatternGoal();
+                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT);
             }
             case 6 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);
             }
             case 7 -> {
-                return new EightShaplessPatternGoal();
-                // return new FiveDiagonalPatternGoal();
+                return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 0, 0, 0, 0},
+                    {0, 1, 0, 0, 0},
+                    {0, 0, 1, 0, 0},
+                    {0, 0, 0, 1, 0},
+                    {0, 0, 0, 0, 1},
+                });
             }
             case 8 -> {
-                return new GoalPattern_1_3_4();
+                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, 2);
             }
             case 9 -> {
-                return new GoalPattern_1_3_4();
+                return new TilesInPositionsPatternGoal(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 1},
+                    {1, 1},
+                });
             }
             case 10 -> {
-                return new GoalPattern_1_3_4();
+                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, 4);
             }
             case 11 -> {
                 return new FourCornersPatternGoal();

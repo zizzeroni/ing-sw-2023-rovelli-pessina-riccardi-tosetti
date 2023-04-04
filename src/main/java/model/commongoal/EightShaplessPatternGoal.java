@@ -24,8 +24,8 @@ public class EightShaplessPatternGoal extends CommonGoal {
     }
 
     @Override
-    public int goalPattern(Bookshelf b) {
-        return Math.toIntExact(Arrays.stream(b.getTiles())                              //Trasforma la bookshelf in uno Stream di ARRAY di tiles
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
+        return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                              //Trasforma la bookshelf in uno Stream di ARRAY di tiles
                 .flatMap(Arrays::stream)                                                //Trasforma la Stream di ARRAY di tiles, in una Stream di SOLI tiles
                 .filter(Objects::nonNull)                                               //Filtro togliendo tutti gli elementi pari a NULL (che non posso successivamente raggr.)
                 .collect(groupingBy(Tile::getColor, Collectors.counting()))             //Raggruppo le tile con "groupingBy" in una Map<TileColor, numOccorrenze> , dove uso la chiave TileColor specificando "Tile::GetColor", mentre per i valori il metodo "counting()"

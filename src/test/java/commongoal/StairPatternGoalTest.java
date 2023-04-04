@@ -2,7 +2,6 @@ package commongoal;
 
 import model.Bookshelf;
 import model.commongoal.CheckType;
-import model.commongoal.FiveXShapePatternGoal;
 import model.commongoal.StairPatternGoal;
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -21,10 +20,9 @@ public class StairPatternGoalTest {
         sp = null;
         b = null;
     }
-
     @Test
-    @DisplayName("Test with generic bookshelf")
-    public void GenericBookshelf() {
+    @DisplayName("Test that the commonGoal with stair on columns in a bookshelf full of tiles matches zero times")
+    public void GivenGenericBookshelf_whenSearchingTheStairPattern_thenReturnZero() {
         sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -35,12 +33,12 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         b = new Bookshelf("", temp);
 
-        assertEquals(0, sp.goalPattern(b));
+        assertEquals(0, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
-    @DisplayName("Test with bookshelf with all items = null")
-    public void NullBookshelf() {
+    @DisplayName("Test that the commonGoal with stair on columns matches zero times on a bookshelf completely filled with nulls")
+    public void GivenFullOfNullsBookshelf_whenSearchingTheStairPattern_thenReturnZero() {
         sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
@@ -51,12 +49,13 @@ public class StairPatternGoalTest {
                 {null, null, null, null, null}};
         b=new Bookshelf("",temp);
 
-        assertEquals(0, sp.goalPattern(b));
+        assertEquals(0, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 1 to 5")
-    public void FromOneToFive() {
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with one element on the first column, two on the second, three on the third" +
+            " four on the fourth and five in the fifth")
+    public void GivenStairBookshelfFromLeftToRightStartByOne_whenSearchingTheStairPattern_thenReturnOne() {
         sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
@@ -67,12 +66,13 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 5 to 1")
-    public void FromFiveToOne() {
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with five element on the first column, four on the second, three on the third" +
+            " two on the fourth and one in the fifth")
+    public void GivenStairBookshelfFromRightToLeftStartByOne_whenSearchingTheStairPattern_thenReturnOne() {
         sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
@@ -83,12 +83,13 @@ public class StairPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 
     @Test
-    @DisplayName("Test with bookshelf with the stair start from 0 to 4")
-    public void FromZeroToFour() {
+    @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with zero element on the first column, one on the second, two on the third" +
+            " three on the fourth and four in the fifth")
+    public void GivenStairBookshelfFromLeftToRightStartByZero_whenSearchingTheStairPattern_thenReturnOne() {
         sp = new StairPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
@@ -99,6 +100,6 @@ public class StairPatternGoalTest {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         b=new Bookshelf("",temp);
 
-        assertEquals(1, sp.goalPattern(b));
+        assertEquals(1, sp.numberOfPatternRepetitionInBookshelf(b));
     }
 }

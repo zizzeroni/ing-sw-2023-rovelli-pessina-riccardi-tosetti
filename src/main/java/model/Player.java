@@ -2,8 +2,6 @@ package model;
 
 import model.tile.ScoreTile;
 import model.tile.Tile;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,29 @@ public class Player {
     private Bookshelf bookshelf; //The bookshelf of the player
 
     //Constructor
-    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
+    public Player(String nickname, boolean connected) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.personalGoal = null;
+        this.scoreTiles = null;
+        this.bookshelf = null;
+    }
+    public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.scoreTiles = scoreTiles;
+        this.personalGoal = null;
+        this.bookshelf = null;
+    }
+    public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.scoreTiles = scoreTiles;
+        this.personalGoal = null;
+        this.bookshelf = bookshelf;
+    }
+
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = personalGoal;

@@ -2,8 +2,6 @@ package model;
 
 import model.tile.Tile;
 
-import java.awt.print.Book;
-
 public class Bookshelf {
     private final int numColumns = 5;
     private final int numRows = 6;
@@ -15,9 +13,9 @@ public class Bookshelf {
     public Bookshelf() {
         image = null;
         tiles = new Tile[numRows][numColumns];
-        for (int i = 0; i < numColumns; i++)
-            for (int j = 0; j < numRows; j++)
-                tiles[j][i] = null;
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numColumns; j++)
+                tiles[i][j] = null;
     }
 
     public boolean isFull() {
@@ -67,7 +65,7 @@ public class Bookshelf {
         return numColumns;
     }
 
-    public int getNumElemColumn(int c){
+    public int getNumberOfTilesInColumn(int c){
 
         int counter = 0;
         for(int i = 0; i<6; i++){
