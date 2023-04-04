@@ -7,6 +7,8 @@ public abstract class CommonGoal extends Card {
     private int patternRepetition;
     private CheckType type;
     private GoalTile[] scoreTiles;
+    private int[][] positions;
+    private int consecutive;
 
     public CommonGoal() {
         super();
@@ -26,7 +28,6 @@ public abstract class CommonGoal extends Card {
         this.type = type;
         this.scoreTiles = scoreTiles;
     }
-
     public GoalTile[] getScoreTiles() {
         return this.scoreTiles;
     }

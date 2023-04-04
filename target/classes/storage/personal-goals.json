@@ -1,0 +1,122 @@
+[
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "CYAN"}],
+      [{"color": null}, {"color": "YELLOW"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "WHITE"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "GREEN"}, {"color": null}],
+      [{"color": null}, {"color": "BLUE"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "PURPLE"}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "CYAN"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "BLUE"}, {"color": "WHITE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "PURPLE"}],
+      [{"color": "YELLOW"}, {"color": null}, {"color": null}, {"color": "GREEN"}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": "YELLOW"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "GREEN"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "WHITE"}],
+      [{"color": null}, {"color": "CYAN"}, {"color": null}, {"color": null}, {"color": "PURPLE"}],
+      [{"color": "BLUE"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": "PURPLE"}, {"color": null}, {"color": "BLUE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "GREEN"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "WHITE"}, {"color": null}],
+      [{"color": null}, {"color": "YELLOW"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "YELLOW"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "CYAN"}, {"color": null}, {"color": "BLUE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "PURPLE"}, {"color": null}],
+      [{"color": null}, {"color": "WHITE"}, {"color": "GREEN"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": "WHITE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "PURPLE"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "BLUE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "YELLOW"}],
+      [{"color": "GREEN"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "GREEN"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}, {"color": null}],
+      [{"color": "PURPLE"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "WHITE"}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "YELLOW"}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "PURPLE"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "GREEN"}, {"color": null}, {"color": "YELLOW"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "WHITE"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "BLUE"}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": "GREEN"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "BLUE"}, {"color": null}],
+      [{"color": null}, {"color": "PURPLE"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "CYAN"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "YELLOW"}],
+      [{"color": null}, {"color": null}, {"color": "WHITE"}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}, {"color": "GREEN"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "WHITE"}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "YELLOW"}, {"color": null}, {"color": "BLUE"}, {"color": null}],
+      [{"color": "PURPLE"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "BLUE"}, {"color": null}, {"color": null}, {"color": "YELLOW"}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "PURPLE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "GREEN"}, {"color": null}, {"color": null}, {"color": "CYAN"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "WHITE"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}]
+    ]
+  },
+  {
+    "pattern": [
+      [{"color": null}, {"color": null}, {"color": "PURPLE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": "WHITE"}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": "YELLOW"}, {"color": null}, {"color": null}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": "BLUE"}, {"color": null}, {"color": null}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": null}, {"color": "GREEN"}],
+      [{"color": null}, {"color": null}, {"color": null}, {"color": "CYAN"}, {"color": null}]
+    ]
+  }
+]

@@ -3,6 +3,7 @@ package model;
 import model.tile.Tile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private int maxNumTiles;
@@ -87,11 +88,15 @@ public class Board {
         this.tiles = tiles;
     }
 // da integrare con json
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     public void addTiles(ArrayList<Tile> tilesSet) {
 =======
     public void addTiles(List<Tile> tiles) {
 >>>>>>> Stashed changes
+=======
+    public void addTiles(List<Tile> tilesSet) {
+>>>>>>> 0517853775e1702ee3121ae25f009405811711eb
         for (int i = 0; i < this.numRows; i++) {
             for (int j = 0; j < this.numColumns; j++) {
                 if (this.tiles[i][j] == null) {
