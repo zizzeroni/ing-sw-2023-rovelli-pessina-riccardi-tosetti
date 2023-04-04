@@ -163,7 +163,7 @@ public class Game {
             case 3 -> {
                 return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
                     {1, 0, 1},
-                    {0, 1, 1},
+                    {0, 1, 0},
                     {1, 0, 1},
                 });
             }
@@ -174,7 +174,7 @@ public class Game {
                 return new StairPatternGoal(1, 1, CheckType.INDIFFERENT);
             }
             case 6 -> {
-                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);;
+                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);
             }
             case 7 -> {
                 return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
@@ -186,19 +186,16 @@ public class Game {
                 });
             }
             case 8 -> {
-                return new GoalPattern_1_3_4();
-//                return new ConsecutiveTilesPatternGoal();
+                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, 2);
             }
             case 9 -> {
-                return new GoalPattern_1_3_4();
-//                return new TilesInPositionsPatternGoal(1,1, CheckType.EQUALS, new int[][]{
-//                    {1, 1},
-//                    {1, 1},
-//                });
+                return new TilesInPositionsPatternGoal(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 1},
+                    {1, 1},
+                });
             }
             case 10 -> {
-                return new GoalPattern_1_3_4();
-//                return new ConsecutiveTilesPatternGoal();
+                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, 4);
             }
             case 11 -> {
                 return new FourCornersPatternGoal();

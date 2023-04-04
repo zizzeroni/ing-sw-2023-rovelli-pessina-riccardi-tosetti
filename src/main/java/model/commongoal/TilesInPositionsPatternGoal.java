@@ -24,14 +24,14 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         }
         return numberOfElement;
     }
-    public int goalPattern(Bookshelf b) {
+    public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
 
 
-        int[][] supportMatrix = new int[b.getNumRows()][b.getNumColumns()];
+        int[][] supportMatrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
 
-        for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumns(); j++) {
-                if (b.getSingleTile(i, j) == null) {
+        for (int i = 0; i < bookshelf.getNumRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+                if (bookshelf.getSingleTile(i, j) == null) {
                     supportMatrix[i][j] = 0;
                 } else {
                     supportMatrix[i][j] = 1;
@@ -41,23 +41,16 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
 
         int group = 1;
 
-        for (int i = 0; i < b.getNumRows(); i++) {
-            for (int j = 0; j < b.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
                 if (supportMatrix[i][j] == 1) {
                     group++;
-                    searchGroup(b, supportMatrix, i, j, group, b.getSingleTile(i, j).getColor());
+                    searchGroup(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
                 }
             }
         }
-//        for (int i = 0; i < b.getNumRows(); i++) {
-//            for (int j = 0; j < b.getNumColumn(); j++) {
-//
-//                System.out.print(supportMatrix[i][j] + " ");
-//
-//            }
-//            System.out.println(" ");
-//        }
-//     Control if I have to do the 2x2 or the sequence of tiles
+
+            //Control if I have to do the 2x2 or the sequence of tiles
 
         //Here I control if there is the number of element that is required
         int counterGeneral = 0;
@@ -65,13 +58,13 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         int counterGroup=0;
 
         for (int g = 2; g <= group; g++) {
-            for (int r=0; r < b.getNumRows() - this.positions.length + 1;r++) {
-                for (int c = 0; c < b.getNumColumns() - this.positions[0].length + 1; c++) {
+            for (int r=0; r < bookshelf.getNumRows() - this.positions.length + 1;r++) {
+                for (int c = 0; c < bookshelf.getNumColumns() - this.positions[0].length + 1; c++) {
                     if (supportMatrix[r][c] == g) {
                         for (int k = 0; k < this.positions.length; k++) {
                             for (int h = 0; h < this.positions[0].length; h++) {
 
-                                if (this.positions[k][h] == 1 && ((r + k) < b.getNumRows()) && ((c + h) < b.getNumColumns()) && supportMatrix[r + k][c + h] == g) {
+                                if (this.positions[k][h] == 1 && ((r + k) < bookshelf.getNumRows()) && ((c + h) < bookshelf.getNumColumns()) && supportMatrix[r + k][c + h] == g) {
                                     numberOfCorrispective++;
                                 }
                             }
@@ -91,27 +84,27 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         return counterGeneral;
     }
 
-    private void searchGroup(Bookshelf b, int[][] supportMatrix, int r, int c, int group, TileColor currentTileColor) {
+    private void searchGroup(Bookshelf bookshelf, int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
 
 
-        if ((supportMatrix[r][c] == 1) && currentTileColor.equals(b.getSingleTile(r,c).getColor())) {
-            supportMatrix[r][c] = group;
+        if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row,column).getColor())) {
+            supportMatrix[row][column] = group;
 
             //Control superior Tile
-            if(r!=0){
-                searchGroup(b, supportMatrix, r-1, c, group, currentTileColor);
+            if(row!=0){
+                searchGroup(bookshelf, supportMatrix, row-1, column, group, currentTileColor);
             }
 
-            if(c!=0){
-                searchGroup(b, supportMatrix, r, c-1, group, currentTileColor);
+            if(column!=0){
+                searchGroup(bookshelf, supportMatrix, row, column-1, group, currentTileColor);
             }
 
-            if(r!=b.getNumRows()-1){
-                searchGroup(b, supportMatrix, r+1, c, group, currentTileColor);
+            if(row!=bookshelf.getNumRows()-1){
+                searchGroup(bookshelf, supportMatrix, row+1, column, group, currentTileColor);
             }
 
-            if(c!=b.getNumColumns()-1){
-                searchGroup(b, supportMatrix, r, c+1, group, currentTileColor);
+            if(column!=bookshelf.getNumColumns()-1){
+                searchGroup(bookshelf, supportMatrix, row, column+1, group, currentTileColor);
             }
         }
     }
