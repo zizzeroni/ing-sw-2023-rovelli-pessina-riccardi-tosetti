@@ -98,11 +98,11 @@ public class Board {
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
     }
-    public int getNumColumns() {
-        return numColumns;
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
-    public int getNumRows() {
-        return numRows;
+    public int getNumberOfColumns() {
+        return numberOfColumns;
     }
     public Tile getSingleTile(int x, int y) {
         return tiles[x][y];

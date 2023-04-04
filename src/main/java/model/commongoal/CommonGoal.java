@@ -64,7 +64,7 @@ public abstract class CommonGoal extends Card {
                 this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8),new ScoreTile(6),new ScoreTile(4)));
             }
             case 4 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));p
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
             }
             default -> {
                 this.scoreTiles = null;
