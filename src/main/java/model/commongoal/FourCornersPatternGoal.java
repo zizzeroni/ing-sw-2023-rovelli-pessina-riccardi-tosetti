@@ -8,12 +8,12 @@ public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal() {
     }
 
-    public FourCornersPatternGoal(String image, int patternRepetition, CheckType type) {
-        super(image, patternRepetition, type);
+    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type) {
+        super(imageID, patternRepetition, type);
     }
 
-    public FourCornersPatternGoal(String image, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
-        super(image, patternRepetition, type, scoreTiles);
+    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type, GoalTile[] scoreTiles) {
+        super(imageID, patternRepetition, type, scoreTiles);
     }
 
     public int goalPattern(Bookshelf b) {

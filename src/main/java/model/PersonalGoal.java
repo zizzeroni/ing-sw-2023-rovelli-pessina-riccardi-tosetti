@@ -1,7 +1,5 @@
 package model;
 
-import model.*;
-import model.commongoal.FourCornersPatternGoal;
 import model.tile.*;
 
 public class PersonalGoal extends Card {
@@ -20,8 +18,8 @@ public class PersonalGoal extends Card {
         }
     }
 
-    public PersonalGoal(String image, Tile[][] pattern) {
-        super(image);
+    public PersonalGoal(int imageID, Tile[][] pattern) {
+        super(imageID);
         this.pattern = pattern;
     }
 

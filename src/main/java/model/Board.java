@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private String image;
     private int maxNumTiles;
 
     private final int numColumns = 9;
@@ -16,7 +15,6 @@ public class Board {
     private Tile [][] tiles;
 
     public Board() {
-        this.image = null;
         this.maxNumTiles = 0;
         this.tiles = new Tile[this.numRows][this.numColumns];
         for(int i = 0; i < this.numRows; i++)
@@ -86,7 +84,6 @@ public class Board {
         }
     }
     public Board(String image, int maxNumTiles, Tile[][] tiles) {
-        this.image = image;
         this.maxNumTiles = maxNumTiles;
         this.tiles = tiles;
     }
@@ -122,21 +119,12 @@ public class Board {
             i += 2;
         }
     }
-
-    public String getImage() {
-        return this.image;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public int getMaxNumTiles() {
         return this.maxNumTiles;
     }
     public void setMaxNumTiles(int maxNumTiles) {
         this.maxNumTiles = maxNumTiles;
     }
-
     public Tile[][] getTiles() {
         return this.tiles;
     }

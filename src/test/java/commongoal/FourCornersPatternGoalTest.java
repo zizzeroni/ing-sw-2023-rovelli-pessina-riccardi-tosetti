@@ -23,9 +23,9 @@ public class FourCornersPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with generic bookshelf")
-    public void GenericBookshelf() {
-        cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
+    public void givenGenericBookshelf_whenSearchingFourTilesAtTheBookshelfCorners_returnZero() {
+        cg = new FourCornersPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -39,9 +39,9 @@ public class FourCornersPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with Rulebook's example bookshelf")
-    public void RulebookBookshelf() {
-        cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
+    public void givenRulebookBookshelf_whenSearchingFourTilesAtTheBookshelfCorners_returnZero() {
+        cg = new FourCornersPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null, null, null},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null},
@@ -55,9 +55,9 @@ public class FourCornersPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with all items = null")
-    public void NullBookshelf() {
-        cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
+    public void givenBookshelfFilledWithNulls_whenSearchingFourTilesAtTheBookshelfCorners_returnZero() {
+        cg = new FourCornersPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -71,9 +71,9 @@ public class FourCornersPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with all items equals to each other")
-    public void EqualsBookshelf() {
-        cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches one time on the given bookshelf")
+    public void givenBookshelfCompletelyFilledWithTilesOfTheSameColor_whenSearchingFourTilesAtTheBookshelfCorners_returnOne() {
+        cg = new FourCornersPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -87,9 +87,9 @@ public class FourCornersPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test with bookshelf with all items different to each other")
-    public void AllDifferentBookshelf() {
-        cg = new FourCornersPatternGoal("",1, CheckType.EQUALS);
+    @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
+    public void givenBookshelfWithGroupsOfOneSingleTile_whenSearchingFourTilesAtTheBookshelfCorners_returnZero() {
+        cg = new FourCornersPatternGoal(0,1, CheckType.EQUALS);
         Tile[][] temp = {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE)},

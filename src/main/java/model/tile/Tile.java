@@ -1,43 +1,23 @@
 package model.tile;
 
 public class Tile {
-    private int x;
-    private int y;
     private TileColor color;
-    private int score;
-
+    private int imageID;
     public Tile() {
+        this.color = null;
+        this.imageID = 0;
     }
-    public Tile(TileColor color) {
+    public Tile(TileColor color, int imageID) {
         this.color = color;
+        this.imageID = imageID;
     }
-
-    public int getX() {
-        return x;
-    }
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
-
+    public int getImageID() { return imageID; }
+    public void setImageID(int imageID) { this.imageID = imageID; }
+    public Tile(TileColor color) { this.color = color; }
     public TileColor getColor() {
         return color;
     }
     public void setColor(TileColor color) {
         this.color = color;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(String image) {
-        this.score = score;
     }
 }
