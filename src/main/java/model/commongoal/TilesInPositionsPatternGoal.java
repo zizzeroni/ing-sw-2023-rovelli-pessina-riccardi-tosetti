@@ -27,10 +27,10 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
 
 
-        int[][] supportMatrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
+        int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (bookshelf.getSingleTile(i, j) == null) {
                     supportMatrix[i][j] = 0;
                 } else {
@@ -41,8 +41,8 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
 
         int group = 1;
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (supportMatrix[i][j] == 1) {
                     group++;
                     searchGroup(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
@@ -58,13 +58,13 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         int counterGroup=0;
 
         for (int g = 2; g <= group; g++) {
-            for (int r=0; r < bookshelf.getNumRows() - this.positions.length + 1;r++) {
-                for (int c = 0; c < bookshelf.getNumColumns() - this.positions[0].length + 1; c++) {
+            for (int r = 0; r < bookshelf.getNumberOfRows() - this.positions.length + 1; r++) {
+                for (int c = 0; c < bookshelf.getNumberOfColumns() - this.positions[0].length + 1; c++) {
                     if (supportMatrix[r][c] == g) {
                         for (int k = 0; k < this.positions.length; k++) {
                             for (int h = 0; h < this.positions[0].length; h++) {
 
-                                if (this.positions[k][h] == 1 && ((r + k) < bookshelf.getNumRows()) && ((c + h) < bookshelf.getNumColumns()) && supportMatrix[r + k][c + h] == g) {
+                                if (this.positions[k][h] == 1 && ((r + k) < bookshelf.getNumberOfRows()) && ((c + h) < bookshelf.getNumberOfColumns()) && supportMatrix[r + k][c + h] == g) {
                                     numberOfCorrispective++;
                                 }
                             }
@@ -99,11 +99,11 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
                 searchGroup(bookshelf, supportMatrix, row, column-1, group, currentTileColor);
             }
 
-            if(row!=bookshelf.getNumRows()-1){
+            if(row!=bookshelf.getNumberOfRows()-1){
                 searchGroup(bookshelf, supportMatrix, row+1, column, group, currentTileColor);
             }
 
-            if(column!=bookshelf.getNumColumns()-1){
+            if(column!=bookshelf.getNumberOfColumns()-1){
                 searchGroup(bookshelf, supportMatrix, row, column+1, group, currentTileColor);
             }
         }

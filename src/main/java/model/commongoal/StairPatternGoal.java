@@ -13,7 +13,7 @@ public class StairPatternGoal extends CommonGoal {
         //getNumElementInColumn è il metodo per ritornare il numero di elmenti su una determinata colonna
 
         if(numberOfTilesInColumn != 0) {
-            if (numberOfTilesInColumn < bookshelf.getNumRows() - 3) {
+            if (numberOfTilesInColumn < bookshelf.getNumberOfRows() - 3) {
                 if (numberOfTilesInColumn + 1 == bookshelf.getNumberOfTilesInColumn(column + 1) &&
                         numberOfTilesInColumn + 2 == bookshelf.getNumberOfTilesInColumn(column + 2) &&
                         numberOfTilesInColumn + 3 == bookshelf.getNumberOfTilesInColumn(column + 3) &&

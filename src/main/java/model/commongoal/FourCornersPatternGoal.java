@@ -2,7 +2,6 @@ package model.commongoal;
 
 
 import model.Bookshelf;
-import model.tile.ScoreTile;
 
 public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal() {
@@ -17,11 +16,11 @@ public class FourCornersPatternGoal extends CommonGoal {
     }
 
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
-        return (bookshelf.getSingleTile(0,0)!=null && bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1)!=null
-                    && bookshelf.getSingleTile(bookshelf.getNumRows()-1,0)!=null && bookshelf.getSingleTile(bookshelf.getNumRows()-1, bookshelf.getNumColumns()-1)!=null)
+        return (bookshelf.getSingleTile(0,0)!=null && bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns()-1)!=null
+                    && bookshelf.getSingleTile(bookshelf.getNumberOfRows()-1,0)!=null && bookshelf.getSingleTile(bookshelf.getNumberOfRows()-1, bookshelf.getNumberOfColumns()-1)!=null)
 
-                        && (bookshelf.getSingleTile(0,0).getColor().equals(bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1).getColor())
-                            && bookshelf.getSingleTile(0, bookshelf.getNumColumns()-1).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumRows()-1,0).getColor())
-                                && bookshelf.getSingleTile(bookshelf.getNumRows()-1,0).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumRows()-1, bookshelf.getNumColumns()-1).getColor())) ? 1 : 0;
+                        && (bookshelf.getSingleTile(0,0).getColor().equals(bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns()-1).getColor())
+                            && bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns()-1).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows()-1,0).getColor())
+                                && bookshelf.getSingleTile(bookshelf.getNumberOfRows()-1,0).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows()-1, bookshelf.getNumberOfColumns()-1).getColor())) ? 1 : 0;
     }
 }

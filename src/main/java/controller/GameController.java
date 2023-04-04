@@ -2,8 +2,6 @@ package controller;
 
 import model.*;
 import model.tile.Tile;
-import model.tile.TileColor;
-import model.view.BoardView;
 import model.view.TileView;
 import utils.ObservableType;
 import utils.Observer;
@@ -102,7 +100,7 @@ public class GameController implements Observer<UI, ObservableType> {
         List<Choice.Coord> choiceTileCoords = choice.getTileCoords();
 
         if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoords.size()) {
-            if (choiceColumn >= 0 && choiceColumn < model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+            if (choiceColumn >= 0 && choiceColumn < model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                 if(checkIfCoordsArePlausible(choiceTileCoords)) {
                     return true;
                 }

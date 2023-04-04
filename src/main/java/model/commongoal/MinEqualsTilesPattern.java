@@ -1,7 +1,6 @@
 package model.commongoal;
 
 import model.Bookshelf;
-import model.tile.ScoreTile;
 import model.tile.TileColor;
 
 import java.util.*;
@@ -53,18 +52,18 @@ public class MinEqualsTilesPattern extends CommonGoal{
         int cAppearances=0;
         switch (this.direction) {
             case HORIZONTAL -> {
-                for (int i = 0; i < bookshelf.getNumRows(); i++) {
+                for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
                     if (!bookshelf.isRowFull(i)) {
                         continue;
                     }
-                    for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+                    for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                         recentTiles.add(bookshelf.getSingleTile(i, j).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(bookshelf.getNumColumns() - recentTiles.size(), this.getType())) {
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfColumns() - recentTiles.size(), this.getType())) {
                             cAppearances++;
                         }
                     } catch (Exception e) {
@@ -75,18 +74,18 @@ public class MinEqualsTilesPattern extends CommonGoal{
                 }
             }
             case VERTICAL -> {
-                for (int i = 0; i < bookshelf.getNumColumns(); i++) {
+                for (int i = 0; i < bookshelf.getNumberOfColumns(); i++) {
                     if (!bookshelf.isColumnFull(i)) {
                         continue;
                     }
-                    for (int j = 0; j < bookshelf.getNumRows(); j++) {
+                    for (int j = 0; j < bookshelf.getNumberOfRows(); j++) {
                         recentTiles.add(bookshelf.getSingleTile(j, i).getColor());
                     }
 
                     recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(bookshelf.getNumRows() - recentTiles.size(), this.getType())) {
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfRows() - recentTiles.size(), this.getType())) {
                             cAppearances++;
                         }
                     } catch (Exception e) {

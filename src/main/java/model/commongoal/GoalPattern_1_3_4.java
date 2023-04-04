@@ -55,10 +55,10 @@ public class GoalPattern_1_3_4 extends CommonGoal {
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
 
 
-        int[][] support_matrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
+        int[][] support_matrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (bookshelf.getSingleTile(i, j) == null) {
                     support_matrix[i][j] = 0;
                 } else {
@@ -69,8 +69,8 @@ public class GoalPattern_1_3_4 extends CommonGoal {
 
         int group = 1;
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (support_matrix[i][j] == 1) {
                     group++;
                     searchGroup(bookshelf, support_matrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
@@ -94,13 +94,13 @@ public class GoalPattern_1_3_4 extends CommonGoal {
         int CounterGroup=0;
 
         for (int g = 2; g <= group; g++) {
-            for (int r = 0; r< bookshelf.getNumRows(); r++) {
-                for (int c = 0; c < bookshelf.getNumColumns(); c++) {
+            for (int r = 0; r< bookshelf.getNumberOfRows(); r++) {
+                for (int c = 0; c < bookshelf.getNumberOfColumns(); c++) {
                     if (support_matrix[r][c] == g) {
-                        for (int k = 0; k < bookshelf.getNumRows()-1; k++) {
-                            for (int h = 0; h < bookshelf.getNumColumns()-1; h++) {
+                        for (int k = 0; k < bookshelf.getNumberOfRows()-1; k++) {
+                            for (int h = 0; h < bookshelf.getNumberOfColumns()-1; h++) {
 
-                                if (positions[k][h] == 1 && ((r + k) < bookshelf.getNumRows()) && ((c + h) < bookshelf.getNumColumns()) && support_matrix[r + k][c + h] == g) {
+                                if (positions[k][h] == 1 && ((r + k) < bookshelf.getNumberOfRows()) && ((c + h) < bookshelf.getNumberOfColumns()) && support_matrix[r + k][c + h] == g) {
                                     NumberOfCorrispective++;
                                 }
                             }
@@ -135,11 +135,11 @@ public class GoalPattern_1_3_4 extends CommonGoal {
                 searchGroup(b, support_matrix, r, c-1, group, currentTileColor);
             }
 
-            if(r!=b.getNumRows()-1){
+            if(r!=b.getNumberOfRows()-1){
                 searchGroup(b, support_matrix, r+1, c, group, currentTileColor);
             }
 
-            if(c!=b.getNumColumns()-1){
+            if(c!=b.getNumberOfColumns()-1){
                 searchGroup(b, support_matrix, r, c+1, group, currentTileColor);
             }
         }

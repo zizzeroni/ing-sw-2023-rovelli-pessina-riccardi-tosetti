@@ -161,11 +161,11 @@ public class MinEqualsTilesPatternTest {
                 super(image, tiles);
             }
             @Override
-            public int getNumColumns() {
+            public int getNumberOfColumns() {
                 return numeroColonne;
             }
             @Override
-            public int getNumRows() {
+            public int getNumberOfRows() {
                 return numeroRighe;
             }
         }

@@ -4,7 +4,7 @@ import model.Bookshelf;
 import model.tile.TileColor;
 
 public class DiagonalEqualPattern extends CommonGoal{
-    private final int[][] positions;
+    private int[][] positions;
 
     public DiagonalEqualPattern(int[][] positions) {
         super();
@@ -22,12 +22,11 @@ public class DiagonalEqualPattern extends CommonGoal{
     }
 
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
+        int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
+        int[][] alreadyChecked = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
 
-        int[][] supportMatrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
-        int[][] alreadyChecked = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
-
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 alreadyChecked[i][j] = 0;
                 if (bookshelf.getSingleTile(i, j) == null) {
                     supportMatrix[i][j] = 0;
@@ -39,8 +38,8 @@ public class DiagonalEqualPattern extends CommonGoal{
 
         int group = 1;
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (supportMatrix[i][j] == 1) {
                     group++;
                     assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
@@ -49,36 +48,44 @@ public class DiagonalEqualPattern extends CommonGoal{
         }
 
         int repetitions = 0;
+        int rotations = 0;
 
-        for(int i = 0; i < supportMatrix.length - this.positions.length + 1; i++){
-            for(int j = 0; j < supportMatrix[0].length - this.positions[0].length + 1; j++){
-                int checkGroup = 0;
-                boolean exit = false;
-                for(int k = 0; k < this.positions.length && !exit; k++){
-                    for(int h = 0; h < this.positions[0].length && !exit; h++){
-                        if(this.positions[k][h] == 1) {
-                            if(checkGroup == 0){
-                                checkGroup = supportMatrix[i+k][j+h];
-                            }
-                            if(supportMatrix[i+k][j+h] == 0 || supportMatrix[i+k][j+h] != checkGroup || alreadyChecked[i+k][j+h] == 1){
-                                exit = true;
+        do {
+            for (int i = 0; i < supportMatrix.length - this.positions.length + 1; i++) {
+                for (int j = 0; j < supportMatrix[0].length - this.positions[0].length + 1; j++) {
+                    int checkGroup = 0;
+                    boolean exit = false;
+                    for (int k = 0; k < this.positions.length && !exit; k++) {
+                        for (int h = 0; h < this.positions[0].length && !exit; h++) {
+                            if (this.positions[k][h] == 1) {
+                                if (checkGroup == 0) {
+                                    checkGroup = supportMatrix[i + k][j + h];
+                                }
+                                if (supportMatrix[i + k][j + h] == 0 || supportMatrix[i + k][j + h] != checkGroup || alreadyChecked[i + k][j + h] == 1) {
+                                    exit = true;
+                                }
                             }
                         }
                     }
-                }
-                if(!exit) {
-                    for(int k = 0; k < this.positions.length; k++){
-                        for(int h = 0; h < this.positions[0].length; h++){
-                            if(supportMatrix[i+k][j+h] == checkGroup) {
-                                alreadyChecked[i+k][j+h] = 1;
+                    if (!exit) {
+                        for (int k = 0; k < this.positions.length; k++) {
+                            for (int h = 0; h < this.positions[0].length; h++) {
+                                if (supportMatrix[i + k][j + h] == checkGroup) {
+                                    alreadyChecked[i + k][j + h] = 1;
+                                }
                             }
                         }
-                    }
 
-                    repetitions++;
+                        repetitions++;
+                    }
                 }
             }
-        }
+
+            this.positions = rotateMatrix(this.positions);
+            rotations++;
+
+        } while(rotations < 4);
+
 
        return repetitions;
     }
@@ -93,18 +100,30 @@ public class DiagonalEqualPattern extends CommonGoal{
                 assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c-1, group, currentTileColor);
             }
             //up right
-            if(r != 0 && c!=bookshelf.getNumColumns()-1){
+            if(r != 0 && c!=bookshelf.getNumberOfColumns()-1){
                 assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c+1, group, currentTileColor);
             }
             //down left
-            if(r!=bookshelf.getNumRows()-1 && c!=0){
+            if(r!=bookshelf.getNumberOfRows()-1 && c!=0){
                 assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c-1, group, currentTileColor);
             }
             //down right
-            if(r!=bookshelf.getNumRows()-1 && c!=bookshelf.getNumColumns()-1){
+            if(r!=bookshelf.getNumberOfRows()-1 && c!=bookshelf.getNumberOfColumns()-1){
                 assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c+1, group, currentTileColor);
             }
         }
+    }
+
+    private int[][] rotateMatrix(int[][] positions) {
+        int[][] rotatedMatrix = new int[positions[0].length][positions.length];
+        for(int i = 0; i < positions.length; i++){
+            for(int j = 0; j < positions[0].length; i++){
+                if(positions[i][j] == 1){
+                    rotatedMatrix[j][i] = 1;
+                }
+            }
+        }
+        return rotatedMatrix;
     }
 
 }

@@ -15,9 +15,9 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
-        int[][] supportMatrix = new int[bookshelf.getNumRows()][bookshelf.getNumColumns()];
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (bookshelf.getSingleTile(i, j) == null) {
                     supportMatrix[i][j] = 0;
                 } else {
@@ -27,8 +27,8 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         }
         int group = 1;
 
-        for (int i = 0; i < bookshelf.getNumRows(); i++) {
-            for (int j = 0; j < bookshelf.getNumColumns(); j++) {
+        for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
+            for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
                 if (supportMatrix[i][j] == 1) {
                     group++;
                     searchGroup(bookshelf, supportMatrix, i, j, group, bookshelf.getSingleTile(i, j).getColor());
@@ -38,8 +38,8 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         int groupCounter=0;
         int generalCounter=0;
         for (int g = 2; g <= group; g++) {
-            for (int r = 0; r < bookshelf.getNumRows(); r++) {
-                for (int c = 0; c < bookshelf.getNumColumns(); c++) {
+            for (int r = 0; r < bookshelf.getNumberOfRows(); r++) {
+                for (int c = 0; c < bookshelf.getNumberOfColumns(); c++) {
                     if (supportMatrix[r][c] == g) {
                         groupCounter++;
                     }
@@ -66,11 +66,11 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
                 searchGroup(b, supportMatrix, r, c-1, group, currentTileColor);
             }
 
-            if(r!=b.getNumRows()-1){
+            if(r!=b.getNumberOfRows()-1){
                 searchGroup(b, supportMatrix, r+1, c, group, currentTileColor);
             }
 
-            if(c!=b.getNumColumns()-1){
+            if(c!=b.getNumberOfColumns()-1){
                 searchGroup(b, supportMatrix, r, c+1, group, currentTileColor);
             }
         }

@@ -1,9 +1,6 @@
 package model.view;
 
 import model.Bookshelf;
-import model.tile.Tile;
-
-import java.util.concurrent.TimeoutException;
 
 public class BookshelfView {
     private final Bookshelf bookshelfModel;
@@ -16,9 +13,9 @@ public class BookshelfView {
         return this.bookshelfModel.getImage();
     }
     public TileView[][] getTiles() {
-        TileView[][] temp = new TileView[this.bookshelfModel.getNumRows()][this.bookshelfModel.getNumColumns()];
-        for(int r = 0; r < this.bookshelfModel.getNumRows(); r++) {
-            for(int c = 0; c < this.bookshelfModel.getNumColumns(); c++) {
+        TileView[][] temp = new TileView[this.bookshelfModel.getNumberOfRows()][this.bookshelfModel.getNumberOfColumns()];
+        for(int r = 0; r < this.bookshelfModel.getNumberOfRows(); r++) {
+            for(int c = 0; c < this.bookshelfModel.getNumberOfColumns(); c++) {
                 temp[r][c] = new TileView(this.bookshelfModel.getSingleTile(r,c));
             }
         }
@@ -28,18 +25,18 @@ public class BookshelfView {
         return new TileView(this.bookshelfModel.getSingleTile(i,j));
     }
     public int getNumColumns() {
-        return this.bookshelfModel.getNumColumns();
+        return this.bookshelfModel.getNumberOfColumns();
     }
     public int getNumElemColumn(int c){
         int counter = 0;
-        for(int i = 0; i<this.bookshelfModel.getNumRows(); i++){
+        for(int i = 0; i<this.bookshelfModel.getNumberOfRows(); i++){
             if(this.bookshelfModel.getSingleTile(i, c)!=null)
                 counter++;
         }
         return counter;
     }
     public int getNumRows() {
-        return this.bookshelfModel.getNumRows();
+        return this.bookshelfModel.getNumberOfRows();
     }
     public boolean isRowFull(int r) {
         for (int i = 0; i < this.getNumColumns(); i++) {
@@ -51,7 +48,7 @@ public class BookshelfView {
     }
 
     public boolean isColumnFull(int c) {
-        for (int i = 0; i < this.bookshelfModel.getNumRows(); i++) {
+        for (int i = 0; i < this.bookshelfModel.getNumberOfRows(); i++) {
             if (this.bookshelfModel.getSingleTile(i,c) == null) {
                 return false;
             }

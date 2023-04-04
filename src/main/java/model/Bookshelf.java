@@ -3,8 +3,8 @@ package model;
 import model.tile.Tile;
 
 public class Bookshelf {
-    private final int numColumns = 5;
-    private final int numRows = 6;
+    private final int numberOfColumns = 5;
+    private final int numberOfRows = 6;
 
     private String image;
 
@@ -12,27 +12,35 @@ public class Bookshelf {
 
     public Bookshelf() {
         image = null;
-        tiles = new Tile[numRows][numColumns];
-        for (int i = 0; i < numRows; i++)
-            for (int j = 0; j < numColumns; j++)
+        tiles = new Tile[numberOfRows][numberOfColumns];
+        for (int i = 0; i < numberOfRows; i++)
+            for (int j = 0; j < numberOfColumns; j++)
                 tiles[i][j] = null;
     }
 
     public boolean isFull() {
-        for (int i = 0; i < numColumns; i++) {
-            if (tiles[i][numRows] != null) {
-                return true;
+        for (int i = 0; i < numberOfColumns; i++) {
+            if (tiles[i][0] == null) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void addTile(Tile tile, int i) {
-        this.tiles[(getNumRows() - 1) - getNumberOfTilesInColumn(i)][i] = tile;
+        this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(i)][i] = tile;
     }
 
-    public int emptyCellsInColumn(int i) {
-        return i;
+    public int emptyCellsInColumn(int column) {
+        int counter = 0;
+        for(int i = this.numberOfRows - 1; i > 0; i--) {
+            if(this.tiles[i][column] != null){
+                return counter;
+            }
+            counter++;
+        }
+
+        return counter;
     }
 
     public Bookshelf(String image, Tile[][] tiles) {
@@ -61,12 +69,11 @@ public class Bookshelf {
         return tiles[i][j];
     }
 
-    public int getNumColumns() {
-        return numColumns;
+    public int getNumberOfColumns() {
+        return numberOfColumns;
     }
 
     public int getNumberOfTilesInColumn(int c){
-
         int counter = 0;
         for(int i = 0; i<6; i++){
             if(tiles[i][c]!=null)
@@ -74,12 +81,12 @@ public class Bookshelf {
         }
         return counter;
     }
-    public int getNumRows() {
-        return numRows;
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 
     public boolean isRowFull(int r) {
-        for (int i = 0; i < numColumns; i++) {
+        for (int i = 0; i < numberOfColumns; i++) {
             if (tiles[i][r] == null) {
                 return false;
             }
@@ -88,7 +95,7 @@ public class Bookshelf {
     }
 
     public boolean isColumnFull(int c) {
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0; i < numberOfRows; i++) {
             if (tiles[c][i] == null) {
                 return false;
             }
