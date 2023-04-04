@@ -139,7 +139,7 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        while (counter > 0 && counter!=3 && (!input.equals("NO") && !input.equals("SI"))) {
+                        if (counter > 0 && counter!=3) {
                             System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                             input = s.next();
                         }
