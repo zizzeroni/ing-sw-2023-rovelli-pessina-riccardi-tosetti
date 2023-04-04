@@ -387,7 +387,7 @@
         <mxCell id="ETVMtuT10l9wvVC2BpGE-36" value="personalGoal" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1090" y="540" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="ETVMtuT10l9wvVC2BpGE-37" value="goalTiles" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="ETVMtuT10l9wvVC2BpGE-37" value="scoreTiles" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1290" y="540" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="ETVMtuT10l9wvVC2BpGE-38" value="bookshelf" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">

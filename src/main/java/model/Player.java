@@ -1,10 +1,9 @@
 package model;
 
-import model.tile.GoalTile;
+import model.tile.ScoreTile;
 import model.tile.Tile;
-
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -15,15 +14,37 @@ public class Player {
     private boolean connected;
     private Game game;
     private PersonalGoal personalGoal; //The single goal of the player
-    private ArrayList<GoalTile> goalTiles; // new ArrayList<Tile>(); //The array of tile...
+    private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
 
     //Constructor
-    public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<GoalTile> goalTiles, Bookshelf bookshelf) {
+    public Player(String nickname, boolean connected) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.personalGoal = null;
+        this.scoreTiles = null;
+        this.bookshelf = null;
+    }
+    public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.scoreTiles = scoreTiles;
+        this.personalGoal = null;
+        this.bookshelf = null;
+    }
+    public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.scoreTiles = scoreTiles;
+        this.personalGoal = null;
+        this.bookshelf = bookshelf;
+    }
+
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = personalGoal;
-        this.goalTiles = goalTiles;
+        this.scoreTiles = scoreTiles;
         this.bookshelf = bookshelf;
     }
 
@@ -36,12 +57,12 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public ArrayList<GoalTile> getGoalTiles() {
-        return goalTiles;
+    public List<ScoreTile> getGoalTiles() {
+        return scoreTiles;
     }
 
-    public void setGoalTiles(ArrayList<GoalTile> goalTiles) {
-        this.goalTiles = goalTiles;
+    public void setGoalTiles(List<ScoreTile> scoreTiles) {
+        this.scoreTiles = scoreTiles;
     }
 
     public Bookshelf getBookshelf() {
@@ -73,8 +94,8 @@ public class Player {
     //class methods
     public int score() {
         int score = 0;
-        for (GoalTile goalTile : this.goalTiles) {
-            score += goalTile.getValue();
+        for (ScoreTile scoreTile : this.scoreTiles) {
+            score += scoreTile.getValue();
         }
         score += this.bookshelf.score();
         score += this.personalGoal.score(this.bookshelf);

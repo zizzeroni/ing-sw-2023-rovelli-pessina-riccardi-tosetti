@@ -22,13 +22,13 @@ public class Game {
     private List<CommonGoal> commonGoals;
     private final Random randomizer = new Random();
 
-    public Game(int numPlayers, List<Player> players, List<PersonalGoal> personalGoals) {
+    public Game(int numPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.players = players;
-        this.board = new Board();
         this.activePlayerIndex = 0;
+        this.board = new Board(boardPattern);
         this.numPlayers = numPlayers;
-        this.bag = new ArrayList<Tile>(132);
-        this.commonGoals = new ArrayList<CommonGoal>(2);
+        this.bag = new ArrayList<>(132);
+        this.commonGoals = new ArrayList<>(2);
 
         //initialize bag and shuffle items
         for (int i = 0; i < 132; i++){
@@ -40,9 +40,8 @@ public class Game {
         //initialize players
         for (Player player: this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTile(new ArrayList<>(3));
-            player.setPersonalGoal(personalGoals.get(0));
-            personalGoals.remove(0);
+            player.setGoalTiles(new ArrayList<>(3));
+            player.setPersonalGoal(personalGoals.remove(0));
         }
 
         //initialize common goals
@@ -60,7 +59,6 @@ public class Game {
 
         this.refillBoard();
     }
-
     public Game(int numPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numPlayers = numPlayers;
         this.activePlayerIndex = activePlayerIndex;
@@ -116,7 +114,7 @@ public class Game {
     public void changeTurn() {
 
         //if board needs to be refilled, remove tiles from the bag and add them to the board
-        if(this.board.needRefill() != 0) {
+        if(this.board.numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
 
@@ -132,9 +130,9 @@ public class Game {
     private void refillBoard(){
         Collections.shuffle(this.bag);
 
-        List<Tile> drawedTiles = this.bag.subList(0, this.board.needRefill());
-        this.board.addTiles(drawedTiles);
-        drawedTiles.clear();
+        List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());
+        this.board.addTiles(drawnTiles);
+        drawnTiles.clear();
     }
 
     private void updatePlayerScore(Player player){
@@ -157,37 +155,50 @@ public class Game {
                 return new EightShaplessPatternGoal();
             }
             case 1 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
             }
             case 2 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
             }
             case 3 -> {
-                return new EightShaplessPatternGoal();
-                // return new FiveXShapePatternGoal();
+                return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 0, 1},
+                    {0, 1, 1},
+                    {1, 0, 1},
+                });
             }
             case 4 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
             }
             case 5 -> {
-                return new EightShaplessPatternGoal();
-                // return new StairPatternGoal();
+                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT);
             }
             case 6 -> {
-                return new MinEqualsTilesPattern();
+                return new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);;
             }
             case 7 -> {
-                return new EightShaplessPatternGoal();
-                // return new FiveDiagonalPatternGoal();
+                return new DiagonalEqualPattern(1,1, CheckType.EQUALS, new int[][]{
+                    {1, 0, 0, 0, 0},
+                    {0, 1, 0, 0, 0},
+                    {0, 0, 1, 0, 0},
+                    {0, 0, 0, 1, 0},
+                    {0, 0, 0, 0, 1},
+                });
             }
             case 8 -> {
-                return new ConsecutiveTilesPatternGoal();
+                return new GoalPattern_1_3_4();
+//                return new ConsecutiveTilesPatternGoal();
             }
             case 9 -> {
-                return new ConsecutiveTilesPatternGoal();
+                return new GoalPattern_1_3_4();
+//                return new TilesInPositionsPatternGoal(1,1, CheckType.EQUALS, new int[][]{
+//                    {1, 1},
+//                    {1, 1},
+//                });
             }
             case 10 -> {
-                return new TilesInPositionsPatternGoal();
+                return new GoalPattern_1_3_4();
+//                return new ConsecutiveTilesPatternGoal();
             }
             case 11 -> {
                 return new FourCornersPatternGoal();
@@ -206,11 +217,11 @@ public class Game {
 
         if(receiver == null) {
             for (Player player: this.players) {
-                player.addMessage(new Message(player.getNickname(), senderNickname, content));
+//                player.addMessage(new Message(player.getNickname(), senderNickname, content));
             }
         } else {
-            sender.addMessage(new Message(receiverNickname, senderNickname, content));
-            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
+//            sender.addMessage(new Message(receiverNickname, senderNickname, content));
+//            receiver.addMessage(new Message(receiverNickname, senderNickname, content));
         }
     }
 
