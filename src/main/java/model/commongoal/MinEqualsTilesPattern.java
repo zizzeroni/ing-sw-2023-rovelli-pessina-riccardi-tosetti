@@ -1,6 +1,7 @@
 package model.commongoal;
 
 import model.Bookshelf;
+import model.tile.ScoreTile;
 import model.tile.TileColor;
 
 import java.util.*;

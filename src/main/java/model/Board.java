@@ -52,6 +52,9 @@ public class Board {
     }
 
     public void addTiles(List<Tile> tilesToAdd) {
+        if(tilesToAdd.size() == 0) {
+            return;
+        }
         for (int i = 0; i < this.numberOfRows; i++) {
             for (int j = 0; j < this.numberOfColumns; j++) {
                 if (this.tiles[i][j] == null) {
@@ -94,5 +97,14 @@ public class Board {
     }
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
+    }
+    public int getNumColumns() {
+        return numColumns;
+    }
+    public int getNumRows() {
+        return numRows;
+    }
+    public Tile getSingleTile(int x, int y) {
+        return tiles[x][y];
     }
 }
