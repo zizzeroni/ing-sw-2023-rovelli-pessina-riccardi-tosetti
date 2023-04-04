@@ -1,13 +1,6 @@
 package model;
 
-import model.commongoal.CommonGoal;
-import model.commongoal.EightShaplessPatternGoal;
-import model.commongoal.FiveXShapePatternGoal;
-import model.commongoal.MinEqualsTilesPattern;
-import model.commongoal.StairPatternGoal;
-import model.commongoal.GoalPattern_1_3_4;
-import model.commongoal.FiveDiagonalPatternGoal;
-import model.commongoal.FourCornersPatternGoal;
+import model.commongoal.*;
 
 import model.tile.Tile;
 import model.tile.TileColor;
@@ -188,13 +181,13 @@ public class Game {
                 // return new FiveDiagonalPatternGoal();
             }
             case 8 -> {
-                return new GoalPattern_1_3_4();
+                return new ConsecutiveTilesPatternGoal();
             }
             case 9 -> {
-                return new GoalPattern_1_3_4();
+                return new ConsecutiveTilesPatternGoal();
             }
             case 10 -> {
-                return new GoalPattern_1_3_4();
+                return new TilesInPositionsPatternGoal();
             }
             case 11 -> {
                 return new FourCornersPatternGoal();
