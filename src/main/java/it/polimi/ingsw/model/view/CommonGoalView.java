@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommonGoalView {
     private final CommonGoal commonGoalModel;
 
@@ -10,24 +13,23 @@ public class CommonGoalView {
         this.commonGoalModel = commonGoalModel;
     }
 
-    public GoalTileView[] getScoreTiles() {
-        GoalTileView[] temp = new GoalTileView[this.commonGoalModel.getScoreTilesNumber()];
-        for(int i=0;i<this.commonGoalModel.getScoreTilesNumber();i++) {
-            temp[i]=new GoalTileView(this.commonGoalModel.getScoreTiles()[i]);
+    public List<GoalTileView> getScoreTiles() {
+        List<GoalTileView> scoreTiles = new ArrayList<>(this.commonGoalModel.getScoreTiles().size());
+        for (int i = 0; i < this.commonGoalModel.getScoreTiles().size(); i++) {
+            scoreTiles.add(new GoalTileView(this.commonGoalModel.getScoreTiles().get(i)));
         }
-        return temp;
+        return scoreTiles;
     }
-    public int getPatternRepetition() {
-        return this.commonGoalModel.getPatternRepetition();
+
+    public int getNumberOfPatternRepetitionsRequired() {
+        return this.commonGoalModel.getNumberOfPatternRepetitionsRequired();
     }
+
     public CheckType getType() {
         return this.commonGoalModel.getType();
     }
 
     public int getImageID() {
         return this.commonGoalModel.getImageID();
-    }
-    public int getScoreTilesNumber() {
-        return this.commonGoalModel.getScoreTilesNumber();
     }
 }

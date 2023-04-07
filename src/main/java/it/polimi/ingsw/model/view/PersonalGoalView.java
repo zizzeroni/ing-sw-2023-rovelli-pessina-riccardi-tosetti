@@ -10,25 +10,25 @@ public class PersonalGoalView {
     }
 
     public int getNumColumns() {
-        return this.personalGoalModel.getNumColumns();
+        return this.personalGoalModel.getNumberOfColumns();
     }
 
     public int getNumRows() {
-        return this.personalGoalModel.getNumRows();
+        return this.personalGoalModel.getNumberOfRows();
     }
 
     public TileView[][] getPattern() {
-        TileView[][] temp = new TileView[this.personalGoalModel.getNumRows()][this.personalGoalModel.getNumColumns()];
-        for(int r=0;r<this.personalGoalModel.getNumRows();r++) {
-            for(int c=0;c<this.personalGoalModel.getNumColumns();c++) {
-                temp[r][c]=new TileView(this.personalGoalModel.getSingleTile(r,c));
+        TileView[][] temp = new TileView[this.personalGoalModel.getNumberOfRows()][this.personalGoalModel.getNumberOfColumns()];
+        for (int r = 0; r < this.personalGoalModel.getNumberOfRows(); r++) {
+            for (int c = 0; c < this.personalGoalModel.getNumberOfColumns(); c++) {
+                temp[r][c] = new TileView(this.personalGoalModel.getSingleTile(r, c));
             }
         }
         return temp;
     }
 
     public TileView getSingleTile(int x, int y) {
-        return new TileView(this.personalGoalModel.getSingleTile(x,y));
+        return new TileView(this.personalGoalModel.getSingleTile(x, y));
     }
 
 

@@ -29,6 +29,6 @@ public class EightShaplessPatternGoal extends CommonGoal {
                 .filter(Objects::nonNull)                                               //Filtro togliendo tutti gli elementi pari a NULL (che non posso successivamente raggr.)
                 .collect(groupingBy(Tile::getColor, Collectors.counting()))             //Raggruppo le tile con "groupingBy" in una Map<TileColor, numOccorrenze> , dove uso la chiave TileColor specificando "Tile::GetColor", mentre per i valori il metodo "counting()"
                 .entrySet().stream()                                                    //Trasformo la Map in una Set e poi in una Stream
-                .filter(x->x.getValue()>=8).count());                                   //Filtro la Stream tenendo solamente i Color a cui sono associate più di 7
+                .filter(x -> x.getValue() >= 8).count());                                   //Filtro la Stream tenendo solamente i Color a cui sono associate più di 7
     }
 }

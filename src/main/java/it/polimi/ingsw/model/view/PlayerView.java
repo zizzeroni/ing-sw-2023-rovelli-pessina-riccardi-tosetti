@@ -16,19 +16,23 @@ public class PlayerView {
     public PersonalGoalView getPersonalGoal() {
         return new PersonalGoalView(this.playerModel.getPersonalGoal());
     }
+
     public List<GoalTileView> getGoalTiles() {
-        List<GoalTileView> temp = new ArrayList<>();
-        for(ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
-            temp.add(new GoalTileView(scoreTile));
+        List<GoalTileView> goalTileViews = new ArrayList<>();
+        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
+            goalTileViews.add(new GoalTileView(scoreTile));
         }
-        return temp;
+        return goalTileViews;
     }
+
     public BookshelfView getBookshelf() {
         return new BookshelfView(this.playerModel.getBookshelf());
     }
+
     public String getNickname() {
         return this.playerModel.getNickname();
     }
+
     public boolean isConnected() {
         return this.playerModel.isConnected();
     }

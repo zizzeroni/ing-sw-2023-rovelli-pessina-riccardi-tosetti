@@ -12,29 +12,29 @@ public class Bookshelf {
 
     public Bookshelf() {
         image = null;
-        tiles = new Tile[numberOfRows][numberOfColumns];
-        for (int i = 0; i < numberOfRows; i++)
-            for (int j = 0; j < numberOfColumns; j++)
-                tiles[i][j] = null;
+        tiles = new Tile[this.numberOfRows][this.numberOfColumns];
+        for (int row = 0; row < this.numberOfRows; row++)
+            for (int column = 0; column < this.numberOfColumns; column++)
+                tiles[row][column] = null;
     }
 
     public boolean isFull() {
-        for (int i = 0; i < numberOfColumns; i++) {
-            if (tiles[i][0] == null) {
+        for (int column = 0; column < numberOfColumns; column++) {
+            if (tiles[0][column] == null) {
                 return false;
             }
         }
         return true;
     }
 
-    public void addTile(Tile tile, int i) {
-        this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(i)][i] = tile;
+    public void addTile(Tile tile, int column) {
+        this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
     }
 
     public int emptyCellsInColumn(int column) {
         int counter = 0;
-        for(int i = this.numberOfRows - 1; i > 0; i--) {
-            if(this.tiles[i][column] != null){
+        for (int i = this.numberOfRows - 1; i > 0; i--) {
+            if (this.tiles[i][column] != null) {
                 return counter;
             }
             counter++;
@@ -65,7 +65,7 @@ public class Bookshelf {
         this.tiles[i][j] = tile;
     }
 
-    public Tile getSingleTile(int i, int j){ // funzione estrazione singola Tile selezionata
+    public Tile getSingleTile(int i, int j) { // funzione estrazione singola Tile selezionata
         return tiles[i][j];
     }
 
@@ -73,30 +73,31 @@ public class Bookshelf {
         return numberOfColumns;
     }
 
-    public int getNumberOfTilesInColumn(int c){
+    public int getNumberOfTilesInColumn(int column) {
         int counter = 0;
-        for(int i = 0; i<6; i++){
-            if(tiles[i][c]!=null)
+        for (int row = 0; row < this.numberOfRows; row++) {
+            if (this.tiles[row][column] != null)
                 counter++;
         }
         return counter;
     }
+
     public int getNumberOfRows() {
         return numberOfRows;
     }
 
-    public boolean isRowFull(int r) {
-        for (int i = 0; i < numberOfColumns; i++) {
-            if (tiles[i][r] == null) {
+    public boolean isRowFull(int row) {
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            if (this.tiles[row][column] == null) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean isColumnFull(int c) {
-        for (int i = 0; i < numberOfRows; i++) {
-            if (tiles[c][i] == null) {
+    public boolean isColumnFull(int column) {
+        for (int row = 0; row < this.numberOfRows; row++) {
+            if (this.tiles[row][column] == null) {
                 return false;
             }
         }
@@ -107,7 +108,7 @@ public class Bookshelf {
         return 1;
     }
 
-    public void setTiles(Tile[][] tiles){ // funzione estrazione singola Tile selezionata
+    public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
         this.tiles = tiles;
     }
 

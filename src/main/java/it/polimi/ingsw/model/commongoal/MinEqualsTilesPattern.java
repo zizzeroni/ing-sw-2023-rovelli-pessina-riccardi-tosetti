@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.tile.TileColor;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MinEqualsTilesPattern extends CommonGoal{
+public class MinEqualsTilesPattern extends CommonGoal {
 
     private Direction direction;
     private int maxEqualsTiles;     //Per HORIZONTAL deve essere pari a 2, per VERTICAL deve essere pari a 3, per quelle complete deve essere 0
@@ -48,8 +48,8 @@ public class MinEqualsTilesPattern extends CommonGoal{
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         List<TileColor> recentTiles = new ArrayList<TileColor>();
-        int patternAppearances=0;
-        int cAppearances=0;
+        int patternAppearances = 0;
+        int cAppearances = 0;
         switch (this.direction) {
             case HORIZONTAL -> {
                 for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
@@ -107,7 +107,7 @@ public class MinEqualsTilesPattern extends CommonGoal{
         return patternAppearances;
     }
 
-    private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) throws Exception{
+    private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
             case EQUALS, DIFFERENT -> {
                 if (numDiff == this.maxEqualsTiles) {

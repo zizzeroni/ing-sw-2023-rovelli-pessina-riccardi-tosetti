@@ -10,12 +10,19 @@ public class TileView {
         this.tileModel = tileModel;
     }
 
-    public int getImageID() { return this.tileModel.getImageID(); }
+    public int getImageID() {
+        return this.tileModel.getImageID();
+    }
+
     public TileColor getColor() {
         return this.tileModel.getColor();
     }
-    //TODO: Verificare se è necessario inserire tale metodo
+
     public boolean isNull() {
         return this.tileModel == null;
+    }
+
+    public boolean hasNoColor(){
+        return this.tileModel.getColor() == null;
     }
 }

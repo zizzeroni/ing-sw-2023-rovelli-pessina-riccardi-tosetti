@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.tile.TileColor;
 
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
     int consecutiveTiles;
+
     public ConsecutiveTilesPatternGoal() {
         super();
         this.consecutiveTiles = 0;
     }
+
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type);
         this.consecutiveTiles = consecutiveTiles;
@@ -35,8 +37,8 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
                 }
             }
         }
-        int groupCounter=0;
-        int generalCounter=0;
+        int groupCounter = 0;
+        int generalCounter = 0;
         for (int g = 2; g <= group; g++) {
             for (int r = 0; r < bookshelf.getNumberOfRows(); r++) {
                 for (int c = 0; c < bookshelf.getNumberOfColumns(); c++) {
@@ -45,33 +47,33 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
                     }
                 }
             }
-            if(groupCounter >= consecutiveTiles){
+            if (groupCounter >= consecutiveTiles) {
                 generalCounter++;
             }
-            groupCounter=0;
+            groupCounter = 0;
         }
         return generalCounter;
     }
 
     private void searchGroup(Bookshelf b, int[][] supportMatrix, int r, int c, int group, TileColor currentTileColor) {
-        if ((supportMatrix[r][c] == 1) && currentTileColor.equals(b.getSingleTile(r,c).getColor())) {
+        if ((supportMatrix[r][c] == 1) && currentTileColor.equals(b.getSingleTile(r, c).getColor())) {
             supportMatrix[r][c] = group;
 
             //Control superior Tile
-            if(r!=0){
-                searchGroup(b, supportMatrix, r-1, c, group, currentTileColor);
+            if (r != 0) {
+                searchGroup(b, supportMatrix, r - 1, c, group, currentTileColor);
             }
 
-            if(c!=0){
-                searchGroup(b, supportMatrix, r, c-1, group, currentTileColor);
+            if (c != 0) {
+                searchGroup(b, supportMatrix, r, c - 1, group, currentTileColor);
             }
 
-            if(r!=b.getNumberOfRows()-1){
-                searchGroup(b, supportMatrix, r+1, c, group, currentTileColor);
+            if (r != b.getNumberOfRows() - 1) {
+                searchGroup(b, supportMatrix, r + 1, c, group, currentTileColor);
             }
 
-            if(c!=b.getNumberOfColumns()-1){
-                searchGroup(b, supportMatrix, r, c+1, group, currentTileColor);
+            if (c != b.getNumberOfColumns() - 1) {
+                searchGroup(b, supportMatrix, r, c + 1, group, currentTileColor);
             }
         }
     }

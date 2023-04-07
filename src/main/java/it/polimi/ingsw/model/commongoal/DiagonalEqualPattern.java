@@ -90,26 +90,26 @@ public class DiagonalEqualPattern extends CommonGoal{
        return repetitions;
     }
 
-    private void assignGroupToDiagonalEqualTiles(Bookshelf bookshelf, int[][] supportMatrix, int r, int c, int group, TileColor currentTileColor) {
+    private void assignGroupToDiagonalEqualTiles(Bookshelf bookshelf, int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
 
-        if ((supportMatrix[r][c] == 1) && currentTileColor.equals(bookshelf.getSingleTile(r,c).getColor())) {
-            supportMatrix[r][c] = group;
+        if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row,column).getColor())) {
+            supportMatrix[row][column] = group;
 
             //up left
-            if(r!=0 && c!=0){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c-1, group, currentTileColor);
+            if(row!=0 && column!=0){
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row-1, column-1, group, currentTileColor);
             }
             //up right
-            if(r != 0 && c!=bookshelf.getNumberOfColumns()-1){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r-1, c+1, group, currentTileColor);
+            if(row != 0 && column!=bookshelf.getNumberOfColumns()-1){
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row-1, column+1, group, currentTileColor);
             }
             //down left
-            if(r!=bookshelf.getNumberOfRows()-1 && c!=0){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c-1, group, currentTileColor);
+            if(row!=bookshelf.getNumberOfRows()-1 && column!=0){
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row+1, column-1, group, currentTileColor);
             }
             //down right
-            if(r!=bookshelf.getNumberOfRows()-1 && c!=bookshelf.getNumberOfColumns()-1){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, r+1, c+1, group, currentTileColor);
+            if(row!=bookshelf.getNumberOfRows()-1 && column!=bookshelf.getNumberOfColumns()-1){
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row+1, column+1, group, currentTileColor);
             }
         }
     }

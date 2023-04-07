@@ -18,12 +18,14 @@ public abstract class CommonGoal extends Card {
         this.scoreTiles = null;
         this.numberOfPatternRepetitionsRequired = 0;
     }
+
     public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type) {
         super(imageID);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
         this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
     }
+
     public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(imageID);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
@@ -56,12 +58,12 @@ public abstract class CommonGoal extends Card {
     }
 
     private void initScoreTiles(int numberOfPlayers) {
-        switch(numberOfPlayers) {
+        switch (numberOfPlayers) {
             case 2 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8),new ScoreTile(4)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(4)));
             }
             case 3 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8),new ScoreTile(6),new ScoreTile(4)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4)));
             }
             case 4 -> {
                 this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));

@@ -7,44 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Choice implements ObservableType {
-
-    public static class Coord {
-        private int x;
-        private int y;
-
-        public Coord(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Coord() {
-            x = 0;
-            y = 0;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public boolean equals(Coord obj) {
-            return obj.getX()==this.getX() && obj.getY()==this.getY();
-        }
-    }
-
     private List<TileView> chosenTiles;
-    private List<Coord> tileCoords;
+    private List<Coordinates> tileCoordinates;
     private int[] tileOrder;
     private int chosenColumn;
 
@@ -55,22 +19,22 @@ public class Choice implements ObservableType {
             tileOrder[i] = 0;
         }
         this.chosenColumn = 0;
-        tileCoords = new ArrayList<>();
+        tileCoordinates = new ArrayList<>();
     }
 
-    public Choice(List<TileView> chosenTiles, List<Coord> tileCoords, int[] tileOrder, int chosenColumn) {
+    public Choice(List<TileView> chosenTiles, List<Coordinates> tileCoordinates, int[] tileOrder, int chosenColumn) {
         this.chosenTiles = chosenTiles;
         this.tileOrder = tileOrder;
         this.chosenColumn = chosenColumn;
-        this.tileCoords = tileCoords;
+        this.tileCoordinates = tileCoordinates;
     }
 
-    public List<Coord> getTileCoords() {
-        return tileCoords;
+    public List<Coordinates> getTileCoordinates() {
+        return tileCoordinates;
     }
 
-    public void setTileCoords(List<Coord> tileCoords) {
-        this.tileCoords = tileCoords;
+    public void setTileCoordinates(List<Coordinates> tileCoordinates) {
+        this.tileCoordinates = tileCoordinates;
     }
 
     public List<TileView> getChosenTiles() {
@@ -101,8 +65,8 @@ public class Choice implements ObservableType {
         this.chosenTiles.add(tile);
     }
 
-    public void addCoords(Coord coord) {
-        this.tileCoords.add(coord);
+    public void addCoordinates(Coordinates coordinates) {
+        this.tileCoordinates.add(coordinates);
     }
 
     @Override

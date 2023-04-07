@@ -12,47 +12,38 @@ public class BookshelfView {
     public String getImage() {
         return this.bookshelfModel.getImage();
     }
+
     public TileView[][] getTiles() {
-        TileView[][] temp = new TileView[this.bookshelfModel.getNumberOfRows()][this.bookshelfModel.getNumberOfColumns()];
-        for(int r = 0; r < this.bookshelfModel.getNumberOfRows(); r++) {
-            for(int c = 0; c < this.bookshelfModel.getNumberOfColumns(); c++) {
-                temp[r][c] = new TileView(this.bookshelfModel.getSingleTile(r,c));
+        TileView[][] tileViewsTiles = new TileView[this.bookshelfModel.getNumberOfRows()][this.bookshelfModel.getNumberOfColumns()];
+        for (int row = 0; row < this.bookshelfModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.bookshelfModel.getNumberOfColumns(); column++) {
+                tileViewsTiles[row][column] = new TileView(this.bookshelfModel.getSingleTile(row, column));
             }
         }
-        return temp;
-    }
-    public TileView getSingleTile(int i, int j){ // funzione estrazione singola Tile selezionata
-        return new TileView(this.bookshelfModel.getSingleTile(i,j));
-    }
-    public int getNumColumns() {
-        return this.bookshelfModel.getNumberOfColumns();
-    }
-    public int getNumElemColumn(int c){
-        int counter = 0;
-        for(int i = 0; i<this.bookshelfModel.getNumberOfRows(); i++){
-            if(this.bookshelfModel.getSingleTile(i, c)!=null)
-                counter++;
-        }
-        return counter;
-    }
-    public int getNumRows() {
-        return this.bookshelfModel.getNumberOfRows();
-    }
-    public boolean isRowFull(int r) {
-        for (int i = 0; i < this.getNumColumns(); i++) {
-            if (this.bookshelfModel.getSingleTile(r,i) == null) {
-                return false;
-            }
-        }
-        return true;
+        return tileViewsTiles;
     }
 
-    public boolean isColumnFull(int c) {
-        for (int i = 0; i < this.bookshelfModel.getNumberOfRows(); i++) {
-            if (this.bookshelfModel.getSingleTile(i,c) == null) {
-                return false;
-            }
-        }
-        return true;
+    public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
+        return new TileView(this.bookshelfModel.getSingleTile(row, column));
+    }
+
+    public int getNumberOfColumns() {
+        return this.bookshelfModel.getNumberOfColumns();
+    }
+
+    public int getNumberOfTilesInColumn(int column) {
+        return this.bookshelfModel.getNumberOfTilesInColumn(column);
+    }
+
+    public int getNumberOfRows() {
+        return this.bookshelfModel.getNumberOfRows();
+    }
+
+    public boolean isRowFull(int row) {
+        return this.bookshelfModel.isRowFull(row);
+    }
+
+    public boolean isColumnFull(int column) {
+        return this.bookshelfModel.isColumnFull(column);
     }
 }

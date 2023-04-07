@@ -1,12 +1,10 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
-import model.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Event;
 import it.polimi.ingsw.model.commongoal.Direction;
-import model.view.*;
-import org.example.model.view.*;
 import it.polimi.ingsw.utils.ObservableType;
 
 import java.util.*;
@@ -87,10 +85,10 @@ public class TextualUI extends UI {
                                 s.next();
                             }
 
-                            if (row <= model.getBoard().getNumRows() && row > 0) {
+                            if (row <= model.getBoard().getNumberOfRows() && row > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + model.getBoard().getNumRows() + "!)");
+                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + model.getBoard().getNumberOfRows() + "!)");
                             }
                         }
 
@@ -105,10 +103,10 @@ public class TextualUI extends UI {
                                 s.next();
                             }
 
-                            if (column <= model.getBoard().getNumColumns() && column > 0) {
+                            if (column <= model.getBoard().getNumberOfColumns() && column > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + model.getBoard().getNumColumns() + "!");
+                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + model.getBoard().getNumberOfColumns() + "!");
                             }
                         }
 
@@ -119,7 +117,7 @@ public class TextualUI extends UI {
                                     firstRow = row;
                                     firstColumn = column;
                                     playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
-                                    playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                    playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                 }
                                 case 1 -> {
                                     Direction res = checkIfInLine(row, column, firstRow, firstColumn);
@@ -127,14 +125,14 @@ public class TextualUI extends UI {
                                         directionToCheck = res;
                                         counter++;
                                         playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
-                                        playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                        playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
                                 case 2 -> {
-                                    if (checkIfInLine(row-1, column-1, playerChoice.getTileCoords(), directionToCheck)) {
+                                    if (checkIfInLine(row-1, column-1, playerChoice.getTileCoordinates(), directionToCheck)) {
                                         counter++;
                                         playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
-                                        playerChoice.addCoords(new Choice.Coord(row - 1, column - 1));
+                                        playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
                                 default -> {
@@ -142,7 +140,7 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if (counter > 0 && counter!=3) {
+                        if (counter > 0 && counter != 3) {
                             while(!input.equalsIgnoreCase("SI") && ! input.equalsIgnoreCase("NO")) {
                                 System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                                 input = s.next();
@@ -160,16 +158,16 @@ public class TextualUI extends UI {
                         try {
                             chosenColumn = s.nextInt();
 
-                            if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns()) {
+                            if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                                 System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                                        " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumColumns() + "!");
+                                        " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
                             }
                         } catch (InputMismatchException ignored) {
                             System.out.println("Non hai inserito un valore valido, riprova!");
                         }
 
 
-                    } while (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumColumns());
+                    } while (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns());
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
 
@@ -217,6 +215,9 @@ public class TextualUI extends UI {
                     //---------------------------------NOTIFICA CONTROLLER---------------------------------
                     setChanged();
                     notifyObservers(playerChoice);
+                    setChanged();
+                    notifyObservers(Event.CHANGE_TURN);
+
 
                     /*
                     int c = 0;
@@ -261,19 +262,19 @@ public class TextualUI extends UI {
         return null;
     }
 
-    private boolean checkIfInLine(int row, int column, List<Choice.Coord> prevTilesCoords, Direction directionToCheck) {
-        if (prevTilesCoords.contains(new Choice.Coord(row, column))) {
+    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
+        if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
             System.out.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
         }
         switch (directionToCheck) {
             case HORIZONTAL -> {
-                if (row != prevTilesCoords.get(0).getX()) {
+                if (row != prevTilesCoordinates.get(0).getX()) {
                     System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
-                    for (Choice.Coord coords : prevTilesCoords) {
-                        if (coords.getY() == column + 1 || coords.getY() == column - 1) {
+                    for (Coordinates coordinates : prevTilesCoordinates) {
+                        if (coordinates.getY() == column + 1 || coordinates.getY() == column - 1) {
                             return true;
                         }
                     }
@@ -282,12 +283,12 @@ public class TextualUI extends UI {
                 return false;
             }
             case VERTICAL -> {
-                if (column != prevTilesCoords.get(0).getY()) {
+                if (column != prevTilesCoordinates.get(0).getY()) {
                     System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
-                    for (Choice.Coord coords : prevTilesCoords) {
-                        if (coords.getX() == row + 1 || coords.getX() == row - 1) {
+                    for (Coordinates coordinates : prevTilesCoordinates) {
+                        if (coordinates.getX() == row + 1 || coordinates.getX() == row - 1) {
                             return true;
                         }
                     }
@@ -307,11 +308,11 @@ public class TextualUI extends UI {
         BoardView board = model.getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if (!boardMatrix[row][column].isNull()) {
-            if ((row != 0 && boardMatrix[row - 1][column].isNull()) ||
-                    (row != board.getNumRows() && boardMatrix[row + 1][column].isNull()) ||
-                        (column != board.getNumColumns() && boardMatrix[row][column + 1].isNull()) ||
-                            (column != 0 && boardMatrix[row][column - 1].isNull())) {
+        if (!boardMatrix[row][column].isNull() || !boardMatrix[row][column].hasNoColor()) {
+            if ((row != 0 && (boardMatrix[row - 1][column].isNull() || boardMatrix[row - 1][column].hasNoColor())) ||
+                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column].isNull() || boardMatrix[row + 1][column].hasNoColor())) ||
+                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1].isNull() || boardMatrix[row][column + 1].hasNoColor())) ||
+                            (column != 0 && (boardMatrix[row][column - 1].isNull() || boardMatrix[row][column - 1].hasNoColor()))) {
                 return true;
             } else {
                 System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
@@ -404,11 +405,11 @@ public class TextualUI extends UI {
     //TODO: Si è rivelato necessario aggiungere in TileView un metodo isNull(), per verificare se l'attributo tileModel risultava nullo. Questo può accadere poichè la TileView viene
     //      creata a partire dalla Tile che può essere NULL cosa che non comporta che anche TileView lo sia (Da qui la necessità di questo metodo)
     private void printTilesMatrix(TileView[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
+        for (int row = 0; row < matrix.length; row++) {
             System.out.print("[ ");
-            for (int j = 0; j < matrix[0].length; j++) {
-                TileView currentTile = matrix[i][j];
-                System.out.print(currentTile.isNull() ? "0 " : currentTile.getColor() + " ");
+            for (int column = 0; column < matrix[0].length; column++) {
+                TileView currentTile = matrix[row][column];
+                System.out.print((currentTile.isNull() || currentTile.getColor() == null) ? "0 " : currentTile.getColor() + " ");
             }
             System.out.println("]");
         }

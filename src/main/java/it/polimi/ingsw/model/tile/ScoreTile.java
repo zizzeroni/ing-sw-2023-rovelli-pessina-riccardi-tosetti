@@ -43,7 +43,7 @@ public class ScoreTile {
         this.commonGoalID = commonGoalID;
     }
 
-    public int getValue(){
+    public int getValue() {
         return this.value;
     }
 }

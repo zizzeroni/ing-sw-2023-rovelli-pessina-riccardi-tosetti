@@ -2,8 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.UI;
-import model.*;
-import org.example.model.*;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.utils.ObservableType;
@@ -35,16 +33,9 @@ public class GameController implements Observer<UI, ObservableType> {
     }
 
 
-
-
-
-
-
-
-
     //Trasposizione del metodo changeTurn già presente nella classe game
-    private void changeTurn() {
-        if (model.getBoard().needRefill() != 0) {
+    public void changeTurn() {
+        if (model.getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
 
@@ -62,7 +53,7 @@ public class GameController implements Observer<UI, ObservableType> {
     private void refillBoard() {
         Collections.shuffle(model.getBag());
 
-        List<Tile> drawedTiles = model.getBag().subList(0, model.getBoard().needRefill());
+        List<Tile> drawedTiles = model.getBag().subList(0, model.getBoard().numberOfTilesToRefill());
         model.getBoard().addTiles(drawedTiles);
         drawedTiles.clear();
     }
@@ -86,10 +77,13 @@ public class GameController implements Observer<UI, ObservableType> {
             switch (arg.getEvent()) {
                 case USER_INPUT -> {
                     Choice choice = (Choice) arg;
-                    if(checkIfUserInputIsCorrect(choice)) {
+                    if (checkIfUserInputIsCorrect(choice)) {
                         insertUserInputIntoModel(choice);
                     }
 
+                }
+                case CHANGE_TURN -> {
+                    this.changeTurn();
                 }
             }
         }
@@ -99,11 +93,11 @@ public class GameController implements Observer<UI, ObservableType> {
         List<TileView> choiceChoosenTiles = choice.getChosenTiles();
         int[] choiceTileOrder = choice.getTileOrder();
         int choiceColumn = choice.getChosenColumn();
-        List<Choice.Coord> choiceTileCoords = choice.getTileCoords();
+        List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
-        if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoords.size()) {
+        if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
             if (choiceColumn >= 0 && choiceColumn < model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
-                if(checkIfCoordsArePlausible(choiceTileCoords)) {
+                if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }
             }
@@ -116,19 +110,16 @@ public class GameController implements Observer<UI, ObservableType> {
         Board board = model.getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        if ((boardMatrix[x][y] != null) && (
-                (x != 0 && boardMatrix[x - 1][y] == null) ||
-                        (x != board.getNumRows() && boardMatrix[x + 1][y] == null) ||
-                        (y != board.getNumColumns() && boardMatrix[x][y + 1] == null) ||
-                        (y != 0 && boardMatrix[x][y - 1] == null))) {
-            return true;
-        }
-        return false;
+        return (boardMatrix[x][y] != null || boardMatrix[x][y].getColor() != null) && (
+                (x != 0 && (boardMatrix[x - 1][y] == null || boardMatrix[x - 1][y].getColor() == null)) ||
+                        (x != board.getNumberOfRows() && (boardMatrix[x + 1][y] == null || boardMatrix[x + 1][y].getColor() == null)) ||
+                        (y != board.getNumberOfColumns() && (boardMatrix[x][y + 1] == null || boardMatrix[x][y + 1].getColor() == null)) ||
+                        (y != 0 && (boardMatrix[x][y - 1] == null || boardMatrix[x][y - 1].getColor() == null)));
     }
 
-    private boolean checkIfCoordsArePlausible(List<Choice.Coord> coords) {
-        for (Choice.Coord coordinates : coords) {
-            if(!checkIfPickable(coordinates.getX(),coordinates.getY())) {
+    private boolean checkIfCoordinatesArePlausible(List<Coordinates> coordinates) {
+        for (Coordinates coordinate : coordinates) {
+            if (!checkIfPickable(coordinate.getX(), coordinate.getY())) {
                 return false;
             }
         }
@@ -136,34 +127,34 @@ public class GameController implements Observer<UI, ObservableType> {
     }
 
     private void insertUserInputIntoModel(Choice playerChoice) {
-        removeTilesFromBoard(playerChoice.getChosenTiles(),playerChoice.getTileCoords());
-        addTilesToPlayerBookshelf(playerChoice.getChosenTiles(),playerChoice.getTileOrder(),playerChoice.getChosenColumn());
+        removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+        addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
 
 
     }
 
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Choice.Coord> tileCoords) {
+    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
         Board board = model.getBoard();
-        int[] positions = new int[tileCoords.size()*2];
-        for(int i = 0;i<tileCoords.size()*2;i++) {
-            if(i%2==0) {
-                positions[i] = tileCoords.get(i/2).getX();
+        int[] positions = new int[tileCoordinates.size() * 2];
+        for (int i = 0; i < tileCoordinates.size() * 2; i++) {
+            if (i % 2 == 0) {
+                positions[i] = tileCoordinates.get(i / 2).getX();
             } else {
-                positions[i] = tileCoords.get(i/2).getY();
+                positions[i] = tileCoordinates.get(i / 2).getY();
             }
         }
-        Tile[] temp = new Tile[chosenTiles.size()];
-        for (int i=0;i<chosenTiles.size();i++) {
-            temp[0] = new Tile(chosenTiles.get(i).getColor());
+        Tile[] tilesToRemove = new Tile[chosenTiles.size()];
+        for (int i = 0; i < chosenTiles.size(); i++) {
+            tilesToRemove[0] = new Tile(chosenTiles.get(i).getColor());
         }
-        board.removeTiles(temp,positions);
+        board.removeTiles(tilesToRemove, positions);
         model.boardModified();
     }
 
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
         Bookshelf bookshelf = model.getPlayers().get(model.getActivePlayerIndex()).getBookshelf();
-        for(int i=0;i<chosenTiles.size();i++) {
-            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()),chosenColumn);
+        for (int i = 0; i < chosenTiles.size(); i++) {
+            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
         }
         model.bookshelfModified();
     }

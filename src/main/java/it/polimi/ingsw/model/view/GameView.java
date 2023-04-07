@@ -24,31 +24,36 @@ public class GameView extends Observable<ObservableType> implements Observer<Gam
     }
 
     public int getNumPlayers() {
-        return gameModel.getNumPlayers();
+        return gameModel.getNumberOfPlayers();
     }
+
     public int getActivePlayerIndex() {
         return gameModel.getActivePlayerIndex();
     }
+
     public List<PlayerView> getPlayers() {
-        List<PlayerView> temp = new ArrayList<>();
-        for(Player player: this.gameModel.getPlayers()) {
-            temp.add(new PlayerView(player));
+        List<PlayerView> playerViews = new ArrayList<>();
+        for (Player player : this.gameModel.getPlayers()) {
+            playerViews.add(new PlayerView(player));
         }
-        return temp;
+        return playerViews;
     }
+
     public List<TileView> getBag() {
-        List<TileView> temp = new ArrayList<>();
-        for(Tile tile: this.gameModel.getBag()) {
-            temp.add(new TileView(tile));
+        List<TileView> tileViews = new ArrayList<>();
+        for (Tile tile : this.gameModel.getBag()) {
+            tileViews.add(new TileView(tile));
         }
-        return temp;
+        return tileViews;
     }
+
     public BoardView getBoard() {
         return new BoardView(this.gameModel.getBoard());
     }
+
     public List<CommonGoalView> getCommonGoals() {
         List<CommonGoalView> temp = new ArrayList<>();
-        for(CommonGoal commonGoal: this.gameModel.getCommonGoals()) {
+        for (CommonGoal commonGoal : this.gameModel.getCommonGoals()) {
             temp.add(new CommonGoalView(commonGoal));
         }
         return temp;

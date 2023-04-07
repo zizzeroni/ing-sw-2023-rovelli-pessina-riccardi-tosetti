@@ -1,11 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.commongoal.EightShaplessPatternGoal;
 import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
-import model.*;
-import org.example.model.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;

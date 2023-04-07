@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.commongoal.*;
-import model.commongoal.*;
-
-import org.example.model.commongoal.*;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.utils.Observable;
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class Game extends Observable<ObservableType> {
 
-    private int numPlayers;
+    private int numberOfPlayers;
     private int activePlayerIndex;
     private List<Player> players;
     private List<Tile> bag;
@@ -26,11 +23,11 @@ public class Game extends Observable<ObservableType> {
     private List<CommonGoal> commonGoals;
     private final Random randomizer = new Random();
 
-    public Game(int numPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
+    public Game(int numberOfPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.players = players;
         this.activePlayerIndex = 0;
         this.board = new Board(boardPattern);
-        this.numPlayers = numPlayers;
+        this.numberOfPlayers = numberOfPlayers;
         this.bag = new ArrayList<>(132);
         this.commonGoals = new ArrayList<>(2);
 
@@ -63,8 +60,8 @@ public class Game extends Observable<ObservableType> {
 
         this.refillBoard();
     }
-    public Game(int numPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
-        this.numPlayers = numPlayers;
+    public Game(int numberOfPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
+        this.numberOfPlayers = numberOfPlayers;
         this.activePlayerIndex = activePlayerIndex;
         this.players = players;
         this.bag = bag;
@@ -73,11 +70,11 @@ public class Game extends Observable<ObservableType> {
     }
 
 
-    public int getNumPlayers() {
-        return numPlayers;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     public int getActivePlayerIndex() {

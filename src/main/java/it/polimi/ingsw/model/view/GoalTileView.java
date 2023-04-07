@@ -17,7 +17,7 @@ public class GoalTileView {
         return this.scoreTileModel.getCommonGoalID();
     }
 
-    public int getValue(){
+    public int getValue() {
         return this.scoreTileModel.getValue();
     }
 }

@@ -9,22 +9,25 @@ public class BoardView {
         this.boardModel = boardModel;
     }
 
-    public int getMaxNumTiles() {
-        return this.boardModel.getMaxNumTiles();
+    public int getNumberOfUsableTiles() {
+        return this.boardModel.getNumberOfUsableTiles();
     }
+
     public TileView[][] getTiles() {
-        TileView[][] temp = new TileView[this.boardModel.getNumRows()][this.boardModel.getNumColumns()];
-        for(int r=0;r<this.boardModel.getNumRows();r++) {
-            for(int c=0;c<this.boardModel.getNumColumns();c++) {
-                temp[r][c]=new TileView(this.boardModel.getSingleTile(r,c));
+        TileView[][] tileViewTiles = new TileView[this.boardModel.getNumberOfRows()][this.boardModel.getNumberOfColumns()];
+        for (int row = 0; row < this.boardModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.boardModel.getNumberOfColumns(); column++) {
+                tileViewTiles[row][column] = new TileView(this.boardModel.getSingleTile(row, column));
             }
         }
-        return temp;
+        return tileViewTiles;
     }
-    public int getNumColumns() {
-        return this.boardModel.getNumColumns();
+
+    public int getNumberOfColumns() {
+        return this.boardModel.getNumberOfColumns();
     }
-    public int getNumRows() {
-        return this.boardModel.getNumRows();
+
+    public int getNumberOfRows() {
+        return this.boardModel.getNumberOfRows();
     }
 }

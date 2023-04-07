@@ -1,19 +1,18 @@
 package it.polimi.ingsw.model;
 
-import model.tile.*;
 import it.polimi.ingsw.model.tile.Tile;
 
 public class PersonalGoal extends Card {
-    private final int numColumns = 5;
-    private final int numRows = 6;
+    private final int numberOfColumns = 5;
+    private final int numberOfRows = 6;
     private Tile[][] pattern;
 
     public PersonalGoal() {
         super();
-        this.pattern = new Tile[this.numRows][this.numColumns];
-        for(int i=0;i<this.numRows;i++) {
-            for(int j=0;j<this.numColumns;j++) {
-                this.pattern[i][j]=null;
+        this.pattern = new Tile[this.numberOfRows][this.numberOfColumns];
+        for (int row = 0; row < this.numberOfRows; row++) {
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                this.pattern[row][column] = null;
             }
         }
     }
@@ -23,12 +22,12 @@ public class PersonalGoal extends Card {
         this.pattern = pattern;
     }
 
-    public int getNumColumns() {
-        return numColumns;
+    public int getNumberOfColumns() {
+        return numberOfColumns;
     }
 
-    public int getNumRows() {
-        return numRows;
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 
     public Tile[][] getPattern() {
@@ -39,16 +38,16 @@ public class PersonalGoal extends Card {
         this.pattern = pattern;
     }
 
-    public Tile getSingleTile(int x, int y) {
-        return this.pattern[x][y];
+    public Tile getSingleTile(int row, int column) {
+        return this.pattern[row][column];
     }
 
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
-        int counter=0;
-        for(int i=0;i<this.numRows;i++) {
-            for(int j=0;j<this.numColumns;j++) {
-                if(this.pattern[i][j] != null && bookshelf.getSingleTile(i, j) != null && bookshelf.getSingleTile(i, j).getColor().equals(this.pattern[i][j].getColor())) {
+        int counter = 0;
+        for (int row = 0; row < this.numberOfRows; row++) {
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                if (this.pattern[row][column] != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
                     counter++;
                 }
             }
@@ -56,8 +55,8 @@ public class PersonalGoal extends Card {
         return counter;
     }
 
-    public int score(Bookshelf b){
-        switch (this.numberOfPatternRepetitionInBookshelf(b)){
+    public int score(Bookshelf bookshelf) {
+        switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
                 return 0;
             }
