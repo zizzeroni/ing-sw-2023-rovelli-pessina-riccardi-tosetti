@@ -2,21 +2,18 @@ package org.example;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import controller.GameController;
+import org.example.controller.GameController;
 import model.*;
-import model.tile.ScoreTile;
-import model.tile.Tile;
-import model.tile.TileColor;
-import model.view.GameView;
-import view.TextualUI;
-import view.UI;
+import org.example.model.*;
+import org.example.model.tile.ScoreTile;
+import org.example.model.view.GameView;
+import org.example.view.TextualUI;
+import org.example.view.UI;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Hello world!
