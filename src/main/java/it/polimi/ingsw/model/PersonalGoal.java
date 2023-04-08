@@ -83,4 +83,17 @@ public class PersonalGoal extends Card {
             }
         }
     }
+    @Override
+    public String toString() {
+        String output="";
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output += "[ ";
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                Tile currentTile = this.pattern[row][column];
+                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+            }
+            output += "]\n";
+        }
+        return output.substring(0,output.length()-1);
+    }
 }

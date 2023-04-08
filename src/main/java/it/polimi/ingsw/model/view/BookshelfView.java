@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.listeners.BookshelfListener;
 
 public class BookshelfView {
     private final Bookshelf bookshelfModel;
@@ -46,4 +47,10 @@ public class BookshelfView {
     public boolean isColumnFull(int column) {
         return this.bookshelfModel.isColumnFull(column);
     }
+
+    @Override
+    public String toString() {
+        return this.bookshelfModel.toString();
+    }
+
 }

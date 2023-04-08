@@ -94,10 +94,17 @@ public class App
 
         GameView modelView = new GameView(model);
         UI view = new TextualUI(modelView);
-        GameController controller = new GameController(model, view);
+        GameController controller = new GameController(model/*, view*/);
 
-        modelView.addObserver(view);
-        view.addObserver(controller);
+        //modelView.addObserver(view);
+        //view.addObserver(controller);
+        model.registerListener(modelView);
+        model.getBoard().registerListener(modelView);
+        for(Player player : model.getPlayers()) {
+            player.getBookshelf().registerListener(modelView);
+        }
+        modelView.registerListener(view);
+        view.registerListener(controller);
 
         view.run();
     }

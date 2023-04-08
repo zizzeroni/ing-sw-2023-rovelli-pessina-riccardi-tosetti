@@ -77,4 +77,16 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Six groups each containing at least 2 tiles of the same type (not necessarily in the depicted shape).\n" +
+                "The tiles of one group can be different from those of another group." +
+                "[ 0 0 0 0 0 ] \n" +
+                "[ 0 0 - 0 0 ] \n" +
+                "[ 0 | = | 0 ] \n" +
+                "[ 0 | = | 0 ] \n" +
+                "[ 0 0 - 0 0 ] \n" +
+                "[ 0 0 - 0 0 ] \n";
+    }
 }

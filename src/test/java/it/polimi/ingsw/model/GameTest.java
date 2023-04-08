@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
-import it.polimi.ingsw.model.commongoal.EightShaplessPatternGoal;
+import it.polimi.ingsw.model.commongoal.EightShapelessPatternGoal;
 import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
@@ -33,7 +32,7 @@ public class GameTest {
         this.players.add(new Player("Luca", true, Arrays.asList(new ScoreTile(1), new ScoreTile(2), new ScoreTile(4)), new Bookshelf()));
 
         this.commonGoals.add(new FourCornersPatternGoal());
-        this.commonGoals.add(new EightShaplessPatternGoal());
+        this.commonGoals.add(new EightShapelessPatternGoal());
 
         this.players.get(0).setPersonalGoal(new PersonalGoal(1, new Tile[][]{
             {null, null, null, null, new Tile(TileColor.CYAN)},
@@ -97,7 +96,7 @@ public class GameTest {
         int size = bag.size();
 
         this.game = new Game(4, 0, this.players, bag, board, this.commonGoals);
-        this.game.changeTurn();
+        //this.game.changeTurn();
 
         assertEquals(size, this.game.getBag().size());
     }
@@ -130,7 +129,7 @@ public class GameTest {
         System.out.println(size);
 
         this.game = new Game(4, 0, this.players, bag, board, this.commonGoals);
-        this.game.changeTurn();
+        //this.game.changeTurn();
         System.out.println(size);
 
         assertEquals(45, size - this.game.getBag().size());

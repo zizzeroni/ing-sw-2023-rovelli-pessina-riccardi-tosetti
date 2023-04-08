@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
-public class EightShaplessPatternGoal extends CommonGoal {
-    public EightShaplessPatternGoal() {
+public class EightShapelessPatternGoal extends CommonGoal {
+    public EightShapelessPatternGoal() {
         super();
     }
 
-    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type) {
+    public EightShapelessPatternGoal(int imageID, int patternRepetition, CheckType type) {
         super(imageID, patternRepetition, type);
     }
 
-    public EightShaplessPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
+    public EightShapelessPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
         super(imageID, patternRepetition, type, numberOfPlayers);
     }
 

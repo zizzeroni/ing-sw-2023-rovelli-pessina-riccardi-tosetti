@@ -2,9 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.util.List;
 
+import it.polimi.ingsw.model.listeners.BoardListener;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 
 public class Board {
+    private BoardListener listener;
     private int numberOfUsableTiles;
 
     private final int numberOfColumns = 9;
@@ -12,6 +15,14 @@ public class Board {
     private final int numberOfRows = 9;
 
     private Tile[][] tiles;
+
+    public void registerListener(BoardListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
+    }
 
     public Board() {
         this.numberOfUsableTiles = 0;
@@ -55,6 +66,9 @@ public class Board {
                 }
             }
         }
+        if(listener!=null) {
+            listener.addedTilesToBoard(this);
+        }
     }
 
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
@@ -80,6 +94,7 @@ public class Board {
             this.tiles[positions[i]][positions[i + 1]] = null;
             i += 2;
         }
+        this.listener.removedTilesFromBoard(this);
     }
 
     public int getNumberOfUsableTiles() {
@@ -108,5 +123,23 @@ public class Board {
 
     public Tile getSingleTile(int x, int y) {
         return tiles[x][y];
+    }
+
+    @Override
+    public String toString() {
+        String output = "  ";
+        for(int column=0;column<this.numberOfColumns;column++) {
+            output += column+1 + " ";
+        }
+        output += "\n";
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output += "[ ";
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                Tile currentTile = this.tiles[row][column];
+                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+            }
+            output += "] " + (row+1) +"\n";
+        }
+        return output.substring(0,output.length()-1);
     }
 }

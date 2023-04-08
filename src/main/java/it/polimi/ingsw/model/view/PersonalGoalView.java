@@ -31,5 +31,8 @@ public class PersonalGoalView {
         return new TileView(this.personalGoalModel.getSingleTile(x, y));
     }
 
-
+    @Override
+    public String toString() {
+        return this.personalGoalModel.toString();
+    }
 }

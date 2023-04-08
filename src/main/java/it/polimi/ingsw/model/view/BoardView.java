@@ -30,4 +30,9 @@ public class BoardView {
     public int getNumberOfRows() {
         return this.boardModel.getNumberOfRows();
     }
+
+    @Override
+    public String toString() {
+        return this.boardModel.toString();
+    }
 }
