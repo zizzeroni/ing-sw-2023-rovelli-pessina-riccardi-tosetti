@@ -2,9 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.util.List;
 
+import it.polimi.ingsw.model.listeners.BoardListener;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 
 public class Board {
+    private BoardListener listener;
     private int numberOfUsableTiles;
 
     private final int numberOfColumns = 9;
@@ -12,6 +15,14 @@ public class Board {
     private final int numberOfRows = 9;
 
     private Tile[][] tiles;
+
+    public void registerListener(BoardListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
+    }
 
     public Board() {
         this.numberOfUsableTiles = 0;
@@ -44,6 +55,7 @@ public class Board {
         this.tiles = tiles;
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public void addTiles(List<Tile> tilesToAdd) {
         if (tilesToAdd.size() == 0) {
             return;
@@ -55,8 +67,12 @@ public class Board {
                 }
             }
         }
+        if (listener != null) {
+            listener.addedTilesToBoard(this);
+        }
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
         int usableTilesStillAvailable = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
@@ -74,12 +90,14 @@ public class Board {
         return this.numberOfUsableTiles - usableTilesStillAvailable;
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public void removeTiles(Tile[] tilesToRemove, int[] positions) {
         int i = 0;
         for (Tile tile : tilesToRemove) {
             this.tiles[positions[i]][positions[i + 1]] = null;
             i += 2;
         }
+        this.listener.removedTilesFromBoard(this);
     }
 
     public int getNumberOfUsableTiles() {
@@ -108,5 +126,23 @@ public class Board {
 
     public Tile getSingleTile(int x, int y) {
         return tiles[x][y];
+    }
+
+    @Override
+    public String toString() {
+        String output = "    ";
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            output += column + 1 + " ";
+        }
+        output += "\n";
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output += (row + 1) + " [ ";
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                Tile currentTile = this.tiles[row][column];
+                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+            }
+            output += "] " + "\n";
+        }
+        return output.substring(0, output.length() - 1);
     }
 }

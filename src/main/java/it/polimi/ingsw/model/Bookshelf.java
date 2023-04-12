@@ -1,14 +1,22 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
 
 public class Bookshelf {
+    private BookshelfListener listener;
     private final int numberOfColumns = 5;
     private final int numberOfRows = 6;
-
     private String image;
-
     private Tile[][] tiles;
+
+    public void registerListener(BookshelfListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
+    }
 
     public Bookshelf() {
         image = null;
@@ -29,9 +37,12 @@ public class Bookshelf {
 
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
+        if (this.listener != null) {
+            this.listener.tileAddedToBookshelf(this);
+        }
     }
 
-    public int emptyCellsInColumn(int column) {
+    public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
         for (int i = this.numberOfRows - 1; i > 0; i--) {
             if (this.tiles[i][column] != null) {
@@ -39,7 +50,6 @@ public class Bookshelf {
             }
             counter++;
         }
-
         return counter;
     }
 
@@ -54,8 +64,8 @@ public class Bookshelf {
 
     public void setImage(String image) {
         this.image = image;
+        this.listener.imageModified(this.image);
     }
-
 
     public Tile[][] getTiles() {
         return tiles;
@@ -112,5 +122,22 @@ public class Bookshelf {
         this.tiles = tiles;
     }
 
+    @Override
+    public String toString() {
+        String output = "    ";
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            output += column + 1 + " ";
+        }
+        output += "\n";
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output += (row + 1) + " [ ";
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                Tile currentTile = this.tiles[row][column];
+                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+            }
+            output += "] " + "\n";
+        }
+        return output.substring(0, output.length() - 1);
+    }
 }
 

@@ -17,12 +17,9 @@ import java.util.List;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+    public static void main(String[] args) {
         /*int numPlayers = 4;
         Gson gson = new Gson();
 
@@ -64,10 +61,12 @@ public class App
 
         try {
             Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
-            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {}.getType());
+            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
+            }.getType());
 
             reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
-            boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {}.getType());
+            boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
             reader.close();
 
         } catch (Exception e) {
@@ -94,10 +93,17 @@ public class App
 
         GameView modelView = new GameView(model);
         UI view = new TextualUI(modelView);
-        GameController controller = new GameController(model, view);
+        GameController controller = new GameController(model/*, view*/);
 
-        modelView.addObserver(view);
-        view.addObserver(controller);
+        //modelView.addObserver(view);
+        //view.addObserver(controller);
+        model.registerListener(modelView);
+        model.getBoard().registerListener(modelView);
+        for (Player player : model.getPlayers()) {
+            player.getBookshelf().registerListener(modelView);
+        }
+        modelView.registerListener(view);
+        view.registerListener(controller);
 
         view.run();
     }

@@ -3,53 +3,45 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Event;
 import it.polimi.ingsw.model.commongoal.Direction;
-import it.polimi.ingsw.utils.ObservableType;
 
 import java.util.*;
 
 public class TextualUI extends UI {
-    private GameView model;
-    private boolean newTurnIntroStamped;
-    private final Object newTurnMutex;
 
-    public TextualUI(boolean newTurnIntroStamped, Object newTurnMutex, GameView model) {
-        this.newTurnIntroStamped = newTurnIntroStamped;
-        this.newTurnMutex = newTurnMutex;
-        this.model = model;
+
+    public TextualUI(GameView model) {
+        super(model);
     }
 
     public TextualUI() {
-        this.newTurnMutex = new Object();
-        this.newTurnIntroStamped = false;
-        this.model = null;
+        super();
     }
 
-    public TextualUI(GameView model) {
-        this.newTurnMutex = new Object();
-        this.newTurnIntroStamped = false;
-        this.model = model;
-    }
 
     @Override
     public void run() {
         while (true) {
             showNewTurnIntro();
-            Optional<Choice> c = askPlayer();
+            Choice choice = askPlayer();
+
+            //---------------------------------NOTIFICA CONTROLLER---------------------------------
+            this.controller.insertUserInputIntoModel(choice);
+            this.controller.changeTurn();
         }
     }
 
-    private void showNewTurnIntro() {
+    @Override
+    public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
-        String pNickname = model.getPlayers().get(model.getActivePlayerIndex()).getNickname();
-        TileView[][] boardMatrix = model.getBoard().getTiles();
+        String pNickname = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname();
         System.out.println("Tocca a te player: " + pNickname + "!");
         System.out.println("Stato della board attuale:");
-        printTilesMatrix(boardMatrix);
+        System.out.println(this.getModel().getBoard());
     }
-
-    private Optional<Choice> askPlayer() {
+    
+    @Override
+    public Choice askPlayer() {
         Scanner s = new Scanner(System.in);
 
         while (true) {
@@ -64,15 +56,20 @@ public class TextualUI extends UI {
                 }
                 case "2" -> {
                     System.out.println("La situazione della board attuale:");
-                    TileView[][] boardMatrix = model.getBoard().getTiles();
-                    printTilesMatrix(boardMatrix);
+                    System.out.println(this.getModel().getBoard());
 
                     int counter = 0, firstRow = 0, firstColumn = 0;
                     boolean isInsertCorrect;
                     Choice playerChoice = new Choice();
                     Direction directionToCheck = null;
-
+                    int maxNumberOfCellsFreeInBookshelf = 0;
                     //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
+                    for (int i = 0; i < this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfColumns(); i++) {
+                        int numberOfFreeSpaces = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(i);
+                        if (numberOfFreeSpaces > maxNumberOfCellsFreeInBookshelf) {
+                            maxNumberOfCellsFreeInBookshelf = numberOfFreeSpaces;
+                        }
+                    }
                     do {
                         isInsertCorrect = false;
                         int row = 0, column = 0;
@@ -85,10 +82,10 @@ public class TextualUI extends UI {
                                 s.next();
                             }
 
-                            if (row <= model.getBoard().getNumberOfRows() && row > 0) {
+                            if (row <= this.getModel().getBoard().getNumberOfRows() && row > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + model.getBoard().getNumberOfRows() + "!)");
+                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfRows() + "!)");
                             }
                         }
 
@@ -103,10 +100,10 @@ public class TextualUI extends UI {
                                 s.next();
                             }
 
-                            if (column <= model.getBoard().getNumberOfColumns() && column > 0) {
+                            if (column <= this.getModel().getBoard().getNumberOfColumns() && column > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + model.getBoard().getNumberOfColumns() + "!");
+                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfColumns() + "!");
                             }
                         }
 
@@ -116,7 +113,7 @@ public class TextualUI extends UI {
                                     counter++;
                                     firstRow = row;
                                     firstColumn = column;
-                                    playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                    playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                     playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                 }
                                 case 1 -> {
@@ -124,14 +121,14 @@ public class TextualUI extends UI {
                                     if (res != null) {
                                         directionToCheck = res;
                                         counter++;
-                                        playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                         playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
                                 case 2 -> {
-                                    if (checkIfInLine(row-1, column-1, playerChoice.getTileCoordinates(), directionToCheck)) {
+                                    if (checkIfInLine(row - 1, column - 1, playerChoice.getTileCoordinates(), directionToCheck)) {
                                         counter++;
-                                        playerChoice.addTile(this.model.getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                         playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
@@ -140,102 +137,88 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if (counter > 0 && counter != 3) {
-                            while(!input.equalsIgnoreCase("SI") && ! input.equalsIgnoreCase("NO")) {
+                        if (counter > 0 && counter != 3 && counter <= maxNumberOfCellsFreeInBookshelf) {
+                            do {
                                 System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                                 input = s.next();
-                            }
+                            } while (!input.equalsIgnoreCase("SI") && !input.equalsIgnoreCase("NO"));
                         }
                     } while (!input.equalsIgnoreCase("NO") && counter < 3);
 
 
                     //---------------------------------SCELTA COLONNA---------------------------------
-                    showBookshelf(model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf());
+                    System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
 
-                    int chosenColumn=0;
+
+                    int chosenColumn = 0;
                     do {
+                        isInsertCorrect = true;
                         System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
                         try {
                             chosenColumn = s.nextInt();
 
-                            if (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+                            if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+                                isInsertCorrect = false;
                                 System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                                        " 1 e " + this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
+                                        " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
+                            }
+                            if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn) + 1 <= counter) {
+                                isInsertCorrect = false;
+                                System.out.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                             }
                         } catch (InputMismatchException ignored) {
                             System.out.println("Non hai inserito un valore valido, riprova!");
                         }
 
 
-                    } while (chosenColumn <= 0 || chosenColumn > this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns());
+                    } while (!isInsertCorrect);
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
 
 
                     //---------------------------------SCELTA ORDINE---------------------------------
-                    System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
-                    isInsertCorrect = false;
-                    do {
-                        input = s.next();
-                        String[] temp;
-                        temp = input.split(",");
-                        boolean res = false;
-                        if (temp.length == counter) {
-                            switch (counter) {
-                                case 1 -> {
-                                    res = Arrays.asList(temp).contains("1");
-                                }
-                                case 2 -> {
-                                    res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2"));
-                                }
-                                case 3 -> {
-                                    res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2", "3"));
-                                }
-                                default -> {
-                                    System.err.println("Unexpected value of chosen tiles");
-                                }
-                            }
 
-                            if (res) {
-                                int[] chosenPositions = new int[temp.length];
-                                for (int i = 0; i < temp.length; i++) {
-                                    chosenPositions[i] = Integer.parseInt(temp[i]) - 1;
+                    if (counter == 1) {
+                        playerChoice.setTileOrder(new int[]{0});
+                    } else {
+                        System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
+                        isInsertCorrect = false;
+                        do {
+                            input = s.next();
+                            String[] temp;
+                            temp = input.split(",");
+                            boolean res = false;
+                            if (temp.length == counter) {
+                                switch (counter) {
+                                    case 2 -> {
+                                        res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2"));
+                                    }
+                                    case 3 -> {
+                                        res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2", "3"));
+                                    }
+                                    default -> {
+                                        System.err.println("Unexpected value of chosen tiles");
+                                    }
                                 }
-                                playerChoice.setTileOrder(chosenPositions);
-                                isInsertCorrect = true;
+
+                                if (res) {
+                                    int[] chosenPositions = new int[temp.length];
+                                    for (int i = 0; i < temp.length; i++) {
+                                        chosenPositions[i] = Integer.parseInt(temp[i]) - 1;
+                                    }
+                                    playerChoice.setTileOrder(chosenPositions);
+                                    isInsertCorrect = true;
+                                } else {
+                                    System.out.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
+                                }
                             } else {
-                                System.out.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
+                                System.out.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
+                                        " la formattazione richiesta, riprova!");
                             }
-                        } else {
-                            System.out.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
-                                    " la formattazione richiesta, riprova!");
-                        }
-                    } while (!isInsertCorrect);
-
-                    //---------------------------------NOTIFICA CONTROLLER---------------------------------
-                    setChanged();
-                    notifyObservers(playerChoice);
-                    setChanged();
-                    notifyObservers(Event.CHANGE_TURN);
-
-
-                    /*
-                    int c = 0;
-                    for(int i=0;i<model.getPlayers().get(0).getBookshelf().getNumRows();i++) {
-                        System.out.print("[ ");
-                        for(int j=0;j<model.getPlayers().get(0).getBookshelf().getNumColumns();j++) {
-                            if(playerChoice.getChosenColumn()-1==j && i==(model.getPlayers().get(0).getBookshelf().getNumRows() - 1) - model.getPlayers().get(0).getBookshelf().getNumElemColumn(j) - (playerChoice.getChosenTiles().size()-1-c)) {
-                                System.out.print(playerChoice.getChosenTiles().get(playerChoice.getTileOrder()[c]).getColor()+" ");
-                                c++;
-                            } else {
-                                System.out.print("0 ");
-                            }
-
-                        }
-                        System.out.println("]");
+                        } while (!isInsertCorrect);
                     }
-                    */
 
+                    return playerChoice;
                 }
                 case "3" -> {
                     System.out.println("Invio messaggio");
@@ -303,16 +286,15 @@ public class TextualUI extends UI {
         }
     }
 
-
     private boolean checkIfPickable(int row, int column) {
-        BoardView board = model.getBoard();
+        BoardView board = this.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if (!boardMatrix[row][column].isNull() || !boardMatrix[row][column].hasNoColor()) {
+        if (!boardMatrix[row][column].isNull() && !boardMatrix[row][column].hasNoColor()) {
             if ((row != 0 && (boardMatrix[row - 1][column].isNull() || boardMatrix[row - 1][column].hasNoColor())) ||
                     (row != board.getNumberOfRows() && (boardMatrix[row + 1][column].isNull() || boardMatrix[row + 1][column].hasNoColor())) ||
-                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1].isNull() || boardMatrix[row][column + 1].hasNoColor())) ||
-                            (column != 0 && (boardMatrix[row][column - 1].isNull() || boardMatrix[row][column - 1].hasNoColor()))) {
+                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1].isNull() || boardMatrix[row][column + 1].hasNoColor())) ||
+                    (column != 0 && (boardMatrix[row][column - 1].isNull() || boardMatrix[row][column - 1].hasNoColor()))) {
                 return true;
             } else {
                 System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
@@ -324,235 +306,28 @@ public class TextualUI extends UI {
         return false;
     }
 
-
-    private void showPersonalRecap() {
-        PlayerView activePlayer = model.getPlayers().get(model.getActivePlayerIndex());
+    @Override
+    public void showPersonalRecap() {
+        PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
         List<GoalTileView> playerGoalTiles = activePlayer.getGoalTiles();
 
-        setChanged();
-        notifyObservers(Event.COMPUTE_SCORE);
         int playerScore = activePlayer.score();
 
-        List<CommonGoalView> commonGoals = model.getCommonGoals();
+        List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
 
         System.out.println("Ecco il tuo recap:");
-
-        showBookshelf(playerBookshelf);
-        showPersonalObjective(playerPersonalGoal);
-        showCommonGoals(playerGoalTiles, commonGoals);
-        showScore(playerScore);
-    }
-
-    private void showBookshelf(BookshelfView bookshelf) {
-        TileView[][] bookshelfMatrix = bookshelf.getTiles();
-        System.out.println("Stato della tua bookshelf:");
-        printTilesMatrix(bookshelfMatrix);
-    }
-
-    private void showPersonalObjective(PersonalGoalView personalGoal) {
-        TileView[][] personalGoalMatrix = personalGoal.getPattern();
-        System.out.println("Il tuo obiettivo personale:");
-        printTilesMatrix(personalGoalMatrix);
-    }
-
-    private void showCommonGoals(List<GoalTileView> goalTiles, List<CommonGoalView> commonGoals) {
-        GoalTileView goalTile1;
-        GoalTileView goalTile2;
-        GoalTileView goalTile3;
-        switch (goalTiles.size()) {
-            case 0 -> {
-                goalTile1 = null;
-                goalTile2 = null;
-                goalTile3 = null;
-            }
-            case 1 -> {
-                goalTile1 = goalTiles.get(0);
-                goalTile2 = null;
-                goalTile3 = null;
-            }
-            case 2 -> {
-                goalTile1 = goalTiles.get(0);
-                goalTile2 = goalTiles.get(1);
-                goalTile3 = null;
-            }
-            case 3 -> {
-                goalTile1 = goalTiles.get(0);
-                goalTile2 = goalTiles.get(1);
-                goalTile3 = goalTiles.get(2);
-            }
-            default -> {
-                goalTile1 = null;
-                goalTile2 = null;
-                goalTile3 = null;
-                System.err.println("Error! Player ha less than 0 goal tiles, or more than 3");
-            }
-        }
-
-
-        //Tile[][] commonGoal1Matrix = commonGoals.get(0).getPattern();       //Non c'è modo di recuperare il pattern dei commonGoal
-        //Tile[][] commonGoal2Matrix = commonGoals.get(1).getPattern();       //Non c'è modo di recuperare il pattern dei commonGoal
-        System.out.println("Obiettivi comuni completati: Obiettivo1:" + (goalTile1 != null ? goalTile1 : "/") + ", Obiettivo2:" + (goalTile2 != null ? goalTile2 : "/") + ", Vittoria:" + (goalTile2 != null ? goalTile3 : "/") + " (Valore delle goalTile)");
-        //stampTilesMatrix(commonGoal1Matrix);
-        //stampTilesMatrix(commonGoal2Matrix);
-    }
-
-    private void showScore(int score) {
-        System.out.println("Il tuo punteggio attuale: " + score);
+        System.out.println("Stato della tua bookshelf:\n" + playerBookshelf + "\n" +
+                "Il tuo obiettivo personale:\n" + playerPersonalGoal + "\n" +
+                "Gli obiettivi comuni sono:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
+                "Obiettivi comuni completati: Obiettivo1:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(0) != null ? playerGoalTiles.get(0) : "/") +
+                ", Obiettivo2:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(1) != null ? playerGoalTiles.get(1) : "/") + ", Vittoria:" +
+                (playerGoalTiles.size() > 0 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2) : "/") + " (Valore delle goalTile)" + "\n" +
+                "Il tuo punteggio attuale " + playerScore);
     }
 
     //TODO: Si è rivelato necessario aggiungere in TileView un metodo isNull(), per verificare se l'attributo tileModel risultava nullo. Questo può accadere poichè la TileView viene
     //      creata a partire dalla Tile che può essere NULL cosa che non comporta che anche TileView lo sia (Da qui la necessità di questo metodo)
-    private void printTilesMatrix(TileView[][] matrix) {
-        for (int row = 0; row < matrix.length; row++) {
-            System.out.print("[ ");
-            for (int column = 0; column < matrix[0].length; column++) {
-                TileView currentTile = matrix[row][column];
-                System.out.print((currentTile.isNull() || currentTile.getColor() == null) ? "0 " : currentTile.getColor() + " ");
-            }
-            System.out.println("]");
-        }
-    }
 
-    @Override
-    public void update(GameView o, ObservableType arg) {
-        switch (arg.getEvent()) {
-            case REMOVE_TILES_BOARD,ADD_TILES_BOOKSHELF -> {
-                updateModel(o);
-            }
-            default -> {
-                System.err.println("Ignoring event from " + o + ": " + arg);
-            }
-        }
-    }
-
-    private void updateModel(GameView model) {
-        this.model = model;
-    }
-    /*
-    @Override
-    public void run() {
-        while (true) {
-            synchronized (newTurnMutex) {
-                while(!newTurnIntroStamped) {
-                    try {
-                        newTurnMutex.wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-            newTurnIntroStamped = false;
-            Optional<Choice> c = askPlayer();
-
-        }
-    }
-
-    private Optional<Choice> askPlayer() {
-        Scanner s = new Scanner(System.in);
-
-        while(true) {
-            System.out.println("Seleziona l'azione(Digita il numero associato all'azione):");
-            System.out.println("1)Recap situazione personale");
-            System.out.println("2)Scegli tessere");
-            System.out.println("3)Invia messaggio tramite chat");
-            String input = s.next();
-            switch (input) {
-                case "1" -> {
-                    setChanged();
-                    notifyObservers(Event.RECAP_REQUEST);               //Modi migliori per farlo?
-                    return Optional.empty();
-                }
-                case "2" -> {
-                    
-                }
-                case "3" -> {
-                    setChanged();
-                    notifyObservers(Event.SEND_MESSAGE);                //Modi migliori per farlo?
-                    return Optional.empty();
-                }
-            }
-        }
-
-
-    }
-
-    @Override
-    public void update(GameView o, Event arg) {
-        switch (arg) {
-            case NEW_TURN -> showNewTurnIntro(o);
-            case RECAP_SEND -> showPersonalRecap(o);
-        }
-    }
-
-    //----------------------------------NEW_TURN ENUM----------------------------------
-    private void showNewTurnIntro(GameView model) {
-        synchronized (newTurnMutex) {
-            System.out.println("---NEW TURN---");
-            String pNickname = model.getPlayers().get(model.getActivePlayerIndex()).getNickname();
-            Tile[][] boardMatrix = model.getBoard().getTiles();
-            System.out.println("Tocca a te player: " + pNickname + "!");
-            System.out.println("Stato della board attuale:");
-            stampTilesMatrix(boardMatrix);
-
-            newTurnIntroStamped = true;
-            newTurnMutex.notify();                          //? Non ho assolutamente idea se funzioni
-        }
-
-    }
-
-    //----------------------------------RECAP_SEND ENUM----------------------------------
-    private void showPersonalRecap(GameView model) {
-        Player activePlayer = model.getPlayers().get(model.getActivePlayerIndex());
-        Bookshelf playerBookshelf = activePlayer.getBookshelf();
-        PersonalGoal playerPersonalGoal = activePlayer.getPersonalGoal();
-        List<GoalTile> playerGoalTiles = activePlayer.getGoalTiles();
-        int playerScore = activePlayer.score();
-
-        List<CommonGoal> commonGoals = model.getCommonGoals();
-
-        System.out.println("Ecco il tuo recap:");
-
-        showBookshelf(playerBookshelf);
-        showPersonalObjective(playerPersonalGoal);
-        showCommonGoals(playerGoalTiles,commonGoals);
-        showScore(playerScore);
-    }
-    private void showBookshelf(Bookshelf bookshelf) {
-        Tile[][] bookshelfMatrix = bookshelf.getTiles();
-        System.out.println("Stato della tua bookshelf:");
-        stampTilesMatrix(bookshelfMatrix);
-    }
-    private void showPersonalObjective(PersonalGoal personalGoal) {
-        Tile[][] personalGoalMatrix = personalGoal.getPattern();
-        System.out.println("Il tuo obiettivo personale:");
-        stampTilesMatrix(personalGoalMatrix);
-    }
-
-    private void showCommonGoals(List<GoalTile> goalTiles, List<CommonGoal> commonGoals) {
-        GoalTile goalTile1 = goalTiles.get(0);
-        GoalTile goalTile2 = goalTiles.get(1);
-        //Tile[][] commonGoal1Matrix = commonGoals.get(0).getPattern();       //Non c'è modo di recuperare il pattern dei commonGoal
-        //Tile[][] commonGoal2Matrix = commonGoals.get(1).getPattern();       //Non c'è modo di recuperare il pattern dei commonGoal
-        System.out.println("Obiettivi comuni completati: Obiettivo1:" + (goalTile1 != null ? goalTile1 : "/") + ", Obiettivo2: " + (goalTile2 != null ? goalTile2 : "/") + " (Valore delle goalTile)");
-        //stampTilesMatrix(commonGoal1Matrix);
-        //stampTilesMatrix(commonGoal2Matrix);
-    }
-
-    private void showScore(int score) {
-        System.out.println("Il tuo punteggio attuale: " + score);
-    }
-
-    private void stampTilesMatrix(Tile[][] matrix) {
-        for(int i=0;i<matrix.length;i++) {
-            System.out.print("[ ");
-            for(int j=0;j<matrix[0].length;j++) {
-                Tile currentTile = matrix[i][j];
-                System.out.print(currentTile!=null ? currentTile.getColor() + " " : "0 ");
-            }
-            System.out.println("]");
-        }
-    }
-    */
 }

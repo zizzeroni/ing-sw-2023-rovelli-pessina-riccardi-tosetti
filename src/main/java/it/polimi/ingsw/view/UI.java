@@ -1,12 +1,60 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.ControllerListener;
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.view.ModelViewListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.utils.Observable;
-import it.polimi.ingsw.utils.ObservableType;
-import it.polimi.ingsw.utils.Observer;
 
-public abstract class UI extends Observable<ObservableType> implements Runnable, Observer<GameView, ObservableType> {
+public abstract class UI implements Runnable, ModelViewListener {
+    private GameView model;
+    protected ControllerListener controller;
 
+    public UI(GameView model, ControllerListener controller) {
+        this.model = model;
+        this.controller = controller;
+    }
+
+    public UI(GameView model) {
+        this.model = model;
+        this.controller = null;
+    }
+
+    public UI() {
+        this.model = null;
+        this.controller = null;
+    }
+
+    public GameView getModel() {
+        return model;
+    }
+
+    public void setModel(GameView model) {
+        this.model = model;
+    }
+
+    public ControllerListener getController() {
+        return controller;
+    }
+
+    public void registerListener(GameController controller) {
+        this.controller = controller;
+    }
+
+    public void removeListener() {
+        this.controller = null;
+    }
+
+    public abstract Choice askPlayer();
+
+    public abstract void showNewTurnIntro();
+
+    public abstract void showPersonalRecap();
+
+    @Override
+    public void modelModified(GameView game) {
+        this.model = game;
+    }
 
     //ESEMPIO INTERAZIONE TESTUALE
     /*

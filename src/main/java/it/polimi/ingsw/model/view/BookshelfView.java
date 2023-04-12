@@ -27,6 +27,10 @@ public class BookshelfView {
         return new TileView(this.bookshelfModel.getSingleTile(row, column));
     }
 
+    public int getNumberOfEmptyCellsInColumn(int column) {
+        return this.bookshelfModel.getNumberOfEmptyCellsInColumn(column);
+    }
+
     public int getNumberOfColumns() {
         return this.bookshelfModel.getNumberOfColumns();
     }
@@ -46,4 +50,10 @@ public class BookshelfView {
     public boolean isColumnFull(int column) {
         return this.bookshelfModel.isColumnFull(column);
     }
+
+    @Override
+    public String toString() {
+        return this.bookshelfModel.toString();
+    }
+
 }

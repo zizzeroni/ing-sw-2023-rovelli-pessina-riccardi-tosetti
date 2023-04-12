@@ -25,6 +25,7 @@ public class Player {
         this.scoreTiles = null;
         this.bookshelf = null;
     }
+
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
         this.nickname = nickname;
         this.connected = connected;
@@ -32,6 +33,7 @@ public class Player {
         this.personalGoal = null;
         this.bookshelf = null;
     }
+
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
@@ -73,7 +75,6 @@ public class Player {
         this.bookshelf = bookshelf;
     }
 
-
     public String getNickname() {
         return nickname;
     }
@@ -90,8 +91,8 @@ public class Player {
         this.connected = connected;
     }
 
-
     //class methods
+    //TODO: Chiedere se è da spostare nel controller
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {
@@ -103,20 +104,11 @@ public class Player {
         return score;// viene calcolato in base al numero di giocatori
     }
 
-
-   /* public ArrayList<Tile> orderSelectedTile() { // no ?
-        int i = 0;
-        ArrayList<Tile> orderSelected = new ArrayList<Tile>();
-
-        }
-        return orderSelected;
+    /*public int selectColumn(int c) {
+        return c;
     }*/
 
-    public int selectColumn(int c) {
-        return c;
-    }
-
-    public ArrayList<Tile> selectTiles(Board board) {
+    /*public ArrayList<Tile> selectTiles(Board board) {
         ArrayList<Tile> selected = new ArrayList<Tile>();
         Tile[][] tiles;
         tiles = board.getTiles();
@@ -126,5 +118,5 @@ public class Player {
             }
         }
         return selected;
-    }
+    }*/
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
-public class DiagonalEqualPattern extends CommonGoal{
+public class DiagonalEqualPattern extends CommonGoal {
     private int[][] positions;
 
     public DiagonalEqualPattern(int[][] positions) {
@@ -84,41 +84,41 @@ public class DiagonalEqualPattern extends CommonGoal{
             this.positions = rotateMatrix(this.positions);
             rotations++;
 
-        } while(rotations < 4);
+        } while (rotations < 4);
 
 
-       return repetitions;
+        return repetitions;
     }
 
     private void assignGroupToDiagonalEqualTiles(Bookshelf bookshelf, int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
 
-        if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row,column).getColor())) {
+        if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row, column).getColor())) {
             supportMatrix[row][column] = group;
 
             //up left
-            if(row!=0 && column!=0){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row-1, column-1, group, currentTileColor);
+            if (row != 0 && column != 0) {
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row - 1, column - 1, group, currentTileColor);
             }
             //up right
-            if(row != 0 && column!=bookshelf.getNumberOfColumns()-1){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row-1, column+1, group, currentTileColor);
+            if (row != 0 && column != bookshelf.getNumberOfColumns() - 1) {
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row - 1, column + 1, group, currentTileColor);
             }
             //down left
-            if(row!=bookshelf.getNumberOfRows()-1 && column!=0){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row+1, column-1, group, currentTileColor);
+            if (row != bookshelf.getNumberOfRows() - 1 && column != 0) {
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row + 1, column - 1, group, currentTileColor);
             }
             //down right
-            if(row!=bookshelf.getNumberOfRows()-1 && column!=bookshelf.getNumberOfColumns()-1){
-                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row+1, column+1, group, currentTileColor);
+            if (row != bookshelf.getNumberOfRows() - 1 && column != bookshelf.getNumberOfColumns() - 1) {
+                assignGroupToDiagonalEqualTiles(bookshelf, supportMatrix, row + 1, column + 1, group, currentTileColor);
             }
         }
     }
 
     private int[][] rotateMatrix(int[][] positions) {
         int[][] rotatedMatrix = new int[positions[0].length][positions.length];
-        for(int i = 0; i < positions.length; i++){
-            for(int j = 0; j < positions[0].length; i++){
-                if(positions[i][j] == 1){
+        for (int i = 0; i < positions.length; i++) {
+            for (int j = 0; j < positions[0].length; i++) {
+                if (positions[i][j] == 1) {
                     rotatedMatrix[j][i] = 1;
                 }
             }

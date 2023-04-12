@@ -1,26 +1,37 @@
 package it.polimi.ingsw.model.view;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.listeners.BoardListener;
+import it.polimi.ingsw.model.listeners.BookshelfListener;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.utils.Observable;
-import it.polimi.ingsw.utils.ObservableType;
-import it.polimi.ingsw.utils.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameView extends Observable<ObservableType> implements Observer<Game, ObservableType> {
+public class GameView implements GameListener, BoardListener, BookshelfListener {
     private final Game gameModel;
+    private ModelViewListener listener;
+
+    public void registerListener(ModelViewListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
+    }
 
     public GameView(Game gameModel) {
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
         this.gameModel = gameModel;
-        gameModel.addObserver(this);
+        //gameModel.addObserver(this);
     }
 
     public int getNumPlayers() {
@@ -60,8 +71,42 @@ public class GameView extends Observable<ObservableType> implements Observer<Gam
     }
 
     @Override
-    public void update(Game o, ObservableType arg) {
-        setChanged();
-        notifyObservers(arg);
+    public void addedTilesToBoard(Board board) {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void removedTilesFromBoard(Board board) {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void tileAddedToBookshelf(Bookshelf bookshelf) {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void imageModified(String image) {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void numberOfPlayersModified() {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void activePlayerIndexModified() {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void bagModified() {
+        this.listener.modelModified(this);
+    }
+
+    @Override
+    public void commonGoalsModified() {
+        this.listener.modelModified(this);
     }
 }
