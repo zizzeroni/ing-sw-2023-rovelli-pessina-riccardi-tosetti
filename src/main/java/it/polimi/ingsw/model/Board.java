@@ -55,6 +55,7 @@ public class Board {
         this.tiles = tiles;
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public void addTiles(List<Tile> tilesToAdd) {
         if (tilesToAdd.size() == 0) {
             return;
@@ -66,11 +67,12 @@ public class Board {
                 }
             }
         }
-        if(listener!=null) {
+        if (listener != null) {
             listener.addedTilesToBoard(this);
         }
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
         int usableTilesStillAvailable = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
@@ -88,6 +90,7 @@ public class Board {
         return this.numberOfUsableTiles - usableTilesStillAvailable;
     }
 
+    //TODO: Chiedere se è da spostare nel controller
     public void removeTiles(Tile[] tilesToRemove, int[] positions) {
         int i = 0;
         for (Tile tile : tilesToRemove) {
@@ -127,19 +130,19 @@ public class Board {
 
     @Override
     public String toString() {
-        String output = "  ";
-        for(int column=0;column<this.numberOfColumns;column++) {
-            output += column+1 + " ";
+        String output = "    ";
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            output += column + 1 + " ";
         }
         output += "\n";
         for (int row = 0; row < this.numberOfRows; row++) {
-            output += "[ ";
+            output += (row + 1) + " [ ";
             for (int column = 0; column < this.numberOfColumns; column++) {
                 Tile currentTile = this.tiles[row][column];
                 output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
             }
-            output += "] " + (row+1) +"\n";
+            output += "] " + "\n";
         }
-        return output.substring(0,output.length()-1);
+        return output.substring(0, output.length() - 1);
     }
 }

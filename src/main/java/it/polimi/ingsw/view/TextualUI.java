@@ -1,12 +1,9 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.ControllerListener;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
-import it.polimi.ingsw.utils.ObservableType;
 
 import java.util.*;
 
@@ -42,7 +39,7 @@ public class TextualUI extends UI {
         System.out.println("Stato della board attuale:");
         System.out.println(this.getModel().getBoard());
     }
-
+    
     @Override
     public Choice askPlayer() {
         Scanner s = new Scanner(System.in);
@@ -65,8 +62,14 @@ public class TextualUI extends UI {
                     boolean isInsertCorrect;
                     Choice playerChoice = new Choice();
                     Direction directionToCheck = null;
-
+                    int maxNumberOfCellsFreeInBookshelf = 0;
                     //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
+                    for (int i = 0; i < this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfColumns(); i++) {
+                        int numberOfFreeSpaces = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(i);
+                        if (numberOfFreeSpaces > maxNumberOfCellsFreeInBookshelf) {
+                            maxNumberOfCellsFreeInBookshelf = numberOfFreeSpaces;
+                        }
+                    }
                     do {
                         isInsertCorrect = false;
                         int row = 0, column = 0;
@@ -134,7 +137,7 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if (counter > 0 && counter != 3) {
+                        if (counter > 0 && counter != 3 && counter <= maxNumberOfCellsFreeInBookshelf) {
                             do {
                                 System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                                 input = s.next();
@@ -146,22 +149,29 @@ public class TextualUI extends UI {
                     //---------------------------------SCELTA COLONNA---------------------------------
                     System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
 
+
                     int chosenColumn = 0;
                     do {
+                        isInsertCorrect = true;
                         System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
                         try {
                             chosenColumn = s.nextInt();
 
                             if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+                                isInsertCorrect = false;
                                 System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
                                         " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
+                            }
+                            if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn) + 1 <= counter) {
+                                isInsertCorrect = false;
+                                System.out.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                             }
                         } catch (InputMismatchException ignored) {
                             System.out.println("Non hai inserito un valore valido, riprova!");
                         }
 
 
-                    } while (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns());
+                    } while (!isInsertCorrect);
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.listeners.BookshelfListener;
 
 public class BookshelfView {
     private final Bookshelf bookshelfModel;
@@ -26,6 +25,10 @@ public class BookshelfView {
 
     public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
         return new TileView(this.bookshelfModel.getSingleTile(row, column));
+    }
+
+    public int getNumberOfEmptyCellsInColumn(int column) {
+        return this.bookshelfModel.getNumberOfEmptyCellsInColumn(column);
     }
 
     public int getNumberOfColumns() {

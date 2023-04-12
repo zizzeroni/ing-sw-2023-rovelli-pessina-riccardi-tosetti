@@ -88,10 +88,23 @@ public class GameController implements ControllerListener {
             System.err.println("[ERROR]: User data not correct");
         }
     }
+    @Override
+    public void sendPrivateMessage(Player receiver, Player sender, String content) {
+        String senderNickname = sender.getNickname();
+        String receiverNickname = receiver.getNickname();
+
+        //sender.addMessage(new Message(receiverNickname, senderNickname, content));
+        //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
+
+    }
 
     @Override
-    public void sendMessage() {
+    public void sendBroadcastMessage(Player sender, String content) {
+        String senderNickname = sender.getNickname();
 
+        for (Player player : this.model.getPlayers()) {
+            //player.addMessage(new Message(player.getNickname(), senderNickname, content));
+        }
     }
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {

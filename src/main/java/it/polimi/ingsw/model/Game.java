@@ -93,14 +93,15 @@ public class Game {
         this.commonGoals = commonGoals;
     }
 
-
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
-        this.listener.numberOfPlayersModified();
+        if (this.listener != null) {
+            this.listener.numberOfPlayersModified();
+        }
     }
 
     public int getActivePlayerIndex() {
@@ -109,7 +110,9 @@ public class Game {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
-        this.listener.activePlayerIndexModified();
+        if (this.listener != null) {
+            this.listener.activePlayerIndexModified();
+        }
     }
 
     public List<Player> getPlayers() {
@@ -126,7 +129,9 @@ public class Game {
 
     public void setBag(List<Tile> bag) {
         this.bag = bag;
-        this.listener.bagModified();
+        if (this.listener != null) {
+            this.listener.bagModified();
+        }
     }
 
     public Board getBoard() {
@@ -143,7 +148,9 @@ public class Game {
 
     public void setCommonGoals(List<CommonGoal> commonGoals) {
         this.commonGoals = commonGoals;
-        this.listener.commonGoalsModified();
+        if (this.listener != null) {
+            this.listener.commonGoalsModified();
+        }
     }
 
     private void getPlayerScore(Player player) {
@@ -218,26 +225,10 @@ public class Game {
 
     }
 
-    private void sendMessage(Player receiver, Player sender, String content) {
-
-        String senderNickname = sender.getNickname();
-        String receiverNickname = receiver.getNickname();
-
-        if (receiver == null) {
-            for (Player player : this.players) {
-                //player.addMessage(new Message(player.getNickname(), senderNickname, content));
-            }
-        } else {
-            //sender.addMessage(new Message(receiverNickname, senderNickname, content));
-            //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
-        }
-    }
-
     private Player getPlayerFromNickname(String nickname) {
         return players.stream()
                 .filter(player -> player.getNickname().equals(nickname))
                 .findFirst()
                 .orElse(null);
     }
-
 }

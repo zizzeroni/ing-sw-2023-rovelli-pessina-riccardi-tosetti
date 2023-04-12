@@ -83,9 +83,10 @@ public class PersonalGoal extends Card {
             }
         }
     }
+
     @Override
     public String toString() {
-        String output="";
+        String output = "";
         for (int row = 0; row < this.numberOfRows; row++) {
             output += "[ ";
             for (int column = 0; column < this.numberOfColumns; column++) {
@@ -94,6 +95,6 @@ public class PersonalGoal extends Card {
             }
             output += "]\n";
         }
-        return output.substring(0,output.length()-1);
+        return output.substring(0, output.length() - 1);
     }
 }
