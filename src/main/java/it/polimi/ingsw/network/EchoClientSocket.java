@@ -1,6 +1,11 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.view.TextualUI;
+import it.polimi.ingsw.view.UI;
+
 import java.io.IOException;
+import java.io.ObjectInputValidation;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -17,9 +22,35 @@ public class EchoClientSocket {
     }
 
     public static void main(String[] args) throws IOException {
+
         EchoClientSocket client = new EchoClientSocket("127.0.0.1");
+
+        //Mettere in attesa di una GameView
+        GameView gameView;
+
         new Thread(client::readLoop).start();
         new Thread(client::writeLoop).start();
+
+        Scanner in = new Scanner(System.in);
+
+        String scelta;
+        System.out.println("Quale interfaccia vuoi usare? TextualUI o GUI");
+        scelta = in.next();
+        while(!scelta.equals("TextualUI") && !scelta.equals("GUI")){
+            System.out.println("Scelta ERRATA \n Quale interfaccia vuoi usare? TextualUI o GUI");
+            scelta = in.next();
+        }
+        if(scelta.equals("TextualUI")){
+
+            //Passare la GameView Ricevuta precedentemente
+
+            TextualUI textualUI = new TextualUI(gameView);
+            new Thread(textualUI).start();
+
+        }else{
+            //GUI
+        }
+        in.close();
     }
     //Ciclo che legge tutto quello che viene inviato dal server nello stream del client
     public void readLoop() {
