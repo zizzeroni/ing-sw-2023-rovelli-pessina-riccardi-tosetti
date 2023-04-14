@@ -43,9 +43,13 @@ public class PlayerView {
         for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
             score += scoreTile.getValue();
         }
-        score += this.playerModel.getBookshelf().score();
+        try {
+            score += this.playerModel.getBookshelf().score();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         score += this.playerModel.getPersonalGoal().score(this.playerModel.getBookshelf());
 
-        return score;// viene calcolato in base al numero di giocatori
+        return score; //this value is based on the number of player
     }
 }

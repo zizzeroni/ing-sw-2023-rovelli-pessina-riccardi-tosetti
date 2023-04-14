@@ -2,11 +2,22 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.model.tile.TileColor;
+
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class Bookshelf {
     private BookshelfListener listener;
     private final int numberOfColumns = 5;
     private final int numberOfRows = 6;
+    private final Map<Integer, Integer> pointsForEachGroup = new LinkedHashMap<>(4) {{
+        put(3, 2);
+        put(4, 3);
+        put(5, 5);
+        put(6, 8);
+    }};
     private String image;
     private Tile[][] tiles;
 
@@ -27,8 +38,8 @@ public class Bookshelf {
     }
 
     public boolean isFull() {
-        for (int column = 0; column < numberOfColumns; column++) {
-            if (tiles[0][column] == null) {
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            if (this.tiles[0][column] == null) {
                 return false;
             }
         }
@@ -44,8 +55,8 @@ public class Bookshelf {
 
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
-        for (int i = this.numberOfRows - 1; i > 0; i--) {
-            if (this.tiles[i][column] != null) {
+        for (int row = this.numberOfRows - 1; row > 0; row--) {
+            if (this.tiles[row][column] != null) {
                 return counter;
             }
             counter++;
@@ -71,12 +82,16 @@ public class Bookshelf {
         return tiles;
     }
 
-    public void setSingleTiles(Tile tile, int i, int j) {
-        this.tiles[i][j] = tile;
+    public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
+        this.tiles = tiles;
     }
 
-    public Tile getSingleTile(int i, int j) { // funzione estrazione singola Tile selezionata
-        return tiles[i][j];
+    public void setSingleTiles(Tile tile, int row, int column) {
+        this.tiles[row][column] = tile;
+    }
+
+    public Tile getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
+        return tiles[row][column];
     }
 
     public int getNumberOfColumns() {
@@ -114,28 +129,97 @@ public class Bookshelf {
         return true;
     }
 
-    public int score() {
-        return 1;
+    public int score() throws Exception {
+        int score = 0;
+        int[][] supportMatrix = new int[this.getNumberOfRows()][this.getNumberOfColumns()];
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.getNumberOfColumns(); column++) {
+                if (this.getSingleTile(row, column) == null) {
+                    supportMatrix[row][column] = 0;
+                } else {
+                    supportMatrix[row][column] = 1;
+                }
+            }
+        }
+        int group = 1;
+
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.getNumberOfColumns(); column++) {
+                if (supportMatrix[row][column] == 1) {
+                    group++;
+                    assignGroupToBookshelfEqualTiles(supportMatrix, row, column, group, this.getSingleTile(row, column).getColor());
+                }
+            }
+        }
+        int numberOfTilesInGroup = 0;
+        for (int g = 2; g <= group; g++) {
+            for (int row = 0; row < this.getNumberOfRows(); row++) {
+                for (int column = 0; column < this.getNumberOfColumns(); column++) {
+                    if (supportMatrix[row][column] == g) {
+                        numberOfTilesInGroup++;
+                    }
+                }
+            }
+            Optional<Integer> firstGoalToGetPoint = pointsForEachGroup.keySet().stream().findFirst();
+            if (firstGoalToGetPoint.isPresent()) {
+
+                //if the number of tiles is below the first goal available, you don't get points
+                if (numberOfTilesInGroup < firstGoalToGetPoint.get()) {
+                    continue;
+                    //if the number of tiles is over the last goal available, you get points equal to the last goal points
+                } else if (numberOfTilesInGroup > pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get()) {
+                    score += pointsForEachGroup.get(pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get());
+                } else {
+                    score += pointsForEachGroup.get(numberOfTilesInGroup);
+                }
+            } else {
+                throw new Exception("Bookshelf points are not setted");
+            }
+        }
+        return score;
     }
 
-    public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
-        this.tiles = tiles;
+    private void assignGroupToBookshelfEqualTiles(int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
+        if ((supportMatrix[row][column] == 1) && currentTileColor.equals(this.getSingleTile(row, column).getColor())) {
+            supportMatrix[row][column] = group;
+
+            //up
+            if (row != 0) {
+                assignGroupToBookshelfEqualTiles(supportMatrix, row - 1, column, group, currentTileColor);
+            }
+            //left
+            if (column != 0) {
+                assignGroupToBookshelfEqualTiles(supportMatrix, row, column - 1, group, currentTileColor);
+            }
+            //down
+            if (row != this.getNumberOfRows() - 1) {
+                assignGroupToBookshelfEqualTiles(supportMatrix, row + 1, column, group, currentTileColor);
+            }
+            //right
+            if (column != this.getNumberOfColumns() - 1) {
+                assignGroupToBookshelfEqualTiles(supportMatrix, row, column + 1, group, currentTileColor);
+            }
+        }
     }
 
     @Override
     public String toString() {
-        String output = "    ";
+        StringBuilder output = new StringBuilder("    ");
         for (int column = 0; column < this.numberOfColumns; column++) {
-            output += column + 1 + " ";
+            output.append(column + 1).append(" ");
         }
-        output += "\n";
+        output.append("\n");
         for (int row = 0; row < this.numberOfRows; row++) {
-            output += (row + 1) + " [ ";
+            output.append(row + 1).append(" [ ");
             for (int column = 0; column < this.numberOfColumns; column++) {
                 Tile currentTile = this.tiles[row][column];
-                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+                if (currentTile == null || currentTile.getColor() == null) {
+                    output.append("0 ");
+                } else {
+                    output.append(currentTile.getColor()).append(" ");
+                }
             }
-            output += "] " + "\n";
+            output.append("] \n");
         }
         return output.substring(0, output.length() - 1);
     }

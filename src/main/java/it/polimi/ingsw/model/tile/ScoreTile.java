@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.tile;
 
 public class ScoreTile {
     private int value;
-    private int playerID; // eredità di player
-    private int commonGoalID; // eredità di commonGoal
+    private int playerID; // reference to the player that owns the scoreTile
+    private int commonGoalID; // reference to the common goal the scoreTile refers to
 
     public ScoreTile(int value, int playerID, int commonGoalID) {
         this.value = value;
