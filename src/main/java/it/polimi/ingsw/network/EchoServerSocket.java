@@ -26,6 +26,7 @@ public class EchoServerSocket extends Thread {
     //Questa è una lista di client che verranno passati al server MultiClient che li gestirà singolarmente
 
     public EchoServerSocket() throws IOException {
+
         System.out.println("Sono nel main");
         clientHandlers = new ArrayList<>();
 
@@ -78,15 +79,22 @@ public class EchoServerSocket extends Thread {
     }
     public void run() {
 
+        int counter = 0;
+
         //aggiunge un handler sulla connnessione appena arrivata e lo fa partire
-        while(true) {
+        while(counter<=3) {
             try {
+
                 clientHandlers.add(new SingleClientHandler(serverSocket.accept(), controller));
                 System.out.println("Si è connesso un client, assegno l'handler");
                 clientHandlers.get(clientHandlers.size()-1).start();
+                counter++;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+        while(true){
+            System.out.println("Un client sta cercando di connettersi ma la partita è già piena");
         }
     }
 }

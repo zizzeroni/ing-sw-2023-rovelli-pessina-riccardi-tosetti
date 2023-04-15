@@ -3,10 +3,13 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.*;
+import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.model.Choice;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -23,7 +26,15 @@ public class SingleClientHandler extends Thread {
     @Override
     public void run() {
 
-        //GameView view = new GameView(model);
+        //invio della view relativa al modello al client
+        GameView view = new GameView(model);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(os);
+            out.writeObject(view);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         while(true) {
             try {
@@ -32,9 +43,7 @@ public class SingleClientHandler extends Thread {
 
                 output.flush();
 
-                //Il client invierà metodo
-
-
+                //Il client invierà metodo con / senza parametri e qua verra lanciato nel GameController
 
                 output.println("Insert 'Exit'  if you want to terminate the connnections");
                 String line = input.nextLine();

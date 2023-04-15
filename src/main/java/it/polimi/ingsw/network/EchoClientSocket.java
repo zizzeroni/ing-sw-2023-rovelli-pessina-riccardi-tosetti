@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.TextualUI;
 import it.polimi.ingsw.view.UI;
 
-import java.io.IOException;
-import java.io.ObjectInputValidation;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -15,23 +13,30 @@ public class EchoClientSocket {
     private Socket socket;
     private String ip;
     private final int port = 1337;
+    private static String nome;
 
-    public EchoClientSocket(String ip) throws IOException {
+    public EchoClientSocket(String ip, String nome) throws IOException {
         this.socket = new Socket(ip, port);
         this.ip = ip;
+        this.nome = nome;
     }
 
-    public static void main(String[] args) throws IOException {
-
-        EchoClientSocket client = new EchoClientSocket("127.0.0.1");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Inserisci il nickname che vuoi assegnato");
+        nome = in.next();
+        EchoClientSocket client = new EchoClientSocket("127.0.0.1", nome);
 
         //Mettere in attesa di una GameView
-        GameView gameView;
+
+        //Attesa della ricezione di una GameView da parte del server
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+        ObjectInputStream inputStream = new ObjectInputStream(is);
+        GameView gameView = (GameView) inputStream.readObject();
 
         new Thread(client::readLoop).start();
         new Thread(client::writeLoop).start();
-
-        Scanner in = new Scanner(System.in);
 
         String scelta;
         System.out.println("Quale interfaccia vuoi usare? TextualUI o GUI");
