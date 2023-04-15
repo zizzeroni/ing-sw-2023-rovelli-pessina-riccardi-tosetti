@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
 
-public class GoalTileView {
+public class ScoreTileView {
     private final ScoreTile scoreTileModel;
 
-    public GoalTileView(ScoreTile scoreTileModel) {
+    public ScoreTileView(ScoreTile scoreTileModel) {
         this.scoreTileModel = scoreTileModel;
     }
 

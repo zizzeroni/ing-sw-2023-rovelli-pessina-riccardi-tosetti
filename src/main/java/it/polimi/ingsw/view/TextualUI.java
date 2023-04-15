@@ -311,7 +311,7 @@ public class TextualUI extends UI {
         PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
-        List<GoalTileView> playerGoalTiles = activePlayer.getGoalTiles();
+        List<ScoreTileView> playerGoalTiles = activePlayer.getGoalTiles();
 
         int playerScore = activePlayer.score();
 

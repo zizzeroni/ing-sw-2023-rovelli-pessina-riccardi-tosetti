@@ -17,12 +17,12 @@ public class PlayerView {
         return new PersonalGoalView(this.playerModel.getPersonalGoal());
     }
 
-    public List<GoalTileView> getGoalTiles() {
-        List<GoalTileView> goalTileViews = new ArrayList<>();
+    public List<ScoreTileView> getGoalTiles() {
+        List<ScoreTileView> scoreTileViews = new ArrayList<>();
         for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
-            goalTileViews.add(new GoalTileView(scoreTile));
+            scoreTileViews.add(new ScoreTileView(scoreTile));
         }
-        return goalTileViews;
+        return scoreTileViews;
     }
 
     public BookshelfView getBookshelf() {

@@ -13,10 +13,10 @@ public class CommonGoalView {
         this.commonGoalModel = commonGoalModel;
     }
 
-    public List<GoalTileView> getScoreTiles() {
-        List<GoalTileView> scoreTiles = new ArrayList<>(this.commonGoalModel.getScoreTiles().size());
+    public List<ScoreTileView> getScoreTiles() {
+        List<ScoreTileView> scoreTiles = new ArrayList<>(this.commonGoalModel.getScoreTiles().size());
         for (int i = 0; i < this.commonGoalModel.getScoreTiles().size(); i++) {
-            scoreTiles.add(new GoalTileView(this.commonGoalModel.getScoreTiles().get(i)));
+            scoreTiles.add(new ScoreTileView(this.commonGoalModel.getScoreTiles().get(i)));
         }
         return scoreTiles;
     }
