@@ -15,8 +15,8 @@ public class CommonGoalView {
 
     public List<GoalTileView> getScoreTiles() {
         List<GoalTileView> scoreTiles = new ArrayList<>(this.commonGoalModel.getScoreTiles().size());
-        for (int i = 0; i < this.commonGoalModel.getScoreTiles().size(); i++) {
-            scoreTiles.add(new GoalTileView(this.commonGoalModel.getScoreTiles().get(i)));
+        for (int index = 0; index < this.commonGoalModel.getScoreTiles().size(); index++) {
+            scoreTiles.add(new GoalTileView(this.commonGoalModel.getScoreTiles().get(index)));
         }
         return scoreTiles;
     }

@@ -98,25 +98,13 @@ public class Player {
         for (ScoreTile scoreTile : this.scoreTiles) {
             score += scoreTile.getValue();
         }
-        score += this.bookshelf.score();
+        try {
+            score += this.bookshelf.score();
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
         score += this.personalGoal.score(this.bookshelf);
 
-        return score;// viene calcolato in base al numero di giocatori
+        return score; //this value is based on the number of player
     }
-
-    /*public int selectColumn(int c) {
-        return c;
-    }*/
-
-    /*public ArrayList<Tile> selectTiles(Board board) {
-        ArrayList<Tile> selected = new ArrayList<Tile>();
-        Tile[][] tiles;
-        tiles = board.getTiles();
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles.length; j++) {
-                selected.add(tiles[i][j]);
-            }
-        }
-        return selected;
-    }*/
 }

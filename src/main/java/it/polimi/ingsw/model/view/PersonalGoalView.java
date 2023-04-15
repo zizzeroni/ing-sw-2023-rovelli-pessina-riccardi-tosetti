@@ -18,17 +18,17 @@ public class PersonalGoalView {
     }
 
     public TileView[][] getPattern() {
-        TileView[][] temp = new TileView[this.personalGoalModel.getNumberOfRows()][this.personalGoalModel.getNumberOfColumns()];
-        for (int r = 0; r < this.personalGoalModel.getNumberOfRows(); r++) {
-            for (int c = 0; c < this.personalGoalModel.getNumberOfColumns(); c++) {
-                temp[r][c] = new TileView(this.personalGoalModel.getSingleTile(r, c));
+        TileView[][] tileViews = new TileView[this.personalGoalModel.getNumberOfRows()][this.personalGoalModel.getNumberOfColumns()];
+        for (int row = 0; row < this.personalGoalModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.personalGoalModel.getNumberOfColumns(); column++) {
+                tileViews[row][column] = new TileView(this.personalGoalModel.getSingleTile(row, column));
             }
         }
-        return temp;
+        return tileViews;
     }
 
-    public TileView getSingleTile(int x, int y) {
-        return new TileView(this.personalGoalModel.getSingleTile(x, y));
+    public TileView getSingleTile(int row, int column) {
+        return new TileView(this.personalGoalModel.getSingleTile(row, column));
     }
 
     @Override

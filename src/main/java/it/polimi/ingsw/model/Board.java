@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import java.util.List;
 
 import it.polimi.ingsw.model.listeners.BoardListener;
-import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 
 public class Board {
@@ -124,24 +123,28 @@ public class Board {
         return numberOfColumns;
     }
 
-    public Tile getSingleTile(int x, int y) {
-        return tiles[x][y];
+    public Tile getSingleTile(int row, int column) {
+        return tiles[row][column];
     }
 
     @Override
     public String toString() {
-        String output = "    ";
+        StringBuilder output = new StringBuilder("    ");
         for (int column = 0; column < this.numberOfColumns; column++) {
-            output += column + 1 + " ";
+            output.append(column + 1).append(" ");
         }
-        output += "\n";
+        output.append("\n");
         for (int row = 0; row < this.numberOfRows; row++) {
-            output += (row + 1) + " [ ";
+            output.append(row + 1).append(" [ ");
             for (int column = 0; column < this.numberOfColumns; column++) {
                 Tile currentTile = this.tiles[row][column];
-                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
+                if(currentTile == null || currentTile.getColor() == null) {
+                    output.append("0 ");
+                } else {
+                    output.append(currentTile.getColor()).append(" ");
+                }
             }
-            output += "] " + "\n";
+            output.append("] \n");
         }
         return output.substring(0, output.length() - 1);
     }
