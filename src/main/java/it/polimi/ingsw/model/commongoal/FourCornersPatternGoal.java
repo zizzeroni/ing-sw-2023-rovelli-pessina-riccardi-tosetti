@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.commongoal;
 
-
 import it.polimi.ingsw.model.Bookshelf;
 
 public class FourCornersPatternGoal extends CommonGoal {

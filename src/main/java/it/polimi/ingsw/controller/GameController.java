@@ -1,11 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.view.UI;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
-import it.polimi.ingsw.utils.ObservableType;
-import it.polimi.ingsw.utils.Observer;
 
 import java.util.Collections;
 import java.util.List;

@@ -52,10 +52,14 @@ public class PlayerView {
         for (ScoreTileView scoreTile : this.scoreTiles) {
             score += scoreTile.getValue();
         }
-        score += this.bookshelf.score();
+        try {
+            score += this.bookshelf.score();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         score += this.personalGoal.score(this.bookshelf);
 
-        return score;// viene calcolato in base al numero di giocatori
+        return score; //this value is based on the number of player
     }
 
 }

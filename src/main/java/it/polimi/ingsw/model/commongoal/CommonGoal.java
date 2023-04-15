@@ -46,7 +46,7 @@ public abstract class CommonGoal extends Card {
     }
 
     public CheckType getType() {
-        return type;
+        return this.type;
     }
 
     public void setNumberOfPatternRepetitionsRequired(int numberOfPatternRepetitionsRequired) {

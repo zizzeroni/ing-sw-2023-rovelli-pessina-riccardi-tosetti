@@ -3,12 +3,13 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class MinEqualsTilesPattern extends CommonGoal {
     private Direction direction;
-    private int maxEqualsTiles;     //Per HORIZONTAL deve essere pari a 2, per VERTICAL deve essere pari a 3, per quelle complete deve essere 0
+    private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
 
     public MinEqualsTilesPattern() {
         super();
@@ -46,52 +47,52 @@ public class MinEqualsTilesPattern extends CommonGoal {
 
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
-        List<TileColor> recentTiles = new ArrayList<TileColor>();
+        List<TileColor> tileColorsInDirection = new ArrayList<>();
         int patternAppearances = 0;
-        int cAppearances = 0;
+        int appearancesInDirection = 0;
         switch (this.direction) {
             case HORIZONTAL -> {
-                for (int i = 0; i < bookshelf.getNumberOfRows(); i++) {
-                    if (!bookshelf.isRowFull(i)) {
+                for (int row = 0; row < bookshelf.getNumberOfRows(); row++) {
+                    if (!bookshelf.isRowFull(row)) {
                         continue;
                     }
-                    for (int j = 0; j < bookshelf.getNumberOfColumns(); j++) {
-                        recentTiles.add(bookshelf.getSingleTile(i, j).getColor());
+                    for (int column = 0; column < bookshelf.getNumberOfColumns(); column++) {
+                        tileColorsInDirection.add(bookshelf.getSingleTile(row, column).getColor());
                     }
 
-                    recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+                    tileColorsInDirection = tileColorsInDirection.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfColumns() - recentTiles.size(), this.getType())) {
-                            cAppearances++;
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfColumns() - tileColorsInDirection.size(), this.getType())) {
+                            appearancesInDirection++;
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
-                    recentTiles.clear();
+                    tileColorsInDirection.clear();
                 }
             }
             case VERTICAL -> {
-                for (int i = 0; i < bookshelf.getNumberOfColumns(); i++) {
-                    if (!bookshelf.isColumnFull(i)) {
+                for (int column = 0; column < bookshelf.getNumberOfColumns(); column++) {
+                    if (!bookshelf.isColumnFull(column)) {
                         continue;
                     }
-                    for (int j = 0; j < bookshelf.getNumberOfRows(); j++) {
-                        recentTiles.add(bookshelf.getSingleTile(j, i).getColor());
+                    for (int row = 0; row < bookshelf.getNumberOfRows(); row++) {
+                        tileColorsInDirection.add(bookshelf.getSingleTile(row, column).getColor());
                     }
 
-                    recentTiles = recentTiles.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+                    tileColorsInDirection = tileColorsInDirection.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
                     try {
-                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfRows() - recentTiles.size(), this.getType())) {
-                            cAppearances++;
+                        if (confrontEqualsDifferentTiles(bookshelf.getNumberOfRows() - tileColorsInDirection.size(), this.getType())) {
+                            appearancesInDirection++;
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
-                    recentTiles.clear();
+                    tileColorsInDirection.clear();
                 }
             }
             default -> {
@@ -102,19 +103,19 @@ public class MinEqualsTilesPattern extends CommonGoal {
                 }
             }
         }
-        patternAppearances = cAppearances / this.getNumberOfPatternRepetitionsRequired();
+        patternAppearances = appearancesInDirection / this.getNumberOfPatternRepetitionsRequired();
         return patternAppearances;
     }
 
-    private boolean confrontEqualsDifferentTiles(int numDiff, CheckType typeOfChecking) throws Exception {
+    private boolean confrontEqualsDifferentTiles(int numberOfEqualTiles, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
             case EQUALS, DIFFERENT -> {
-                if (numDiff == this.maxEqualsTiles) {
+                if (numberOfEqualTiles == this.maxEqualsTiles) {
                     return true;
                 }
             }
             case INDIFFERENT -> {
-                if (numDiff >= this.maxEqualsTiles) {
+                if (numberOfEqualTiles >= this.maxEqualsTiles) {
                     return true;
                 }
             }

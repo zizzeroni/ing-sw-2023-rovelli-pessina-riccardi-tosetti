@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model.commongoal;
 
 /*
-Classe enumeration, usata per definire se le tile da controllare
-all'interno dell'obiettivo comune devono essere uguali(EQUALS),
-diverse(DIFFERENT) oppure se è indifferente (INDIFFERENT).
- */
+Enumeration that defines the type of check must be done on common goal pattern.
+*/
 
 public enum CheckType {
     EQUALS,

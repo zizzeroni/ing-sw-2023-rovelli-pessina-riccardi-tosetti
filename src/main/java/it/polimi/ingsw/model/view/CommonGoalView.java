@@ -12,7 +12,7 @@ public class CommonGoalView {
     private final int numberOfPatternRepetitionsRequired;
     private final CheckType type;
     private final List<ScoreTileView> scoreTiles;
-    private int imageID;    //Attribute from Card class, of which we don't have a "View" class
+    private final int imageID;    //Attribute from Card class, of which we don't have a "View" class
 
     public CommonGoalView(CommonGoal commonGoalModel) {
         this.scoreTiles = new ArrayList<>();
