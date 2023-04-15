@@ -2,22 +2,27 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
 
-public class GoalTileView {
-    private final ScoreTile scoreTileModel;
+public class ScoreTileView {
+    //private final ScoreTile scoreTileModel;
+    private final int value;
+    private final int playerID;
+    private final int commonGoalID;
 
-    public GoalTileView(ScoreTile scoreTileModel) {
-        this.scoreTileModel = scoreTileModel;
+    public ScoreTileView(ScoreTile scoreTileModel) {
+        this.value = scoreTileModel.getValue();
+        this.playerID = scoreTileModel.getPlayerID();
+        this.commonGoalID = scoreTileModel.getCommonGoalID();
     }
 
     public int getPlayerID() {
-        return this.scoreTileModel.getPlayerID();
+        return this.playerID;
     }
 
     public int getCommonGoalID() {
-        return this.scoreTileModel.getCommonGoalID();
+        return this.commonGoalID;
     }
 
     public int getValue() {
-        return this.scoreTileModel.getValue();
+        return this.value;
     }
 }

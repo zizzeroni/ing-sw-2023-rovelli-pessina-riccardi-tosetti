@@ -7,45 +7,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerView {
-    private final Player playerModel;
+    //private final Player playerModel;
+    private final String nickname; //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
+    private final boolean connected;
+    private final PersonalGoalView personalGoal; //The single goal of the player
+    private final List<ScoreTileView> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
+    private final BookshelfView bookshelf; //The bookshelf of the player
 
     public PlayerView(Player playerModel) {
-        this.playerModel = playerModel;
+        this.scoreTiles = new ArrayList<>();
+
+        this.nickname = playerModel.getNickname();
+        this.connected = playerModel.isConnected();
+        this.personalGoal = new PersonalGoalView(playerModel.getPersonalGoal());
+        for (ScoreTile scoreTile : playerModel.getGoalTiles()) {
+            this.scoreTiles.add(new ScoreTileView(scoreTile));
+        }
+        this.bookshelf = new BookshelfView(playerModel.getBookshelf());
     }
 
     public PersonalGoalView getPersonalGoal() {
-        return new PersonalGoalView(this.playerModel.getPersonalGoal());
+        return this.personalGoal;
     }
 
-    public List<GoalTileView> getGoalTiles() {
-        List<GoalTileView> goalTileViews = new ArrayList<>();
-        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
-            goalTileViews.add(new GoalTileView(scoreTile));
-        }
-        return goalTileViews;
+    public List<ScoreTileView> getScoreTiles() {
+        return this.scoreTiles;
     }
 
     public BookshelfView getBookshelf() {
-        return new BookshelfView(this.playerModel.getBookshelf());
+        return this.bookshelf;
     }
 
     public String getNickname() {
-        return this.playerModel.getNickname();
+        return this.nickname;
     }
 
     public boolean isConnected() {
-        return this.playerModel.isConnected();
+        return this.connected;
     }
 
     //TODO: Chiedere se è una soluzione corretta
     public int score() {
         int score = 0;
-        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
+        for (ScoreTileView scoreTile : this.scoreTiles) {
             score += scoreTile.getValue();
         }
-        score += this.playerModel.getBookshelf().score();
-        score += this.playerModel.getPersonalGoal().score(this.playerModel.getBookshelf());
+        score += this.bookshelf.score();
+        score += this.personalGoal.score(this.bookshelf);
 
         return score;// viene calcolato in base al numero di giocatori
     }
+
 }
