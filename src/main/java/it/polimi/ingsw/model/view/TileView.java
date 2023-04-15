@@ -4,25 +4,28 @@ import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
 public class TileView {
-    private final Tile tileModel;
+    //private final Tile tileModel;
+    private final TileColor color;
+    private final int imageID;
 
     public TileView(Tile tileModel) {
-        this.tileModel = tileModel;
+        this.color = tileModel.getColor();
+        this.imageID = tileModel.getImageID();
     }
 
     public int getImageID() {
-        return this.tileModel.getImageID();
+        return this.imageID;
     }
 
     public TileColor getColor() {
-        return this.tileModel.getColor();
+        return this.color;
     }
 
-    public boolean isNull() {
+    /*public boolean isNull() {
         return this.tileModel == null;
     }
 
     public boolean hasNoColor(){
         return this.tileModel.getColor() == null;
-    }
+    }*/
 }

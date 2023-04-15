@@ -1,38 +1,88 @@
 package it.polimi.ingsw.model.view;
 
+import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.PersonalGoal;
+import it.polimi.ingsw.model.tile.Tile;
 
 public class PersonalGoalView {
-    private final PersonalGoal personalGoalModel;
+    //private final PersonalGoal personalGoalModel;
+    private final int numberOfColumns;
+    private final int numberOfRows;
+    private final TileView[][] pattern;
 
     public PersonalGoalView(PersonalGoal personalGoalModel) {
-        this.personalGoalModel = personalGoalModel;
+        this.pattern = new TileView[personalGoalModel.getNumberOfRows()][personalGoalModel.getNumberOfColumns()];
+
+        this.numberOfColumns = personalGoalModel.getNumberOfColumns();
+        this.numberOfRows = personalGoalModel.getNumberOfRows();
+        for (int row = 0; row < personalGoalModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < personalGoalModel.getNumberOfColumns(); column++) {
+                this.pattern[row][column] = (personalGoalModel.getSingleTile(row, column) != null ? new TileView(personalGoalModel.getSingleTile(row, column)) : null);
+            }
+        }
     }
 
     public int getNumColumns() {
-        return this.personalGoalModel.getNumberOfColumns();
+        return this.numberOfColumns;
     }
 
     public int getNumRows() {
-        return this.personalGoalModel.getNumberOfRows();
+        return this.numberOfRows;
     }
 
     public TileView[][] getPattern() {
-        TileView[][] tileViews = new TileView[this.personalGoalModel.getNumberOfRows()][this.personalGoalModel.getNumberOfColumns()];
-        for (int row = 0; row < this.personalGoalModel.getNumberOfRows(); row++) {
-            for (int column = 0; column < this.personalGoalModel.getNumberOfColumns(); column++) {
-                tileViews[row][column] = new TileView(this.personalGoalModel.getSingleTile(row, column));
-            }
-        }
-        return tileViews;
+        return this.pattern;
     }
 
     public TileView getSingleTile(int row, int column) {
-        return new TileView(this.personalGoalModel.getSingleTile(row, column));
+        return this.pattern[row][column];
     }
 
     @Override
     public String toString() {
-        return this.personalGoalModel.toString();
+        return "To be implemented";
+    }
+
+    //TODO: Chiedere se è corretto inserirlo quà dentro
+    public int score(BookshelfView bookshelf) {
+        switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
+            case 0 -> {
+                return 0;
+            }
+            case 1 -> {
+                return 1;
+            }
+            case 2 -> {
+                return 2;
+            }
+            case 3 -> {
+                return 4;
+            }
+            case 4 -> {
+                return 6;
+            }
+            case 5 -> {
+                return 9;
+            }
+            case 6 -> {
+                return 12;
+            }
+            default -> {
+                return 12;
+            }
+        }
+    }
+
+    //TODO: Chiedere se è corretto inserirlo quà dentro
+    public int numberOfPatternRepetitionInBookshelf(BookshelfView bookshelf) {
+        int counter = 0;
+        for (int row = 0; row < this.numberOfRows; row++) {
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                if (this.pattern[row][column] != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 }

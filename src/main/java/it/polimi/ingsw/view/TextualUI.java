@@ -290,11 +290,11 @@ public class TextualUI extends UI {
         BoardView board = this.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if (!boardMatrix[row][column].isNull() && !boardMatrix[row][column].hasNoColor()) {
-            if ((row != 0 && (boardMatrix[row - 1][column].isNull() || boardMatrix[row - 1][column].hasNoColor())) ||
-                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column].isNull() || boardMatrix[row + 1][column].hasNoColor())) ||
-                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1].isNull() || boardMatrix[row][column + 1].hasNoColor())) ||
-                    (column != 0 && (boardMatrix[row][column - 1].isNull() || boardMatrix[row][column - 1].hasNoColor()))) {
+        if (boardMatrix[row][column]!=null && boardMatrix[row][column].getColor()!=null) {
+            if ((row != 0 && (boardMatrix[row - 1][column]==null || boardMatrix[row - 1][column].getColor()==null)) ||
+                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column]==null || boardMatrix[row + 1][column].getColor()==null)) ||
+                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1]==null || boardMatrix[row][column + 1].getColor()==null)) ||
+                    (column != 0 && (boardMatrix[row][column - 1]==null || boardMatrix[row][column - 1].getColor()==null))) {
                 return true;
             } else {
                 System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
@@ -311,7 +311,7 @@ public class TextualUI extends UI {
         PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
-        List<GoalTileView> playerGoalTiles = activePlayer.getGoalTiles();
+        List<ScoreTileView> playerGoalTiles = activePlayer.getScoreTiles();
 
         int playerScore = activePlayer.score();
 
