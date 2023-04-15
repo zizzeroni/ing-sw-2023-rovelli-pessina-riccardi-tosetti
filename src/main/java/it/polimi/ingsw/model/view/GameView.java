@@ -10,20 +10,13 @@ import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameView implements Serializable {
-    //private final Game gameModel;
-    private final int numberOfPlayers;
-    private final int activePlayerIndex;
-    private final List<PlayerView> players;
-    private final List<TileView> bag;
-    private final BoardView board;
-    private final List<CommonGoalView> commonGoals;
-    /*private ModelViewListener listener;
+public class GameView implements GameListener, BoardListener, BookshelfListener {
+    private final Game gameModel;
+    private ModelViewListener listener;
 
     public void registerListener(ModelViewListener listener) {
         this.listener = listener;
@@ -31,59 +24,52 @@ public class GameView implements Serializable {
 
     public void removeListener() {
         this.listener = null;
-    }*/
+    }
 
     public GameView(Game gameModel) {
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
-        this.players = new ArrayList<>();
-        this.bag = new ArrayList<>();
-        this.commonGoals = new ArrayList<>();
-
-        this.numberOfPlayers = gameModel.getNumberOfPlayers();
-        this.activePlayerIndex = gameModel.getActivePlayerIndex();
-        for (Player player : gameModel.getPlayers()) {
-            players.add(new PlayerView(player));
-        }
-        for (Tile tile : gameModel.getBag()) {
-            bag.add(new TileView(tile));
-        }
-        this.board = new BoardView(gameModel.getBoard());
-        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
-            commonGoals.add(new CommonGoalView(commonGoal));
-        }
-    }
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
+        this.gameModel = gameModel;
+        //gameModel.addObserver(this);
     }
 
     public int getNumPlayers() {
-        return this.numberOfPlayers;
+        return gameModel.getNumberOfPlayers();
     }
 
     public int getActivePlayerIndex() {
-        return this.activePlayerIndex;
+        return gameModel.getActivePlayerIndex();
     }
 
     public List<PlayerView> getPlayers() {
-        return this.players;
+        List<PlayerView> playerViews = new ArrayList<>();
+        for (Player player : this.gameModel.getPlayers()) {
+            playerViews.add(new PlayerView(player));
+        }
+        return playerViews;
     }
 
     public List<TileView> getBag() {
-        return this.bag;
+        List<TileView> tileViews = new ArrayList<>();
+        for (Tile tile : this.gameModel.getBag()) {
+            tileViews.add(new TileView(tile));
+        }
+        return tileViews;
     }
 
     public BoardView getBoard() {
-        return this.board;
+        return new BoardView(this.gameModel.getBoard());
     }
 
     public List<CommonGoalView> getCommonGoals() {
-        return this.commonGoals;
+        List<CommonGoalView> temp = new ArrayList<>();
+        for (CommonGoal commonGoal : this.gameModel.getCommonGoals()) {
+            temp.add(new CommonGoalView(commonGoal));
+        }
+        return temp;
     }
 
-    /*
     @Override
     public void addedTilesToBoard(Board board) {
         this.listener.modelModified(this);
@@ -122,5 +108,5 @@ public class GameView implements Serializable {
     @Override
     public void commonGoalsModified() {
         this.listener.modelModified(this);
-    }*/
+    }
 }

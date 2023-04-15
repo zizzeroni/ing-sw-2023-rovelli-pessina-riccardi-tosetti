@@ -1,103 +1,59 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.tile.Tile;
 
 public class BookshelfView {
-    //private final Bookshelf bookshelfModel;
-    private final int numberOfColumns;
-    private final int numberOfRows;
-    private final String image;
-    private final TileView[][] tiles;
-    public BookshelfView(Bookshelf bookshelfModel) {
-        this.tiles = new TileView[bookshelfModel.getNumberOfRows()][bookshelfModel.getNumberOfColumns()];
+    private final Bookshelf bookshelfModel;
 
-        this.numberOfColumns=bookshelfModel.getNumberOfColumns();
-        this.numberOfRows=bookshelfModel.getNumberOfRows();
-        this.image=bookshelfModel.getImage();
-        for (int row = 0; row < bookshelfModel.getNumberOfRows(); row++) {
-            for (int column = 0; column < bookshelfModel.getNumberOfColumns(); column++) {
-                this.tiles[row][column] = (bookshelfModel.getSingleTile(row, column) != null ? new TileView(bookshelfModel.getSingleTile(row, column)) : null);
-            }
-        }
+    public BookshelfView(Bookshelf bookshelfModel) {
+        this.bookshelfModel = bookshelfModel;
     }
 
     public String getImage() {
-        return this.image;
+        return this.bookshelfModel.getImage();
     }
 
     public TileView[][] getTiles() {
-        return this.tiles;
+        TileView[][] tileViewsTiles = new TileView[this.bookshelfModel.getNumberOfRows()][this.bookshelfModel.getNumberOfColumns()];
+        for (int row = 0; row < this.bookshelfModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < this.bookshelfModel.getNumberOfColumns(); column++) {
+                tileViewsTiles[row][column] = new TileView(this.bookshelfModel.getSingleTile(row, column));
+            }
+        }
+        return tileViewsTiles;
     }
 
     public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
-        return this.tiles[row][column];
+        return new TileView(this.bookshelfModel.getSingleTile(row, column));
     }
 
     public int getNumberOfEmptyCellsInColumn(int column) {
-        int counter = 0;
-        for (int i = this.numberOfRows - 1; i > 0; i--) {
-            if (this.tiles[i][column] != null) {
-                return counter;
-            }
-            counter++;
-        }
-        return counter;
+        return this.bookshelfModel.getNumberOfEmptyCellsInColumn(column);
     }
 
     public int getNumberOfColumns() {
-        return this.numberOfColumns;
+        return this.bookshelfModel.getNumberOfColumns();
     }
 
     public int getNumberOfTilesInColumn(int column) {
-        int counter = 0;
-        for (int row = 0; row < this.numberOfRows; row++) {
-            if (this.tiles[row][column] != null)
-                counter++;
-        }
-        return counter;
+        return this.bookshelfModel.getNumberOfTilesInColumn(column);
     }
 
     public int getNumberOfRows() {
-        return this.numberOfRows;
+        return this.bookshelfModel.getNumberOfRows();
     }
 
     public boolean isRowFull(int row) {
-        for (int column = 0; column < this.numberOfColumns; column++) {
-            if (this.tiles[row][column] == null) {
-                return false;
-            }
-        }
-        return true;
+        return this.bookshelfModel.isRowFull(row);
     }
 
     public boolean isColumnFull(int column) {
-        for (int row = 0; row < this.numberOfRows; row++) {
-            if (this.tiles[row][column] == null) {
-                return false;
-            }
-        }
-        return true;
+        return this.bookshelfModel.isColumnFull(column);
     }
 
     @Override
     public String toString() {
-        String output = "    ";
-        for (int column = 0; column < this.numberOfColumns; column++) {
-            output += column + 1 + " ";
-        }
-        output += "\n";
-        for (int row = 0; row < this.numberOfRows; row++) {
-            output += (row + 1) + " [ ";
-            for (int column = 0; column < this.numberOfColumns; column++) {
-                TileView currentTile = this.tiles[row][column];
-                output = ((currentTile == null || currentTile.getColor() == null) ? output + "0 " : output + currentTile.getColor() + " ");
-            }
-            output += "] " + "\n";
-        }
-        return output.substring(0, output.length() - 1);
+        return this.bookshelfModel.toString();
     }
-    public int score() {
-        return 1;
-    }
+
 }
