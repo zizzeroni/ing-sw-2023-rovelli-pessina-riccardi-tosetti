@@ -14,6 +14,7 @@ public class EchoClientSocket {
     private String ip;
     private final int port = 1337;
     private static String nome;
+    private static GameView gameView;
 
     public EchoClientSocket(String ip, String nome) throws IOException {
         this.socket = new Socket(ip, port);
@@ -30,10 +31,11 @@ public class EchoClientSocket {
         //Mettere in attesa di una GameView
 
         //Attesa della ricezione di una GameView da parte del server
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-        ObjectInputStream inputStream = new ObjectInputStream(is);
-        GameView gameView = (GameView) inputStream.readObject();
+
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+//        ObjectInputStream inputStream = new ObjectInputStream(is);
+//        gameView = (GameView) inputStream.readObject();
 
         new Thread(client::readLoop).start();
         new Thread(client::writeLoop).start();
@@ -60,7 +62,7 @@ public class EchoClientSocket {
     //Ciclo che legge tutto quello che viene inviato dal server nello stream del client
     public void readLoop() {
         try (Scanner socketIn = new Scanner(socket.getInputStream())) {
-            System.out.println("Connection established");
+
             while (true) {
                 String socketLine = socketIn.nextLine();
                 System.out.println(socketLine);

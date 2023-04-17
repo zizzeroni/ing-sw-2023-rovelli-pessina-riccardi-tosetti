@@ -27,14 +27,15 @@ public class SingleClientHandler extends Thread {
     public void run() {
 
         //invio della view relativa al modello al client
-        GameView view = new GameView(model);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(os);
-            out.writeObject(view);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+//        GameView view = new GameView(model);
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        try {
+//            ObjectOutputStream out = new ObjectOutputStream(os);
+//            out.writeObject(view);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         while(true) {
             try {
