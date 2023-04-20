@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.tile.Tile;
 
-public class BoardView {
+import java.io.Serializable;
+
+public class BoardView implements Serializable {
     //private final Board boardModel;
     private final int numberOfUsableTiles;
 

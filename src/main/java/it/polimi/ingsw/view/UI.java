@@ -1,12 +1,11 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.ControllerListener;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.ModelViewListener;
 import it.polimi.ingsw.model.view.GameView;
 
-public abstract class UI implements Runnable, ModelViewListener {
+public abstract class UI implements Runnable {
     private GameView model;
     protected ControllerListener controller;
 
@@ -37,7 +36,7 @@ public abstract class UI implements Runnable, ModelViewListener {
         return controller;
     }
 
-    public void registerListener(GameController controller) {
+    public void registerListener(ControllerListener controller) {
         this.controller = controller;
     }
 
@@ -51,7 +50,6 @@ public abstract class UI implements Runnable, ModelViewListener {
 
     public abstract void showPersonalRecap();
 
-    @Override
     public void modelModified(GameView game) {
         this.model = game;
     }

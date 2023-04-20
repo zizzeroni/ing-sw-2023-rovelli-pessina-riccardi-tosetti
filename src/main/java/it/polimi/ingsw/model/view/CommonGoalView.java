@@ -4,10 +4,11 @@ import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommonGoalView {
+public class CommonGoalView implements Serializable {
     //private final CommonGoal commonGoalModel;
     private final int numberOfPatternRepetitionsRequired;
     private final CheckType type;

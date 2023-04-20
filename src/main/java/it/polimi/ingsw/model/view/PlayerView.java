@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.tile.ScoreTile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerView {
+public class PlayerView implements Serializable {
     //private final Player playerModel;
     private final String nickname; //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
     private final boolean connected;

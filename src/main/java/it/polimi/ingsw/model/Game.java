@@ -1,10 +1,15 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +19,8 @@ import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
+
+    private boolean started;
     private int numberOfPlayers;
     private int activePlayerIndex;
     private List<Player> players;
@@ -30,8 +37,35 @@ public class Game {
         this.listener = null;
     }
 
+    public Game() {
+        this.started = false;
+        this.listener = null;
+        this.players = new ArrayList<>();
+        this.activePlayerIndex = 0;
+        this.board = null;
+        this.numberOfPlayers = 0;
+        this.bag = new ArrayList<>(132);
+        this.commonGoals = new ArrayList<>(2);
+        for (int i = 0; i < 132; i++) {
+            this.bag.add(new Tile(TileColor.values()[i % 6]));
+        }
+        this.board = null;
+        CommonGoal newCommonGoal;
+        while (this.commonGoals.size() != 2) {
+            try {
+                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                if (!this.commonGoals.contains(newCommonGoal)) {
+                    this.commonGoals.add(newCommonGoal);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        Collections.shuffle(this.bag);
 
+    }
     public Game(int numberOfPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
+        this.started = false;
         this.listener = null;
         this.players = players;
         this.activePlayerIndex = 0;
@@ -91,6 +125,14 @@ public class Game {
         this.bag = bag;
         this.board = board;
         this.commonGoals = commonGoals;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 
     public int getNumberOfPlayers() {

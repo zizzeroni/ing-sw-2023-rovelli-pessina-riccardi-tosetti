@@ -18,6 +18,7 @@ import java.util.List;
 public class GameView implements Serializable {
     //private final Game gameModel;
     private final int numberOfPlayers;
+    private final boolean started;
     private final int activePlayerIndex;
     private final List<PlayerView> players;
     private final List<TileView> bag;
@@ -34,6 +35,7 @@ public class GameView implements Serializable {
     }*/
 
     public GameView(Game gameModel) {
+        this.started=gameModel.isStarted();
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
@@ -54,7 +56,9 @@ public class GameView implements Serializable {
             commonGoals.add(new CommonGoalView(commonGoal));
         }
     }
-
+    public boolean isStarted() {
+        return started;
+    }
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class TextualUI extends UI {
@@ -78,14 +79,14 @@ public class TextualUI extends UI {
                             try {
                                 row = s.nextInt();
                             } catch (InputMismatchException e) {
-                                System.out.println("Hai inserito un valore non valido, riprova!");
+                                System.err.println("Hai inserito un valore non valido, riprova!");
                                 s.next();
                             }
 
                             if (row <= this.getModel().getBoard().getNumberOfRows() && row > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfRows() + "!)");
+                                System.err.println("Inserisci una riga valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfRows() + "!)");
                             }
                         }
 
@@ -96,14 +97,14 @@ public class TextualUI extends UI {
                             try {
                                 column = s.nextInt();
                             } catch (InputMismatchException e) {
-                                System.out.println("Hai inserito un valore non valido, riprova!");
+                                System.err.println("Hai inserito un valore non valido, riprova!");
                                 s.next();
                             }
 
                             if (column <= this.getModel().getBoard().getNumberOfColumns() && column > 0) {
                                 isInsertCorrect = true;
                             } else {
-                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfColumns() + "!");
+                                System.err.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfColumns() + "!");
                             }
                         }
 
@@ -159,15 +160,15 @@ public class TextualUI extends UI {
 
                             if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                                 isInsertCorrect = false;
-                                System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
+                                System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
                                         " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
                             }
                             if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn) + 1 <= counter) {
                                 isInsertCorrect = false;
-                                System.out.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
+                                System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                             }
                         } catch (InputMismatchException ignored) {
-                            System.out.println("Non hai inserito un valore valido, riprova!");
+                            System.err.println("Non hai inserito un valore valido, riprova!");
                         }
 
 
@@ -209,10 +210,10 @@ public class TextualUI extends UI {
                                     playerChoice.setTileOrder(chosenPositions);
                                     isInsertCorrect = true;
                                 } else {
-                                    System.out.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
+                                    System.err.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
                                 }
                             } else {
-                                System.out.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
+                                System.err.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
                                         " la formattazione richiesta, riprova!");
                             }
                         } while (!isInsertCorrect);

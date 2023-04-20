@@ -3,10 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.utils.ObservableType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Choice implements ObservableType {
+public class Choice implements Serializable {
     private List<TileView> chosenTiles;
     private List<Coordinates> tileCoordinates;
     private int[] tileOrder;
@@ -69,8 +70,4 @@ public class Choice implements ObservableType {
         this.tileCoordinates.add(coordinates);
     }
 
-    @Override
-    public Event getEvent() {
-        return Event.USER_INPUT;
-    }
 }

@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.Tile;
 
-public class BookshelfView {
+import java.io.Serializable;
+
+public class BookshelfView implements Serializable {
     //private final Bookshelf bookshelfModel;
     private final int numberOfColumns;
     private final int numberOfRows;

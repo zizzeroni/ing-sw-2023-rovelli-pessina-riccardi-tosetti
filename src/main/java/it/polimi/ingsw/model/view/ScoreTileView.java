@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
 
-public class ScoreTileView {
+import java.io.Serializable;
+
+public class ScoreTileView implements Serializable {
     //private final ScoreTile scoreTileModel;
     private final int value;
     private final int playerID;

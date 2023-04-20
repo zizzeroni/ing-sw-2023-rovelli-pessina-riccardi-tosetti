@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.ClientImpl;
+import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.view.TextualUI;
 import it.polimi.ingsw.view.UI;
 
@@ -14,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Hello world!
@@ -53,6 +58,8 @@ public class App {
         game.changeTurn();
 
         */
+
+        /*
         int numPlayers = 4;
         ArrayList<Player> players = new ArrayList<Player>(numPlayers);
         ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
@@ -93,11 +100,11 @@ public class App {
 
         GameView modelView = new GameView(model);
         UI view = new TextualUI(modelView);
-        GameController controller = new GameController(model/*, view*/);
+        GameController controller = new GameController(model/*, view*//*);
 
         //modelView.addObserver(view);
         //view.addObserver(controller);
-        model.registerListener(modelView);
+        /*model.registerListener(modelView);
         model.getBoard().registerListener(modelView);
         for (Player player : model.getPlayers()) {
             player.getBookshelf().registerListener(modelView);
@@ -105,6 +112,11 @@ public class App {
         modelView.registerListener(view);
         view.registerListener(controller);
 
-        view.run();
+        view.run();*/
+
+        Server server = new ServerImpl();
+
+        ClientImpl client = new ClientImpl(server);
+        client.run();
     }
 }

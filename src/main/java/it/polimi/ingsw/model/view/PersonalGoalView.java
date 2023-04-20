@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.model.tile.Tile;
 
-public class PersonalGoalView {
+import java.io.Serializable;
+
+public class PersonalGoalView implements Serializable {
     //private final PersonalGoal personalGoalModel;
     private final int numberOfColumns;
     private final int numberOfRows;
