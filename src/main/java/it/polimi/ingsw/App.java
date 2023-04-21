@@ -20,6 +20,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -123,8 +124,11 @@ public class App {
         }
 
         ClientImpl client = null;
+        Scanner s=new Scanner(System.in);
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+        String nick = s.next();
         try {
-            client = new ClientImpl(server, new TextualUI());
+            client = new ClientImpl(server, new TextualUI()/*, nick*/);
         } catch (RemoteException e) {
             System.err.println("Error while creating new client: "+ e.getMessage());
         }

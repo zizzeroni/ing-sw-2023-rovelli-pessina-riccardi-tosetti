@@ -41,7 +41,8 @@ public class AppClient {
                         Registry registry = LocateRegistry.getRegistry();
                         Server server = (Server) registry.lookup("server");
                         //Creating a new client with a TextualUI
-                        client = new ClientImpl(server,new TextualUI());
+
+                        client = new ClientImpl(server,new TextualUI()/*,nick*/);
                     }
                     case 2 -> {
                         //Getting the remote server by Socket
@@ -82,9 +83,6 @@ public class AppClient {
                 return;
             }
         }
-
-
-
         client.run();
     }
 }

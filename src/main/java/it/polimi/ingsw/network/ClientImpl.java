@@ -18,30 +18,31 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     UI view;
 
 
-    public ClientImpl(Server server, UI view) throws RemoteException {
+    public ClientImpl(Server server, UI view/*, String nickname*/) throws RemoteException {
         super();
         serverConnectedTo = server;
         this.view=view;
-        GameView freshModel = server.register(this);
-        view.setModel(freshModel);
+        //this.view.setNicknameID(nickname);
+        server.register(this/*,nickname*/);
+        //view.setModel(freshModel);
         view.registerListener(this);
     }
 
-    public ClientImpl(Server server, UI view, int port) throws RemoteException {
+    public ClientImpl(Server server, UI view/*, String nickname*/, int port) throws RemoteException {
         super(port);
         serverConnectedTo = server;
         this.view=view;
-        GameView freshModel = server.register(this);
-        view = new TextualUI(freshModel);
+        server.register(this/*,nickname*/);
+        //view = new TextualUI(freshModel);
         view.registerListener(this);
     }
 
-    public ClientImpl(Server server, UI view, int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
+    public ClientImpl(Server server, UI view/*, String nickname*/, int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
         serverConnectedTo = server;
         this.view=view;
-        GameView freshModel = server.register(this);
-        view = new TextualUI(freshModel);
+        server.register(this/*,nickname*/);
+        //view = new TextualUI(freshModel);
         view.registerListener(this);
     }
 
@@ -89,9 +90,18 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     @Override
-    public void addPlayer(String nickname, int chosenNumberOfPlayers) {
+    public void addPlayer(String nickname) {
         try {
-            this.serverConnectedTo.addPlayer(nickname,chosenNumberOfPlayers);
+            this.serverConnectedTo.addPlayer(nickname);
+        } catch (RemoteException e) {
+            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+        }
+    }
+
+    @Override
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        try {
+            this.serverConnectedTo.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
         } catch (RemoteException e) {
             System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
         }

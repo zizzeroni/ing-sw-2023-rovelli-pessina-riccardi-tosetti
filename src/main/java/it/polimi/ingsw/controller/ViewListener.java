@@ -12,5 +12,7 @@ public interface ViewListener {
 
     public void sendBroadcastMessage(Player sender, String content);
 
-    public void addPlayer(String nickname, int chosenNumberOfPlayers);
+    public void addPlayer(String nickname);
+
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 }

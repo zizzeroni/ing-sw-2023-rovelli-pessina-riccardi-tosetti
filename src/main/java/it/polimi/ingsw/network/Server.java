@@ -17,8 +17,9 @@ public interface Server extends Remote {
 
     public void sendBroadcastMessage(Player sender, String content) throws RemoteException;
 
-    public void addPlayer(String nickname, int chosenNumberOfPlayers) throws RemoteException;
+    public void addPlayer(String nickname) throws RemoteException;
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException;
 
     //Method used by the clients in order to register to a specific remote server
-    public GameView register(Client client) throws RemoteException;
+    public void register(Client client/*,String nickname*/) throws RemoteException;
 }

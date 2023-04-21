@@ -111,7 +111,7 @@ public class GameController implements ViewListener {
     }
 
     @Override
-    public void addPlayer(String nickname, int chosenNumberOfPlayers) {
+    public void addPlayer(String nickname) {
         ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
         Gson gson = new Gson();
         try {
@@ -125,12 +125,23 @@ public class GameController implements ViewListener {
         }
         Collections.shuffle(personalGoals);
         Player newPlayer = new Player(nickname, true, personalGoals.get(0), new ArrayList<ScoreTile>(), new Bookshelf());
-        if (chosenNumberOfPlayers != 0) {
-            this.model.setNumberOfPlayers(chosenNumberOfPlayers);
-        }
+
         this.model.addPlayer(newPlayer);
         if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
             startGame();
+        }
+    }
+
+    @Override
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
+            if(this.model.getNumberOfPlayers()==0) {
+                this.model.setNumberOfPlayers(chosenNumberOfPlayers);
+            } else {
+                System.err.println("NumberOfPlayers already chosen");
+            }
+        } else {
+            System.err.println("Unexpected value for number of lobby's players");
         }
     }
 
