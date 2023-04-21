@@ -49,7 +49,7 @@ public class Game {
         for (int i = 0; i < 132; i++) {
             this.bag.add(new Tile(TileColor.values()[i % 6]));
         }
-        this.board = null;
+        this.board = new Board();
         CommonGoal newCommonGoal;
         while (this.commonGoals.size() != 2) {
             try {
@@ -133,6 +133,9 @@ public class Game {
 
     public void setStarted(boolean started) {
         this.started = started;
+        if(this.listener!=null) {
+            this.listener.startOfTheGame();
+        }
     }
 
     public int getNumberOfPlayers() {
@@ -165,6 +168,13 @@ public class Game {
         this.players = players;
     }
 
+    public void addPlayer(Player player) {
+        this.players.add(player);
+        if(this.listener!=null) {
+            this.listener.addedPlayer();
+        }
+    }
+
     public List<Tile> getBag() {
         return bag;
     }
@@ -181,7 +191,13 @@ public class Game {
     }
 
     public void setBoard(Board board) {
-        this.board = board;
+        /*Tile[][] boardCopy=new Tile[this.board.getNumberOfRows()][this.board.getNumberOfColumns()];
+        for(int row = 0;row<this.board.getNumberOfRows();row++) {
+            for(int column = 0;column<this.getBoard().getNumberOfColumns();column++) {
+                this.board.setSingleTile(row,column,new Tile(board.getSingleTile(row,column).getColor()!=null ? board.getSingleTile(row,column).getColor() : null));
+            }
+        }*/
+        this.board=board;
     }
 
     public List<CommonGoal> getCommonGoals() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-
-
     //We will use 'nickname' for identify the player, in one game there can't be two players with the same nickname
     private String nickname;
     //We will use 'connected' to indicate if the player is still connected to the game or if he isn't

@@ -18,46 +18,34 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ServerImpl implements Server, ModelListener {
+public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
     private Set<Client> clientsToHandle;
 
-    public ServerImpl() {
-        //this.model=new Game();
+    public ServerImpl() throws RemoteException{
+        super();
         clientsToHandle=new HashSet<>();
-        int numPlayers = 4;
-        ArrayList<Player> players = new ArrayList<Player>(numPlayers);
-        ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
-        List<JsonBoardPattern> boardPatterns = new ArrayList<>();
-        Gson gson = new Gson();
 
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
-            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
-            }.getType());
-
-            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
-            boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
-            }.getType());
-            reader.close();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        players.add(new Player("Alessandro", true, personalGoals.get(0), new ArrayList<ScoreTile>(), new Bookshelf()));
-        players.add(new Player("Andrea", true, personalGoals.get(1), new ArrayList<ScoreTile>(), new Bookshelf()));
-        players.add(new Player("Francesco", true, personalGoals.get(2), new ArrayList<ScoreTile>(), new Bookshelf()));
-        players.add(new Player("Luca", true, personalGoals.get(3), new ArrayList<ScoreTile>(), new Bookshelf()));
-
-        model = new Game(numPlayers, players, personalGoals, boardPatterns.stream().filter(boardPattern -> boardPattern.numberOfPlayers() == players.size()).findFirst().orElse(null));
+        model = new Game();
     }
+
+    public ServerImpl(int port) throws RemoteException {
+        super(port);
+    }
+
+    public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
+        super(port, csf, ssf);
+    }
+
     @Override
     public void changeTurn() throws RemoteException {
         this.controller.changeTurn();
@@ -79,13 +67,20 @@ public class ServerImpl implements Server, ModelListener {
     }
 
     @Override
+    public void addPlayer(String nickname, int chosenNumberOfPlayers) throws RemoteException {
+        this.controller.addPlayer(nickname,chosenNumberOfPlayers);
+        this.model.getPlayers().get(this.model.getPlayers().size()-1).getBookshelf().registerListener(this);
+    }
+
+
+    @Override
     public GameView register(Client client) {
         clientsToHandle.add(client);
         this.model.registerListener(this);
         this.model.getBoard().registerListener(this);
-        for(Player player : this.model.getPlayers()) {
+       /* for(Player player : this.model.getPlayers()) {
             player.getBookshelf().registerListener(this);
-        }
+        }*/
         this.controller = new GameController(model);
         return new GameView(model);
     }
@@ -97,7 +92,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -108,7 +103,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -119,7 +114,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -130,7 +125,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -141,7 +136,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -152,7 +147,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -163,7 +158,7 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }
@@ -174,7 +169,29 @@ public class ServerImpl implements Server, ModelListener {
             try {
                 client.updateModelView(new GameView(model));
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }
+
+    @Override
+    public void addedPlayer() {
+        for(Client client : clientsToHandle) {
+            try {
+                client.updateModelView(new GameView(model));
+            } catch (RemoteException e) {
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }
+
+    @Override
+    public void startOfTheGame() {
+        for(Client client : clientsToHandle) {
+            try {
+                client.updateModelView(new GameView(model));
+            } catch (RemoteException e) {
+                System.err.println("Error while updating client:" + e.getMessage() + ".Skipping update");
             }
         }
     }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.ControllerListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.view.GameView;
@@ -18,6 +17,8 @@ public interface Server extends Remote {
 
     public void sendBroadcastMessage(Player sender, String content) throws RemoteException;
 
+    public void addPlayer(String nickname, int chosenNumberOfPlayers) throws RemoteException;
 
-    public GameView register(Client client);
+    //Method used by the clients in order to register to a specific remote server
+    public GameView register(Client client) throws RemoteException;
 }

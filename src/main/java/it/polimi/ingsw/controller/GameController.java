@@ -1,14 +1,19 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
+import com.google.gson.reflect.TypeToken;
 
-public class GameController implements ControllerListener {
+public class GameController implements ViewListener {
     private final Game model;
 
     //private final UI view;
@@ -85,6 +90,7 @@ public class GameController implements ControllerListener {
             System.err.println("[ERROR]: User data not correct");
         }
     }
+
     @Override
     public void sendPrivateMessage(Player receiver, Player sender, String content) {
         String senderNickname = sender.getNickname();
@@ -102,6 +108,57 @@ public class GameController implements ControllerListener {
         for (Player player : this.model.getPlayers()) {
             //player.addMessage(new Message(player.getNickname(), senderNickname, content));
         }
+    }
+
+    @Override
+    public void addPlayer(String nickname, int chosenNumberOfPlayers) {
+        ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
+        Gson gson = new Gson();
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
+            }.getType());
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Collections.shuffle(personalGoals);
+        Player newPlayer = new Player(nickname, true, personalGoals.get(0), new ArrayList<ScoreTile>(), new Bookshelf());
+        if (chosenNumberOfPlayers != 0) {
+            this.model.setNumberOfPlayers(chosenNumberOfPlayers);
+        }
+        this.model.addPlayer(newPlayer);
+        if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
+            startGame();
+        }
+    }
+
+    private void startGame() {
+        Random rand = new Random();
+        this.model.setActivePlayerIndex(rand.nextInt(this.model.getNumberOfPlayers()));
+
+
+        List<JsonBoardPattern> boardPatterns = new ArrayList<JsonBoardPattern>();
+        Gson gson = new Gson();
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
+            reader.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        boardPatterns.stream()
+                .filter(boardPattern -> boardPattern.numberOfPlayers() == this.model.getPlayers().size())
+                .findFirst()
+                .ifPresent(jsonBoardPattern -> this.model.getBoard().setTiles(jsonBoardPattern));
+        List<Tile> drawnTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
+        this.model.getBoard().addTiles(drawnTiles);
+        System.out.println(this.model.getBoard());
+        System.out.println("Server arrivato a setStarted");
+        this.model.setStarted(true);
     }
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {

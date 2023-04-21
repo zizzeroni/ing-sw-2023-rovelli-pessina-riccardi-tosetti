@@ -96,7 +96,9 @@ public class Board {
             this.tiles[positions[i]][positions[i + 1]] = null;
             i += 2;
         }
-        this.listener.removedTilesFromBoard(this);
+        if(this.listener!=null) {
+            this.listener.removedTilesFromBoard(this);
+        }
     }
 
     public int getNumberOfUsableTiles() {
@@ -115,6 +117,22 @@ public class Board {
         this.tiles = tiles;
     }
 
+    public void setTiles(JsonBoardPattern boardPattern) {
+        int[][] pattern = boardPattern.pattern();
+
+        for (int row = 0; row < pattern.length; row++) {
+            for (int column = 0; column < pattern[0].length; column++) {
+                if (pattern[row][column] == 1) {
+                    this.numberOfUsableTiles++;
+                    this.tiles[row][column]=null;
+                } else {
+                    //set non-usable tiles as tiles without color
+                    this.tiles[row][column] = new Tile();
+                }
+            }
+        }
+    }
+
     public int getNumberOfRows() {
         return numberOfRows;
     }
@@ -125,6 +143,10 @@ public class Board {
 
     public Tile getSingleTile(int row, int column) {
         return tiles[row][column];
+    }
+
+    public void setSingleTile(int row, int column,Tile tile) {
+        this.tiles[row][column]=tile;
     }
 
     @Override

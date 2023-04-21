@@ -22,7 +22,43 @@ public class TextualUI extends UI {
 
     @Override
     public void run() {
+        //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
+        Scanner s = new Scanner(System.in);
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+        String nick = s.next();
+        this.setNicknameID(nick);
+        int chosenNumberOfPlayer = 0;
+        if (getModel().getNumberOfPlayers() == 0) {
+            do {
+                System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
+                chosenNumberOfPlayer = s.nextInt();
+            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+        }
+        this.controller.addPlayer(nick, chosenNumberOfPlayer);
+
+        while (getState() == State.WAITING_IN_LOBBY) {
+            synchronized (this.getLock()) {
+                try {
+                    System.out.println("Waiting...");
+                    getLock().wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
         while (true) {
+            while (getState() == State.WAITING_FOR_OTHER_PLAYER) {
+                synchronized (this.getLock()) {
+                    try {
+                        System.out.println("Waiting for others player moves...");
+                        getLock().wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
 
@@ -40,7 +76,7 @@ public class TextualUI extends UI {
         System.out.println("Stato della board attuale:");
         System.out.println(this.getModel().getBoard());
     }
-    
+
     @Override
     public Choice askPlayer() {
         Scanner s = new Scanner(System.in);
@@ -291,11 +327,11 @@ public class TextualUI extends UI {
         BoardView board = this.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if (boardMatrix[row][column]!=null && boardMatrix[row][column].getColor()!=null) {
-            if ((row != 0 && (boardMatrix[row - 1][column]==null || boardMatrix[row - 1][column].getColor()==null)) ||
-                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column]==null || boardMatrix[row + 1][column].getColor()==null)) ||
-                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1]==null || boardMatrix[row][column + 1].getColor()==null)) ||
-                    (column != 0 && (boardMatrix[row][column - 1]==null || boardMatrix[row][column - 1].getColor()==null))) {
+        if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
+            if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                    (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
             } else {
                 System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");

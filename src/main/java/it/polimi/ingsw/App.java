@@ -16,6 +16,7 @@ import it.polimi.ingsw.view.UI;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -114,9 +115,19 @@ public class App {
 
         view.run();*/
 
-        Server server = new ServerImpl();
+        Server server = null;
+        try {
+            server = new ServerImpl();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
-        ClientImpl client = new ClientImpl(server);
+        ClientImpl client = null;
+        try {
+            client = new ClientImpl(server, new TextualUI());
+        } catch (RemoteException e) {
+            System.err.println("Error while creating new client: "+ e.getMessage());
+        }
         client.run();
     }
 }

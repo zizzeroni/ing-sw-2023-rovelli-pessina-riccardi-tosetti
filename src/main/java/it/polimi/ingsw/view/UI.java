@@ -1,27 +1,74 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.ControllerListener;
+import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.view.ModelViewListener;
 import it.polimi.ingsw.model.view.GameView;
 
 public abstract class UI implements Runnable {
-    private GameView model;
-    protected ControllerListener controller;
+    public String getNicknameID() {
+        return nicknameID;
+    }
 
-    public UI(GameView model, ControllerListener controller) {
+    public void setNicknameID(String nicknameID) {
+        this.nicknameID = nicknameID;
+    }
+
+    public enum State {
+        WAITING_IN_LOBBY, GAME_ONGOING, WAITING_FOR_OTHER_PLAYER
+    }
+
+    private State state;
+
+    public Object getLock() {
+        return lock;
+    }
+
+    private final Object lock = new Object();
+
+    public State getState() {
+        synchronized (lock) {
+            return state;
+        }
+
+    }
+
+    public void setState(State state) {
+        synchronized (lock) {
+            this.state = state;
+            lock.notifyAll();
+        }
+
+    }
+
+    private GameView model;
+    protected ViewListener controller;
+    private String nicknameID;
+
+    public UI(GameView model, ViewListener controller, String nicknameID) {
         this.model = model;
         this.controller = controller;
+        this.nicknameID = nicknameID;
+        this.state = State.WAITING_IN_LOBBY;
+    }
+
+    public UI(GameView model, ViewListener controller) {
+        this.model = model;
+        this.controller = controller;
+        this.nicknameID = null;
+        this.state = State.WAITING_IN_LOBBY;
     }
 
     public UI(GameView model) {
         this.model = model;
         this.controller = null;
+        this.nicknameID = null;
+        this.state = State.WAITING_IN_LOBBY;
     }
 
     public UI() {
         this.model = null;
         this.controller = null;
+        this.state = State.WAITING_IN_LOBBY;
     }
 
     public GameView getModel() {
@@ -32,11 +79,11 @@ public abstract class UI implements Runnable {
         this.model = model;
     }
 
-    public ControllerListener getController() {
+    public ViewListener getController() {
         return controller;
     }
 
-    public void registerListener(ControllerListener controller) {
+    public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
 
@@ -52,6 +99,31 @@ public abstract class UI implements Runnable {
 
     public void modelModified(GameView game) {
         this.model = game;
+        /*if (this.model.getPlayers().size() >= this.model.getNumberOfPlayers()) {
+            this.setState(State.WAITING_FOR_OTHER_PLAYER);
+        }*/
+        switch (state) {
+            case WAITING_IN_LOBBY -> {
+                if (this.model.isStarted()) {
+                    if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                        this.setState(State.GAME_ONGOING);
+                    } else {
+                        this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                    }
+                }
+            }
+            case WAITING_FOR_OTHER_PLAYER -> {
+                if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                    this.setState(State.GAME_ONGOING);
+                }
+            }
+            case GAME_ONGOING -> {
+                if (!this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                    this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                }
+            }
+        }
+
     }
 
     //ESEMPIO INTERAZIONE TESTUALE
