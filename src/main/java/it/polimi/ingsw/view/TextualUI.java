@@ -27,6 +27,7 @@ public class TextualUI extends UI {
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
         String nick = s.next();
         this.setNicknameID(nick);
+        this.controller.addPlayer(nick);
         int chosenNumberOfPlayer = 0;
         if (getModel().getNumberOfPlayers() == 0) {
             do {
@@ -34,7 +35,7 @@ public class TextualUI extends UI {
                 chosenNumberOfPlayer = s.nextInt();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
         }
-        this.controller.addPlayer(nick, chosenNumberOfPlayer);
+        this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
 
         while (getState() == State.WAITING_IN_LOBBY) {
             synchronized (this.getLock()) {
