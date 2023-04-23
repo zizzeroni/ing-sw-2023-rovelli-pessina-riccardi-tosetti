@@ -26,13 +26,13 @@ public class EchoServerSocket extends Thread {
     }
     public void run() {
         //aggiunge un handler sulla connnessione appena arrivata e lo fa partire
-        while(true) {
+        /*while(true) {
             try {
                 clientHandlers.add(new SingleClientHandler(serverSocket.accept()));
                 clientHandlers.get(clientHandlers.size()-1).start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 }

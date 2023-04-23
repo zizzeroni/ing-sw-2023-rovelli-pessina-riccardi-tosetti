@@ -25,11 +25,13 @@ import java.util.*;
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
+
     private Map<Integer,Client> clientsToHandle;
+
 
     public ServerImpl() throws RemoteException{
         super();
-        clientsToHandle=new HashMap<>();
+        clientsToHandle = new HashMap<>();
         model = new Game();
         this.controller = new GameController(model);
         //Server start listening to Game for changes
@@ -46,6 +48,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         super(port, csf, ssf);
     }
 
+    public void addClientToHandle(Client client) {
+        clientsToHandle.put(clientsToHandle.size(),client);
+    }
+
     @Override
     public void changeTurn() throws RemoteException {
         this.controller.changeTurn();
@@ -57,12 +63,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void sendPrivateMessage(Player receiver, Player sender, String content) throws RemoteException {
+    public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.controller.sendPrivateMessage(receiver,sender,content);
     }
 
     @Override
-    public void sendBroadcastMessage(Player sender, String content) throws RemoteException {
+    public void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.controller.sendBroadcastMessage(sender,content);
     }
 

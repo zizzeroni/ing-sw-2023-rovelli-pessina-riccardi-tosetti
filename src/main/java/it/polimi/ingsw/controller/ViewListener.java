@@ -8,9 +8,9 @@ public interface ViewListener {
 
     public void insertUserInputIntoModel(Choice playerChoice);
 
-    public void sendPrivateMessage(Player receiver, Player sender, String content);
+    public void sendPrivateMessage(String receiver, String sender, String content);
 
-    public void sendBroadcastMessage(Player sender, String content);
+    public void sendBroadcastMessage(String sender, String content);
 
     public void addPlayer(String nickname);
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.ViewListener;
+import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 
@@ -17,25 +18,38 @@ public abstract class UI implements Runnable {
         WAITING_IN_LOBBY, GAME_ONGOING, WAITING_FOR_OTHER_PLAYER
     }
 
+    private boolean updateSent,waitingForUpdate;
     private State state;
 
+    public Object getLockState() {
+        return lockState;
+    }
+
+    public Object getLockUpdate() {
+        return lockState;
+    }
     public Object getLock() {
         return lock;
     }
 
+    private final Object lockState = new Object();
+    private final Object lockUpdate = new Object();
+
     private final Object lock = new Object();
 
+
+
     public State getState() {
-        synchronized (lock) {
+        synchronized (lockState) {
             return state;
         }
 
     }
 
     public void setState(State state) {
-        synchronized (lock) {
+        synchronized (lockState) {
             this.state = state;
-            lock.notifyAll();
+            lockState.notifyAll();
         }
 
     }
@@ -49,6 +63,8 @@ public abstract class UI implements Runnable {
         this.controller = controller;
         this.nicknameID = nicknameID;
         this.state = State.WAITING_IN_LOBBY;
+        this.updateSent = false;
+        this.waitingForUpdate = false;
     }
 
     public UI(GameView model, ViewListener controller) {
@@ -56,6 +72,8 @@ public abstract class UI implements Runnable {
         this.controller = controller;
         this.nicknameID = null;
         this.state = State.WAITING_IN_LOBBY;
+        this.updateSent = false;
+        this.waitingForUpdate = false;
     }
 
     public UI(GameView model) {
@@ -63,20 +81,41 @@ public abstract class UI implements Runnable {
         this.controller = null;
         this.nicknameID = null;
         this.state = State.WAITING_IN_LOBBY;
+        this.updateSent = false;
+        this.waitingForUpdate = false;
     }
 
     public UI() {
         this.model = null;
         this.controller = null;
         this.state = State.WAITING_IN_LOBBY;
+        this.updateSent = false;
+        this.waitingForUpdate = false;
     }
 
     public GameView getModel() {
         return model;
     }
 
+    public void waitForUpdate() {
+        while(!updateSent) {
+            synchronized (lockUpdate) {
+                try {
+                    lockUpdate.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        updateSent=false;
+    }
     public void setModel(GameView model) {
-        this.model = model;
+        synchronized (lockUpdate) {
+            this.model = model;
+            this.updateSent = true;
+            lockUpdate.notifyAll();
+        }
+
     }
 
     public ViewListener getController() {
@@ -98,10 +137,8 @@ public abstract class UI implements Runnable {
     public abstract void showPersonalRecap();
 
     public void modelModified(GameView game) {
-        this.model = game;
-        /*if (this.model.getPlayers().size() >= this.model.getNumberOfPlayers()) {
-            this.setState(State.WAITING_FOR_OTHER_PLAYER);
-        }*/
+        this.setModel(game);
+
         switch (state) {
             case WAITING_IN_LOBBY -> {
                 if (this.model.isStarted()) {

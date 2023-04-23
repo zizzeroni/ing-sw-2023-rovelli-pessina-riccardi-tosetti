@@ -72,7 +72,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     @Override
-    public void sendPrivateMessage(Player receiver, Player sender, String content) {
+    public void sendPrivateMessage(String receiver, String sender, String content) {
         try {
             this.serverConnectedTo.sendPrivateMessage(receiver, sender, content);
         } catch (RemoteException e) {
@@ -81,7 +81,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     @Override
-    public void sendBroadcastMessage(Player sender, String content) {
+    public void sendBroadcastMessage(String sender, String content) {
         try {
             this.serverConnectedTo.sendBroadcastMessage(sender, content);
         } catch (RemoteException e) {

@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
 
-import java.rmi.RemoteException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TextualUI extends UI {
 
@@ -27,21 +27,26 @@ public class TextualUI extends UI {
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
         String nick = s.next();
         this.setNicknameID(nick);
+
         this.controller.addPlayer(nick);
+        //this.waitForUpdate();
+
         int chosenNumberOfPlayer = 0;
         if (getModel().getNumberOfPlayers() == 0) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = s.nextInt();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+            this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
-        this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
 
+        //this.waitForUpdate();
+        //System.out.println("Passato");
         while (getState() == State.WAITING_IN_LOBBY) {
-            synchronized (this.getLock()) {
+            synchronized (this.getLockState()) {
                 try {
                     System.out.println("Waiting...");
-                    getLock().wait();
+                    getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -50,10 +55,10 @@ public class TextualUI extends UI {
 
         while (true) {
             while (getState() == State.WAITING_FOR_OTHER_PLAYER) {
-                synchronized (this.getLock()) {
+                synchronized (this.getLockState()) {
                     try {
                         System.out.println("Waiting for others player moves...");
-                        getLock().wait();
+                        getLockState().wait();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -66,6 +71,7 @@ public class TextualUI extends UI {
             //---------------------------------NOTIFICA CONTROLLER---------------------------------
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
+            //this.waitForUpdate();
         }
     }
 

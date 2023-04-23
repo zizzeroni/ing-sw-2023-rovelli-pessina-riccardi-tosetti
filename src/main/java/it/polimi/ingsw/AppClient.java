@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.ServerStab;
 import it.polimi.ingsw.view.TextualUI;
 
 import java.rmi.NotBoundException;
@@ -45,9 +46,22 @@ public class AppClient {
                         client = new ClientImpl(server,new TextualUI()/*,nick*/);
                     }
                     case 2 -> {
+                        ServerStab serverStab = new ServerStab("localhost",1234);
+                        client = new ClientImpl(serverStab,new TextualUI());
+                        new Thread(() -> {
+                            try {
+                                serverStab.receive(client);
+                            } catch (RemoteException e) {
+                                System.err.println("Error while receiving message from server");
+                                try {
+                                    serverStab.close();
+                                } catch (RemoteException ex) {
+                                    System.err.println("Cannot close connection with server. Halting...");
+                                }
+                                System.exit(1);
+                            }
+                        }).start();
                         //Getting the remote server by Socket
-                        System.err.println("To be implemented");
-                        return;
                     }
                     default -> {
                         System.err.println("Unexpected value for the type of connection choice");

@@ -92,18 +92,14 @@ public class GameController implements ViewListener {
     }
 
     @Override
-    public void sendPrivateMessage(Player receiver, Player sender, String content) {
-        String senderNickname = sender.getNickname();
-        String receiverNickname = receiver.getNickname();
-
+    public void sendPrivateMessage(String receiver, String sender, String content) {
         //sender.addMessage(new Message(receiverNickname, senderNickname, content));
         //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
 
     }
 
     @Override
-    public void sendBroadcastMessage(Player sender, String content) {
-        String senderNickname = sender.getNickname();
+    public void sendBroadcastMessage(String sender, String content) {
 
         for (Player player : this.model.getPlayers()) {
             //player.addMessage(new Message(player.getNickname(), senderNickname, content));
