@@ -14,7 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ClientImpl extends UnicastRemoteObject implements Client, ViewListener, Runnable {
 
-    private Server serverConnectedTo;
+    private final Server serverConnectedTo;
     UI view;
 
 

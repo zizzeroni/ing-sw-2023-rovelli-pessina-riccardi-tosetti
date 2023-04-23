@@ -49,16 +49,18 @@ public class AppClient {
                         ServerStab serverStab = new ServerStab("localhost",1234);
                         client = new ClientImpl(serverStab,new TextualUI());
                         new Thread(() -> {
-                            try {
-                                serverStab.receive(client);
-                            } catch (RemoteException e) {
-                                System.err.println("Error while receiving message from server");
+                            while(true) {
                                 try {
-                                    serverStab.close();
-                                } catch (RemoteException ex) {
-                                    System.err.println("Cannot close connection with server. Halting...");
+                                    serverStab.receive(client);
+                                } catch (RemoteException e) {
+                                    System.err.println("Error while receiving message from server");
+                                    try {
+                                        serverStab.close();
+                                    } catch (RemoteException ex) {
+                                        System.err.println("Cannot close connection with server. Halting...");
+                                    }
+                                    System.exit(1);
                                 }
-                                System.exit(1);
                             }
                         }).start();
                         //Getting the remote server by Socket

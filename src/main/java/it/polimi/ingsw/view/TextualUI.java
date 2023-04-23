@@ -40,8 +40,6 @@ public class TextualUI extends UI {
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
-        //this.waitForUpdate();
-        //System.out.println("Passato");
         while (getState() == State.WAITING_IN_LOBBY) {
             synchronized (this.getLockState()) {
                 try {
@@ -206,7 +204,7 @@ public class TextualUI extends UI {
                                 System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
                                         " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
                             }
-                            if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn) + 1 <= counter) {
+                            if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn-1) + 1 <= counter) {
                                 isInsertCorrect = false;
                                 System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                             }

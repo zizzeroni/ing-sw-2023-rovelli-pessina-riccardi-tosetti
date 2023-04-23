@@ -33,7 +33,7 @@ public class ClientSkeleton implements Client {
     @Override
     public void updateModelView(GameView modelUpdated) throws RemoteException {
         try {
-            System.out.println("Arrivato a updateModelView");
+            //System.out.println("Arrivato a updateModelView");
             oos.writeObject(modelUpdated);
         } catch (IOException e) {
             throw new RemoteException("Cannot send modelView: "+e.getMessage());
@@ -43,6 +43,7 @@ public class ClientSkeleton implements Client {
     public void receive(Server server) throws RemoteException {
         MsgSocket<Object> message;
         try {
+            System.out.println("Ready to receive (from Client)");
              message = (MsgSocket<Object>) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("Cannot receive message: " + e.getMessage());

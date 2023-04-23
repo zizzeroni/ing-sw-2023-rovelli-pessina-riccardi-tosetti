@@ -24,6 +24,7 @@ public class ServerStab implements Server {
     private Socket socket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
+    private final Object lockUpdate = new Object();
 
     public ServerStab(String ip, int port) {
         this.ip = ip;
@@ -37,6 +38,13 @@ public class ServerStab implements Server {
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
         }
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -46,6 +54,25 @@ public class ServerStab implements Server {
             oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+        }
+
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //Necessary for how we implemented the adding of the tiles to the player's bookshelf
+        //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
+        for(int i=0;i<playerChoice.getChosenTiles().size();i++) {
+            synchronized (lockUpdate) {
+                try {
+                    lockUpdate.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -57,6 +84,14 @@ public class ServerStab implements Server {
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
         }
+
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -66,6 +101,14 @@ public class ServerStab implements Server {
             oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+        }
+
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -77,6 +120,14 @@ public class ServerStab implements Server {
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
         }
+
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -86,6 +137,14 @@ public class ServerStab implements Server {
             oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+        }
+
+        synchronized (lockUpdate) {
+            try {
+                lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -116,6 +175,7 @@ public class ServerStab implements Server {
 
         GameView gameView;
         try {
+            //System.out.println("Ready to receive (from Server)");
             gameView = (GameView) ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("Cannot receive modelView: " + e.getMessage());
@@ -123,6 +183,10 @@ public class ServerStab implements Server {
             throw new RemoteException("Cannot cast modelView: " + e.getMessage());
         }
         client.updateModelView(gameView);
+
+        synchronized (lockUpdate) {
+            lockUpdate.notifyAll();
+        }
     }
 
     public void close() throws RemoteException {

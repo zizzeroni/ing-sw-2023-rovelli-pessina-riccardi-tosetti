@@ -55,7 +55,7 @@ public class Bookshelf {
 
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
-        for (int row = this.numberOfRows - 1; row > 0; row--) {
+        for (int row = 0; row < this.numberOfRows; row++) {
             if (this.tiles[row][column] != null) {
                 return counter;
             }

@@ -135,6 +135,9 @@ public class GameController implements ViewListener {
                 this.model.setNumberOfPlayers(chosenNumberOfPlayers);
             } else {
                 System.err.println("NumberOfPlayers already chosen");
+                if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
+                    startGame();
+                }
             }
         } else {
             System.err.println("Unexpected value for number of lobby's players");

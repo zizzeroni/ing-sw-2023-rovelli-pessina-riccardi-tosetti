@@ -6,38 +6,18 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 
 public abstract class UI implements Runnable {
-    public String getNicknameID() {
-        return nicknameID;
-    }
-
-    public void setNicknameID(String nicknameID) {
-        this.nicknameID = nicknameID;
-    }
-
     public enum State {
-        WAITING_IN_LOBBY, GAME_ONGOING, WAITING_FOR_OTHER_PLAYER
+        WAITING_IN_LOBBY, GAME_ONGOING, WAITING_FOR_OTHER_PLAYER, WAITING_FOR_UPDATE
     }
 
-    private boolean updateSent,waitingForUpdate;
     private State state;
 
     public Object getLockState() {
         return lockState;
     }
 
-    public Object getLockUpdate() {
-        return lockState;
-    }
-    public Object getLock() {
-        return lock;
-    }
-
     private final Object lockState = new Object();
     private final Object lockUpdate = new Object();
-
-    private final Object lock = new Object();
-
-
 
     public State getState() {
         synchronized (lockState) {
@@ -55,6 +35,7 @@ public abstract class UI implements Runnable {
     }
 
     private GameView model;
+
     protected ViewListener controller;
     private String nicknameID;
 
@@ -63,8 +44,6 @@ public abstract class UI implements Runnable {
         this.controller = controller;
         this.nicknameID = nicknameID;
         this.state = State.WAITING_IN_LOBBY;
-        this.updateSent = false;
-        this.waitingForUpdate = false;
     }
 
     public UI(GameView model, ViewListener controller) {
@@ -72,8 +51,6 @@ public abstract class UI implements Runnable {
         this.controller = controller;
         this.nicknameID = null;
         this.state = State.WAITING_IN_LOBBY;
-        this.updateSent = false;
-        this.waitingForUpdate = false;
     }
 
     public UI(GameView model) {
@@ -81,38 +58,29 @@ public abstract class UI implements Runnable {
         this.controller = null;
         this.nicknameID = null;
         this.state = State.WAITING_IN_LOBBY;
-        this.updateSent = false;
-        this.waitingForUpdate = false;
     }
 
     public UI() {
         this.model = null;
         this.controller = null;
         this.state = State.WAITING_IN_LOBBY;
-        this.updateSent = false;
-        this.waitingForUpdate = false;
+    }
+
+    public String getNicknameID() {
+        return nicknameID;
+    }
+
+    public void setNicknameID(String nicknameID) {
+        this.nicknameID = nicknameID;
     }
 
     public GameView getModel() {
         return model;
     }
 
-    public void waitForUpdate() {
-        while(!updateSent) {
-            synchronized (lockUpdate) {
-                try {
-                    lockUpdate.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        updateSent=false;
-    }
     public void setModel(GameView model) {
         synchronized (lockUpdate) {
             this.model = model;
-            this.updateSent = true;
             lockUpdate.notifyAll();
         }
 
@@ -137,7 +105,7 @@ public abstract class UI implements Runnable {
     public abstract void showPersonalRecap();
 
     public void modelModified(GameView game) {
-        this.setModel(game);
+        this.model = game;
 
         switch (state) {
             case WAITING_IN_LOBBY -> {

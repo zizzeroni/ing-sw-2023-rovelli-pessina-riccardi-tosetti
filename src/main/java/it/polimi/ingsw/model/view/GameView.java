@@ -35,10 +35,10 @@ public class GameView implements Serializable {
     }*/
 
     public GameView(Game gameModel) {
-        this.started=gameModel.isStarted();
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
+        this.started=gameModel.isStarted();
         this.players = new ArrayList<>();
         this.bag = new ArrayList<>();
         this.commonGoals = new ArrayList<>();
