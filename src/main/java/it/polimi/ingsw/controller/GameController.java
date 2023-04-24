@@ -16,31 +16,28 @@ import com.google.gson.reflect.TypeToken;
 public class GameController implements ViewListener {
     private final Game model;
 
-    //private final UI view;
-
-    public GameController(Game model/*, UI view*/) {
+    public GameController(Game model) {
         this.model = model;
-        //this.view = view;
     }
 
     @Override
     public void changeTurn() {
-        if (model.getBoard().numberOfTilesToRefill() != 0) {
+        if (this.model.getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
 
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            model.setActivePlayerIndex(0);
+        if (this.model.getActivePlayerIndex() == this.model.getPlayers().size() - 1) {
+            this.model.setActivePlayerIndex(0);
         } else {
-            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+            this.model.setActivePlayerIndex(this.model.getActivePlayerIndex() + 1);
         }
     }
 
     private void refillBoard() {
-        Collections.shuffle(model.getBag());
+        Collections.shuffle(this.model.getBag());
 
-        List<Tile> drawedTiles = model.getBag().subList(0, model.getBoard().numberOfTilesToRefill());
-        model.getBoard().addTiles(drawedTiles);
+        List<Tile> drawedTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
+        this.model.getBoard().addTiles(drawedTiles);
         drawedTiles.clear();
     }
 
@@ -51,13 +48,13 @@ public class GameController implements ViewListener {
         List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
         if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
-            if (choiceColumn >= 0 && choiceColumn < model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+            if (choiceColumn >= 0 && choiceColumn < this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                 if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }
             }
         }
-        System.err.println("User input data are incorrect");
+        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 
@@ -71,7 +68,7 @@ public class GameController implements ViewListener {
     }
 
     private boolean checkIfPickable(int x, int y) {
-        Board board = model.getBoard();
+        Board board = this.model.getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
         return (boardMatrix[x][y] != null || boardMatrix[x][y].getColor() != null) && (
@@ -87,7 +84,7 @@ public class GameController implements ViewListener {
             removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[ERROR]: User data not correct");
+            System.err.println("[INPUT:ERROR]: User data not correct");
         }
     }
 
@@ -131,7 +128,7 @@ public class GameController implements ViewListener {
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if(this.model.getNumberOfPlayers()==0) {
+            if (this.model.getNumberOfPlayers() == 0) {
                 this.model.setNumberOfPlayers(chosenNumberOfPlayers);
             } else {
                 System.err.println("NumberOfPlayers already chosen");
@@ -164,15 +161,14 @@ public class GameController implements ViewListener {
                 .filter(boardPattern -> boardPattern.numberOfPlayers() == this.model.getPlayers().size())
                 .findFirst()
                 .ifPresent(jsonBoardPattern -> this.model.getBoard().setTiles(jsonBoardPattern));
+
         List<Tile> drawnTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
         this.model.getBoard().addTiles(drawnTiles);
-        System.out.println(this.model.getBoard());
-        System.out.println("Server arrivato a setStarted");
         this.model.setStarted(true);
     }
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
-        Board board = model.getBoard();
+        Board board = this.model.getBoard();
         int[] positions = new int[tileCoordinates.size() * 2];
         for (int i = 0; i < tileCoordinates.size() * 2; i++) {
             if (i % 2 == 0) {
@@ -189,7 +185,7 @@ public class GameController implements ViewListener {
     }
 
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
-        Bookshelf bookshelf = model.getPlayers().get(model.getActivePlayerIndex()).getBookshelf();
+        Bookshelf bookshelf = this.model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf();
         for (int i = 0; i < chosenTiles.size(); i++) {
             bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
         }

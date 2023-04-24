@@ -1,43 +1,21 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.ViewListener;
-import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 
 public abstract class UI implements Runnable {
-    public enum State {
-        WAITING_IN_LOBBY, GAME_ONGOING, WAITING_FOR_OTHER_PLAYER, WAITING_FOR_UPDATE
-    }
-
-    private State state;
-
-    public Object getLockState() {
-        return lockState;
-    }
-
-    private final Object lockState = new Object();
-    private final Object lockUpdate = new Object();
-
-    public State getState() {
-        synchronized (lockState) {
-            return state;
-        }
-
-    }
-
-    public void setState(State state) {
-        synchronized (lockState) {
-            this.state = state;
-            lockState.notifyAll();
-        }
-
-    }
-
     private GameView model;
 
     protected ViewListener controller;
     private String nicknameID;
+    //Indicate the state of the game from client perspective
+    private State state;
+    //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
+    private final Object lockState = new Object();
+    //Lock used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
+    //a "response" (A new GameView object) form the Server itself
+    private final Object lockUpdate = new Object();
 
     public UI(GameView model, ViewListener controller, String nicknameID) {
         this.model = model;
@@ -66,6 +44,23 @@ public abstract class UI implements Runnable {
         this.state = State.WAITING_IN_LOBBY;
     }
 
+    public Object getLockState() {
+        return lockState;
+    }
+
+    public State getState() {
+        synchronized (lockState) {
+            return state;
+        }
+    }
+
+    public void setState(State state) {
+        synchronized (lockState) {
+            this.state = state;
+            lockState.notifyAll();
+        }
+    }
+
     public String getNicknameID() {
         return nicknameID;
     }
@@ -76,14 +71,6 @@ public abstract class UI implements Runnable {
 
     public GameView getModel() {
         return model;
-    }
-
-    public void setModel(GameView model) {
-        synchronized (lockUpdate) {
-            this.model = model;
-            lockUpdate.notifyAll();
-        }
-
     }
 
     public ViewListener getController() {
@@ -98,12 +85,17 @@ public abstract class UI implements Runnable {
         this.controller = null;
     }
 
+    //Method in common with all UIs that must be implemented
     public abstract Choice askPlayer();
 
+    //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
+    //Method in common with all UIs that must be implemented
     public abstract void showPersonalRecap();
 
+    //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
+    //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
         this.model = game;
 
@@ -128,9 +120,7 @@ public abstract class UI implements Runnable {
                 }
             }
         }
-
     }
-
     //ESEMPIO INTERAZIONE TESTUALE
     /*
         >>  ---NEW TURN---

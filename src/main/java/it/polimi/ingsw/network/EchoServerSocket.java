@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//REMINDER: This class is not used anymore
 public class EchoServerSocket extends Thread {
     private final int port = 1337;
     private ServerSocket serverSocket;
@@ -21,9 +22,11 @@ public class EchoServerSocket extends Thread {
 
         this.start();
     }
+
     public void closeConnection() throws IOException {
         serverSocket.close();
     }
+
     public void run() {
         //aggiunge un handler sulla connnessione appena arrivata e lo fa partire
         /*while(true) {

@@ -8,11 +8,8 @@ import java.io.Serializable;
 public class BoardView implements Serializable {
     //private final Board boardModel;
     private final int numberOfUsableTiles;
-
     private final int numberOfColumns;
-
     private final int numberOfRows;
-
     private TileView[][] tiles;
 
     public BoardView(Board boardModel) {

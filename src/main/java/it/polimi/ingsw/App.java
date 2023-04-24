@@ -116,6 +116,7 @@ public class App {
 
         view.run();*/
 
+        //REMINDER: This app doens't work anymore since we introduce the attribute "State" in UI class which oblige to have 2 or more players to start the game
         Server server = null;
         try {
             server = new ServerImpl();
@@ -124,13 +125,13 @@ public class App {
         }
 
         ClientImpl client = null;
-        Scanner s=new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
         String nick = s.next();
         try {
             client = new ClientImpl(server, new TextualUI()/*, nick*/);
         } catch (RemoteException e) {
-            System.err.println("Error while creating new client: "+ e.getMessage());
+            System.err.println("Error while creating new client: " + e.getMessage());
         }
         client.run();
     }

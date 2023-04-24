@@ -38,7 +38,7 @@ public class GameView implements Serializable {
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
-        this.started=gameModel.isStarted();
+        this.started = gameModel.isStarted();
         this.players = new ArrayList<>();
         this.bag = new ArrayList<>();
         this.commonGoals = new ArrayList<>();
@@ -46,21 +46,23 @@ public class GameView implements Serializable {
         this.numberOfPlayers = gameModel.getNumberOfPlayers();
         this.activePlayerIndex = gameModel.getActivePlayerIndex();
         for (Player player : gameModel.getPlayers()) {
-            players.add(new PlayerView(player));
+            this.players.add(new PlayerView(player));
         }
         for (Tile tile : gameModel.getBag()) {
-            bag.add(new TileView(tile));
+            this.bag.add(new TileView(tile));
         }
         this.board = new BoardView(gameModel.getBoard());
         for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
-            commonGoals.add(new CommonGoalView(commonGoal));
+            this.commonGoals.add(new CommonGoalView(commonGoal));
         }
     }
+
     public boolean isStarted() {
-        return started;
+        return this.started;
     }
+
     public int getNumberOfPlayers() {
-        return numberOfPlayers;
+        return this.numberOfPlayers;
     }
 
     public int getNumPlayers() {

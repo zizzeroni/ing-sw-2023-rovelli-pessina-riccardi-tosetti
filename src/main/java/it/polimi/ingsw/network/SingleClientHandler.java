@@ -12,25 +12,23 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class SingleClientHandler extends Thread {
-
     Server generalServer;
     ClientSkeleton clientSkeleton;
 
     public SingleClientHandler(Server server, Socket socket) throws RemoteException {
         this.generalServer = server;
-        clientSkeleton = new ClientSkeleton(socket);
-
+        this.clientSkeleton = new ClientSkeleton(socket);
     }
 
     @Override
     public void run() {
         try {
-            generalServer.register(clientSkeleton);
+            this.generalServer.register(this.clientSkeleton);
             while (true) {
-                clientSkeleton.receive(generalServer);
+                this.clientSkeleton.receive(this.generalServer);
             }
         } catch (RemoteException e) {
-            System.err.println("Cannot receive from client. Closing this connection...");
+            System.err.println("[COMMUNICATION:ERROR] Cannot receive from client. Closing this connection...");
         }
     }
 }

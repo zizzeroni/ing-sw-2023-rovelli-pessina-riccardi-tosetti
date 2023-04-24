@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -18,6 +16,7 @@ public interface Server extends Remote {
     public void sendBroadcastMessage(String sender, String content) throws RemoteException;
 
     public void addPlayer(String nickname) throws RemoteException;
+
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException;
 
     //Method used by the clients in order to register to a specific remote server

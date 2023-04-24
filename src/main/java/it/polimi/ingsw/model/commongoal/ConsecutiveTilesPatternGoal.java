@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
-    int consecutiveTiles;
+    private final int consecutiveTiles;
 
     public ConsecutiveTilesPatternGoal() {
         super();
@@ -47,7 +47,7 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
                     }
                 }
             }
-            if (groupCounter >= consecutiveTiles) {
+            if (groupCounter >= this.consecutiveTiles) {
                 generalCounter++;
             }
             groupCounter = 0;

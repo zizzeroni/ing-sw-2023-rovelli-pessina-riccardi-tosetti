@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStab;
@@ -14,25 +13,24 @@ import java.util.Scanner;
 
 public class AppClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
-        //Stating the client
+        //Initialize client necessities
         ClientImpl client;
         Scanner s = new Scanner(System.in);
         System.out.println("Client avviato...");
-
+        int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
-        int uiChoice,connectionChoice;
         do {
             System.out.println("Che interfaccia grafica preferisci utilizzare?");
             System.out.println("1)Testuale");
             System.out.println("2)Grafica");
-            uiChoice=s.nextInt();
-        } while(uiChoice<1 || uiChoice>2);
+            uiChoice = s.nextInt();
+        } while (uiChoice < 1 || uiChoice > 2);
         do {
             System.out.println("Che metodo di comunicazione preferisci utilizzare?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
-            connectionChoice=s.nextInt();
-        }while(connectionChoice<1 || connectionChoice>2);
+            connectionChoice = s.nextInt();
+        } while (connectionChoice < 1 || connectionChoice > 2);
 
         switch (uiChoice) {
             case 1 -> {
@@ -41,32 +39,35 @@ public class AppClient {
                         //Getting the remote server by RMI
                         Registry registry = LocateRegistry.getRegistry();
                         Server server = (Server) registry.lookup("server");
-                        //Creating a new client with a TextualUI
 
-                        client = new ClientImpl(server,new TextualUI()/*,nick*/);
+                        //Creating a new client with a TextualUI and a RMI Server
+                        client = new ClientImpl(server, new TextualUI()/*,nick*/);
                     }
                     case 2 -> {
-                        ServerStab serverStab = new ServerStab("localhost",1234);
-                        client = new ClientImpl(serverStab,new TextualUI());
+                        //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
+                        ServerStab serverStab = new ServerStab("localhost", 1234);
+
+                        //Creating a new client with a TextualUI and a Socket Server
+                        client = new ClientImpl(serverStab, new TextualUI());
+                        //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
-                            while(true) {
+                            while (true) {
                                 try {
                                     serverStab.receive(client);
                                 } catch (RemoteException e) {
-                                    System.err.println("Error while receiving message from server");
+                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server");
                                     try {
                                         serverStab.close();
                                     } catch (RemoteException ex) {
-                                        System.err.println("Cannot close connection with server. Halting...");
+                                        System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
                                     }
                                     System.exit(1);
                                 }
                             }
                         }).start();
-                        //Getting the remote server by Socket
                     }
                     default -> {
-                        System.err.println("Unexpected value for the type of connection choice");
+                        System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
                         return;
                     }
                 }
@@ -89,16 +90,18 @@ public class AppClient {
                         return;
                     }
                     default -> {
-                        System.err.println("Unexpected value for the type of connection choice");
+                        System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
                         return;
                     }
                 }
             }
             default -> {
-                System.err.println("Unexpected value for the type of view choice");
+                System.err.println("[INPUT:ERROR] Unexpected value for the type of view choice");
                 return;
             }
         }
+        //Calling the run method of the UI
         client.run();
     }
+
 }

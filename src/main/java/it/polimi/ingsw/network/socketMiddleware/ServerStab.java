@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
@@ -11,9 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 //Necessary for the client in order to function
 public class ServerStab implements Server {
@@ -30,17 +27,18 @@ public class ServerStab implements Server {
         this.ip = ip;
         this.port = port;
     }
+
     @Override
     public void changeTurn() throws RemoteException {
-        MsgSocket<Void> message = new MsgSocket<>(ip, Action.CHANGE_TURN, null);
+        MsgSocket<Void> message = new MsgSocket<>(this.ip, Action.CHANGE_TURN, null);
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -49,26 +47,26 @@ public class ServerStab implements Server {
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
-        MsgSocket<Choice> message = new MsgSocket<>(ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
+        MsgSocket<Choice> message = new MsgSocket<>(this.ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
         //Necessary for how we implemented the adding of the tiles to the player's bookshelf
         //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
-        for(int i=0;i<playerChoice.getChosenTiles().size();i++) {
-            synchronized (lockUpdate) {
+        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
+            synchronized (this.lockUpdate) {
                 try {
-                    lockUpdate.wait();
+                    this.lockUpdate.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -78,16 +76,16 @@ public class ServerStab implements Server {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver,sender,content));
+        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver, sender, content));
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -96,16 +94,16 @@ public class ServerStab implements Server {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender,content));
+        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender, content));
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -114,16 +112,16 @@ public class ServerStab implements Server {
 
     @Override
     public void addPlayer(String nickname) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(ip, Action.ADD_PLAYER, Arrays.asList(nickname));
+        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.ADD_PLAYER, Arrays.asList(nickname));
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -132,16 +130,16 @@ public class ServerStab implements Server {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
-        MsgSocket<Integer> message = new MsgSocket<>(ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
+        MsgSocket<Integer> message = new MsgSocket<>(this.ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
         try {
-            oos.writeObject(message);
+            this.oos.writeObject(message);
         } catch (IOException e) {
-            throw new RemoteException("Error while sending message: "+ message + " ,to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (lockUpdate) {
+        synchronized (this.lockUpdate) {
             try {
-                lockUpdate.wait();
+                this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -151,49 +149,46 @@ public class ServerStab implements Server {
     @Override
     public void register(Client client) throws RemoteException {
         try {
-            this.socket = new Socket(ip,port);
+            this.socket = new Socket(this.ip, this.port);
             try {
-                this.oos = new ObjectOutputStream(socket.getOutputStream());
+                this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {
-                throw new RemoteException("Cannot create output stream: "+e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
             }
             try {
-                this.ois = new ObjectInputStream(socket.getInputStream());
+                this.ois = new ObjectInputStream(this.socket.getInputStream());
             } catch (IOException e) {
-                throw new RemoteException("Cannot create input stream: "+e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
             }
-            MsgSocket<Client> message = new MsgSocket<>(ip, Action.CLIENT_REGISTRATION, Arrays.asList(client));
-            //this.oos.writeObject(message);
-
+            MsgSocket<Client> message = new MsgSocket<>(this.ip, Action.CLIENT_REGISTRATION, Arrays.asList(client));
         } catch (IOException e) {
-            throw new RemoteException("Error while connection to server: "+e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
         }
     }
 
 
     public void receive(Client client) throws RemoteException {
-
         GameView gameView;
         try {
             //System.out.println("Ready to receive (from Server)");
-            gameView = (GameView) ois.readObject();
+            gameView = (GameView) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("Cannot receive modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive modelView: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("Cannot cast modelView: " + e.getMessage());
+            throw new RemoteException("[RESOURCE:ERROR] Cannot cast modelView: " + e.getMessage());
         }
         client.updateModelView(gameView);
 
-        synchronized (lockUpdate) {
-            lockUpdate.notifyAll();
+        synchronized (this.lockUpdate) {
+            this.lockUpdate.notifyAll();
         }
     }
 
     public void close() throws RemoteException {
         try {
-            socket.close();
+            this.socket.close();
         } catch (IOException e) {
-            throw new RemoteException("Cannot close socket", e);
+            throw new RemoteException("[RESOURCE:ERROR] Cannot close socket", e);
         }
     }
 }

@@ -47,7 +47,6 @@ public class PlayerView implements Serializable {
         return this.connected;
     }
 
-    //TODO: Chiedere se è una soluzione corretta
     public int score() {
         int score = 0;
         for (ScoreTileView scoreTile : this.scoreTiles) {

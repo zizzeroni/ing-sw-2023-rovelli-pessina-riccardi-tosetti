@@ -13,12 +13,12 @@ public class Coordinates implements Serializable {
     }
 
     public Coordinates() {
-        x = 0;
-        y = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public void setX(int x) {
@@ -26,7 +26,7 @@ public class Coordinates implements Serializable {
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public void setY(int y) {

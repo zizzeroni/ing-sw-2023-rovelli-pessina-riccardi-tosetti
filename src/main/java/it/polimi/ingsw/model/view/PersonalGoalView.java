@@ -45,7 +45,6 @@ public class PersonalGoalView implements Serializable {
         return "To be implemented";
     }
 
-    //TODO: Chiedere se è corretto inserirlo quà dentro
     public int score(BookshelfView bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
@@ -75,8 +74,7 @@ public class PersonalGoalView implements Serializable {
         }
     }
 
-    //TODO: Chiedere se è corretto inserirlo quà dentro
-    public int numberOfPatternRepetitionInBookshelf(BookshelfView bookshelf) {
+    private int numberOfPatternRepetitionInBookshelf(BookshelfView bookshelf) {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
             for (int column = 0; column < this.numberOfColumns; column++) {

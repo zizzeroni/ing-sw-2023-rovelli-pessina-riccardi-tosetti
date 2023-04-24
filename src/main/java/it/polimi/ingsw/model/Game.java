@@ -1,15 +1,10 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +14,6 @@ import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
-
     private boolean started;
     private int numberOfPlayers;
     private int activePlayerIndex;
@@ -64,6 +58,7 @@ public class Game {
         Collections.shuffle(this.bag);
 
     }
+
     public Game(int numberOfPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.started = false;
         this.listener = null;
@@ -128,18 +123,18 @@ public class Game {
     }
 
     public boolean isStarted() {
-        return started;
+        return this.started;
     }
 
     public void setStarted(boolean started) {
         this.started = started;
-        if(this.listener!=null) {
+        if (this.listener != null) {
             this.listener.startOfTheGame();
         }
     }
 
     public int getNumberOfPlayers() {
-        return numberOfPlayers;
+        return this.numberOfPlayers;
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
@@ -150,7 +145,7 @@ public class Game {
     }
 
     public int getActivePlayerIndex() {
-        return activePlayerIndex;
+        return this.activePlayerIndex;
     }
 
     public void setActivePlayerIndex(int activePlayerIndex) {
@@ -161,7 +156,7 @@ public class Game {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     public void setPlayers(List<Player> players) {
@@ -170,13 +165,13 @@ public class Game {
 
     public void addPlayer(Player player) {
         this.players.add(player);
-        if(this.listener!=null) {
+        if (this.listener != null) {
             this.listener.addedPlayer();
         }
     }
 
     public List<Tile> getBag() {
-        return bag;
+        return this.bag;
     }
 
     public void setBag(List<Tile> bag) {
@@ -187,21 +182,15 @@ public class Game {
     }
 
     public Board getBoard() {
-        return board;
+        return this.board;
     }
 
     public void setBoard(Board board) {
-        /*Tile[][] boardCopy=new Tile[this.board.getNumberOfRows()][this.board.getNumberOfColumns()];
-        for(int row = 0;row<this.board.getNumberOfRows();row++) {
-            for(int column = 0;column<this.getBoard().getNumberOfColumns();column++) {
-                this.board.setSingleTile(row,column,new Tile(board.getSingleTile(row,column).getColor()!=null ? board.getSingleTile(row,column).getColor() : null));
-            }
-        }*/
-        this.board=board;
+        this.board = board;
     }
 
     public List<CommonGoal> getCommonGoals() {
-        return commonGoals;
+        return this.commonGoals;
     }
 
     public void setCommonGoals(List<CommonGoal> commonGoals) {
@@ -284,7 +273,7 @@ public class Game {
     }
 
     private Player getPlayerFromNickname(String nickname) {
-        return players.stream()
+        return this.players.stream()
                 .filter(player -> player.getNickname().equals(nickname))
                 .findFirst()
                 .orElse(null);

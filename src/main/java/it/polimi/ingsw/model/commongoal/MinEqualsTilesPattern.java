@@ -13,8 +13,8 @@ public class MinEqualsTilesPattern extends CommonGoal {
 
     public MinEqualsTilesPattern() {
         super();
-        direction = null;
-        maxEqualsTiles = 0;
+        this.direction = null;
+        this.maxEqualsTiles = 0;
     }
 
     public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {

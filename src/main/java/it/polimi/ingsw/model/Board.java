@@ -8,11 +8,8 @@ import it.polimi.ingsw.model.tile.Tile;
 public class Board {
     private BoardListener listener;
     private int numberOfUsableTiles;
-
     private final int numberOfColumns = 9;
-
     private final int numberOfRows = 9;
-
     private Tile[][] tiles;
 
     public void registerListener(BoardListener listener) {
@@ -66,8 +63,8 @@ public class Board {
                 }
             }
         }
-        if (listener != null) {
-            listener.addedTilesToBoard(this);
+        if (this.listener != null) {
+            this.listener.addedTilesToBoard(this);
         }
     }
 
@@ -96,7 +93,7 @@ public class Board {
             this.tiles[positions[i]][positions[i + 1]] = null;
             i += 2;
         }
-        if(this.listener!=null) {
+        if (this.listener != null) {
             this.listener.removedTilesFromBoard(this);
         }
     }
@@ -124,7 +121,7 @@ public class Board {
             for (int column = 0; column < pattern[0].length; column++) {
                 if (pattern[row][column] == 1) {
                     this.numberOfUsableTiles++;
-                    this.tiles[row][column]=null;
+                    this.tiles[row][column] = null;
                 } else {
                     //set non-usable tiles as tiles without color
                     this.tiles[row][column] = new Tile();
@@ -134,19 +131,19 @@ public class Board {
     }
 
     public int getNumberOfRows() {
-        return numberOfRows;
+        return this.numberOfRows;
     }
 
     public int getNumberOfColumns() {
-        return numberOfColumns;
+        return this.numberOfColumns;
     }
 
     public Tile getSingleTile(int row, int column) {
-        return tiles[row][column];
+        return this.tiles[row][column];
     }
 
-    public void setSingleTile(int row, int column,Tile tile) {
-        this.tiles[row][column]=tile;
+    public void setSingleTile(int row, int column, Tile tile) {
+        this.tiles[row][column] = tile;
     }
 
     @Override
@@ -160,7 +157,7 @@ public class Board {
             output.append(row + 1).append(" [ ");
             for (int column = 0; column < this.numberOfColumns; column++) {
                 Tile currentTile = this.tiles[row][column];
-                if(currentTile == null || currentTile.getColor() == null) {
+                if (currentTile == null || currentTile.getColor() == null) {
                     output.append("0 ");
                 } else {
                     output.append(currentTile.getColor()).append(" ");

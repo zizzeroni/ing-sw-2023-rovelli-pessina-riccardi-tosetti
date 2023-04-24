@@ -90,8 +90,6 @@ public class Player {
         this.connected = connected;
     }
 
-    //class methods
-    //TODO: Chiedere se è da spostare nel controller
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {
