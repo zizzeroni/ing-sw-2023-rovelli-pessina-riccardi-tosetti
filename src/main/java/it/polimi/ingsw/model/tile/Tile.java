@@ -15,7 +15,7 @@ public class Tile {
     }
 
     public int getImageID() {
-        return imageID;
+        return this.imageID;
     }
 
     public void setImageID(int imageID) {

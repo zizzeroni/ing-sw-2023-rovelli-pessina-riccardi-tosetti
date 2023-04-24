@@ -9,5 +9,7 @@ public interface GameListener {
 
     public void commonGoalsModified();
 
+    public void addedPlayer();
 
+    public void startOfTheGame();
 }

@@ -15,16 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GameView implements GameListener, BoardListener, BookshelfListener, Serializable {
+public class GameView implements Serializable {
     private static final long serialVersionUID = 1L;
 //    private final Game gameModel;
     private ModelViewListener listener;
     private final int numberOfPlayers;
+    private final boolean started;
     private final int activePlayerIndex;
-    private final List<Player> players;
-    private final List<Tile> bag;
-    private final Board board;
-    private final List<CommonGoal> commonGoals;
+    private final List<PlayerView> players;
+    private final List<TileView> bag;
+    private final BoardView board;
+    private final List<CommonGoalView> commonGoals;
 
     public void registerListener(ModelViewListener listener) {
         this.listener = listener;
@@ -35,20 +36,33 @@ public class GameView implements GameListener, BoardListener, BookshelfListener,
     }
 
     public GameView(Game gameModel) {
-        this.bag = gameModel.getBag();
-        this.activePlayerIndex = gameModel.getActivePlayerIndex();
-        this.board = gameModel.getBoard();
-        this.commonGoals = gameModel.getCommonGoals();
-        this.players = gameModel.getPlayers();
+        if (gameModel == null) {
+            throw new IllegalArgumentException();
+        }
+        this.started = gameModel.isStarted();
+        this.players = new ArrayList<>();
+        this.bag = new ArrayList<>();
+        this.commonGoals = new ArrayList<>();
+
         this.numberOfPlayers = gameModel.getNumberOfPlayers();
-//        if (gameModel == null) {
-//            throw new IllegalArgumentException();
-//        }
-//        this.gameModel = gameModel;
-////        gameModel.addObserver(this);
+        this.activePlayerIndex = gameModel.getActivePlayerIndex();
+        for (Player player : gameModel.getPlayers()) {
+            this.players.add(new PlayerView(player));
+        }
+        for (Tile tile : gameModel.getBag()) {
+            this.bag.add(new TileView(tile));
+        }
+        this.board = new BoardView(gameModel.getBoard());
+        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
+            this.commonGoals.add(new CommonGoalView(commonGoal));
+        }
     }
 
-    public int getNumPlayers() {
+    public boolean isStarted() {
+        return this.started;
+    }
+
+    public int getNumberOfPlayers() {
         return this.numberOfPlayers;
     }
 
@@ -57,33 +71,21 @@ public class GameView implements GameListener, BoardListener, BookshelfListener,
     }
 
     public List<PlayerView> getPlayers() {
-        List<PlayerView> playerViews = new ArrayList<>();
-        for (Player player : this.players) {
-            playerViews.add(new PlayerView(player));
-        }
-        return playerViews;
+        return this.players;
     }
 
     public List<TileView> getBag() {
-        List<TileView> tileViews = new ArrayList<>();
-        for (Tile tile : this.bag) {
-            tileViews.add(new TileView(tile));
-        }
-        return tileViews;
+        return this.bag;
     }
 
     public BoardView getBoard() {
-        return new BoardView(this.board);
+        return this.board;
     }
 
     public List<CommonGoalView> getCommonGoals() {
-        List<CommonGoalView> temp = new ArrayList<>();
-        for (CommonGoal commonGoal : this.commonGoals) {
-            temp.add(new CommonGoalView(commonGoal));
-        }
-        return temp;
+        return this.commonGoals;
     }
-
+    /*
     @Override
     public void addedTilesToBoard(Board board) {
         this.listener.modelModified(this);
@@ -122,5 +124,5 @@ public class GameView implements GameListener, BoardListener, BookshelfListener,
     @Override
     public void commonGoalsModified() {
         this.listener.modelModified(this);
-    }
+    }*/
 }

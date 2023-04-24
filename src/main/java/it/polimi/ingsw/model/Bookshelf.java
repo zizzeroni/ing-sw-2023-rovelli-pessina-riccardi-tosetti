@@ -30,11 +30,15 @@ public class Bookshelf {
     }
 
     public Bookshelf() {
-        image = null;
-        tiles = new Tile[this.numberOfRows][this.numberOfColumns];
+        this.image = null;
+        this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
         for (int row = 0; row < this.numberOfRows; row++)
             for (int column = 0; column < this.numberOfColumns; column++)
-                tiles[row][column] = null;
+                this.tiles[row][column] = null;
+    }
+
+    public Map<Integer, Integer> getPointsForEachGroup() {
+        return pointsForEachGroup;
     }
 
     public boolean isFull() {
@@ -55,7 +59,7 @@ public class Bookshelf {
 
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
-        for (int row = this.numberOfRows - 1; row > 0; row--) {
+        for (int row = 0; row < this.numberOfRows; row++) {
             if (this.tiles[row][column] != null) {
                 return counter;
             }
@@ -70,7 +74,7 @@ public class Bookshelf {
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(String image) {
@@ -79,7 +83,7 @@ public class Bookshelf {
     }
 
     public Tile[][] getTiles() {
-        return tiles;
+        return this.tiles;
     }
 
     public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
@@ -91,11 +95,11 @@ public class Bookshelf {
     }
 
     public Tile getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
-        return tiles[row][column];
+        return this.tiles[row][column];
     }
 
     public int getNumberOfColumns() {
-        return numberOfColumns;
+        return this.numberOfColumns;
     }
 
     public int getNumberOfTilesInColumn(int column) {
@@ -108,7 +112,7 @@ public class Bookshelf {
     }
 
     public int getNumberOfRows() {
-        return numberOfRows;
+        return this.numberOfRows;
     }
 
     public boolean isRowFull(int row) {
@@ -118,6 +122,17 @@ public class Bookshelf {
             }
         }
         return true;
+    }
+
+    public int getMaxNumberOfCellsFreeInBookshelf() {
+        int maxNumberOfCellsFreeInBookshelf = 0;
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            int numberOfFreeCells = this.getNumberOfEmptyCellsInColumn(column);
+            if (numberOfFreeCells > maxNumberOfCellsFreeInBookshelf) {
+                maxNumberOfCellsFreeInBookshelf = numberOfFreeCells;
+            }
+        }
+        return maxNumberOfCellsFreeInBookshelf;
     }
 
     public boolean isColumnFull(int column) {
@@ -131,9 +146,9 @@ public class Bookshelf {
 
     public int score() throws Exception {
         int score = 0;
-        int[][] supportMatrix = new int[this.getNumberOfRows()][this.getNumberOfColumns()];
-        for (int row = 0; row < this.getNumberOfRows(); row++) {
-            for (int column = 0; column < this.getNumberOfColumns(); column++) {
+        int[][] supportMatrix = new int[this.numberOfRows][this.numberOfColumns];
+        for (int row = 0; row < this.numberOfRows; row++) {
+            for (int column = 0; column < this.numberOfColumns; column++) {
                 if (this.getSingleTile(row, column) == null) {
                     supportMatrix[row][column] = 0;
                 } else {
@@ -143,8 +158,8 @@ public class Bookshelf {
         }
         int group = 1;
 
-        for (int row = 0; row < this.getNumberOfRows(); row++) {
-            for (int column = 0; column < this.getNumberOfColumns(); column++) {
+        for (int row = 0; row < this.numberOfRows; row++) {
+            for (int column = 0; column < this.numberOfColumns; column++) {
                 if (supportMatrix[row][column] == 1) {
                     group++;
                     assignGroupToBookshelfEqualTiles(supportMatrix, row, column, group, this.getSingleTile(row, column).getColor());
@@ -153,27 +168,27 @@ public class Bookshelf {
         }
         int numberOfTilesInGroup = 0;
         for (int g = 2; g <= group; g++) {
-            for (int row = 0; row < this.getNumberOfRows(); row++) {
-                for (int column = 0; column < this.getNumberOfColumns(); column++) {
+            for (int row = 0; row < this.numberOfRows; row++) {
+                for (int column = 0; column < this.numberOfColumns; column++) {
                     if (supportMatrix[row][column] == g) {
                         numberOfTilesInGroup++;
                     }
                 }
             }
-            Optional<Integer> firstGoalToGetPoint = pointsForEachGroup.keySet().stream().findFirst();
+            Optional<Integer> firstGoalToGetPoint = this.pointsForEachGroup.keySet().stream().findFirst();
             if (firstGoalToGetPoint.isPresent()) {
 
                 //if the number of tiles is below the first goal available, you don't get points
                 if (numberOfTilesInGroup < firstGoalToGetPoint.get()) {
                     continue;
                     //if the number of tiles is over the last goal available, you get points equal to the last goal points
-                } else if (numberOfTilesInGroup > pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get()) {
-                    score += pointsForEachGroup.get(pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get());
+                } else if (numberOfTilesInGroup > this.pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get()) {
+                    score += this.pointsForEachGroup.get(this.pointsForEachGroup.keySet().stream().reduce((first, second) -> second).get());
                 } else {
-                    score += pointsForEachGroup.get(numberOfTilesInGroup);
+                    score += this.pointsForEachGroup.get(numberOfTilesInGroup);
                 }
             } else {
-                throw new Exception("Bookshelf points are not setted");
+                throw new Exception("[RESOURCE:ERROR] Bookshelf points are not setted");
             }
         }
         return score;

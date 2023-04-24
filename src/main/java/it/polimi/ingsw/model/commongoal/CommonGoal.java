@@ -15,7 +15,7 @@ public abstract class CommonGoal extends Card {
     public CommonGoal() {
         super();
         this.type = null;
-        this.scoreTiles = null;
+        this.scoreTiles = new ArrayList<>();
         this.numberOfPatternRepetitionsRequired = 0;
     }
 

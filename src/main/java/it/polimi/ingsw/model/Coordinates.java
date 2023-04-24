@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private int x;
     private int y;
 
@@ -11,12 +13,12 @@ public class Coordinates {
     }
 
     public Coordinates() {
-        x = 0;
-        y = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public void setX(int x) {
@@ -24,7 +26,7 @@ public class Coordinates {
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public void setY(int y) {

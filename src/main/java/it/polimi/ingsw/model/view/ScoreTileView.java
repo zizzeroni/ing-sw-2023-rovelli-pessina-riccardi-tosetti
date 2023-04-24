@@ -2,22 +2,29 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
 
-public class ScoreTileView {
-    private final ScoreTile scoreTileModel;
+import java.io.Serializable;
+
+public class ScoreTileView implements Serializable {
+    //private final ScoreTile scoreTileModel;
+    private final int value;
+    private final int playerID;
+    private final int commonGoalID;
 
     public ScoreTileView(ScoreTile scoreTileModel) {
-        this.scoreTileModel = scoreTileModel;
+        this.value = scoreTileModel.getValue();
+        this.playerID = scoreTileModel.getPlayerID();
+        this.commonGoalID = scoreTileModel.getCommonGoalID();
     }
 
     public int getPlayerID() {
-        return this.scoreTileModel.getPlayerID();
+        return this.playerID;
     }
 
     public int getCommonGoalID() {
-        return this.scoreTileModel.getCommonGoalID();
+        return this.commonGoalID;
     }
 
     public int getValue() {
-        return this.scoreTileModel.getValue();
+        return this.value;
     }
 }

@@ -6,14 +6,21 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.ClientImpl;
+import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.view.TextualUI;
 import it.polimi.ingsw.view.UI;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -53,6 +60,8 @@ public class App {
         game.changeTurn();
 
         */
+
+        /*
         int numPlayers = 4;
         ArrayList<Player> players = new ArrayList<Player>(numPlayers);
         ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
@@ -93,11 +102,11 @@ public class App {
 
         GameView modelView = new GameView(model);
         UI view = new TextualUI(modelView);
-        GameController controller = new GameController(model/*, view*/);
+        GameController controller = new GameController(model/*, view*//*);
 
         //modelView.addObserver(view);
         //view.addObserver(controller);
-        model.registerListener(modelView);
+        /*model.registerListener(modelView);
         model.getBoard().registerListener(modelView);
         for (Player player : model.getPlayers()) {
             player.getBookshelf().registerListener(modelView);
@@ -105,6 +114,25 @@ public class App {
         modelView.registerListener(view);
         view.registerListener(controller);
 
-        view.run();
+        view.run();*/
+
+        //REMINDER: This app doens't work anymore since we introduce the attribute "State" in UI class which oblige to have 2 or more players to start the game
+        Server server = null;
+        try {
+            server = new ServerImpl();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        ClientImpl client = null;
+        Scanner s = new Scanner(System.in);
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+        String nick = s.next();
+        try {
+            client = new ClientImpl(server, new TextualUI()/*, nick*/);
+        } catch (RemoteException e) {
+            System.err.println("Error while creating new client: " + e.getMessage());
+        }
+        client.run();
     }
 }

@@ -1,41 +1,43 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
+import com.google.gson.reflect.TypeToken;
 
-public class GameController implements ControllerListener {
+public class GameController implements ViewListener {
     private final Game model;
 
-    //private final UI view;
-
-    public GameController(Game model/*, UI view*/) {
+    public GameController(Game model) {
         this.model = model;
-        //this.view = view;
     }
 
     @Override
     public void changeTurn() {
-        if (model.getBoard().numberOfTilesToRefill() != 0) {
+        if (this.model.getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
 
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            model.setActivePlayerIndex(0);
+        if (this.model.getActivePlayerIndex() == this.model.getPlayers().size() - 1) {
+            this.model.setActivePlayerIndex(0);
         } else {
-            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+            this.model.setActivePlayerIndex(this.model.getActivePlayerIndex() + 1);
         }
     }
 
     private void refillBoard() {
-        Collections.shuffle(model.getBag());
+        Collections.shuffle(this.model.getBag());
 
-        List<Tile> drawedTiles = model.getBag().subList(0, model.getBoard().numberOfTilesToRefill());
-        model.getBoard().addTiles(drawedTiles);
+        List<Tile> drawedTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
+        this.model.getBoard().addTiles(drawedTiles);
         drawedTiles.clear();
     }
 
@@ -46,13 +48,13 @@ public class GameController implements ControllerListener {
         List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
         if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
-            if (choiceColumn >= 0 && choiceColumn < model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+            if (choiceColumn >= 0 && choiceColumn < this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                 if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }
             }
         }
-        System.err.println("User input data are incorrect");
+        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 
@@ -66,7 +68,7 @@ public class GameController implements ControllerListener {
     }
 
     private boolean checkIfPickable(int x, int y) {
-        Board board = model.getBoard();
+        Board board = this.model.getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
         return (boardMatrix[x][y] != null || boardMatrix[x][y].getColor() != null) && (
@@ -82,30 +84,91 @@ public class GameController implements ControllerListener {
             removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[ERROR]: User data not correct");
+            System.err.println("[INPUT:ERROR]: User data not correct");
         }
     }
-    @Override
-    public void sendPrivateMessage(Player receiver, Player sender, String content) {
-        String senderNickname = sender.getNickname();
-        String receiverNickname = receiver.getNickname();
 
+    @Override
+    public void sendPrivateMessage(String receiver, String sender, String content) {
         //sender.addMessage(new Message(receiverNickname, senderNickname, content));
         //receiver.addMessage(new Message(receiverNickname, senderNickname, content));
 
     }
 
     @Override
-    public void sendBroadcastMessage(Player sender, String content) {
-        String senderNickname = sender.getNickname();
+    public void sendBroadcastMessage(String sender, String content) {
 
         for (Player player : this.model.getPlayers()) {
             //player.addMessage(new Message(player.getNickname(), senderNickname, content));
         }
     }
 
+    @Override
+    public void addPlayer(String nickname) {
+        ArrayList<PersonalGoal> personalGoals = new ArrayList<PersonalGoal>();
+        Gson gson = new Gson();
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
+            }.getType());
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Collections.shuffle(personalGoals);
+        Player newPlayer = new Player(nickname, true, personalGoals.get(0), new ArrayList<ScoreTile>(), new Bookshelf());
+
+        this.model.addPlayer(newPlayer);
+        if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
+            startGame();
+        }
+    }
+
+    @Override
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
+            if (this.model.getNumberOfPlayers() == 0) {
+                this.model.setNumberOfPlayers(chosenNumberOfPlayers);
+            } else {
+                System.err.println("NumberOfPlayers already chosen");
+                if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
+                    startGame();
+                }
+            }
+        } else {
+            System.err.println("Unexpected value for number of lobby's players");
+        }
+    }
+
+    private void startGame() {
+        Random rand = new Random();
+        this.model.setActivePlayerIndex(rand.nextInt(this.model.getNumberOfPlayers()));
+
+
+        List<JsonBoardPattern> boardPatterns = new ArrayList<JsonBoardPattern>();
+        Gson gson = new Gson();
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
+            reader.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        boardPatterns.stream()
+                .filter(boardPattern -> boardPattern.numberOfPlayers() == this.model.getPlayers().size())
+                .findFirst()
+                .ifPresent(jsonBoardPattern -> this.model.getBoard().setTiles(jsonBoardPattern));
+
+        List<Tile> drawnTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
+        this.model.getBoard().addTiles(drawnTiles);
+        this.model.setStarted(true);
+    }
+
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
-        Board board = model.getBoard();
+        Board board = this.model.getBoard();
         int[] positions = new int[tileCoordinates.size() * 2];
         for (int i = 0; i < tileCoordinates.size() * 2; i++) {
             if (i % 2 == 0) {
@@ -122,7 +185,7 @@ public class GameController implements ControllerListener {
     }
 
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
-        Bookshelf bookshelf = model.getPlayers().get(model.getActivePlayerIndex()).getBookshelf();
+        Bookshelf bookshelf = this.model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf();
         for (int i = 0; i < chosenTiles.size(); i++) {
             bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
         }

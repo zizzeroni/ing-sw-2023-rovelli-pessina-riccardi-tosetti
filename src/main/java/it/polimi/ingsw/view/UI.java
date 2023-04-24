@@ -1,43 +1,83 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.ControllerListener;
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.view.ModelViewListener;
 import it.polimi.ingsw.model.view.GameView;
 
-public abstract class UI implements Runnable, ModelViewListener {
+public abstract class UI implements Runnable {
     private GameView model;
-    protected ControllerListener controller;
 
-    public UI(GameView model, ControllerListener controller) {
+    protected ViewListener controller;
+    private String nicknameID;
+    //Indicate the state of the game from client perspective
+    private State state;
+    //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
+    private final Object lockState = new Object();
+    //Lock used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
+    //a "response" (A new GameView object) form the Server itself
+    private final Object lockUpdate = new Object();
+
+    public UI(GameView model, ViewListener controller, String nicknameID) {
         this.model = model;
         this.controller = controller;
+        this.nicknameID = nicknameID;
+        this.state = State.WAITING_IN_LOBBY;
+    }
+
+    public UI(GameView model, ViewListener controller) {
+        this.model = model;
+        this.controller = controller;
+        this.nicknameID = null;
+        this.state = State.WAITING_IN_LOBBY;
     }
 
     public UI(GameView model) {
         this.model = model;
         this.controller = null;
+        this.nicknameID = null;
+        this.state = State.WAITING_IN_LOBBY;
     }
 
     public UI() {
         this.model = null;
         this.controller = null;
+        this.state = State.WAITING_IN_LOBBY;
+    }
+
+    public Object getLockState() {
+        return lockState;
+    }
+
+    public State getState() {
+        synchronized (lockState) {
+            return state;
+        }
+    }
+
+    public void setState(State state) {
+        synchronized (lockState) {
+            this.state = state;
+            lockState.notifyAll();
+        }
+    }
+
+    public String getNicknameID() {
+        return nicknameID;
+    }
+
+    public void setNicknameID(String nicknameID) {
+        this.nicknameID = nicknameID;
     }
 
     public GameView getModel() {
         return model;
     }
 
-    public void setModel(GameView model) {
-        this.model = model;
-    }
-
-    public ControllerListener getController() {
+    public ViewListener getController() {
         return controller;
     }
 
-    public void registerListener(GameController controller) {
+    public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
 
@@ -45,17 +85,42 @@ public abstract class UI implements Runnable, ModelViewListener {
         this.controller = null;
     }
 
+    //Method in common with all UIs that must be implemented
     public abstract Choice askPlayer();
 
+    //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
+    //Method in common with all UIs that must be implemented
     public abstract void showPersonalRecap();
 
-    @Override
+    //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
+    //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
         this.model = game;
-    }
 
+        switch (state) {
+            case WAITING_IN_LOBBY -> {
+                if (this.model.isStarted()) {
+                    if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                        this.setState(State.GAME_ONGOING);
+                    } else {
+                        this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                    }
+                }
+            }
+            case WAITING_FOR_OTHER_PLAYER -> {
+                if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                    this.setState(State.GAME_ONGOING);
+                }
+            }
+            case GAME_ONGOING -> {
+                if (!this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                    this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                }
+            }
+        }
+    }
     //ESEMPIO INTERAZIONE TESTUALE
     /*
         >>  ---NEW TURN---

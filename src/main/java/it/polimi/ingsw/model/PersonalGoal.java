@@ -23,15 +23,15 @@ public class PersonalGoal extends Card {
     }
 
     public int getNumberOfColumns() {
-        return numberOfColumns;
+        return this.numberOfColumns;
     }
 
     public int getNumberOfRows() {
-        return numberOfRows;
+        return this.numberOfRows;
     }
 
     public Tile[][] getPattern() {
-        return pattern;
+        return this.pattern;
     }
 
     public void setPattern(Tile[][] pattern) {

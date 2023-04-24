@@ -1,38 +1,64 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.tile.Tile;
 
-public class BoardView {
-    private final Board boardModel;
+import java.io.Serializable;
+
+public class BoardView implements Serializable {
+    //private final Board boardModel;
+    private final int numberOfUsableTiles;
+    private final int numberOfColumns;
+    private final int numberOfRows;
+    private TileView[][] tiles;
 
     public BoardView(Board boardModel) {
-        this.boardModel = boardModel;
+        this.numberOfUsableTiles=boardModel.getNumberOfUsableTiles();
+        this.numberOfColumns=boardModel.getNumberOfColumns();
+        this.numberOfRows=boardModel.getNumberOfRows();
+        this.tiles = new TileView[boardModel.getNumberOfRows()][boardModel.getNumberOfColumns()];
+        for(int row=0;row<boardModel.getNumberOfRows();row++) {
+            for(int column=0;column<boardModel.getNumberOfColumns();column++) {
+                this.tiles[row][column]= (boardModel.getSingleTile(row,column)!=null ? new TileView(boardModel.getSingleTile(row,column)) : null);
+            }
+        }
     }
 
     public int getNumberOfUsableTiles() {
-        return this.boardModel.getNumberOfUsableTiles();
+        return this.numberOfUsableTiles;
     }
 
     public TileView[][] getTiles() {
-        TileView[][] tileViewTiles = new TileView[this.boardModel.getNumberOfRows()][this.boardModel.getNumberOfColumns()];
-        for (int row = 0; row < this.boardModel.getNumberOfRows(); row++) {
-            for (int column = 0; column < this.boardModel.getNumberOfColumns(); column++) {
-                tileViewTiles[row][column] = new TileView(this.boardModel.getSingleTile(row, column));
-            }
-        }
-        return tileViewTiles;
+        return this.tiles;
     }
 
     public int getNumberOfColumns() {
-        return this.boardModel.getNumberOfColumns();
+        return this.numberOfColumns;
     }
 
     public int getNumberOfRows() {
-        return this.boardModel.getNumberOfRows();
+        return this.numberOfRows;
     }
 
     @Override
     public String toString() {
-        return this.boardModel.toString();
+        StringBuilder output = new StringBuilder("    ");
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            output.append(column + 1).append(" ");
+        }
+        output.append("\n");
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output.append(row + 1).append(" [ ");
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                TileView currentTile = this.tiles[row][column];
+                if (currentTile == null || currentTile.getColor() == null) {
+                    output.append("0 ");
+                } else {
+                    output.append(currentTile.getColor()).append(" ");
+                }
+            }
+            output.append("] \n");
+        }
+        return output.substring(0, output.length() - 1);
     }
 }

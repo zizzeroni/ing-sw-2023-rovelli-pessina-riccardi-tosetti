@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
+    private boolean started;
     private int numberOfPlayers;
     private int activePlayerIndex;
     private List<Player> players;
@@ -30,8 +31,36 @@ public class Game {
         this.listener = null;
     }
 
+    public Game() {
+        this.started = false;
+        this.listener = null;
+        this.players = new ArrayList<>();
+        this.activePlayerIndex = 0;
+        this.board = null;
+        this.numberOfPlayers = 0;
+        this.bag = new ArrayList<>(132);
+        this.commonGoals = new ArrayList<>(2);
+        for (int i = 0; i < 132; i++) {
+            this.bag.add(new Tile(TileColor.values()[i % 6]));
+        }
+        this.board = new Board();
+        CommonGoal newCommonGoal;
+        while (this.commonGoals.size() != 2) {
+            try {
+                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                if (!this.commonGoals.contains(newCommonGoal)) {
+                    this.commonGoals.add(newCommonGoal);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        Collections.shuffle(this.bag);
+
+    }
 
     public Game(int numberOfPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
+        this.started = false;
         this.listener = null;
         this.players = players;
         this.activePlayerIndex = 0;
@@ -93,8 +122,19 @@ public class Game {
         this.commonGoals = commonGoals;
     }
 
+    public boolean isStarted() {
+        return this.started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+        if (this.listener != null) {
+            this.listener.startOfTheGame();
+        }
+    }
+
     public int getNumberOfPlayers() {
-        return numberOfPlayers;
+        return this.numberOfPlayers;
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
@@ -105,7 +145,7 @@ public class Game {
     }
 
     public int getActivePlayerIndex() {
-        return activePlayerIndex;
+        return this.activePlayerIndex;
     }
 
     public void setActivePlayerIndex(int activePlayerIndex) {
@@ -116,15 +156,22 @@ public class Game {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
+    public void addPlayer(Player player) {
+        this.players.add(player);
+        if (this.listener != null) {
+            this.listener.addedPlayer();
+        }
+    }
+
     public List<Tile> getBag() {
-        return bag;
+        return this.bag;
     }
 
     public void setBag(List<Tile> bag) {
@@ -135,7 +182,7 @@ public class Game {
     }
 
     public Board getBoard() {
-        return board;
+        return this.board;
     }
 
     public void setBoard(Board board) {
@@ -143,7 +190,7 @@ public class Game {
     }
 
     public List<CommonGoal> getCommonGoals() {
-        return commonGoals;
+        return this.commonGoals;
     }
 
     public void setCommonGoals(List<CommonGoal> commonGoals) {
@@ -226,7 +273,7 @@ public class Game {
     }
 
     private Player getPlayerFromNickname(String nickname) {
-        return players.stream()
+        return this.players.stream()
                 .filter(player -> player.getNickname().equals(nickname))
                 .findFirst()
                 .orElse(null);

@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+//REMINDER: This class is not used anymore
 public class EchoClientSocket {
     private Socket socket;
     private String ip;
@@ -59,6 +60,7 @@ public class EchoClientSocket {
         }
         in.close();
     }
+
     //Ciclo che legge tutto quello che viene inviato dal server nello stream del client
     public void readLoop() {
         try (Scanner socketIn = new Scanner(socket.getInputStream())) {
@@ -73,6 +75,7 @@ public class EchoClientSocket {
             throw new RuntimeException(e);
         }
     }
+
     //Ciclo che scrive tutto quello che viene inviato dal server nello stream del client
     public void writeLoop() {
         try (

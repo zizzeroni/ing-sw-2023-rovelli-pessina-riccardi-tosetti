@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.view.TileView;
-import it.polimi.ingsw.utils.ObservableType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Choice implements ObservableType {
+public class Choice implements Serializable {
     private List<TileView> chosenTiles;
     private List<Coordinates> tileCoordinates;
     private int[] tileOrder;
@@ -19,7 +19,7 @@ public class Choice implements ObservableType {
             tileOrder[i] = 0;
         }
         this.chosenColumn = 0;
-        tileCoordinates = new ArrayList<>();
+        this.tileCoordinates = new ArrayList<>();
     }
 
     public Choice(List<TileView> chosenTiles, List<Coordinates> tileCoordinates, int[] tileOrder, int chosenColumn) {
@@ -30,7 +30,7 @@ public class Choice implements ObservableType {
     }
 
     public List<Coordinates> getTileCoordinates() {
-        return tileCoordinates;
+        return this.tileCoordinates;
     }
 
     public void setTileCoordinates(List<Coordinates> tileCoordinates) {
@@ -38,7 +38,7 @@ public class Choice implements ObservableType {
     }
 
     public List<TileView> getChosenTiles() {
-        return chosenTiles;
+        return this.chosenTiles;
     }
 
     public void setChosenTiles(List<TileView> chosenTiles) {
@@ -46,7 +46,7 @@ public class Choice implements ObservableType {
     }
 
     public int[] getTileOrder() {
-        return tileOrder;
+        return this.tileOrder;
     }
 
     public void setTileOrder(int[] tileOrder) {
@@ -54,7 +54,7 @@ public class Choice implements ObservableType {
     }
 
     public int getChosenColumn() {
-        return chosenColumn;
+        return this.chosenColumn;
     }
 
     public void setChosenColumn(int chosenColumn) {
@@ -69,8 +69,4 @@ public class Choice implements ObservableType {
         this.tileCoordinates.add(coordinates);
     }
 
-    @Override
-    public Event getEvent() {
-        return Event.USER_INPUT;
-    }
 }

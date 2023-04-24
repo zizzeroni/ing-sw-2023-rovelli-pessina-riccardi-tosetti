@@ -8,8 +8,6 @@ import it.polimi.ingsw.model.commongoal.Direction;
 import java.util.*;
 
 public class TextualUI extends UI {
-
-
     public TextualUI(GameView model) {
         super(model);
     }
@@ -18,14 +16,55 @@ public class TextualUI extends UI {
         super();
     }
 
+    private void firstInteractionWithUser() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+        String nick = s.next();
+        this.setNicknameID(nick);
+
+        this.controller.addPlayer(nick);
+
+        int chosenNumberOfPlayer = 0;
+        if (getModel().getNumberOfPlayers() == 0) {
+            do {
+                System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
+                chosenNumberOfPlayer = s.nextInt();
+            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+            this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+        }
+
+        waitWhileInState(State.WAITING_IN_LOBBY);
+    }
+
+    private void waitWhileInState(State state) {
+        while (getState() == state) {
+            synchronized (this.getLockState()) {
+                try {
+                    switch (state) {
+                        case WAITING_IN_LOBBY -> {
+                            System.out.println("Waiting...");
+                        }
+                        case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+                    }
+                    getLockState().wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
     @Override
     public void run() {
+        //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
+        firstInteractionWithUser();
         while (true) {
+            //------------------------------------WAITING OTHER PLAYERS-----------------------------------
+            waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
+            //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
-
-            //---------------------------------NOTIFICA CONTROLLER---------------------------------
+            //---------------------------------NOTIFY CONTROLLER---------------------------------
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
         }
@@ -39,7 +78,52 @@ public class TextualUI extends UI {
         System.out.println("Stato della board attuale:");
         System.out.println(this.getModel().getBoard());
     }
-    
+
+    private int rowColumnTileChoiceFromBoard(Scanner scanner, int iterationCount, boolean isRowBeingChosen) {
+        boolean isInsertCorrect = false;
+        int choice = 0;
+        while (!isInsertCorrect) {
+            System.out.println("Inserisci la " + (isRowBeingChosen ? "riga" : "colonna") + " della " + (iterationCount + 1) + "° tessera che vuoi prendere:");
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println("Hai inserito un valore non valido, riprova!");
+                scanner.next();
+            }
+
+            if (choice <= (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns()) && choice > 0) {
+                isInsertCorrect = true;
+            } else {
+                System.err.println("Inserisci una " + (isRowBeingChosen ? "riga" : "colonna") + " valida (Un numero compreso tra 1 e " + (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns()) + "!)");
+            }
+        }
+        return choice;
+    }
+
+    private int bookshelfColumnChoice(Scanner scanner, int iterationCount) {
+        boolean isInsertCorrect;
+        int chosenColumn = 0;
+        do {
+            isInsertCorrect = true;
+            System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
+            try {
+                chosenColumn = scanner.nextInt();
+                if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+                    isInsertCorrect = false;
+                    System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
+                            " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
+                }
+                if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) + 1 <= iterationCount) {
+                    isInsertCorrect = false;
+                    System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
+                }
+            } catch (InputMismatchException ignored) {
+                System.err.println("Non hai inserito un valore valido, riprova!");
+            }
+        } while (!isInsertCorrect);
+        return chosenColumn;
+    }
+
     @Override
     public Choice askPlayer() {
         Scanner s = new Scanner(System.in);
@@ -59,53 +143,16 @@ public class TextualUI extends UI {
                     System.out.println(this.getModel().getBoard());
 
                     int counter = 0, firstRow = 0, firstColumn = 0;
-                    boolean isInsertCorrect;
+
                     Choice playerChoice = new Choice();
                     Direction directionToCheck = null;
-                    int maxNumberOfCellsFreeInBookshelf = 0;
+                    int maxNumberOfCellsFreeInBookshelf;
                     //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
-                    for (int i = 0; i < this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfColumns(); i++) {
-                        int numberOfFreeSpaces = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(i);
-                        if (numberOfFreeSpaces > maxNumberOfCellsFreeInBookshelf) {
-                            maxNumberOfCellsFreeInBookshelf = numberOfFreeSpaces;
-                        }
-                    }
+                    maxNumberOfCellsFreeInBookshelf = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
                     do {
-                        isInsertCorrect = false;
-                        int row = 0, column = 0;
-                        while (!isInsertCorrect) {
-                            System.out.println("Inserisci la riga della " + (counter + 1) + "° tessera che vuoi prendere:");
-                            try {
-                                row = s.nextInt();
-                            } catch (InputMismatchException e) {
-                                System.out.println("Hai inserito un valore non valido, riprova!");
-                                s.next();
-                            }
-
-                            if (row <= this.getModel().getBoard().getNumberOfRows() && row > 0) {
-                                isInsertCorrect = true;
-                            } else {
-                                System.out.println("Inserisci una riga valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfRows() + "!)");
-                            }
-                        }
-
-                        isInsertCorrect = false;
-
-                        while (!isInsertCorrect) {
-                            System.out.println("Inserisci la colonna della " + (counter + 1) + "° tessera che vuoi prendere:");
-                            try {
-                                column = s.nextInt();
-                            } catch (InputMismatchException e) {
-                                System.out.println("Hai inserito un valore non valido, riprova!");
-                                s.next();
-                            }
-
-                            if (column <= this.getModel().getBoard().getNumberOfColumns() && column > 0) {
-                                isInsertCorrect = true;
-                            } else {
-                                System.out.println("Inserisci una colonna valida (Un numero compreso tra 1 e " + this.getModel().getBoard().getNumberOfColumns() + "!");
-                            }
-                        }
+                        int row, column;
+                        row = rowColumnTileChoiceFromBoard(s, counter, true);
+                        column = rowColumnTileChoiceFromBoard(s, counter, false);
 
                         if (checkIfPickable(row - 1, column - 1)) {
                             switch (counter) {
@@ -133,7 +180,7 @@ public class TextualUI extends UI {
                                     }
                                 }
                                 default -> {
-                                    System.err.println("ERROR: Unexpected number of chosen tiles, found: " + counter + ", expected value < 3");
+                                    System.err.println("[INPUT:ERROR]: Unexpected number of chosen tiles, found: " + counter + ", expected value < 3");
                                 }
                             }
                         }
@@ -145,44 +192,19 @@ public class TextualUI extends UI {
                         }
                     } while (!input.equalsIgnoreCase("NO") && counter < 3);
 
-
                     //---------------------------------SCELTA COLONNA---------------------------------
                     System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
 
-
-                    int chosenColumn = 0;
-                    do {
-                        isInsertCorrect = true;
-                        System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
-                        try {
-                            chosenColumn = s.nextInt();
-
-                            if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
-                                isInsertCorrect = false;
-                                System.out.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                                        " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
-                            }
-                            if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn) + 1 <= counter) {
-                                isInsertCorrect = false;
-                                System.out.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
-                            }
-                        } catch (InputMismatchException ignored) {
-                            System.out.println("Non hai inserito un valore valido, riprova!");
-                        }
-
-
-                    } while (!isInsertCorrect);
+                    int chosenColumn = bookshelfColumnChoice(s, counter);
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
-
-
                     //---------------------------------SCELTA ORDINE---------------------------------
 
                     if (counter == 1) {
                         playerChoice.setTileOrder(new int[]{0});
                     } else {
                         System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
-                        isInsertCorrect = false;
+                        boolean isInsertCorrect = false;
                         do {
                             input = s.next();
                             String[] temp;
@@ -197,7 +219,7 @@ public class TextualUI extends UI {
                                         res = Arrays.asList(temp).containsAll(Arrays.asList("1", "2", "3"));
                                     }
                                     default -> {
-                                        System.err.println("Unexpected value of chosen tiles");
+                                        System.err.println("[INPUT:ERROR] Unexpected value of chosen tiles");
                                     }
                                 }
 
@@ -209,10 +231,10 @@ public class TextualUI extends UI {
                                     playerChoice.setTileOrder(chosenPositions);
                                     isInsertCorrect = true;
                                 } else {
-                                    System.out.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
+                                    System.err.println("Hai inserito delle cifre non coerenti con il numero di tessere scelte");
                                 }
                             } else {
-                                System.out.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
+                                System.err.println("Hai inserito un numero di cifre diverso dal numero di tessere scelte. Oppure hai effettuato un inserimento che non rispetta" +
                                         " la formattazione richiesta, riprova!");
                             }
                         } while (!isInsertCorrect);
@@ -232,7 +254,7 @@ public class TextualUI extends UI {
 
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
-            System.out.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return null;
         }
         if ((row == firstRow) && (column - 1 == firstColumn || column + 1 == firstColumn)) {
@@ -241,19 +263,19 @@ public class TextualUI extends UI {
         if ((column == firstColumn) && (row - 1 == firstRow || row + 1 == firstRow)) {
             return Direction.VERTICAL;
         }
-        System.out.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
+        System.err.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
         return null;
     }
 
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
-            System.out.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
         }
         switch (directionToCheck) {
             case HORIZONTAL -> {
                 if (row != prevTilesCoordinates.get(0).getX()) {
-                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -261,13 +283,13 @@ public class TextualUI extends UI {
                             return true;
                         }
                     }
-                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
             case VERTICAL -> {
                 if (column != prevTilesCoordinates.get(0).getY()) {
-                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -275,7 +297,7 @@ public class TextualUI extends UI {
                             return true;
                         }
                     }
-                    System.out.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
@@ -290,19 +312,18 @@ public class TextualUI extends UI {
         BoardView board = this.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
-        if (!boardMatrix[row][column].isNull() && !boardMatrix[row][column].hasNoColor()) {
-            if ((row != 0 && (boardMatrix[row - 1][column].isNull() || boardMatrix[row - 1][column].hasNoColor())) ||
-                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column].isNull() || boardMatrix[row + 1][column].hasNoColor())) ||
-                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1].isNull() || boardMatrix[row][column + 1].hasNoColor())) ||
-                    (column != 0 && (boardMatrix[row][column - 1].isNull() || boardMatrix[row][column - 1].hasNoColor()))) {
+        if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
+            if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                    (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
             } else {
-                System.out.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
+                System.err.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
             }
         } else {
-            System.out.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
+            System.err.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
         }
-
         return false;
     }
 
@@ -326,8 +347,4 @@ public class TextualUI extends UI {
                 (playerGoalTiles.size() > 0 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2) : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
-
-    //TODO: Si è rivelato necessario aggiungere in TileView un metodo isNull(), per verificare se l'attributo tileModel risultava nullo. Questo può accadere poichè la TileView viene
-    //      creata a partire dalla Tile che può essere NULL cosa che non comporta che anche TileView lo sia (Da qui la necessità di questo metodo)
-
 }

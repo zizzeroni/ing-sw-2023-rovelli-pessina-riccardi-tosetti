@@ -1,7 +1,7 @@
 package it.polimi.ingsw.utils;
 
-import it.polimi.ingsw.model.Event;
+import it.polimi.ingsw.network.socketMiddleware.Action;
 
 public interface ObservableType {
-    public Event getEvent();
+    public Action getEvent();
 }

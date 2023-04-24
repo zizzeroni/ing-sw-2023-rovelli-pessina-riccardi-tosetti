@@ -3,52 +3,61 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.tile.ScoreTile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerView {
-    private final Player playerModel;
+public class PlayerView implements Serializable {
+    //private final Player playerModel;
+    private final String nickname; //We will use 'connected' to indicate if the player is still connected to the game or if he isn't
+    private final boolean connected;
+    private final PersonalGoalView personalGoal; //The single goal of the player
+    private final List<ScoreTileView> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
+    private final BookshelfView bookshelf; //The bookshelf of the player
 
     public PlayerView(Player playerModel) {
-        this.playerModel = playerModel;
+        this.nickname = playerModel.getNickname();
+        this.connected = playerModel.isConnected();
+        this.personalGoal = new PersonalGoalView(playerModel.getPersonalGoal());
+        this.scoreTiles = new ArrayList<>();
+        for(ScoreTile scoreTile : playerModel.getGoalTiles()) {
+            this.scoreTiles.add(new ScoreTileView(scoreTile));
+        }
+        this.bookshelf=new BookshelfView(playerModel.getBookshelf());
+
     }
 
     public PersonalGoalView getPersonalGoal() {
-        return new PersonalGoalView(this.playerModel.getPersonalGoal());
+        return this.personalGoal;
     }
 
     public List<ScoreTileView> getGoalTiles() {
-        List<ScoreTileView> scoreTileViews = new ArrayList<>();
-        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
-            scoreTileViews.add(new ScoreTileView(scoreTile));
-        }
-        return scoreTileViews;
+        return this.scoreTiles;
     }
 
     public BookshelfView getBookshelf() {
-        return new BookshelfView(this.playerModel.getBookshelf());
+        return this.bookshelf;
     }
 
     public String getNickname() {
-        return this.playerModel.getNickname();
+        return this.nickname;
     }
 
     public boolean isConnected() {
-        return this.playerModel.isConnected();
+        return this.connected;
     }
 
-    //TODO: Chiedere se è una soluzione corretta
     public int score() {
         int score = 0;
-        for (ScoreTile scoreTile : this.playerModel.getGoalTiles()) {
+        for (ScoreTileView scoreTile : this.scoreTiles) {
             score += scoreTile.getValue();
         }
         try {
-            score += this.playerModel.getBookshelf().score();
+            score += this.bookshelf.score();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        score += this.playerModel.getPersonalGoal().score(this.playerModel.getBookshelf());
+        score += this.personalGoal.score(this.bookshelf);
 
         return score; //this value is based on the number of player
     }

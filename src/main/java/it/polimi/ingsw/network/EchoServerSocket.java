@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//REMINDER: This class is not used anymore
 public class EchoServerSocket extends Thread {
     private Game model;
     private GameController controller;
@@ -74,15 +75,17 @@ public class EchoServerSocket extends Thread {
 
         this.start();
     }
+
     public void closeConnection() throws IOException {
         serverSocket.close();
     }
+
     public void run() {
 
         int counter = 0;
 
         //aggiunge un handler sulla connnessione appena arrivata e lo fa partire
-        while(counter<=3) {
+        /*while(true) {
             try {
 
                 clientHandlers.add(new SingleClientHandler(serverSocket.accept(), controller));
@@ -92,9 +95,6 @@ public class EchoServerSocket extends Thread {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        while(true){
-            System.out.println("Un client sta cercando di connettersi ma la partita è già piena");
-        }
+        }*/
     }
 }
