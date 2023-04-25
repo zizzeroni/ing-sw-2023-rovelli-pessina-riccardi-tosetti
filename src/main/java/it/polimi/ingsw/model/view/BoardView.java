@@ -10,16 +10,16 @@ public class BoardView implements Serializable {
     private final int numberOfUsableTiles;
     private final int numberOfColumns;
     private final int numberOfRows;
-    private TileView[][] tiles;
+    private final TileView[][] tiles;
 
     public BoardView(Board boardModel) {
-        this.numberOfUsableTiles=boardModel.getNumberOfUsableTiles();
-        this.numberOfColumns=boardModel.getNumberOfColumns();
-        this.numberOfRows=boardModel.getNumberOfRows();
+        this.numberOfUsableTiles = boardModel.getNumberOfUsableTiles();
+        this.numberOfColumns = boardModel.getNumberOfColumns();
+        this.numberOfRows = boardModel.getNumberOfRows();
         this.tiles = new TileView[boardModel.getNumberOfRows()][boardModel.getNumberOfColumns()];
-        for(int row=0;row<boardModel.getNumberOfRows();row++) {
-            for(int column=0;column<boardModel.getNumberOfColumns();column++) {
-                this.tiles[row][column]= (boardModel.getSingleTile(row,column)!=null ? new TileView(boardModel.getSingleTile(row,column)) : null);
+        for (int row = 0; row < boardModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < boardModel.getNumberOfColumns(); column++) {
+                this.tiles[row][column] = (boardModel.getSingleTile(row, column) != null ? new TileView(boardModel.getSingleTile(row, column)) : null);
             }
         }
     }

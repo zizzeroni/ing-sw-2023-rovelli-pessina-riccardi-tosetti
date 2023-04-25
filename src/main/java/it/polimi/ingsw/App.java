@@ -116,7 +116,7 @@ public class App {
 
         view.run();*/
 
-        //REMINDER: This app doens't work anymore since we introduce the attribute "State" in UI class which oblige to have 2 or more players to start the game
+        //REMINDER: This app doens't work anymore since we introduced the attribute "State" in UI class which oblige to have 2 or more players in order to start the game
         Server server = null;
         try {
             server = new ServerImpl();

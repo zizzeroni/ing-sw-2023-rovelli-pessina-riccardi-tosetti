@@ -18,6 +18,7 @@ public class BookshelfView implements Serializable {
     private final TileView[][] tiles;
     //private final Map<Integer, Integer> pointsForEachGroup;
     private final Map<Integer, Integer> pointsForEachGroup;
+
     public BookshelfView(Bookshelf bookshelfModel) {
         this.tiles = new TileView[bookshelfModel.getNumberOfRows()][bookshelfModel.getNumberOfColumns()];
         this.pointsForEachGroup = new HashMap<>();
@@ -31,7 +32,7 @@ public class BookshelfView implements Serializable {
             }
         }
         for (Integer key : bookshelfModel.getPointsForEachGroup().keySet()) {
-            this.pointsForEachGroup.put(key,bookshelfModel.getPointsForEachGroup().get(key));
+            this.pointsForEachGroup.put(key, bookshelfModel.getPointsForEachGroup().get(key));
         }
 
     }

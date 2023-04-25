@@ -97,7 +97,7 @@ public class Player {
         }
         try {
             score += this.bookshelf.score();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         score += this.personalGoal.score(this.bookshelf);

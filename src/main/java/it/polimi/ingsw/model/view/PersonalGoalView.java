@@ -12,11 +12,11 @@ public class PersonalGoalView implements Serializable {
 
     public PersonalGoalView(PersonalGoal personalGoalModel) {
         this.numberOfColumns = personalGoalModel.getNumberOfColumns();
-        this.numberOfRows=personalGoalModel.getNumberOfRows();
+        this.numberOfRows = personalGoalModel.getNumberOfRows();
         this.pattern = new TileView[personalGoalModel.getNumberOfRows()][personalGoalModel.getNumberOfColumns()];
-        for(int row=0;row<personalGoalModel.getNumberOfRows();row++) {
-            for(int column=0;column<personalGoalModel.getNumberOfColumns();column++) {
-                this.pattern[row][column] = (personalGoalModel.getSingleTile(row,column)!=null ? new TileView(personalGoalModel.getSingleTile(row,column)) : null);
+        for (int row = 0; row < personalGoalModel.getNumberOfRows(); row++) {
+            for (int column = 0; column < personalGoalModel.getNumberOfColumns(); column++) {
+                this.pattern[row][column] = (personalGoalModel.getSingleTile(row, column) != null ? new TileView(personalGoalModel.getSingleTile(row, column)) : null);
             }
         }
     }

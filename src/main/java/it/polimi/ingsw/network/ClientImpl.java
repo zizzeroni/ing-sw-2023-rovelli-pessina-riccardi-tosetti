@@ -52,7 +52,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.changeTurn();
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] Error while updating server(changeTurn):" + e.getMessage() + ".Skipping update");
         }
     }
 
@@ -61,7 +61,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.insertUserInputIntoModel(playerChoice);
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] Error while updating server(insertUserInputIntoModel):" + e.getMessage() + ".Skipping update");
         }
     }
 
@@ -70,7 +70,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.sendPrivateMessage(receiver, sender, content);
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] Error while updating server(sendPrivateMessage):" + e.getMessage() + ".Skipping update");
         }
     }
 
@@ -79,7 +79,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.sendBroadcastMessage(sender, content);
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] Error while updating server(sendBroadcastMessage):" + e.getMessage() + ".Skipping update");
         }
     }
 
@@ -88,7 +88,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.addPlayer(nickname);
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] Error while updating server(addPlayer):" + e.getMessage() + ".Skipping update");
         }
     }
 
@@ -97,7 +97,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
         } catch (RemoteException e) {
-            System.err.println("Error while updating server:" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] while updating server(chooseNumberOfPlayerInTheGame):" + e.getMessage() + ".Skipping update");
         }
     }
 

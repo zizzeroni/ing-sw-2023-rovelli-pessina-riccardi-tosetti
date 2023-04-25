@@ -11,8 +11,8 @@ public class TileView implements Serializable {
     private final int imageID;
 
     public TileView(Tile tileModel) {
-        this.color=tileModel.getColor();
-        this.imageID=tileModel.getImageID();
+        this.color = tileModel.getColor();
+        this.imageID = tileModel.getImageID();
     }
 
     public int getImageID() {

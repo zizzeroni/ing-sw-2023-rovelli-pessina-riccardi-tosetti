@@ -13,9 +13,6 @@ public abstract class UI implements Runnable {
     private State state;
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
-    //Lock used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
-    //a "response" (A new GameView object) form the Server itself
-    private final Object lockUpdate = new Object();
 
     public UI(GameView model, ViewListener controller, String nicknameID) {
         this.model = model;
