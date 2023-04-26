@@ -20,6 +20,7 @@ public class Board {
         this.listener = null;
     }
 
+    //Initialize all tiles on the board
     public Board() {
         this.numberOfUsableTiles = 0;
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
@@ -28,6 +29,9 @@ public class Board {
                 this.tiles[row][column] = new Tile();
     }
 
+    /*Initialize only the tiles in the positions where there are ones in the jsonBoardPattern, and set non-usable tiles as tiles without color
+    @param jsonBoardPattern pattern that contains the positions where we need to insert the tiles
+    */
     public Board(JsonBoardPattern jsonBoardPattern) {
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
         this.numberOfUsableTiles = 0;
@@ -46,12 +50,20 @@ public class Board {
         }
     }
 
+    /*
+    @param numberOfUsableTiles number of tiles that are usable
+    @param tiles
+     */
     public Board(int numberOfUsableTiles, Tile[][] tiles) {
         this.numberOfUsableTiles = numberOfUsableTiles;
         this.tiles = tiles;
     }
 
     //TODO: Chiedere se è da spostare nel controller
+    /*
+    Descriptions
+    @param tilesToAdd
+     */
     public void addTiles(List<Tile> tilesToAdd) {
         if (tilesToAdd.size() == 0) {
             return;
@@ -69,11 +81,16 @@ public class Board {
     }
 
     //TODO: Chiedere se è da spostare nel controller
+    /*
+    We search in the board if there are only tiles "alone" that means don't have any nearby tiles
+    @return if we found that there are 2 or more nearby tiles we return 0, otherwise we return the number of "alone" tiles
+     */
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
         int usableTilesStillAvailable = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
             for (int column = 0; column < this.numberOfColumns; column++) {
                 //if the current tile and one of his neighbours (right or bottom) are not null, then there is no need to refill
+
                 if (this.tiles[row][column] != null && this.tiles[row][column].getColor() != null) {
                     if ((this.tiles[row][column + 1] != null && this.tiles[row][column + 1].getColor() != null) || (this.tiles[row + 1][column] != null && this.tiles[row + 1][column].getColor() != null)) {
                         return 0;
@@ -86,6 +103,11 @@ public class Board {
         return this.numberOfUsableTiles - usableTilesStillAvailable;
     }
 
+    /*
+       When the player take some tiles from the board we need to remove that from the board
+    @param tilesToRemove are the tiles that was taken by a player from the board
+    @param positions are the positions of this tiles
+     */
     //TODO: Chiedere se è da spostare nel controller
     public void removeTiles(Tile[] tilesToRemove, int[] positions) {
         int i = 0;
@@ -113,7 +135,9 @@ public class Board {
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
     }
-
+    /*Set only the tiles in the positions where there are ones in the jsonBoardPattern, and set non-usable tiles as tiles without color
+    @param jsonBoardPattern pattern that contains the positions where we need to insert the tiles
+    */
     public void setTiles(JsonBoardPattern boardPattern) {
         int[][] pattern = boardPattern.pattern();
 
