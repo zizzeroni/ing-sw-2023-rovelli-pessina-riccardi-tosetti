@@ -55,7 +55,7 @@ public class AppClient {
                                 try {
                                     serverStab.receive(client);
                                 } catch (RemoteException e) {
-                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server");
+                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
                                     try {
                                         serverStab.close();
                                     } catch (RemoteException ex) {

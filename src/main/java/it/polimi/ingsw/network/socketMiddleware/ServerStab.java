@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.commandPattern.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,7 +33,8 @@ public class ServerStab implements Server {
 
     @Override
     public void changeTurn() throws RemoteException {
-        MsgSocket<Void> message = new MsgSocket<>(this.ip, Action.CHANGE_TURN, null);
+        Command message = new ChangeTurnCommand();
+        //MsgSocket<Void> message = new MsgSocket<>(this.ip, Action.CHANGE_TURN, null);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -49,7 +51,8 @@ public class ServerStab implements Server {
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
-        MsgSocket<Choice> message = new MsgSocket<>(this.ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
+        Command message = new InsertUserInputCommand(playerChoice);
+        //MsgSocket<Choice> message = new MsgSocket<>(this.ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -78,7 +81,8 @@ public class ServerStab implements Server {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver, sender, content));
+        Command message = new SendPrivateMessageCommand(receiver,sender,content);
+        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver, sender, content));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -96,7 +100,8 @@ public class ServerStab implements Server {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender, content));
+        Command message = new SendBroadcastMessageCommand(sender,content);
+        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender, content));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -114,7 +119,8 @@ public class ServerStab implements Server {
 
     @Override
     public void addPlayer(String nickname) throws RemoteException {
-        MsgSocket<String> message = new MsgSocket<>(this.ip, Action.ADD_PLAYER, Arrays.asList(nickname));
+        Command message = new AddPlayerCommand(nickname);
+        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.ADD_PLAYER, Arrays.asList(nickname));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -132,7 +138,8 @@ public class ServerStab implements Server {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
-        MsgSocket<Integer> message = new MsgSocket<>(this.ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
+        Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
+        //MsgSocket<Integer> message = new MsgSocket<>(this.ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -162,7 +169,6 @@ public class ServerStab implements Server {
             } catch (IOException e) {
                 throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
             }
-            MsgSocket<Client> message = new MsgSocket<>(this.ip, Action.CLIENT_REGISTRATION, Arrays.asList(client));
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
         }
