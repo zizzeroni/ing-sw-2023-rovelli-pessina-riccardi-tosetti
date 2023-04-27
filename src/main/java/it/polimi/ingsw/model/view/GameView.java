@@ -1,15 +1,9 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
-import it.polimi.ingsw.model.listeners.BoardListener;
-import it.polimi.ingsw.model.listeners.BookshelfListener;
-import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

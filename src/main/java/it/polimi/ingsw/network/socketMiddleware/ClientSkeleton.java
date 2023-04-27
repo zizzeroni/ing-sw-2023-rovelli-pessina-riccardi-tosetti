@@ -1,10 +1,9 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
-import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-
+import it.polimi.ingsw.network.commandPattern.Command;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,17 +38,20 @@ public class ClientSkeleton implements Client {
     }
 
     public void receive(Server server) throws RemoteException {
-        MsgSocket<Object> message;
+        //MsgSocket<Object> message;
+        Command message;
         try {
             System.out.println("Ready to receive (from Client)");
-            message = (MsgSocket<Object>) this.ois.readObject();
+            //message = (MsgSocket<Object>) this.ois.readObject();
+            message = (Command) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
         }
-
-        switch (message.getAction()) {
+        message.setController(server);
+        message.execute();
+        /*switch (message.getAction()) {
             case CHANGE_TURN -> {
                 server.changeTurn();
             }
@@ -75,6 +77,6 @@ public class ClientSkeleton implements Client {
                 int chosenNumberOfPlayers = (int) message.getParams().get(0);
                 server.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
             }
-        }
+        }*/
     }
 }

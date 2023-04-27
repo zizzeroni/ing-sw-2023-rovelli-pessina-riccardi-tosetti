@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.model.Choice;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

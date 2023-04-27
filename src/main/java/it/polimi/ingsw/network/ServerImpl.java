@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
-
 import java.rmi.RemoteException;
 import java.rmi.server.*;
 import java.util.*;

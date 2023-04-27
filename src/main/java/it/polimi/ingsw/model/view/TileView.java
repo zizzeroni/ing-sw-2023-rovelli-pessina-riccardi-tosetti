@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-
 import java.io.Serializable;
 
 public class TileView implements Serializable {

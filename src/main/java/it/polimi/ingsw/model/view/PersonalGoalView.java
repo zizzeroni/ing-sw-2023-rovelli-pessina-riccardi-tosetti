@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.PersonalGoal;
-
 import java.io.Serializable;
 
 public class PersonalGoalView implements Serializable {

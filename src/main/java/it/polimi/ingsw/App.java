@@ -1,25 +1,10 @@
 package it.polimi.ingsw;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.view.TextualUI;
-import it.polimi.ingsw.view.UI;
-
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**

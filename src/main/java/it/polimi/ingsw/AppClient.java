@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStab;
 import it.polimi.ingsw.view.TextualUI;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -55,7 +54,7 @@ public class AppClient {
                                 try {
                                     serverStab.receive(client);
                                 } catch (RemoteException e) {
-                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server");
+                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
                                     try {
                                         serverStab.close();
                                     } catch (RemoteException ex) {
