@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
-
 import java.io.Serializable;
 
 public class ScoreTileView implements Serializable {

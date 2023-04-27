@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

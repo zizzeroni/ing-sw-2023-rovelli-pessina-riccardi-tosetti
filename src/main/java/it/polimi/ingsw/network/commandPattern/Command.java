@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.commandPattern;
 
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.network.Server;
 
 import java.io.Serializable;

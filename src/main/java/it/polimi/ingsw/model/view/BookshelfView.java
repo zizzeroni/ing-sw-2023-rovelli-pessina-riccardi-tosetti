@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 

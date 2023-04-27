@@ -20,19 +20,17 @@ public class GameController implements ViewListener {
         this.model = model;
     }
 
+    //------------------------------------CHANGE TURN RELATED METHODS------------------------------------
     @Override
     public void changeTurn() {
         if (this.model.getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
+        if(checkIfGameEnded()) {
 
-        if (this.model.getActivePlayerIndex() == this.model.getPlayers().size() - 1) {
-            this.model.setActivePlayerIndex(0);
-        } else {
-            this.model.setActivePlayerIndex(this.model.getActivePlayerIndex() + 1);
         }
+        ChangeActivePlayer();
     }
-
     private void refillBoard() {
         Collections.shuffle(this.model.getBag());
 
@@ -40,15 +38,26 @@ public class GameController implements ViewListener {
         this.model.getBoard().addTiles(drawedTiles);
         drawedTiles.clear();
     }
-
+    private void ChangeActivePlayer() {
+        if (this.model.getActivePlayerIndex() == this.model.getPlayers().size() - 1) {
+            this.model.setActivePlayerIndex(0);
+        } else {
+            this.model.setActivePlayerIndex(this.model.getActivePlayerIndex() + 1);
+        }
+    }
+    private boolean checkIfGameEnded() {
+        return this.model.getPlayers().stream().map(Player::getBookshelf).filter(Bookshelf::isFull).count()==1;
+    }
     private boolean checkIfUserInputIsCorrect(Choice choice) {
         List<TileView> choiceChoosenTiles = choice.getChosenTiles();
         int[] choiceTileOrder = choice.getTileOrder();
         int choiceColumn = choice.getChosenColumn();
         List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
+        Bookshelf currentPlayerBookshelf = this.model.getPlayers().get(this.model.getActivePlayerIndex()).getBookshelf();
+
         if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
-            if (choiceColumn >= 0 && choiceColumn < this.model.getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+            if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn)>=choiceChoosenTiles.size()) {
                 if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }

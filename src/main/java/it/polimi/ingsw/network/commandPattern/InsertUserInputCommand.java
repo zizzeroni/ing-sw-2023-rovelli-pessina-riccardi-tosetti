@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.commandPattern;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.Server;
-
 import java.rmi.RemoteException;
 
 public class InsertUserInputCommand implements Command {

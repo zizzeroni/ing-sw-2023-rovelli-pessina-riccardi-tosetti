@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.commandPattern;
 
 import it.polimi.ingsw.network.Server;
-
 import java.rmi.RemoteException;
 
 public class ChooseNumberOfPlayerCommand implements Command {

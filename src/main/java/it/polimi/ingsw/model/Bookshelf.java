@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Optional;

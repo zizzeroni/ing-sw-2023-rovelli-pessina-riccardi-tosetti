@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.tile.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
 

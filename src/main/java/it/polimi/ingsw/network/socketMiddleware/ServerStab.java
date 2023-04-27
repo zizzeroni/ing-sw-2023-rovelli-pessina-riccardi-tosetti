@@ -5,13 +5,11 @@ import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.commandPattern.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.Arrays;
 
 //Necessary for the client in order to function
 public class ServerStab implements Server {

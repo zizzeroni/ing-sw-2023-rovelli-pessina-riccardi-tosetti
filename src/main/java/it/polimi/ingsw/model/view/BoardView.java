@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.tile.Tile;
-
 import java.io.Serializable;
 
 public class BoardView implements Serializable {

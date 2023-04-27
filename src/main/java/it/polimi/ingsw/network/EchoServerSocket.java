@@ -5,17 +5,13 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 //REMINDER: This class is not used anymore
 public class EchoServerSocket extends Thread {

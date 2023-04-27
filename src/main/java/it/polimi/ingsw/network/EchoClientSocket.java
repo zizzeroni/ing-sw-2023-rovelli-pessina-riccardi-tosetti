@@ -2,8 +2,6 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.TextualUI;
-import it.polimi.ingsw.view.UI;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;

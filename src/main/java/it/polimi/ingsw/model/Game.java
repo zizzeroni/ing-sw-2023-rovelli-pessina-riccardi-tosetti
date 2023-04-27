@@ -4,12 +4,10 @@ import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Collections;
-
 import java.util.stream.Collectors;
 
 public class Game {
