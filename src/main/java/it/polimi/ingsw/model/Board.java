@@ -29,20 +29,7 @@ public class Board {
 
     public Board(JsonBoardPattern jsonBoardPattern) {
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
-        this.numberOfUsableTiles = 0;
-
-        int[][] pattern = jsonBoardPattern.pattern();
-
-        for (int row = 0; row < pattern.length; row++) {
-            for (int column = 0; column < pattern[0].length; column++) {
-                if (pattern[row][column] == 1) {
-                    this.numberOfUsableTiles++;
-                } else {
-                    //set non-usable tiles as tiles without color
-                    this.tiles[row][column] = new Tile();
-                }
-            }
-        }
+        this.setPattern(jsonBoardPattern);
     }
 
     public Board(int numberOfUsableTiles, Tile[][] tiles) {
@@ -74,8 +61,15 @@ public class Board {
             for (int column = 0; column < this.numberOfColumns; column++) {
                 //if the current tile and one of his neighbours (right or bottom) are not null, then there is no need to refill
                 if (this.tiles[row][column] != null && this.tiles[row][column].getColor() != null) {
-                    if ((this.tiles[row][column + 1] != null && this.tiles[row][column + 1].getColor() != null) || (this.tiles[row + 1][column] != null && this.tiles[row + 1][column].getColor() != null)) {
-                        return 0;
+                    if(row != this.numberOfRows - 1) {
+                        if (this.tiles[row + 1][column] != null && this.tiles[row + 1][column].getColor() != null) {
+                            return 0;
+                        }
+                    }
+                    if(column != this.numberOfColumns - 1) {
+                        if (this.tiles[row][column + 1] != null && this.tiles[row][column + 1].getColor() != null) {
+                            return 0;
+                        }
                     }
                     //we keep the count of the number of tiles that are not null
                     usableTilesStillAvailable++;
@@ -86,15 +80,18 @@ public class Board {
     }
 
     //TODO: Chiedere se è da spostare nel controller
-    public void removeTiles(Tile[] tilesToRemove, int[] positions) {
-        int i = 0;
-        for (Tile tile : tilesToRemove) {
-            this.tiles[positions[i]][positions[i + 1]] = null;
-            i += 2;
+    public void removeTiles(List<Coordinates> coordinates) {
+        for (Coordinates coordinate: coordinates) {
+            this.removeTile(coordinate.getX(), coordinate.getY());
         }
+
         if (this.listener != null) {
             this.listener.removedTilesFromBoard(this);
         }
+    }
+
+    private void removeTile(int row, int column) {
+        this.tiles[row][column] = null;
     }
 
     public int getNumberOfUsableTiles() {
@@ -113,7 +110,8 @@ public class Board {
         this.tiles = tiles;
     }
 
-    public void setTiles(JsonBoardPattern boardPattern) {
+    public void setPattern(JsonBoardPattern boardPattern) {
+        this.numberOfUsableTiles = 0;
         int[][] pattern = boardPattern.pattern();
 
         for (int row = 0; row < pattern.length; row++) {
