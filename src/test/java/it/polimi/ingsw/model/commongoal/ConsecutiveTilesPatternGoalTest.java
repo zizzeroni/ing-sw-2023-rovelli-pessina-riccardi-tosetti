@@ -1,4 +1,4 @@
-package it.polimi.ingsw.commongoal;
+package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.ConsecutiveTilesPatternGoal;
