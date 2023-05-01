@@ -87,6 +87,10 @@ public class Player {
         this.connected = connected;
     }
 
+    public void addScoreTile(ScoreTile tile) {
+        this.scoreTiles.add(tile);
+    }
+
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {

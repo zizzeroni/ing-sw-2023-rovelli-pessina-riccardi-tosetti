@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 //Necessary for the client in order to function
-public class ServerStab implements Server {
+public class ServerStub implements Server {
     //Server's IP address
     private final String ip;
     //Server's port address
@@ -24,7 +24,7 @@ public class ServerStab implements Server {
     //a "response" (A new GameView object) form the Server itself
     private final Object lockUpdate = new Object();
 
-    public ServerStab(String ip, int port) {
+    public ServerStub(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }

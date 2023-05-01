@@ -28,6 +28,11 @@ public class Bookshelf {
         this.listener = null;
     }
 
+    //REMINDER: For testing purposes only
+    public Bookshelf(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
     public Bookshelf() {
         this.image = null;
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];

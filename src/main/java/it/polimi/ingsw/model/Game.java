@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,8 +13,9 @@ import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
-    private boolean started;
-    private int numberOfPlayers;
+    //private boolean started;
+    private GameState gameState;
+    private int numberOfPlayersToStartGame;
     private int activePlayerIndex;
     private List<Player> players;
     private List<Tile> bag;
@@ -30,12 +32,12 @@ public class Game {
     }
 
     public Game() {
-        this.started = false;
+        this.gameState = GameState.IN_CREATION;
         this.listener = null;
         this.players = new ArrayList<>();
         this.activePlayerIndex = 0;
         this.board = null;
-        this.numberOfPlayers = 0;
+        this.numberOfPlayersToStartGame = 0;
         this.bag = new ArrayList<>(132);
         this.commonGoals = new ArrayList<>(2);
         for (int i = 0; i < 132; i++) {
@@ -57,13 +59,13 @@ public class Game {
 
     }
 
-    public Game(int numberOfPlayers, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
-        this.started = false;
+    public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
+        this.gameState = GameState.IN_CREATION;
         this.listener = null;
         this.players = players;
         this.activePlayerIndex = 0;
         this.board = new Board(boardPattern);
-        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         this.bag = new ArrayList<>(132);
         this.commonGoals = new ArrayList<>(2);
 
@@ -100,8 +102,8 @@ public class Game {
         this.board.addTiles(drawnTiles);
     }
 
-    public Game(int numberOfPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
-        this.numberOfPlayers = numberOfPlayers;
+    public Game(int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
+        this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         this.activePlayerIndex = activePlayerIndex;
         this.players = players;
         this.bag = bag;
@@ -110,9 +112,9 @@ public class Game {
         this.listener = null;
     }
 
-    public Game(GameListener listener, int numberOfPlayers, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
+    public Game(GameListener listener, int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.listener = listener;
-        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         this.activePlayerIndex = activePlayerIndex;
         this.players = players;
         this.bag = bag;
@@ -120,23 +122,25 @@ public class Game {
         this.commonGoals = commonGoals;
     }
 
-    public boolean isStarted() {
-        return this.started;
+    public GameState getGameState() {
+        return gameState;
     }
 
-    public void setStarted(boolean started) {
-        this.started = started;
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
         if (this.listener != null) {
             this.listener.startOfTheGame();
+
+
         }
     }
 
-    public int getNumberOfPlayers() {
-        return this.numberOfPlayers;
+    public int getNumberOfPlayersToStartGame() {
+        return this.numberOfPlayersToStartGame;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+    public void setNumberOfPlayersToStartGame(int numberOfPlayersToStartGame) {
+        this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         if (this.listener != null) {
             this.listener.numberOfPlayersModified();
         }

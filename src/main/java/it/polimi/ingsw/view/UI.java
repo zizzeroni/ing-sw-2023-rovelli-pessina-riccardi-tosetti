@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.view.GameView;
 
 public abstract class UI implements Runnable {
@@ -96,9 +97,21 @@ public abstract class UI implements Runnable {
     public void modelModified(GameView game) {
         this.model = game;
 
+        switch (this.model.getGameState()) {
+            case IN_CREATION -> { /*Already in WAITING_IN_LOBBY*/}
+            case ON_GOING, FINISHING -> {
+                if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
+                    this.setState(State.GAME_ONGOING);
+                } else {
+                    this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                }
+            }
+            case RESET_NEEDED -> this.setState(State.GAME_ENDED);
+        }
+        /*
         switch (state) {
             case WAITING_IN_LOBBY -> {
-                if (this.model.isStarted()) {
+                if (this.model.getGameState()== GameState.ON_GOING) {
                     if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(nicknameID)) {
                         this.setState(State.GAME_ONGOING);
                     } else {
@@ -116,7 +129,9 @@ public abstract class UI implements Runnable {
                     this.setState(State.WAITING_FOR_OTHER_PLAYER);
                 }
             }
-        }
+
+
+        }*/
     }
     //ESEMPIO INTERAZIONE TESTUALE
     /*

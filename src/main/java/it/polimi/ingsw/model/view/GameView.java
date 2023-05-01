@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
@@ -14,7 +15,7 @@ public class GameView implements Serializable {
     //    private final Game gameModel;
     private ModelViewListener listener;
     private final int numberOfPlayers;
-    private final boolean started;
+    private final GameState gameState;
     private final int activePlayerIndex;
     private final List<PlayerView> players;
     private final List<TileView> bag;
@@ -33,12 +34,12 @@ public class GameView implements Serializable {
         if (gameModel == null) {
             throw new IllegalArgumentException();
         }
-        this.started = gameModel.isStarted();
+        this.gameState = gameModel.getGameState();
         this.players = new ArrayList<>();
         this.bag = new ArrayList<>();
         this.commonGoals = new ArrayList<>();
 
-        this.numberOfPlayers = gameModel.getNumberOfPlayers();
+        this.numberOfPlayers = gameModel.getNumberOfPlayersToStartGame();
         this.activePlayerIndex = gameModel.getActivePlayerIndex();
         for (Player player : gameModel.getPlayers()) {
             this.players.add(new PlayerView(player));
@@ -52,8 +53,8 @@ public class GameView implements Serializable {
         }
     }
 
-    public boolean isStarted() {
-        return this.started;
+    public GameState getGameState() {
+        return this.gameState;
     }
 
     public int getNumberOfPlayers() {

@@ -2,9 +2,6 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.model.view.TileView;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -15,12 +12,94 @@ import com.google.gson.reflect.TypeToken;
 
 public class GameController implements ViewListener {
     private final Game model;
+    private ControllerState state;
+    private List<PersonalGoal> personalGoalsDeck;
+    private List<JsonBoardPattern> boardPatterns;
 
     public GameController(Game model) {
         this.model = model;
+        this.state = new CreationState(this);
+        this.personalGoalsDeck = new ArrayList<>();
+        this.boardPatterns = new ArrayList<>();
+
+        Gson gson = new Gson();
+        Reader reader;
+        try {
+            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() { }.getType());
+            reader.close();
+
+            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() { }.getType());
+            reader.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void changeState(ControllerState state) {
+        this.state = state;
+    }
+
+    public ControllerState getState() {
+        return state;
+    }
+
+    @Override
+    public void changeTurn() {
+        state.changeTurn();
+    }
+
+    @Override
+    public void insertUserInputIntoModel(Choice playerChoice) {
+        state.insertUserInputIntoModel(playerChoice);
+    }
+
+    @Override
+    public void sendPrivateMessage(String receiver, String sender, String content) {
+        state.sendPrivateMessage(receiver, sender, content);
+    }
+
+    @Override
+    public void sendBroadcastMessage(String sender, String content) {
+        state.sendBroadcastMessage(sender, content);
+    }
+
+    @Override
+    public void addPlayer(String nickname) {
+        state.addPlayer(nickname);
+    }
+
+    @Override
+    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
+    }
+
+    //------------------------------------UTILITY METHODS------------------------------------
+    public Game getModel() {
+        return this.model;
+    }
+
+    public int getNumberOfPlayersCurrentlyInGame() {
+        return this.model.getPlayers().size();
+    }
+
+    public PersonalGoal getPersonalGoal(int index) {
+        Collections.shuffle(personalGoalsDeck);
+        return personalGoalsDeck.remove(index);
+    }
+
+    public int getNumberOfPersonalGoals() {
+        return personalGoalsDeck.size();
+    }
+
+    public List<JsonBoardPattern> getBoardPatterns() {
+        return this.boardPatterns;
     }
 
     //------------------------------------CHANGE TURN RELATED METHODS------------------------------------
+    /*
     @Override
     public void changeTurn() {
         if (this.model.getBoard().numberOfTilesToRefill() != 0) {
@@ -139,8 +218,6 @@ public class GameController implements ViewListener {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
             if (this.model.getNumberOfPlayers() == 0) {
                 this.model.setNumberOfPlayers(chosenNumberOfPlayers);
-            } else {
-                System.err.println("NumberOfPlayers already chosen");
                 if (this.model.getPlayers().size() == this.model.getNumberOfPlayers()) {
                     startGame();
                 }
@@ -199,4 +276,5 @@ public class GameController implements ViewListener {
             bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
         }
     }
+     */
 }
