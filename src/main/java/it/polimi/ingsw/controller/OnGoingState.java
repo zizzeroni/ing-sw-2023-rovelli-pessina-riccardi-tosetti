@@ -2,7 +2,10 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.view.TileView;
 
 import java.util.Collections;
@@ -39,6 +42,8 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
+        Game model = this.controller.getModel();
+        Player currentPlayer = model.getPlayers().get(model.getActivePlayerIndex());
         if (checkIfUserInputIsCorrect(playerChoice)) {
             removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
@@ -46,7 +51,15 @@ public class OnGoingState extends ControllerState {
             System.err.println("[INPUT:ERROR]: User data not correct");
         }
 
-        if(this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
+        for (int i = 0; i < model.getCommonGoals().size(); i++) {
+            int finalI = i;
+            if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= 1
+                    && currentPlayer.getGoalTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
+                currentPlayer.addScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0));
+            }
+        }
+
+        if (this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         }
