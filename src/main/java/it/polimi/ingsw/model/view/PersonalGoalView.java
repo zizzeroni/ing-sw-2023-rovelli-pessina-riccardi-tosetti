@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.PersonalGoal;
+import it.polimi.ingsw.model.tile.Tile;
+
 import java.io.Serializable;
 
 public class PersonalGoalView implements Serializable {
@@ -38,7 +40,20 @@ public class PersonalGoalView implements Serializable {
 
     @Override
     public String toString() {
-        return "To be implemented";
+        StringBuilder output = new StringBuilder();
+        for (int row = 0; row < this.numberOfRows; row++) {
+            output.append("[ ");
+            for (int column = 0; column < this.numberOfColumns; column++) {
+                TileView currentTile = this.pattern[row][column];
+                if (currentTile == null || currentTile.getColor() == null) {
+                    output.append("0 ");
+                } else {
+                    output.append(currentTile.getColor()).append(" ");
+                }
+            }
+            output.append("]\n");
+        }
+        return output.substring(0, output.length() - 1);
     }
 
     public int score(BookshelfView bookshelf) {
