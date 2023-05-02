@@ -24,7 +24,7 @@ public class TextualUI extends UI {
         this.controller.addPlayer(nick);
 
         int chosenNumberOfPlayer = 0;
-        if (getModel().getNumberOfPlayers() == 0) {
+        if (getModel().getPlayers().size()==1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = s.nextInt();
@@ -57,9 +57,10 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
-        while (true) {
+        while (this.getState()!=State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
+            if(this.getState()==State.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
@@ -67,6 +68,8 @@ public class TextualUI extends UI {
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
         }
+        showPersonalRecap();
+        System.out.println("---GAME ENDED---");
     }
 
     @Override
@@ -328,7 +331,8 @@ public class TextualUI extends UI {
 
     @Override
     public void showPersonalRecap() {
-        PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
+        PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNicknameID())).toList().get(0);
+        //PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
         List<ScoreTileView> playerGoalTiles = activePlayer.getGoalTiles();
