@@ -28,6 +28,11 @@ public class Bookshelf {
         this.listener = null;
     }
 
+    //REMINDER: For testing purposes only
+    public Bookshelf(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
     //Initialize the bookshelf of the single player
     public Bookshelf() {
         this.image = null;

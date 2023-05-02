@@ -87,6 +87,10 @@ public class Player {
         this.connected = connected;
     }
 
+    public void addScoreTile(ScoreTile tile) {
+        this.scoreTiles.add(tile);
+    }
+
     /*
     Set the score of the player by the score of his bookshelf
      */

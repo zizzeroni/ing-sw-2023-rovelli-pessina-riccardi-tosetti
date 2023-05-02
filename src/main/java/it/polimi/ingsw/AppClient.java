@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.socketMiddleware.ServerStab;
+import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.TextualUI;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -44,19 +44,19 @@ public class AppClient {
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
-                        ServerStab serverStab = new ServerStab("localhost", 1234);
+                        ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        client = new ClientImpl(serverStab, new TextualUI());
+                        client = new ClientImpl(serverStub, new TextualUI());
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
                             while (true) {
                                 try {
-                                    serverStab.receive(client);
+                                    serverStub.receive(client);
                                 } catch (RemoteException e) {
                                     System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
                                     try {
-                                        serverStab.close();
+                                        serverStub.close();
                                     } catch (RemoteException ex) {
                                         System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
                                     }
@@ -101,6 +101,8 @@ public class AppClient {
         }
         //Calling the run method of the UI
         client.run();
+        //Closing client app
+        System.exit(0);
     }
 
 }
