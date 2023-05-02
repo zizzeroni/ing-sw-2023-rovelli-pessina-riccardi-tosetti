@@ -169,7 +169,7 @@ public class GameController implements ViewListener {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
         if (checkIfUserInputIsCorrect(playerChoice)) {
-            removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+            removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
             System.err.println("[INPUT:ERROR]: User data not correct");
@@ -246,28 +246,16 @@ public class GameController implements ViewListener {
         boardPatterns.stream()
                 .filter(boardPattern -> boardPattern.numberOfPlayers() == this.model.getPlayers().size())
                 .findFirst()
-                .ifPresent(jsonBoardPattern -> this.model.getBoard().setTiles(jsonBoardPattern));
+                .ifPresent(jsonBoardPattern -> this.model.getBoard().setPattern(jsonBoardPattern));
 
         List<Tile> drawnTiles = this.model.getBag().subList(0, this.model.getBoard().numberOfTilesToRefill());
         this.model.getBoard().addTiles(drawnTiles);
         this.model.setStarted(true);
     }
 
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
+    private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.model.getBoard();
-        int[] positions = new int[tileCoordinates.size() * 2];
-        for (int i = 0; i < tileCoordinates.size() * 2; i++) {
-            if (i % 2 == 0) {
-                positions[i] = tileCoordinates.get(i / 2).getX();
-            } else {
-                positions[i] = tileCoordinates.get(i / 2).getY();
-            }
-        }
-        Tile[] tilesToRemove = new Tile[chosenTiles.size()];
-        for (int i = 0; i < chosenTiles.size(); i++) {
-            tilesToRemove[0] = new Tile(chosenTiles.get(i).getColor());
-        }
-        board.removeTiles(tilesToRemove, positions);
+        board.removeTiles(tileCoordinates);
     }
 
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {

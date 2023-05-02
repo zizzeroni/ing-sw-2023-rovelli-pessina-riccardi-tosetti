@@ -74,7 +74,7 @@ public class CreationState extends ControllerState {
         this.controller.getBoardPatterns().stream()
                 .filter(boardPattern -> boardPattern.numberOfPlayers() == this.controller.getModel().getPlayers().size())
                 .findFirst()
-                .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setTiles(jsonBoardPattern));
+                .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setPattern(jsonBoardPattern));
 
         List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
         this.controller.getModel().getBoard().addTiles(drawnTiles);

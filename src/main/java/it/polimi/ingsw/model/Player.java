@@ -91,6 +91,9 @@ public class Player {
         this.scoreTiles.add(tile);
     }
 
+    /*
+    Set the score of the player by the score of his bookshelf
+     */
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {

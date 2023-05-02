@@ -106,19 +106,7 @@ public class OnGoingState extends ControllerState {
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
-        int[] positions = new int[tileCoordinates.size() * 2];
-        for (int i = 0; i < tileCoordinates.size() * 2; i++) {
-            if (i % 2 == 0) {
-                positions[i] = tileCoordinates.get(i / 2).getX();
-            } else {
-                positions[i] = tileCoordinates.get(i / 2).getY();
-            }
-        }
-        Tile[] tilesToRemove = new Tile[chosenTiles.size()];
-        for (int i = 0; i < chosenTiles.size(); i++) {
-            tilesToRemove[0] = new Tile(chosenTiles.get(i).getColor());
-        }
-        board.removeTiles(tilesToRemove, positions);
+        board.removeTiles(tileCoordinates);
     }
 
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {

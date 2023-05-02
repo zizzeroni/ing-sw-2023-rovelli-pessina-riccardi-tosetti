@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.tile.ScoreTile;
+import it.polimi.ingsw.model.view.CommonGoalView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +73,10 @@ public abstract class CommonGoal extends Card {
                 this.scoreTiles = null;
             }
         }
+    }
+
+    public CommonGoalView copyImmutable() {
+        return new CommonGoalView(this);
     }
 
 }

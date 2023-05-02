@@ -1,4 +1,4 @@
-package it.polimi.ingsw.commongoal;
+package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.model.tile.Tile;

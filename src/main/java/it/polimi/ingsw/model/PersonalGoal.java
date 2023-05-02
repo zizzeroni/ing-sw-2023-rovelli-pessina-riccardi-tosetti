@@ -75,9 +75,6 @@ public class PersonalGoal extends Card {
             case 5 -> {
                 return 9;
             }
-            case 6 -> {
-                return 12;
-            }
             default -> {
                 return 12;
             }
