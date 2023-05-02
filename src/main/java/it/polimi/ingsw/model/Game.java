@@ -267,7 +267,6 @@ public class Game {
                 throw new Exception("This class does not exists");
             }
         }
-
     }
 
     private Player getPlayerFromNickname(String nickname) {

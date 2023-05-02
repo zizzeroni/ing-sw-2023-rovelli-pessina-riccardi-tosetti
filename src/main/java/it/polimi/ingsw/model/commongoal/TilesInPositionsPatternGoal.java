@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 public class TilesInPositionsPatternGoal extends CommonGoal {
     private int[][] positions;
@@ -10,7 +12,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         super();
         this.positions = new int[0][0];
     }
-
     public int[][] getPositions() {
         return positions;
     }
@@ -19,7 +20,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
         this.positions = positions;
     }
-
     public int numberOfElement() {
         int numberOfElement = 0;
         for (int i = 0; i < this.positions.length; i++) {
@@ -111,6 +111,10 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
                 searchGroup(bookshelf, supportMatrix, row, column + 1, group, currentTileColor);
             }
         }
+    }
+    @Override
+    public CommonGoalView copyImmutable() {
+        return new StairPatternGoalView(this);
     }
 }
 

@@ -29,4 +29,15 @@ public class FourCornersPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new FourCornersPatternGoalView(this);
     }
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof FourCornersPatternGoal){
+            FourCornersPatternGoal obj = (FourCornersPatternGoal) o;
+            if(this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
+                    && this.getType() == obj.getType()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

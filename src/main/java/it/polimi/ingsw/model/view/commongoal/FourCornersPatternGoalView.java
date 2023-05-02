@@ -12,12 +12,12 @@ public class FourCornersPatternGoalView extends CommonGoalView {
     }
     @Override
     public String toString() {
-        return "Four tiles of the same type in the four corners of the bookshelf. \n\n" +
+        return "Four tiles of the same type in the four corners of the bookshelf. \n" +
                 "[ B - - - B ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
-                "[ B - - - B ] \n\n";
+                "[ B - - - B ] \n";
     }
 }
