@@ -1,12 +1,16 @@
 package it.polimi.ingsw.model.view.commongoal;
 
+import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
+import it.polimi.ingsw.model.view.CommonGoalView;
+
 import java.io.Serializable;
 
-public class DiagonalEqualPatternView implements Serializable {
+public class DiagonalEqualPatternView extends CommonGoalView {
     private final int[][] pattern;
 
-    public DiagonalEqualPatternView(int[][] pattern) {
-        this.pattern = pattern;
+    public DiagonalEqualPatternView(DiagonalEqualPattern commonGoalModel) {
+        super(commonGoalModel);
+        this.pattern = commonGoalModel.getPattern();
     }
 
     public int[][] getPattern() {
@@ -15,20 +19,22 @@ public class DiagonalEqualPatternView implements Serializable {
 
     @Override
     public String toString() {
-        return "Five tiles of the same type forming a diagonal.\n\n" +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ 0 0 0 0 - ] \n" +
-                "[ 0 0 0 - 0 ] \n" +
-                "[ 0 0 - 0 0 ] \n" +
-                "[ 0 - 0 0 0 ] \n" +
-                "[ - 0 0 0 0 ] \n";
+        StringBuilder sendBack = new StringBuilder("Tiles of the same type forming this pattern:\n\n");
 
-//        return "Five tiles of the same type forming an X\n\n" +
-//                "[ 0 0 0 0 0 ] \n" +
-//                "[ 0 0 0 0 0 ] \n" +
-//                "[ 0 0 0 0 0 ] \n" +
-//                "[ - 0 - 0 0 ] \n" +
-//                "[ 0 - 0 0 0 ] \n" +
-//                "[ - 0 - 0 0 ] \n";
+        for (int i = 0; i < pattern.length; i++) {
+            sendBack.append("[");
+            for (int j = 0; j<pattern[0].length; j++) {
+                if(pattern[i][j]==1){
+                    sendBack.append(" B");
+                }
+                else{
+                    sendBack.append(" -");
+                }
+            }
+            sendBack.append(" ]\n");
+        }
+
+        sendBack.append("x 1 time \n\n");
+        return sendBack.toString();
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
 import it.polimi.ingsw.model.listeners.BoardListener;
 import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.listeners.GameListener;
@@ -53,8 +54,12 @@ public class GameView implements Serializable {
             this.bag.add(new TileView(tile));
         }
         this.board = new BoardView(gameModel.getBoard());
-        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
-            this.commonGoals.add(new CommonGoalView(commonGoal));
+
+//        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
+//            this.commonGoals.add(new CommonGoalView(commonGoal));
+//        }
+        for(CommonGoal commonGoal : gameModel.getCommonGoals()) {
+            this.commonGoals.add(commonGoal.copyImmutable());
         }
     }
 

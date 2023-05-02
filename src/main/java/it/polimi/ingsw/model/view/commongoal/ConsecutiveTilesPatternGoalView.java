@@ -1,36 +1,31 @@
 package it.polimi.ingsw.model.view.commongoal;
 
-public class ConsecutiveTilesPatternGoalView {
+import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.commongoal.ConsecutiveTilesPatternGoal;
+import it.polimi.ingsw.model.view.CommonGoalView;
+
+public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
     private final int consecutiveTiles;
 
     public int getConsecutiveTiles() {
         return consecutiveTiles;
     }
 
-    public ConsecutiveTilesPatternGoalView(int consecutiveTiles) {
-        this.consecutiveTiles = consecutiveTiles;
+    public ConsecutiveTilesPatternGoalView(ConsecutiveTilesPatternGoal commonGoalModel) {
+        super(commonGoalModel);
+        this.consecutiveTiles = commonGoalModel.getConsecutiveTiles();
     }
 
     @Override
     public String toString() {
-        return "Four groups each containing at least\n" +
-                "4 tiles of the same type (not necessarily\n" +
-                "in the depicted shape).\n" +
-                "The tiles of one group can be different\n" +
-                "from those of another group.\n\n" +
-                "[ B ] \n" +
-                "[ B ] \n" +
-                "[ B ] \n" +
-                "[ B ] \n" +
-                "x 4 times";
+        StringBuilder sendBack = new StringBuilder(getNumberOfPatternRepetitionsRequired()+" groups each containing at least " +
+                getConsecutiveTiles() + " tiles of the same type (not necessarily in the depicted shape). \n" +
+                "The tiles of one group can be different from those of another group. \n");
 
-//        return "Six groups each containing at least\n" +
-//                "2 tiles of the same type (not necessarily\n" +
-//                "in the depicted shape).\n" +
-//                "The tiles of one group can be different\n" +
-//                "from those of another group.\n\n" +
-//                "[ B ] \n" +
-//                "[ B ] \n" +
-//                "x 6 times";
+        for (int i = 0; i < getConsecutiveTiles(); i++) {
+            sendBack.append("[ B ]\n");
+        }
+        sendBack.append("\n");
+        return sendBack.toString();
     }
 }

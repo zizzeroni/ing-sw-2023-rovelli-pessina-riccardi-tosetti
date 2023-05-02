@@ -4,11 +4,15 @@ import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
 public class TilesInPositionsPatternGoal extends CommonGoal {
-    int[][] positions;
+    private int[][] positions;
 
     public TilesInPositionsPatternGoal() {
         super();
         this.positions = new int[0][0];
+    }
+
+    public int[][] getPositions() {
+        return positions;
     }
 
     public TilesInPositionsPatternGoal(int imageID, int patternRepetition, CheckType type, int[][] positions) {

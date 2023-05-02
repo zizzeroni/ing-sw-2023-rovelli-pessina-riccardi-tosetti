@@ -1,18 +1,23 @@
 package it.polimi.ingsw.model.view.commongoal;
 
+import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
+import it.polimi.ingsw.model.view.CommonGoalView;
+
 import java.io.Serializable;
 
-public class FourCornersPatternGoalView implements Serializable {
+public class FourCornersPatternGoalView extends CommonGoalView {
+    public FourCornersPatternGoalView(FourCornersPatternGoal commonGoalModel) {
+        super(commonGoalModel);
+    }
     @Override
     public String toString() {
-        return "Four tiles of the same type in the four\n" +
-                "corners of the bookshelf. \n" +
-                "In this example B->BLUE\n\n" +
-                "[ B 0 0 0 B ] \n" +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ B 0 0 0 B ] \n";
+        return "Four tiles of the same type in the four corners of the bookshelf. \n\n" +
+                "[ B - - - B ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ B - - - B ] \n\n";
     }
 }

@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
     private final int consecutiveTiles;
@@ -9,6 +11,10 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     public ConsecutiveTilesPatternGoal() {
         super();
         this.consecutiveTiles = 0;
+    }
+
+    public int getConsecutiveTiles() {
+        return consecutiveTiles;
     }
 
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
@@ -77,16 +83,8 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
             }
         }
     }
-
     @Override
-    public String toString() {
-        return "Six groups each containing at least 2 tiles of the same type (not necessarily in the depicted shape).\n" +
-                "The tiles of one group can be different from those of another group." +
-                "[ 0 0 0 0 0 ] \n" +
-                "[ 0 0 - 0 0 ] \n" +
-                "[ 0 | = | 0 ] \n" +
-                "[ 0 | = | 0 ] \n" +
-                "[ 0 0 - 0 0 ] \n" +
-                "[ 0 0 - 0 0 ] \n";
+    public CommonGoalView copyImmutable() {
+        return new ConsecutiveTilesPatternGoalView(this);
     }
 }
