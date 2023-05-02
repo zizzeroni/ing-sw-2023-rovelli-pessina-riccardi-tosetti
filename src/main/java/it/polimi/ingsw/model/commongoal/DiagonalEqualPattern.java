@@ -123,7 +123,7 @@ public class DiagonalEqualPattern extends CommonGoal {
     private int[][] rotateMatrix(int[][] matrixToRotate) {
         int[][] rotatedMatrix = new int[matrixToRotate[0].length][matrixToRotate.length];
         for (int row = 0; row < matrixToRotate.length; row++) {
-            for (int column = 0; column < matrixToRotate[0].length; row++) {
+            for (int column = 0; column < matrixToRotate[0].length; column++) {
                 if (matrixToRotate[row][column] == 1) {
                     rotatedMatrix[column][row] = 1;
                 }
