@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.tile.Tile;
 
 import java.io.Serializable;
 
+import static it.polimi.ingsw.model.tile.TileColor.*;
+
 public class PersonalGoalView implements Serializable {
     //private final PersonalGoal personalGoalModel;
     private final int numberOfColumns;
@@ -96,4 +98,5 @@ public class PersonalGoalView implements Serializable {
         }
         return counter;
     }
+
 }

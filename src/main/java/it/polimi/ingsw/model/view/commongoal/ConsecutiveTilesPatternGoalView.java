@@ -25,7 +25,6 @@ public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
         for (int i = 0; i < getConsecutiveTiles(); i++) {
             sendBack.append("[ B ]\n");
         }
-        sendBack.append("\n");
         return sendBack.toString();
     }
 }

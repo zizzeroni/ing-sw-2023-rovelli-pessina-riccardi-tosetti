@@ -21,7 +21,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
     @Override
     public String toString() {
         StringBuilder sendBack = new StringBuilder("Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles\n" +
-                "of one square can be different from those of the other square.\n\n");
+                "of one square can be different from those of the other square.\n");
 
         for (int i = 0; i < positions.length; i++) {
             sendBack.append("[");
@@ -35,7 +35,8 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
             sendBack.append(" ]\n");
         }
 
-        sendBack.append("x 2 times \n\n");
+        sendBack.append("x 2 times \n");
         return sendBack.toString();
     }
+
 }

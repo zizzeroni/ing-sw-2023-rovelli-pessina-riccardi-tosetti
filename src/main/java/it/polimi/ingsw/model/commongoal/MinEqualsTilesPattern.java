@@ -132,4 +132,18 @@ public class MinEqualsTilesPattern extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternView(this);
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof MinEqualsTilesPattern){
+            MinEqualsTilesPattern obj = (MinEqualsTilesPattern) o;
+            if(this.getDirection() == obj.getDirection()
+                    && this.getMaxEqualsTiles() == obj.getMaxEqualsTiles()
+                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
+                    && this.getType() == obj.getType()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

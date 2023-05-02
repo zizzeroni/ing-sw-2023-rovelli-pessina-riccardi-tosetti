@@ -19,7 +19,7 @@ public class DiagonalEqualPatternView extends CommonGoalView {
 
     @Override
     public String toString() {
-        StringBuilder sendBack = new StringBuilder("Tiles of the same type forming this pattern:\n\n");
+        StringBuilder sendBack = new StringBuilder("Tiles of the same type forming this pattern:\n");
 
         for (int i = 0; i < pattern.length; i++) {
             sendBack.append("[");
@@ -34,7 +34,7 @@ public class DiagonalEqualPatternView extends CommonGoalView {
             sendBack.append(" ]\n");
         }
 
-        sendBack.append("x 1 time \n\n");
+        sendBack.append("x 1 time \n");
         return sendBack.toString();
     }
 }

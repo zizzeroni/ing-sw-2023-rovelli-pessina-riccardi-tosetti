@@ -30,18 +30,18 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                 switch (getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 tiles of maximum three different types. One \n" +
-                                "line can show the same or a different combination of another line. \n\n"+
-                                "[ B B B B B ] \n\n";
+                                "line can show the same or a different combination of another line. \n"+
+                                "[ B B B B B ] \n";
                     }
                     case DIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 different types of tiles. " +
-                                "One line can show the same or a different combination of the other line. \n\n"+
-                                "[ B P Y G W ] \n\n";
+                                "One line can show the same or a different combination of the other line. \n"+
+                                "[ B P Y G W ] \n";
                     }
                     case INDIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 casual types of tiles. " +
-                                "One line can show the same or a different combination of the other line. \n\n"+
-                                "[ - - - - - ] \n\n";
+                                "One line can show the same or a different combination of the other line. \n"+
+                                "[ - - - - - ] \n";
                     }
                 }
             }
@@ -49,32 +49,32 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                 switch (getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 5 tiles of maximum three different types." +
-                                "One column can show the same or a different combination of another column. \n\n"+
+                                "One column can show the same or a different combination of another column. \n"+
                                 "[ B ] \n" +
                                 "[ B ] \n" +
                                 "[ Y ] \n" +
                                 "[ Y ] \n" +
                                 "[ G ] \n" +
-                                "[ G ] \n\n" ;
+                                "[ G ] \n" ;
                     }
                     case DIFFERENT -> {
-                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 different types of tiles."+
+                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 different types of tiles. \n"+
                                 "[ B ] \n" +
                                 "[ Y ] \n" +
                                 "[ G ] \n" +
                                 "[ P ] \n" +
                                 "[ W ] \n" +
-                                "[ C ] \n\n";
+                                "[ C ] \n";
                     }
                     case INDIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 casual types of tiles. " +
-                                "One column can show the same or a different combination of the other column. \n\n"+
+                                "One column can show the same or a different combination of the other column. \n"+
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
-                                "[ - ] \n\n" ;
+                                "[ - ] \n" ;
                     }
                 }
             }

@@ -13,12 +13,12 @@ public class StairPatternGoalView extends CommonGoalView {
     @Override
     public String toString() {
         return "Five columns of increasing or decreasing height. Starting from the first column on the left or on the right, " +
-                "each next column must be made of exactly one more tile. Tiles can be of any type. \n\n" +
+                "each next column must be made of exactly one more tile. Tiles can be of any type. \n" +
                 "[ 0 0 0 0 0 ] \n" +
                 "[ 0 0 0 0 - ] \n" +
                 "[ 0 0 0 - - ] \n" +
                 "[ 0 0 - - - ] \n" +
                 "[ 0 - - - - ] \n" +
-                "[ - - - - - ] \n\n";
+                "[ - - - - - ] \n";
     }
 }
