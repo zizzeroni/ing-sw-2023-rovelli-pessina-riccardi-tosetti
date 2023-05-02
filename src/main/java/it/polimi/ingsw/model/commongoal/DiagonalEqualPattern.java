@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
+import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 
 public class DiagonalEqualPattern extends CommonGoal {
     private int[][] pattern;
@@ -9,6 +12,10 @@ public class DiagonalEqualPattern extends CommonGoal {
     public DiagonalEqualPattern(int[][] pattern) {
         super();
         this.pattern = pattern;
+    }
+
+    public int[][] getPattern() {
+        return pattern;
     }
 
     public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
@@ -124,5 +131,8 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
         return rotatedMatrix;
     }
-
+    @Override
+    public CommonGoalView copyImmutable() {
+        return new DiagonalEqualPatternView(this);
+    }
 }

@@ -47,8 +47,12 @@ public class GameView implements Serializable {
             this.bag.add(new TileView(tile));
         }
         this.board = new BoardView(gameModel.getBoard());
-        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
-            this.commonGoals.add(new CommonGoalView(commonGoal));
+
+//        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
+//            this.commonGoals.add(new CommonGoalView(commonGoal));
+//        }
+        for(CommonGoal commonGoal : gameModel.getCommonGoals()) {
+            this.commonGoals.add(commonGoal.copyImmutable());
         }
     }
 

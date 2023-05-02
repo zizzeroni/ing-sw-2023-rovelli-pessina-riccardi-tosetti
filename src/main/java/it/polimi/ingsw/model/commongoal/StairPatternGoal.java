@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
+import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 public class StairPatternGoal extends CommonGoal {
     public StairPatternGoal(int imageID, int patternRepetition, CheckType type) {
@@ -31,5 +34,9 @@ public class StairPatternGoal extends CommonGoal {
             }
         }
         return 0;
+    }
+    @Override
+    public CommonGoalView copyImmutable() {
+        return new StairPatternGoalView(this);
     }
 }
