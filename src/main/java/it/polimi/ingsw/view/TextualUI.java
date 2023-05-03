@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
+
 import java.util.*;
 
 public class TextualUI extends UI {
@@ -24,7 +25,7 @@ public class TextualUI extends UI {
         this.controller.addPlayer(nick);
 
         int chosenNumberOfPlayer = 0;
-        if (getModel().getPlayers().size()==1) {
+        if (getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = s.nextInt();
@@ -57,14 +58,15 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
-        while (this.getState()!=State.GAME_ENDED) {
+        while (this.getState() != State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
-            if(this.getState()==State.GAME_ENDED) break;
+            if (this.getState() == State.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
+            //REMINDER: Per qualche motivo dopo la selezione della colonna l'esecuzione del client si ferma nel metodo insertUserInputIntoModel
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
         }
@@ -115,7 +117,7 @@ public class TextualUI extends UI {
                     System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
                             " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
                 }
-                if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) + 1 <= iterationCount) {
+                if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) < iterationCount) {
                     isInsertCorrect = false;
                     System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                 }
@@ -186,11 +188,15 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if (counter > 0 && counter != 3 && counter <= maxNumberOfCellsFreeInBookshelf) {
-                            do {
-                                System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
-                                input = s.next();
-                            } while (!input.equalsIgnoreCase("SI") && !input.equalsIgnoreCase("NO"));
+                        if (counter <= maxNumberOfCellsFreeInBookshelf) {
+                            if (counter > 0 && counter != 3) {
+                                do {
+                                    System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
+                                    input = s.next();
+                                } while (!input.equalsIgnoreCase("SI") && !input.equalsIgnoreCase("NO"));
+                            }
+                        } else {
+                            input = "NO";
                         }
                     } while (!input.equalsIgnoreCase("NO") && counter < 3);
 
@@ -345,9 +351,9 @@ public class TextualUI extends UI {
         System.out.println("Stato della tua bookshelf:\n" + playerBookshelf + "\n" +
                 "Il tuo obiettivo personale:\n" + playerPersonalGoal + "\n" +
                 "Gli obiettivi comuni sono:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
-                "Obiettivi comuni completati: Obiettivo1:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(0) != null ? playerGoalTiles.get(0) : "/") +
-                ", Obiettivo2:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(1) != null ? playerGoalTiles.get(1) : "/") + ", Vittoria:" +
-                (playerGoalTiles.size() > 0 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2) : "/") + " (Valore delle goalTile)" + "\n" +
+                "Obiettivi comuni completati: Obiettivo1:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(0) != null ? playerGoalTiles.get(0).getValue() : "/") +
+                ", Obiettivo2:" + (playerGoalTiles.size() > 1 && playerGoalTiles.get(1) != null ? playerGoalTiles.get(1).getValue() : "/") + ", Vittoria:" +
+                (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
 }

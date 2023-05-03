@@ -7,13 +7,11 @@ import it.polimi.ingsw.model.tile.TileColor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
-    //private boolean started;
     private GameState gameState;
     private int numberOfPlayersToStartGame;
     private int activePlayerIndex;
@@ -21,7 +19,6 @@ public class Game {
     private List<Tile> bag;
     private Board board;
     private List<CommonGoal> commonGoals;
-    private final Random randomizer = new Random();
 
     public void registerListener(GameListener listener) {
         this.listener = listener;
@@ -44,17 +41,7 @@ public class Game {
             this.bag.add(new Tile(TileColor.values()[i % 6]));
         }
         this.board = new Board();
-        CommonGoal newCommonGoal;
-        while (this.commonGoals.size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.commonGoals.contains(newCommonGoal)) {
-                    this.commonGoals.add(newCommonGoal);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
+
         Collections.shuffle(this.bag);
 
     }
@@ -67,7 +54,7 @@ public class Game {
         this.board = new Board(boardPattern);
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         this.bag = new ArrayList<>(132);
-        this.commonGoals = new ArrayList<>(2);
+        this.commonGoals = new ArrayList<>();
 
         //initialize bag and shuffle items
         for (int i = 0; i < 132; i++) {
@@ -83,6 +70,7 @@ public class Game {
             player.setPersonalGoal(personalGoals.remove(0));
         }
 
+        /*
         //initialize common goals
         CommonGoal newCommonGoal;
         while (this.commonGoals.size() != 2) {
@@ -95,7 +83,7 @@ public class Game {
                 System.out.println(e.getMessage());
             }
         }
-
+        */
         Collections.shuffle(this.bag);
 
         List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());
@@ -123,15 +111,15 @@ public class Game {
     }
 
     public GameState getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
-            this.listener.startOfTheGame();
-
-
+            this.listener.gameStateChanged();
+        } else {
+            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -154,6 +142,8 @@ public class Game {
         this.activePlayerIndex = activePlayerIndex;
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
+        } else {
+            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -169,6 +159,8 @@ public class Game {
         this.players.add(player);
         if (this.listener != null) {
             this.listener.addedPlayer();
+        } else {
+            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -199,6 +191,8 @@ public class Game {
         this.commonGoals = commonGoals;
         if (this.listener != null) {
             this.listener.commonGoalsModified();
+        } else {
+            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -214,63 +208,6 @@ public class Game {
         return this.players.stream()
                 .filter(Player::isConnected)
                 .collect(Collectors.toList());
-    }
-
-    private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
-        switch (this.randomizer.nextInt(12)) {
-            case 0 -> {
-                return new EightShapelessPatternGoal();
-            }
-            case 1 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, Direction.HORIZONTAL, 0);
-            }
-            case 2 -> {
-                return new MinEqualsTilesPattern(0, 3, CheckType.INDIFFERENT, Direction.VERTICAL, 3);
-            }
-            case 3 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, new int[][]{
-                        {1, 0, 1},
-                        {0, 1, 0},
-                        {1, 0, 1},
-                });
-            }
-            case 4 -> {
-                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-            }
-            case 5 -> {
-                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT);
-            }
-            case 6 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, Direction.VERTICAL, 0);
-            }
-            case 7 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, new int[][]{
-                        {1, 0, 0, 0, 0},
-                        {0, 1, 0, 0, 0},
-                        {0, 0, 1, 0, 0},
-                        {0, 0, 0, 1, 0},
-                        {0, 0, 0, 0, 1},
-                });
-            }
-            case 8 -> {
-                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, 2);
-            }
-            case 9 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, new int[][]{
-                        {1, 1},
-                        {1, 1},
-                });
-            }
-            case 10 -> {
-                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, 4);
-            }
-            case 11 -> {
-                return new FourCornersPatternGoal();
-            }
-            default -> {
-                throw new Exception("This class does not exists");
-            }
-        }
     }
 
     private Player getPlayerFromNickname(String nickname) {

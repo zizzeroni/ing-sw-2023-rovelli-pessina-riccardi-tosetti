@@ -16,7 +16,7 @@ public abstract class CommonGoal extends Card {
     public CommonGoal() {
         super();
         this.type = null;
-        this.scoreTiles = new ArrayList<>();
+        this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
         this.numberOfPatternRepetitionsRequired = 0;
     }
 
@@ -27,11 +27,11 @@ public abstract class CommonGoal extends Card {
         this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
     }
 
-    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
         super(imageID);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
-        this.initScoreTiles(numberOfPlayers);
+        this.initScoreTiles(numberOfPlayers, commonGoalID);
     }
 
     public List<ScoreTile> getScoreTiles() {
@@ -58,16 +58,16 @@ public abstract class CommonGoal extends Card {
         this.type = type;
     }
 
-    private void initScoreTiles(int numberOfPlayers) {
+    private void initScoreTiles(int numberOfPlayers, int commonGoalID) {
         switch (numberOfPlayers) {
             case 2 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(4)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
             }
             case 3 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
             }
             case 4 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID), new ScoreTile(2, 0, commonGoalID)));
             }
             default -> {
                 this.scoreTiles = null;

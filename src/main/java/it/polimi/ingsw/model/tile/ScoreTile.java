@@ -12,15 +12,15 @@ public class ScoreTile {
     }
 
     public ScoreTile() {
-        this.value = 0;
-        this.playerID = 0;
-        this.commonGoalID = 0;
+        this.value = -1;
+        this.playerID = -1;
+        this.commonGoalID = -1;
     }
 
     public ScoreTile(int value) {
         this.value = value;
-        this.playerID = 0;
-        this.commonGoalID = 0;
+        this.playerID = -1;
+        this.commonGoalID = -1;
     }
 
     public void setValue(int value) {
@@ -28,7 +28,7 @@ public class ScoreTile {
     }
 
     public int getPlayerID() {
-        return playerID;
+        return this.playerID;
     }
 
     public void setPlayerID(int playerID) {
@@ -36,7 +36,7 @@ public class ScoreTile {
     }
 
     public int getCommonGoalID() {
-        return commonGoalID;
+        return this.commonGoalID;
     }
 
     public void setCommonGoalID(int commonGoalID) {

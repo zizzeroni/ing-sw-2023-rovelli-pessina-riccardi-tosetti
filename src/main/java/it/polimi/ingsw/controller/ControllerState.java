@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.GameState;
 
 public abstract class ControllerState {
     protected GameController controller;

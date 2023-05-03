@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
@@ -42,7 +43,7 @@ public class CreationState extends ControllerState {
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
 
         Player newPlayer;
-        if(this.controller.getModel().getPlayers().size()==0) {
+        if (this.controller.getModel().getPlayers().size() == 0) {
             //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
             Tile[][] temp = {
                     {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -59,6 +60,10 @@ public class CreationState extends ControllerState {
 
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
             startGame();
+        } else {
+            //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
+            //the game, which lead to a notification to the client for the state change
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 
@@ -67,7 +72,10 @@ public class CreationState extends ControllerState {
         //Random rand = new Random();
         //this.controller.getModel().setActivePlayerIndex(rand.nextInt(this.controller.getModel().getNumberOfPlayersToStartGame()));
 
+        //REMINDER: Ask rovo
         //Second way to randomize starting player, in this way we can keep track of which player started (the player in position 0)
+        //WARNING: This way to randomize however breaks completely the registration of the lister for the last player's bookshelf that happens in ServerImpl at the end of
+        //         the execution of this method, so this obliges to reassign the listener (ServerImpl) to all players for each player added.
         Collections.shuffle(this.controller.getModel().getPlayers());
         this.controller.getModel().setActivePlayerIndex(0);
 
@@ -78,6 +86,30 @@ public class CreationState extends ControllerState {
 
         List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
         this.controller.getModel().getBoard().addTiles(drawnTiles);
+
+
+        /*REMINDER: I moved this piece of code from Game constructor without parameters because the scoreTile list initialization requires the number of player to play the game
+                    Ask if it is ok or find an alternative way*/
+        CommonGoal newCommonGoal;
+        while (this.controller.getModel().getCommonGoals().size() != 2) {
+            try {
+                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
+                    this.controller.getModel().getCommonGoals().add(newCommonGoal);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
+        for (Player player : this.controller.getModel().getPlayers()) {
+            List<ScoreTile> temporaryTiles = new ArrayList<>();
+            for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
+                temporaryTiles.add(new ScoreTile(0));
+            }
+            player.getGoalTiles().addAll(temporaryTiles);
+        }
 
         this.controller.changeState(new OnGoingState(this.controller));
         this.controller.getModel().setGameState(OnGoingState.toEnum());
@@ -90,10 +122,73 @@ public class CreationState extends ControllerState {
                 this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
                 if (this.controller.getModel().getPlayers().size() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
                     startGame();
+                } else {
+                    //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
+                    //the game, which lead to a notification to the client for the state change
+                    this.controller.getModel().setGameState(this.controller.getModel().getGameState());
                 }
             }
         } else {
             System.err.println("Unexpected value for number of lobby's players");
+        }
+    }
+
+    private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
+        int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
+        int commonGoalSize = this.controller.getModel().getCommonGoals().size();
+        switch (this.controller.getRandomizer().nextInt(12)) {
+            case 0 -> {
+                return new EightShapelessPatternGoal(0, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize);
+            }
+            case 1 -> {
+                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.HORIZONTAL, 0);
+            }
+            case 2 -> {
+                return new MinEqualsTilesPattern(0, 3, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.VERTICAL, 3);
+            }
+            case 3 -> {
+                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
+                        {1, 0, 1},
+                        {0, 1, 0},
+                        {1, 0, 1},
+                });
+            }
+            case 4 -> {
+                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.HORIZONTAL, 2);
+            }
+            case 5 -> {
+                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize);
+            }
+            case 6 -> {
+                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.VERTICAL, 0);
+            }
+            case 7 -> {
+                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
+                        {1, 0, 0, 0, 0},
+                        {0, 1, 0, 0, 0},
+                        {0, 0, 1, 0, 0},
+                        {0, 0, 0, 1, 0},
+                        {0, 0, 0, 0, 1},
+                });
+            }
+            case 8 -> {
+                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, 2);
+            }
+            case 9 -> {
+                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
+                        {1, 1},
+                        {1, 1},
+                });
+            }
+            case 10 -> {
+                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, 4);
+            }
+            case 11 -> {
+                return new FourCornersPatternGoal(0, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize);
+            }
+            default -> {
+                throw new Exception("This class does not exists");
+            }
         }
     }
 

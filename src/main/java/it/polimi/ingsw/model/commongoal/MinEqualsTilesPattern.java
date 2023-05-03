@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternView;
 
 import java.util.List;
@@ -26,8 +25,8 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
@@ -106,7 +105,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
                 }
             }
         }
-        patternAppearances = appearancesInDirection / this.getNumberOfPatternRepetitionsRequired();
+        patternAppearances = appearancesInDirection;
         return patternAppearances;
     }
 
@@ -128,21 +127,19 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
+
     @Override
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternView(this);
     }
 
     @Override
-    public boolean equals(Object o){
-        if(o instanceof MinEqualsTilesPattern){
-            MinEqualsTilesPattern obj = (MinEqualsTilesPattern) o;
-            if(this.getDirection() == obj.getDirection()
+    public boolean equals(Object o) {
+        if (o instanceof MinEqualsTilesPattern obj) {
+            return this.getDirection() == obj.getDirection()
                     && this.getMaxEqualsTiles() == obj.getMaxEqualsTiles()
                     && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()){
-                return true;
-            }
+                    && this.getType() == obj.getType();
         }
         return false;
     }

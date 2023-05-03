@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model.view.commongoal;
 
-import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.commongoal.MinEqualsTilesPattern;
 import it.polimi.ingsw.model.view.CommonGoalView;
-
-import java.io.Serializable;
 
 public class MinEqualsTilesPatternView extends CommonGoalView {
     private final Direction direction;
@@ -14,33 +11,35 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
     public MinEqualsTilesPatternView(MinEqualsTilesPattern commonGoalModel) {
         super(commonGoalModel);
         this.maxEqualsTiles = commonGoalModel.getMaxEqualsTiles();
-        this.direction= commonGoalModel.getDirection();
+        this.direction = commonGoalModel.getDirection();
     }
+
     public Direction getDirection() {
-        return direction;
+        return this.direction;
     }
 
     public int getMaxEqualsTiles() {
-        return maxEqualsTiles;
+        return this.maxEqualsTiles;
     }
+
     @Override
     public String toString() {
-        switch (direction) {
+        switch (this.direction) {
             case HORIZONTAL -> {
                 switch (getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 tiles of maximum three different types. One \n" +
-                                "line can show the same or a different combination of another line. \n"+
+                                "line can show the same or a different combination of another line. \n" +
                                 "[ B B B B B ] \n";
                     }
                     case DIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 different types of tiles. " +
-                                "One line can show the same or a different combination of the other line. \n"+
+                                "One line can show the same or a different combination of the other line. \n" +
                                 "[ B P Y G W ] \n";
                     }
                     case INDIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 casual types of tiles. " +
-                                "One line can show the same or a different combination of the other line. \n"+
+                                "One line can show the same or a different combination of the other line. \n" +
                                 "[ - - - - - ] \n";
                     }
                 }
@@ -49,16 +48,16 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                 switch (getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 5 tiles of maximum three different types." +
-                                "One column can show the same or a different combination of another column. \n"+
+                                "One column can show the same or a different combination of another column. \n" +
                                 "[ B ] \n" +
                                 "[ B ] \n" +
                                 "[ Y ] \n" +
                                 "[ Y ] \n" +
                                 "[ G ] \n" +
-                                "[ G ] \n" ;
+                                "[ G ] \n";
                     }
                     case DIFFERENT -> {
-                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 different types of tiles. \n"+
+                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 different types of tiles. \n" +
                                 "[ B ] \n" +
                                 "[ Y ] \n" +
                                 "[ G ] \n" +
@@ -68,13 +67,13 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                     }
                     case INDIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 casual types of tiles. " +
-                                "One column can show the same or a different combination of the other column. \n"+
+                                "One column can show the same or a different combination of the other column. \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
                                 "[ - ] \n" +
-                                "[ - ] \n" ;
+                                "[ - ] \n";
                     }
                 }
             }
