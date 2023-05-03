@@ -23,8 +23,8 @@ public class DiagonalEqualPattern extends CommonGoal {
         this.pattern = pattern;
     }
 
-    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, int[][] pattern) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public DiagonalEqualPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] pattern) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.pattern = pattern;
     }
 
@@ -90,7 +90,6 @@ public class DiagonalEqualPattern extends CommonGoal {
 
             this.pattern = rotateMatrix(this.pattern);
             rotations++;
-
         } while (rotations < 4);
 
         return repetitions;

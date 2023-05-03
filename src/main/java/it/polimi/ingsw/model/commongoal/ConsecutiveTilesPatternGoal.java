@@ -22,6 +22,11 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         this.consecutiveTiles = consecutiveTiles;
     }
 
+    public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int consecutiveTiles) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+        this.consecutiveTiles = consecutiveTiles;
+    }
+
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
         for (int row = 0; row < bookshelf.getNumberOfRows(); row++) {

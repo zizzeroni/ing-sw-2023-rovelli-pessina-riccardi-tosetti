@@ -109,6 +109,8 @@ public class Board {
 
         if (this.listener != null) {
             this.listener.removedTilesFromBoard(this);
+        } else {
+            System.err.println("Board's listener is NULL!");
         }
     }
 

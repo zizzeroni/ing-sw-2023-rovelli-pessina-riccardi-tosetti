@@ -26,8 +26,8 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
@@ -106,7 +106,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
                 }
             }
         }
-        patternAppearances = appearancesInDirection / this.getNumberOfPatternRepetitionsRequired();
+        patternAppearances = appearancesInDirection;
         return patternAppearances;
     }
 

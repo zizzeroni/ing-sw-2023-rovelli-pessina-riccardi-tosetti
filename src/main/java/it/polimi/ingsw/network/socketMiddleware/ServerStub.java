@@ -76,6 +76,14 @@ public class ServerStub implements Server {
                 }
             }
         }
+        //Necessary because at the end of the game i receive the notification that the game passed from ON_GOING state to the FINISHING state
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -133,6 +141,15 @@ public class ServerStub implements Server {
                 throw new RuntimeException(e);
             }
         }
+
+        //Necessary because when the game start i need to receive the change of the state of the game
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -145,6 +162,15 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Waiting for state model update
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();

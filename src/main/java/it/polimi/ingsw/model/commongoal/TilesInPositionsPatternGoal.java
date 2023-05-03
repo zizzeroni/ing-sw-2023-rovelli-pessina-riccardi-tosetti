@@ -20,6 +20,12 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
         this.positions = positions;
     }
+
+    public TilesInPositionsPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] positions) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+        this.positions = positions;
+    }
+
     public int numberOfElement() {
         int numberOfElement = 0;
         for (int i = 0; i < this.positions.length; i++) {

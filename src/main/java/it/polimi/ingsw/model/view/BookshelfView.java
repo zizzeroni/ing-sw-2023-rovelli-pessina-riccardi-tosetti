@@ -156,8 +156,9 @@ public class BookshelfView implements Serializable {
                 }
             }
         }
-        int numberOfTilesInGroup = 0;
+
         for (int g = 2; g <= group; g++) {
+            int numberOfTilesInGroup = 0;
             for (int row = 0; row < this.numberOfRows; row++) {
                 for (int column = 0; column < this.numberOfColumns; column++) {
                     if (supportMatrix[row][column] == g) {

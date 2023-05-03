@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -89,6 +91,10 @@ public class Player {
 
     public void addScoreTile(ScoreTile tile) {
         this.scoreTiles.add(tile);
+    }
+
+    public void setSingleScoreTile(ScoreTile tile, int position) {
+        this.scoreTiles.set(position,tile);
     }
 
     /*

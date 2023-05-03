@@ -1,11 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.view.TileView;
 
 import java.util.Collections;
@@ -53,15 +50,21 @@ public class OnGoingState extends ControllerState {
 
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
             int finalI = i;
-            if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= 1
+            if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
                     && currentPlayer.getGoalTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
-                currentPlayer.addScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0));
+                currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
+                currentPlayer.getGoalTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }
         }
 
         if (this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
+            currentPlayer.setSingleScoreTile(new ScoreTile(1, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
+        } else {
+            //Necessary because i ALWAYS need a feedback to the client in order to wait client-side for the model updated.
+            //Without this else i would receive only ONE time a notification that tell me that the state has changed, and i can't know when this will happen client-side
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 

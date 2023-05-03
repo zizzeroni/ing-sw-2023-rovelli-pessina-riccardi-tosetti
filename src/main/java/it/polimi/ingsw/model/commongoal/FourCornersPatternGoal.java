@@ -13,8 +13,8 @@ public class FourCornersPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
     }
 
-    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public FourCornersPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
     }
 
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {

@@ -10,6 +10,10 @@ public class StairPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
     }
 
+    public StairPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    }
+
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int column = 0;
         int numberOfTilesInColumn = bookshelf.getNumberOfTilesInColumn(column);

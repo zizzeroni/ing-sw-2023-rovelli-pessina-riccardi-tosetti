@@ -67,7 +67,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
-        this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
+        for(Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
+            bookshelf.registerListener(this);
+        }
+        //this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 
     @Override

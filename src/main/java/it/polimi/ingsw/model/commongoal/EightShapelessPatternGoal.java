@@ -21,8 +21,8 @@ public class EightShapelessPatternGoal extends CommonGoal {
         super(imageID, patternRepetition, type);
     }
 
-    public EightShapelessPatternGoal(int imageID, int patternRepetition, CheckType type, int numberOfPlayers) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public EightShapelessPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
     }
 
     @Override

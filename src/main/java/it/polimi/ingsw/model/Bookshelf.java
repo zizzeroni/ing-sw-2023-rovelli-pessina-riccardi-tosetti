@@ -64,6 +64,8 @@ public class Bookshelf {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
         if (this.listener != null) {
             this.listener.tileAddedToBookshelf(this);
+        } else {
+            System.err.println("Bookshelf's listener is NULL!");
         }
     }
     /*
@@ -194,8 +196,9 @@ public class Bookshelf {
                 }
             }
         }
-        int numberOfTilesInGroup = 0;
+
         for (int g = 2; g <= group; g++) {
+            int numberOfTilesInGroup = 0;
             for (int row = 0; row < this.numberOfRows; row++) {
                 for (int column = 0; column < this.numberOfColumns; column++) {
                     if (supportMatrix[row][column] == g) {
