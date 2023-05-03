@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class BookshelfView implements Serializable {
     }
 
     public Map<Integer, Integer> getPointsForEachGroup() {
-        return pointsForEachGroup;
+        return this.pointsForEachGroup;
     }
 
     public boolean isFull() {

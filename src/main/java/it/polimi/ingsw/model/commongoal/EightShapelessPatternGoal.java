@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 import it.polimi.ingsw.model.view.commongoal.EightShapelessPatternGoalView;
 
 import java.util.Arrays;
@@ -27,26 +26,24 @@ public class EightShapelessPatternGoal extends CommonGoal {
 
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
-        return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Trasforma la bookshelf in uno Stream di ARRAY di tiles
-                .flatMap(Arrays::stream)                                          //Trasforma la Stream di ARRAY di tiles, in una Stream di SOLI tiles
-                .filter(Objects::nonNull)                                         //Filtro togliendo tutti gli elementi pari a NULL (che non posso successivamente raggr.)
-                .collect(groupingBy(Tile::getColor, Collectors.counting()))       //Raggruppo le tile con "groupingBy" in una Map<TileColor, numOccorrenze> , dove uso la chiave TileColor specificando "Tile::GetColor", mentre per i valori il metodo "counting()"
-                .entrySet().stream()                                              //Trasformo la Map in una Set e poi in una Stream
-                .filter(x -> x.getValue() >= 8).count());                         //Filtro la Stream tenendo solamente i Color a cui sono associate più di 7
+        return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Transform the bookshelf in a Stream of tiles' ARRAYS
+                .flatMap(Arrays::stream)                                          //Transform the ARRAY of tiles Stream into a Stream of ONLY tiles
+                .filter(Objects::nonNull)                                         //I filter removing all elements equals to NULL (which i can't group after)
+                .collect(groupingBy(Tile::getColor, Collectors.counting()))       //I group the tiles with "groupingBy" into a Map<TileColor, numberOfOccurences>, where i use the TileColor key specifing "Tile::GetColor", for the values instead i use the "counting()" method
+                .entrySet().stream()                                              //I transform the Map into a Set and then into a Stream
+                .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
 
     @Override
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
     }
+
     @Override
-    public boolean equals(Object o){
-        if(o instanceof EightShapelessPatternGoal){
-            EightShapelessPatternGoal obj = (EightShapelessPatternGoal) o;
-            if(this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()){
-                return true;
-            }
+    public boolean equals(Object o) {
+        if (o instanceof EightShapelessPatternGoal obj) {
+            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
+                    && this.getType() == obj.getType();
         }
         return false;
     }

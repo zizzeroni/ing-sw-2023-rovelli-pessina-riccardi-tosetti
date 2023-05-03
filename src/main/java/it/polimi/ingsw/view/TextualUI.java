@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
+
 import java.util.*;
 
 public class TextualUI extends UI {
@@ -24,7 +25,7 @@ public class TextualUI extends UI {
         this.controller.addPlayer(nick);
 
         int chosenNumberOfPlayer = 0;
-        if (getModel().getPlayers().size()==1) {
+        if (getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = s.nextInt();
@@ -57,10 +58,10 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
-        while (this.getState()!=State.GAME_ENDED) {
+        while (this.getState() != State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
-            if(this.getState()==State.GAME_ENDED) break;
+            if (this.getState() == State.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
@@ -187,7 +188,7 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if(counter<=maxNumberOfCellsFreeInBookshelf) {
+                        if (counter <= maxNumberOfCellsFreeInBookshelf) {
                             if (counter > 0 && counter != 3) {
                                 do {
                                     System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");

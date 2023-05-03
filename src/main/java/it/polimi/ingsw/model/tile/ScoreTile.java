@@ -28,7 +28,7 @@ public class ScoreTile {
     }
 
     public int getPlayerID() {
-        return playerID;
+        return this.playerID;
     }
 
     public void setPlayerID(int playerID) {
@@ -36,7 +36,7 @@ public class ScoreTile {
     }
 
     public int getCommonGoalID() {
-        return commonGoalID;
+        return this.commonGoalID;
     }
 
     public void setCommonGoalID(int commonGoalID) {

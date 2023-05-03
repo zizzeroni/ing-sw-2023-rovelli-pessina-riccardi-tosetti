@@ -7,13 +7,11 @@ import it.polimi.ingsw.model.tile.TileColor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class Game {
     private GameListener listener;
-    //private boolean started;
     private GameState gameState;
     private int numberOfPlayersToStartGame;
     private int activePlayerIndex;
@@ -113,15 +111,15 @@ public class Game {
     }
 
     public GameState getGameState() {
-        return gameState;
+        return this.gameState;
     }
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
-            this.listener.startOfTheGame();
-
-
+            this.listener.gameStateChanged();
+        } else {
+            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -161,7 +159,7 @@ public class Game {
         this.players.add(player);
         if (this.listener != null) {
             this.listener.addedPlayer();
-        }else {
+        } else {
             System.err.println("Game's listener is NULL!");
         }
     }
@@ -193,7 +191,7 @@ public class Game {
         this.commonGoals = commonGoals;
         if (this.listener != null) {
             this.listener.commonGoalsModified();
-        }else {
+        } else {
             System.err.println("Game's listener is NULL!");
         }
     }

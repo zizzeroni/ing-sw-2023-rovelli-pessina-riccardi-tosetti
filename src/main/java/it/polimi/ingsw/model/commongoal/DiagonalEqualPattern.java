@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 
 public class DiagonalEqualPattern extends CommonGoal {
@@ -15,7 +14,7 @@ public class DiagonalEqualPattern extends CommonGoal {
     }
 
     public int[][] getPattern() {
-        return pattern;
+        return this.pattern;
     }
 
     public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
@@ -130,19 +129,18 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
         return rotatedMatrix;
     }
+
     @Override
     public CommonGoalView copyImmutable() {
         return new DiagonalEqualPatternView(this);
     }
+
     @Override
-    public boolean equals(Object o){
-        if(o instanceof DiagonalEqualPattern){
-            DiagonalEqualPattern obj = (DiagonalEqualPattern) o;
-            if(pattern==obj.getPattern()
+    public boolean equals(Object o) {
+        if (o instanceof DiagonalEqualPattern obj) {
+            return this.pattern == obj.getPattern()
                     && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()){
-                return true;
-            }
+                    && this.getType() == obj.getType();
         }
         return false;
     }

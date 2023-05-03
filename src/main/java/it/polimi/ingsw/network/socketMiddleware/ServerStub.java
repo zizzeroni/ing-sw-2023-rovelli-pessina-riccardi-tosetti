@@ -33,7 +33,6 @@ public class ServerStub implements Server {
     @Override
     public void changeTurn() throws RemoteException {
         Command message = new ChangeTurnCommand();
-        //MsgSocket<Void> message = new MsgSocket<>(this.ip, Action.CHANGE_TURN, null);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -51,7 +50,6 @@ public class ServerStub implements Server {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         Command message = new InsertUserInputCommand(playerChoice);
-        //MsgSocket<Choice> message = new MsgSocket<>(this.ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -88,8 +86,7 @@ public class ServerStub implements Server {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
-        Command message = new SendPrivateMessageCommand(receiver,sender,content);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver, sender, content));
+        Command message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -107,8 +104,7 @@ public class ServerStub implements Server {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
-        Command message = new SendBroadcastMessageCommand(sender,content);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender, content));
+        Command message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -127,7 +123,6 @@ public class ServerStub implements Server {
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         Command message = new AddPlayerCommand(nickname);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.ADD_PLAYER, Arrays.asList(nickname));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -155,7 +150,6 @@ public class ServerStub implements Server {
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
-        //MsgSocket<Integer> message = new MsgSocket<>(this.ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {

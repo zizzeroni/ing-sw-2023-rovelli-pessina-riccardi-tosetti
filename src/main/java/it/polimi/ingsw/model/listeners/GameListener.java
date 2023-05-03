@@ -11,5 +11,5 @@ public interface GameListener {
 
     public void addedPlayer();
 
-    public void startOfTheGame();
+    public void gameStateChanged();
 }

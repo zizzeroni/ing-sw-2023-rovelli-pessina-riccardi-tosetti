@@ -5,15 +5,13 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GameView implements Serializable {
     private static final long serialVersionUID = 1L;
-    //    private final Game gameModel;
-    private ModelViewListener listener;
     private final int numberOfPlayers;
     private final GameState gameState;
     private final int activePlayerIndex;
@@ -21,14 +19,6 @@ public class GameView implements Serializable {
     private final List<TileView> bag;
     private final BoardView board;
     private final List<CommonGoalView> commonGoals;
-
-    public void registerListener(ModelViewListener listener) {
-        this.listener = listener;
-    }
-
-    public void removeListener() {
-        this.listener = null;
-    }
 
     public GameView(Game gameModel) {
         if (gameModel == null) {
@@ -49,10 +39,7 @@ public class GameView implements Serializable {
         }
         this.board = new BoardView(gameModel.getBoard());
 
-//        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
-//            this.commonGoals.add(new CommonGoalView(commonGoal));
-//        }
-        for(CommonGoal commonGoal : gameModel.getCommonGoals()) {
+        for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
             this.commonGoals.add(commonGoal.copyImmutable());
         }
     }
@@ -84,44 +71,4 @@ public class GameView implements Serializable {
     public List<CommonGoalView> getCommonGoals() {
         return this.commonGoals;
     }
-    /*
-    @Override
-    public void addedTilesToBoard(Board board) {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void removedTilesFromBoard(Board board) {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void tileAddedToBookshelf(Bookshelf bookshelf) {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void imageModified(String image) {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void numberOfPlayersModified() {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void activePlayerIndexModified() {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void bagModified() {
-        this.listener.modelModified(this);
-    }
-
-    @Override
-    public void commonGoalsModified() {
-        this.listener.modelModified(this);
-    }*/
 }

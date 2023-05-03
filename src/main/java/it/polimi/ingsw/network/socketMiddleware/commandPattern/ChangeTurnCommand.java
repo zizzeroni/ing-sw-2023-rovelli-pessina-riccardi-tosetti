@@ -1,13 +1,14 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.network.Server;
+
 import java.rmi.RemoteException;
 
 public class ChangeTurnCommand implements Command {
     private Server controller;
 
     public ChangeTurnCommand() {
-        controller = null;
+        this.controller = null;
     }
 
     public ChangeTurnCommand(Server controller) {
@@ -16,7 +17,7 @@ public class ChangeTurnCommand implements Command {
 
     @Override
     public Server getController() {
-        return controller;
+        return this.controller;
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ChangeTurnCommand implements Command {
 
     @Override
     public void execute() throws NullPointerException, RemoteException {
-        if (controller != null) {
+        if (this.controller != null) {
             this.controller.changeTurn();
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"changeTurn()\" command because this.controller is NULL");

@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 public class StairPatternGoal extends CommonGoal {
@@ -39,18 +38,17 @@ public class StairPatternGoal extends CommonGoal {
         }
         return 0;
     }
+
     @Override
     public CommonGoalView copyImmutable() {
         return new StairPatternGoalView(this);
     }
+
     @Override
-    public boolean equals(Object o){
-        if(o instanceof StairPatternGoal){
-            StairPatternGoal obj = (StairPatternGoal) o;
-            if(this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()){
-                return true;
-            }
+    public boolean equals(Object o) {
+        if (o instanceof StairPatternGoal obj) {
+            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
+                    && this.getType() == obj.getType();
         }
         return false;
     }

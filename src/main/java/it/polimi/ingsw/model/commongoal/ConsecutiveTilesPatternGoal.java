@@ -14,7 +14,7 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     public int getConsecutiveTiles() {
-        return consecutiveTiles;
+        return this.consecutiveTiles;
     }
 
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
@@ -88,19 +88,18 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
             }
         }
     }
+
     @Override
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
     }
+
     @Override
-    public boolean equals(Object o){
-        if(o instanceof ConsecutiveTilesPatternGoal){
-            ConsecutiveTilesPatternGoal obj = (ConsecutiveTilesPatternGoal) o;
-            if(consecutiveTiles==obj.getConsecutiveTiles()
+    public boolean equals(Object o) {
+        if (o instanceof ConsecutiveTilesPatternGoal obj) {
+            return this.consecutiveTiles == obj.getConsecutiveTiles()
                     && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()){
-                return true;
-            }
+                    && this.getType() == obj.getType();
         }
         return false;
     }

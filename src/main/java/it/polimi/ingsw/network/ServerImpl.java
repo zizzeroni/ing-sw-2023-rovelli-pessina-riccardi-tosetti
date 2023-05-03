@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
+
 import java.rmi.RemoteException;
 import java.rmi.server.*;
 import java.util.*;
@@ -39,7 +40,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void changeTurn() throws RemoteException {
         this.controller.changeTurn();
-        if(this.model.getGameState()==GameState.RESET_NEEDED) {
+        if (this.model.getGameState() == GameState.RESET_NEEDED) {
             this.model = new Game();
             this.controller = new GameController(this.model);
             //Server start listening to Game for changes
@@ -67,7 +68,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
-        for(Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
+        for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
             bookshelf.registerListener(this);
         }
         //this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
@@ -190,7 +191,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void startOfTheGame() {
+    public void gameStateChanged() {
         for (Client client : this.clientsToHandle.values()) {
             try {
                 client.updateModelView(new GameView(this.model));

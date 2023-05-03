@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -50,7 +49,7 @@ public class Player {
 
     //Getter and Setter
     public PersonalGoal getPersonalGoal() {
-        return personalGoal;
+        return this.personalGoal;
     }
 
     public void setPersonalGoal(PersonalGoal personalGoal) {
@@ -58,7 +57,7 @@ public class Player {
     }
 
     public List<ScoreTile> getGoalTiles() {
-        return scoreTiles;
+        return this.scoreTiles;
     }
 
     public void setGoalTiles(List<ScoreTile> scoreTiles) {
@@ -66,7 +65,7 @@ public class Player {
     }
 
     public Bookshelf getBookshelf() {
-        return bookshelf;
+        return this.bookshelf;
     }
 
     public void setBookshelf(Bookshelf bookshelf) {
@@ -74,11 +73,11 @@ public class Player {
     }
 
     public String getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
     public boolean isConnected() {
-        return connected;
+        return this.connected;
     }
 
     public void setNickname(String nickname) {
@@ -94,7 +93,7 @@ public class Player {
     }
 
     public void setSingleScoreTile(ScoreTile tile, int position) {
-        this.scoreTiles.set(position,tile);
+        this.scoreTiles.set(position, tile);
     }
 
     /*

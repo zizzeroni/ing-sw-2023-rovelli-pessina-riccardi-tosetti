@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.List;
+
 import it.polimi.ingsw.model.listeners.BoardListener;
 import it.polimi.ingsw.model.tile.Tile;
 
@@ -45,7 +46,6 @@ public class Board {
         this.tiles = tiles;
     }
 
-    //TODO: Chiedere se è da spostare nel controller
     /*
     Descriptions
     @param tilesToAdd
@@ -63,10 +63,11 @@ public class Board {
         }
         if (this.listener != null) {
             this.listener.addedTilesToBoard(this);
+        } else {
+            System.err.println("Bookshelf's listener is NULL!");
         }
     }
 
-    //TODO: Chiedere se è da spostare nel controller
     /*
     We search in the board if there are only tiles "alone" that means don't have any nearby tiles
     @return if we found that there are 2 or more nearby tiles we return 0, otherwise we return the number of "alone" tiles
@@ -78,12 +79,12 @@ public class Board {
                 //if the current tile and one of his neighbours (right or bottom) are not null, then there is no need to refill
 
                 if (this.tiles[row][column] != null && this.tiles[row][column].getColor() != null) {
-                    if(row != this.numberOfRows - 1) {
+                    if (row != this.numberOfRows - 1) {
                         if (this.tiles[row + 1][column] != null && this.tiles[row + 1][column].getColor() != null) {
                             return 0;
                         }
                     }
-                    if(column != this.numberOfColumns - 1) {
+                    if (column != this.numberOfColumns - 1) {
                         if (this.tiles[row][column + 1] != null && this.tiles[row][column + 1].getColor() != null) {
                             return 0;
                         }
@@ -101,9 +102,8 @@ public class Board {
     @param tilesToRemove are the tiles that was taken by a player from the board
     @param positions are the positions of this tiles
      */
-    //TODO: Chiedere se è da spostare nel controller
     public void removeTiles(List<Coordinates> coordinates) {
-        for (Coordinates coordinate: coordinates) {
+        for (Coordinates coordinate : coordinates) {
             this.removeTile(coordinate.getX(), coordinate.getY());
         }
 
