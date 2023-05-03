@@ -43,7 +43,7 @@ public class CreationState extends ControllerState {
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
 
         Player newPlayer;
-        if (this.controller.getModel().getPlayers().size() == 0) {
+        /*if (this.controller.getModel().getPlayers().size() == 0) {
             //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
             Tile[][] temp = {
                     {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -53,9 +53,9 @@ public class CreationState extends ControllerState {
                     {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                     {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
             newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf(temp));
-        } else {
+        } else {*/
             newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
-        }
+        //}
         this.controller.getModel().addPlayer(newPlayer);
 
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
