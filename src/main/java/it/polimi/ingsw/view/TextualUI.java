@@ -37,15 +37,15 @@ public class TextualUI extends UI {
     }
 
     private void waitWhileInState(State state) {
-        while (getState() == state) {
-            synchronized (this.getLockState()) {
+        synchronized (this.getLockState()) {
+            switch (state) {
+                case WAITING_IN_LOBBY -> {
+                    System.out.println("Waiting...");
+                }
+                case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+            }
+            while (getState() == state) {
                 try {
-                    switch (state) {
-                        case WAITING_IN_LOBBY -> {
-                            System.out.println("Waiting...");
-                        }
-                        case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
-                    }
                     getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -116,13 +116,16 @@ public class TextualUI extends UI {
                     isInsertCorrect = false;
                     System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
                             " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
-                }
-                if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) < iterationCount) {
-                    isInsertCorrect = false;
-                    System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
+                } else {
+                    if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) < iterationCount) {
+                        isInsertCorrect = false;
+                        System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
+                    }
                 }
             } catch (InputMismatchException ignored) {
+                isInsertCorrect = false;
                 System.err.println("Non hai inserito un valore valido, riprova!");
+                scanner.next();
             }
         } while (!isInsertCorrect);
         return chosenColumn;
@@ -188,7 +191,7 @@ public class TextualUI extends UI {
                                 }
                             }
                         }
-                        if (counter <= maxNumberOfCellsFreeInBookshelf) {
+                        if (counter < maxNumberOfCellsFreeInBookshelf) {
                             if (counter > 0 && counter != 3) {
                                 do {
                                     System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
