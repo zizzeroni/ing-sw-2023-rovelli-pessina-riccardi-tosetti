@@ -28,12 +28,22 @@ public class CreationState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        Message message = new Message(receiver, sender, content);
+        for (Player p : this.controller.getModel().getPlayers()) {
+            if(p.getNickname().equals(receiver)){
+                p.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        for (Player i : this.controller.getModel().getPlayers()) {
+            Message message = new Message(i.getNickname(), sender, content);
+            i.addMessage(message);
+        }
+
     }
 
     @Override
@@ -42,7 +52,7 @@ public class CreationState extends ControllerState {
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
 
         Player newPlayer;
-        if(this.controller.getModel().getPlayers().size()==0) {
+        if (this.controller.getModel().getPlayers().size() == 0) {
             //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
             Tile[][] temp = {
                     {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},

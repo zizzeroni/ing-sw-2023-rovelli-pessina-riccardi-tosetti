@@ -4,9 +4,13 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
+
 import java.util.*;
 
+
+
 public class TextualUI extends UI {
+
     public TextualUI(GameView model) {
         super(model);
     }
@@ -24,7 +28,7 @@ public class TextualUI extends UI {
         this.controller.addPlayer(nick);
 
         int chosenNumberOfPlayer = 0;
-        if (getModel().getPlayers().size()==1) {
+        if (getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = s.nextInt();
@@ -57,10 +61,10 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
-        while (this.getState()!=State.GAME_ENDED) {
+        while (this.getState() != State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
-            if(this.getState()==State.GAME_ENDED) break;
+            if (this.getState() == State.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
@@ -128,6 +132,7 @@ public class TextualUI extends UI {
 
     @Override
     public Choice askPlayer() {
+
         Scanner s = new Scanner(System.in);
 
         while (true) {
@@ -245,7 +250,31 @@ public class TextualUI extends UI {
                     return playerChoice;
                 }
                 case "3" -> {
+                    //boolean isInsertCorrect = false;
+                    //  do {
+                    String content;
+
+
                     System.out.println("Invio messaggio");
+                    System.out.println("Che tipo di messaggio vuoi inviare? P/B");
+                    input = s.next();
+                    System.out.println("A chi vuoi inviare il messaggio?");
+                    String receiver = s.next();
+                    System.out.println("Inserisci il tuo messaggio qui");
+                    content = s.next();
+                    /**
+                     * TODO controllare aggiunta buffer reader
+                    */
+                    if (input.equals('P')) {
+                        this.controller.sendPrivateMessage(this.getNicknameID(), receiver, content);
+                    } else if (input.equals('B')) {
+                        this.controller.sendBroadcastMessage(this.getNicknameID(), content);
+                    } else {
+                        System.err.println("Hai effettuato un inserimento che non rispetta" +
+                                " la formattazione richiesta, riprova!");
+                    }
+                    //   } while (!isInsertCorrect);
+
                 }
                 default -> {
                     System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");
@@ -350,4 +379,6 @@ public class TextualUI extends UI {
                 (playerGoalTiles.size() > 0 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2) : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
+
+
 }

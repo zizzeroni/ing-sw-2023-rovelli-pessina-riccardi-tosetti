@@ -1,6 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.listeners.BoardListener;
+import it.polimi.ingsw.model.listeners.PlayerListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
+import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.ClientImpl;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +19,14 @@ public class Player {
     private PersonalGoal personalGoal; //The single goal of the player
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
+
+    private ClientImpl client;
+    private GameView modelUpdated;
+    private String receiver;
+    private String content;
+
+    private PlayerListener listener;
+    private List<Message> chat;
 
     //Constructor
     public Player(String nickname, boolean connected) {
@@ -46,6 +61,13 @@ public class Player {
         this.bookshelf = bookshelf;
     }
 
+    public void registerListener(PlayerListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
+    }
     //Getter and Setter
     public PersonalGoal getPersonalGoal() {
         return personalGoal;
@@ -87,6 +109,7 @@ public class Player {
         this.connected = connected;
     }
 
+
     public void addScoreTile(ScoreTile tile) {
         this.scoreTiles.add(tile);
     }
@@ -94,6 +117,7 @@ public class Player {
     /*
     Set the score of the player by the score of his bookshelf
      */
+
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {
@@ -107,5 +131,18 @@ public class Player {
         score += this.personalGoal.score(this.bookshelf);
 
         return score; //this value is based on the number of player
+    }
+
+    public void addMessage(Message message){
+
+        if(message!=null){
+            chat.add(message);
+        }
+        if(listener!=null){
+            listener.chatUpdated();
+        }
+        //System.out.println("CHAT:");
+        //chat.forEach((i)->System.out.println(i));
+
     }
 }

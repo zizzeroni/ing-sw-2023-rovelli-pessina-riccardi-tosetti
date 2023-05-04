@@ -67,6 +67,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
+        this.model.getPlayers().get(this.model.getPlayers().size()-1).registerListener(this);
         this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 
@@ -193,6 +194,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }
+
+    @Override
+    public void chatUpdated() {
+        for (Client client : this.clientsToHandle.values()) {
+            try {
+                client.updateModelView(new GameView(this.model));
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
             }
         }
     }

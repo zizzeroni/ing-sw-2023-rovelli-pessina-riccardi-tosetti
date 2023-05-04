@@ -108,14 +108,23 @@ public class FinishingState extends ControllerState{
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //TODO: Implements message sending
+        Message message = new Message(receiver, sender, content);
+        for (Player p : this.controller.getModel().getPlayers()) {
+            if(p.getNickname().equals(receiver)){
+                p.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //TODO: Implements message sending
-    }
+        for (Player i : this.controller.getModel().getPlayers()) {
+            Message message = new Message(i.getNickname(), sender, content);
+            i.addMessage(message);
+        }
 
+    }
     @Override
     public void addPlayer(String nickname) {
         //Game is finishing, so do nothing...
