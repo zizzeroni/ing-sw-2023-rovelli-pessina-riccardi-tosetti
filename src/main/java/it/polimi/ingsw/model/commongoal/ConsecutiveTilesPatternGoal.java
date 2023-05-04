@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
-    //@variable consecutiveTiles contains the number of tiles that must be consecutive for making a point of the pattern goal
+    //contains the number of tiles that must be consecutive for making a point of the pattern goal
     private final int consecutiveTiles;
     //Constructors
     public ConsecutiveTilesPatternGoal() {

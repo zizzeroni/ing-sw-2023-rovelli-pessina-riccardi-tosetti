@@ -6,15 +6,13 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 
 public class DiagonalEqualPattern extends CommonGoal {
+    //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private int[][] pattern;
 
+    //Constructors
     public DiagonalEqualPattern(int[][] pattern) {
         super();
         this.pattern = pattern;
-    }
-
-    public int[][] getPattern() {
-        return this.pattern;
     }
 
     public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
@@ -145,6 +143,11 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
         return rotatedMatrix;
     }
+    // get
+    public int[][] getPattern() {
+        return this.pattern;
+    }
+
     /*
     @return an immutable copy of the common goal
     */

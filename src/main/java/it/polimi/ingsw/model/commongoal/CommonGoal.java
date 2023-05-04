@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class CommonGoal extends Card {
-    //@variable numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+    //contains the number of times the personal goal must be completed to take the score tile.
     private int numberOfPatternRepetitionsRequired;
-    //@variable type contains the type of check must be done.
+    //contains the type of check must be done.
     private CheckType type;
-    //@variable scoreTiles contains the list of the scoring tiles.
+    //contains the list of the scoring tiles.
     private List<ScoreTile> scoreTiles;
 
     //Constructors with/without params

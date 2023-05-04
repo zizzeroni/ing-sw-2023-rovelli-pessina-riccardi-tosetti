@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
 
 public class TilesInPositionsPatternGoal extends CommonGoal {
-    //@variable positions is a matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
+    //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private final int[][] positions;
 
     public TilesInPositionsPatternGoal() {

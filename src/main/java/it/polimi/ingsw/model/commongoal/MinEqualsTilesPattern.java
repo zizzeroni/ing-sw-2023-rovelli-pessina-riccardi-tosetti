@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class MinEqualsTilesPattern extends CommonGoal {
-    //@variable direction contains the directions that can be used in this pattern
+    //contains the directions that can be used in this pattern
     private Direction direction;
-    //@variable maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row
+    //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
     //Constructors
     public MinEqualsTilesPattern() {
