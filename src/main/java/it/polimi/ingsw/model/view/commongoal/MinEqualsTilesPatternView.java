@@ -28,8 +28,7 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
             case HORIZONTAL -> {
                 switch (getType()) {
                     case EQUALS -> {
-                        return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 tiles of maximum three different types. One \n" +
-                                "line can show the same or a different combination of another line. \n" +
+                        return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 same types of tiles. " +
                                 "[ B B B B B ] \n";
                     }
                     case DIFFERENT -> {
@@ -38,26 +37,27 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                                 "[ B P Y G W ] \n";
                     }
                     case INDIFFERENT -> {
-                        return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 casual types of tiles. " +
-                                "One line can show the same or a different combination of the other line. \n" +
-                                "[ - - - - - ] \n";
+                        return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 tiles of maximum three different types. One \n" +
+                                "line can show the same or a different combination of another line. \n" +
+                                "[ B B C C Y ] \n";
                     }
                 }
             }
             case VERTICAL -> {
                 switch (getType()) {
                     case EQUALS -> {
-                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 5 tiles of maximum three different types." +
-                                "One column can show the same or a different combination of another column. \n" +
+                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 same types of tiles. " +
                                 "[ B ] \n" +
                                 "[ B ] \n" +
-                                "[ Y ] \n" +
-                                "[ Y ] \n" +
-                                "[ G ] \n" +
-                                "[ G ] \n";
+                                "[ B ] \n" +
+                                "[ B ] \n" +
+                                "[ B ] \n" +
+                                "[ B ] \n";
+
                     }
                     case DIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 different types of tiles. \n" +
+                                "One column can show the same or a different combination of another column. \n" +
                                 "[ B ] \n" +
                                 "[ Y ] \n" +
                                 "[ G ] \n" +
@@ -66,14 +66,15 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
                                 "[ C ] \n";
                     }
                     case INDIFFERENT -> {
-                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 casual types of tiles. " +
-                                "One column can show the same or a different combination of the other column. \n" +
-                                "[ - ] \n" +
-                                "[ - ] \n" +
-                                "[ - ] \n" +
-                                "[ - ] \n" +
-                                "[ - ] \n" +
-                                "[ - ] \n";
+                        return getNumberOfPatternRepetitionsRequired() + " columns each formed by 5 tiles of maximum three different types." +
+                                "One column can show the same or a different combination of another column. \n" +
+                                "[ B ] \n" +
+                                "[ B ] \n" +
+                                "[ Y ] \n" +
+                                "[ Y ] \n" +
+                                "[ G ] \n" +
+                                "[ G ] \n";
+
                     }
                 }
             }
