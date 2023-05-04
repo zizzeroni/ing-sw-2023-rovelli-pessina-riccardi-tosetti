@@ -127,12 +127,16 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
-
+    /*
+    @return an immutable copy of the common goal
+    */
     @Override
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternView(this);
     }
-
+    /*
+    Redefine the equals method
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof MinEqualsTilesPattern obj) {

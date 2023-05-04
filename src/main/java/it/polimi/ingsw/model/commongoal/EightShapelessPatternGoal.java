@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 
 public class EightShapelessPatternGoal extends CommonGoal {
+    //Constructors
     public EightShapelessPatternGoal() {
         super();
     }
@@ -23,7 +24,11 @@ public class EightShapelessPatternGoal extends CommonGoal {
     public EightShapelessPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
     }
-
+    /*
+    Control if there are 8 tiles of the same colour
+    @param bookshelf contains the bookshelf of the player
+    @return true if I found 8 same colour tiles, otherwise false
+     */
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Transform the bookshelf in a Stream of tiles' ARRAYS
@@ -33,12 +38,16 @@ public class EightShapelessPatternGoal extends CommonGoal {
                 .entrySet().stream()                                              //I transform the Map into a Set and then into a Stream
                 .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
-
+    /*
+    @return an immutable copy of the common goal
+    */
     @Override
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
     }
-
+    /*
+    Redefine the equals method
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof EightShapelessPatternGoal obj) {

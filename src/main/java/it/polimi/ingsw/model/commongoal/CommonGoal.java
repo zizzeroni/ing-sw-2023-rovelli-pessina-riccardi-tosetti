@@ -9,10 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class CommonGoal extends Card {
+    //@variable numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
     private int numberOfPatternRepetitionsRequired;
+    //@variable type contains the type of check must be done.
     private CheckType type;
+    //@variable scoreTiles contains the list of the scoring tiles.
     private List<ScoreTile> scoreTiles;
 
+    //Constructors with/without params
     public CommonGoal() {
         super();
         this.type = null;
@@ -33,7 +37,7 @@ public abstract class CommonGoal extends Card {
         this.type = type;
         this.initScoreTiles(numberOfPlayers, commonGoalID);
     }
-
+    //Set/Get methods of variables
     public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
@@ -57,7 +61,11 @@ public abstract class CommonGoal extends Card {
     public void setType(CheckType type) {
         this.type = type;
     }
-
+    /*
+    initialize the scoring tiles
+    @param numberOfPlayers contains the number of players in the game
+    @param commonGoalID contain the common goal used in the game
+     */
     private void initScoreTiles(int numberOfPlayers, int commonGoalID) {
         switch (numberOfPlayers) {
             case 2 -> {
@@ -74,7 +82,10 @@ public abstract class CommonGoal extends Card {
             }
         }
     }
-
+    /*
+    This method will be redefined in each common goal and will serve to print on the terminal the common goal
+    @return an immutable copy of the common goal
+    */
     public CommonGoalView copyImmutable() {
         return new CommonGoalView(this);
     }
