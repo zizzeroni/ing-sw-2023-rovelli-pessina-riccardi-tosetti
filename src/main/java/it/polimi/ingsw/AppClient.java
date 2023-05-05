@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.TextualUI;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -11,8 +12,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.*;
+
 public class AppClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
+
         //Initialize client necessities
         ClientImpl client;
         Scanner s = new Scanner(System.in);

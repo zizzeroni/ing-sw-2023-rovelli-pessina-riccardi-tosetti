@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view.commongoal;
 
 import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
+import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
@@ -24,7 +25,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
             sendBack.append("[");
             for (int j = 0; j < this.positions[0].length; j++) {
                 if (this.positions[i][j] == 1) {
-                    sendBack.append(" B");
+                    sendBack.append(" ").append(TileColor.BLUE);
                 } else {
                     sendBack.append(" -");
                 }
