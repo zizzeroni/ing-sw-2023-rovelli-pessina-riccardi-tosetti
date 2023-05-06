@@ -17,7 +17,10 @@ public class SingleClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            this.generalServer.register(this.clientSkeleton);
+            //Waiting to receive the nickname from the client
+            String nickname = this.clientSkeleton.receiveNickname(this.generalServer);
+            //Register the client associated with the nickname received
+            this.generalServer.register(this.clientSkeleton, nickname);
             while (true) {
                 this.clientSkeleton.receive(this.generalServer);
             }

@@ -74,7 +74,7 @@ public class ServerStub implements Server {
                 }
             }
         }
-        //Necessary because at the end of the game i receive the notification that the game passed from ON_GOING state to the FINISHING state
+        //Necessary because at the end of the game I receive the notification that the game passed from ON_GOING state to the FINISHING state
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
@@ -137,14 +137,18 @@ public class ServerStub implements Server {
             }
         }
 
-        //Necessary because when the game start i need to receive the change of the state of the game
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        //Necessary because when the game start I need to receive the change of the state of the game, in case the game starts
+        for (int i = 0; i < 3; i++) {
+            synchronized (this.lockUpdate) {
+                try {
+                    this.lockUpdate.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+
+
     }
 
     @Override
@@ -175,7 +179,7 @@ public class ServerStub implements Server {
     }
 
     @Override
-    public void register(Client client) throws RemoteException {
+    public void register(Client client, String nickname) throws RemoteException {
         try {
             this.socket = new Socket(this.ip, this.port);
             try {
@@ -188,6 +192,8 @@ public class ServerStub implements Server {
             } catch (IOException e) {
                 throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
             }
+            //Sending the nickname to the server in order to register the client
+            this.oos.writeObject(nickname);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
         }

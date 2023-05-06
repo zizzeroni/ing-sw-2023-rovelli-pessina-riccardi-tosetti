@@ -43,7 +43,7 @@ public class CreationState extends ControllerState {
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
 
         Player newPlayer;
-        if (this.controller.getModel().getPlayers().size() == 0) {
+        /*if (this.controller.getModel().getPlayers().size() == 0) {
             //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
             Tile[][] temp = {
                     {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -53,9 +53,9 @@ public class CreationState extends ControllerState {
                     {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                     {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
             newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf(temp));
-        } else {
+        } else {*/
             newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
-        }
+        //}
         this.controller.getModel().addPlayer(newPlayer);
 
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
@@ -63,6 +63,11 @@ public class CreationState extends ControllerState {
         } else {
             //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
             //the game, which lead to a notification to the client for the state change
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+
+            //In the else branch I only send 1 notify to the client instead of 3 (activePlayerIndex, addTile to the board and setGameState) as I do in the then branch. So I have to
+            //compensate sending two "useless" notification
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }

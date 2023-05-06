@@ -12,7 +12,7 @@ import java.util.*;
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
-    private Map<Integer, Client> clientsToHandle;
+    private Map<String, Client> clientsToHandle;
 
     public ServerImpl() throws RemoteException {
         super();
@@ -33,9 +33,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         super(port, csf, ssf);
     }
 
-    public void addClientToHandle(Client client) {
-        this.clientsToHandle.put(this.clientsToHandle.size(), client);
-    }
+    //public void addClientToHandle(Client client) {
+       // this.clientsToHandle.put(this.clientsToHandle.size(), client);
+    //}
 
     @Override
     public void changeTurn() throws RemoteException {
@@ -81,13 +81,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     //TODO: Ask if we should pass nickname to register client
     @Override
-    public void register(Client client/*, String nickname*/) {
+    public void register(Client client, String nickname) {
         /*try {
             System.out.println(RemoteServer.getClientHost());           //Alternative method for identify clients by their IP (Doesn't work on local)
         } catch (ServerNotActiveException e) {
             throw new RuntimeException(e);
         }*/
-        this.addClientToHandle(client);
+        //this.addClientToHandle(client);
+        this.clientsToHandle.put(nickname,client);
     }
 
     //Listeners methods

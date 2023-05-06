@@ -18,11 +18,8 @@ public class TextualUI extends UI {
 
     private void firstInteractionWithUser() {
         Scanner s = new Scanner(System.in);
-        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-        String nick = s.next();
-        this.setNicknameID(nick);
 
-        this.controller.addPlayer(nick);
+        this.controller.addPlayer(this.getNicknameID());
 
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {

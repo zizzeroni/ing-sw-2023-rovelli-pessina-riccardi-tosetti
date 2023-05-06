@@ -41,14 +41,18 @@ public class AppClient {
                         Server server = (Server) registry.lookup("server");
 
                         //Creating a new client with a TextualUI and a RMI Server
-                        client = new ClientImpl(server, new TextualUI()/*,nick*/);
+                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                        String nick = s.next();
+                        client = new ClientImpl(server, new TextualUI(), nick);
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
                         ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        client = new ClientImpl(serverStub, new TextualUI());
+                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                        String nick = s.next();
+                        client = new ClientImpl(serverStub, new TextualUI(), nick);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
                             while (true) {

@@ -51,4 +51,16 @@ public class ClientSkeleton implements Client {
         message.setController(server);
         message.execute();
     }
+
+    public String receiveNickname(Server server) throws RemoteException {
+        try {
+            String nickname = (String) this.ois.readObject();
+            return nickname;
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
+        }
+
+    }
 }
