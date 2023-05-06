@@ -6,15 +6,13 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 
 public class DiagonalEqualPattern extends CommonGoal {
+    //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private int[][] pattern;
 
+    //Constructors
     public DiagonalEqualPattern(int[][] pattern) {
         super();
         this.pattern = pattern;
-    }
-
-    public int[][] getPattern() {
-        return this.pattern;
     }
 
     public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
@@ -27,6 +25,18 @@ public class DiagonalEqualPattern extends CommonGoal {
         this.pattern = pattern;
     }
 
+    /*
+    Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
+    for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls) and an alreadyChecked matrix for checking if a tiles is already checked.
+    Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
+    then we search if the oblique nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+
+    In the second part we count the number of different groups when the counter of the tiles in a group is
+    at least the minimum number of consecutive tiles of the pattern goal
+
+    @params bookshelf contains the bookshelf of the player
+    @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
+     */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
         int[][] alreadyChecked = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
@@ -117,7 +127,11 @@ public class DiagonalEqualPattern extends CommonGoal {
             }
         }
     }
-
+    /*
+    in this method we rotate the matrix by starting from the first element and exchanging the row and the column
+    @param the matrix that we need to rotate
+    @return the matrix rotated
+     */
     private int[][] rotateMatrix(int[][] matrixToRotate) {
         int[][] rotatedMatrix = new int[matrixToRotate[0].length][matrixToRotate.length];
         for (int row = 0; row < matrixToRotate.length; row++) {
@@ -129,12 +143,21 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
         return rotatedMatrix;
     }
+    // get
+    public int[][] getPattern() {
+        return this.pattern;
+    }
 
+    /*
+    @return an immutable copy of the common goal
+    */
     @Override
     public CommonGoalView copyImmutable() {
         return new DiagonalEqualPatternView(this);
     }
-
+    /*
+    Redefine the equals method
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof DiagonalEqualPattern obj) {
