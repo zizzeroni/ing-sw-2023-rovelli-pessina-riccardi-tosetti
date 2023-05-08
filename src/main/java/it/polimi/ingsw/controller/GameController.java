@@ -15,6 +15,7 @@ public class GameController implements ViewListener {
     private ControllerState state;
     private List<PersonalGoal> personalGoalsDeck;
     private List<JsonBoardPattern> boardPatterns;
+    private final Random randomizer = new Random();
 
     public GameController(Game model) {
         this.model = model;
@@ -26,11 +27,13 @@ public class GameController implements ViewListener {
         Reader reader;
         try {
             reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
-            this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() { }.getType());
+            this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
+            }.getType());
             reader.close();
 
             reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
-            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() { }.getType());
+            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
             reader.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -96,5 +99,9 @@ public class GameController implements ViewListener {
 
     public List<JsonBoardPattern> getBoardPatterns() {
         return this.boardPatterns;
+    }
+
+    public Random getRandomizer() {
+        return randomizer;
     }
 }

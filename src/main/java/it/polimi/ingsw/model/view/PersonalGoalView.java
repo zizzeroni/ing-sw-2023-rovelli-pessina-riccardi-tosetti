@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.PersonalGoal;
-import it.polimi.ingsw.model.tile.Tile;
 
 import java.io.Serializable;
 
 public class PersonalGoalView implements Serializable {
-    //private final PersonalGoal personalGoalModel;
     private final int numberOfColumns;
     private final int numberOfRows;
     private final TileView[][] pattern;
@@ -96,4 +94,5 @@ public class PersonalGoalView implements Serializable {
         }
         return counter;
     }
+
 }

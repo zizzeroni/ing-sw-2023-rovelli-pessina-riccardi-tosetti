@@ -7,15 +7,18 @@ import it.polimi.ingsw.model.view.TileView;
 import java.util.Collections;
 import java.util.List;
 
-public class FinishingState extends ControllerState{
-    public FinishingState(GameController controller) {super(controller);}
+public class FinishingState extends ControllerState {
+    public FinishingState(GameController controller) {
+        super(controller);
+    }
+
     @Override
     public void changeTurn() {
         Game model = this.controller.getModel();
 
-        if(model.getActivePlayerIndex()==0) {
+        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
             //Game ended
-            resetGame();
+            model.setGameState(GameState.RESET_NEEDED);
         } else {
             if (this.controller.getModel().getBoard().numberOfTilesToRefill() != 0) {
                 this.refillBoard();
@@ -40,11 +43,6 @@ public class FinishingState extends ControllerState{
         }
     }
 
-    private void resetGame() {
-        Game model = this.controller.getModel();
-        model.setGameState(GameState.RESET_NEEDED);
-    }
-
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
         if (checkIfUserInputIsCorrect(playerChoice)) {
@@ -53,6 +51,7 @@ public class FinishingState extends ControllerState{
         } else {
             System.err.println("[INPUT:ERROR]: User data not correct");
         }
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
 
     private boolean checkIfUserInputIsCorrect(Choice choice) {

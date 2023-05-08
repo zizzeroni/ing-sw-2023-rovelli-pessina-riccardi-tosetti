@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class CommonGoalView implements Serializable {
         this.scoreTiles = new ArrayList<>();
         this.imageID = commonGoalModel.getImageID();
         for (ScoreTile scoreTile : commonGoalModel.getScoreTiles()) {
-            scoreTiles.add(new ScoreTileView(scoreTile));
+            this.scoreTiles.add(new ScoreTileView(scoreTile));
         }
     }
 

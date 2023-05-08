@@ -27,7 +27,7 @@ public class Tile {
     }
 
     public TileColor getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(TileColor color) {

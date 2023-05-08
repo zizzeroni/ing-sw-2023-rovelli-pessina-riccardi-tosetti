@@ -33,7 +33,6 @@ public class ServerStub implements Server {
     @Override
     public void changeTurn() throws RemoteException {
         Command message = new ChangeTurnCommand();
-        //MsgSocket<Void> message = new MsgSocket<>(this.ip, Action.CHANGE_TURN, null);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -51,7 +50,6 @@ public class ServerStub implements Server {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         Command message = new InsertUserInputCommand(playerChoice);
-        //MsgSocket<Choice> message = new MsgSocket<>(this.ip, Action.USER_INSERTION, Arrays.asList(playerChoice));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -76,12 +74,19 @@ public class ServerStub implements Server {
                 }
             }
         }
+        //Necessary because at the end of the game i receive the notification that the game passed from ON_GOING state to the FINISHING state
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
-        Command message = new SendPrivateMessageCommand(receiver,sender,content);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_PRIVATE_MESSAGE, Arrays.asList(receiver, sender, content));
+        Command message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -99,8 +104,7 @@ public class ServerStub implements Server {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
-        Command message = new SendBroadcastMessageCommand(sender,content);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.SEND_BROADCAST_MESSAGE, Arrays.asList(sender, content));
+        Command message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -119,7 +123,6 @@ public class ServerStub implements Server {
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         Command message = new AddPlayerCommand(nickname);
-        //MsgSocket<String> message = new MsgSocket<>(this.ip, Action.ADD_PLAYER, Arrays.asList(nickname));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -133,18 +136,35 @@ public class ServerStub implements Server {
                 throw new RuntimeException(e);
             }
         }
+
+        //Necessary because when the game start i need to receive the change of the state of the game
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
-        //MsgSocket<Integer> message = new MsgSocket<>(this.ip, Action.CHOOSE_NUMBER_OF_PLAYERS, Arrays.asList(chosenNumberOfPlayers));
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
+        synchronized (this.lockUpdate) {
+            try {
+                this.lockUpdate.wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Waiting for state model update
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();

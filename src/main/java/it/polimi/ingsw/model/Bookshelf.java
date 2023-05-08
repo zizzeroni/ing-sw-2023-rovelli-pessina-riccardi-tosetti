@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class Bookshelf {
         }
         return true;
     }
+
     /*
     Add the tile in the column where the player choose to insert
     @param tile is the type of tile selected from the player
@@ -64,8 +66,11 @@ public class Bookshelf {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
         if (this.listener != null) {
             this.listener.tileAddedToBookshelf(this);
+        } else {
+            System.err.println("Bookshelf's listener is NULL!");
         }
     }
+
     /*
     @param column is the column whose remaining places we want to know
     @return counter is the remaining places of the column
@@ -155,6 +160,7 @@ public class Bookshelf {
         }
         return maxNumberOfCellsFreeInBookshelf;
     }
+
     /*
         @param column is the column that we want to control if il full of element
         @return true if the column is full, otherwise false
@@ -167,6 +173,7 @@ public class Bookshelf {
         }
         return true;
     }
+
     /*
     Here we calculate the point of every group of same color tiles in the board, we split the bookshelf in the groups and then by the number of element of each group we assign the points
     if the number of tiles is below the first goal available, you don't get points
@@ -194,8 +201,9 @@ public class Bookshelf {
                 }
             }
         }
-        int numberOfTilesInGroup = 0;
+
         for (int g = 2; g <= group; g++) {
+            int numberOfTilesInGroup = 0;
             for (int row = 0; row < this.numberOfRows; row++) {
                 for (int column = 0; column < this.numberOfColumns; column++) {
                     if (supportMatrix[row][column] == g) {
@@ -221,6 +229,7 @@ public class Bookshelf {
         }
         return score;
     }
+
     /*
     Used by the soring method for determinate if two tiles are from the same group or from different group
      */

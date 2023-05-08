@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
 import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternView;
 
 import java.util.List;
@@ -11,9 +10,11 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class MinEqualsTilesPattern extends CommonGoal {
+    //contains the directions that can be used in this pattern
     private Direction direction;
+    //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
-
+    //Constructors
     public MinEqualsTilesPattern() {
         super();
         this.direction = null;
@@ -26,12 +27,12 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type, numberOfPlayers);
+    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
+        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
-
+    //Get/Set method
     public Direction getDirection() {
         return this.direction;
     }
@@ -48,6 +49,14 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
+    /*
+    Based on the direction:
+    Make a comparison  based on the type of request of all the rows/columns, finding the number of different tiles only in the complete rows/columns,
+    with the maximum number of equal tiles.
+
+    @params bookshelf contains the bookshelf of the player
+    @return the number of rows or column that respect the maxEquals
+     */
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         List<TileColor> tileColorsInDirection = new ArrayList<>();
@@ -106,10 +115,12 @@ public class MinEqualsTilesPattern extends CommonGoal {
                 }
             }
         }
-        patternAppearances = appearancesInDirection / this.getNumberOfPatternRepetitionsRequired();
+        patternAppearances = appearancesInDirection;
         return patternAppearances;
     }
-
+    /*
+    @
+     */
     private boolean confrontEqualsDifferentTiles(int numberOfEqualTiles, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
             case EQUALS, DIFFERENT -> {
@@ -128,8 +139,24 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
+    /*
+    @return an immutable copy of the common goal
+    */
     @Override
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternView(this);
+    }
+    /*
+    Redefine the equals method
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MinEqualsTilesPattern obj) {
+            return this.getDirection() == obj.getDirection()
+                    && this.getMaxEqualsTiles() == obj.getMaxEqualsTiles()
+                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
+                    && this.getType() == obj.getType();
+        }
+        return false;
     }
 }

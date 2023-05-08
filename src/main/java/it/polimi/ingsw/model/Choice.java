@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.view.TileView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
