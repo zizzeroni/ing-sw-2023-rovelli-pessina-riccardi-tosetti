@@ -86,7 +86,7 @@ public class DiagonalEqualPattern extends CommonGoal {
                     if (!exit) {
                         for (int patternRow = 0; patternRow < this.pattern.length; patternRow++) {
                             for (int patternColumn = 0; patternColumn < this.pattern[0].length; patternColumn++) {
-                                if (supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
+                                if (this.pattern[patternRow][patternColumn] == 1 && supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
                                     alreadyChecked[row + patternRow][column + patternColumn] = 1;
                                 }
                             }
@@ -135,9 +135,9 @@ public class DiagonalEqualPattern extends CommonGoal {
     private int[][] rotateMatrix(int[][] matrixToRotate) {
         int[][] rotatedMatrix = new int[matrixToRotate[0].length][matrixToRotate.length];
         for (int row = 0; row < matrixToRotate.length; row++) {
-            for (int column = 0; column < matrixToRotate[0].length; row++) {
+            for (int column = 0; column < matrixToRotate[0].length; column++) {
                 if (matrixToRotate[row][column] == 1) {
-                    rotatedMatrix[column][row] = 1;
+                    rotatedMatrix[row][rotatedMatrix.length - 1 - column] = 1;
                 }
             }
         }
