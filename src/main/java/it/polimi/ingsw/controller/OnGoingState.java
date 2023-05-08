@@ -139,6 +139,11 @@ public class OnGoingState extends ControllerState {
         //Game is going, so do nothing...
     }
 
+    @Override
+    public void startGame() {
+        //Game is going, so do nothing...
+    }
+
     public static GameState toEnum() {
         return GameState.ON_GOING;
     }

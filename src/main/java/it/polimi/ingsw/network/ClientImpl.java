@@ -104,6 +104,15 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     @Override
+    public void startGame() {
+        try {
+            this.serverConnectedTo.startGame();
+        } catch (RemoteException e) {
+            System.err.println("[COMMUNICATION:ERROR] while updating server(startGame):" + e.getMessage() + ".Skipping update");
+        }
+    }
+
+    @Override
     public void run() {
         this.view.run();
     }

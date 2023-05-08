@@ -54,83 +54,61 @@ public class CreationState extends ControllerState {
                     {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
             newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf(temp));
         } else {*/
-            newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
+        newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
         //}
         this.controller.getModel().addPlayer(newPlayer);
-
-        if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
-            startGame();
-        } else {
-            //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
-            //the game, which lead to a notification to the client for the state change
-            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-
-            //In the else branch I only send 1 notify to the client instead of 3 (activePlayerIndex, addTile to the board and setGameState) as I do in the then branch. So I have to
-            //compensate sending two "useless" notification
-            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-        }
     }
 
-    private void startGame() {
-        //One way to randomize starting player
-        //Random rand = new Random();
-        //this.controller.getModel().setActivePlayerIndex(rand.nextInt(this.controller.getModel().getNumberOfPlayersToStartGame()));
+    @Override
+    public void startGame() {
+        if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
+            Collections.shuffle(this.controller.getModel().getPlayers());
 
-        //REMINDER: Ask rovo
-        //Second way to randomize starting player, in this way we can keep track of which player started (the player in position 0)
-        //WARNING: This way to randomize however breaks completely the registration of the lister for the last player's bookshelf that happens in ServerImpl at the end of
-        //         the execution of this method, so this obliges to reassign the listener (ServerImpl) to all players for each player added.
-        Collections.shuffle(this.controller.getModel().getPlayers());
-        this.controller.getModel().setActivePlayerIndex(0);
+            this.controller.getBoardPatterns().stream()
+                    .filter(boardPattern -> boardPattern.numberOfPlayers() == this.controller.getModel().getPlayers().size())
+                    .findFirst()
+                    .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setPattern(jsonBoardPattern));
 
-        this.controller.getBoardPatterns().stream()
-                .filter(boardPattern -> boardPattern.numberOfPlayers() == this.controller.getModel().getPlayers().size())
-                .findFirst()
-                .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setPattern(jsonBoardPattern));
-
-        List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
-        this.controller.getModel().getBoard().addTiles(drawnTiles);
+            List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
+            this.controller.getModel().getBoard().addTiles(drawnTiles);
 
 
         /*REMINDER: I moved this piece of code from Game constructor without parameters because the scoreTile list initialization requires the number of player to play the game
                     Ask if it is ok or find an alternative way*/
-        CommonGoal newCommonGoal;
-        while (this.controller.getModel().getCommonGoals().size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
-                    this.controller.getModel().getCommonGoals().add(newCommonGoal);
+            CommonGoal newCommonGoal;
+            while (this.controller.getModel().getCommonGoals().size() != 2) {
+                try {
+                    newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                    if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
+                        this.controller.getModel().getCommonGoals().add(newCommonGoal);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
             }
-        }
 
-        //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
-        for (Player player : this.controller.getModel().getPlayers()) {
-            List<ScoreTile> temporaryTiles = new ArrayList<>();
-            for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
-                temporaryTiles.add(new ScoreTile(0));
+            //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
+            for (Player player : this.controller.getModel().getPlayers()) {
+                List<ScoreTile> temporaryTiles = new ArrayList<>();
+                for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
+                    temporaryTiles.add(new ScoreTile(0));
+                }
+                player.getGoalTiles().addAll(temporaryTiles);
             }
-            player.getGoalTiles().addAll(temporaryTiles);
-        }
 
-        this.controller.changeState(new OnGoingState(this.controller));
-        this.controller.getModel().setGameState(OnGoingState.toEnum());
+            this.controller.changeState(new OnGoingState(this.controller));
+            this.controller.getModel().setGameState(OnGoingState.toEnum());
+        }
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
             if (this.controller.getModel().getNumberOfPlayersToStartGame() == 0) {
-                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
-                if (this.controller.getModel().getPlayers().size() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
-                    startGame();
+                if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
+                    System.err.println("Number of players in the lobby exceed the chosen one");
                 } else {
-                    //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
-                    //the game, which lead to a notification to the client for the state change
-                    this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+                    this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
                 }
             }
         } else {

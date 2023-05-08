@@ -30,6 +30,11 @@ public class TextualUI extends UI {
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+            this.controller.startGame();
+        }
+
+
         waitWhileInState(State.WAITING_IN_LOBBY);
     }
 

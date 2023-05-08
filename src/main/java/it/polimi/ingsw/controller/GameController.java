@@ -79,6 +79,11 @@ public class GameController implements ViewListener {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
+    @Override
+    public void startGame() {
+        state.startGame();
+    }
+
     //------------------------------------UTILITY METHODS------------------------------------
     public Game getModel() {
         return this.model;

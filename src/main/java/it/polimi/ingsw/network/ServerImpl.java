@@ -33,10 +33,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         super(port, csf, ssf);
     }
 
-    //public void addClientToHandle(Client client) {
-       // this.clientsToHandle.put(this.clientsToHandle.size(), client);
-    //}
-
     @Override
     public void changeTurn() throws RemoteException {
         this.controller.changeTurn();
@@ -68,15 +64,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
-        for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
-            bookshelf.registerListener(this);
-        }
-        //this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
+    }
+
+    @Override
+    public void startGame() throws RemoteException {
+        this.controller.startGame();
     }
 
     //TODO: Ask if we should pass nickname to register client
@@ -88,7 +85,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             throw new RuntimeException(e);
         }*/
         //this.addClientToHandle(client);
-        this.clientsToHandle.put(nickname,client);
+        this.clientsToHandle.put(nickname, client);
     }
 
     //Listeners methods
@@ -193,6 +190,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void gameStateChanged() {
+        if (this.controller.getModel().getGameState() == GameState.ON_GOING) {
+            for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
+                bookshelf.registerListener(this);
+            }
+        }
         for (Client client : this.clientsToHandle.values()) {
             try {
                 client.updateModelView(new GameView(this.model));
@@ -201,4 +203,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             }
         }
     }
+
+    /*@Override
+    public void clientRegistered() {
+        for (Client client : this.clientsToHandle.values()) {
+            try {
+                client.updateModelView(new GameView(this.model));
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }*/
 }
