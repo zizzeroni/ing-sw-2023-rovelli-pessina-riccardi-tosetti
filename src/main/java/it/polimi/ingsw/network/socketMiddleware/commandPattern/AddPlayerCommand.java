@@ -1,6 +1,7 @@
-package it.polimi.ingsw.network.commandPattern;
+package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.network.Server;
+
 import java.rmi.RemoteException;
 
 public class AddPlayerCommand implements Command {
@@ -32,14 +33,15 @@ public class AddPlayerCommand implements Command {
 
     @Override
     public void execute() throws NullPointerException, RemoteException {
-        if (controller != null) {
-            this.controller.addPlayer(nickname);
+        if (this.controller != null) {
+            this.controller.addPlayer(this.nickname);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(Choice)\" command because this.controller is NULL");
         }
     }
+
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Nickname: " + nickname + "}]";
+        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Nickname: " + this.nickname + "}]";
     }
 }

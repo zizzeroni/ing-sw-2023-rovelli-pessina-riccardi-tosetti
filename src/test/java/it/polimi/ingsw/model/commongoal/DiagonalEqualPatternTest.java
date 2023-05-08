@@ -12,17 +12,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DiagonalEqualPatternTest {
-    private DiagonalEqualPattern fiveDiagonal;
-    private DiagonalEqualPattern fiveXShape;
+    private DiagonalEqualPattern pattern;
     private Bookshelf bookshelf;
     private int[][] positions;
+
     @BeforeEach
     public void cleanGoal() {
-        fiveDiagonal = null;
-        fiveXShape = null;
+        pattern = null;
         bookshelf = null;
         positions = null;
     }
+
     @Test
     @DisplayName("Test that the commonGoal with five element making an X in a generic bookshelf matches zero time")
     public void GivenAGenericBookshelf_whenSearchingTheFiveXShape_thenReturnZero() {
@@ -31,7 +31,7 @@ public class DiagonalEqualPatternTest {
                 {0, 1, 0},
                 {1, 0, 1}
         };
-        fiveXShape = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -41,18 +41,18 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, fiveXShape.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
-    @DisplayName("Test that the commonGoal with five element making an X matches zero times on a bookshelf completely filled with nulls")
+    @DisplayName("Test that the commonGoal with five element making an X matches zero times on an empty bookshelf")
     public void GivenAFullOfNullBookshelf_whenSearchingTheFiveXShape_thenReturnZero() {
         this.positions = new int[][]{
                 {1, 0, 1},
                 {0, 1, 0},
                 {1, 0, 1}
         };
-        fiveXShape = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -60,10 +60,11 @@ public class DiagonalEqualPatternTest {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, fiveXShape.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
+
     @Test
     @DisplayName("Test that the commonGoal with five element making an X matches four times on a bookshelf completely filled with same colour tiles")
     public void GivenFullOfBlueBookshelf_whenSearchingTheFiveXShape_thenReturnFour() {
@@ -72,7 +73,7 @@ public class DiagonalEqualPatternTest {
                 {0, 1, 0},
                 {1, 0, 1}
         };
-        fiveXShape = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -80,10 +81,11 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(4, fiveXShape.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(4, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
+
     @Test
     @DisplayName("Test that the commonGoal with five element making an X matches two times on a bookshelf with the first 3 column of inverted color")
     public void GivenABookshelfWithTheFirstThreeColumnOfInvertedColor_whenSearchingTheFiveXShape_thenReturnTwo() {
@@ -92,7 +94,7 @@ public class DiagonalEqualPatternTest {
                 {0, 1, 0},
                 {1, 0, 1}
         };
-        fiveXShape = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), null, null},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), null, null},
@@ -100,14 +102,14 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(2, fiveXShape.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(2, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
 
     @Test
-    @DisplayName("Test that the commonGoal with five element on a diagonal in a bookshelf whit five blue element on the first diagonal matches one time")
+    @DisplayName("Test that the commonGoal with five element on a diagonal in a bookshelf with five blue element on the second diagonal matches one time")
     public void GivenABookshelfWithFiveBlueElementOnTheDiagonal_whenSearchingTheFiveDiagonalElementOfTheSameColour_thenReturnOne() {
         this.positions = new int[][]{
                 {1, 0, 0, 0, 0},
@@ -116,7 +118,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -126,7 +128,7 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(1, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(1, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
@@ -139,7 +141,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -147,9 +149,9 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
@@ -162,7 +164,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -170,13 +172,13 @@ public class DiagonalEqualPatternTest {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
-    @DisplayName("Test that the commonGoal with five element on a diagonal matches four times on a bookshelf completely filled with same colour tiles")
+    @DisplayName("Test that the commonGoal with five element on a diagonal matches two times on a bookshelf completely filled with same colour tiles")
     public void GivenFullOfBlueBookshelf_whenSearchingTheFiveDiagonalElementOfTheSameColour_thenReturnFour() {
         this.positions = new int[][]{
                 {1, 0, 0, 0, 0},
@@ -185,7 +187,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -193,9 +195,9 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(4, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(2, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
@@ -209,7 +211,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {null, null, null, null, new Tile(TileColor.PURPLE)},
                 {null, null, null, new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE)},
@@ -217,9 +219,9 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(2, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(2, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
@@ -232,7 +234,7 @@ public class DiagonalEqualPatternTest {
                 {0, 0, 0, 1, 0},
                 {0, 0, 0, 0, 1}
         };
-        fiveDiagonal = new DiagonalEqualPattern(0,1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {null, null, null, null, new Tile(TileColor.GREEN)},
                 {null, null, null, new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW)},
@@ -240,8 +242,8 @@ public class DiagonalEqualPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW)}};
-        bookshelf=new Bookshelf("",temp);
+        bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, fiveDiagonal.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, pattern.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 }

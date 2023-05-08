@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.UI;
+
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
@@ -16,7 +17,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     //TODO: Chiedere se conviene implementare la registrazione dei client tramite i nickname dato che sono univoci
     public ClientImpl(Server server, UI view/*, String nickname*/) throws RemoteException {
         super();
-        serverConnectedTo = server;
+        this.serverConnectedTo = server;
         this.view = view;
         //this.view.setNicknameID(nickname);
         server.register(this/*,nickname*/);
@@ -25,7 +26,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     public ClientImpl(Server server, UI view/*, String nickname*/, int port) throws RemoteException {
         super(port);
-        serverConnectedTo = server;
+        this.serverConnectedTo = server;
         this.view = view;
         server.register(this/*,nickname*/);
         view.registerListener(this);
@@ -33,7 +34,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     public ClientImpl(Server server, UI view/*, String nickname*/, int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-        serverConnectedTo = server;
+        this.serverConnectedTo = server;
         this.view = view;
         server.register(this/*,nickname*/);
         view.registerListener(this);
@@ -102,6 +103,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     @Override
     public void run() {
-        view.run();
+        this.view.run();
     }
 }

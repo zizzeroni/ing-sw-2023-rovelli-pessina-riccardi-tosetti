@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.commandPattern;
+package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.network.Server;
 

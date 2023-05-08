@@ -1,7 +1,8 @@
-package it.polimi.ingsw.network.commandPattern;
+package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.network.Server;
+
 import java.rmi.RemoteException;
 
 public class InsertUserInputCommand implements Command {
@@ -9,7 +10,7 @@ public class InsertUserInputCommand implements Command {
     private Choice playerChoice;
 
     public InsertUserInputCommand() {
-        controller = null;
+        this.controller = null;
     }
 
     public InsertUserInputCommand(Choice playerChoice) {
@@ -37,8 +38,8 @@ public class InsertUserInputCommand implements Command {
 
     @Override
     public void execute() throws NullPointerException, RemoteException {
-        if (controller != null) {
-            this.controller.insertUserInputIntoModel(playerChoice);
+        if (this.controller != null) {
+            this.controller.insertUserInputIntoModel(this.playerChoice);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"insertUserInputIntoModel(Choice)\" command because this.controller is NULL");
         }
@@ -46,6 +47,6 @@ public class InsertUserInputCommand implements Command {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:InsertUserInput, Parameters:{PlayerChoice: " + playerChoice + "}]";
+        return "[CommandReceiver:GameController, CommandType:InsertUserInput, Parameters:{PlayerChoice: " + this.playerChoice + "}]";
     }
 }

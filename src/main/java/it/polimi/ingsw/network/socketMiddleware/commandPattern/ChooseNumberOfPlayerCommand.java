@@ -1,6 +1,7 @@
-package it.polimi.ingsw.network.commandPattern;
+package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.network.Server;
+
 import java.rmi.RemoteException;
 
 public class ChooseNumberOfPlayerCommand implements Command {
@@ -32,8 +33,8 @@ public class ChooseNumberOfPlayerCommand implements Command {
 
     @Override
     public void execute() throws NullPointerException, RemoteException {
-        if (controller != null) {
-            this.controller.chooseNumberOfPlayerInTheGame(numberOfPlayers);
+        if (this.controller != null) {
+            this.controller.chooseNumberOfPlayerInTheGame(this.numberOfPlayers);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"chooseNumberOfPlayerInTheGame(int)\" command because this.controller is NULL");
         }
@@ -41,6 +42,6 @@ public class ChooseNumberOfPlayerCommand implements Command {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:ChooseNumberOfPlayers, Parameters:{NumberOfPlayers: " + numberOfPlayers + "}]";
+        return "[CommandReceiver:GameController, CommandType:ChooseNumberOfPlayers, Parameters:{NumberOfPlayers: " + this.numberOfPlayers + "}]";
     }
 }

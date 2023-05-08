@@ -1,6 +1,7 @@
-package it.polimi.ingsw.network.commandPattern;
+package it.polimi.ingsw.network.socketMiddleware.commandPattern;
 
 import it.polimi.ingsw.network.Server;
+
 import java.rmi.RemoteException;
 
 public class SendPrivateMessageCommand implements Command {
@@ -10,7 +11,7 @@ public class SendPrivateMessageCommand implements Command {
     private String content;
 
     public SendPrivateMessageCommand() {
-        controller = null;
+        this.controller = null;
     }
 
     public SendPrivateMessageCommand(String receiver, String sender, String content) {
@@ -43,7 +44,7 @@ public class SendPrivateMessageCommand implements Command {
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.controller != null) {
-            this.controller.sendPrivateMessage(receiver, sender, content);
+            this.controller.sendPrivateMessage(this.receiver, this.sender, this.content);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendPrivateMessage(String,String,String)\" command because this.controller is NULL");
         }
@@ -51,6 +52,6 @@ public class SendPrivateMessageCommand implements Command {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:SendPrivateMessage, Parameters:{Receiver:" + receiver + "; Sender:" + sender + "; Content:" + content + "}]";
+        return "[CommandReceiver:GameController, CommandType:SendPrivateMessage, Parameters:{Receiver:" + this.receiver + "; Sender:" + this.sender + "; Content:" + this.content + "}]";
     }
 }
