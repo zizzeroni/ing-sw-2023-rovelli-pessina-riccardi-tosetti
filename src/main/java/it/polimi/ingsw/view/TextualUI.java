@@ -31,7 +31,7 @@ public class TextualUI extends UI {
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
-
+        System.out.println("Ciao ");
         if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
             this.controller.startGame();
         }
