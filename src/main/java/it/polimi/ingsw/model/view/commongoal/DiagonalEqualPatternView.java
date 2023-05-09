@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view.commongoal;
 
 import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
+import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 public class DiagonalEqualPatternView extends CommonGoalView {
@@ -23,7 +24,7 @@ public class DiagonalEqualPatternView extends CommonGoalView {
             sendBack.append("[");
             for (int j = 0; j < this.pattern[0].length; j++) {
                 if (this.pattern[i][j] == 1) {
-                    sendBack.append(" B");
+                    sendBack.append(" "+ TileColor.BLUE+" ");
                 } else {
                     sendBack.append(" -");
                 }

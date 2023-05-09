@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
 
 import java.util.*;
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.*;
 
 public class TextualUI extends UI {
     public TextualUI(GameView model) {

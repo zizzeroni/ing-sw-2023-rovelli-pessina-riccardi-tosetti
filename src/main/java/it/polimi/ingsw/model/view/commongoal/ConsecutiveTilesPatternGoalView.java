@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.view.commongoal;
 
 import it.polimi.ingsw.model.commongoal.ConsecutiveTilesPatternGoal;
+import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
@@ -22,7 +24,8 @@ public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
                 "The tiles of one group can be different from those of another group. \n");
 
         for (int i = 0; i < getConsecutiveTiles(); i++) {
-            sendBack.append("[ B ]\n");
+            sendBack.append("[ "+ TileColor.BLUE+ " ]\n");
+
         }
         return sendBack.toString();
     }
