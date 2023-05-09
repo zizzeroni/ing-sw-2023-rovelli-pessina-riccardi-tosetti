@@ -21,4 +21,6 @@ public abstract class ControllerState {
 
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 
+    public abstract void startGame();
+
 }

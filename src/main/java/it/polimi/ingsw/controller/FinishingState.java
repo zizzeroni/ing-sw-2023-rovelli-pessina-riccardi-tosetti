@@ -125,6 +125,11 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
+    @Override
+    public void startGame() {
+        //Game is finishing, so do nothing...
+    }
+
     public static GameState toEnum() {
         return GameState.FINISHING;
     }

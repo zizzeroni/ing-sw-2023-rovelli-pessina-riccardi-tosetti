@@ -12,7 +12,7 @@ import java.util.*;
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
-    private Map<Integer, Client> clientsToHandle;
+    private Map<String, Client> clientsToHandle;
 
     public ServerImpl() throws RemoteException {
         super();
@@ -31,10 +31,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-    }
-
-    public void addClientToHandle(Client client) {
-        this.clientsToHandle.put(this.clientsToHandle.size(), client);
     }
 
     @Override
@@ -68,10 +64,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
-        for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
-            bookshelf.registerListener(this);
-        }
-        //this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 
     @Override
@@ -79,15 +71,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
+    @Override
+    public void startGame() throws RemoteException {
+        this.controller.startGame();
+    }
+
     //TODO: Ask if we should pass nickname to register client
     @Override
-    public void register(Client client/*, String nickname*/) {
+    public void register(Client client, String nickname) {
         /*try {
             System.out.println(RemoteServer.getClientHost());           //Alternative method for identify clients by their IP (Doesn't work on local)
         } catch (ServerNotActiveException e) {
             throw new RuntimeException(e);
         }*/
-        this.addClientToHandle(client);
+        //this.addClientToHandle(client);
+        this.clientsToHandle.put(nickname, client);
     }
 
     //Listeners methods
@@ -192,6 +190,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void gameStateChanged() {
+        if (this.controller.getModel().getGameState() == GameState.ON_GOING) {
+            for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
+                bookshelf.registerListener(this);
+            }
+        }
         for (Client client : this.clientsToHandle.values()) {
             try {
                 client.updateModelView(new GameView(this.model));
@@ -200,4 +203,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             }
         }
     }
+
+    /*@Override
+    public void clientRegistered() {
+        for (Client client : this.clientsToHandle.values()) {
+            try {
+                client.updateModelView(new GameView(this.model));
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }*/
 }

@@ -114,7 +114,7 @@ public class App {
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
         String nick = s.next();
         try {
-            client = new ClientImpl(server, new TextualUI()/*, nick*/);
+            client = new ClientImpl(server, new TextualUI(), nick);
         } catch (RemoteException e) {
             System.err.println("Error while creating new client: " + e.getMessage());
         }

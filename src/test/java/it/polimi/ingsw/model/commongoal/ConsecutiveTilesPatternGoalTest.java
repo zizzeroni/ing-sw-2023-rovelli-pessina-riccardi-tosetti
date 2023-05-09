@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.commongoal;
 
-import it.polimi.ingsw.model.commongoal.CheckType;
-import it.polimi.ingsw.model.commongoal.ConsecutiveTilesPatternGoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
@@ -22,7 +20,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     @Test
-    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches zero time")
+    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches three time")
     public void GivenAGenericBookshelf_whenSearchingTheTwoConsecutiveElementPattern_thenReturnThree() {
         int consecutive = 2;
         consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
@@ -54,7 +52,7 @@ public class ConsecutiveTilesPatternGoalTest {
         assertEquals(0, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
     @Test
-    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a full of blue element bookshelf matches one time")
+    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a bookshelf filled with elements of the same type matches one time")
     public void GivenAFullOfBlueBookshelf_whenSearchingTheTwoConsecutiveElementPattern_thenReturnOne() {
         int consecutive = 2;
         consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
@@ -70,7 +68,7 @@ public class ConsecutiveTilesPatternGoalTest {
         assertEquals(1, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
     @Test
-    @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a full of blue bookshelf matches one time")
+    @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a bookshelf filled with elements of the same type matches one time")
     public void GivenAFullOfBlueBookshelf_whenSearchingFourConsecutiveElementPattern_thenReturnOne() {
         int consecutive = 4;
         consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
@@ -86,7 +84,7 @@ public class ConsecutiveTilesPatternGoalTest {
         assertEquals(1, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
     @Test
-    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a full of null element bookshelf matches zero time")
+    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in an empty bookshelf matches zero time")
     public void GivenAFullOfNullBookshelf_whenSearchingTheTwoConsecutiveElementPattern_thenReturnZero() {
         int consecutive = 2;
         consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
@@ -102,7 +100,7 @@ public class ConsecutiveTilesPatternGoalTest {
         assertEquals(0, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
     @Test
-    @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a full of null bookshelf matches zero time")
+    @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in an empty bookshelf matches zero time")
     public void GivenAFullOfNullBookshelf_whenSearchingFourConsecutiveElementPattern_thenReturnZero() {
         int consecutive = 4;
         consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
@@ -113,38 +111,6 @@ public class ConsecutiveTilesPatternGoalTest {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}};
-        bookshelf = new Bookshelf("", temp);
-
-        assertEquals(0, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
-    }
-    @Test
-    @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches zero time")
-    public void GivenAMixedBookshelf_whenSearchingTheTwoConsecutiveElementPattern_thenReturnZero() {
-        int consecutive = 2;
-        consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
-        Tile[][] temp = {
-                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
-        bookshelf = new Bookshelf("", temp);
-
-        assertEquals(3, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
-    }
-    @Test
-    @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
-    public void GivenAMixedElementBookshelf_whenSearchingFourConsecutiveElementPattern_thenReturnZero() {
-        int consecutive = 4;
-        consecutiveTiles = new ConsecutiveTilesPatternGoal(0,1, CheckType.EQUALS, consecutive );
-        Tile[][] temp = {
-                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.GREEN), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)},
-                {new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW)},
-                {new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.YELLOW), new Tile(TileColor.BLUE)}};
         bookshelf = new Bookshelf("", temp);
 
         assertEquals(0, consecutiveTiles.numberOfPatternRepetitionInBookshelf(bookshelf));
