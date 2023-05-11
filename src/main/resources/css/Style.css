@@ -1,0 +1,21 @@
+.secondPageBackground{
+    -fx-background-image: url("file:/C:/Users/franc/Progetto-INGSW/src/main/resources/Image/Publisher%20material/Display_2.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: stretch;
+}
+firstPageBackground{
+    -fx-background-image: url("file:/C:/Users/franc/Progetto-INGSW/src/main/resources/Image/Publisher%20material/Display_5.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: stretch;
+}
+firstPageTitle{
+    -fx-background-image: url("file:/C:/Users/franc/Progetto-INGSW/src/main/resources/Image/Publisher%20material/Title%202000x618px.png");
+    -fx-background-size: stretch;
+    -fx-background-position: center;
+}
+.secondPageSelectNumberOfPlayer{
+    -fx-background-image: url("file:/C:/Users/franc/Progetto-INGSW/src/main/resources/Image/misc/sfondo%20parquet.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-border-color: black;
+}
