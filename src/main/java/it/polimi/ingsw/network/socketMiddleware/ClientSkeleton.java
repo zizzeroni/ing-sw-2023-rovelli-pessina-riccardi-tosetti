@@ -38,6 +38,11 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    @Override
+    public void ping() throws RemoteException {
+
+    }
+
     public void receive(Server server) throws RemoteException {
         Command message;
         try {

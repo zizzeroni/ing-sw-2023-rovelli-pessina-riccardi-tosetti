@@ -85,7 +85,41 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             throw new RuntimeException(e);
         }*/
         //this.addClientToHandle(client);
-        this.clientsToHandle.put(nickname, client);
+        if(this.clientsToHandle.containsKey(nickname)) {
+            System.err.println("[INPUT:ERROR] Nickname already existing, try another one!");
+        } else {
+            this.clientsToHandle.put(nickname, client);
+        }
+
+    }
+
+    @Override
+    public synchronized void pingClients() throws RemoteException {
+        for (Map.Entry<String, Client> entry : clientsToHandle.entrySet()) {
+            String nickname = entry.getKey();
+            Client client = entry.getValue();
+            try {
+                client.ping();
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while sending hearthbeat to the client \"" + nickname+"\":" + e.getMessage());
+                this.controller.disconnectPlayer(nickname);
+                //this.clientsToHandle.remove(nickname);
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public synchronized void ping() throws RemoteException {
+        //Receiving ping from the client... so do nothing
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) throws RemoteException {
+        this.controller.disconnectPlayer(nickname);
+        //this.clientsToHandle.remove(nickname);
     }
 
     //Listeners methods

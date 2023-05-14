@@ -210,7 +210,7 @@ public class Game {
                 .collect(Collectors.toList());
     }
 
-    private Player getPlayerFromNickname(String nickname) {
+    public Player getPlayerFromNickname(String nickname) {
         return this.players.stream()
                 .filter(player -> player.getNickname().equals(nickname))
                 .findFirst()

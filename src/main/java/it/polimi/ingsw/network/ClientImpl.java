@@ -44,8 +44,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     //Update coming from the server, I forward it to the view
     @Override
-    public void updateModelView(GameView modelUpdated) throws RemoteException {
+    public synchronized void updateModelView(GameView modelUpdated) throws RemoteException {
         this.view.modelModified(modelUpdated);
+    }
+
+    @Override
+    public synchronized void ping() throws RemoteException {
+        //Receiving ping from server... do nothing.
     }
 
     //Methods used for forwarding notifications from view to the server
@@ -109,6 +114,15 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
             this.serverConnectedTo.startGame();
         } catch (RemoteException e) {
             System.err.println("[COMMUNICATION:ERROR] while updating server(startGame):" + e.getMessage() + ".Skipping update");
+        }
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) {
+        try {
+            this.serverConnectedTo.disconnectPlayer(nickname);
+        } catch (RemoteException e) {
+            System.err.println("[COMMUNICATION:ERROR] while updating server(disconnectPlayer):" + e.getMessage() + ".Skipping update");
         }
     }
 

@@ -206,6 +206,21 @@ public class ServerStub implements Server {
         }
     }
 
+    @Override
+    public void pingClients() throws RemoteException {
+
+    }
+
+    @Override
+    public void ping() throws RemoteException {
+
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) throws RemoteException {
+
+    }
+
 
     public void receive(Client client) throws RemoteException {
         GameView gameView;

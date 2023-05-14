@@ -102,14 +102,18 @@ public class CreationState extends ControllerState {
     }
 
     @Override
+    public void disconnectPlayer(String nickname) {
+        this.controller.addPersonalGoal(this.controller.getModel().getPlayerFromNickname(nickname).getPersonalGoal());
+        this.controller.getModel().getPlayers().remove(this.controller.getModel().getPlayerFromNickname(nickname));
+    }
+
+    @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if (this.controller.getModel().getNumberOfPlayersToStartGame() == 0) {
-                if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
-                    System.err.println("Number of players in the lobby exceed the chosen one");
-                } else {
-                    this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
-                }
+            if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
+                System.err.println("Number of players in the lobby exceed the chosen one");
+            } else {
+                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
             }
         } else {
             System.err.println("Unexpected value for number of lobby's players");

@@ -84,6 +84,13 @@ public class GameController implements ViewListener {
         state.startGame();
     }
 
+    @Override
+    public void disconnectPlayer(String nickname) {
+        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+        state.disconnectPlayer(nickname);
+        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+    }
+
     //------------------------------------UTILITY METHODS------------------------------------
     public Game getModel() {
         return this.model;
@@ -96,6 +103,10 @@ public class GameController implements ViewListener {
     public PersonalGoal getPersonalGoal(int index) {
         Collections.shuffle(personalGoalsDeck);
         return personalGoalsDeck.remove(index);
+    }
+
+    public void addPersonalGoal(PersonalGoal personalGoal) {
+        personalGoalsDeck.add(personalGoal);
     }
 
     public int getNumberOfPersonalGoals() {

@@ -36,7 +36,6 @@ public class TextualUI extends UI {
             this.controller.startGame();
         }
 
-
         waitWhileInState(State.WAITING_IN_LOBBY);
     }
 
@@ -62,6 +61,7 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
+
         while (this.getState() != State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
@@ -70,7 +70,6 @@ public class TextualUI extends UI {
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
-            //REMINDER: Per qualche motivo dopo la selezione della colonna l'esecuzione del client si ferma nel metodo insertUserInputIntoModel
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
         }
@@ -144,6 +143,7 @@ public class TextualUI extends UI {
             System.out.println("1)Recap situazione personale");
             System.out.println("2)Scegli tessere");
             System.out.println("3)Invia messaggio tramite chat");
+            System.out.println("4)Disconnettiti");
             String input = s.next();
             switch (input) {
                 case "1" -> {
@@ -259,6 +259,11 @@ public class TextualUI extends UI {
                 }
                 case "3" -> {
                     System.out.println("Invio messaggio");
+                }
+                case "4" -> {
+                    this.controller.disconnectPlayer(this.getNicknameID());
+                    System.err.println("Ti sei disconnesso dalla partita");
+                    System.exit(0);
                 }
                 default -> {
                     System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");

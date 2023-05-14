@@ -130,6 +130,11 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
+    @Override
+    public void disconnectPlayer(String nickname) {
+        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(false);
+    }
+
     public static GameState toEnum() {
         return GameState.FINISHING;
     }
