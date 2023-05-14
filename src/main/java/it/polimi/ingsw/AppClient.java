@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.TextualUI;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -16,11 +17,13 @@ import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.*;
 
 public class AppClient {
-    public static void main(String[] args) throws RemoteException, NotBoundException {
 
+    static CommandReader commandReader;
+
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+        commandReader.run();
         //Initialize client necessities
         ClientImpl client;
-        Scanner s = new Scanner(System.in);
         System.out.println("Client avviato...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
@@ -28,13 +31,23 @@ public class AppClient {
             System.out.println("Che interfaccia grafica preferisci utilizzare?");
             System.out.println("1)Testuale");
             System.out.println("2)Grafica");
-            uiChoice = s.nextInt();
+            try {
+                uiChoice = Integer.parseInt(CommandReader.getOldestCommand());
+            }
+            catch (NumberFormatException e) {
+                uiChoice = 0;
+            }
         } while (uiChoice < 1 || uiChoice > 2);
         do {
             System.out.println("Che metodo di comunicazione preferisci utilizzare?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
-            connectionChoice = s.nextInt();
+            try {
+                connectionChoice = Integer.parseInt(commandReader.getOldestCommand());
+            }
+            catch (NumberFormatException e) {
+                connectionChoice = 0;
+            }
         } while (connectionChoice < 1 || connectionChoice > 2);
 
         switch (uiChoice) {
@@ -47,7 +60,7 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = s.next();
+                        String nick = commandReader.getOldestCommand();
                         client = new ClientImpl(server, new TextualUI(), nick);
                     }
                     case 2 -> {
@@ -56,7 +69,7 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a Socket Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = s.next();
+                        String nick = scanner.next();
                         client = new ClientImpl(serverStub, new TextualUI(), nick);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
