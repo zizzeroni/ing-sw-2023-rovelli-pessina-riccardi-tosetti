@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MinEqualsTilesPatternTest {
     private Bookshelf bookshelf;
-    private MinEqualsTilesPattern horizontal3NotEquals;
-    private MinEqualsTilesPattern vertical3NotEquals;
+    private MinEqualsTilesPattern horizontalMaxThreeNotEquals;
+    private MinEqualsTilesPattern verticalMaxThreeNotEquals;
     private MinEqualsTilesPattern horizontalAllDifferent;
     private MinEqualsTilesPattern verticalAllDifferent;
 
@@ -20,8 +20,8 @@ public class MinEqualsTilesPatternTest {
     @BeforeEach
     public void cleanGoal() {
         bookshelf = null;
-        horizontal3NotEquals = new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
-        vertical3NotEquals = new MinEqualsTilesPattern(0,3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
+        horizontalMaxThreeNotEquals = new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, Direction.HORIZONTAL, 2);
+        verticalMaxThreeNotEquals = new MinEqualsTilesPattern(0,3,CheckType.INDIFFERENT,Direction.VERTICAL,3);
         horizontalAllDifferent = new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.HORIZONTAL,0);
         verticalAllDifferent = new MinEqualsTilesPattern(0,2,CheckType.DIFFERENT,Direction.VERTICAL,0);
     }
@@ -39,8 +39,8 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(5, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(5, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(5, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(4, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
@@ -58,8 +58,8 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(4, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(4, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(4, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(1, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
@@ -77,8 +77,8 @@ public class MinEqualsTilesPatternTest {
                 {null, null, null, null, null}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(0, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
@@ -96,15 +96,15 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(6, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(5, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(6, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(5, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
-    @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively zero times, zero times, three times and two times on the given bookshelf")
-    public void givenBookshelfWithGroupsOfOneSingleTile_whenSearchingForRowsAndColumnsWithMaxThreeNotEqualsTilesAndRowsAndColumnsWithAllTileDifferentToEachOther_returnRespectivelyZeroZeroThreeTwo() {
+    @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively zero times, zero times, six times and five times on the given bookshelf")
+    public void givenBookshelfWithGroupsOfOneSingleTile_whenSearchingForRowsAndColumnsWithMaxThreeNotEqualsTilesAndRowsAndColumnsWithAllTileDifferentToEachOther_returnRespectivelyZeroZeroSixFive() {
         
         Tile[][] temp = {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN)},
@@ -115,15 +115,15 @@ public class MinEqualsTilesPatternTest {
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
         bookshelf = new Bookshelf("", temp);
 
-        assertEquals(0, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(0, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(3, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(2, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(0, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(6, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(5, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
 
     @Test
-    @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively two times, two times, zero times and zero times on the given bookshelf")
-    public void givenBookshelfCompletelyFilledWithTilesOfTheSameColorWith9x6Size_whenSearchingForRowsAndColumnsWithMaxThreeNotEqualsTilesAndRowsAndColumnsWithAllTileDifferentToEachOther_returnRespectivelyTwoTwoZeroZero() {
+    @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively nine times, six times, zero times and zero times on the given bookshelf")
+    public void givenBookshelfCompletelyFilledWithTilesOfTheSameColorWith9x6Size_whenSearchingForRowsAndColumnsWithMaxThreeNotEqualsTilesAndRowsAndColumnsWithAllTileDifferentToEachOther_returnRespectivelyNineSixZeroZero() {
 
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -156,8 +156,8 @@ public class MinEqualsTilesPatternTest {
         }
 
         bookshelf = new PersonalizedBookshelf("", temp);
-        assertEquals(2, horizontal3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
-        assertEquals(2, vertical3NotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(9, horizontalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
+        assertEquals(6, verticalMaxThreeNotEquals.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, horizontalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
         assertEquals(0, verticalAllDifferent.numberOfPatternRepetitionInBookshelf(bookshelf));
     }
