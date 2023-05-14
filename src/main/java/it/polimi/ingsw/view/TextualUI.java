@@ -6,10 +6,6 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
 
 import java.util.*;
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.*;
-
-
 
 public class TextualUI extends UI {
 
@@ -22,7 +18,7 @@ public class TextualUI extends UI {
     }
 
     private void firstInteractionWithUser() {
-        Scanner s = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         this.controller.addPlayer(this.getNicknameID());
 
@@ -30,7 +26,7 @@ public class TextualUI extends UI {
         if (getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
-                chosenNumberOfPlayer = s.nextInt();
+                chosenNumberOfPlayer = scanner.nextInt();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
@@ -38,7 +34,6 @@ public class TextualUI extends UI {
         if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
             this.controller.startGame();
         }
-
 
         waitWhileInState(State.WAITING_IN_LOBBY);
     }
@@ -84,8 +79,8 @@ public class TextualUI extends UI {
     @Override
     public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
-        String pNickname = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname();
-        System.out.println("Tocca a te player: " + pNickname + "!");
+        String activePlayerNickname = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname();
+        System.out.println("Tocca a te player: " + activePlayerNickname + "!");
         System.out.println("Stato della board attuale:");
         System.out.println(this.getModel().getBoard());
     }
@@ -102,7 +97,7 @@ public class TextualUI extends UI {
                 scanner.next();
             }
 
-            if (choice <= (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns()) && choice > 0) {
+            if (choice > 0 && choice <= (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns())) {
                 isInsertCorrect = true;
             } else {
                 System.err.println("Inserisci una " + (isRowBeingChosen ? "riga" : "colonna") + " valida (Un numero compreso tra 1 e " + (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns()) + "!)");
@@ -141,14 +136,14 @@ public class TextualUI extends UI {
     @Override
     public Choice askPlayer() {
 
-        Scanner s = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("Seleziona l'azione(Digita il numero associato all'azione):");
             System.out.println("1)Recap situazione personale");
             System.out.println("2)Scegli tessere");
             System.out.println("3)Invia messaggio tramite chat");
-            String input = s.next();
+            String input = scanner.next();
             switch (input) {
                 case "1" -> {
                     showPersonalRecap();
@@ -166,8 +161,8 @@ public class TextualUI extends UI {
                     maxNumberOfCellsFreeInBookshelf = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
                     do {
                         int row, column;
-                        row = rowColumnTileChoiceFromBoard(s, counter, true);
-                        column = rowColumnTileChoiceFromBoard(s, counter, false);
+                        row = rowColumnTileChoiceFromBoard(scanner, counter, true);
+                        column = rowColumnTileChoiceFromBoard(scanner, counter, false);
 
                         if (checkIfPickable(row - 1, column - 1)) {
                             switch (counter) {
@@ -203,7 +198,7 @@ public class TextualUI extends UI {
                             if (counter > 0 && counter != 3) {
                                 do {
                                     System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
-                                    input = s.next();
+                                    input = scanner.next();
                                 } while (!input.equalsIgnoreCase("SI") && !input.equalsIgnoreCase("NO"));
                             }
                         } else {
@@ -214,7 +209,7 @@ public class TextualUI extends UI {
                     //---------------------------------SCELTA COLONNA---------------------------------
                     System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
 
-                    int chosenColumn = bookshelfColumnChoice(s, counter);
+                    int chosenColumn = bookshelfColumnChoice(scanner, counter);
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
                     //---------------------------------SCELTA ORDINE---------------------------------
@@ -225,7 +220,7 @@ public class TextualUI extends UI {
                         System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
                         boolean isInsertCorrect = false;
                         do {
-                            input = s.next();
+                            input = scanner.next();
                             String[] temp;
                             temp = input.split(",");
                             boolean res = false;
@@ -262,28 +257,25 @@ public class TextualUI extends UI {
                     return playerChoice;
                 }
                 case "3" -> {
-                    //boolean isInsertCorrect = false;
-                    //  do {
-                    String content;
+                    String receiver = null;
 
+                    System.out.println("Che tipo di messaggio vuoi inviare? Pubblico (B)/ Privato (P)");
+                    String messageType = scanner.next();
 
-                    System.out.println("Invio messaggio");
-                    System.out.println("Che tipo di messaggio vuoi inviare? P/B");
-                    input = s.next();
-                    System.out.println("A chi vuoi inviare il messaggio?");
-                    String receiver = s.next();
+                    if(messageType.equals("P")) {
+                        System.out.println("A chi vuoi inviare il messaggio?");
+                        receiver = scanner.next();
+                    }
+
                     System.out.println("Inserisci il tuo messaggio qui");
-                    content = s.next();
-                    /**
-                     * TODO controllare aggiunta buffer reader
-                    */
-                    if (input.equals('P')) {
+                    String content = scanner.next();
+
+                    if (messageType.equals("P")) {
                         this.controller.sendPrivateMessage(this.getNicknameID(), receiver, content);
-                    } else if (input.equals('B')) {
+                    } else if (messageType.equals("B")) {
                         this.controller.sendBroadcastMessage(this.getNicknameID(), content);
                     } else {
-                        System.err.println("Hai effettuato un inserimento che non rispetta" +
-                                " la formattazione richiesta, riprova!");
+                        System.err.println("La tipologia di messaggio specificata non è riconosciuta, utilizzarne una valida");
                     }
                     //   } while (!isInsertCorrect);
 

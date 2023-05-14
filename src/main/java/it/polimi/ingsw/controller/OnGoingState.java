@@ -24,9 +24,9 @@ public class OnGoingState extends ControllerState {
     private void refillBoard() {
         Collections.shuffle(this.controller.getModel().getBag());
 
-        List<Tile> drawedTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
-        this.controller.getModel().getBoard().addTiles(drawedTiles);
-        drawedTiles.clear();
+        List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
+        this.controller.getModel().getBoard().addTiles(drawnTiles);
+        drawnTiles.clear();
     }
 
     private void changeActivePlayer() {
@@ -62,22 +62,22 @@ public class OnGoingState extends ControllerState {
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         } else {
-            //Necessary because i ALWAYS need a feedback to the client in order to wait client-side for the model updated.
-            //Without this else i would receive only ONE time a notification that tell me that the state has changed, and i can't know when this will happen client-side
+            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the model updated.
+            //Without this else we would receive only ONE time a notification that tell us that the state has changed, and we can't know when this will happen client-side
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 
     private boolean checkIfUserInputIsCorrect(Choice choice) {
-        List<TileView> choiceChoosenTiles = choice.getChosenTiles();
+        List<TileView> choiceChosenTiles = choice.getChosenTiles();
         int[] choiceTileOrder = choice.getTileOrder();
         int choiceColumn = choice.getChosenColumn();
         List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
         Bookshelf currentPlayerBookshelf = this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf();
 
-        if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
-            if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChoosenTiles.size()) {
+        if (choiceChosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
+            if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChosenTiles.size()) {
                 if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }
@@ -96,15 +96,15 @@ public class OnGoingState extends ControllerState {
         return true;
     }
 
-    private boolean checkIfPickable(int x, int y) {
+    private boolean checkIfPickable(int row, int column) {
         Board board = this.controller.getModel().getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        return (boardMatrix[x][y] != null || boardMatrix[x][y].getColor() != null) && (
-                (x != 0 && (boardMatrix[x - 1][y] == null || boardMatrix[x - 1][y].getColor() == null)) ||
-                        (x != board.getNumberOfRows() && (boardMatrix[x + 1][y] == null || boardMatrix[x + 1][y].getColor() == null)) ||
-                        (y != board.getNumberOfColumns() && (boardMatrix[x][y + 1] == null || boardMatrix[x][y + 1].getColor() == null)) ||
-                        (y != 0 && (boardMatrix[x][y - 1] == null || boardMatrix[x][y - 1].getColor() == null)));
+        return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
+                (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                        (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                        (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
@@ -122,9 +122,9 @@ public class OnGoingState extends ControllerState {
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(receiver, sender, content);
-        for (Player p : this.controller.getModel().getPlayers()) {
-            if(p.getNickname().equals(receiver)){
-                p.addMessage(message);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            if (player.getNickname().equals(receiver)) {
+                player.addMessage(message);
             }
         }
 
@@ -132,12 +132,13 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        for (Player i : this.controller.getModel().getPlayers()) {
-            Message message = new Message(i.getNickname(), sender, content);
-            i.addMessage(message);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            Message message = new Message(player.getNickname(), sender, content);
+            player.addMessage(message);
         }
 
     }
+
     @Override
     public void addPlayer(String nickname) {
         //Game is going, so do nothing...

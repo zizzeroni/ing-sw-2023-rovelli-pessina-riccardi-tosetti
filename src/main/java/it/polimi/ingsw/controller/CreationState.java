@@ -31,7 +31,7 @@ public class CreationState extends ControllerState {
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
-            if(player.getNickname().equals(receiver)){
+            if (player.getNickname().equals(receiver)) {
                 player.addMessage(message);
             }
         }
@@ -99,11 +99,10 @@ public class CreationState extends ControllerState {
 
             //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
             for (Player player : this.controller.getModel().getPlayers()) {
-                List<ScoreTile> temporaryTiles = new ArrayList<>();
+                // the available score tiles in a game are one for each common goal plus the first finisher's score tile
                 for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
-                    temporaryTiles.add(new ScoreTile(0));
+                    player.getGoalTiles().add(new ScoreTile(0));
                 }
-                player.getGoalTiles().addAll(temporaryTiles);
             }
 
             this.controller.changeState(new OnGoingState(this.controller));

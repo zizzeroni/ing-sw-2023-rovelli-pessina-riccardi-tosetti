@@ -1,10 +1,21 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -61,7 +72,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
-        this.model.getPlayers().get(this.model.getPlayers().size()-1).registerListener(this);
+        this.model.getPlayers().get(this.model.getPlayers().size() - 1).registerListener(this);
         this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 

@@ -62,6 +62,7 @@ public class Player {
     public void removeListener() {
         this.listener = null;
     }
+
     //Getter and Setter
     public PersonalGoal getPersonalGoal() {
         return this.personalGoal;
@@ -128,15 +129,14 @@ public class Player {
         }
         score += this.personalGoal.score(this.bookshelf);
 
-        return score; //this value is based on the number of player
+        return score;
     }
 
-    public void addMessage(Message message){
+    public void addMessage(Message message) {
 
-        if(message!=null){
-            chat.add(message);
-        }
-        if(listener!=null){
+        chat.add(message);
+
+        if (listener != null) {
             listener.chatUpdated();
         }
         //System.out.println("CHAT:");
