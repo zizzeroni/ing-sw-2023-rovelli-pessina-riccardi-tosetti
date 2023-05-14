@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
@@ -25,6 +26,8 @@ public class ServerStub implements Server {
     //a "response" (A new GameView object) form the Server itself
     private final Object lockUpdate = new Object();
 
+    private Semaphore semaphoreUpdate = new Semaphore(0);
+
     public ServerStub(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -32,23 +35,32 @@ public class ServerStub implements Server {
 
     @Override
     public void changeTurn() throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new ChangeTurnCommand();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        /*
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new InsertUserInputCommand(playerChoice);
         try {
             this.oos.writeObject(message);
@@ -56,6 +68,28 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //Necessary for how we implemented the adding of the tiles to the player's bookshelf
+        //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
+        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
+            try {
+                this.semaphoreUpdate.acquire();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Necessary because at the end of the game I receive the notification that the game passed from ON_GOING state to the FINISHING state
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        /*
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
@@ -83,16 +117,26 @@ public class ServerStub implements Server {
                 throw new RuntimeException(e);
             }
         }
+        */
+
     }
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
+
+        /*
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
 
         synchronized (this.lockUpdate) {
             try {
@@ -105,6 +149,7 @@ public class ServerStub implements Server {
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
@@ -119,10 +164,17 @@ public class ServerStub implements Server {
                 throw new RuntimeException(e);
             }
         }
+        /*
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 
     @Override
     public void addPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
@@ -130,18 +182,26 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
+        /*
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
 
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Valore permit semaphore: "+this.semaphoreUpdate.availablePermits());
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
@@ -149,6 +209,7 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
+        /*
         synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
@@ -156,10 +217,20 @@ public class ServerStub implements Server {
                 throw new RuntimeException(e);
             }
         }
+        */
+        System.out.println("Valore permit semaphore: "+this.semaphoreUpdate.availablePermits());
+        try {
+            this.semaphoreUpdate.acquire();
+            System.out.println("Valore permit semaphore: "+this.semaphoreUpdate.availablePermits());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public void startGame() throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
         Command message = new StartGameCommand();
         try {
             this.oos.writeObject(message);
@@ -167,7 +238,7 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
         }
 
-        synchronized (this.lockUpdate) {
+        /*synchronized (this.lockUpdate) {
             try {
                 this.lockUpdate.wait();
             } catch (InterruptedException e) {
@@ -182,7 +253,20 @@ public class ServerStub implements Server {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }*/
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("Valore permit semaphore: "+this.semaphoreUpdate.availablePermits());
     }
 
     @Override
@@ -219,9 +303,10 @@ public class ServerStub implements Server {
         }
         client.updateModelView(gameView);
 
-        synchronized (this.lockUpdate) {
+        /*synchronized (this.lockUpdate) {
             this.lockUpdate.notifyAll();
-        }
+        }*/
+        this.semaphoreUpdate.release();
     }
 
     public void close() throws RemoteException {
