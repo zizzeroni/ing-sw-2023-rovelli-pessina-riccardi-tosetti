@@ -29,12 +29,22 @@ public class CreationState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        Message message = new Message(receiver, sender, content);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            if(player.getNickname().equals(receiver)){
+                player.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        for (Player player : this.controller.getModel().getPlayers()) {
+            Message message = new Message(player.getNickname(), sender, content);
+            player.addMessage(message);
+        }
+
     }
 
     @Override

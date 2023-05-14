@@ -9,7 +9,10 @@ import java.util.*;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.*;
 
+
+
 public class TextualUI extends UI {
+
     public TextualUI(GameView model) {
         super(model);
     }
@@ -137,6 +140,7 @@ public class TextualUI extends UI {
 
     @Override
     public Choice askPlayer() {
+
         Scanner s = new Scanner(System.in);
 
         while (true) {
@@ -258,7 +262,31 @@ public class TextualUI extends UI {
                     return playerChoice;
                 }
                 case "3" -> {
+                    //boolean isInsertCorrect = false;
+                    //  do {
+                    String content;
+
+
                     System.out.println("Invio messaggio");
+                    System.out.println("Che tipo di messaggio vuoi inviare? P/B");
+                    input = s.next();
+                    System.out.println("A chi vuoi inviare il messaggio?");
+                    String receiver = s.next();
+                    System.out.println("Inserisci il tuo messaggio qui");
+                    content = s.next();
+                    /**
+                     * TODO controllare aggiunta buffer reader
+                    */
+                    if (input.equals('P')) {
+                        this.controller.sendPrivateMessage(this.getNicknameID(), receiver, content);
+                    } else if (input.equals('B')) {
+                        this.controller.sendBroadcastMessage(this.getNicknameID(), content);
+                    } else {
+                        System.err.println("Hai effettuato un inserimento che non rispetta" +
+                                " la formattazione richiesta, riprova!");
+                    }
+                    //   } while (!isInsertCorrect);
+
                 }
                 default -> {
                     System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");
@@ -363,4 +391,6 @@ public class TextualUI extends UI {
                 (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
+
+
 }

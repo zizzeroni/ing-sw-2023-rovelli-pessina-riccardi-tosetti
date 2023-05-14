@@ -1,13 +1,10 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.RemoteException;
-import java.rmi.server.*;
-import java.util.*;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -64,6 +61,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
+        this.model.getPlayers().get(this.model.getPlayers().size()-1).registerListener(this);
+        this.model.getPlayers().get(this.model.getPlayers().size() - 1).getBookshelf().registerListener(this);
     }
 
     @Override
@@ -204,14 +203,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    /*@Override
-    public void clientRegistered() {
+    @Override
+    public void chatUpdated() {
         for (Client client : this.clientsToHandle.values()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
             }
         }
-    }*/
+    }
 }
