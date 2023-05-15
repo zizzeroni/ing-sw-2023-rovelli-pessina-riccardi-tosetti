@@ -1,16 +1,16 @@
 package it.polimi.ingsw.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class CommandReader implements Runnable {
+public class CommandReader extends Thread {
 
     private final Scanner scanner = new Scanner(System.in);
-    private static List<String> commands;
+    private static Queue<String> commands;
 
     static {
-        commands = new ArrayList<>();
+        commands = new ConcurrentLinkedQueue<>();
     }
     public CommandReader() {}
 
@@ -27,25 +27,22 @@ public class CommandReader implements Runnable {
         }
     }
 
-    public synchronized boolean removeOldestCommand() {
-        if(CommandReader.commands.size() > 0) {
-            CommandReader.commands.remove(0);
-            return true;
-        }
-        return false;
+    public static boolean removeOldestCommand() {
+        return CommandReader.commands.poll() != null;
     }
-    public static synchronized String getOldestCommand(){
-        if(CommandReader.commands.size() > 0) {
-            return CommandReader.commands.get(0);
+    public static String getOldestCommand(){
+        String command;
+        if((command = CommandReader.commands.peek()) != null) {
+            return command;
         }
         //-1 implies that there are no available commands;
         return "-1";
 
     }
-    public synchronized List<String> getCommands() {
+    public synchronized Queue<String> getCommands() {
         return CommandReader.commands;
     }
-    static synchronized void setCommands(List<String> commands) {
+    static synchronized void setCommands(Queue<String> commands) {
         CommandReader.commands = commands;
     }
 }

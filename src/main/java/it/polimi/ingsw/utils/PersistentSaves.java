@@ -1,4 +1,4 @@
-package it.polimi.ingsw.utils;
+/* package it.polimi.ingsw.utils;
 
 import it.polimi.ingsw.controller.GameController;
 import java.io.*;
@@ -29,4 +29,4 @@ public class PersistentSaves {
         }
 
     }
-}
+} */

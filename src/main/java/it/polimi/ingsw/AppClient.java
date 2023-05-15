@@ -18,10 +18,10 @@ import static org.fusesource.jansi.Ansi.*;
 
 public class AppClient {
 
-    static CommandReader commandReader;
+    static CommandReader commandReader = new CommandReader();
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
-        commandReader.run();
+        commandReader.start();
         //Initialize client necessities
         ClientImpl client;
         System.out.println("Client avviato...");
@@ -32,9 +32,12 @@ public class AppClient {
             System.out.println("1)Testuale");
             System.out.println("2)Grafica");
             try {
-                uiChoice = Integer.parseInt(CommandReader.getOldestCommand());
-            }
-            catch (NumberFormatException e) {
+                do {
+                    uiChoice = Integer.parseInt(CommandReader.getOldestCommand());
+                } while (uiChoice == -1);
+                CommandReader.removeOldestCommand();
+
+            } catch (NumberFormatException e) {
                 uiChoice = 0;
             }
         } while (uiChoice < 1 || uiChoice > 2);
@@ -43,9 +46,12 @@ public class AppClient {
             System.out.println("1)RMI");
             System.out.println("2)Socket");
             try {
-                connectionChoice = Integer.parseInt(commandReader.getOldestCommand());
-            }
-            catch (NumberFormatException e) {
+                do {
+                    connectionChoice = Integer.parseInt(CommandReader.getOldestCommand());
+                } while (connectionChoice == -1);
+                CommandReader.removeOldestCommand();
+
+            } catch (NumberFormatException e) {
                 connectionChoice = 0;
             }
         } while (connectionChoice < 1 || connectionChoice > 2);
@@ -60,8 +66,13 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = commandReader.getOldestCommand();
-                        client = new ClientImpl(server, new TextualUI(), nick);
+                        String nickname;
+                        do {
+                            nickname = CommandReader.getOldestCommand();
+                        } while (!nickname.equals("-1"));
+                        CommandReader.removeOldestCommand();
+
+                        client = new ClientImpl(server, new TextualUI(), nickname);
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
@@ -69,8 +80,14 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a Socket Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = scanner.next();
-                        client = new ClientImpl(serverStub, new TextualUI(), nick);
+                        String nickname;
+
+                        do {
+                            nickname = CommandReader.getOldestCommand();
+                        } while (!nickname.equals("-1"));
+                        CommandReader.removeOldestCommand();
+
+                        client = new ClientImpl(serverStub, new TextualUI(), nickname);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
                             while (true) {
