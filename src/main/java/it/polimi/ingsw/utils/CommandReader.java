@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class CommandReader extends Thread {
 
     private final Scanner scanner = new Scanner(System.in);
-    public static CommandQueue chatCommandQueue;
-    public static CommandQueue standardCommandQueue;
+    public final static CommandQueue chatCommandQueue;
+    public final static CommandQueue standardCommandQueue;
     
     static {
-        CommandReader.chatCommandQueue = new CommandQueue();
-        CommandReader.standardCommandQueue = new CommandQueue();
+        chatCommandQueue = new CommandQueue();
+        standardCommandQueue = new CommandQueue();
     }
 
     public CommandReader() {
