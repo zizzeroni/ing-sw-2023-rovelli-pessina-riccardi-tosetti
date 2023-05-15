@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.utils.CommandReader;
 
 import java.util.*;
 
@@ -18,7 +19,6 @@ public class TextualUI extends UI {
     }
 
     private void firstInteractionWithUser() {
-        Scanner scanner = new Scanner(System.in);
 
         this.controller.addPlayer(this.getNicknameID());
 
@@ -26,11 +26,11 @@ public class TextualUI extends UI {
         if (getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
-                chosenNumberOfPlayer = scanner.nextInt();
+                chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
-        System.out.println("Ciao ");
+
         if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
             this.controller.startGame();
         }
@@ -91,10 +91,10 @@ public class TextualUI extends UI {
         while (!isInsertCorrect) {
             System.out.println("Inserisci la " + (isRowBeingChosen ? "riga" : "colonna") + " della " + (iterationCount + 1) + "° tessera che vuoi prendere:");
             try {
-                choice = scanner.nextInt();
+                choice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
             } catch (InputMismatchException e) {
                 System.err.println("Hai inserito un valore non valido, riprova!");
-                scanner.next();
+                CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             }
 
             if (choice > 0 && choice <= (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns())) {
@@ -113,7 +113,7 @@ public class TextualUI extends UI {
             isInsertCorrect = true;
             System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
             try {
-                chosenColumn = scanner.nextInt();
+                chosenColumn = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
                 if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                     isInsertCorrect = false;
                     System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
@@ -127,7 +127,7 @@ public class TextualUI extends UI {
             } catch (InputMismatchException ignored) {
                 isInsertCorrect = false;
                 System.err.println("Non hai inserito un valore valido, riprova!");
-                scanner.next();
+                CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             }
         } while (!isInsertCorrect);
         return chosenColumn;
@@ -143,7 +143,7 @@ public class TextualUI extends UI {
             System.out.println("1)Recap situazione personale");
             System.out.println("2)Scegli tessere");
             System.out.println("3)Invia messaggio tramite chat");
-            String input = scanner.next();
+            String input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             switch (input) {
                 case "1" -> {
                     showPersonalRecap();
@@ -198,7 +198,7 @@ public class TextualUI extends UI {
                             if (counter > 0 && counter != 3) {
                                 do {
                                     System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
-                                    input = scanner.next();
+                                    input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
                                 } while (!input.equalsIgnoreCase("SI") && !input.equalsIgnoreCase("NO"));
                             }
                         } else {
@@ -220,7 +220,7 @@ public class TextualUI extends UI {
                         System.out.println("Digita l'ordine con cui vuoi inserire le tessere (1 indica la prima tessera scelta, 2 la seconda e 3 la terza, ES: 1,3,2)");
                         boolean isInsertCorrect = false;
                         do {
-                            input = scanner.next();
+                            input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
                             String[] temp;
                             temp = input.split(",");
                             boolean res = false;
@@ -260,15 +260,15 @@ public class TextualUI extends UI {
                     String receiver = null;
 
                     System.out.println("Che tipo di messaggio vuoi inviare? Pubblico (B)/ Privato (P)");
-                    String messageType = scanner.next();
+                    String messageType = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                     if(messageType.equals("P")) {
                         System.out.println("A chi vuoi inviare il messaggio?");
-                        receiver = scanner.next();
+                        receiver = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
                     }
 
                     System.out.println("Inserisci il tuo messaggio qui");
-                    String content = scanner.next();
+                    String content = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                     if (messageType.equals("P")) {
                         this.controller.sendPrivateMessage(this.getNicknameID(), receiver, content);
