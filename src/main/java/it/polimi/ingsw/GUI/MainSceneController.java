@@ -50,20 +50,15 @@ public class MainSceneController implements Initializable {
         String personalGoalNumber="";
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/personal goal cards/Personal_Goals5.png"));
         personalGoal.setImage(personalGoalImage);
+
     }
-    public void setStage(){
+    public void setScene(){
         Stage stage = (Stage) firstPlayerNickname.getScene().getWindow();
         User user = (User) stage.getUserData();
-        textFirstPlayerNickname=user.getNumberOfPlayer();
-        numberOfPlayer=user.getFirstPlayerNickname();
-        System.out.println("Tu ti chiami: "+ textFirstPlayerNickname+", la partita è fatta da: "+ numberOfPlayer+"Giocatori");
-        if(!numberOfPlayer.equals("4")){
-            fourthPlayerBookshelf.setVisible(false);
-        }
-        if (!numberOfPlayer.equals("3")) {
-            thirdPlayerBookshelf.setVisible(false);
-        }
-        firstPlayerNickname.setText(textFirstPlayerNickname);
+        numberOfPlayer=user.getNumberOfPlayer();
+        textFirstPlayerNickname=user.getFirstPlayerNickname();
+        System.out.println("Tu ti chiami: "+ textFirstPlayerNickname+", la partita è fatta da: "+ numberOfPlayer+" Giocatori");
+        this.setTable();
     }
     public void Selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
@@ -147,5 +142,19 @@ public class MainSceneController implements Initializable {
         imageView.setFitWidth(286);
         imageView.setLayoutX(915);
         imageView.setLayoutY(560);
+    }
+    public void setTable(){
+        commonGoal1.setVisible(false);
+        if (fourthPlayerBookshelf == null)
+            return;
+        else if (thirdPlayerBookshelf == null)
+            return;
+        if(!numberOfPlayer.equals("4")){
+            fourthPlayerBookshelf.setVisible(false);
+            if (!numberOfPlayer.equals("3")) {
+                thirdPlayerBookshelf.setVisible(false);
+            }
+        }
+        firstPlayerNickname.setText(textFirstPlayerNickname);
     }
 }

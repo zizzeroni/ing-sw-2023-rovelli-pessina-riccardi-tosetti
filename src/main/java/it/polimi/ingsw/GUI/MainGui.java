@@ -9,15 +9,26 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainGui extends Application{
+    private Stage primaryStage;
     @Override
     public void start(Stage primaryStage)throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/FirstScene.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getClassLoader().getResource("fxml/FirstScene.fxml"));
+        LoginController loginController = loader.getController();
         primaryStage.setTitle("First Scene");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        this.primaryStage=primaryStage;
     }
 
     public static void main(String[] args){
         launch(args);
+    }
+
+    public void startGame(Stage stage) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainScene.fxml"));
+        stage.setTitle("Main Scene");
+        stage.setScene(new Scene(root));
     }
 }

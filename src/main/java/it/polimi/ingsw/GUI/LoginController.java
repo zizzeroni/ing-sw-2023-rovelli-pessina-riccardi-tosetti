@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+    //Fa schifo
+    private MainGui mainGui = new MainGui();
     @FXML
     private Label principalLabel;
     @FXML
@@ -63,18 +65,13 @@ public class LoginController implements Initializable {
     public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException {
         numberOfPlayer = NumberOfPlayerChoice.getValue();
         if (numberOfPlayer!=null&&!numberOfPlayer.isEmpty()){
-            startGame();
+            User user=new User(numberOfPlayer, nickname);
+            Stage stage = (Stage) FirstButton.getScene().getWindow();
+            stage.setUserData(user);
+            mainGui.startGame(stage);
         }else{
             ErrorLabel.setText("Select the number of player!");
         }
-    }
-    public void startGame() throws IOException {
-        User user=new User(numberOfPlayer, nickname);
-        Stage stage = (Stage) FirstButton.getScene().getWindow();
-        stage.setUserData(user);
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainScene.fxml"));
-        stage.setTitle("Number of Player Scene");
-        stage.setScene(new Scene(root));
     }
 
 }
