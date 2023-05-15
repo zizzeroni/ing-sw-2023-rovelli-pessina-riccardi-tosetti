@@ -20,7 +20,7 @@ public class TextualUI extends UI {
 
     private void firstInteractionWithUser() {
 
-        this.controller.addPlayer(this.getNicknameID());
+        this.controller.addPlayer(this.getNickname());
 
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {
@@ -271,9 +271,9 @@ public class TextualUI extends UI {
                     String content = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                     if (messageType.equals("P")) {
-                        this.controller.sendPrivateMessage(this.getNicknameID(), receiver, content);
+                        this.controller.sendPrivateMessage(this.getNickname(), receiver, content);
                     } else if (messageType.equals("B")) {
-                        this.controller.sendBroadcastMessage(this.getNicknameID(), content);
+                        this.controller.sendBroadcastMessage(this.getNickname(), content);
                     } else {
                         System.err.println("La tipologia di messaggio specificata non è riconosciuta, utilizzarne una valida");
                     }
@@ -364,7 +364,7 @@ public class TextualUI extends UI {
 
     @Override
     public void showPersonalRecap() {
-        PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNicknameID())).toList().get(0);
+        PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
         //PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();

@@ -121,7 +121,7 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        Message message = new Message(receiver, sender, content);
+        Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
             if (player.getNickname().equals(receiver)) {
                 player.addMessage(message);
@@ -133,7 +133,7 @@ public class OnGoingState extends ControllerState {
     @Override
     public void sendBroadcastMessage(String sender, String content) {
         for (Player player : this.controller.getModel().getPlayers()) {
-            Message message = new Message(player.getNickname(), sender, content);
+            Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
             player.addMessage(message);
         }
 

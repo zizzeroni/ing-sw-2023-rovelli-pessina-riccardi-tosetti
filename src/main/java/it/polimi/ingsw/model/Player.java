@@ -20,15 +20,17 @@ public class Player {
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
     private PlayerListener listener;
-    private List<Message> chat;
+    private final List<Message> chat;
 
-    //Constructor
+    //Constructors
     public Player(String nickname, boolean connected) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = null;
         this.scoreTiles = null;
         this.bookshelf = null;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
@@ -37,6 +39,8 @@ public class Player {
         this.scoreTiles = scoreTiles;
         this.personalGoal = null;
         this.bookshelf = null;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
@@ -45,6 +49,8 @@ public class Player {
         this.scoreTiles = scoreTiles;
         this.personalGoal = null;
         this.bookshelf = bookshelf;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
@@ -53,6 +59,8 @@ public class Player {
         this.personalGoal = personalGoal;
         this.scoreTiles = scoreTiles;
         this.bookshelf = bookshelf;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public void registerListener(PlayerListener listener) {
@@ -114,7 +122,7 @@ public class Player {
     }
 
     /*
-    Set the score of the player by the score of his bookshelf
+        Set the score of the player by the score of his bookshelf
      */
 
     public int score() {
@@ -133,14 +141,14 @@ public class Player {
     }
 
     public void addMessage(Message message) {
-
         chat.add(message);
 
         if (listener != null) {
             listener.chatUpdated();
         }
-        //System.out.println("CHAT:");
-        //chat.forEach((i)->System.out.println(i));
+    }
+
+    public void printChat() {
 
     }
 }

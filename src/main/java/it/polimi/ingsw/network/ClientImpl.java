@@ -18,7 +18,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super();
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -27,7 +27,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -36,7 +36,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port, csf, ssf);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
