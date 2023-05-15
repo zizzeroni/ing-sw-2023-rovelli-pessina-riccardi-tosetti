@@ -3,7 +3,10 @@ package it.polimi.ingsw.network.socketMiddleware;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.socketMiddleware.commandPattern.Command;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendPingToClientCommand;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommandToServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,8 +34,9 @@ public class ClientSkeleton implements Client {
 
     @Override
     public void updateModelView(GameView modelUpdated) throws RemoteException {
+        CommandToClient command = new SendUpdatedModelCommandToServer(modelUpdated);
         try {
-            this.oos.writeObject(modelUpdated);
+            this.oos.writeObject(command);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
         }
@@ -40,20 +44,25 @@ public class ClientSkeleton implements Client {
 
     @Override
     public void ping() throws RemoteException {
-
+        CommandToClient command = new SendPingToClientCommand();
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+        }
     }
 
     public void receive(Server server) throws RemoteException {
-        Command message;
+        CommandToServer message;
         try {
             System.out.println("Ready to receive (from Client)");
-            message = (Command) this.ois.readObject();
+            message = (CommandToServer) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
         }
-        message.setController(server);
+        message.setActuator(server);
         message.execute();
     }
 

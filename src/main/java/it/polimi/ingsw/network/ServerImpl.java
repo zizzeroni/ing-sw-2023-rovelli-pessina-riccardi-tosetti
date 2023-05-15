@@ -95,6 +95,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public synchronized void pingClients() throws RemoteException {
+        String clientToRemove="";
         for (Map.Entry<String, Client> entry : clientsToHandle.entrySet()) {
             String nickname = entry.getKey();
             Client client = entry.getValue();
@@ -102,13 +103,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 client.ping();
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while sending hearthbeat to the client \"" + nickname+"\":" + e.getMessage());
-                this.controller.disconnectPlayer(nickname);
-                //this.clientsToHandle.remove(nickname);
+                if(this.controller.getModel().getGameState()==GameState.IN_CREATION) {
+                    clientToRemove = nickname;
+                }
+                if(this.controller.getModel().getPlayerFromNickname(nickname).isConnected()) {
+                    this.controller.disconnectPlayer(nickname);
+                }
+
             }
 
         }
-
-
+        this.clientsToHandle.remove(clientToRemove);
     }
 
     @Override
