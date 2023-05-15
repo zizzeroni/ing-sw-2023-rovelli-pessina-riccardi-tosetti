@@ -5,16 +5,11 @@ import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.TextualUI;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Scanner;
-
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.*;
 
 public class AppClient {
 
@@ -31,29 +26,15 @@ public class AppClient {
             System.out.println("Che interfaccia grafica preferisci utilizzare?");
             System.out.println("1)Testuale");
             System.out.println("2)Grafica");
-            try {
-                do {
-                    uiChoice = Integer.parseInt(CommandReader.getOldestCommand());
-                } while (uiChoice == -1);
-                CommandReader.removeOldestCommand();
 
-            } catch (NumberFormatException e) {
-                uiChoice = 0;
-            }
+            uiChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (uiChoice < 1 || uiChoice > 2);
         do {
             System.out.println("Che metodo di comunicazione preferisci utilizzare?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
-            try {
-                do {
-                    connectionChoice = Integer.parseInt(CommandReader.getOldestCommand());
-                } while (connectionChoice == -1);
-                CommandReader.removeOldestCommand();
 
-            } catch (NumberFormatException e) {
-                connectionChoice = 0;
-            }
+            connectionChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (connectionChoice < 1 || connectionChoice > 2);
 
         switch (uiChoice) {
@@ -66,11 +47,7 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname;
-                        do {
-                            nickname = CommandReader.getOldestCommand();
-                        } while (!nickname.equals("-1"));
-                        CommandReader.removeOldestCommand();
+                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                         client = new ClientImpl(server, new TextualUI(), nickname);
                     }
@@ -80,12 +57,7 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a Socket Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname;
-
-                        do {
-                            nickname = CommandReader.getOldestCommand();
-                        } while (!nickname.equals("-1"));
-                        CommandReader.removeOldestCommand();
+                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                         client = new ClientImpl(serverStub, new TextualUI(), nickname);
                         //Creating a new Thread that will take care of the responses coming from the Server side
