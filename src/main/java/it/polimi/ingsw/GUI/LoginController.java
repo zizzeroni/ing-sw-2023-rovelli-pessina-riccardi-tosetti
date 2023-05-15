@@ -31,11 +31,18 @@ public class LoginController implements Initializable {
     @FXML
     private Button PlayerOk;
     private final String[] playerNumber = {"2","3","4"};
+    private String numberOfPlayer;
+    private String nickname;
     @FXML
     public void controlNickname(ActionEvent actionEvent) throws IOException{
         //Controllo se è corretto l'username
-        System.out.println("ciao " + Nickname.getText());
-        changeScene();
+        nickname=Nickname.getText();
+        if(!nickname.isEmpty()) {
+            System.out.println("ciao " + Nickname.getText());
+            changeScene();
+        }else{
+            ErrorLabel.setText("Insert a nickname!");
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,6 +53,7 @@ public class LoginController implements Initializable {
     public void changeScene(){
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
+        ErrorLabel.setText("");
         principalLabel.setFont(font);
         FirstButton.setVisible(false);
         Nickname.setVisible(false);
@@ -53,12 +61,18 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(true);
     }
     public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException {
-        startGame();
+        numberOfPlayer = NumberOfPlayerChoice.getValue();
+        if (numberOfPlayer!=null&&!numberOfPlayer.isEmpty()){
+            startGame();
+        }else{
+            ErrorLabel.setText("Select the number of player!");
+        }
     }
     public void startGame() throws IOException {
+        User user=new User(numberOfPlayer, nickname);
         Stage stage = (Stage) FirstButton.getScene().getWindow();
+        stage.setUserData(user);
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainScene.fxml"));
-
         stage.setTitle("Number of Player Scene");
         stage.setScene(new Scene(root));
     }

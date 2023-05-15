@@ -5,25 +5,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable {
+    private User sceneData;
     @FXML
-    ImageView commonGoal1;
+    private ImageView commonGoal1;
     @FXML
-    ImageView commonGoal2;
-
+    private ImageView commonGoal2;
     @FXML
-    ImageView personalGoal;
+    private ImageView personalGoal;
+    @FXML
+    private Pane secondPlayerBookshelf;
+    @FXML
+    private Pane thirdPlayerBookshelf;
+    @FXML
+    private Pane fourthPlayerBookshelf;
+    @FXML
+    private Label firstPlayerNickname;
+    private String textFirstPlayerNickname;
+    private String numberOfPlayer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         //Initialize the two common goal
         String firstCommonGoalNumber="";
         String secondCommonGoalNumber="";
@@ -36,10 +50,21 @@ public class MainSceneController implements Initializable {
         String personalGoalNumber="";
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/personal goal cards/Personal_Goals5.png"));
         personalGoal.setImage(personalGoalImage);
-
-
     }
-
+    public void setStage(){
+        Stage stage = (Stage) firstPlayerNickname.getScene().getWindow();
+        User user = (User) stage.getUserData();
+        textFirstPlayerNickname=user.getNumberOfPlayer();
+        numberOfPlayer=user.getFirstPlayerNickname();
+        System.out.println("Tu ti chiami: "+ textFirstPlayerNickname+", la partita è fatta da: "+ numberOfPlayer+"Giocatori");
+        if(!numberOfPlayer.equals("4")){
+            fourthPlayerBookshelf.setVisible(false);
+        }
+        if (!numberOfPlayer.equals("3")) {
+            thirdPlayerBookshelf.setVisible(false);
+        }
+        firstPlayerNickname.setText(textFirstPlayerNickname);
+    }
     public void Selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -71,17 +96,19 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(220);
         imageView.setFitWidth(240);
-        imageView.setLayoutX(559);
-        imageView.setLayoutY(524);
+        imageView.setLayoutX(500);
+        imageView.setLayoutY(406);
+        imageView.setViewOrder(0.0);
     }
     public void ExitCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
 
-        imageView.setFitHeight(110);
-        imageView.setFitWidth(120);
-        imageView.setLayoutX(619);
-        imageView.setLayoutY(584);
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(110);
+        imageView.setLayoutX(559);
+        imageView.setLayoutY(471);
+        imageView.setViewOrder(1);
     }
     public void OnCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
@@ -89,34 +116,36 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(220);
         imageView.setFitWidth(240);
-        imageView.setLayoutX(559);
-        imageView.setLayoutY(624);
+        imageView.setLayoutX(601);
+        imageView.setLayoutY(406);
+        imageView.setViewOrder(0.0);
     }
     public void ExitCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
 
-        imageView.setFitHeight(110);
-        imageView.setFitWidth(120);
-        imageView.setLayoutX(619);
-        imageView.setLayoutY(684);
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(110);
+        imageView.setLayoutX(676);
+        imageView.setLayoutY(471);
+        imageView.setViewOrder(1);
     }
     public void OnPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
 
-        imageView.setFitHeight(360);
-        imageView.setFitWidth(240);
-        imageView.setLayoutX(697);
-        imageView.setLayoutY(400);
+        imageView.setFitHeight(315);
+        imageView.setFitWidth(429);
+        imageView.setLayoutX(844);
+        imageView.setLayoutY(450);
     }
     public void ExitPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
 
-        imageView.setFitHeight(180);
-        imageView.setFitWidth(120);
-        imageView.setLayoutX(787);
-        imageView.setLayoutY(584);
+        imageView.setFitHeight(210);
+        imageView.setFitWidth(286);
+        imageView.setLayoutX(915);
+        imageView.setLayoutY(560);
     }
 }
