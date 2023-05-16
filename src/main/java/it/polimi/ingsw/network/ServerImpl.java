@@ -16,6 +16,8 @@ import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -31,14 +33,18 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.model.registerListener(this);
         //Server start listening to Board for changes
         this.model.getBoard().registerListener(this);
+
+        startPingSenderThread(this);
     }
 
     public ServerImpl(int port) throws RemoteException {
         super(port);
+        startPingSenderThread(this);
     }
 
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
+        startPingSenderThread(this);
     }
 
     @Override
@@ -261,5 +267,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
             }
         }
+    }
+
+    private void startPingSenderThread(Server server) {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    server.pingClients();
+                } catch (RemoteException e) {
+                    System.err.println("prova");
+                }
+            }
+        };
+
+        Timer pingSender = new Timer("PingSender");
+        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
     }
 }

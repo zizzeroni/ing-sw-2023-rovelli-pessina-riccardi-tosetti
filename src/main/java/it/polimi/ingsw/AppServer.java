@@ -22,7 +22,6 @@ public class AppServer {
         //Creating an implementation of a Server
         Server server = new ServerImpl();
 
-        startPingSenderThread(server);
 
         //Starting Thread that will take care of initializing RMI connection
         Thread rmiThread = new Thread() {
@@ -84,19 +83,5 @@ public class AppServer {
         }
     }
 
-    private static void startPingSenderThread(Server server) {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    server.pingClients();
-                } catch (RemoteException e) {
-                    System.err.println("prova");
-                }
-            }
-        };
 
-        Timer pingSender = new Timer("PingSender");
-        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
-    }
 }
