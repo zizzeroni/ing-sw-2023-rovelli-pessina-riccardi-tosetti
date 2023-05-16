@@ -29,12 +29,22 @@ public class CreationState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            if (player.getNickname().equals(receiver)) {
+                player.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        for (Player player : this.controller.getModel().getPlayers()) {
+            Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
+            player.addMessage(message);
+        }
+
     }
 
     @Override
@@ -89,11 +99,10 @@ public class CreationState extends ControllerState {
 
             //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
             for (Player player : this.controller.getModel().getPlayers()) {
-                List<ScoreTile> temporaryTiles = new ArrayList<>();
+                // the available score tiles in a game are one for each common goal plus the first finisher's score tile
                 for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
-                    temporaryTiles.add(new ScoreTile(0));
+                    player.getGoalTiles().add(new ScoreTile(0));
                 }
-                player.getGoalTiles().addAll(temporaryTiles);
             }
 
             this.controller.changeState(new OnGoingState(this.controller));
@@ -102,14 +111,18 @@ public class CreationState extends ControllerState {
     }
 
     @Override
+    public void disconnectPlayer(String nickname) {
+        this.controller.addPersonalGoal(this.controller.getModel().getPlayerFromNickname(nickname).getPersonalGoal());
+        this.controller.getModel().getPlayers().remove(this.controller.getModel().getPlayerFromNickname(nickname));
+    }
+
+    @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if (this.controller.getModel().getNumberOfPlayersToStartGame() == 0) {
-                if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
-                    System.err.println("Number of players in the lobby exceed the chosen one");
-                } else {
-                    this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
-                }
+            if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
+                System.err.println("Number of players in the lobby exceed the chosen one");
+            } else {
+                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
             }
         } else {
             System.err.println("Unexpected value for number of lobby's players");

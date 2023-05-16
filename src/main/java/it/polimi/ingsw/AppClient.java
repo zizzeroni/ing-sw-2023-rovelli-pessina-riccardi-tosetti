@@ -1,27 +1,28 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.TextualUI;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Scanner;
-
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AppClient {
-    public static void main(String[] args) throws RemoteException, NotBoundException {
 
+    static CommandReader commandReader = new CommandReader();
+
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+        commandReader.start();
         //Initialize client necessities
         ClientImpl client;
-        Scanner s = new Scanner(System.in);
         System.out.println("Client avviato...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
@@ -29,13 +30,15 @@ public class AppClient {
             System.out.println("Che interfaccia grafica preferisci utilizzare?");
             System.out.println("1)Testuale");
             System.out.println("2)Grafica");
-            uiChoice = s.nextInt();
+
+            uiChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (uiChoice < 1 || uiChoice > 2);
         do {
             System.out.println("Che metodo di comunicazione preferisci utilizzare?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
-            connectionChoice = s.nextInt();
+
+            connectionChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (connectionChoice < 1 || connectionChoice > 2);
 
         switch (uiChoice) {
@@ -48,8 +51,10 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = s.next();
-                        client = new ClientImpl(server, new TextualUI(), nick);
+                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+
+                        client = new ClientImpl(server, new TextualUI(), nickname);
+                        startPingSenderThread(server);
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
@@ -57,8 +62,11 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a Socket Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = s.next();
-                        client = new ClientImpl(serverStub, new TextualUI(), nick);
+                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                        client = new ClientImpl(serverStub, new TextualUI(), nickname);
+
+                        startPingSenderThread(serverStub);
+                        startReceiverThread(client,serverStub);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
                             while (true) {
@@ -119,4 +127,38 @@ public class AppClient {
         System.exit(0);
     }
 
+    private static void startPingSenderThread(Server server) {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    server.ping();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        Timer pingSender = new Timer("PingSender");
+        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
+    }
+
+    private static void startReceiverThread(Client client, ServerStub serverStub) {
+        //Creating a new Thread that will take care of the responses coming from the Server side
+        new Thread(() -> {
+            while (true) {
+                try {
+                    serverStub.receive(client);
+                } catch (RemoteException e) {
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    try {
+                        serverStub.close();
+                    } catch (RemoteException ex) {
+                        System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
+                    }
+                    System.exit(1);
+                }
+            }
+        }).start();
+    }
 }

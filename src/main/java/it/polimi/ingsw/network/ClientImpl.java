@@ -14,12 +14,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     private final Server serverConnectedTo;
     private final UI view;
 
-    //TODO: Chiedere se conviene implementare la registrazione dei client tramite i nickname dato che sono univoci
     public ClientImpl(Server server, UI view, String nickname) throws RemoteException {
         super();
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -28,7 +27,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -37,15 +36,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port, csf, ssf);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
 
     //Update coming from the server, I forward it to the view
     @Override
-    public void updateModelView(GameView modelUpdated) throws RemoteException {
+    public synchronized void updateModelView(GameView modelUpdated) throws RemoteException {
         this.view.modelModified(modelUpdated);
+    }
+
+    @Override
+    public synchronized void ping() throws RemoteException {
+        //Receiving ping from server... do nothing.
     }
 
     //Methods used for forwarding notifications from view to the server
@@ -109,6 +113,15 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
             this.serverConnectedTo.startGame();
         } catch (RemoteException e) {
             System.err.println("[COMMUNICATION:ERROR] while updating server(startGame):" + e.getMessage() + ".Skipping update");
+        }
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) {
+        try {
+            this.serverConnectedTo.disconnectPlayer(nickname);
+        } catch (RemoteException e) {
+            System.err.println("[COMMUNICATION:ERROR] while updating server(disconnectPlayer):" + e.getMessage() + ".Skipping update");
         }
     }
 
