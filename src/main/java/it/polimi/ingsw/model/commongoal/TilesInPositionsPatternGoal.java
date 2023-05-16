@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
 
 public class TilesInPositionsPatternGoal extends CommonGoal {

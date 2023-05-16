@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
-import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 
 import java.rmi.RemoteException;

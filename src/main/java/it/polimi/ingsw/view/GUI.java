@@ -3,15 +3,12 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-import static javafx.application.Application.launch;
 
 public class GUI extends UI{
     private Stage primaryStage;

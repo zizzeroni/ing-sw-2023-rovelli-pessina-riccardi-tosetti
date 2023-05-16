@@ -1,12 +1,14 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
 
 public class TextualUI extends UI {
 

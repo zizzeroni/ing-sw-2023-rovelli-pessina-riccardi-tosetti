@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.commongoal;
 
-import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 import org.junit.jupiter.api.BeforeEach;

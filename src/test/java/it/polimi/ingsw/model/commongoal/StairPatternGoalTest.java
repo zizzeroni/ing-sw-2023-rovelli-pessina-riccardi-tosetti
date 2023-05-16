@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.commongoal;
 
+import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.Bookshelf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

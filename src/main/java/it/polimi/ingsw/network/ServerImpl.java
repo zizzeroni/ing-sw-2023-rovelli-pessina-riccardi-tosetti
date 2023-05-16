@@ -1,12 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 

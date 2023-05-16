@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.view.TileView;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OnGoingState extends ControllerState {
     public OnGoingState(GameController controller) {

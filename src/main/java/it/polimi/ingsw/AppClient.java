@@ -4,8 +4,8 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
-import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.TextualUI;
 
 import java.rmi.NotBoundException;

@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commongoal.*;
+import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Game {
