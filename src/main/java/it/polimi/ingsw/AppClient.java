@@ -67,7 +67,7 @@ public class AppClient {
                         startPingSenderThread(serverStub);
                         startReceiverThread(client,serverStub);
                         //Creating a new Thread that will take care of the responses coming from the Server side
-                        new Thread(() -> {
+                        /*new Thread(() -> {
                             while (true) {
                                 try {
                                     serverStub.receive(client);
@@ -81,7 +81,7 @@ public class AppClient {
                                     System.exit(1);
                                 }
                             }
-                        }).start();
+                        }).start();*/
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");

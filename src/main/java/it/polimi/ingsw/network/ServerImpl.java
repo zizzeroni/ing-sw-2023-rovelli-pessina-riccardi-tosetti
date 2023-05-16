@@ -110,7 +110,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             try {
                 client.ping();
             } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while sending hearthbeat to the client \"" + nickname+"\":" + e.getMessage());
+                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname+"\":" + e.getMessage());
                 if(this.controller.getModel().getGameState()==GameState.IN_CREATION) {
                     clientToRemove = nickname;
                 }

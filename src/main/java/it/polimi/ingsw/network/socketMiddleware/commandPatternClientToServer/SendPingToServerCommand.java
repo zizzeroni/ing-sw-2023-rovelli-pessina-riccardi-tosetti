@@ -27,6 +27,7 @@ public class SendPingToServerCommand implements CommandToServer {
     }
 
     public void execute() throws NullPointerException, RemoteException {
+        //System.out.println("ping sended from the client");
         //Do nothing, you just received a ping message...
     }
 
