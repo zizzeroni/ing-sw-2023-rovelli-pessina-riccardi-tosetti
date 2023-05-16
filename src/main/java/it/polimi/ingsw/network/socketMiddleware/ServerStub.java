@@ -201,11 +201,6 @@ public class ServerStub implements Server {
     }
 
     @Override
-    public void pingClients() throws RemoteException {
-
-    }
-
-    @Override
     public void ping() throws RemoteException {
         CommandToServer command = new SendPingToServerCommand();
         try {

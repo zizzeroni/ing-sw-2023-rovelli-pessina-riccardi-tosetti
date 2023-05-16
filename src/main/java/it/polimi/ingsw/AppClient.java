@@ -21,7 +21,7 @@ public class AppClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
         commandReader.start();
         //Initialize client necessities
-        ClientImpl client;
+        ClientImpl client = null;
         System.out.println("Client avviato...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
@@ -47,12 +47,20 @@ public class AppClient {
                         //Getting the remote server by RMI
                         Registry registry = LocateRegistry.getRegistry();
                         Server server = (Server) registry.lookup("server");
-
+                        
                         //Creating a new client with a TextualUI and a RMI Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                        boolean keepAsking = true;
+                        do {
+                            System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                            String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                            try {
+                                client = new ClientImpl(server, new TextualUI(), nickname);
+                                keepAsking = false;
+                            } catch (RemoteException e) {
+                                System.out.println("Please choose another nickname!");
+                            }
+                        } while (keepAsking);
 
-                        client = new ClientImpl(server, new TextualUI(), nickname);
                         startPingSenderThread(server);
                     }
                     case 2 -> {
@@ -60,12 +68,20 @@ public class AppClient {
                         ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                        client = new ClientImpl(serverStub, new TextualUI(), nickname);
+                        boolean keepAsking = true;
+                        do {
+                            System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                            String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                            try {
+                                client = new ClientImpl(serverStub, new TextualUI(), nickname);
+                                keepAsking = false;
+                            } catch (RemoteException e) {
+                                System.out.println("Please choose another nickname!");
+                            }
+                        } while (keepAsking);
 
                         startPingSenderThread(serverStub);
-                        startReceiverThread(client,serverStub);
+                        startReceiverThread(client, serverStub);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         /*new Thread(() -> {
                             while (true) {
@@ -121,6 +137,10 @@ public class AppClient {
         client.run();
         //Closing client app
         System.exit(0);
+    }
+
+    private static void askNicknameAndStartClient() {
+
     }
 
     private static void startPingSenderThread(Server server) {

@@ -11,9 +11,7 @@ import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -48,7 +46,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void changeTurn() throws RemoteException {
+    public synchronized void changeTurn() throws RemoteException {
         this.controller.changeTurn();
         if (this.model.getGameState() == GameState.RESET_NEEDED) {
             this.model = new Game();
@@ -61,53 +59,53 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
+    public synchronized void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         this.controller.insertUserInputIntoModel(playerChoice);
     }
 
     @Override
-    public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
+    public synchronized void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.controller.sendPrivateMessage(receiver, sender, content);
     }
 
     @Override
-    public void sendBroadcastMessage(String sender, String content) throws RemoteException {
+    public synchronized void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.controller.sendBroadcastMessage(sender, content);
     }
 
     @Override
-    public void addPlayer(String nickname) throws RemoteException {
+    public synchronized void addPlayer(String nickname) throws RemoteException {
         this.controller.addPlayer(nickname);
     }
 
     @Override
-    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
+    public synchronized void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
     @Override
-    public void startGame() throws RemoteException {
+    public synchronized void startGame() throws RemoteException {
         this.controller.startGame();
     }
 
     //TODO: Ask if we should pass nickname to register client
     @Override
-    public void register(Client client, String nickname) {
+    public synchronized void register(Client client, String nickname) throws RemoteException {
         /*try {
             System.out.println(RemoteServer.getClientHost());           //Alternative method for identify clients by their IP (Doesn't work on local)
         } catch (ServerNotActiveException e) {
             throw new RuntimeException(e);
         }*/
         //this.addClientToHandle(client);
+
         if(this.clientsToHandle.containsKey(nickname)) {
-            System.err.println("[INPUT:ERROR] Nickname already existing, try another one!");
+            throw new RemoteException("[INPUT:ERROR] Nickname chosen is already being utilized, please try another one!");
         } else {
             this.clientsToHandle.put(nickname, client);
         }
 
     }
 
-    @Override
     public synchronized void pingClients() throws RemoteException {
         String clientToRemove="";
         for (Map.Entry<String, Client> entry : clientsToHandle.entrySet()) {
@@ -136,7 +134,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void disconnectPlayer(String nickname) throws RemoteException {
+    public synchronized void disconnectPlayer(String nickname) throws RemoteException {
         this.controller.disconnectPlayer(nickname);
         //this.clientsToHandle.remove(nickname);
     }
@@ -269,7 +267,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    private void startPingSenderThread(Server server) {
+    private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
