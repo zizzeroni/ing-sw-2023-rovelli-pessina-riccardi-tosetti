@@ -100,8 +100,9 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nick = s.next();
-                        client = new ClientImpl(server, new GUI(), nick);
+
+                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                        client = new ClientImpl(server, new GUI(), nickname);
                         client.run();
                         return;
                     }
