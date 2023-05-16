@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.view.TileView;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OnGoingState extends ControllerState {
     public OnGoingState(GameController controller) {
@@ -30,10 +31,20 @@ public class OnGoingState extends ControllerState {
     }
 
     private void changeActivePlayer() {
-        if (this.controller.getModel().getActivePlayerIndex() == this.controller.getModel().getPlayers().size() - 1) {
-            this.controller.getModel().setActivePlayerIndex(0);
+        Game model = this.controller.getModel();
+        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
+            model.setActivePlayerIndex(0);
         } else {
-            this.controller.getModel().setActivePlayerIndex(this.controller.getModel().getActivePlayerIndex() + 1);
+            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+        }
+
+        if(!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
+            if(model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count()==model.getPlayers().size()-1) {
+                //TODO: Implement PauseState for the game controller
+                System.out.println("Game in pausa");
+            } else {
+                this.changeActivePlayer();
+            }
         }
     }
 
@@ -152,6 +163,15 @@ public class OnGoingState extends ControllerState {
     @Override
     public void startGame() {
         //Game is going, so do nothing...
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) {
+        Game model = this.controller.getModel();
+        model.getPlayerFromNickname(nickname).setConnected(false);
+        if(model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
+            this.changeActivePlayer();
+        }
     }
 
     public static GameState toEnum() {

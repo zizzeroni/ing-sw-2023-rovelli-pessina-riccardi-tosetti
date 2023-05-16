@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.socketMiddleware.commandPattern.*;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,7 +37,7 @@ public class ServerStub implements Server {
     @Override
     public void changeTurn() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new ChangeTurnCommand();
+        CommandToServer message = new ChangeTurnCommandToServer();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -61,7 +62,7 @@ public class ServerStub implements Server {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new InsertUserInputCommand(playerChoice);
+        CommandToServer message = new InsertUserInputCommandToServer(playerChoice);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -124,7 +125,7 @@ public class ServerStub implements Server {
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new SendPrivateMessageCommand(receiver, sender, content);
+        CommandToServer message = new SendPrivateMessageCommandToServer(receiver, sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -150,7 +151,7 @@ public class ServerStub implements Server {
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new SendBroadcastMessageCommand(sender, content);
+        CommandToServer message = new SendBroadcastMessageCommandToServer(sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -175,7 +176,7 @@ public class ServerStub implements Server {
     @Override
     public void addPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new AddPlayerCommand(nickname);
+        CommandToServer message = new AddPlayerCommandToServer(nickname);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -202,7 +203,7 @@ public class ServerStub implements Server {
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
+        CommandToServer message = new ChooseNumberOfPlayerCommandToServer(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -231,7 +232,7 @@ public class ServerStub implements Server {
     @Override
     public void startGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        Command message = new StartGameCommand();
+        CommandToServer message = new StartGameCommandToServer();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -290,18 +291,39 @@ public class ServerStub implements Server {
         }
     }
 
+    @Override
+    public void pingClients() throws RemoteException {
+
+    }
+
+    @Override
+    public void ping() throws RemoteException {
+        CommandToServer command = new SendPingToServerCommand();
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) throws RemoteException {
+
+    }
+
 
     public void receive(Client client) throws RemoteException {
-        GameView gameView;
+        CommandToClient command;
         try {
             //System.out.println("Ready to receive (from Server)");
-            gameView = (GameView) this.ois.readObject();
+            command = (CommandToClient) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive modelView: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new RemoteException("[RESOURCE:ERROR] Cannot cast modelView: " + e.getMessage());
         }
-        client.updateModelView(gameView);
+        command.setActuator(client);
+        command.execute();
 
         /*synchronized (this.lockUpdate) {
             this.lockUpdate.notifyAll();

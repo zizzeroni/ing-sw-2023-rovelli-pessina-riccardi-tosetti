@@ -21,7 +21,12 @@ public interface Server extends Remote {
 
     public void startGame() throws RemoteException;
 
+    public void disconnectPlayer(String nickname) throws RemoteException;
     //Method used by the clients in order to register to a specific remote server
     public void register(Client client,String nickname) throws RemoteException;
+
+    public void pingClients() throws RemoteException;
+
+    public void ping() throws RemoteException;
 
 }

@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,6 +21,8 @@ public class AppServer {
     public static void main(String[] args) throws RemoteException {
         //Creating an implementation of a Server
         Server server = new ServerImpl();
+
+        startPingSenderThread(server);
 
         //Starting Thread that will take care of initializing RMI connection
         Thread rmiThread = new Thread() {
@@ -53,6 +57,8 @@ public class AppServer {
         } catch (InterruptedException e) {
             System.err.println("[CONNECTION:ERROR] No connection protocol available. Exiting...");
         }
+
+
     }
 
     private static void startRMI(Server server) throws RemoteException {
@@ -78,4 +84,19 @@ public class AppServer {
         }
     }
 
+    private static void startPingSenderThread(Server server) {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    server.pingClients();
+                } catch (RemoteException e) {
+                    System.err.println("prova");
+                }
+            }
+        };
+
+        Timer pingSender = new Timer("PingSender");
+        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
+    }
 }

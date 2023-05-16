@@ -60,6 +60,7 @@ public class TextualUI extends UI {
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
+
         while (this.getState() != State.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
@@ -68,7 +69,6 @@ public class TextualUI extends UI {
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
-            //REMINDER: Per qualche motivo dopo la selezione della colonna l'esecuzione del client si ferma nel metodo insertUserInputIntoModel
             this.controller.insertUserInputIntoModel(choice);
             this.controller.changeTurn();
         }
@@ -85,7 +85,7 @@ public class TextualUI extends UI {
         System.out.println(this.getModel().getBoard());
     }
 
-    private int rowColumnTileChoiceFromBoard(Scanner scanner, int iterationCount, boolean isRowBeingChosen) {
+    private int rowColumnTileChoiceFromBoard(int iterationCount, boolean isRowBeingChosen) {
         boolean isInsertCorrect = false;
         int choice = 0;
         while (!isInsertCorrect) {
@@ -106,7 +106,7 @@ public class TextualUI extends UI {
         return choice;
     }
 
-    private int bookshelfColumnChoice(Scanner scanner, int iterationCount) {
+    private int bookshelfColumnChoice(int iterationCount) {
         boolean isInsertCorrect;
         int chosenColumn = 0;
         do {
@@ -135,14 +135,12 @@ public class TextualUI extends UI {
 
     @Override
     public Choice askPlayer() {
-
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("Seleziona l'azione(Digita il numero associato all'azione):");
             System.out.println("1)Recap situazione personale");
             System.out.println("2)Scegli tessere");
             System.out.println("3)Invia messaggio tramite chat");
+            System.out.println("4)Disconnettiti");
             String input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             switch (input) {
                 case "1" -> {
@@ -161,8 +159,8 @@ public class TextualUI extends UI {
                     maxNumberOfCellsFreeInBookshelf = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
                     do {
                         int row, column;
-                        row = rowColumnTileChoiceFromBoard(scanner, counter, true);
-                        column = rowColumnTileChoiceFromBoard(scanner, counter, false);
+                        row = rowColumnTileChoiceFromBoard(counter, true);
+                        column = rowColumnTileChoiceFromBoard(counter, false);
 
                         if (checkIfPickable(row - 1, column - 1)) {
                             switch (counter) {
@@ -209,7 +207,7 @@ public class TextualUI extends UI {
                     //---------------------------------SCELTA COLONNA---------------------------------
                     System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
 
-                    int chosenColumn = bookshelfColumnChoice(scanner, counter);
+                    int chosenColumn = bookshelfColumnChoice(counter);
 
                     playerChoice.setChosenColumn(chosenColumn - 1);
                     //---------------------------------SCELTA ORDINE---------------------------------
@@ -279,6 +277,11 @@ public class TextualUI extends UI {
                     }
                     //   } while (!isInsertCorrect);
 
+                }
+                case "4" -> {
+                    this.controller.disconnectPlayer(this.getNicknameID());
+                    System.err.println("Ti sei disconnesso dalla partita");
+                    System.exit(0);
                 }
                 default -> {
                     System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");
