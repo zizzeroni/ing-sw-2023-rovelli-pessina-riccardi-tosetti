@@ -14,12 +14,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     private final Server serverConnectedTo;
     private final UI view;
 
-    //TODO: Chiedere se conviene implementare la registrazione dei client tramite i nickname dato che sono univoci
     public ClientImpl(Server server, UI view, String nickname) throws RemoteException {
         super();
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -28,7 +27,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }
@@ -37,7 +36,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         super(port, csf, ssf);
         this.serverConnectedTo = server;
         this.view = view;
-        this.view.setNicknameID(nickname);
+        this.view.setNickname(nickname);
         server.register(this,nickname);
         view.registerListener(this);
     }

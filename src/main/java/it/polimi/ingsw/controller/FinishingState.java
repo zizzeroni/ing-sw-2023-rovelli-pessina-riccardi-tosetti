@@ -30,9 +30,9 @@ public class FinishingState extends ControllerState {
     private void refillBoard() {
         Collections.shuffle(this.controller.getModel().getBag());
 
-        List<Tile> drawedTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
-        this.controller.getModel().getBoard().addTiles(drawedTiles);
-        drawedTiles.clear();
+        List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
+        this.controller.getModel().getBoard().addTiles(drawnTiles);
+        drawnTiles.clear();
     }
 
     private void changeActivePlayer() {
@@ -55,15 +55,15 @@ public class FinishingState extends ControllerState {
     }
 
     private boolean checkIfUserInputIsCorrect(Choice choice) {
-        List<TileView> choiceChoosenTiles = choice.getChosenTiles();
+        List<TileView> choiceChosenTiles = choice.getChosenTiles();
         int[] choiceTileOrder = choice.getTileOrder();
         int choiceColumn = choice.getChosenColumn();
         List<Coordinates> choiceTileCoordinates = choice.getTileCoordinates();
 
         Bookshelf currentPlayerBookshelf = this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf();
 
-        if (choiceChoosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
-            if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChoosenTiles.size()) {
+        if (choiceChosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
+            if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChosenTiles.size()) {
                 if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
                     return true;
                 }
@@ -82,15 +82,15 @@ public class FinishingState extends ControllerState {
         return true;
     }
 
-    private boolean checkIfPickable(int x, int y) {
+    private boolean checkIfPickable(int row, int column) {
         Board board = this.controller.getModel().getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        return (boardMatrix[x][y] != null || boardMatrix[x][y].getColor() != null) && (
-                (x != 0 && (boardMatrix[x - 1][y] == null || boardMatrix[x - 1][y].getColor() == null)) ||
-                        (x != board.getNumberOfRows() && (boardMatrix[x + 1][y] == null || boardMatrix[x + 1][y].getColor() == null)) ||
-                        (y != board.getNumberOfColumns() && (boardMatrix[x][y + 1] == null || boardMatrix[x][y + 1].getColor() == null)) ||
-                        (y != 0 && (boardMatrix[x][y - 1] == null || boardMatrix[x][y - 1].getColor() == null)));
+        return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
+                (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                        (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                        (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
@@ -107,14 +107,23 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //TODO: Implements message sending
+        Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            if(player.getNickname().equals(receiver)){
+                player.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //TODO: Implements message sending
-    }
+        for (Player player : this.controller.getModel().getPlayers()) {
+            Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
+            player.addMessage(message);
+        }
 
+    }
     @Override
     public void addPlayer(String nickname) {
         //Game is finishing, so do nothing...

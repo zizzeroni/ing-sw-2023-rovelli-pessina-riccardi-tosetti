@@ -9,27 +9,15 @@ public enum TileColor {
 
     @Override
     public String toString() {
-        StringBuilder stringa = new StringBuilder();
-        //stringa.append();
-        if(this.equals(BLUE)){
-            return stringa.append(ansi().fg(Ansi.Color.BLUE).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-            //return "\u001B[0;34m"+ this.name().charAt(0) +"DEFAULT";
+        StringBuilder stringBuilder = new StringBuilder();
+        Ansi.Color color;
+
+        switch (this) {
+            case BLUE, GREEN, CYAN, YELLOW, WHITE -> color = Ansi.Color.valueOf(String.valueOf(this));
+            case PURPLE -> color = Ansi.Color.MAGENTA;
+            default -> color = Ansi.Color.DEFAULT;
         }
-        if(this.equals(GREEN)){
-            return stringa.append(ansi().fg(Ansi.Color.GREEN).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-        }
-        if(this.equals(CYAN)){
-            return stringa.append(ansi().fg(Ansi.Color.CYAN).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-        }
-        if(this.equals(YELLOW)){
-            return stringa.append(ansi().fg(Ansi.Color.YELLOW).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-        }
-        if(this.equals(WHITE)){
-            return stringa.append(ansi().fg(Ansi.Color.WHITE).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-        }
-        if(this.equals(PURPLE)){
-            return stringa.append(ansi().fg(Ansi.Color.MAGENTA).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
-        }
-        return this.name().charAt(0) + "";
+
+        return stringBuilder.append(ansi().fg(color).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
     }
 }

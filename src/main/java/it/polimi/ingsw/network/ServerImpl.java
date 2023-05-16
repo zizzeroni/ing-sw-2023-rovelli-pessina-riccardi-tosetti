@@ -1,13 +1,21 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.RemoteException;
-import java.rmi.server.*;
-import java.util.*;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -191,8 +199,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void gameStateChanged() {
         if (this.controller.getModel().getGameState() == GameState.ON_GOING) {
-            for (Bookshelf bookshelf : this.model.getPlayers().stream().map(Player::getBookshelf).toList()) {
-                bookshelf.registerListener(this);
+            for (Player player : this.model.getPlayers()) {
+                player.registerListener(this);
+                player.getBookshelf().registerListener(this);
             }
         }
         for (Client client : this.clientsToHandle.values()) {
@@ -204,14 +213,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    /*@Override
-    public void clientRegistered() {
+    @Override
+    public void chatUpdated() {
         for (Client client : this.clientsToHandle.values()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
             }
         }
-    }*/
+    }
 }
