@@ -13,7 +13,7 @@ public enum TileColor {
         Ansi.Color color;
 
         switch (this) {
-            case BLUE, GREEN, CYAN, YELLOW, WHITE -> color = Ansi.Color.valueOf(String.valueOf(this));
+            case BLUE, GREEN, CYAN, YELLOW, WHITE -> color = Ansi.Color.valueOf(String.valueOf(this.name()));
             case PURPLE -> color = Ansi.Color.MAGENTA;
             default -> color = Ansi.Color.DEFAULT;
         }

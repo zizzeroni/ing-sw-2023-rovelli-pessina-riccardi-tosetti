@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.TextualUI;
+import javafx.application.Application;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -16,7 +17,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AppClient {
-
     static CommandReader commandReader = new CommandReader();
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -101,9 +101,11 @@ public class AppClient {
                         //Creating a new client with a TextualUI and a RMI Server
                         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
                         String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+
+                        Application.launch(GUI.class, "");
                         client = new ClientImpl(server, new GUI(), nickname);
-                        client.run();
-                        return;
+                        startPingSenderThread(server);
+
                     }
                     case 2 -> {
                         //Getting the remote server by Socket
@@ -121,6 +123,7 @@ public class AppClient {
                 return;
             }
         }
+
         //Calling the run method of the UI
         client.run();
         //Closing client app

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     //Fa schifo
-    private MainGui mainGui = new MainGui();
+    private GUI mainGui = new GUI();
     @FXML
     private Label principalLabel;
     @FXML
@@ -42,7 +44,15 @@ public class LoginController implements Initializable {
         nickname=Nickname.getText();
         if(!nickname.isEmpty()) {
             System.out.println("ciao " + Nickname.getText());
-            changeScene();
+            //Pass the nickname to the GUI
+            int i = mainGui.addPlayer(Nickname.getText());
+            //Se i è uguale a 1 devo scegliere il numero di giocatori
+            //Altrimenti metto in pausa in attesa che arrivino giocatori
+            if(i==1){
+                changeScene();
+            }else{
+                mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
+            }
         }else{
             ErrorLabel.setText("Insert a nickname!");
         }
@@ -54,7 +64,7 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(false);
     }
     public void changeScene(){
-
+        //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
         ErrorLabel.setText("");
@@ -65,15 +75,13 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(true);
     }
     public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException {
+        //Inserisco la scelta del numero di giocatori e metto in attesa
         numberOfPlayer = NumberOfPlayerChoice.getValue();
         if (numberOfPlayer!=null&&!numberOfPlayer.isEmpty()){
-            User user=new User(numberOfPlayer, nickname);
-            Stage stage = (Stage) FirstButton.getScene().getWindow();
-            stage.setUserData(user);
-            mainGui.startGame(stage);
+            mainGui.setNumberOfPlayer(Integer.parseInt(numberOfPlayer));
+            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
         }else{
             ErrorLabel.setText("Select the number of player!");
         }
     }
-
 }
