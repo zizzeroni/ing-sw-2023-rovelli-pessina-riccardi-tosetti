@@ -26,7 +26,7 @@ public class ServerStub implements Server {
     //a "response" (A new GameView object) form the Server itself
     private final Object lockUpdate = new Object();
 
-    private Semaphore semaphoreUpdate = new Semaphore(0);
+    private final Semaphore semaphoreUpdate = new Semaphore(0);
 
     public ServerStub(String ip, int port) {
         this.ip = ip;

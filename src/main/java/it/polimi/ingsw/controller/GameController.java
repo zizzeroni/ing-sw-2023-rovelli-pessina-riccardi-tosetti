@@ -28,12 +28,12 @@ public class GameController implements ViewListener {
         Gson gson = new Gson();
         Reader reader;
         try {
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/patterns/personal-goals.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
             this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
             reader.close();
 
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/patterns/boards.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
             this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
             }.getType());
             reader.close();
