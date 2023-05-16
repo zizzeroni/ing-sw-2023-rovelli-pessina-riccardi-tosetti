@@ -14,17 +14,14 @@ public class MainGui extends Application{
     public void start(Stage primaryStage)throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Parent root = loader.load(getClass().getClassLoader().getResource("fxml/FirstScene.fxml"));
-        LoginController loginController = loader.getController();
         primaryStage.setTitle("First Scene");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         this.primaryStage=primaryStage;
     }
-
     public static void main(String[] args){
         launch(args);
     }
-
     public void startGame(Stage stage) throws IOException{
         FXMLLoader loader = new FXMLLoader();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainScene.fxml"));

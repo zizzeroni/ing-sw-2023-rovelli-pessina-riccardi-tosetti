@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.TextualUI;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -86,11 +87,14 @@ public class AppClient {
                     case 1 -> {
                         //Getting the remote server by RMI
 
-                        /*Registry registry = LocateRegistry.getRegistry();
-                        Server server = (Server) registry.lookup("server");*/
+                        Registry registry = LocateRegistry.getRegistry();
+                        Server server = (Server) registry.lookup("server");
 
-                        //Creating a new client with a GUI
-                        System.err.println("To be implemented");
+                        //Creating a new client with a TextualUI and a RMI Server
+                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                        String nick = s.next();
+                        client = new ClientImpl(server, new GUI(), nick);
+                        client.run();
                         return;
                     }
                     case 2 -> {

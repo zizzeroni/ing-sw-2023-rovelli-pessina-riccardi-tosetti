@@ -1,5 +1,6 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.view.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,6 +54,7 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(false);
     }
     public void changeScene(){
+
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
         ErrorLabel.setText("");

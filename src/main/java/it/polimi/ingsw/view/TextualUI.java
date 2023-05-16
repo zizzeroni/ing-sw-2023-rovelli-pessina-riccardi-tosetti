@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
+import javafx.stage.Stage;
 
 import java.util.*;
 import static org.fusesource.jansi.Ansi.Color.*;
