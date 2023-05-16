@@ -66,7 +66,7 @@ public class AppClient {
                         client = new ClientImpl(serverStub, new TextualUI(), nickname);
 
                         startPingSenderThread(serverStub);
-                        startReceiverThread(client,serverStub);
+                        startReceiverThread(client, serverStub);
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         new Thread(() -> {
                             while (true) {
