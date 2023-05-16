@@ -279,7 +279,7 @@ public class TextualUI extends UI {
 
                 }
                 case "4" -> {
-                    this.controller.disconnectPlayer(this.getNicknameID());
+                    this.controller.disconnectPlayer(this.getNickname());
                     System.err.println("Ti sei disconnesso dalla partita");
                     System.exit(0);
                 }

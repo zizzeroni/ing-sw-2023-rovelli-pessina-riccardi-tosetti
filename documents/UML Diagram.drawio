@@ -1325,7 +1325,7 @@
         <mxCell id="FcwqcfeG6PIgrdVunfL2-364" value="&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;br&gt;UI" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=10;align=center;strokeColor=default;" vertex="1" parent="1">
           <mxGeometry x="3880" y="370" width="240" height="192" as="geometry" />
         </mxCell>
-        <mxCell id="FcwqcfeG6PIgrdVunfL2-383" value="- nicknameID(): String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="FcwqcfeG6PIgrdVunfL2-364">
+        <mxCell id="FcwqcfeG6PIgrdVunfL2-383" value="- nickname(): String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="FcwqcfeG6PIgrdVunfL2-364">
           <mxGeometry y="26" width="240" height="24" as="geometry" />
         </mxCell>
         <mxCell id="FcwqcfeG6PIgrdVunfL2-384" value="- &lt;i&gt;lockState(): Object = new Object(); {readOnly}&lt;/i&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="FcwqcfeG6PIgrdVunfL2-364">
