@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static javafx.application.Application.launch;
 
@@ -49,10 +50,9 @@ public class GUI extends UI{
     }
     @Override
     public void run() {
-        FXMLLoader loader = new FXMLLoader();
-        Parent root = null;
+        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/FirstScene.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/FirstScene.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
