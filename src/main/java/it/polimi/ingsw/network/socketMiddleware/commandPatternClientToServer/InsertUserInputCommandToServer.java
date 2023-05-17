@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
@@ -44,7 +45,10 @@ public class InsertUserInputCommandToServer implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"insertUserInputIntoModel(Choice)\" command because this.actuator is NULL");
         }
     }
-
+    @Override
+    public CommandType toEnum() {
+        return CommandType.INSERT_USER_INPUT;
+    }
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:InsertUserInput, Parameters:{PlayerChoice: " + this.playerChoice + "}]";

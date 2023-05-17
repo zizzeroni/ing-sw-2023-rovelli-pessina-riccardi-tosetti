@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
@@ -35,7 +36,10 @@ public class SendUpdatedModelCommandToServer implements CommandToClient {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"updateModelView(GameView)\" command because this.actuator is NULL");
         }
     }
-
+    @Override
+    public CommandType toEnum() {
+        return CommandType.SEND_UPDATED_MODEL;
+    }
     @Override
     public String toString() {
         return "[CommandReceiver:UI, CommandType:updateModelView, Parameters:{modelUpdated: " + updatedModel + "}]";

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
@@ -38,6 +39,11 @@ public class AddPlayerCommandToServer implements CommandToServer {
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(Choice)\" command because this.actuator is NULL");
         }
+    }
+
+    @Override
+    public CommandType toEnum() {
+        return CommandType.ADD_PLAYER;
     }
 
     @Override

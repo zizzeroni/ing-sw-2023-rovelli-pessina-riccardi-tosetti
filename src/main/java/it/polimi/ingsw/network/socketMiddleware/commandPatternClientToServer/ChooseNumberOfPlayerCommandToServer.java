@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
@@ -39,7 +40,10 @@ public class ChooseNumberOfPlayerCommandToServer implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"chooseNumberOfPlayerInTheGame(int)\" command because this.actuator is NULL");
         }
     }
-
+    @Override
+    public CommandType toEnum() {
+        return CommandType.CHOOSE_NUMBER_OF_PLAYER;
+    }
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:ChooseNumberOfPlayers, Parameters:{NumberOfPlayers: " + this.numberOfPlayers + "}]";

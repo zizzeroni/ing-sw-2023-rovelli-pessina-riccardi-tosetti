@@ -234,7 +234,9 @@ public class ServerStub implements Server {
         command.setActuator(client);
         command.execute();
 
-        this.semaphoreUpdate.release();
+        if(command.toEnum()!=CommandType.SEND_PING_TO_CLIENT) {
+            this.semaphoreUpdate.release();
+        }
     }
 
     public void close() throws RemoteException {
