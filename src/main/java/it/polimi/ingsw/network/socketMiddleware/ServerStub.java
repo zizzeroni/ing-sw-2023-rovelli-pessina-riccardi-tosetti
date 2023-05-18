@@ -120,6 +120,23 @@ public class ServerStub implements Server {
     }
 
     @Override
+    public void addPlayer(Client client, String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new AddPlayerCommandToServer(nickname);
+        try {
+            this.oos.writeObject(message);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public void addPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new AddPlayerCommandToServer(nickname);
@@ -193,8 +210,6 @@ public class ServerStub implements Server {
             } catch (IOException e) {
                 throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
             }
-            //Sending the nickname to the server in order to register the client
-            this.oos.writeObject(nickname);
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
         }

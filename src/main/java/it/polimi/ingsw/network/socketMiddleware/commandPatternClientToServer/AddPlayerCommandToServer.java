@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
+import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
@@ -8,6 +9,7 @@ import java.rmi.RemoteException;
 public class AddPlayerCommandToServer implements CommandToServer {
     private Server actuator;
     private String nickname;
+    private Client client;
 
     public AddPlayerCommandToServer(String nickname) {
         this.nickname = nickname;
@@ -32,12 +34,20 @@ public class AddPlayerCommandToServer implements CommandToServer {
         this.actuator = actuator;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
-            this.actuator.addPlayer(this.nickname);
+            this.actuator.addPlayer(this.client, this.nickname);
         } else {
-            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(Choice)\" command because this.actuator is NULL");
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"addPlayer(Client,String)\" command because this.actuator is NULL");
         }
     }
 
@@ -48,6 +58,6 @@ public class AddPlayerCommandToServer implements CommandToServer {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
     }
 }
