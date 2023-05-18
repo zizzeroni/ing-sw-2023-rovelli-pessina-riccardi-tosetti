@@ -47,10 +47,12 @@ public class SendBroadcastMessageCommandToServer implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(String,String)\" command because this.actuator is NULL");
         }
     }
+
     @Override
     public CommandType toEnum() {
         return CommandType.SEND_BROADCAST_MESSAGE;
     }
+
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:SendBroadcastMessage, Parameters:{Sender:" + this.sender + "; Content:" + this.content + "}]";

@@ -4,7 +4,6 @@ import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.exceptions.ExceptionType;
 import it.polimi.ingsw.network.exceptions.GenericException;
 
 public abstract class UI implements Runnable {

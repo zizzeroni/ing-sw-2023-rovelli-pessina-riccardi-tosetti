@@ -4,7 +4,6 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
-import java.awt.*;
 import java.rmi.RemoteException;
 
 public class SendExceptionCommand implements CommandToClient {

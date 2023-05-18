@@ -2,7 +2,6 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.GenericException;
-import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

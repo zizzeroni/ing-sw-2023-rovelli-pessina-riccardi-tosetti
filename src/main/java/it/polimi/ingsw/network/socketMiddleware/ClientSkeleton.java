@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socketMiddleware;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommandToServer;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
@@ -87,7 +86,7 @@ public class ClientSkeleton implements Client {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
         }
         message.setActuator(server);
-        if(message.toEnum()==CommandType.ADD_PLAYER) {
+        if (message.toEnum() == CommandType.ADD_PLAYER) {
             AddPlayerCommandToServer convertedMessage = (AddPlayerCommandToServer) message;
             convertedMessage.setClient(this);
             convertedMessage.execute();

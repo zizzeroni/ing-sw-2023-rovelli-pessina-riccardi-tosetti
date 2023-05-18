@@ -109,7 +109,7 @@ public class FinishingState extends ControllerState {
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
-            if(player.getNickname().equals(receiver)){
+            if (player.getNickname().equals(receiver)) {
                 player.addMessage(message);
             }
         }
@@ -124,6 +124,7 @@ public class FinishingState extends ControllerState {
         }
 
     }
+
     @Override
     public void addPlayer(String nickname) {
         //Game is finishing, so do nothing...

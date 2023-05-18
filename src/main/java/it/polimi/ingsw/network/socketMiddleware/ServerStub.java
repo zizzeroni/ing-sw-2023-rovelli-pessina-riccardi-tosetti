@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
@@ -193,7 +192,7 @@ public class ServerStub implements Server {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Valore permit semaphore: "+this.semaphoreUpdate.availablePermits());
+        System.out.println("Valore permit semaphore: " + this.semaphoreUpdate.availablePermits());
     }
 
     @Override
@@ -249,7 +248,7 @@ public class ServerStub implements Server {
         command.setActuator(client);
         command.execute();
 
-        if(command.toEnum()!=CommandType.SEND_PING_TO_CLIENT) {
+        if (command.toEnum() != CommandType.SEND_PING_TO_CLIENT) {
             this.semaphoreUpdate.release();
         }
     }

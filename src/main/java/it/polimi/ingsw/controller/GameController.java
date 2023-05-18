@@ -86,9 +86,9 @@ public class GameController implements ViewListener {
 
     @Override
     public void disconnectPlayer(String nickname) {
-        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
-        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
     }
 
     //------------------------------------UTILITY METHODS------------------------------------

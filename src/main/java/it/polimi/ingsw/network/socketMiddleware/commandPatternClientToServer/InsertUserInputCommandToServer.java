@@ -45,10 +45,12 @@ public class InsertUserInputCommandToServer implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"insertUserInputIntoModel(Choice)\" command because this.actuator is NULL");
         }
     }
+
     @Override
     public CommandType toEnum() {
         return CommandType.INSERT_USER_INPUT;
     }
+
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:InsertUserInput, Parameters:{PlayerChoice: " + this.playerChoice + "}]";

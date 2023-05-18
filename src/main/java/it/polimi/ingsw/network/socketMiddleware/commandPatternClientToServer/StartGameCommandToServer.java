@@ -26,10 +26,12 @@ public class StartGameCommandToServer implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"startGame()\" command because this.actuator is NULL");
         }
     }
+
     @Override
     public CommandType toEnum() {
         return CommandType.START_GAME;
     }
+
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:StartGame, Parameters:NONE]";

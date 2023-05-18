@@ -40,10 +40,12 @@ public class DisconnectPlayerCommand implements CommandToServer {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"disconnectPlayer(String)\" command because this.actuator is NULL");
         }
     }
+
     @Override
     public CommandType toEnum() {
         return CommandType.DISCONNECT_PLAYER;
     }
+
     @Override
     public String toString() {
         return "[CommandReceiver:GameController, CommandType:disconnectPlayer, Parameters:{Nickname: " + this.nickname + "}]";

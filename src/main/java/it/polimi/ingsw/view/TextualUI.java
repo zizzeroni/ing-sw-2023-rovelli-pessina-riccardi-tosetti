@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.commongoal.Direction;
-import it.polimi.ingsw.network.exceptions.ExceptionType;
 import it.polimi.ingsw.utils.CommandReader;
 
 import java.util.*;

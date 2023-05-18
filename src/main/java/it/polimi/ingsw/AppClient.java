@@ -47,7 +47,7 @@ public class AppClient {
                         //Getting the remote server by RMI
                         Registry registry = LocateRegistry.getRegistry();
                         Server server = (Server) registry.lookup("server");
-                        
+
                         //Creating a new client with a TextualUI and a RMI Server
                         client = new ClientImpl(server, new TextualUI());
 

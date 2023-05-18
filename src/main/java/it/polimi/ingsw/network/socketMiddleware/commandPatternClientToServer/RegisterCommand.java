@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class RegisterCommand implements CommandToServer{
+public class RegisterCommand implements CommandToServer {
     private Server actuator;
     private String nickname;
     private Client client;
@@ -37,7 +37,7 @@ public class RegisterCommand implements CommandToServer{
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
-            this.actuator.register(this.client,this.nickname);
+            this.actuator.register(this.client, this.nickname);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"register(Client,String)\" command because this.actuator is NULL");
         }

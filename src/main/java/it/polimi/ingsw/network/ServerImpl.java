@@ -75,8 +75,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public synchronized void addPlayer(Client client,String nickname) throws RemoteException {
-        if(this.clientsToHandle.containsValue(nickname)) {
+    public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
+        if (this.clientsToHandle.containsValue(nickname)) {
             client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
         } else {
             this.clientsToHandle.put(client, nickname);
@@ -104,7 +104,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }*/
         //this.addClientToHandle(client);
 
-        if(this.clientsToHandle.containsKey(nickname)) {
+        if (this.clientsToHandle.containsKey(nickname)) {
             client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Nickname chosen is already being utilized, please try another one!"));
         } else {
             this.clientsToHandle.put(client, nickname);
@@ -121,11 +121,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             try {
                 client.ping();
             } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname+"\":" + e.getMessage());
-                if(model.getGameState()==GameState.IN_CREATION) {
+                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
+                if (model.getGameState() == GameState.IN_CREATION) {
                     clientToRemove = client;
                 }
-                if(model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
+                if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
                     this.controller.disconnectPlayer(nickname);
                 }
 
