@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.*;
@@ -20,7 +21,7 @@ import java.util.TimerTask;
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
-    private Map<String, Client> clientsToHandle;
+    private Map<Client, String> clientsToHandle;
 
     public ServerImpl() throws RemoteException {
         super();
@@ -74,8 +75,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public synchronized void addPlayer(String nickname) throws RemoteException {
-        this.controller.addPlayer(nickname);
+    public synchronized void addPlayer(Client client,String nickname) throws RemoteException {
+        if(this.clientsToHandle.containsValue(nickname)) {
+            client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
+        } else {
+            this.clientsToHandle.put(client, nickname);
+            this.controller.addPlayer(nickname);
+        }
     }
 
     @Override
@@ -99,26 +105,27 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         //this.addClientToHandle(client);
 
         if(this.clientsToHandle.containsKey(nickname)) {
-            throw new RemoteException("[INPUT:ERROR] Nickname chosen is already being utilized, please try another one!");
+            client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Nickname chosen is already being utilized, please try another one!"));
         } else {
-            this.clientsToHandle.put(nickname, client);
+            this.clientsToHandle.put(client, nickname);
         }
 
     }
 
     public synchronized void pingClients() throws RemoteException {
-        String clientToRemove="";
-        for (Map.Entry<String, Client> entry : clientsToHandle.entrySet()) {
-            String nickname = entry.getKey();
-            Client client = entry.getValue();
+        Game model = this.controller.getModel();
+        Client clientToRemove = null;
+        for (Map.Entry<Client, String> entry : clientsToHandle.entrySet()) {
+            String nickname = entry.getValue();
+            Client client = entry.getKey();
             try {
                 client.ping();
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname+"\":" + e.getMessage());
-                if(this.controller.getModel().getGameState()==GameState.IN_CREATION) {
-                    clientToRemove = nickname;
+                if(model.getGameState()==GameState.IN_CREATION) {
+                    clientToRemove = client;
                 }
-                if(this.controller.getModel().getPlayerFromNickname(nickname).isConnected()) {
+                if(model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
                     this.controller.disconnectPlayer(nickname);
                 }
 
@@ -142,7 +149,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     //Listeners methods
     @Override
     public void addedTilesToBoard(Board board) {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -153,7 +160,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void removedTilesFromBoard(Board board) {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -164,7 +171,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void tileAddedToBookshelf(Bookshelf bookshelf) {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -175,7 +182,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void imageModified(String image) {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -186,7 +193,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void numberOfPlayersModified() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -197,7 +204,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void activePlayerIndexModified() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -208,7 +215,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void bagModified() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -219,7 +226,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void commonGoalsModified() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -230,7 +237,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void addedPlayer() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -247,7 +254,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 player.getBookshelf().registerListener(this);
             }
         }
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
@@ -258,7 +265,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void chatUpdated() {
-        for (Client client : this.clientsToHandle.values()) {
+        for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {

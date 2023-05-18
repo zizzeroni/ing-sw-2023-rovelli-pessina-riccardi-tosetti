@@ -49,17 +49,8 @@ public class AppClient {
                         Server server = (Server) registry.lookup("server");
                         
                         //Creating a new client with a TextualUI and a RMI Server
-                        boolean keepAsking = true;
-                        do {
-                            System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                            String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                            try {
-                                client = new ClientImpl(server, new TextualUI(), nickname);
-                                keepAsking = false;
-                            } catch (RemoteException e) {
-                                System.out.println("Please choose another nickname!");
-                            }
-                        } while (keepAsking);
+                        client = new ClientImpl(server, new TextualUI());
+
 
                         startPingSenderThread(server);
                     }
@@ -68,17 +59,8 @@ public class AppClient {
                         ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        boolean keepAsking = true;
-                        do {
-                            System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                            String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                            try {
-                                client = new ClientImpl(serverStub, new TextualUI(), nickname);
-                                keepAsking = false;
-                            } catch (RemoteException e) {
-                                System.out.println("Please choose another nickname!");
-                            }
-                        } while (keepAsking);
+                        client = new ClientImpl(serverStub, new TextualUI());
+
 
                         startPingSenderThread(serverStub);
                         startReceiverThread(client, serverStub);
