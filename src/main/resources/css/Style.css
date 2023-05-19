@@ -29,92 +29,98 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cat1{
+/*Cats sections*/
+.G1{
     -fx-background-image: url("/Image/item%20tiles/Gatti1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cat2{
+.G2{
     -fx-background-image: url("/Image/item%20tiles/Gatti1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.cat3{
+.G3{
     -fx-background-image: url("/Image/item%20tiles/Gatti1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.frames1{
+/*Frames sections*/
+.B1{
     -fx-background-image: url("/Image/item%20tiles/Cornici1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.frames2{
+.B2{
     -fx-background-image: url("/Image/item%20tiles/Cornici1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.frames3{
+.B3{
     -fx-background-image: url("/Image/item%20tiles/Cornici1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.books1{
+/*Books sections*/
+.W1{
     -fx-background-image: url("/Image/item%20tiles/Libri1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.books2{
+.W2{
     -fx-background-image: url("/Image/item%20tiles/Libri1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.books3{
+.W3{
     -fx-background-image: url("/Image/item%20tiles/Libri1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.plants1{
+/*Plants sections*/
+.P1{
     -fx-background-image: url("/Image/item%20tiles/Piante1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.plants2{
+.P2{
     -fx-background-image: url("/Image/item%20tiles/Piante1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.plants3{
+.P3{
      -fx-background-image: url("/Image/item%20tiles/Piante1.2.png");
      -fx-background-repeat: stretch;
      -fx-background-size: cover;
  }
-.trophies1{
+/*Trophies sections*/
+.C1{
     -fx-background-image: url("/Image/item%20tiles/Trofei1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.trophies2{
+.C2{
     -fx-background-image: url("/Image/item%20tiles/Trofei1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.trophies3{
+.C3{
     -fx-background-image: url("/Image/item%20tiles/Trofei1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.games1{
+/*Games sections*/
+.Y1{
     -fx-background-image: url("/Image/item%20tiles/Giochi1.1.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.games1{
+.Y2{
     -fx-background-image: url("/Image/item%20tilesGiochi1.2.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
-.games1{
+.Y3{
     -fx-background-image: url("/Image/item%20tiles/Giochi1.3.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;

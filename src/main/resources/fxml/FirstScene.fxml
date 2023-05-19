@@ -39,7 +39,7 @@
             <Insets />
          </opaqueInsets>
       </Pane>
-      <Label fx:id="ErrorLabel" alignment="CENTER" layoutX="361.0" layoutY="424.0" textFill="RED">
+      <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="409.0" text="Select the number of player!" textFill="RED">
          <font>
             <Font size="40.0" />
          </font>

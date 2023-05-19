@@ -94,8 +94,9 @@ public abstract class UI extends Application implements Runnable {
     //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
+    //ONLY IN TextualUI
     //Method in common with all UIs that must be implemented
-    public abstract void showPersonalRecap();
+    //public abstract void showPersonalRecap();
 
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
     //this method change the State of the game from the UI perspective

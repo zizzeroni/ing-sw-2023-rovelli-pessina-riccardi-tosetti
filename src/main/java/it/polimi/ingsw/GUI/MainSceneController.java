@@ -1,6 +1,8 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.view.GUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,8 +21,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainSceneController implements Initializable {
+    //Fa schifo
+    private GUI mainGui;
     private Board board;
     private User sceneData;
+    private String tileName;
+    private String tileStyle;
+    @FXML
+    private Scene scene;
     @FXML
     private ImageView commonGoal1;
     @FXML
@@ -43,20 +51,23 @@ public class MainSceneController implements Initializable {
     private Button selected2;
     @FXML
     private Button selected3;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Initialize the two common goal
-        String firstCommonGoalNumber="";
-        String secondCommonGoalNumber="";
+        String firstCommonGoalNumber = "";
+        String secondCommonGoalNumber = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/1.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/2.jpg"));
         commonGoal2.setImage(firstCommonGoalImage);
         commonGoal1.setImage(secondCommonGoalImage);
 
         //Initialize the personal goal
-        String personalGoalNumber="";
+        String personalGoalNumber = "";
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/personal goal cards/Personal_Goals5.png"));
         personalGoal.setImage(personalGoalImage);
+
+        this.scene=personalGoal.getScene();
 
 //        boardTile15.getStyleClass().add("cat1");
 //        boardTile33.getStyleClass().add("cat1");
@@ -71,38 +82,44 @@ public class MainSceneController implements Initializable {
 //                }
 //            }
 //        }
-        
+
     }
-//    public void Take(){
+
+    //    public void Take(){
 //        String taken = boardTile15.getStyleClass().get(1);
 //        selected1.setOpacity(1);
 //        boardTile84.getStyleClass().add(taken);
 //        selected1.getStyleClass().add(taken);
 //        boardTile15.getStyleClass().remove(1);
 //    }
-    public void Selected(ActionEvent actionEvent) {
+    public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
+            //Se la tile può essere presa allora-->
             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
             button.setBorder(border);
+            //Altrimenti si potrebbe far comparire per 2 secondi il contorno rosso
         } else {
             button.setBorder(Border.EMPTY);
         }
     }
-    public void OverButton(MouseEvent mouseEvent) {
+
+    public void overButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
 
         node.setOpacity(0.5);
     }
-    public void NotOverButton(MouseEvent mouseEvent) {
+
+    public void notOverButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
 
         node.setOpacity(1);
     }
-    public void OnCommonGoal1(MouseEvent mouseEvent) {
+
+    public void onCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
 
@@ -112,6 +129,7 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
     }
+
     public void exitCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -122,6 +140,7 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
     }
+
     public void onCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -132,6 +151,7 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
     }
+
     public void exitCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -142,6 +162,7 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
     }
+
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -151,6 +172,7 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(844);
         imageView.setLayoutY(450);
     }
+
     public void exitPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -160,30 +182,14 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(915);
         imageView.setLayoutY(560);
     }
-    public void setTable(){
-        String name="";
-        Scene scene=selected1.getScene();
-        for(int row=0; row<9; row++){
-            for(int column=0; column<9; column++){
-                name="";
-                name+="#boardTile";
-                name+=row;
-                name+=column;
 
-                Button button = (Button) scene.lookup(name);
-                if (button != null) {
-                    System.out.println("Bottone "+ row + column);
-
-                    button.getStyleClass().add("cat1");
-                }
-
-            }
-        }
+    public void setTable() {
+        mainGui.showNewTurnIntro();
         if (fourthPlayerBookshelf == null)
             return;
         else if (thirdPlayerBookshelf == null)
             return;
-        if(!numberOfPlayer.equals("4")){
+        if (!numberOfPlayer.equals("4")) {
             Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
             fouPlayerButtons.setVisible(false);
             fouPlayerButtons = (Button) scene.lookup("#boardTile40");
@@ -227,9 +233,9 @@ public class MainSceneController implements Initializable {
             return;
         Stage stage = (Stage) button.getScene().getWindow();
         User user = (User) stage.getUserData();
-        numberOfPlayer=user.getNumberOfPlayer();
-        textFirstPlayerNickname=user.getFirstPlayerNickname();
-        System.out.println("Tu ti chiami: "+ textFirstPlayerNickname+", la partita è fatta da: "+ numberOfPlayer+" Giocatori");
+        numberOfPlayer = user.getNumberOfPlayer();
+        textFirstPlayerNickname = user.getFirstPlayerNickname();
+        System.out.println("Tu ti chiami: " + textFirstPlayerNickname + ", la partita è fatta da: " + numberOfPlayer + " Giocatori");
         this.setTable();
 
 //        this.controlIfPickable();
@@ -277,6 +283,79 @@ public class MainSceneController implements Initializable {
 //        return button;
 //    }
 
+    public void insertTile(ActionEvent actionEvent) {
+    }
+
+    public void setBoardTile(int row, int column, int tileId, String tileColor) {
+        //Set the name of the button in the tile position
+        System.out.println("aoSETT");
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+
+        //Set the style of the tile
+        tileStyle = "";
+        tileStyle += tileColor;
+        tileStyle += tileId;
+
+        Platform.runLater(() -> {
+            //Select the button in the tile position
+            Button button = (Button) scene.lookup(tileName);
+            if (button != null) {
+                //Only for test
+                System.out.println("Bottone " + row + column);
+                //set tile color
+                button.getStyleClass().add(tileStyle);
+            }
+        });
+    }
+
+    public void disableTile(int row, int column) {
+        System.out.println("aoDISABLE");
+        //Set the name of the button in the tile position
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+
+        Platform.runLater(() -> {
+            //Select the button in the tile position
+            Button button = (Button) scene.lookup(tileName);
+            button.setOnAction(null);
+            button.setOnMouseEntered(null);
+            button.setOnMouseExited(null);
+
+        });
+
+    }
+
+    public void ableTile(int row, int column) {
+        System.out.println("aoABLETILE");
+        //Set the name of the button in the tile position
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+
+        //Select the button in the tile position
+        Button button = (Button) scene.lookup(tileName);
+//        button.setOnAction("#selected");
+//        button.setOnMouseEntered("#overButton");
+//        button.setOnMouseExited("#notOverButton");
+    }
+
+    public void checkIfPickable(int row, int column) {
+
+    }
+
     public void InsertTile(ActionEvent actionEvent) {
+    }
+
+    public void setMainGui(GUI gui) {
+        this.mainGui = gui;
+    }
+    public void setScene(Scene scene){
+        this.scene=scene;
     }
 }

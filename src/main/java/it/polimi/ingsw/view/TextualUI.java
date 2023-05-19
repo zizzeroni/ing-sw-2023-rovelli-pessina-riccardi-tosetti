@@ -370,8 +370,7 @@ public class TextualUI extends UI {
         }
         return false;
     }
-
-    @Override
+    //TODO: remove from UI
     public void showPersonalRecap() {
         PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
         //PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());

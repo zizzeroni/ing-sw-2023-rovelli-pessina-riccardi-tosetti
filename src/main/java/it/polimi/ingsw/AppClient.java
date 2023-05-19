@@ -55,6 +55,10 @@ public class AppClient {
 
                         client = new ClientImpl(server, new TextualUI(), nickname);
                         startPingSenderThread(server);
+
+
+                        //Calling the run method of the UI
+                        client.run();
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
@@ -83,6 +87,9 @@ public class AppClient {
                                 }
                             }
                         }).start();
+
+                        //Calling the run method of the UI
+                        client.run();
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
@@ -95,16 +102,8 @@ public class AppClient {
                     case 1 -> {
                         //Getting the remote server by RMI
 
-                        Registry registry = LocateRegistry.getRegistry();
-                        Server server = (Server) registry.lookup("server");
-
                         //Creating a new client with a TextualUI and a RMI Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-
                         Application.launch(GUI.class, "");
-                        client = new ClientImpl(server, new GUI(), nickname);
-                        startPingSenderThread(server);
 
                     }
                     case 2 -> {
@@ -124,13 +123,11 @@ public class AppClient {
             }
         }
 
-        //Calling the run method of the UI
-        client.run();
         //Closing client app
         System.exit(0);
     }
 
-    private static void startPingSenderThread(Server server) {
+    public static void startPingSenderThread(Server server) {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
