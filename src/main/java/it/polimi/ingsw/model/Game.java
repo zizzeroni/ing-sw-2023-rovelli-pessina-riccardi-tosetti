@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSerializer;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.GameSerializer;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -221,12 +224,20 @@ public class Game {
                 .orElse(null);
     }
 
-    public void saveGame(){
-        Gson gson = new Gson();
+    public void saveGame() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
+
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        FileWriter fileWriter;
         try {
-            gson.toJson(this, new FileWriter("src/main/resources/storage/games.json"));
+            fileWriter = new FileWriter("src/main/resources/storage/games.json");
+            gson.toJson(this, fileWriter);
+
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }
