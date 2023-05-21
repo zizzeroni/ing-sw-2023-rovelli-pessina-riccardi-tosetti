@@ -116,6 +116,10 @@ public class Player {
         this.scoreTiles.set(position, tile);
     }
 
+    public List<Message> getChat() {
+        return this.chat;
+    }
+
     /*
         Set the score of the player by the score of his bookshelf
      */

@@ -22,6 +22,7 @@ public class TextualUI extends UI {
 
     private void firstInteractionWithUser() {
 
+        this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
         this.controller.addPlayer(this.getNickname());
 
         int chosenNumberOfPlayer = 0;
