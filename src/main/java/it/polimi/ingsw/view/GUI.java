@@ -20,10 +20,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
-import static javafx.application.Application.launch;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class GUI extends UI {
     private LoginController loginController;
@@ -54,7 +56,6 @@ public class GUI extends UI {
 
     @Override
     public Choice askPlayer() {
-
         return null;
     }
 
@@ -66,26 +67,33 @@ public class GUI extends UI {
 
         BoardView boardView = this.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
-
+        String nicknamePlayer = String.valueOf(this.getModel().getPlayers().get(0));
         TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
+
+        mainSceneController.setTable(nicknamePlayer);
+
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
                     tileId = boardMatrix[row][column].getImageID();
-                    tileColor = boardMatrix[row][column].getColor().toString();
+                    tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
-
-
+                }
+            }
+        }
+        for (int row = 0; row < boardView.getNumberOfRows(); row++) {
+            for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
+                if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
                     if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                             (row != boardView.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                             (column != boardView.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                             (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
-                        mainSceneController.disableTile(row, column);
-                    } else {
+
                         mainSceneController.ableTile(row, column);
+                    } else {
+
+                        mainSceneController.disableTile(row, column);
                     }
-
-
                 }
             }
         }
@@ -112,7 +120,7 @@ public class GUI extends UI {
     }
 
     public void joinGameWithNick(String nickname) {
-        new Thread(() -> {
+        var th = new Thread(() -> {
             try {
                 Registry registry = LocateRegistry.getRegistry();
                 Server server = (Server) registry.lookup("server");
@@ -131,19 +139,25 @@ public class GUI extends UI {
 
             //Aspetto che ci sia il numero giusto di giocatori
             boolean esci = true;
-            System.out.println("i giocatori sono" + getModel().getPlayers().size());
-            System.out.println("i giocatori devono essere" + getModel().getNumberOfPlayers());
             while (esci) {
                 //Se il numero di giocatori diventa corretto
-
                 if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
                     //Notifico il controller dell'inizio partita
-                    this.controller.startGame();
+                    CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+                    Platform.runLater(() -> {
+                        this.controller.startGame();
+                        countDownLatchStartGame.countDown();
+                    });
+                    try {
+                        countDownLatchStartGame.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     esci = false;
                     Parent secondRoot;
                     //Carico la seconda scena e la mostro
                     try {
-                        this.loader= new FXMLLoader();
+                        this.loader = new FXMLLoader();
                         this.loader.setLocation(getClass().getClassLoader().getResource("fxml/MainScene.fxml"));
                         secondRoot = this.loader.load();
                         mainSceneController = this.loader.getController();
@@ -151,34 +165,55 @@ public class GUI extends UI {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    CountDownLatch countDownLatch = new CountDownLatch(1);
                     Platform.runLater(() -> {
                         primaryStage.setTitle("Main Scene");
                         primaryStage.setScene(new Scene(secondRoot));
+                        countDownLatch.countDown();
                     });
+                    try {
+                        countDownLatch.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+            mainSceneController.setScene(primaryStage.getScene());
+            mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
+            mainSceneController.getPlayersName(getModel().getPlayers());
+            showNewTurnIntro();
             while (this.getState() != State.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-
                 waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
                 if (this.getState() == State.GAME_ENDED) break;
-                System.out.println("aoMAIN");
                 //Devo abilitare tutte le tile
                 //.unlockAllTiles
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                 showNewTurnIntro();
                 //Questo metodo va sostituito con un metodo che aspetta che il player confermi la presa delle tiles
-                Choice choice = askPlayer();
+                //Choice choice = askPlayer();
+
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
-                this.controller.insertUserInputIntoModel(choice);
+                //this.controller.insertUserInputIntoModel(choice);
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("Enter Input : ");
+                try {
+                    String s = br.readLine();
+                    System.out.println(s);
+                }catch(Exception e) {
+                    System.out.println(e);
+                }
                 this.controller.changeTurn();
                 //Devo disabilitare tutte le tile
                 //.lockAllTiles();
             }
             System.out.println("---GAME ENDED---");
-        }).start();
-
-
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
 
     public static void main(String[] args) {

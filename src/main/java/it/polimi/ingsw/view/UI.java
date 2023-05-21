@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.view.GameView;
 import javafx.application.Application;
 
 public abstract class UI extends Application implements Runnable {
-    private GameView model;
+    private volatile GameView model;
     private ChatThread chat;
 
     protected ViewListener controller;

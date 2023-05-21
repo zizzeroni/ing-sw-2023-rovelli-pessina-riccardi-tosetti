@@ -35,16 +35,14 @@ public class LoginController implements Initializable {
     private Button PlayerOk;
     private final String[] playerNumber = {"2", "3", "4"};
     private String numberOfPlayerInGame;
-    private String nickname;
 
     @FXML
     public void controlNickname(ActionEvent actionEvent) throws IOException, NotBoundException {
 
         //Controllo se è corretto l'username
-        nickname = Nickname.getText();
+        String nickname = Nickname.getText();
         if (!nickname.isEmpty()) {
 
-            System.out.println("ciao " + Nickname.getText());
             //Pass the nickname to the GUI
             mainGui.joinGameWithNick(Nickname.getText());
             //Se i è uguale a 1 devo scegliere il numero di giocatori
@@ -56,9 +54,7 @@ public class LoginController implements Initializable {
 
     public void numberOfPlayer(boolean askNumberOfPlayer) {
         if (askNumberOfPlayer) {
-            Platform.runLater(() -> {
-                changeScene();
-            });
+            Platform.runLater(this::changeScene);
         } else {
             Platform.runLater(() -> {
                 Font font = principalLabel.getFont();
