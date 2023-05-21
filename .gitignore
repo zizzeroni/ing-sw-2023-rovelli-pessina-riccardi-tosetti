@@ -1,5 +1,7 @@
 # Cranio Assets
 /src/main/resources/Image/*
+# Stored games
+/src/main/resources/storage/games.json
 
 # Maven
 **/target/**

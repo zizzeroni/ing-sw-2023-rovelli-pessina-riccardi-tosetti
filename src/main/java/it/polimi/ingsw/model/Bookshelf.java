@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Bookshelf {
-    private BookshelfListener listener;
+    private transient BookshelfListener listener;
     private final int numberOfColumns = 5;
     private final int numberOfRows = 6;
     private final Map<Integer, Integer> pointsForEachGroup = new LinkedHashMap<>(4) {{

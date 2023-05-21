@@ -1,3 +1,1070 @@
 {
-  "numberOfPlayers": 2
+  "gameState": "ON_GOING",
+  "numberOfPlayersToStartGame": 2,
+  "activePlayerIndex": 1,
+  "players": [
+    {
+      "nickname": "Rovo",
+      "connected": true,
+      "personalGoal": {
+        "numberOfColumns": 5,
+        "numberOfRows": 6,
+        "pattern": [
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            {
+              "color": "BLUE",
+              "imageID": 0
+            },
+            null,
+            null,
+            {
+              "color": "YELLOW",
+              "imageID": 0
+            },
+            null
+          ],
+          [
+            null,
+            null,
+            {
+              "color": "PURPLE",
+              "imageID": 0
+            },
+            null,
+            null
+          ],
+          [
+            null,
+            {
+              "color": "GREEN",
+              "imageID": 0
+            },
+            null,
+            null,
+            {
+              "color": "CYAN",
+              "imageID": 0
+            }
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            {
+              "color": "WHITE",
+              "imageID": 0
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        ],
+        "imageID": 11
+      },
+      "scoreTiles": [
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        },
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        },
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        }
+      ],
+      "bookshelf": {
+        "numberOfColumns": 5,
+        "numberOfRows": 6,
+        "pointsForEachGroup": {
+          "3": 2,
+          "4": 3,
+          "5": 5,
+          "6": 8
+        },
+        "tiles": [
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            {
+              "color": "YELLOW",
+              "imageID": 0
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        ]
+      },
+      "chat": [
+        {
+          "messageType": "PRIVATE",
+          "receiverNickname": "Rovo",
+          "senderNickname": "Toso",
+          "content": "suca"
+        },
+        {
+          "messageType": "BROADCAST",
+          "receiverNickname": "Rovo",
+          "senderNickname": "Rovo",
+          "content": "sucasuca"
+        }
+      ]
+    },
+    {
+      "nickname": "Toso",
+      "connected": true,
+      "personalGoal": {
+        "numberOfColumns": 5,
+        "numberOfRows": 6,
+        "pattern": [
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            {
+              "color": "CYAN",
+              "imageID": 0
+            },
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            {
+              "color": "BLUE",
+              "imageID": 0
+            },
+            {
+              "color": "WHITE",
+              "imageID": 0
+            },
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            {
+              "color": "PURPLE",
+              "imageID": 0
+            }
+          ],
+          [
+            {
+              "color": "YELLOW",
+              "imageID": 0
+            },
+            null,
+            null,
+            {
+              "color": "GREEN",
+              "imageID": 0
+            },
+            null
+          ]
+        ],
+        "imageID": 2
+      },
+      "scoreTiles": [
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        },
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        },
+        {
+          "value": 0,
+          "playerID": -1,
+          "commonGoalID": -1
+        }
+      ],
+      "bookshelf": {
+        "numberOfColumns": 5,
+        "numberOfRows": 6,
+        "pointsForEachGroup": {
+          "3": 2,
+          "4": 3,
+          "5": 5,
+          "6": 8
+        },
+        "tiles": [
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        ]
+      },
+      "chat": [
+        {
+          "messageType": "PRIVATE",
+          "receiverNickname": "Rovo",
+          "senderNickname": "Toso",
+          "content": "suca"
+        },
+        {
+          "messageType": "BROADCAST",
+          "receiverNickname": "Toso",
+          "senderNickname": "Rovo",
+          "content": "sucasuca"
+        }
+      ]
+    }
+  ],
+  "bag": [
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "PURPLE",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "BLUE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "YELLOW",
+      "imageID": 0
+    },
+    {
+      "color": "WHITE",
+      "imageID": 0
+    },
+    {
+      "color": "GREEN",
+      "imageID": 0
+    },
+    {
+      "color": "CYAN",
+      "imageID": 0
+    }
+  ],
+  "board": {
+    "numberOfUsableTiles": 28,
+    "numberOfColumns": 9,
+    "numberOfRows": 9,
+    "tiles": [
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        null,
+        {
+          "color": "YELLOW",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "color": "YELLOW",
+          "imageID": 0
+        },
+        {
+          "color": "BLUE",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "color": "BLUE",
+          "imageID": 0
+        },
+        {
+          "color": "CYAN",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "PURPLE",
+          "imageID": 0
+        },
+        {
+          "color": "YELLOW",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "color": "BLUE",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "WHITE",
+          "imageID": 0
+        },
+        {
+          "color": "WHITE",
+          "imageID": 0
+        },
+        {
+          "color": "YELLOW",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "BLUE",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "PURPLE",
+          "imageID": 0
+        },
+        {
+          "color": "BLUE",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "GREEN",
+          "imageID": 0
+        },
+        {
+          "color": "PURPLE",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "color": "WHITE",
+          "imageID": 0
+        },
+        {
+          "color": "YELLOW",
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ],
+      [
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        },
+        {
+          "imageID": 0
+        }
+      ]
+    ]
+  },
+  "commonGoals": [
+    {
+      "consecutiveTiles": 2,
+      "numberOfPatternRepetitionsRequired": 6,
+      "type": "EQUALS",
+      "scoreTiles": [
+        {
+          "value": 8,
+          "playerID": 0,
+          "commonGoalID": 0
+        },
+        {
+          "value": 4,
+          "playerID": 0,
+          "commonGoalID": 0
+        }
+      ],
+      "imageID": 1
+    },
+    {
+      "numberOfPatternRepetitionsRequired": 1,
+      "type": "EQUALS",
+      "scoreTiles": [
+        {
+          "value": 8,
+          "playerID": 0,
+          "commonGoalID": 1
+        },
+        {
+          "value": 4,
+          "playerID": 0,
+          "commonGoalID": 1
+        }
+      ],
+      "imageID": 0
+    }
+  ]
 }

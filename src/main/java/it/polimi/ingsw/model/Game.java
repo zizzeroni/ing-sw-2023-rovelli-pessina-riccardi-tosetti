@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSerializer;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.utils.GameSerializer;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Game {
-    private GameListener listener;
+    private transient GameListener listener;
     private GameState gameState;
     private int numberOfPlayersToStartGame;
     private int activePlayerIndex;
@@ -225,10 +222,7 @@ public class Game {
     }
 
     public void saveGame() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
-
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        Gson gson = new Gson();
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter("src/main/resources/storage/games.json");
@@ -239,5 +233,19 @@ public class Game {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
+//
+//        Gson gson = gsonBuilder.setPrettyPrinting().create();
+//        FileWriter fileWriter;
+//        try {
+//            fileWriter = new FileWriter("src/main/resources/storage/games.json");
+//            gson.toJson(this, fileWriter);
+//
+//            fileWriter.flush();
+//            fileWriter.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

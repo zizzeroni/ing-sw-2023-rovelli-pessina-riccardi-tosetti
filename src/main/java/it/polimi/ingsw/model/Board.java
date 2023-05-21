@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.tile.Tile;
 import java.util.List;
 
 public class Board {
-    private BoardListener listener;
+    private transient BoardListener listener;
     private int numberOfUsableTiles;
     private final int numberOfColumns = 9;
     private final int numberOfRows = 9;

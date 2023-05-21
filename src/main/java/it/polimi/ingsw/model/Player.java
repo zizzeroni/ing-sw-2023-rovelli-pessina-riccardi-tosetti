@@ -14,7 +14,7 @@ public class Player {
     private PersonalGoal personalGoal; //The single goal of the player
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
-    private PlayerListener listener;
+    private transient PlayerListener listener;
     private final List<Message> chat;
 
     //Constructors
