@@ -14,4 +14,5 @@ public enum CommandType {
     SEND_UPDATED_MODEL,
     EXCEPTION,
 
+
 }

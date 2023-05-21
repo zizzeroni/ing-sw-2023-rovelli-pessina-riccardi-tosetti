@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Bookshelf {

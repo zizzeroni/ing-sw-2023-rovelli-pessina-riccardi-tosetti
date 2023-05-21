@@ -127,7 +127,8 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void addPlayer(String nickname) {
-        //Game is finishing, so do nothing...
+        //Reconnecting player
+        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
     }
 
     @Override
@@ -142,7 +143,11 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void disconnectPlayer(String nickname) {
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(false);
+        Game model = this.controller.getModel();
+        model.getPlayerFromNickname(nickname).setConnected(false);
+        if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
+            this.changeActivePlayer();
+        }
     }
 
     public static GameState toEnum() {

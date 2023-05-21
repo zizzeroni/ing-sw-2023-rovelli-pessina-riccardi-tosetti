@@ -1,12 +1,15 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
 
 public class TextualUI extends UI {
 
@@ -29,7 +32,7 @@ public class TextualUI extends UI {
                 this.getExceptionToHandle().handle();
             }
         } while (this.getExceptionToHandle() != null);
-
+        this.initializeChatThread(this.controller,this.getNickname());
 
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {
@@ -40,7 +43,7 @@ public class TextualUI extends UI {
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
-        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState()==GameState.IN_CREATION) {
             this.controller.startGame();
         }
 

@@ -151,7 +151,8 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void addPlayer(String nickname) {
-        //Game is going, so do nothing...
+        //Reconnecting player
+        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
     }
 
     @Override

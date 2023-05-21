@@ -4,9 +4,6 @@ import it.polimi.ingsw.model.Board;
 
 import java.io.Serializable;
 
-import static org.fusesource.jansi.Ansi.Color.*;
-import static org.fusesource.jansi.Ansi.*;
-
 public class BoardView implements Serializable {
     //private final Board boardModel;
     private final int numberOfUsableTiles;

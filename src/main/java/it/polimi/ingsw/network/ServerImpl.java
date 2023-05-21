@@ -1,18 +1,15 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 
 import java.rmi.RemoteException;
-import java.rmi.server.*;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -77,11 +74,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
         if (this.clientsToHandle.containsValue(nickname)) {
-            client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
-        } else {
-            this.clientsToHandle.put(client, nickname);
-            this.controller.addPlayer(nickname);
+            if(this.model.getPlayerFromNickname(nickname).isConnected()) {
+                client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
+                return;
+            }
+            Client key = null;
+            for(Map.Entry<Client, String> entry : this.clientsToHandle.entrySet()) {
+                if(entry.getValue()!=null && entry.getValue().equals(nickname)) {
+                    key = entry.getKey();
+                }
+            }
+            this.clientsToHandle.remove(key);
         }
+
+        this.clientsToHandle.put(client, nickname);
+        this.controller.addPlayer(nickname);
     }
 
     @Override
@@ -270,6 +277,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 client.updateModelView(new GameView(this.model));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }
+
+    @Override
+    public void playerHasReconnected() {
+        for (Client client : this.clientsToHandle.keySet()) {
+            try {
+                client.updateModelView(new GameView(this.model));
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(playerHasReconnected):" + e.getMessage() + ".Skipping update");
             }
         }
     }

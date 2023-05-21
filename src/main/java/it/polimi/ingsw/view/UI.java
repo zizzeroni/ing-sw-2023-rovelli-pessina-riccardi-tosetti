@@ -94,7 +94,6 @@ public abstract class UI implements Runnable {
 
     public void registerListener(ViewListener controller) {
         this.controller = controller;
-        this.initializeChatThread(this.controller, this.nickname);
     }
 
     public void removeListener() {
@@ -133,7 +132,7 @@ public abstract class UI implements Runnable {
     }
 
 
-    private void initializeChatThread(ViewListener controller, String nickname) {
+    public void initializeChatThread(ViewListener controller, String nickname) {
         this.chat = new ChatThread(controller, nickname);
         chat.start();
     }
