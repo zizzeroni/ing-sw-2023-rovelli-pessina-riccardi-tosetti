@@ -4,9 +4,7 @@ import it.polimi.ingsw.GUI.LoginController;
 import it.polimi.ingsw.GUI.MainSceneController;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.view.BoardView;
-import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import javafx.application.Platform;
@@ -20,6 +18,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
@@ -32,7 +31,6 @@ public class GUI extends UI {
     private MainSceneController mainSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
-
     public GUI(GameView model) {
         super(model);
     }
@@ -67,10 +65,9 @@ public class GUI extends UI {
 
         BoardView boardView = this.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
-        String nicknamePlayer = String.valueOf(this.getModel().getPlayers().get(0));
         TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
 
-        mainSceneController.setTable(nicknamePlayer);
+        mainSceneController.setTable();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -131,6 +128,7 @@ public class GUI extends UI {
             }
 
             //Add the player to the game, if he is the first return 1
+            this.setNickname(nickname);
             this.controller.addPlayer(nickname);
 
             boolean askNumberOfPlayer = this.getModel().getPlayers().size() == 1;
@@ -180,7 +178,14 @@ public class GUI extends UI {
             }
             mainSceneController.setScene(primaryStage.getScene());
             mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
-            mainSceneController.getPlayersName(getModel().getPlayers());
+            mainSceneController.setPlayersName(getModel().getPlayers());
+
+            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
+            mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
+
+            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
+            mainSceneController.setCommonGoal(commonGoals);
+
             showNewTurnIntro();
             while (this.getState() != State.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
@@ -243,10 +248,8 @@ public class GUI extends UI {
             }
         }
     }
-
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
-
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
     }
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.view.CommonGoalView;
+import it.polimi.ingsw.model.view.PersonalGoalView;
 import it.polimi.ingsw.model.view.PlayerView;
 import it.polimi.ingsw.view.GUI;
 import javafx.application.Platform;
@@ -31,6 +33,9 @@ public class MainSceneController implements Initializable {
     private User sceneData;
     private String tileName;
     private String tileStyle;
+    private String personalGoalString;
+    private String firstCommonGoalString;
+    private String secondCommonGoalString;
     private Scene scene;
     @FXML
     private ImageView commonGoal1;
@@ -47,28 +52,25 @@ public class MainSceneController implements Initializable {
     @FXML
     private Label firstPlayerNickname;
     private int numberOfPlayer;
+    private String[] takenTiles;
+    private int numberOfTakenTiles;
+    private int numberOfSelectedTiles;
     private String[] playerName;
-    @FXML
-    private Button selected1;
-    @FXML
-    private Button selected2;
-    @FXML
-    private Button selected3;
+
+    //non riesco a capire come utilizzarla
+    private String[] nameOfSelectedTiles;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Initialize the two common goal
-        String firstCommonGoalNumber = "";
-        String secondCommonGoalNumber = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/back.jpg"));
         commonGoal2.setImage(firstCommonGoalImage);
         commonGoal1.setImage(secondCommonGoalImage);
 
-        //Initialize the personal goal
-        String personalGoalNumber = "";
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
+
+        numberOfTakenTiles = 0;
 
 //        this.scene=personalGoal.getScene();
 
@@ -99,11 +101,14 @@ public class MainSceneController implements Initializable {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
-            //Se la tile può essere presa allora-->
-            Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-            button.setBorder(border);
-            //Altrimenti si potrebbe far comparire per 2 secondi il contorno rosso
+            if (checkIfPickable(button)) {
+                this.numberOfSelectedTiles++;
+                Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
+                button.setBorder(border);
+                //Altrimenti si potrebbe far comparire per 2 secondi il contorno rosso
+            }
         } else {
+                this.numberOfSelectedTiles--;
             button.setBorder(Border.EMPTY);
         }
     }
@@ -186,7 +191,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(560);
     }
 
-    public void setTable(String nickname) {
+    public void setTable() {
+        this.numberOfSelectedTiles=0;
         CountDownLatch countDownLatchTable = new CountDownLatch(1);
 
         Platform.runLater(() -> {
@@ -232,7 +238,7 @@ public class MainSceneController implements Initializable {
                     thirdPlayerBookshelf.setVisible(false);
                 }
             }
-            firstPlayerNickname.setText(nickname);
+            firstPlayerNickname.setText(playerName[0]);
             countDownLatchTable.countDown();
         });
         try {
@@ -240,9 +246,6 @@ public class MainSceneController implements Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void insertTile(ActionEvent actionEvent) {
     }
 
     public void setBoardTile(int row, int column, int tileId, String tileColor) {
@@ -376,13 +379,6 @@ public class MainSceneController implements Initializable {
 
     }
 
-    public void checkIfPickable(int row, int column) {
-
-    }
-
-    public void InsertTile(ActionEvent actionEvent) {
-    }
-
     public void setMainGui(GUI gui) {
         this.mainGui = gui;
     }
@@ -396,9 +392,112 @@ public class MainSceneController implements Initializable {
         playerName = new String[numberOfPlayers];
     }
 
-    public void getPlayersName(List<PlayerView> players) {
+    public void setPlayersName(List<PlayerView> players) {
         for (int i = 0; i < numberOfPlayer; i++) {
-            playerName[i] = players.toString();
+            playerName[i] = players.get(i).getNickname();
         }
     }
+
+    public void setPersonalGoal(PersonalGoalView personalGoal) {
+        personalGoalString = "Image/personal goal cards/";
+
+        //Assegnare il giusto personal goal
+
+        CountDownLatch countDownLatchAble = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(personalGoalString));
+
+            this.personalGoal.setImage(personalGoalImage);
+            countDownLatchAble.countDown();
+        });
+        try {
+            countDownLatchAble.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setCommonGoal(List<CommonGoalView> commonGoals) {
+        firstCommonGoalString = "Image/common goal cards/";
+        secondCommonGoalString = "Image/common goal cards/";
+
+        //Assegnare i giusti common goal
+
+        CountDownLatch countDownLatchAble = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString));
+            Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString));
+
+            commonGoal2.setImage(firstCommonGoalImage);
+            commonGoal1.setImage(secondCommonGoalImage);
+            countDownLatchAble.countDown();
+        });
+        try {
+            countDownLatchAble.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void SelectTiles(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+        String style;
+        int count=1;
+        String selectedName;
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                tileName = "#boardTile" + r + c;
+                Button buttonTile = (Button) scene.lookup(tileName);
+                if (buttonTile != null && buttonTile.getBorder() != null && !buttonTile.getBorder().isEmpty()) {
+                    style = buttonTile.getStyleClass().get(1);
+                    selectedName="#selected"+count;
+                    Button selectedButton = (Button) scene.lookup(selectedName);
+                    selectedButton.getStyleClass().add(style);
+                    buttonTile.getStyleClass().remove(style);
+                    buttonTile.setOnAction(null);
+                    buttonTile.setOnMouseEntered(null);
+                    buttonTile.setOnMouseExited(null);
+                    buttonTile.setBorder(Border.EMPTY);
+                    count++;
+                }
+            }
+        }
+        numberOfSelectedTiles=0;
+    }
+
+    public boolean checkIfPickable(Button button) {
+        String name = button.getId();
+        int lenght = name.length();
+        String column = String.valueOf(name.charAt(lenght-1));
+        String row = String.valueOf(name.charAt(lenght-2));
+
+        if(this.numberOfSelectedTiles==0){
+            return true;
+        }
+        if(this.numberOfSelectedTiles==3){
+            return false;
+        }
+        if(numberOfSelectedTiles==1) {
+            for (int r = 0; r < 9; r++) {
+                for (int c = 0; c < 9; c++) {
+                    tileName = "#boardTile" + r + c;
+                    Button buttonTile = (Button) scene.lookup(tileName);
+                    if (buttonTile != null && buttonTile.getBorder() != null && !buttonTile.getBorder().isEmpty()) {
+                        if ((row.equals(String.valueOf(r + 1)) && column.equals(String.valueOf(c))) ||
+                                (row.equals(String.valueOf(r - 1)) && column.equals(String.valueOf(c))) ||
+                                (row.equals(String.valueOf(r)) && column.equals(String.valueOf(c + 1))) ||
+                                (row.equals(String.valueOf(r)) && column.equals(String.valueOf(c - 1)))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        if(numberOfSelectedTiles==2){
+            //need help
+        }
+        return false;
+    }
 }
+

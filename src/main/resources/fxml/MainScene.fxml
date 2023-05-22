@@ -282,6 +282,6 @@
                 <Button fx:id="thirdPlayerTile04" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" />
             </children>
         </Pane>
-        <Button fx:id="insertTile" layoutX="734.0" layoutY="262.0" mnemonicParsing="false" onAction="#InsertTile" text="Inserisci" />
+        <Button fx:id="insertTile" layoutX="552.0" layoutY="262.0" mnemonicParsing="false" onAction="#SelectTiles" text="Take Tiles" />
     </children>
 </AnchorPane>
