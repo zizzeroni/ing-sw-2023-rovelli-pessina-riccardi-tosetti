@@ -5,26 +5,29 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class SendBroadcastMessageCommandToServer implements CommandToServer {
+public class SendPrivateMessageCommand implements CommandToServer {
     private Server actuator;
+    private String receiver;
     private String sender;
     private String content;
 
-    public SendBroadcastMessageCommandToServer() {
+    public SendPrivateMessageCommand() {
         this.actuator = null;
     }
 
-    public SendBroadcastMessageCommandToServer(String sender, String content) {
+    public SendPrivateMessageCommand(String receiver, String sender, String content) {
+        this.receiver = receiver;
         this.sender = sender;
         this.content = content;
     }
 
-    public SendBroadcastMessageCommandToServer(Server actuator) {
+    public SendPrivateMessageCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public SendBroadcastMessageCommandToServer(Server actuator, String sender, String content) {
+    public SendPrivateMessageCommand(Server actuator, String receiver, String sender, String content) {
         this.actuator = actuator;
+        this.receiver = receiver;
         this.sender = sender;
         this.content = content;
     }
@@ -42,19 +45,19 @@ public class SendBroadcastMessageCommandToServer implements CommandToServer {
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
-            this.actuator.sendBroadcastMessage(this.sender, this.content);
+            this.actuator.sendPrivateMessage(this.receiver, this.sender, this.content);
         } else {
-            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(String,String)\" command because this.actuator is NULL");
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendPrivateMessage(String,String,String)\" command because this.actuator is NULL");
         }
     }
 
     @Override
     public CommandType toEnum() {
-        return CommandType.SEND_BROADCAST_MESSAGE;
+        return CommandType.SEND_PRIVATE_MESSAGE;
     }
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:SendBroadcastMessage, Parameters:{Sender:" + this.sender + "; Content:" + this.content + "}]";
+        return "[CommandReceiver:GameController, CommandType:SendPrivateMessage, Parameters:{Receiver:" + this.receiver + "; Sender:" + this.sender + "; Content:" + this.content + "}]";
     }
 }

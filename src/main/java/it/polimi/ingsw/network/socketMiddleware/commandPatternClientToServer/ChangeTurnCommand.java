@@ -5,14 +5,14 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class ChangeTurnCommandToServer implements CommandToServer {
+public class ChangeTurnCommand implements CommandToServer {
     private Server actuator;
 
-    public ChangeTurnCommandToServer() {
+    public ChangeTurnCommand() {
         this.actuator = null;
     }
 
-    public ChangeTurnCommandToServer(Server actuator) {
+    public ChangeTurnCommand(Server actuator) {
         this.actuator = actuator;
     }
 

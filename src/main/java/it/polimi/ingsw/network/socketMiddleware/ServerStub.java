@@ -34,7 +34,7 @@ public class ServerStub implements Server {
     @Override
     public void changeTurn() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new ChangeTurnCommandToServer();
+        CommandToServer message = new ChangeTurnCommand();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class ServerStub implements Server {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new InsertUserInputCommandToServer(playerChoice);
+        CommandToServer message = new InsertUserInputCommand(playerChoice);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class ServerStub implements Server {
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new SendPrivateMessageCommandToServer(receiver, sender, content);
+        CommandToServer message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -104,7 +104,7 @@ public class ServerStub implements Server {
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new SendBroadcastMessageCommandToServer(sender, content);
+        CommandToServer message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -121,7 +121,7 @@ public class ServerStub implements Server {
     @Override
     public void addPlayer(Client client, String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new AddPlayerCommandToServer(nickname);
+        CommandToServer message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -138,7 +138,7 @@ public class ServerStub implements Server {
 
     public void addPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new AddPlayerCommandToServer(nickname);
+        CommandToServer message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -156,7 +156,7 @@ public class ServerStub implements Server {
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new ChooseNumberOfPlayerCommandToServer(chosenNumberOfPlayers);
+        CommandToServer message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -174,7 +174,7 @@ public class ServerStub implements Server {
     @Override
     public void startGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new StartGameCommandToServer();
+        CommandToServer message = new StartGameCommand();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {

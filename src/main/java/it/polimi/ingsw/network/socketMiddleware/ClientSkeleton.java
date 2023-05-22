@@ -4,12 +4,12 @@ import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.exceptions.GenericException;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommandToServer;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendExceptionCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendPingToClientCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommandToServer;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommand;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,7 +37,7 @@ public class ClientSkeleton implements Client {
 
     @Override
     public void updateModelView(GameView modelUpdated) throws RemoteException {
-        CommandToClient command = new SendUpdatedModelCommandToServer(modelUpdated);
+        CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
         } catch (IOException e) {
@@ -87,7 +87,7 @@ public class ClientSkeleton implements Client {
         }
         message.setActuator(server);
         if (message.toEnum() == CommandType.ADD_PLAYER) {
-            AddPlayerCommandToServer convertedMessage = (AddPlayerCommandToServer) message;
+            AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
             convertedMessage.setClient(this);
             convertedMessage.execute();
         } else {

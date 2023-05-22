@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class StartGameCommandToServer implements CommandToServer {
+public class StartGameCommand implements CommandToServer {
     private Server actuator;
 
     @Override

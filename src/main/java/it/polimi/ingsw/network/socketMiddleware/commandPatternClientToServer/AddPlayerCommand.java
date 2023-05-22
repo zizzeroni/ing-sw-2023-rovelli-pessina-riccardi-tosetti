@@ -6,20 +6,20 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class AddPlayerCommandToServer implements CommandToServer {
+public class AddPlayerCommand implements CommandToServer {
     private Server actuator;
     private String nickname;
     private Client client;
 
-    public AddPlayerCommandToServer(String nickname) {
+    public AddPlayerCommand(String nickname) {
         this.nickname = nickname;
     }
 
-    public AddPlayerCommandToServer(Server actuator) {
+    public AddPlayerCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public AddPlayerCommandToServer(Server actuator, String nickname) {
+    public AddPlayerCommand(Server actuator, String nickname) {
         this.actuator = actuator;
         this.nickname = nickname;
     }

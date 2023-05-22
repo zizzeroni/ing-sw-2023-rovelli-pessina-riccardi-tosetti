@@ -5,19 +5,19 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class ChooseNumberOfPlayerCommandToServer implements CommandToServer {
+public class ChooseNumberOfPlayerCommand implements CommandToServer {
     private Server actuator;
     private int numberOfPlayers;
 
-    public ChooseNumberOfPlayerCommandToServer(int numberOfPlayers) {
+    public ChooseNumberOfPlayerCommand(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public ChooseNumberOfPlayerCommandToServer(Server actuator) {
+    public ChooseNumberOfPlayerCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public ChooseNumberOfPlayerCommandToServer(Server actuator, int numberOfPlayers) {
+    public ChooseNumberOfPlayerCommand(Server actuator, int numberOfPlayers) {
         this.actuator = actuator;
         this.numberOfPlayers = numberOfPlayers;
     }

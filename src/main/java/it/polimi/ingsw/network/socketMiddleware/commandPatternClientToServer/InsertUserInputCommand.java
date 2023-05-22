@@ -6,23 +6,23 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class InsertUserInputCommandToServer implements CommandToServer {
+public class InsertUserInputCommand implements CommandToServer {
     private Server actuator;
     private Choice playerChoice;
 
-    public InsertUserInputCommandToServer() {
+    public InsertUserInputCommand() {
         this.actuator = null;
     }
 
-    public InsertUserInputCommandToServer(Choice playerChoice) {
+    public InsertUserInputCommand(Choice playerChoice) {
         this.playerChoice = playerChoice;
     }
 
-    public InsertUserInputCommandToServer(Server actuator) {
+    public InsertUserInputCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public InsertUserInputCommandToServer(Server actuator, Choice playerChoice) {
+    public InsertUserInputCommand(Server actuator, Choice playerChoice) {
         this.actuator = actuator;
         this.playerChoice = playerChoice;
     }

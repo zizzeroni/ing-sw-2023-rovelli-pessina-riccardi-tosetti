@@ -6,16 +6,16 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class SendUpdatedModelCommandToServer implements CommandToClient {
+public class SendUpdatedModelCommand implements CommandToClient {
     private Client actuator;
     private final GameView updatedModel;
 
-    public SendUpdatedModelCommandToServer(Client actuator, GameView updatedModel) {
+    public SendUpdatedModelCommand(Client actuator, GameView updatedModel) {
         this.actuator = actuator;
         this.updatedModel = updatedModel;
     }
 
-    public SendUpdatedModelCommandToServer(GameView updatedModel) {
+    public SendUpdatedModelCommand(GameView updatedModel) {
         this.updatedModel = updatedModel;
     }
 
