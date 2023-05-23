@@ -52,8 +52,6 @@ public class MainSceneController implements Initializable {
     private Label firstPlayerNickname;
     private int numberOfPlayer;
     private Choice takenTiles;
-    private int numberOfTakenTiles;
-    private int numberOfSelectedTiles;
     private String[] playerName;
     private int firstRow;
     private int firstColumn;
@@ -61,15 +59,13 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/back.jpg"));
-        Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/common goal cards/back.jpg"));
+        Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
+        Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         commonGoal2.setImage(firstCommonGoalImage);
         commonGoal1.setImage(secondCommonGoalImage);
 
-        Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("Image/personal goal cards/back.jpg"));
+        Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
-
-        numberOfTakenTiles = 0;
 
 //        this.scene=personalGoal.getScene();
 
@@ -287,7 +283,6 @@ public class MainSceneController implements Initializable {
                     thirdPlayerBookshelf.setVisible(false);
                 }
             }
-            firstPlayerNickname.setText(playerName[0]);
             countDownLatchTable.countDown();
         });
         try {
@@ -411,7 +406,7 @@ public class MainSceneController implements Initializable {
         tileName += row;
         tileName += column;
         Button button = (Button) scene.lookup(tileName);
-        if(button!=null) {
+        if (button != null) {
             button.setOnAction(null);
             button.setOnMouseEntered(null);
             button.setOnMouseExited(null);
@@ -458,13 +453,32 @@ public class MainSceneController implements Initializable {
     }
 
     public void setPlayersName(List<PlayerView> players) {
-        for (int i = 0; i < numberOfPlayer; i++) {
-            playerName[i] = players.get(i).getNickname();
+        CountDownLatch countDownLatchAble = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            String nickPlayer = "";
+            int count = 2;
+            for (int i = 0; i < numberOfPlayer; i++) {
+                if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
+                    nickPlayer = "#nickname" + count;
+                    Label playerNicname = (Label) scene.lookup(nickPlayer);
+                    playerNicname.setText(players.get(i).getNickname());
+                    playerName[count-2] = players.get(i).getNickname();
+                }else{
+                    playerName[count-2] = players.get(i).getNickname();
+                }
+                count++;
+            }
+            countDownLatchAble.countDown();
+        });
+        try {
+            countDownLatchAble.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
-        personalGoalString = "Image/personal goal cards/";
+        personalGoalString = "image/personal goal cards/";
 
         //Assegnare il giusto personal goal
 
@@ -483,8 +497,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
-        firstCommonGoalString = "Image/common goal cards/";
-        secondCommonGoalString = "Image/common goal cards/";
+        firstCommonGoalString = "image/common goal cards/";
+        secondCommonGoalString = "image/common goal cards/";
 
         //Assegnare i giusti common goal
 
@@ -528,6 +542,10 @@ public class MainSceneController implements Initializable {
             buttonTile.setOnMouseEntered(null);
             buttonTile.setOnMouseExited(null);
             buttonTile.setBorder(Border.EMPTY);
+
+            selectedButton.setOnAction(this::selectedSelection);
+            selectedButton.setOnMouseEntered(this::overButton);
+            selectedButton.setOnMouseExited(this::notOverButton);
         }
         for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
             for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
@@ -613,11 +631,59 @@ public class MainSceneController implements Initializable {
     }
 
     public void overColumn(MouseEvent mouseEvent) {
-
-
+        System.out.println("ciau");
+        if (!(mouseEvent.getSource() instanceof Button button))
+            return;
+        String buttonOfColumnName;
+        Button buttonOfColumn;
+        String name = button.getId();
+        String column = String.valueOf(name.charAt(name.length() - 1));
+        Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
+        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
+            buttonOfColumnName="#firstPlayerTile"+i+column;
+            buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
+            if(buttonOfColumn!=null) {
+                buttonOfColumn.setBorder(border);
+                buttonOfColumn.setOpacity(0.3);
+                //button.getStyleClass().remove(1);
+            }
+        }
     }
 
     public void notOverColumn(MouseEvent mouseEvent) {
+        if (!(mouseEvent.getSource() instanceof Button button))
+            return;
+        String buttonOfColumnName;
+        Button buttonOfColumn;
+        String name = button.getId();
+        String column = String.valueOf(name.charAt(name.length() - 1));
+        Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
+        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
+            buttonOfColumnName="#firstPlayerTile"+i+column;
+            buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
+            if(buttonOfColumn!=null) {
+                //button.getStyleClass().add("C1");
+                buttonOfColumn.setOpacity(0);
+                buttonOfColumn.setBorder(null);
+            }
+        }
     }
+
+    public void selectedSelection(ActionEvent actionEvent) {
+    }
+
+    public void setFirstPlayerNickname(String nickname) {
+        CountDownLatch countDownLatchAble = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            this.firstPlayerNickname.setText(nickname);
+            countDownLatchAble.countDown();
+        });
+        try {
+            countDownLatchAble.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 
