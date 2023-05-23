@@ -119,14 +119,14 @@ public class Player {
         this.scoreTiles.set(position, tile);
     }
 
-    public List<Message> getChat() {
-        return this.chat;
-    }
 
-    /*
-        Set the score of the player by the score of his bookshelf
+
+
+    /**
+     * Set the score of the player considering the current state of the Bookshelf score.
+     *
+     * @return the score of the single player.
      */
-
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {
@@ -142,6 +142,11 @@ public class Player {
         return score;
     }
 
+    /**
+     * Adds the player message to the
+     *
+     * @param message is the message written by the player
+     */
     public void addMessage(Message message) {
         chat.add(message);
 
@@ -150,7 +155,13 @@ public class Player {
         }
     }
 
-    public void printChat() {
 
+    /**
+     * Returns the list of the current messages
+     *
+     * @return the {@Code List<Message>} of the messages sent by the active player
+     */
+    public List<Message> getChat(){
+        return chat;
     }
 }
