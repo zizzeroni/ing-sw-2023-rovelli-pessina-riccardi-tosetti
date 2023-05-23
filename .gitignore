@@ -1,3 +1,9 @@
+# Cranio Assets
+/src/main/resources/Image/*
+
+# Maven
+**/target/**
+
 # Compiled class file
 *.class
 
