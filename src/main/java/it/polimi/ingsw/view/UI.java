@@ -4,8 +4,8 @@ import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
-import javafx.application.Application;
 import it.polimi.ingsw.network.exceptions.GenericException;
+import javafx.application.Application;
 
 public abstract class UI extends Application implements Runnable {
     private volatile GameView model;

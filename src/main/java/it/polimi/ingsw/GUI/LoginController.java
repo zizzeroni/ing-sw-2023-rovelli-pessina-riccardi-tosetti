@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
 
 public class LoginController implements Initializable {
     //Fa schifo

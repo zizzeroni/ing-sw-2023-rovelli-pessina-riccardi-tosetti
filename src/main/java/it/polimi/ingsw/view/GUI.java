@@ -7,14 +7,16 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
+
 import javafx.application.Platform;
-import it.polimi.ingsw.model.view.GameView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,9 +25,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class GUI extends UI {
     private LoginController loginController;
@@ -187,10 +186,10 @@ public class GUI extends UI {
             mainSceneController.setCommonGoal(commonGoals);
 
             showNewTurnIntro();
-            while (this.getState() != State.GAME_ENDED) {
+            while (this.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-                waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
-                if (this.getState() == State.GAME_ENDED) break;
+                waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+                if (this.getState() == ClientGameState.GAME_ENDED) break;
                 //Devo abilitare tutte le tile
                 //.unlockAllTiles
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
@@ -225,7 +224,7 @@ public class GUI extends UI {
         launch(args);
     }
 
-    public void waitWhileInState(State state) {
+    public void waitWhileInState(ClientGameState state) {
         synchronized (this.getLockState()) {
             switch (state) {
                 //Questo non dovrebbe più servire

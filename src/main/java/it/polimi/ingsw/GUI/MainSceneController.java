@@ -1,6 +1,5 @@
 package it.polimi.ingsw.GUI;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
@@ -19,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.List;
