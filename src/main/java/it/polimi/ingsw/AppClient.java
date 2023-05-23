@@ -22,7 +22,7 @@ public class AppClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
         commandReader.start();
         //Initialize client necessities
-        ClientImpl client;
+        ClientImpl client = null;
         System.out.println("Client avviato...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
@@ -50,10 +50,9 @@ public class AppClient {
                         Server server = (Server) registry.lookup("server");
 
                         //Creating a new client with a TextualUI and a RMI Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                        client = new ClientImpl(server, new TextualUI());
 
-                        client = new ClientImpl(server, new TextualUI(), nickname);
+
                         startPingSenderThread(server);
                     }
                     case 2 -> {
@@ -61,14 +60,13 @@ public class AppClient {
                         ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                        client = new ClientImpl(serverStub, new TextualUI(), nickname);
+                        client = new ClientImpl(serverStub, new TextualUI());
+
 
                         startPingSenderThread(serverStub);
-                        startReceiverThread(client,serverStub);
+                        startReceiverThread(client, serverStub);
                         //Creating a new Thread that will take care of the responses coming from the Server side
-                        new Thread(() -> {
+                        /*new Thread(() -> {
                             while (true) {
                                 try {
                                     serverStub.receive(client);
@@ -82,7 +80,7 @@ public class AppClient {
                                     System.exit(1);
                                 }
                             }
-                        }).start();
+                        }).start();*/
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
@@ -126,6 +124,10 @@ public class AppClient {
         client.run();
         //Closing client app
         System.exit(0);
+    }
+
+    private static void askNicknameAndStartClient() {
+
     }
 
     private static void startPingSenderThread(Server server) {

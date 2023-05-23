@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import java.util.List;
-
 import it.polimi.ingsw.model.listeners.BoardListener;
 import it.polimi.ingsw.model.tile.Tile;
+
+import java.util.List;
 
 public class Board {
     private BoardListener listener;

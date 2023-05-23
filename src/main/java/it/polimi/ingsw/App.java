@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.view.TextualUI;
+
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
