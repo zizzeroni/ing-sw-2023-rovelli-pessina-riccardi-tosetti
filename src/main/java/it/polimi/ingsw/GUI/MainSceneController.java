@@ -109,9 +109,9 @@ public class MainSceneController implements Initializable {
             if (checkIfPickable(row, column)) {
                 switch (takenTiles.getChosenTiles().size()) {
                     case 0 -> {
-                        TileView tileView = mainGui.getModel().getBoard().getTiles()[row - 1][column - 1];
+                        TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
                         takenTiles.addTile(tileView);
-                        takenTiles.addCoordinates(new Coordinates(row - 1, column - 1));
+                        takenTiles.addCoordinates(new Coordinates(row, column));
 
                         Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                         button.setBorder(border);
@@ -121,9 +121,9 @@ public class MainSceneController implements Initializable {
                         Direction res = checkIfInLine(row, column, firstRow, firstColumn);
                         if (res != null) {
                             directionToCheck = res;
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row - 1][column - 1];
+                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
-                            takenTiles.addCoordinates(new Coordinates(row - 1, column - 1));
+                            takenTiles.addCoordinates(new Coordinates(row, column));
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
@@ -131,10 +131,10 @@ public class MainSceneController implements Initializable {
 
                     }
                     case 2 -> {
-                        if (checkIfInLine(row - 1, column - 1, takenTiles.getTileCoordinates(), directionToCheck)) {
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row - 1][column - 1];
+                        if (checkIfInLine(row, column, takenTiles.getTileCoordinates(), directionToCheck)) {
+                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
-                            takenTiles.addCoordinates(new Coordinates(row - 1, column - 1));
+                            takenTiles.addCoordinates(new Coordinates(row, column));
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
@@ -144,17 +144,17 @@ public class MainSceneController implements Initializable {
                         if (button.getBorder() == null || button.getBorder().isEmpty()) {
                             System.err.println("Numero massimo di tiles scelto");
                         } else {
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row - 1][column - 1];
+                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
                             takenTiles.removeTile(tileView);
                         }
                     }
                 }
-                firstRow = takenTiles.getTileCoordinates().get(0).getX() + 1;
-                firstColumn = takenTiles.getTileCoordinates().get(0).getY() + 1;
+                firstRow = takenTiles.getTileCoordinates().get(0).getX();
+                firstColumn = takenTiles.getTileCoordinates().get(0).getY();
             }
 
         } else {
-            TileView tileView = mainGui.getModel().getBoard().getTiles()[row - 1][column - 1];
+            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
             takenTiles.removeTile(tileView);
 
             button.setBorder(Border.EMPTY);
@@ -406,6 +406,22 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    public void disableTileAfterPick(int row, int column) {
+        //Set the name of the button in the tile position
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+        Button button = (Button) scene.lookup(tileName);
+        if(button!=null) {
+            button.setOnAction(null);
+            button.setOnMouseEntered(null);
+            button.setOnMouseExited(null);
+            button.setOpacity(0.6);
+        }
+
+    }
+
     public void ableTile(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -499,12 +515,12 @@ public class MainSceneController implements Initializable {
         int column;
         int count;
         for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
-            row = takenTiles.getTileCoordinates().get(i).getX()+1;
-            column = takenTiles.getTileCoordinates().get(i).getY()+1;
+            row = takenTiles.getTileCoordinates().get(i).getX();
+            column = takenTiles.getTileCoordinates().get(i).getY();
             tileName = "#boardTile" + row + column;
             Button buttonTile = (Button) scene.lookup(tileName);
             style = buttonTile.getStyleClass().get(1);
-            count = i+1;
+            count = i + 1;
             selectedName = "#selected" + count;
             Button selectedButton = (Button) scene.lookup(selectedName);
             selectedButton.getStyleClass().add(style);
@@ -515,7 +531,11 @@ public class MainSceneController implements Initializable {
             buttonTile.setOnMouseExited(null);
             buttonTile.setBorder(Border.EMPTY);
         }
-        //this.disableBoard();
+        for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
+            for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+                disableTileAfterPick(r, c);
+            }
+        }
     }
 
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
@@ -594,12 +614,12 @@ public class MainSceneController implements Initializable {
         return false;
     }
 
-    public void disableBoard(){
-        for(int r=0; r<mainGui.getModel().getBoard().getNumberOfRows(); r++){
-            for(int c=0; c< mainGui.getModel().getBoard().getNumberOfColumns(); c++){
-                disableTile(r,c);
-            }
-        }
+    public void overColumn(MouseEvent mouseEvent) {
+
+
+    }
+
+    public void notOverColumn(MouseEvent mouseEvent) {
     }
 }
 
