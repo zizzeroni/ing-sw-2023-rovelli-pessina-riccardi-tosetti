@@ -120,12 +120,12 @@ public class GUI extends UI {
             try {
                 Registry registry = LocateRegistry.getRegistry();
                 Server server = (Server) registry.lookup("server");
-                new ClientImpl(server, this, nickname);
+                new ClientImpl(server, this);
                 startPingSenderThread(server);
             } catch (RemoteException | NotBoundException e) {
                 throw new RuntimeException(e);
             }
-
+            this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
             //Add the player to the game, if he is the first return 1
             this.setNickname(nickname);
             this.controller.addPlayer(nickname);
@@ -175,6 +175,7 @@ public class GUI extends UI {
                     }
                 }
             }
+            mainSceneController.setFirstPlayerNickname(nickname);
             mainSceneController.setScene(primaryStage.getScene());
             mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
             mainSceneController.setPlayersName(getModel().getPlayers());
