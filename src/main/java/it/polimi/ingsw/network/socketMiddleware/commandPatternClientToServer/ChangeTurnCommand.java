@@ -1,17 +1,18 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class ChangeTurnCommandToServer implements CommandToServer {
+public class ChangeTurnCommand implements CommandToServer {
     private Server actuator;
 
-    public ChangeTurnCommandToServer() {
+    public ChangeTurnCommand() {
         this.actuator = null;
     }
 
-    public ChangeTurnCommandToServer(Server actuator) {
+    public ChangeTurnCommand(Server actuator) {
         this.actuator = actuator;
     }
 
@@ -32,6 +33,11 @@ public class ChangeTurnCommandToServer implements CommandToServer {
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"changeTurn()\" command because this.actuator is NULL");
         }
+    }
+
+    @Override
+    public CommandType toEnum() {
+        return CommandType.CHANGE_TURN;
     }
 
     @Override

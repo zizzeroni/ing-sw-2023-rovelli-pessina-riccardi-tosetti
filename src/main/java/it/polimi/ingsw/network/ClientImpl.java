@@ -3,6 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.view.UI;
 
 import java.rmi.RemoteException;
@@ -14,12 +15,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     private final Server serverConnectedTo;
     private final UI view;
 
+    public ClientImpl(Server server, UI view) throws RemoteException {
+        super();
+        this.serverConnectedTo = server;
+        this.view = view;
+        server.register(this, null);
+        view.registerListener(this);
+    }
+
     public ClientImpl(Server server, UI view, String nickname) throws RemoteException {
         super();
         this.serverConnectedTo = server;
         this.view = view;
         this.view.setNickname(nickname);
-        server.register(this,nickname);
+        server.register(this, nickname);
         view.registerListener(this);
     }
 
@@ -28,7 +37,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.serverConnectedTo = server;
         this.view = view;
         this.view.setNickname(nickname);
-        server.register(this,nickname);
+        server.register(this, nickname);
         view.registerListener(this);
     }
 
@@ -37,7 +46,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.serverConnectedTo = server;
         this.view = view;
         this.view.setNickname(nickname);
-        server.register(this,nickname);
+        server.register(this, nickname);
         view.registerListener(this);
     }
 
@@ -50,6 +59,12 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     @Override
     public synchronized void ping() throws RemoteException {
         //Receiving ping from server... do nothing.
+
+    }
+
+    @Override
+    public void receiveException(GenericException exception) throws RemoteException {
+        this.view.printException(exception);
     }
 
     //Methods used for forwarding notifications from view to the server
@@ -92,7 +107,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     @Override
     public void addPlayer(String nickname) {
         try {
-            this.serverConnectedTo.addPlayer(nickname);
+            this.serverConnectedTo.addPlayer(this, nickname);
         } catch (RemoteException e) {
             System.err.println("[COMMUNICATION:ERROR] Error while updating server(addPlayer):" + e.getMessage() + ".Skipping update");
         }
@@ -129,4 +144,5 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     public void run() {
         this.view.run();
     }
+
 }

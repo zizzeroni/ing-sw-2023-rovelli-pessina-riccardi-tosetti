@@ -105,6 +105,9 @@ public class Player {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+        if (listener != null) {
+            listener.playerHasReconnected();
+        }
     }
 
 

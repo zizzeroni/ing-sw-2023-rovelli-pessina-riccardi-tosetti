@@ -4,6 +4,7 @@ import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
+import it.polimi.ingsw.network.exceptions.GenericException;
 
 public abstract class UI implements Runnable {
     private GameView model;
@@ -11,7 +12,8 @@ public abstract class UI implements Runnable {
     protected ViewListener controller;
     private String nickname;
     //Indicate the state of the game from client perspective
-    private State state;
+    private GenericException exceptionToHandle;
+    private ClientGameState clientGameState;
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
 
@@ -19,43 +21,56 @@ public abstract class UI implements Runnable {
         this.model = model;
         this.controller = controller;
         this.nickname = nickname;
-        this.state = State.WAITING_IN_LOBBY;
+        this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
+        this.exceptionToHandle = null;
+        this.initializeChatThread(this.controller, this.nickname, this.getModel());
     }
 
     public UI(GameView model, ViewListener controller) {
         this.model = model;
         this.controller = controller;
         this.nickname = null;
-        this.state = State.WAITING_IN_LOBBY;
+        this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
+        this.exceptionToHandle = null;
     }
 
     public UI(GameView model) {
         this.model = model;
         this.controller = null;
         this.nickname = null;
-        this.state = State.WAITING_IN_LOBBY;
+        this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
+        this.exceptionToHandle = null;
     }
 
     public UI() {
         this.model = null;
         this.controller = null;
         this.nickname = null;
-        this.state = State.WAITING_IN_LOBBY;
+        this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
+        this.exceptionToHandle = null;
+    }
+
+    public GenericException getExceptionToHandle() {
+        return this.exceptionToHandle;
+    }
+
+    public void setExceptionToHandle(GenericException exceptionToHandle) {
+        this.exceptionToHandle = exceptionToHandle;
     }
 
     public Object getLockState() {
         return this.lockState;
     }
 
-    public State getState() {
+    public ClientGameState getState() {
         synchronized (this.lockState) {
-            return this.state;
+            return this.clientGameState;
         }
     }
 
-    public void setState(State state) {
+    public void setState(ClientGameState clientGameState) {
         synchronized (this.lockState) {
-            this.state = state;
+            this.clientGameState = clientGameState;
             this.lockState.notifyAll();
         }
     }
@@ -66,6 +81,7 @@ public abstract class UI implements Runnable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        this.chat.setNickname(nickname);
     }
 
     public GameView getModel() {
@@ -93,6 +109,10 @@ public abstract class UI implements Runnable {
     //Method in common with all UIs that must be implemented
     public abstract void showPersonalRecap();
 
+    public void printException(GenericException clientErrorState) {
+        this.exceptionToHandle = clientErrorState;
+    }
+
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
     //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
@@ -103,12 +123,12 @@ public abstract class UI implements Runnable {
             case IN_CREATION -> { /*Already in WAITING_IN_LOBBY*/}
             case ON_GOING, FINISHING -> {
                 if (this.model.getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname().equals(this.nickname)) {
-                    this.setState(State.GAME_ONGOING);
+                    this.setState(ClientGameState.GAME_ONGOING);
                 } else {
-                    this.setState(State.WAITING_FOR_OTHER_PLAYER);
+                    this.setState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
                 }
             }
-            case RESET_NEEDED -> this.setState(State.GAME_ENDED);
+            case RESET_NEEDED -> this.setState(ClientGameState.GAME_ENDED);
         }
     }
 

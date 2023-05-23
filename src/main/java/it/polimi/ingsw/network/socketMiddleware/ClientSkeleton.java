@@ -3,10 +3,13 @@ package it.polimi.ingsw.network.socketMiddleware;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendExceptionCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendPingToClientCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommandToServer;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommand;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +37,7 @@ public class ClientSkeleton implements Client {
 
     @Override
     public void updateModelView(GameView modelUpdated) throws RemoteException {
-        CommandToClient command = new SendUpdatedModelCommandToServer(modelUpdated);
+        CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
         } catch (IOException e) {
@@ -52,6 +55,26 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    @Override
+    public void receiveException(GenericException exception) throws RemoteException {
+        CommandToClient command = new SendExceptionCommand(exception);
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+        }
+    }
+
+    /*@Override
+    public void receiveException(RemoteException exception) throws RemoteException {
+        CommandToClient command = new SendExceptionCommand(exception);
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
+        }
+    }*/
+
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
         try {
@@ -63,7 +86,13 @@ public class ClientSkeleton implements Client {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
         }
         message.setActuator(server);
-        message.execute();
+        if (message.toEnum() == CommandType.ADD_PLAYER) {
+            AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
+            convertedMessage.setClient(this);
+            convertedMessage.execute();
+        } else {
+            message.execute();
+        }
     }
 
     public String receiveNickname(Server server) throws RemoteException {

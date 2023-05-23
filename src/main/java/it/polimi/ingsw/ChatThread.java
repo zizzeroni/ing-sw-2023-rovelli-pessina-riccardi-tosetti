@@ -11,7 +11,7 @@ public class ChatThread extends Thread {
 
     private final ViewListener controller;
     private GameView gameView;
-    private final String nickname;
+    private String nickname;
 
     public ChatThread() {
         this.gameView = null;
@@ -72,6 +72,9 @@ public class ChatThread extends Thread {
         }
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }

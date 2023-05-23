@@ -1,18 +1,24 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 
 import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class SendPingToClientCommand implements CommandToClient {
+public class SendExceptionCommand implements CommandToClient {
     private Client actuator;
+    private GenericException exception;
 
-    public SendPingToClientCommand(Client actuator) {
+    public SendExceptionCommand(GenericException exception) {
+        this.exception = exception;
+    }
+
+    public SendExceptionCommand(Client actuator) {
         this.actuator = actuator;
     }
 
-    public SendPingToClientCommand() {
+    public SendExceptionCommand() {
         this.actuator = null;
     }
 
@@ -27,12 +33,16 @@ public class SendPingToClientCommand implements CommandToClient {
     }
 
     public void execute() throws NullPointerException, RemoteException {
-        //Do nothing, you just received a ping message...
+        if (this.actuator != null) {
+            this.actuator.receiveException(this.exception);
+        } else {
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"receiveException(GameView)\" command because this.actuator is NULL");
+        }
     }
 
     @Override
     public CommandType toEnum() {
-        return CommandType.SEND_PING_TO_CLIENT;
+        return CommandType.EXCEPTION;
     }
 
     @Override

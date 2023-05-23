@@ -22,7 +22,7 @@ public class AppClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
         commandReader.start();
         //Initialize client necessities
-        ClientImpl client;
+        ClientImpl client = null;
         System.out.println("Client avviato...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
@@ -50,10 +50,9 @@ public class AppClient {
                         Server server = (Server) registry.lookup("server");
 
                         //Creating a new client with a TextualUI and a RMI Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+                        client = new ClientImpl(server, new TextualUI());
 
-                        client = new ClientImpl(server, new TextualUI(), nickname);
+
                         startPingSenderThread(server);
                     }
                     case 2 -> {
@@ -61,28 +60,13 @@ public class AppClient {
                         ServerStub serverStub = new ServerStub("localhost", 1234);
 
                         //Creating a new client with a TextualUI and a Socket Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                        client = new ClientImpl(serverStub, new TextualUI(), nickname);
+                        client = new ClientImpl(serverStub, new TextualUI());
 
+                        //Creating a new Thread that will take care of checking on availability of connected client
                         startPingSenderThread(serverStub);
-                        startReceiverThread(client, serverStub);
+
                         //Creating a new Thread that will take care of the responses coming from the Server side
-                        new Thread(() -> {
-                            while (true) {
-                                try {
-                                    serverStub.receive(client);
-                                } catch (RemoteException e) {
-                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
-                                    try {
-                                        serverStub.close();
-                                    } catch (RemoteException ex) {
-                                        System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
-                                    }
-                                    System.exit(1);
-                                }
-                            }
-                        }).start();
+                        startReceiverThread(client, serverStub);
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");

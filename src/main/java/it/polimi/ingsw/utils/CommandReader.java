@@ -7,7 +7,7 @@ public class CommandReader extends Thread {
     private final Scanner scanner = new Scanner(System.in);
     public final static CommandQueue chatCommandQueue;
     public final static CommandQueue standardCommandQueue;
-    
+
     static {
         chatCommandQueue = new CommandQueue();
         standardCommandQueue = new CommandQueue();
