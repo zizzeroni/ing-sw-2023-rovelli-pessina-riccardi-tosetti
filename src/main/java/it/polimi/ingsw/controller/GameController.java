@@ -1,14 +1,16 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-
-import com.google.gson.reflect.TypeToken;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class GameController implements ViewListener {
     private final Game model;
@@ -26,12 +28,12 @@ public class GameController implements ViewListener {
         Gson gson = new Gson();
         Reader reader;
         try {
-            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
             this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
             reader.close();
 
-            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
             this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
             }.getType());
             reader.close();
@@ -86,9 +88,9 @@ public class GameController implements ViewListener {
 
     @Override
     public void disconnectPlayer(String nickname) {
-        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
-        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() +",valore disconnected:"+ this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
     }
 
     //------------------------------------UTILITY METHODS------------------------------------

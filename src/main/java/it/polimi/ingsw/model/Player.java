@@ -1,12 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.listeners.BoardListener;
 import it.polimi.ingsw.model.listeners.PlayerListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.Client;
-import it.polimi.ingsw.network.ClientImpl;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +14,7 @@ public class Player {
     private PersonalGoal personalGoal; //The single goal of the player
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
-    private PlayerListener listener;
+    private transient PlayerListener listener;
     private final List<Message> chat;
 
     //Constructors
@@ -110,6 +105,9 @@ public class Player {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+        if (listener != null) {
+            listener.playerHasReconnected();
+        }
     }
 
 
@@ -119,6 +117,10 @@ public class Player {
 
     public void setSingleScoreTile(ScoreTile tile, int position) {
         this.scoreTiles.set(position, tile);
+    }
+
+    public List<Message> getChat() {
+        return this.chat;
     }
 
     /*

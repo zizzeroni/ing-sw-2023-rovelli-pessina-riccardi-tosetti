@@ -1,13 +1,16 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
 import javafx.stage.Stage;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
 
 public class TextualUI extends UI {
 
@@ -25,8 +28,23 @@ public class TextualUI extends UI {
     }
 
     private void firstInteractionWithUser() {
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
 
-        this.controller.addPlayer(this.getNickname());
+        this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
+
+        do {
+            this.setExceptionToHandle(null);
+            System.out.println("Inserisci il tuo nickname!");
+            String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+
+            this.setNickname(nickname);
+            this.controller.addPlayer(this.getNickname());
+
+            if (this.getExceptionToHandle() != null) {
+                this.getExceptionToHandle().handle();
+            }
+
+        } while (this.getExceptionToHandle() != null);
 
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {
@@ -37,22 +55,22 @@ public class TextualUI extends UI {
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
-        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState()==GameState.IN_CREATION) {
             this.controller.startGame();
         }
 
-        waitWhileInState(State.WAITING_IN_LOBBY);
+        waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
     }
 
-    private void waitWhileInState(State state) {
+    private void waitWhileInState(ClientGameState clientGameState) {
         synchronized (this.getLockState()) {
-            switch (state) {
+            switch (clientGameState) {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
             }
-            while (getState() == state) {
+            while (getState() == clientGameState) {
                 try {
                     getLockState().wait();
                 } catch (InterruptedException e) {
@@ -67,10 +85,10 @@ public class TextualUI extends UI {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
 
-        while (this.getState() != State.GAME_ENDED) {
+        while (this.getState() != ClientGameState.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-            waitWhileInState(State.WAITING_FOR_OTHER_PLAYER);
-            if (this.getState() == State.GAME_ENDED) break;
+            waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+            if (this.getState() == ClientGameState.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
@@ -266,7 +284,7 @@ public class TextualUI extends UI {
                     System.out.println("Che tipo di messaggio vuoi inviare? Pubblico (B)/ Privato (P)");
                     String messageType = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
-                    if(messageType.equals("P")) {
+                    if (messageType.equals("P")) {
                         System.out.println("A chi vuoi inviare il messaggio?");
                         receiver = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
                     }
@@ -391,6 +409,5 @@ public class TextualUI extends UI {
                 (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
-
 
 }

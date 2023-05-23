@@ -1,30 +1,31 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class SendPrivateMessageCommandToServer implements CommandToServer {
+public class SendPrivateMessageCommand implements CommandToServer {
     private Server actuator;
     private String receiver;
     private String sender;
     private String content;
 
-    public SendPrivateMessageCommandToServer() {
+    public SendPrivateMessageCommand() {
         this.actuator = null;
     }
 
-    public SendPrivateMessageCommandToServer(String receiver, String sender, String content) {
+    public SendPrivateMessageCommand(String receiver, String sender, String content) {
         this.receiver = receiver;
         this.sender = sender;
         this.content = content;
     }
 
-    public SendPrivateMessageCommandToServer(Server actuator) {
+    public SendPrivateMessageCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public SendPrivateMessageCommandToServer(Server actuator, String receiver, String sender, String content) {
+    public SendPrivateMessageCommand(Server actuator, String receiver, String sender, String content) {
         this.actuator = actuator;
         this.receiver = receiver;
         this.sender = sender;
@@ -48,6 +49,11 @@ public class SendPrivateMessageCommandToServer implements CommandToServer {
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendPrivateMessage(String,String,String)\" command because this.actuator is NULL");
         }
+    }
+
+    @Override
+    public CommandType toEnum() {
+        return CommandType.SEND_PRIVATE_MESSAGE;
     }
 
     @Override

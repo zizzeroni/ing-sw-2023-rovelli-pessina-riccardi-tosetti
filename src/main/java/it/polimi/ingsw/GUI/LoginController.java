@@ -1,7 +1,6 @@
 package it.polimi.ingsw.GUI;
 
 import it.polimi.ingsw.view.GUI;
-import it.polimi.ingsw.view.State;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import javafx.application.Platform;
+import it.polimi.ingsw.model.view.GameView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -43,9 +44,8 @@ public class GUI extends UI {
         this.primaryStage = primaryStage;
         run();
     }
-
-    public GUI(GameView model, ViewListener controller, String nicknameID) {
-        super(model, controller, nicknameID);
+    public GUI(GameView model, ViewListener controller, String nickname) {
+        super(model, controller, nickname);
     }
 
     public GUI(GameView model, ViewListener controller) {

@@ -1,22 +1,23 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-public class AddPlayerCommandToServer implements CommandToServer {
+public class DisconnectPlayerCommand implements CommandToServer {
     private Server actuator;
     private String nickname;
 
-    public AddPlayerCommandToServer(String nickname) {
+    public DisconnectPlayerCommand(String nickname) {
         this.nickname = nickname;
     }
 
-    public AddPlayerCommandToServer(Server actuator) {
+    public DisconnectPlayerCommand(Server actuator) {
         this.actuator = actuator;
     }
 
-    public AddPlayerCommandToServer(Server actuator, String nickname) {
+    public DisconnectPlayerCommand(Server actuator, String nickname) {
         this.actuator = actuator;
         this.nickname = nickname;
     }
@@ -34,14 +35,19 @@ public class AddPlayerCommandToServer implements CommandToServer {
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
-            this.actuator.addPlayer(this.nickname);
+            this.actuator.disconnectPlayer(this.nickname);
         } else {
-            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"sendBroadcastMessage(Choice)\" command because this.actuator is NULL");
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"disconnectPlayer(String)\" command because this.actuator is NULL");
         }
     }
 
     @Override
+    public CommandType toEnum() {
+        return CommandType.DISCONNECT_PLAYER;
+    }
+
+    @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:GameController, CommandType:disconnectPlayer, Parameters:{Nickname: " + this.nickname + "}]";
     }
 }
