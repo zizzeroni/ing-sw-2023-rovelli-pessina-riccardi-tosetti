@@ -22,7 +22,7 @@ public class CommandReader extends Thread {
         while (true) {
             try {
                 String command = scanner.nextLine();
-                System.out.println("command: " + command + " reader: " + command.split(" ")[0]);
+
                 switch (command.split(" ")[0]) {
                     case "/all", "/private", "/showChat" -> CommandReader.chatCommandQueue.addCommand(command);
                     default -> CommandReader.standardCommandQueue.addCommand(command);
