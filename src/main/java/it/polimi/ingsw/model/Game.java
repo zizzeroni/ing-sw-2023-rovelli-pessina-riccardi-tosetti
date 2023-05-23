@@ -1,17 +1,20 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Game {
-    private GameListener listener;
+    private transient GameListener listener;
     private GameState gameState;
     private int numberOfPlayersToStartGame;
     private int activePlayerIndex;
@@ -140,6 +143,7 @@ public class Game {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
+        this.saveGame();
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
         } else {
@@ -215,5 +219,33 @@ public class Game {
                 .filter(player -> player.getNickname().equals(nickname))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void saveGame() {
+        Gson gson = new Gson();
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter("src/main/resources/storage/games.json");
+            gson.toJson(this, fileWriter);
+
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
+//
+//        Gson gson = gsonBuilder.setPrettyPrinting().create();
+//        FileWriter fileWriter;
+//        try {
+//            fileWriter = new FileWriter("src/main/resources/storage/games.json");
+//            gson.toJson(this, fileWriter);
+//
+//            fileWriter.flush();
+//            fileWriter.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.exceptions.GenericException;
 public abstract class UI implements Runnable {
     private GameView model;
     private ChatThread chat;
-
     protected ViewListener controller;
     private String nickname;
     //Indicate the state of the game from client perspective
@@ -24,7 +23,7 @@ public abstract class UI implements Runnable {
         this.nickname = nickname;
         this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
         this.exceptionToHandle = null;
-        this.initializeChatThread(this.controller, this.nickname);
+        this.initializeChatThread(this.controller, this.nickname, this.getModel());
     }
 
     public UI(GameView model, ViewListener controller) {
@@ -82,6 +81,7 @@ public abstract class UI implements Runnable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+        this.chat.setNickname(nickname);
     }
 
     public GameView getModel() {
@@ -117,6 +117,7 @@ public abstract class UI implements Runnable {
     //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
         this.model = game;
+        this.chat.setGameView(game);
 
         switch (this.model.getGameState()) {
             case IN_CREATION -> { /*Already in WAITING_IN_LOBBY*/}
@@ -131,9 +132,10 @@ public abstract class UI implements Runnable {
         }
     }
 
-
-    public void initializeChatThread(ViewListener controller, String nickname) {
-        this.chat = new ChatThread(controller, nickname);
+    public void initializeChatThread(ViewListener controller, String nickname, GameView model) {
+        chat = new ChatThread(controller, nickname);
+        //we do not set the game view in the constructor because we need the value passed as reference instead of value
+        chat.setGameView(model);
         chat.start();
     }
     //ESEMPIO INTERAZIONE TESTUALE

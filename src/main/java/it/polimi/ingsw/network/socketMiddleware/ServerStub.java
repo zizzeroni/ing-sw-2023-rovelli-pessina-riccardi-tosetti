@@ -22,7 +22,7 @@ public class ServerStub implements Server {
     private Socket socket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    //Lock used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
+    //Sempahore used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
     //a "response" (A new GameView object) form the Server itself
     private final Semaphore semaphoreUpdate = new Semaphore(0);
 

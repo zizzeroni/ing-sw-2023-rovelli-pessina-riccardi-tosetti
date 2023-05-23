@@ -4,8 +4,8 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
-import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.TextualUI;
 
 import java.rmi.NotBoundException;
@@ -62,25 +62,11 @@ public class AppClient {
                         //Creating a new client with a TextualUI and a Socket Server
                         client = new ClientImpl(serverStub, new TextualUI());
 
-
+                        //Creating a new Thread that will take care of checking on availability of connected client
                         startPingSenderThread(serverStub);
-                        startReceiverThread(client, serverStub);
+
                         //Creating a new Thread that will take care of the responses coming from the Server side
-                        /*new Thread(() -> {
-                            while (true) {
-                                try {
-                                    serverStub.receive(client);
-                                } catch (RemoteException e) {
-                                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
-                                    try {
-                                        serverStub.close();
-                                    } catch (RemoteException ex) {
-                                        System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
-                                    }
-                                    System.exit(1);
-                                }
-                            }
-                        }).start();*/
+                        startReceiverThread(client, serverStub);
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
@@ -124,10 +110,6 @@ public class AppClient {
         client.run();
         //Closing client app
         System.exit(0);
-    }
-
-    private static void askNicknameAndStartClient() {
-
     }
 
     private static void startPingSenderThread(Server server) {

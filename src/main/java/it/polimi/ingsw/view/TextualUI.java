@@ -22,17 +22,23 @@ public class TextualUI extends UI {
     }
 
     private void firstInteractionWithUser() {
+        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+
+        this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
+
         do {
             this.setExceptionToHandle(null);
-            System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+            System.out.println("Inserisci il tuo nickname!");
             String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
+
             this.setNickname(nickname);
             this.controller.addPlayer(this.getNickname());
+
             if (this.getExceptionToHandle() != null) {
                 this.getExceptionToHandle().handle();
             }
+
         } while (this.getExceptionToHandle() != null);
-        this.initializeChatThread(this.controller,this.getNickname());
 
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {

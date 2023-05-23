@@ -44,6 +44,13 @@ public class GameView implements Serializable {
         }
     }
 
+    public PlayerView getPlayerViewFromNickname(String nickname) {
+        return this.players.stream()
+                .filter(player -> player.getNickname().equals(nickname))
+                .findFirst()
+                .orElse(null);
+    }
+
     public GameState getGameState() {
         return this.gameState;
     }

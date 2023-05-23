@@ -48,8 +48,8 @@ public class CreationState extends ControllerState {
 
     @Override
     public void addPlayer(String nickname) {
-        Random rand = new Random();
-        PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
+        Random randomizer = new Random();
+        PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
         Player newPlayer;
         /*if (this.controller.getModel().getPlayers().size() == 0) {

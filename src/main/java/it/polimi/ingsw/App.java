@@ -30,10 +30,10 @@ public class App {
 
         //read available personal goals and boards from a file
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
             personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {}.getType());
 
-            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
             boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {}.getType());
             reader.close();
 
@@ -55,11 +55,11 @@ public class App {
         Gson gson = new Gson();
 
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/personal-goals.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
             personalGoals = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
 
-            reader = Files.newBufferedReader(Paths.get("src/main/java/it/polimi/ingsw/storage/boards.json"));
+            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
             boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
             }.getType());
             reader.close();
