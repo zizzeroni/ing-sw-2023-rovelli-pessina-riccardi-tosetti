@@ -1,5 +1,7 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.view.GUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,15 +10,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     //Fa schifo
-    private MainGui mainGui = new MainGui();
+    private GUI mainGui;
     @FXML
     private Label principalLabel;
     @FXML
@@ -29,28 +31,52 @@ public class LoginController implements Initializable {
     private ChoiceBox<String> NumberOfPlayerChoice;
     @FXML
     private Button PlayerOk;
-    private final String[] playerNumber = {"2","3","4"};
-    private String numberOfPlayer;
-    private String nickname;
+    private final String[] playerNumber = {"2", "3", "4"};
+    private String numberOfPlayerInGame;
+
     @FXML
-    public void controlNickname(ActionEvent actionEvent) throws IOException{
+    public void controlNickname(ActionEvent actionEvent) throws IOException, NotBoundException {
+
         //Controllo se è corretto l'username
-        nickname=Nickname.getText();
-        if(!nickname.isEmpty()) {
-            System.out.println("ciao " + Nickname.getText());
-            changeScene();
-        }else{
+        String nickname = Nickname.getText();
+        if (!nickname.isEmpty()) {
+
+            //Pass the nickname to the GUI
+            mainGui.joinGameWithNick(Nickname.getText());
+            //Se i è uguale a 1 devo scegliere il numero di giocatori
+            //Altrimenti metto in pausa in attesa che arrivino giocatori
+        } else {
             ErrorLabel.setText("Insert a nickname!");
         }
     }
+
+    public void numberOfPlayer(boolean askNumberOfPlayer) {
+        if (askNumberOfPlayer) {
+            Platform.runLater(this::changeScene);
+        } else {
+            Platform.runLater(() -> {
+                Font font = principalLabel.getFont();
+                principalLabel.setText("Attesa di altri giocatori");
+                ErrorLabel.setText("");
+                principalLabel.setFont(font);
+                FirstButton.setVisible(false);
+                Nickname.setVisible(false);
+            });
+
+//            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         NumberOfPlayerChoice.getItems().setAll(playerNumber);
         PlayerOk.setVisible(false);
         NumberOfPlayerChoice.setVisible(false);
+        ErrorLabel.setText("");
     }
-    public void changeScene(){
 
+    public void changeScene() {
+        //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
         ErrorLabel.setText("");
@@ -60,16 +86,34 @@ public class LoginController implements Initializable {
         PlayerOk.setVisible(true);
         NumberOfPlayerChoice.setVisible(true);
     }
-    public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException {
-        numberOfPlayer = NumberOfPlayerChoice.getValue();
-        if (numberOfPlayer!=null&&!numberOfPlayer.isEmpty()){
-            User user=new User(numberOfPlayer, nickname);
-            Stage stage = (Stage) FirstButton.getScene().getWindow();
-            stage.setUserData(user);
-            mainGui.startGame(stage);
-        }else{
+
+    public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException, InterruptedException {
+        //Inserisco la scelta del numero di giocatori e metto in attesa
+        numberOfPlayerInGame = NumberOfPlayerChoice.getValue();
+        if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
+
+            PlayerOk.setVisible(false);
+            NumberOfPlayerChoice.setVisible(false);
+
+
+            Font font = principalLabel.getFont();
+            principalLabel.setText("Attesa di altri giocatori");
+            ErrorLabel.setText("");
+            principalLabel.setFont(font);
+
+        } else {
             ErrorLabel.setText("Select the number of player!");
         }
+        Platform.runLater(() -> {
+            if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
+                mainGui.setNumberOfPlayer(Integer.parseInt(numberOfPlayerInGame));
+//            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
+            }
+        });
+
     }
 
+    public void setMainGui(GUI gui) {
+        this.mainGui = gui;
+    }
 }

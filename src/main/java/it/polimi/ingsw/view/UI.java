@@ -5,9 +5,10 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.GenericException;
+import javafx.application.Application;
 
-public abstract class UI implements Runnable {
-    private GameView model;
+public abstract class UI extends Application implements Runnable {
+    private volatile GameView model;
     private ChatThread chat;
     protected ViewListener controller;
     private String nickname;
@@ -106,8 +107,9 @@ public abstract class UI implements Runnable {
     //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
+    //ONLY IN TextualUI
     //Method in common with all UIs that must be implemented
-    public abstract void showPersonalRecap();
+    //public abstract void showPersonalRecap();
 
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;

@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.view.TextualUI;
+import javafx.application.Application;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -16,7 +17,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AppClient {
-
     static CommandReader commandReader = new CommandReader();
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -54,6 +54,10 @@ public class AppClient {
 
 
                         startPingSenderThread(server);
+
+
+                        //Calling the run method of the UI
+                        client.run();
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
@@ -79,16 +83,9 @@ public class AppClient {
                     case 1 -> {
                         //Getting the remote server by RMI
 
-                        Registry registry = LocateRegistry.getRegistry();
-                        Server server = (Server) registry.lookup("server");
-
                         //Creating a new client with a TextualUI and a RMI Server
-                        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+                        Application.launch(GUI.class, "");
 
-                        String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
-                        client = new ClientImpl(server, new GUI(), nickname);
-                        client.run();
-                        return;
                     }
                     case 2 -> {
                         //Getting the remote server by Socket
@@ -106,13 +103,12 @@ public class AppClient {
                 return;
             }
         }
-        //Calling the run method of the UI
-        client.run();
+
         //Closing client app
         System.exit(0);
     }
 
-    private static void startPingSenderThread(Server server) {
+    public static void startPingSenderThread(Server server) {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
