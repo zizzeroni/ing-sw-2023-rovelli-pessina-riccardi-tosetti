@@ -5,8 +5,15 @@ import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class OnGoingState extends ControllerState {
     public OnGoingState(GameController controller) {
@@ -31,17 +38,32 @@ public class OnGoingState extends ControllerState {
 
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            model.setActivePlayerIndex(0);
-        } else {
-            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
-        }
+        GameController controller = this.controller;
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count() == 1) {
+            this.controller.changeState(new InPauseState(this.controller));
+            this.controller.getModel().setGameState(InPauseState.toEnum());
 
-        if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
-            if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count() == model.getPlayers().size() - 1) {
-                //TODO: Implement PauseState for the game controller
-                System.out.println("Game in pausa");
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count() > 1) {
+                        controller.changeState(new OnGoingState(controller));
+                        controller.getModel().setGameState(OnGoingState.toEnum());
+                    }
+                }
+            }, 10000);
+
+
+
+            System.out.println("Game in pausa");
+        } else {
+            if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
+                model.setActivePlayerIndex(0);
             } else {
+                model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+            }
+
+            if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
                 this.changeActivePlayer();
             }
         }

@@ -66,7 +66,7 @@ public class ServerStub implements Server {
         }
         //Necessary for how we implemented the adding of the tiles to the player's bookshelf
         //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
-        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
+        /*for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
             try {
                 this.semaphoreUpdate.acquire();
             } catch (InterruptedException e) {
@@ -79,7 +79,7 @@ public class ServerStub implements Server {
             this.semaphoreUpdate.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @Override
@@ -186,13 +186,12 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        try {
+        /*try {
             this.semaphoreUpdate.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
-        System.out.println("Valore permit semaphore: " + this.semaphoreUpdate.availablePermits());
     }
 
     @Override
