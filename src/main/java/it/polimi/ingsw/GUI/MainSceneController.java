@@ -241,6 +241,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
+        startOrder=0;
         firstColumn = 0;
         firstRow = 0;
         directionToCheck = null;
@@ -295,6 +296,26 @@ public class MainSceneController implements Initializable {
         });
         try {
             countDownLatchTable.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void cancelBoardTile(int row, int column) {
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            //Select the button in the tile position
+            Button button = (Button) scene.lookup(tileName);
+            if (button != null) {
+                button.setVisible(false);
+            }
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -416,7 +437,7 @@ public class MainSceneController implements Initializable {
         tileName += row;
         tileName += column;
         Button button = (Button) scene.lookup(tileName);
-        if (button != null && !button.getStyleClass().get(0).isEmpty()) {
+        if (button != null) {
             button.setOnAction(null);
             button.setOnMouseEntered(null);
             button.setOnMouseExited(null);
@@ -445,7 +466,6 @@ public class MainSceneController implements Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void setMainGui(GUI gui) {
@@ -530,6 +550,7 @@ public class MainSceneController implements Initializable {
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
+
         if (takenTiles.getChosenTiles().size() != 0) {
             String style;
             String selectedName;
@@ -539,6 +560,7 @@ public class MainSceneController implements Initializable {
             for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
                 row = takenTiles.getTileCoordinates().get(i).getX();
                 column = takenTiles.getTileCoordinates().get(i).getY();
+
                 tileName = "#boardTile" + row + column;
                 Button buttonTile = (Button) scene.lookup(tileName);
                 style = buttonTile.getStyleClass().get(1);
@@ -546,18 +568,11 @@ public class MainSceneController implements Initializable {
                 selectedName = "#selected" + count;
                 Button selectedButton = (Button) scene.lookup(selectedName);
                 selectedButton.getStyleClass().add(style);
-                buttonTile.setBorder(Border.EMPTY);
+                buttonTile.setBorder(null);
                 buttonTile.getStyleClass().remove(style);
-                buttonTile.setOpacity(0.0);
-                buttonTile.setOnAction(null);
-                buttonTile.setOnMouseEntered(null);
-                buttonTile.setOnMouseExited(null);
-
-//            selectedButton.setOnAction(this::selectedSelection);
-//            selectedButton.setOnMouseEntered(this::overButton);
-//            selectedButton.setOnMouseExited(this::notOverButton);
-                order = new int[takenTiles.getChosenTiles().size()];
+                buttonTile.setVisible(false);
             }
+            order = new int[takenTiles.getChosenTiles().size()];
             for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
                 for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
                     disableTileAfterPick(r, c);
@@ -687,7 +702,7 @@ public class MainSceneController implements Initializable {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
         String name = button.getId();
-        order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)));
+        order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)))-1;
         String style = button.getStyleClass().get(1);
 
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
@@ -697,7 +712,7 @@ public class MainSceneController implements Initializable {
         if (firstPlayerButton != null) {
             firstPlayerButton.setBorder(null);
             firstPlayerButton.setOpacity(1);
-            firstPlayerButton.getStyleClass().add(style);
+            firstPlayerButton.getStyleClass().add("B1");
         }
         button.getStyleClass().remove(style);
         startOrder++;

@@ -31,6 +31,7 @@ public class GUI extends UI {
     private MainSceneController mainSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
+    private volatile Choice takenTiles;
 
     public GUI(GameView model) {
         super(model);
@@ -44,7 +45,6 @@ public class GUI extends UI {
         this.primaryStage = primaryStage;
         run();
     }
-
     public GUI(GameView model, ViewListener controller, String nickname) {
         super(model, controller, nickname);
     }
@@ -53,9 +53,9 @@ public class GUI extends UI {
         super(model, controller);
     }
 
+    //TODO non usata
     @Override
-    public Choice askPlayer() {
-        return null;
+    public Choice askPlayer() {return null;
     }
 
     @Override
@@ -63,6 +63,7 @@ public class GUI extends UI {
         System.out.println("---NEW TURN---");
         int tileId;
         String tileColor;
+        takenTiles=null;
 
         BoardView boardView = this.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
@@ -76,20 +77,20 @@ public class GUI extends UI {
                     tileId = boardMatrix[row][column].getImageID();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
+                }else{
+                    mainSceneController.cancelBoardTile(row, column);
                 }
             }
         }
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    if (row==8 || column ==8 || row == 0 || column==0 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                    if (row==8 || column ==8 || row == 0 || column==0 || ((boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                             (row != boardView.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                             (column != boardView.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
-                            (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
-
+                            ((boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                         mainSceneController.ableTile(row, column);
                     } else {
-
                         mainSceneController.disableTile(row, column);
                     }
                 }
@@ -182,34 +183,24 @@ public class GUI extends UI {
             mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
             mainSceneController.setPlayersName(getModel().getPlayers());
 
-            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
-            mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
+//            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
+//            mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
+//
+//            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
+//            mainSceneController.setCommonGoal(commonGoals);
 
-            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
-            mainSceneController.setCommonGoal(commonGoals);
-
-            showNewTurnIntro();
             while (this.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
                 if (this.getState() == ClientGameState.GAME_ENDED) break;
-                //Devo abilitare tutte le tile
-                //.unlockAllTiles
-                //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                 showNewTurnIntro();
-                //Questo metodo va sostituito con un metodo che aspetta che il player confermi la presa delle tiles
-                //Choice choice = askPlayer();
-
-                //---------------------------------NOTIFY CONTROLLER---------------------------------
-                //this.controller.insertUserInputIntoModel(choice);
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("Enter Input : ");
-                try {
-                    String s = br.readLine();
-                    System.out.println(s);
-                } catch (Exception e) {
-                    System.out.println(e);
+                //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
+                while (takenTiles == null) {
+                    Thread.onSpinWait();
+                    //Aspetto che arrivino le scelte del player;
                 }
+                this.controller.insertUserInputIntoModel(takenTiles);
+                //---------------------------------NOTIFY CONTROLLER---------------------------------
                 this.controller.changeTurn();
 
             }
@@ -236,7 +227,7 @@ public class GUI extends UI {
                 case WAITING_FOR_OTHER_PLAYER -> {
                     System.out.println("Waiting for others player moves...");
                     mainSceneController.lockAllTiles();
-                    //Devo comunque aggiornare il giocatore di turno e la board (Qua?)
+                    showNewTurnIntro();
                 }
             }
             while (getState() == state) {
@@ -256,7 +247,6 @@ public class GUI extends UI {
     }
 
     public void finishTurn(Choice takenTiles) {
-        this.controller.insertUserInputIntoModel(takenTiles);
-        this.controller.changeTurn();
+        this.takenTiles=takenTiles;
     }
 }
