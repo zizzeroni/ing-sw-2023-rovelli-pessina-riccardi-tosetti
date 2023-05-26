@@ -59,9 +59,10 @@ public class MainSceneController implements Initializable {
     private String selectedColumn;
     private int[] order;
     private int startOrder;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        startOrder=0;
+        startOrder = 0;
         selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
@@ -393,7 +394,7 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
-            if(button!=null) {
+            if (button != null) {
                 button.setOnAction(null);
                 button.setOnMouseEntered(null);
                 button.setOnMouseExited(null);
@@ -421,7 +422,6 @@ public class MainSceneController implements Initializable {
             button.setOnMouseExited(null);
             button.setOpacity(0.6);
         }
-
     }
 
     public void ableTile(int row, int column) {
@@ -466,7 +466,7 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             String nickPlayer;
             int countOtherPlayer = 2;
-            int countPlayer=0;
+            int countPlayer = 0;
             for (int i = 0; i < numberOfPlayer; i++) {
                 if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
                     nickPlayer = "#nickname" + countOtherPlayer;
@@ -687,7 +687,7 @@ public class MainSceneController implements Initializable {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
         String name = button.getId();
-        order[startOrder]  = Integer.parseInt(String.valueOf(name.charAt(name.length()-1)));
+        order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)));
         String style = button.getStyleClass().get(1);
 
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
@@ -701,7 +701,9 @@ public class MainSceneController implements Initializable {
         }
         button.getStyleClass().remove(style);
         startOrder++;
-        if(startOrder==takenTiles.getChosenTiles().size()){
+
+        if (startOrder == takenTiles.getChosenTiles().size()) {
+            takenTiles.setTileOrder(order);
             System.out.println("END TURN");
             for (int i = startOrder; i < 6; i++) {
                 String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
@@ -711,6 +713,7 @@ public class MainSceneController implements Initializable {
                     buttonOfColumn.setBorder(null);
                 }
             }
+            mainGui.finishTurn(takenTiles);
         }
     }
 
@@ -783,8 +786,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void lockAllTiles() {
-        for(int row=0; row<mainGui.getModel().getBoard().getNumberOfRows(); row++){
-            for(int column=0; column<mainGui.getModel().getBoard().getNumberOfColumns(); column++){
+        for (int row = 0; row < mainGui.getModel().getBoard().getNumberOfRows(); row++) {
+            for (int column = 0; column < mainGui.getModel().getBoard().getNumberOfColumns(); column++) {
                 this.disableTile(row, column);
             }
         }

@@ -255,4 +255,8 @@ public class GUI extends UI {
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
     }
 
+    public void finishTurn(Choice takenTiles) {
+        this.controller.insertUserInputIntoModel(takenTiles);
+        this.controller.changeTurn();
+    }
 }
