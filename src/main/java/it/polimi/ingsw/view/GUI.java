@@ -96,6 +96,7 @@ public class GUI extends UI {
                 }
             }
         }
+        //mainSceneController.setBookshelf(this.getModel().getPlayers());
     }
 
     @Override
@@ -188,6 +189,7 @@ public class GUI extends UI {
 //
 //            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
 //            mainSceneController.setCommonGoal(commonGoals);
+            showNewTurnIntro();
 
             while (this.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
@@ -227,7 +229,6 @@ public class GUI extends UI {
                 case WAITING_FOR_OTHER_PLAYER -> {
                     System.out.println("Waiting for others player moves...");
                     mainSceneController.lockAllTiles();
-                    showNewTurnIntro();
                 }
             }
             while (getState() == state) {
