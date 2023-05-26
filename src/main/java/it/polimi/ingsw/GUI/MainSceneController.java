@@ -56,9 +56,13 @@ public class MainSceneController implements Initializable {
     private int firstRow;
     private int firstColumn;
     private Direction directionToCheck;
-
+    private String selectedColumn;
+    private int[] order;
+    private int startOrder;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        startOrder=0;
+        selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         commonGoal2.setImage(firstCommonGoalImage);
@@ -95,6 +99,8 @@ public class MainSceneController implements Initializable {
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
+        Button buttonTakeTiles = (Button) scene.lookup("#insertTile");
+        buttonTakeTiles.setOnAction(this::SelectTiles);
         String name = button.getId();
         int column = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)));
         int row = Integer.parseInt(String.valueOf(name.charAt(name.length() - 2)));
@@ -283,6 +289,7 @@ public class MainSceneController implements Initializable {
                     thirdPlayerBookshelf.setVisible(false);
                 }
             }
+            disableFirstPlayerButton();
             countDownLatchTable.countDown();
         });
         try {
@@ -386,10 +393,12 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
-            button.setOnAction(null);
-            button.setOnMouseEntered(null);
-            button.setOnMouseExited(null);
-            button.setOpacity(0.6);
+            if(button!=null) {
+                button.setOnAction(null);
+                button.setOnMouseEntered(null);
+                button.setOnMouseExited(null);
+                button.setOpacity(0.6);
+            }
             countDownLatchDisable.countDown();
         });
         try {
@@ -406,7 +415,7 @@ public class MainSceneController implements Initializable {
         tileName += row;
         tileName += column;
         Button button = (Button) scene.lookup(tileName);
-        if (button != null) {
+        if (button != null && !button.getStyleClass().get(0).isEmpty()) {
             button.setOnAction(null);
             button.setOnMouseEntered(null);
             button.setOnMouseExited(null);
@@ -455,18 +464,18 @@ public class MainSceneController implements Initializable {
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            String nickPlayer = "";
-            int count = 2;
+            String nickPlayer;
+            int countOtherPlayer = 2;
+            int countPlayer=0;
             for (int i = 0; i < numberOfPlayer; i++) {
                 if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
-                    nickPlayer = "#nickname" + count;
-                    Label playerNicname = (Label) scene.lookup(nickPlayer);
-                    playerNicname.setText(players.get(i).getNickname());
-                    playerName[count-2] = players.get(i).getNickname();
-                }else{
-                    playerName[count-2] = players.get(i).getNickname();
+                    nickPlayer = "#nickname" + countOtherPlayer;
+                    Label playerNickname = (Label) scene.lookup(nickPlayer);
+                    playerNickname.setText(players.get(i).getNickname());
+                    countOtherPlayer++;
                 }
-                count++;
+                playerName[countPlayer] = players.get(i).getNickname();
+                countPlayer++;
             }
             countDownLatchAble.countDown();
         });
@@ -521,36 +530,43 @@ public class MainSceneController implements Initializable {
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
-        String style;
-        String selectedName;
-        int row;
-        int column;
-        int count;
-        for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
-            row = takenTiles.getTileCoordinates().get(i).getX();
-            column = takenTiles.getTileCoordinates().get(i).getY();
-            tileName = "#boardTile" + row + column;
-            Button buttonTile = (Button) scene.lookup(tileName);
-            style = buttonTile.getStyleClass().get(1);
-            count = i + 1;
-            selectedName = "#selected" + count;
-            Button selectedButton = (Button) scene.lookup(selectedName);
-            selectedButton.getStyleClass().add(style);
-            buttonTile.getStyleClass().remove(style);
-            buttonTile.setOpacity(0);
-            buttonTile.setOnAction(null);
-            buttonTile.setOnMouseEntered(null);
-            buttonTile.setOnMouseExited(null);
-            buttonTile.setBorder(Border.EMPTY);
+        if (takenTiles.getChosenTiles().size() != 0) {
+            String style;
+            String selectedName;
+            int row;
+            int column;
+            int count;
+            for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
+                row = takenTiles.getTileCoordinates().get(i).getX();
+                column = takenTiles.getTileCoordinates().get(i).getY();
+                tileName = "#boardTile" + row + column;
+                Button buttonTile = (Button) scene.lookup(tileName);
+                style = buttonTile.getStyleClass().get(1);
+                count = i + 1;
+                selectedName = "#selected" + count;
+                Button selectedButton = (Button) scene.lookup(selectedName);
+                selectedButton.getStyleClass().add(style);
+                buttonTile.setBorder(Border.EMPTY);
+                buttonTile.getStyleClass().remove(style);
+                buttonTile.setOpacity(0.0);
+                buttonTile.setOnAction(null);
+                buttonTile.setOnMouseEntered(null);
+                buttonTile.setOnMouseExited(null);
 
-            selectedButton.setOnAction(this::selectedSelection);
-            selectedButton.setOnMouseEntered(this::overButton);
-            selectedButton.setOnMouseExited(this::notOverButton);
-        }
-        for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
-            for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
-                disableTileAfterPick(r, c);
+//            selectedButton.setOnAction(this::selectedSelection);
+//            selectedButton.setOnMouseEntered(this::overButton);
+//            selectedButton.setOnMouseExited(this::notOverButton);
+                order = new int[takenTiles.getChosenTiles().size()];
             }
+            for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
+                for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+                    disableTileAfterPick(r, c);
+                }
+            }
+            ableFirstPlayerButton();
+            button.setOnAction(null);
+        } else {
+            System.err.println("seleziona almeno una tile");
         }
     }
 
@@ -631,7 +647,6 @@ public class MainSceneController implements Initializable {
     }
 
     public void overColumn(MouseEvent mouseEvent) {
-        System.out.println("ciau");
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
         String buttonOfColumnName;
@@ -639,10 +654,10 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
         Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
-            buttonOfColumnName="#firstPlayerTile"+i+column;
+        for (int i = 0; i < 6; i++) {
+            buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-            if(buttonOfColumn!=null) {
+            if (buttonOfColumn != null) {
                 buttonOfColumn.setBorder(border);
                 buttonOfColumn.setOpacity(0.3);
                 //button.getStyleClass().remove(1);
@@ -657,11 +672,10 @@ public class MainSceneController implements Initializable {
         Button buttonOfColumn;
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
-        Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
-            buttonOfColumnName="#firstPlayerTile"+i+column;
+        for (int i = 0; i < 6; i++) {
+            buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-            if(buttonOfColumn!=null) {
+            if (buttonOfColumn != null) {
                 //button.getStyleClass().add("C1");
                 buttonOfColumn.setOpacity(0);
                 buttonOfColumn.setBorder(null);
@@ -669,7 +683,35 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void selectedSelection(ActionEvent actionEvent) {
+    public void insertTileIntoBookshelf(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+        String name = button.getId();
+        order[startOrder]  = Integer.parseInt(String.valueOf(name.charAt(name.length()-1)));
+        String style = button.getStyleClass().get(1);
+
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        int row = activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn)) + startOrder;
+        String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
+        Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
+        if (firstPlayerButton != null) {
+            firstPlayerButton.setBorder(null);
+            firstPlayerButton.setOpacity(1);
+            firstPlayerButton.getStyleClass().add(style);
+        }
+        button.getStyleClass().remove(style);
+        startOrder++;
+        if(startOrder==takenTiles.getChosenTiles().size()){
+            System.out.println("END TURN");
+            for (int i = startOrder; i < 6; i++) {
+                String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
+                Button buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
+                if (buttonOfColumn != null) {
+                    buttonOfColumn.setOpacity(0);
+                    buttonOfColumn.setBorder(null);
+                }
+            }
+        }
     }
 
     public void setFirstPlayerNickname(String nickname) {
@@ -685,5 +727,67 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    public void selectColumn(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+
+        String selectedButtonName;
+        Button selectedButton;
+        String name = button.getId();
+        selectedColumn = String.valueOf(name.charAt(name.length() - 1));
+        System.out.println("Seleziono la colonna: " + selectedColumn);
+
+        int disp = 5 - takenTiles.getChosenTiles().size();
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+
+        if (activePlayer.getBookshelf().getTiles()[disp][Integer.parseInt(selectedColumn)] != null && activePlayer.getBookshelf().getTiles()[disp][Integer.parseInt(selectedColumn)].getColor() != null) {
+            System.err.println("La colonna non è selezionabile");
+        } else {
+            for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
+                selectedButtonName = "#selected" + i;
+                selectedButton = (Button) scene.lookup(selectedButtonName);
+                selectedButton.setOnAction(this::insertTileIntoBookshelf);
+                selectedButton.setOnMouseEntered(this::overButton);
+                selectedButton.setOnMouseExited(this::notOverButton);
+            }
+            disableFirstPlayerButton();
+        }
+    }
+
+    private void disableFirstPlayerButton() {
+        for (int r = 0; r < 6; r++) {
+            for (int c = 0; c < 6; c++) {
+                String buttonName = "#firstPlayerTile" + r + c;
+                Button buttonDisable = (Button) scene.lookup(buttonName);
+                if (buttonDisable != null && !buttonDisable.getStyleClass().get(0).isEmpty()) {
+                    buttonDisable.setOnMouseEntered(null);
+                    buttonDisable.setOnMouseExited(null);
+                    buttonDisable.setOnAction(null);
+                }
+            }
+        }
+    }
+
+    private void ableFirstPlayerButton() {
+        for (int r = 0; r < 6; r++) {
+            for (int c = 0; c < 6; c++) {
+                String buttonName = "#firstPlayerTile" + r + c;
+                Button buttonDisable = (Button) scene.lookup(buttonName);
+                if (buttonDisable != null) {
+                    buttonDisable.setOnMouseEntered(this::overColumn);
+                    buttonDisable.setOnMouseExited(this::notOverColumn);
+                    buttonDisable.setOnAction(this::selectColumn);
+                }
+            }
+        }
+    }
+
+    public void lockAllTiles() {
+        for(int row=0; row<mainGui.getModel().getBoard().getNumberOfRows(); row++){
+            for(int column=0; column<mainGui.getModel().getBoard().getNumberOfColumns(); column++){
+                this.disableTile(row, column);
+            }
+        }
+    }
 }
 

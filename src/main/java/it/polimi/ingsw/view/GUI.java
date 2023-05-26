@@ -31,6 +31,7 @@ public class GUI extends UI {
     private MainSceneController mainSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
+
     public GUI(GameView model) {
         super(model);
     }
@@ -43,6 +44,7 @@ public class GUI extends UI {
         this.primaryStage = primaryStage;
         run();
     }
+
     public GUI(GameView model, ViewListener controller, String nickname) {
         super(model, controller, nickname);
     }
@@ -80,7 +82,7 @@ public class GUI extends UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                    if (row==8 || column ==8 || row == 0 || column==0 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                             (row != boardView.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                             (column != boardView.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                             (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
@@ -205,12 +207,11 @@ public class GUI extends UI {
                 try {
                     String s = br.readLine();
                     System.out.println(s);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     System.out.println(e);
                 }
                 this.controller.changeTurn();
-                //Devo disabilitare tutte le tile
-                //.lockAllTiles();
+
             }
             System.out.println("---GAME ENDED---");
         });
@@ -234,7 +235,7 @@ public class GUI extends UI {
                 }
                 case WAITING_FOR_OTHER_PLAYER -> {
                     System.out.println("Waiting for others player moves...");
-
+                    mainSceneController.lockAllTiles();
                     //Devo comunque aggiornare il giocatore di turno e la board (Qua?)
                 }
             }
@@ -248,6 +249,7 @@ public class GUI extends UI {
             }
         }
     }
+
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
