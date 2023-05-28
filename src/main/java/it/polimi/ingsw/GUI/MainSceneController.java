@@ -240,8 +240,6 @@ public class MainSceneController implements Initializable {
 
     public void setTable() {
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
-        BookshelfView playerBookshelf = activePlayer.getBookshelf();
-        System.out.println(playerBookshelf);
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -767,10 +765,9 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         selectedColumn = String.valueOf(name.charAt(name.length() - 1));
 
-        int disp = 5 - takenTiles.getChosenTiles().size();
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
-        if (activePlayer.getBookshelf().getTiles()[disp][Integer.parseInt(selectedColumn)] != null && activePlayer.getBookshelf().getTiles()[disp][Integer.parseInt(selectedColumn)].getColor() != null) {
+        if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn))<takenTiles.getChosenTiles().size()) {
             System.err.println("La colonna non è selezionabile");
         } else {
             for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
