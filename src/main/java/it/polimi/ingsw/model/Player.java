@@ -48,6 +48,13 @@ public class Player {
         this.chat = new ArrayList<>();
     }
 
+    /**
+     * @param nickname
+     * @param connected
+     * @param personalGoal
+     * @param scoreTiles
+     * @param bookshelf
+     */
     public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
@@ -95,6 +102,9 @@ public class Player {
         return this.nickname;
     }
 
+    /**
+     * @return
+     */
     public boolean isConnected() {
         return this.connected;
     }
@@ -103,6 +113,9 @@ public class Player {
         this.nickname = nickname;
     }
 
+    /**
+     * @param connected
+     */
     public void setConnected(boolean connected) {
         this.connected = connected;
         if (listener != null) {
@@ -115,12 +128,13 @@ public class Player {
         this.scoreTiles.add(tile);
     }
 
+    /**
+     * @param tile
+     * @param position
+     */
     public void setSingleScoreTile(ScoreTile tile, int position) {
         this.scoreTiles.set(position, tile);
     }
-
-
-
 
     /**
      * Set the score of the player considering the current state of the Bookshelf score.
@@ -143,7 +157,7 @@ public class Player {
     }
 
     /**
-     * Adds the player message to the
+     * Adds the player message to the list of his messages that will be displayed on the chat
      *
      * @param message is the message written by the player
      */

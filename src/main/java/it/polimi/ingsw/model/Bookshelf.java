@@ -23,9 +23,10 @@ public class Bookshelf {
 
 
     /**
-     * register a listener in the set of bookshelf's listeners
+     * Used in order to register a {@code listener} in the
+     * set of bookshelf's listeners.
      *
-     * @param listener the listener object
+     * @param listener the listener object that is added.
      */
     public void registerListener(BookshelfListener listener) {
         this.listener = listener;
@@ -86,7 +87,7 @@ public class Bookshelf {
     }
 
     /**
-     * DESCRIPTION FOR GETTER ?
+     * Used to count the number of empty cells contemporary present in a {@code column}
      *
      * @param column is the column whose remaining places we want to know.
      * @return counter contains the number of the remaining places of the column.
@@ -157,7 +158,7 @@ public class Bookshelf {
 
 
     /**
-     * evaluates if the current row is already been filled with tiles
+     * evaluates if the current {@code row} is already been filled with {@code tiles}
      *
      * @param row is the row that we want to check.
      * @return  {@code true} if and only if the current column is not entirely
@@ -267,13 +268,13 @@ public class Bookshelf {
 
     /**
      *
-     * Used by the soring method for determinate if two tiles are from the same group or from different group
+     * Used by the sorting method to determine if two tiles belong to the same group or a different one.
      *
-     * @param supportMatrix is used to contains part of the intermediate values processed by the algorithm
-     * @param row the current row
-     * @param column the current column
-     * @param group the group individuated in the Bookshelf
-     * @param currentTileColor the current tile color
+     * @param supportMatrix is used to contain part of the intermediate values processed by the algorithm.
+     * @param row the current row.
+     * @param column the current column.
+     * @param group the group individuated for insertion in the Bookshelf.
+     * @param currentTileColor the tile color characterizing the current group.
      */
 
     private void assignGroupToBookshelfEqualTiles(int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
@@ -299,6 +300,13 @@ public class Bookshelf {
         }
     }
 
+    /**
+     * Used to generate the matrix representing the Bookshelf
+     *
+     * @return the {@code substring} generated from the StringBuilder
+     * instanced in the first part of the method, describing the current
+     * state of tiles in rows/columns.
+     */
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder("    ");

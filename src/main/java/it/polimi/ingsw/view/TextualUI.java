@@ -157,6 +157,9 @@ public class TextualUI extends UI {
         return chosenColumn;
     }
 
+    /**
+     * @return
+     */
     @Override
     public Choice askPlayer() {
         while (true) {
@@ -314,6 +317,13 @@ public class TextualUI extends UI {
         }
     }
 
+    /**
+     * @param row
+     * @param column
+     * @param firstRow
+     * @param firstColumn
+     * @return
+     */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
@@ -329,6 +339,13 @@ public class TextualUI extends UI {
         return null;
     }
 
+    /**
+     * @param row
+     * @param column
+     * @param prevTilesCoordinates
+     * @param directionToCheck
+     * @return
+     */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
@@ -370,6 +387,17 @@ public class TextualUI extends UI {
         }
     }
 
+    /**
+     * Method that verifies if the tiles in the turn selection are available
+     * to the player for picking.
+     *
+     * @param row is the index of the selected row.
+     * @param column is the index of the selected column.
+     * @return {@code true} if and only if the {@code boardMatrix}
+     *                presents a collectable tile in the position
+     *                identified though the given coordinates;
+     *                {@code false} otherwise
+     */
     private boolean checkIfPickable(int row, int column) {
         BoardView board = this.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
@@ -388,6 +416,13 @@ public class TextualUI extends UI {
         }
         return false;
     }
+
+    /**
+     * Displays the recap of the player during the turn
+     * with his score and personal goal, the common goals and
+     * number of completed goals overall.
+     * Also shows the current state of the {@code Bookshelf}.
+     */
     //TODO: remove from UI
     public void showPersonalRecap() {
         PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
@@ -409,5 +444,35 @@ public class TextualUI extends UI {
                 (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
     }
+
+    /**
+     * Prints the Game Title Screen.
+     */
+    public void printTitleScreen(){
+
+        System.out.println ("███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗");
+        System.out.println ("████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝");
+        System.out.println ("██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░");
+        System.out.println ("██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░");
+        System.out.println ("██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗");
+        System.out.println ("╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝");
+
+    }
+
+/*
+███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗██╗
+████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝╚═╝
+██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░░░░
+██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░░░░
+██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗██╗
+╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝╚═╝
+
+░██████╗░░█████╗░████████╗██╗░░░██╗░░░░░░░░███████╗██████╗░██╗████████╗██╗░█████╗░███╗░░██╗
+██╔════╝░██╔══██╗╚══██╔══╝╚██╗░██╔╝░░░░░░░░██╔════╝██╔══██╗██║╚══██╔══╝██║██╔══██╗████╗░██║
+██║░░██╗░██║░░██║░░░██║░░░░╚████╔╝░░░░░░░░░█████╗░░██║░░██║██║░░░██║░░░██║██║░░██║██╔██╗██║
+██║░░╚██╗██║░░██║░░░██║░░░░░╚██╔╝░░░░░░░░░░██╔══╝░░██║░░██║██║░░░██║░░░██║██║░░██║██║╚████║
+╚██████╔╝╚█████╔╝░░░██║░░░░░░██║░░░░░░░░░░░███████╗██████╔╝██║░░░██║░░░██║╚█████╔╝██║░╚███║
+░╚═════╝░░╚════╝░░░░╚═╝░░░░░░╚═╝░░░░░░░░░░░╚══════╝╚═════╝░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
+*/
 
 }

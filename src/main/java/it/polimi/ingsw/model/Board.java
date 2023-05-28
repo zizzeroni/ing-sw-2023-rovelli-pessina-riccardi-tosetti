@@ -29,6 +29,9 @@ public class Board {
                 this.tiles[row][column] = new Tile();
     }
 
+    /**
+     * @param jsonBoardPattern
+     */
     /*Initialize only the tiles in the positions where there are ones in the jsonBoardPattern, and set non-usable tiles as tiles without color
     @param jsonBoardPattern pattern that contains the positions where we need to insert the tiles
     */
@@ -37,6 +40,10 @@ public class Board {
         this.setPattern(jsonBoardPattern);
     }
 
+    /**
+     * @param numberOfUsableTiles
+     * @param tiles
+     */
     /*
     @param numberOfUsableTiles number of tiles that are usable
     @param tiles
