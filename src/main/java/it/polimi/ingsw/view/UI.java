@@ -130,6 +130,7 @@ public abstract class UI extends Application implements Runnable {
                     this.setState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
                 }
             }
+            case PAUSED -> {this.setState(ClientGameState.WAITING_FOR_RESUME);}
             case RESET_NEEDED -> this.setState(ClientGameState.GAME_ENDED);
         }
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.exceptions.WrongInputDataException;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GameController implements ViewListener {
+public class GameController {
     private final Game model;
     private ControllerState state;
     private List<PersonalGoal> personalGoalsDeck;
@@ -51,42 +52,43 @@ public class GameController implements ViewListener {
         return state;
     }
 
-    @Override
+
     public void changeTurn() {
         state.changeTurn();
     }
 
-    @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         state.insertUserInputIntoModel(playerChoice);
     }
 
-    @Override
+
     public void sendPrivateMessage(String receiver, String sender, String content) {
         state.sendPrivateMessage(receiver, sender, content);
     }
 
-    @Override
+
     public void sendBroadcastMessage(String sender, String content) {
         state.sendBroadcastMessage(sender, content);
     }
 
-    @Override
+
     public void addPlayer(String nickname) {
         state.addPlayer(nickname);
     }
 
-    @Override
+    public void tryToResumeGame() {state.tryToResumeGame();}
+
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
-    @Override
+
     public void startGame() {
         state.startGame();
     }
 
-    @Override
+
     public void disconnectPlayer(String nickname) {
         System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);

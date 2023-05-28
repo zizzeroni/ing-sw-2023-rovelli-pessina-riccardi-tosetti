@@ -2,9 +2,19 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class InPauseState extends ControllerState{
+    private final Timer timer = new Timer();
     public InPauseState(GameController controller) {
         super(controller);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                controller.getModel().setGameState(GameState.RESET_NEEDED);
+            }
+        }, 15000);
     }
 
     @Override
@@ -29,11 +39,29 @@ public class InPauseState extends ControllerState{
             player.addMessage(message);
         }
     }
+    //TODO:Chiedere a rovo
+    private boolean checkIfGameIsResumable() {
+        Game model = this.controller.getModel();
+        return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1;
+    }
 
     @Override
     public void addPlayer(String nickname) {
         this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
     }
+
+    @Override
+    public void tryToResumeGame() {
+        if(checkIfGameIsResumable()) {
+            timer.cancel();
+            this.controller.changeState(new OnGoingState(this.controller));
+            this.controller.getModel().setGameState(GameState.ON_GOING);
+        } else {
+            //Set the current game state in order to generate a notification, sent to the client
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        }
+    }
+
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {

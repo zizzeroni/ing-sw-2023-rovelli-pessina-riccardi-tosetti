@@ -5,15 +5,14 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -47,18 +46,33 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public synchronized void changeTurn() throws RemoteException {
         this.controller.changeTurn();
         if (this.model.getGameState() == GameState.RESET_NEEDED) {
-            this.model = new Game();
-            this.controller = new GameController(this.model);
-            //Server start listening to Game for changes
-            this.model.registerListener(this);
-            //Server start listening to Board for changes
-            this.model.getBoard().registerListener(this);
+            resetServer();
         }
     }
 
     @Override
     public synchronized void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
-        this.controller.insertUserInputIntoModel(playerChoice);
+        try {
+            this.controller.insertUserInputIntoModel(playerChoice);
+        } catch (WrongInputDataException e) {
+            //TODO: Chiedere se dobbiamo inviare l'eccezione a tutti i client o solo 1
+            //TODO: Invio a tutti i client:
+//            for (Client client : this.clientsToHandle.keySet()) {
+//                try {
+//                    client.receiveException(e);
+//                } catch (RemoteException e2) {
+//                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:"+client);
+//                }
+//            }
+            //TODO: Invio al client che ha invocato il metodo (player attivo corrente)
+            Game model = this.controller.getModel();
+            Client client = this.clientsToHandle.entrySet().stream()
+                    //.filter(pair -> pair.getValue().equals(this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getNickname()))
+                    .reduce(new AbstractMap.SimpleEntry<>(null,null),
+                            (resultEntry, currentEntry)->resultEntry = currentEntry.getValue().equals(model.getPlayers().get(model.getActivePlayerIndex()).getNickname())
+                                    ? currentEntry : resultEntry).getKey();
+            client.receiveException(e);
+        }
     }
 
     @Override
@@ -74,13 +88,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
         if (this.clientsToHandle.containsValue(nickname)) {
-            if(this.model.getPlayerFromNickname(nickname).isConnected()) {
+            if (this.controller.getModel().getPlayerFromNickname(nickname).isConnected()) {
                 client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
                 return;
             }
             Client key = null;
-            for(Map.Entry<Client, String> entry : this.clientsToHandle.entrySet()) {
-                if(entry.getValue()!=null && entry.getValue().equals(nickname)) {
+            for (Map.Entry<Client, String> entry : this.clientsToHandle.entrySet()) {
+                if (entry.getValue() != null && entry.getValue().equals(nickname)) {
                     key = entry.getKey();
                 }
             }
@@ -89,6 +103,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
         this.clientsToHandle.put(client, nickname);
         this.controller.addPlayer(nickname);
+    }
+
+    @Override
+    public void tryToResumeGame() throws RemoteException {
+        this.controller.tryToResumeGame();
     }
 
     @Override
@@ -111,11 +130,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }*/
         //this.addClientToHandle(client);
 
-        if (this.clientsToHandle.containsKey(nickname)) {
-            client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Nickname chosen is already being utilized, please try another one!"));
-        } else {
-            this.clientsToHandle.put(client, nickname);
-        }
+
+        this.clientsToHandle.put(client, nickname);
+
 
     }
 
@@ -158,7 +175,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void addedTilesToBoard(Board board) {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(addedTilesToBoard):" + e.getMessage() + ".Skipping update");
             }
@@ -169,7 +186,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void removedTilesFromBoard(Board board) {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(removedTilesFromBoard):" + e.getMessage() + ".Skipping update");
             }
@@ -180,7 +197,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void tileAddedToBookshelf(Bookshelf bookshelf) {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(tileAddedBookshelf):" + e.getMessage() + ".Skipping update");
             }
@@ -191,7 +208,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void imageModified(String image) {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(imageModified):" + e.getMessage() + ".Skipping update");
             }
@@ -202,7 +219,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void numberOfPlayersModified() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(numberOfPlayersModified):" + e.getMessage() + ".Skipping update");
             }
@@ -213,7 +230,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void activePlayerIndexModified() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(activePlayerIndexModified):" + e.getMessage() + ".Skipping update");
             }
@@ -224,7 +241,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void bagModified() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(bagModified):" + e.getMessage() + ".Skipping update");
             }
@@ -235,7 +252,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void commonGoalsModified() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(commonGoalsModified):" + e.getMessage() + ".Skipping update");
             }
@@ -246,7 +263,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void addedPlayer() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(addedPlayers):" + e.getMessage() + ".Skipping update");
             }
@@ -256,17 +273,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void gameStateChanged() {
         if (this.controller.getModel().getGameState() == GameState.ON_GOING) {
-            for (Player player : this.model.getPlayers()) {
+            for (Player player : this.controller.getModel().getPlayers()) {
                 player.registerListener(this);
                 player.getBookshelf().registerListener(this);
             }
         }
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(startOfTheGame):" + e.getMessage() + ".Skipping update");
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(gameStateChanged):" + e.getMessage() + ".Skipping update");
             }
+        }
+
+        if (this.model.getGameState() == GameState.RESET_NEEDED) {
+            resetServer();
         }
     }
 
@@ -274,7 +295,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void chatUpdated() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(chatUpdated):" + e.getMessage() + ".Skipping update");
             }
@@ -285,7 +306,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public void playerHasReconnected() {
         for (Client client : this.clientsToHandle.keySet()) {
             try {
-                client.updateModelView(new GameView(this.model));
+                client.updateModelView(new GameView(this.controller.getModel()));
             } catch (RemoteException e) {
                 System.err.println("[COMMUNICATION:ERROR] Error while updating client(playerHasReconnected):" + e.getMessage() + ".Skipping update");
             }
@@ -307,4 +328,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         Timer pingSender = new Timer("PingSender");
         pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
     }
+
+    private void resetServer() {
+        this.model = new Game();
+        this.controller = new GameController(this.model);
+        //Server start listening to Game for changes
+        this.model.registerListener(this);
+        //Server start listening to Board for changes
+        this.model.getBoard().registerListener(this);
+        this.clientsToHandle.clear();
+    }
+
 }

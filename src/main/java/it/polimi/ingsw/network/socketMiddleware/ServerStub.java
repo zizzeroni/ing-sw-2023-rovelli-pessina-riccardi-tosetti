@@ -15,6 +15,7 @@ import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
+    private int counter = 0;
     //Server's IP address
     private final String ip;
     //Server's port address
@@ -135,10 +136,10 @@ public class ServerStub implements Server {
         }
     }
 
-
-    public void addPlayer(String nickname) throws RemoteException {
+    @Override
+    public void tryToResumeGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new AddPlayerCommand(nickname);
+        CommandToServer message = new TryToResumeGameCommand();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -150,7 +151,6 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override

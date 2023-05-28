@@ -61,11 +61,11 @@ public class Board {
                 }
             }
         }
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.addedTilesToBoard(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
 
     /*

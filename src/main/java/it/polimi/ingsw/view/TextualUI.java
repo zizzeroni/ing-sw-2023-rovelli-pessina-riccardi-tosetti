@@ -58,7 +58,7 @@ public class TextualUI extends UI {
         if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState()==GameState.IN_CREATION) {
             this.controller.startGame();
         }
-
+        System.out.println(this.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
     }
 
@@ -69,8 +69,28 @@ public class TextualUI extends UI {
                     System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+                case WAITING_FOR_RESUME -> System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
             while (getState() == clientGameState) {
+                try {
+                    getLockState().wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    private void waitWhileInStates(List<ClientGameState> gameStates) {
+        synchronized (this.getLockState()) {
+            switch (getState()) {
+                case WAITING_IN_LOBBY -> {
+                    System.out.println("Waiting...");
+                }
+                case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+                case WAITING_FOR_RESUME -> System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+            }
+            while (gameStates.contains(getState())) {
                 try {
                     getLockState().wait();
                 } catch (InterruptedException e) {
@@ -87,13 +107,18 @@ public class TextualUI extends UI {
 
         while (this.getState() != ClientGameState.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-            waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+            //waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+            waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER,ClientGameState.WAITING_FOR_RESUME));
             if (this.getState() == ClientGameState.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
             this.controller.insertUserInputIntoModel(choice);
+            if(this.getExceptionToHandle()!=null) {
+                this.getExceptionToHandle().handle();
+                this.setExceptionToHandle(null);
+            }
             this.controller.changeTurn();
         }
         showPersonalRecap();

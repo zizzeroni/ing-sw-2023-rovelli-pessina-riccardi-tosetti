@@ -132,6 +132,11 @@ public class FinishingState extends ControllerState {
     }
 
     @Override
+    public void tryToResumeGame() {
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+    }
+
+    @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         //Game is finishing, so do nothing...
     }
