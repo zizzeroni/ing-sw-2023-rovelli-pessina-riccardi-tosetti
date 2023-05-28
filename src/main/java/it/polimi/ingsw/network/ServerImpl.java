@@ -1,19 +1,22 @@
 package it.polimi.ingsw.network;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
@@ -85,6 +88,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 }
             }
             this.clientsToHandle.remove(key);
+        }
+
+        if(this.clientsToHandle.size() == 0) {
+            this.loadStoredGameIfAvailable(nickname);
         }
 
         this.clientsToHandle.put(client, nickname);
@@ -306,5 +313,28 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
         Timer pingSender = new Timer("PingSender");
         pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
+    }
+
+    private void loadStoredGameIfAvailable(String nickname) {
+        Gson gson = new Gson();
+        try {
+            Reader fileReader = Files.newBufferedReader(Paths.get("src/main/resources/storage/games.json"));
+            List<Game> games = gson.fromJson(fileReader, new TypeToken<ArrayList<Game>>() {}.getType());
+            fileReader.close();
+
+            Game storedCurrentGame = games.stream()
+                    .filter(game -> new HashSet<>(game.getPlayers().stream().map(Player::getNickname).toList()).contains(nickname))
+                    .findFirst()
+                    .orElse(null);
+
+            if(storedCurrentGame != null) {
+                this.model = storedCurrentGame;
+                this.controller = new GameController(storedCurrentGame);
+                this.model.registerListener(this);
+                this.model.getBoard().registerListener(this);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

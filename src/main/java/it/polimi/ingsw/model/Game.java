@@ -1,15 +1,23 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -221,31 +229,63 @@ public class Game {
                 .orElse(null);
     }
 
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
+    }
+
     public void saveGame() {
+        //there is no need to store games in different files or handle simultaneous access to the file because there
+        //are no cases in which this method is called from different games (multi game is not available) neither the
+        //file is accessed while saving and vice-versa
+
         Gson gson = new Gson();
+        Reader fileReader;
         FileWriter fileWriter;
+        String gamesPath = "src/main/resources/storage/games.json";
+        String gamesBkpPath = "src/main/resources/storage/games-bkp.json";
+        Path source = Paths.get(gamesPath);
+
         try {
-            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-            gson.toJson(this, fileWriter);
+            //create a new empty games file if it does not exists
+            File gamesFile = new File(gamesPath);
+            gamesFile.createNewFile();
+
+            //make a backup of the stored games in case something goes wrong during the saving
+            Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
+
+            fileReader = Files.newBufferedReader(source);
+            List<Game> games = gson.fromJson(fileReader, new TypeToken<ArrayList<Game>>() {}.getType());
+            fileReader.close();
+
+            fileWriter = new FileWriter(gamesPath);
+
+            if(games != null) {
+                //use hash set in filter to increase performance
+                Game storedCurrentGame = games.stream()
+                        .filter(game -> new HashSet<>(
+                                game.players.stream()
+                                        .map(Player::getNickname).toList())
+                                .containsAll(this.players.stream().map(Player::getNickname).toList()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (storedCurrentGame != null) {
+                    games.set(games.indexOf(storedCurrentGame), this);
+                } else {
+                    games.add(this);
+                }
+            } else {
+                games = new ArrayList<>();
+                games.add(this);
+            }
+
+            gson.toJson(games, fileWriter);
 
             fileWriter.flush();
             fileWriter.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
-//
-//        Gson gson = gsonBuilder.setPrettyPrinting().create();
-//        FileWriter fileWriter;
-//        try {
-//            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-//            gson.toJson(this, fileWriter);
-//
-//            fileWriter.flush();
-//            fileWriter.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 }
