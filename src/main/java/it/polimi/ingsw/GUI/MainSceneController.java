@@ -59,6 +59,8 @@ public class MainSceneController implements Initializable {
     private String selectedColumn;
     private int[] order;
     private int startOrder;
+    @FXML
+    private Label pointsLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -224,8 +226,11 @@ public class MainSceneController implements Initializable {
         directionToCheck = null;
         takenTiles = new Choice();
         CountDownLatch countDownLatchTable = new CountDownLatch(1);
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        int points = activePlayer.score();
 
         Platform.runLater(() -> {
+            pointsLabel.setText(String.valueOf(points));
             if (fourthPlayerBookshelf == null)
                 return;
             else if (thirdPlayerBookshelf == null)
@@ -315,7 +320,7 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
-            if (button != null) {
+            if (button != null && button.getStyleClass().size()<2) {
                 button.setVisible(true);
                 //set tile color
                 if (tileStyle.equals("B0")) {
@@ -507,8 +512,8 @@ public class MainSceneController implements Initializable {
         int firstCommonGoalID = commonGoals.get(0).getImageID();
         int secondCommonGoalID = commonGoals.get(1).getImageID();
 
-        firstCommonGoalString= "image/common goal cards/"+firstCommonGoalID+".jpg";
-        secondCommonGoalString= "image/common goal cards/"+secondCommonGoalID+".jpg";
+        firstCommonGoalString = "image/common goal cards/" + firstCommonGoalID + ".jpg";
+        secondCommonGoalString = "image/common goal cards/" + secondCommonGoalID + ".jpg";
 
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -626,7 +631,7 @@ public class MainSceneController implements Initializable {
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-            if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+            if (row==board.getNumberOfRows()-1 || column== board.getNumberOfColumns()-1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                     (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                     (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
@@ -647,7 +652,7 @@ public class MainSceneController implements Initializable {
         Button buttonOfColumn;
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
-       Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
+        Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         for (int i = 5; i >= 0; i--) {
             buttonOfColumnName = "#firstPlayerTile" + i + column;
@@ -689,7 +694,7 @@ public class MainSceneController implements Initializable {
         String style = button.getStyleClass().get(1);
 
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
-        int row = 5-startOrder-activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
+        int row = 5 - startOrder - activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
         String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
         Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
         if (firstPlayerButton != null) {
@@ -745,7 +750,7 @@ public class MainSceneController implements Initializable {
 
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
-        if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn))<takenTiles.getChosenTiles().size()) {
+        if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
             System.err.println("La colonna non è selezionabile");
         } else {
             for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
@@ -795,88 +800,98 @@ public class MainSceneController implements Initializable {
         }
     }
 
-//    public void setBookshelf(List<PlayerView> players) {
-//        BookshelfView bookshelfFirstPlayer = players.stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0).getBookshelf();
-//        for(int column = 0; column< bookshelfFirstPlayer.getNumberOfColumns(); column++){
-//            for(int row = 0; row<bookshelfFirstPlayer.getNumberOfTilesInColumn(column); row++){
-//                tileName = "#firstPlayerTile"+row+column;
-//
-//                //Add tile color and ID
-//                tileStyle = bookshelfFirstPlayer.getTiles()[row][column].getColor().toGUI()
-//                        + bookshelfFirstPlayer.getTiles()[row][column].getImageID();
-//
-//                CountDownLatch countDownLatchFirstPlayer = new CountDownLatch(1);
-//
-//                Platform.runLater(() -> {
-//                    //Select the button in the tile position
-//                    Button button = (Button) scene.lookup(tileName);
-//                    if (button != null) {
-//                        //Only for test
-//                        //set tile color
-//                        if (tileStyle.equals("B0")) {
-//                            button.getStyleClass().add("B1");
-//                        }
-//                        if (tileStyle.equals("B2")) {
-//                            button.getStyleClass().add("B2");
-//                        }
-//                        if (tileStyle.equals("B3")) {
-//                            button.getStyleClass().add("B3");
-//                        }
-//                        if (tileStyle.equals("C0")) {
-//                            button.getStyleClass().add("C1");
-//                        }
-//                        if (tileStyle.equals("C2")) {
-//                            button.getStyleClass().add("C2");
-//                        }
-//                        if (tileStyle.equals("C3")) {
-//                            button.getStyleClass().add("C3");
-//                        }
-//                        if (tileStyle.equals("G0")) {
-//                            button.getStyleClass().add("G1");
-//                        }
-//                        if (tileStyle.equals("G2")) {
-//                            button.getStyleClass().add("G2");
-//                        }
-//                        if (tileStyle.equals("G3")) {
-//                            button.getStyleClass().add("G3");
-//                        }
-//                        if (tileStyle.equals("W0")) {
-//                            button.getStyleClass().add("W1");
-//                        }
-//                        if (tileStyle.equals("W2")) {
-//                            button.getStyleClass().add("W2");
-//                        }
-//                        if (tileStyle.equals("W3")) {
-//                            button.getStyleClass().add("W3");
-//                        }
-//                        if (tileStyle.equals("P0")) {
-//                            button.getStyleClass().add("P1");
-//                        }
-//                        if (tileStyle.equals("P2")) {
-//                            button.getStyleClass().add("P2");
-//                        }
-//                        if (tileStyle.equals("P3")) {
-//                            button.getStyleClass().add("P3");
-//                        }
-//                        if (tileStyle.equals("Y0")) {
-//                            button.getStyleClass().add("Y1");
-//                        }
-//                        if (tileStyle.equals("Y2")) {
-//                            button.getStyleClass().add("Y2");
-//                        }
-//                        if (tileStyle.equals("Y3")) {
-//                            button.getStyleClass().add("Y3");
-//                        }
-//                    }
-//                    countDownLatchFirstPlayer.countDown();
-//                });
-//                try {
-//                    countDownLatchFirstPlayer.await();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
-//    }
+    public void setBookshelf(List<PlayerView> players) {
+        for (int i = 0; i < players.size() - 1; i++) {
+            int playerNumber = i+2;
+            String nickPlayer = "#nickname" + playerNumber;
+            Label playerNickname = (Label) scene.lookup(nickPlayer);
+            BookshelfView bookshelfSecondPlayer = players.stream().filter(player -> player.getNickname().equals(playerNickname.getText())).toList().get(0).getBookshelf();
+            for (int column = 0; column < bookshelfSecondPlayer.getNumberOfColumns(); column++) {
+                for (int row = 6; row > 6 - bookshelfSecondPlayer.getNumberOfTilesInColumn(column); row--) {
+                    if(playerNumber==2){
+                        tileName = "#secondPlayerTile" + (row-1) + column;
+                    }else if(playerNumber==3){
+                        tileName = "#thirdPlayerTile" + (row-1) + column;
+                    }else{
+                        tileName = "#fourthPlayerTile" + (row-1) + column;
+                    }
+                    //Add tile color and ID
+                    tileStyle = bookshelfSecondPlayer.getTiles()[row-1][column].getColor().toGUI()
+                            + bookshelfSecondPlayer.getTiles()[row-1][column].getImageID();
+
+                    CountDownLatch countDownLatchPlayer = new CountDownLatch(1);
+                    Platform.runLater(() -> {
+                        //Select the button in the tile position
+                        Button button = (Button) scene.lookup(tileName);
+                        if (button != null) {
+                            button.setVisible(true);
+                            //set tile color
+                            if (tileStyle.equals("B0")) {
+                                button.getStyleClass().add("B1");
+                            }
+                            if (tileStyle.equals("B1")) {
+                                button.getStyleClass().add("B2");
+                            }
+                            if (tileStyle.equals("B2")) {
+                                button.getStyleClass().add("B3");
+                            }
+                            if (tileStyle.equals("C0")) {
+                                button.getStyleClass().add("C1");
+                            }
+                            if (tileStyle.equals("C1")) {
+                                button.getStyleClass().add("C2");
+                            }
+                            if (tileStyle.equals("C2")) {
+                                button.getStyleClass().add("C3");
+                            }
+                            if (tileStyle.equals("G0")) {
+                                button.getStyleClass().add("G1");
+                            }
+                            if (tileStyle.equals("G1")) {
+                                button.getStyleClass().add("G2");
+                            }
+                            if (tileStyle.equals("G2")) {
+                                button.getStyleClass().add("G3");
+                            }
+                            if (tileStyle.equals("W0")) {
+                                button.getStyleClass().add("W1");
+                            }
+                            if (tileStyle.equals("W1")) {
+                                button.getStyleClass().add("W2");
+                            }
+                            if (tileStyle.equals("W2")) {
+                                button.getStyleClass().add("W3");
+                            }
+                            if (tileStyle.equals("P0")) {
+                                button.getStyleClass().add("P1");
+                            }
+                            if (tileStyle.equals("P1")) {
+                                button.getStyleClass().add("P2");
+                            }
+                            if (tileStyle.equals("P2")) {
+                                button.getStyleClass().add("P3");
+                            }
+                            if (tileStyle.equals("Y0")) {
+                                button.getStyleClass().add("Y1");
+                            }
+                            if (tileStyle.equals("Y1")) {
+                                button.getStyleClass().add("Y2");
+                            }
+                            if (tileStyle.equals("Y2")) {
+                                button.getStyleClass().add("Y3");
+                            }
+                        }
+                        countDownLatchPlayer.countDown();
+                    });
+                    try {
+                        countDownLatchPlayer.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+
 }
 

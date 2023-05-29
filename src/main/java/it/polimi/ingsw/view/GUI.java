@@ -96,7 +96,8 @@ public class GUI extends UI {
                 }
             }
         }
-        //mainSceneController.setBookshelf(this.getModel().getPlayers());
+        mainSceneController.setBookshelf(this.getModel().getPlayers());
+
     }
 
     @Override
