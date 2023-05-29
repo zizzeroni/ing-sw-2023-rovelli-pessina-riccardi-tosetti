@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.awt.desktop.SystemEventListener;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,31 +71,8 @@ public class MainSceneController implements Initializable {
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
 
-//        this.scene=personalGoal.getScene();
-
-//        boardTile15.getStyleClass().add("cat1");
-//        boardTile33.getStyleClass().add("cat1");
-//        boardTile25.getStyleClass().add("cat1");
-
-
-//        for(int row=0; row< 9; row++) {
-//            for (int column = 0; column < 9; column++) {
-//                if (getBoardButton(row, column).isDefaultButton()) {
-//                    System.out.println(row+"  " +column);
-//                    getBoardButton(row,column).setStyle("");
-//                }
-//            }
-//        }
-
     }
 
-    //    public void Take(){
-//        String taken = boardTile15.getStyleClass().get(1);
-//        selected1.setOpacity(1);
-//        boardTile84.getStyleClass().add(taken);
-//        selected1.getStyleClass().add(taken);
-//        boardTile15.getStyleClass().remove(1);
-//    }
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -340,58 +318,59 @@ public class MainSceneController implements Initializable {
             if (button != null) {
                 button.setVisible(true);
                 //set tile color
+                System.out.println(tileStyle);
                 if (tileStyle.equals("B0")) {
                     button.getStyleClass().add("B1");
                 }
-                if (tileStyle.equals("B2")) {
+                if (tileStyle.equals("B1")) {
                     button.getStyleClass().add("B2");
                 }
-                if (tileStyle.equals("B3")) {
+                if (tileStyle.equals("B2")) {
                     button.getStyleClass().add("B3");
                 }
                 if (tileStyle.equals("C0")) {
                     button.getStyleClass().add("C1");
                 }
-                if (tileStyle.equals("C2")) {
+                if (tileStyle.equals("C1")) {
                     button.getStyleClass().add("C2");
                 }
-                if (tileStyle.equals("C3")) {
+                if (tileStyle.equals("C2")) {
                     button.getStyleClass().add("C3");
                 }
                 if (tileStyle.equals("G0")) {
                     button.getStyleClass().add("G1");
                 }
-                if (tileStyle.equals("G2")) {
+                if (tileStyle.equals("G1")) {
                     button.getStyleClass().add("G2");
                 }
-                if (tileStyle.equals("G3")) {
+                if (tileStyle.equals("G2")) {
                     button.getStyleClass().add("G3");
                 }
                 if (tileStyle.equals("W0")) {
                     button.getStyleClass().add("W1");
                 }
-                if (tileStyle.equals("W2")) {
+                if (tileStyle.equals("W1")) {
                     button.getStyleClass().add("W2");
                 }
-                if (tileStyle.equals("W3")) {
+                if (tileStyle.equals("W2")) {
                     button.getStyleClass().add("W3");
                 }
                 if (tileStyle.equals("P0")) {
                     button.getStyleClass().add("P1");
                 }
-                if (tileStyle.equals("P2")) {
+                if (tileStyle.equals("P1")) {
                     button.getStyleClass().add("P2");
                 }
-                if (tileStyle.equals("P3")) {
+                if (tileStyle.equals("P2")) {
                     button.getStyleClass().add("P3");
                 }
                 if (tileStyle.equals("Y0")) {
                     button.getStyleClass().add("Y1");
                 }
-                if (tileStyle.equals("Y2")) {
+                if (tileStyle.equals("Y1")) {
                     button.getStyleClass().add("Y2");
                 }
-                if (tileStyle.equals("Y3")) {
+                if (tileStyle.equals("Y2")) {
                     button.getStyleClass().add("Y3");
                 }
             }
@@ -711,7 +690,6 @@ public class MainSceneController implements Initializable {
 
         PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         int row = 5-startOrder-activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
-        System.out.println("Inserisco nella colonna " + selectedColumn + "in posizione " + row);
         String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
         Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
         if (firstPlayerButton != null) {

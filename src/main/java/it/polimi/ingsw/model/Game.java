@@ -40,8 +40,12 @@ public class Game {
         this.numberOfPlayersToStartGame = 0;
         this.bag = new ArrayList<>(132);
         this.commonGoals = new ArrayList<>(2);
+        int id=0;
+        //initialize bag and shuffle items
         for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
+            if(i==44){id=1;}
+            if(i==88) {id=2;}
+            this.bag.add(new Tile(TileColor.values()[i % 6], id));
         }
         this.board = new Board();
 
@@ -59,9 +63,12 @@ public class Game {
         this.bag = new ArrayList<>(132);
         this.commonGoals = new ArrayList<>();
 
+        int id=0;
         //initialize bag and shuffle items
         for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
+            if(i==44){id=1;}
+            if(i==88) {id=2;}
+            this.bag.add(new Tile(TileColor.values()[i % 6], id));
         }
 
         Collections.shuffle(personalGoals);
