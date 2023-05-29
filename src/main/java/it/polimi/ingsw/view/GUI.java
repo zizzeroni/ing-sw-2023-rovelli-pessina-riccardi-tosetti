@@ -184,11 +184,11 @@ public class GUI extends UI {
             mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
             mainSceneController.setPlayersName(getModel().getPlayers());
 
-//            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
-//            mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
-//
-//            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
-//            mainSceneController.setCommonGoal(commonGoals);
+            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
+            mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
+
+            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
+            mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
             while (this.getState() != ClientGameState.GAME_ENDED) {

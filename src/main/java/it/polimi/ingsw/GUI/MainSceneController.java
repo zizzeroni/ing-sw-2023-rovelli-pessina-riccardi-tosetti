@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import java.awt.desktop.SystemEventListener;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
@@ -217,7 +218,6 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -318,7 +318,6 @@ public class MainSceneController implements Initializable {
             if (button != null) {
                 button.setVisible(true);
                 //set tile color
-                System.out.println(tileStyle);
                 if (tileStyle.equals("B0")) {
                     button.getStyleClass().add("B1");
                 }
@@ -505,15 +504,16 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
-        firstCommonGoalString = "image/common goal cards/";
-        secondCommonGoalString = "image/common goal cards/";
+        int firstCommonGoalID = commonGoals.get(0).getImageID();
+        int secondCommonGoalID = commonGoals.get(1).getImageID();
 
-        //Assegnare i giusti common goal
+        firstCommonGoalString= "image/common goal cards/"+firstCommonGoalID+".jpg";
+        secondCommonGoalString= "image/common goal cards/"+secondCommonGoalID+".jpg";
 
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString));
-            Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString));
+            Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString)));
+            Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString)));
 
             commonGoal2.setImage(firstCommonGoalImage);
             commonGoal1.setImage(secondCommonGoalImage);
