@@ -230,6 +230,18 @@ public class MainSceneController implements Initializable {
         int points = activePlayer.score();
 
         Platform.runLater(() -> {
+            for(int c = 6; c>= 0; c--){
+            for (int r = 5; r >= 0; r--) {
+                String nome = "#firstPlayerTile" + r + c;
+                Button button = (Button) scene.lookup(nome);
+                if (button != null) {
+                    if (activePlayer.getBookshelf().getTiles()[r][c] == null) {
+                        button.setOpacity(0);
+                        button.setBorder(null);
+                    }
+                }
+            }
+            }
             pointsLabel.setText(String.valueOf(points));
             if (fourthPlayerBookshelf == null)
                 return;
@@ -294,6 +306,9 @@ public class MainSceneController implements Initializable {
             Button button = (Button) scene.lookup(tileName);
             if (button != null) {
                 button.setVisible(false);
+                if(button.getStyleClass().size()>1){
+                    button.getStyleClass().remove(1);
+                }
             }
             countDownLatch.countDown();
         });
@@ -320,7 +335,7 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
-            if (button != null && button.getStyleClass().size()<2) {
+            if (button != null) {
                 button.setVisible(true);
                 //set tile color
                 if (tileStyle.equals("B0")) {
@@ -377,6 +392,10 @@ public class MainSceneController implements Initializable {
                 if (tileStyle.equals("Y2")) {
                     button.getStyleClass().add("Y3");
                 }
+            }
+            assert button != null;
+            if(button.getStyleClass().size()>2){
+                button.getStyleClass().remove(2);
             }
             countDownLatch.countDown();
         });
@@ -553,7 +572,7 @@ public class MainSceneController implements Initializable {
                 Button selectedButton = (Button) scene.lookup(selectedName);
                 selectedButton.getStyleClass().add(style);
                 buttonTile.setBorder(null);
-                buttonTile.getStyleClass().remove(style);
+                buttonTile.getStyleClass().remove(1);
                 buttonTile.setVisible(false);
             }
             order = new int[takenTiles.getChosenTiles().size()];
@@ -807,17 +826,17 @@ public class MainSceneController implements Initializable {
             Label playerNickname = (Label) scene.lookup(nickPlayer);
             BookshelfView bookshelfSecondPlayer = players.stream().filter(player -> player.getNickname().equals(playerNickname.getText())).toList().get(0).getBookshelf();
             for (int column = 0; column < bookshelfSecondPlayer.getNumberOfColumns(); column++) {
-                for (int row = 6; row > 6 - bookshelfSecondPlayer.getNumberOfTilesInColumn(column); row--) {
+                for (int row = 5; row > 5 - bookshelfSecondPlayer.getNumberOfTilesInColumn(column); row--) {
                     if(playerNumber==2){
-                        tileName = "#secondPlayerTile" + (row-1) + column;
+                        tileName = "#secondPlayerTile" + row + column;
                     }else if(playerNumber==3){
-                        tileName = "#thirdPlayerTile" + (row-1) + column;
+                        tileName = "#thirdPlayerTile" + row + column;
                     }else{
-                        tileName = "#fourthPlayerTile" + (row-1) + column;
+                        tileName = "#fourthPlayerTile" + row + column;
                     }
                     //Add tile color and ID
-                    tileStyle = bookshelfSecondPlayer.getTiles()[row-1][column].getColor().toGUI()
-                            + bookshelfSecondPlayer.getTiles()[row-1][column].getImageID();
+                    tileStyle = bookshelfSecondPlayer.getTiles()[row][column].getColor().toGUI()
+                            + bookshelfSecondPlayer.getTiles()[row][column].getImageID();
 
                     CountDownLatch countDownLatchPlayer = new CountDownLatch(1);
                     Platform.runLater(() -> {
@@ -825,6 +844,7 @@ public class MainSceneController implements Initializable {
                         Button button = (Button) scene.lookup(tileName);
                         if (button != null) {
                             button.setVisible(true);
+                            button.setOpacity(1);
                             //set tile color
                             if (tileStyle.equals("B0")) {
                                 button.getStyleClass().add("B1");
