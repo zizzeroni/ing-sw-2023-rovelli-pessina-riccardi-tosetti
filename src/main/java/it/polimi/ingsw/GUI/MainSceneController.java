@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.awt.desktop.SystemEventListener;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -85,6 +84,11 @@ public class MainSceneController implements Initializable {
         int column = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)));
         int row = Integer.parseInt(String.valueOf(name.charAt(name.length() - 2)));
 
+        int maxNumberOfCellsFreeInBookshelf;
+        //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
+        maxNumberOfCellsFreeInBookshelf = this.mainGui.getModel().getPlayers().get(this.mainGui.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
+
+
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
             if (checkIfPickable(row, column)) {
                 switch (takenTiles.getChosenTiles().size()) {
@@ -95,7 +99,9 @@ public class MainSceneController implements Initializable {
 
                         Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                         button.setBorder(border);
-
+                        if(maxNumberOfCellsFreeInBookshelf==1){
+                            this.endSelectionTiles();
+                        }
                     }
                     case 1 -> {
                         Direction res = checkIfInLine(row, column, firstRow, firstColumn);
@@ -107,6 +113,9 @@ public class MainSceneController implements Initializable {
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
+                            if(maxNumberOfCellsFreeInBookshelf==2){
+                                this.endSelectionTiles();
+                            }
                         }
 
                     }
@@ -118,16 +127,18 @@ public class MainSceneController implements Initializable {
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
+                            this.endSelectionTiles();
+
                         }
                     }
-                    case 3 -> {
-                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
-                            System.err.println("Numero massimo di tiles scelto");
-                        } else {
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
-                            takenTiles.removeTile(tileView);
-                        }
-                    }
+//                    case 3 -> {
+//                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
+//                            System.err.println("Numero massimo di tiles scelto");
+//                        } else {
+//                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+//                            takenTiles.removeTile(tileView);
+//                        }
+//                    }
                 }
                 firstRow = takenTiles.getTileCoordinates().get(0).getX();
                 firstColumn = takenTiles.getTileCoordinates().get(0).getY();
@@ -230,17 +241,17 @@ public class MainSceneController implements Initializable {
         int points = activePlayer.score();
 
         Platform.runLater(() -> {
-            for(int c = 6; c>= 0; c--){
-            for (int r = 5; r >= 0; r--) {
-                String nome = "#firstPlayerTile" + r + c;
-                Button button = (Button) scene.lookup(nome);
-                if (button != null) {
-                    if (activePlayer.getBookshelf().getTiles()[r][c] == null) {
-                        button.setOpacity(0);
-                        button.setBorder(null);
+            for (int c = 6; c >= 0; c--) {
+                for (int r = 5; r >= 0; r--) {
+                    String nome = "#firstPlayerTile" + r + c;
+                    Button button = (Button) scene.lookup(nome);
+                    if (button != null) {
+                        if (activePlayer.getBookshelf().getTiles()[r][c] == null) {
+                            button.setOpacity(0);
+                            button.setBorder(null);
+                        }
                     }
                 }
-            }
             }
             pointsLabel.setText(String.valueOf(points));
             if (fourthPlayerBookshelf == null)
@@ -306,7 +317,7 @@ public class MainSceneController implements Initializable {
             Button button = (Button) scene.lookup(tileName);
             if (button != null) {
                 button.setVisible(false);
-                if(button.getStyleClass().size()>1){
+                if (button.getStyleClass().size() > 1) {
                     button.getStyleClass().remove(1);
                 }
             }
@@ -394,7 +405,7 @@ public class MainSceneController implements Initializable {
                 }
             }
             assert button != null;
-            if(button.getStyleClass().size()>2){
+            if (button.getStyleClass().size() > 2) {
                 button.getStyleClass().remove(2);
             }
             countDownLatch.countDown();
@@ -509,7 +520,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
-        personalGoalString = "image/personal goal cards/";
+        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getImageID() +".png";
 
         //Assegnare il giusto personal goal
 
@@ -588,6 +599,40 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    public void endSelectionTiles() {
+        String style;
+        String selectedName;
+        int row;
+        int column;
+        int count;
+        for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
+            row = takenTiles.getTileCoordinates().get(i).getX();
+            column = takenTiles.getTileCoordinates().get(i).getY();
+
+            tileName = "#boardTile" + row + column;
+            Button buttonTile = (Button) scene.lookup(tileName);
+            style = buttonTile.getStyleClass().get(1);
+            count = i + 1;
+            selectedName = "#selected" + count;
+            Button selectedButton = (Button) scene.lookup(selectedName);
+            selectedButton.getStyleClass().add(style);
+            buttonTile.setBorder(null);
+            buttonTile.getStyleClass().remove(1);
+            buttonTile.setVisible(false);
+        }
+        order = new int[takenTiles.getChosenTiles().size()];
+        for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
+            for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+                disableTileAfterPick(r, c);
+            }
+        }
+        ableFirstPlayerButton();
+
+        Button button = (Button) scene.lookup("#insertTile");
+        button.setOnAction(null);
+
+    }
+
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
@@ -650,7 +695,7 @@ public class MainSceneController implements Initializable {
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-            if (row==board.getNumberOfRows()-1 || column== board.getNumberOfColumns()-1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+            if (row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                     (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                     (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
@@ -821,17 +866,17 @@ public class MainSceneController implements Initializable {
 
     public void setBookshelf(List<PlayerView> players) {
         for (int i = 0; i < players.size() - 1; i++) {
-            int playerNumber = i+2;
+            int playerNumber = i + 2;
             String nickPlayer = "#nickname" + playerNumber;
             Label playerNickname = (Label) scene.lookup(nickPlayer);
             BookshelfView bookshelfSecondPlayer = players.stream().filter(player -> player.getNickname().equals(playerNickname.getText())).toList().get(0).getBookshelf();
             for (int column = 0; column < bookshelfSecondPlayer.getNumberOfColumns(); column++) {
                 for (int row = 5; row > 5 - bookshelfSecondPlayer.getNumberOfTilesInColumn(column); row--) {
-                    if(playerNumber==2){
+                    if (playerNumber == 2) {
                         tileName = "#secondPlayerTile" + row + column;
-                    }else if(playerNumber==3){
+                    } else if (playerNumber == 3) {
                         tileName = "#thirdPlayerTile" + row + column;
-                    }else{
+                    } else {
                         tileName = "#fourthPlayerTile" + row + column;
                     }
                     //Add tile color and ID
@@ -912,6 +957,4 @@ public class MainSceneController implements Initializable {
             }
         }
     }
-
 }
-
