@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
+
+import java.util.List;
 
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
@@ -15,13 +18,17 @@ public class DiagonalEqualPattern extends CommonGoal {
         this.pattern = pattern;
     }
 
-    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
-        super(imageID, patternRepetition, type);
+    public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, int[][] pattern) {
+        super(id, patternRepetition, type);
         this.pattern = pattern;
     }
 
-    public DiagonalEqualPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] pattern) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int[][] pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.pattern = pattern;
+    }
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, int[][] pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.pattern = pattern;
     }
 

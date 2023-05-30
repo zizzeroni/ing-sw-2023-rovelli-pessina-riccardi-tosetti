@@ -1,23 +1,23 @@
 package it.polimi.ingsw.model;
 
 public abstract class Card {
-    private int imageID;
+    private int id;
 
     public Card() {
-        this.imageID = 0;
+        this.id = 0;
     }
 
-    public Card(int imageID) {
-        this.imageID = imageID;
+    public Card(int id) {
+        this.id = id;
     }
 
     public abstract int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf);
 
-    public int getImageID() {
-        return this.imageID;
+    public int getId() {
+        return this.id;
     }
 
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
+    public void setId(int id) {
+        this.id = id;
     }
 }

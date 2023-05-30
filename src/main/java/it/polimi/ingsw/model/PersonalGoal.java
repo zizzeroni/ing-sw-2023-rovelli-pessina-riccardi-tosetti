@@ -17,8 +17,8 @@ public class PersonalGoal extends Card {
         }
     }
 
-    public PersonalGoal(int imageID, Tile[][] pattern) {
-        super(imageID);
+    public PersonalGoal(int id, Tile[][] pattern) {
+        super(id);
         this.pattern = pattern;
     }
 

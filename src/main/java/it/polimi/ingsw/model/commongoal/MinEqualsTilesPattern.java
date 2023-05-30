@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternView;
@@ -21,14 +22,19 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = 0;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type);
+    public MinEqualsTilesPattern(int id, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
+        super(id, patternRepetition, type);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.direction = direction;
+        this.maxEqualsTiles = maxEqualsTiles;
+    }
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }

@@ -1,6 +1,6 @@
 [
   {
-    "imageID": 1,
+    "id": 1,
     "pattern": [
       [null, null, null, null, {"color": "CYAN"}],
       [null, {"color": "YELLOW"}, null, null, null],
@@ -11,7 +11,7 @@
     ]
   },
   {
-    "imageID": 2,
+    "id": 2,
     "pattern": [
       [null, null, null, null, null],
       [null, {"color": "CYAN"}, null, null, null],
@@ -22,7 +22,7 @@
     ]
   },
   {
-    "imageID": 3,
+    "id": 3,
     "pattern": [
       [null, null, {"color": "YELLOW"}, null, null],
       [null, null, null, null, null],
@@ -33,7 +33,7 @@
     ]
   },
   {
-    "imageID": 4,
+    "id": 4,
     "pattern": [
       [{"color": "PURPLE"}, null, {"color": "BLUE"}, null, null],
       [null, null, null, null, {"color": "GREEN"}],
@@ -44,7 +44,7 @@
     ]
   },
   {
-    "imageID": 5,
+    "id": 5,
     "pattern": [
       [null, null, null, null, {"color": "YELLOW"}],
       [null, null, null, null, null],
@@ -55,7 +55,7 @@
     ]
   },
   {
-    "imageID": 6,
+    "id": 6,
     "pattern": [
       [null, null, {"color": "WHITE"}, null, null],
       [null, {"color": "PURPLE"}, null, null, null],
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "imageID": 7,
+    "id": 7,
     "pattern": [
       [null, null, null, null, null],
       [null, {"color": "GREEN"}, null, null, null],
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "imageID": 8,
+    "id": 8,
     "pattern": [
       [null, null, null, null, null],
       [null, {"color": "PURPLE"}, null, null, null],
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "imageID": 9,
+    "id": 9,
     "pattern": [
       [{"color": "GREEN"}, null, null, null, null],
       [null, null, null, {"color": "BLUE"}, null],
@@ -99,7 +99,7 @@
     ]
   },
   {
-    "imageID": 10,
+    "id": 10,
     "pattern": [
       [null, null, {"color": "CYAN"}, null, {"color": "GREEN"}],
       [null, null, null, null, null],
@@ -110,7 +110,7 @@
     ]
   },
   {
-    "imageID": 11,
+    "id": 11,
     "pattern": [
       [null, null, null, null, null],
       [{"color": "BLUE"}, null, null, {"color": "YELLOW"}, null],
@@ -121,7 +121,7 @@
     ]
   },
   {
-    "imageID": 12,
+    "id": 12,
     "pattern": [
       [null, null, {"color": "PURPLE"}, null, null],
       [null, {"color": "WHITE"}, null, null, null],

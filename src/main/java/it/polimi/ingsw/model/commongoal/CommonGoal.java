@@ -24,19 +24,27 @@ public abstract class CommonGoal extends Card {
         this.numberOfPatternRepetitionsRequired = 0;
     }
 
-    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type) {
-        super(imageID);
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type) {
+        super(id);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
         this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
     }
 
-    public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
-        super(imageID);
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
-        this.initScoreTiles(numberOfPlayers, commonGoalID);
+        this.scoreTiles = scoreTiles;
     }
+
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id);
+        this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
+        this.type = type;
+        this.initScoreTiles(numberOfPlayers, id);
+    }
+
     //Set/Get methods of variables
     public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
