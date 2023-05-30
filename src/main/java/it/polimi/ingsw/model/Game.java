@@ -38,11 +38,10 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = null;
         this.numberOfPlayersToStartGame = 0;
-        this.bag = new ArrayList<>(132);
+        int numberOfTilesInBag = 132;
+        this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>(2);
-        for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
-        }
+        this.initializeBag(numberOfTilesInBag);
         this.board = new Board();
 
         Collections.shuffle(this.bag);
@@ -56,13 +55,10 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = new Board(boardPattern);
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
-        this.bag = new ArrayList<>(132);
+        int numberOfTilesInBag = 132;
+        this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>();
-
-        //initialize bag and shuffle items
-        for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
-        }
+        this.initializeBag(numberOfTilesInBag);
 
         Collections.shuffle(personalGoals);
 
@@ -247,5 +243,19 @@ public class Game {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
+    }
+
+    private void initializeBag(int numberOfTilesInBag) {
+        int id = 0;
+        //initialize bag and shuffle items
+        for (int i = 0; i < numberOfTilesInBag; i++) {
+            if (i == numberOfTilesInBag / 3) {
+                id = 1;
+            }
+            if (i == numberOfTilesInBag * 2 / 3) {
+                id = 2;
+            }
+            this.bag.add(new Tile(TileColor.values()[i % 6], id));
+        }
     }
 }
