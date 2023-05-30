@@ -170,7 +170,7 @@ public class CreationState extends ControllerState {
                 return new ConsecutiveTilesPatternGoal(4, 6, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, 2);
             }
             case 9 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
+                return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
                         {1, 1},
                         {1, 1},
                 });
