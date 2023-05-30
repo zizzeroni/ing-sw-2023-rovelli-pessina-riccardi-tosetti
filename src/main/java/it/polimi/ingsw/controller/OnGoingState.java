@@ -4,11 +4,20 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.network.exceptions.WrongInputDataException;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class OnGoingState extends ControllerState {
+
     public OnGoingState(GameController controller) {
         super(controller);
     }
@@ -29,33 +38,47 @@ public class OnGoingState extends ControllerState {
         drawnTiles.clear();
     }
 
+
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            model.setActivePlayerIndex(0);
-        } else {
-            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
-        }
+        GameController controller = this.controller;
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+            this.controller.changeState(new InPauseState(this.controller));
+            this.controller.getModel().setGameState(InPauseState.toEnum());
+            /*timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1) {
+                        controller.changeState(new OnGoingState(controller));
+                        controller.getModel().setGameState(OnGoingState.toEnum());
+                    } else {
+                        controller.getModel().setGameState(GameState.RESET_NEEDED);
+                    }
+                }
+            }, 15000);*/
 
-        if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
-            if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count() == model.getPlayers().size() - 1) {
-                //TODO: Implement PauseState for the game controller
-                System.out.println("Game in pausa");
+        } else {
+            if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
+                model.setActivePlayerIndex(0);
             } else {
+                model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+            }
+
+            if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
                 this.changeActivePlayer();
             }
         }
     }
 
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         Game model = this.controller.getModel();
         Player currentPlayer = model.getPlayers().get(model.getActivePlayerIndex());
         if (checkIfUserInputIsCorrect(playerChoice)) {
             removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[INPUT:ERROR]: User data not correct");
+            throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
         }
 
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
@@ -113,8 +136,8 @@ public class OnGoingState extends ControllerState {
         return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
                 row==board.getNumberOfRows()-1 || column== board.getNumberOfColumns()-1 ||
                 (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
-                        (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
-                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                        (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                        (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                         (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
@@ -155,6 +178,11 @@ public class OnGoingState extends ControllerState {
     public void addPlayer(String nickname) {
         //Reconnecting player
         this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+    }
+
+    @Override
+    public void tryToResumeGame() {
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
+    private int counter = 0;
     //Server's IP address
     private final String ip;
     //Server's port address
@@ -66,7 +67,7 @@ public class ServerStub implements Server {
         }
         //Necessary for how we implemented the adding of the tiles to the player's bookshelf
         //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
-        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
+        /*for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
             try {
                 this.semaphoreUpdate.acquire();
             } catch (InterruptedException e) {
@@ -79,7 +80,7 @@ public class ServerStub implements Server {
             this.semaphoreUpdate.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @Override
@@ -135,10 +136,10 @@ public class ServerStub implements Server {
         }
     }
 
-
-    public void addPlayer(String nickname) throws RemoteException {
+    @Override
+    public void tryToResumeGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new AddPlayerCommand(nickname);
+        CommandToServer message = new TryToResumeGameCommand();
         try {
             this.oos.writeObject(message);
         } catch (IOException e) {
@@ -150,7 +151,6 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -186,13 +186,12 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        try {
+        /*try {
             this.semaphoreUpdate.acquire();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
-        System.out.println("Valore permit semaphore: " + this.semaphoreUpdate.availablePermits());
     }
 
     @Override

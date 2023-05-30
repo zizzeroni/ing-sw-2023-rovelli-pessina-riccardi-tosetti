@@ -71,6 +71,9 @@ public class AppClient {
 
                         //Creating a new Thread that will take care of the responses coming from the Server side
                         startReceiverThread(client, serverStub);
+
+                        //Calling the run method of the UI
+                        client.run();
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
