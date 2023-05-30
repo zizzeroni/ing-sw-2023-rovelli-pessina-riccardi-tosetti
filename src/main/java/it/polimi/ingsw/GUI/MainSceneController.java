@@ -60,9 +60,11 @@ public class MainSceneController implements Initializable {
     private int startOrder;
     @FXML
     private Label pointsLabel;
+    private int turn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.turn=0;
         startOrder = 0;
         selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
@@ -254,47 +256,51 @@ public class MainSceneController implements Initializable {
                 }
             }
             pointsLabel.setText(String.valueOf(points));
-            if (fourthPlayerBookshelf == null)
-                return;
-            else if (thirdPlayerBookshelf == null)
-                return;
-            if (numberOfPlayer != 4) {
-                Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile04");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile40");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile73");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile84");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile57");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile48");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile15");
-                fouPlayerButtons.setVisible(false);
-                fourthPlayerBookshelf.setVisible(false);
-                if (numberOfPlayer != 3) {
-                    Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile22");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile26");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile50");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile62");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile85");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile66");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile38");
-                    threePlayerButtons.setVisible(false);
-                    thirdPlayerBookshelf.setVisible(false);
+
+            if(turn==0) {
+                if (fourthPlayerBookshelf == null)
+                    return;
+                else if (thirdPlayerBookshelf == null)
+                    return;
+                if (numberOfPlayer != 4) {
+                    Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile04");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile40");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile73");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile84");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile57");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile48");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile15");
+                    fouPlayerButtons.setVisible(false);
+                    fourthPlayerBookshelf.setVisible(false);
+                    if (numberOfPlayer != 3) {
+                        Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile22");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile26");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile50");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile62");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile85");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile66");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile38");
+                        threePlayerButtons.setVisible(false);
+                        thirdPlayerBookshelf.setVisible(false);
+                    }
                 }
+                turn++;
             }
             disableFirstPlayerButton();
             countDownLatchTable.countDown();

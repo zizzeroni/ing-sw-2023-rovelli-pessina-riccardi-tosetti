@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.GUI.FinalSceneController;
 import it.polimi.ingsw.GUI.LoginController;
 import it.polimi.ingsw.GUI.MainSceneController;
 import it.polimi.ingsw.controller.ViewListener;
@@ -29,6 +30,7 @@ import static it.polimi.ingsw.AppClient.startPingSenderThread;
 public class GUI extends UI {
     private LoginController loginController;
     private MainSceneController mainSceneController;
+    private FinalSceneController finalSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
     private volatile Choice takenTiles;
@@ -60,7 +62,6 @@ public class GUI extends UI {
 
     @Override
     public void showNewTurnIntro() {
-        System.out.println("---NEW TURN---");
         int tileId;
         String tileColor;
         takenTiles=null;
@@ -208,6 +209,34 @@ public class GUI extends UI {
 
             }
             System.out.println("---GAME ENDED---");
+            Parent lastRoot;
+            //Carico l'ultima scena e la mostro
+            try {
+                this.loader = new FXMLLoader();
+                this.loader.setLocation(getClass().getClassLoader().getResource("fxml/FinalScene.fxml"));
+                lastRoot = this.loader.load();
+                finalSceneController = this.loader.getController();
+                finalSceneController.setMainGui(this);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                primaryStage.setTitle("Last Scene");
+                primaryStage.setScene(new Scene(lastRoot));
+                countDownLatch.countDown();
+                finalSceneController.setScene(primaryStage.getScene());
+                finalSceneController.showResult(this.getModel().getPlayers());
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
         });
         th.setUncaughtExceptionHandler((t, e) -> {
             System.err.println("Uncaught exception in thread");
@@ -233,8 +262,8 @@ public class GUI extends UI {
                 }
             }
             while (getState() == state) {
+                showUpdateFromOtherPlayer();
                 try {
-                    //Devo comunque aggiornare il giocatore di turno e la board (o Qua?)
                     getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -250,5 +279,27 @@ public class GUI extends UI {
 
     public void finishTurn(Choice takenTiles) {
         this.takenTiles=takenTiles;
+    }
+
+    public void showUpdateFromOtherPlayer() {
+        int tileId;
+        String tileColor;
+
+        BoardView boardView = this.getModel().getBoard();
+        TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
+
+        for (int row = 0; row < boardView.getNumberOfRows(); row++) {
+            for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
+                if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
+                    tileId = boardMatrix[row][column].getImageID();
+                    tileColor = boardMatrix[row][column].getColor().toGUI();
+                    mainSceneController.setBoardTile(row, column, tileId, tileColor);
+                }else{
+                    mainSceneController.cancelBoardTile(row, column);
+                }
+            }
+        }
+        mainSceneController.setBookshelf(this.getModel().getPlayers());
+
     }
 }
