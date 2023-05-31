@@ -16,7 +16,7 @@
                         <Font name="Forte" size="22.0" />
                     </font>
                 </Label>
-            <Label fx:id="Player1" alignment="CENTER" contentDisplay="CENTER" layoutY="53.0" prefHeight="50.0" prefWidth="130.0" text="Player1" textAlignment="CENTER" textFill="#ffb200">
+            <Label fx:id="Player1" alignment="CENTER" contentDisplay="CENTER" layoutY="53.0" prefHeight="50.0" prefWidth="130.0" text="Player1" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font name="Forte" size="22.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Font name="Forte" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="Points1" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="53.0" prefHeight="50.0" prefWidth="130.0" text="0" textAlignment="CENTER" textFill="#ffb200">
+            <Label fx:id="Points1" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="53.0" prefHeight="50.0" prefWidth="130.0" text="0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font name="Forte" size="22.0" />
                </font>
@@ -61,12 +61,7 @@
                 <Insets />
             </opaqueInsets>
         </Pane>
-        <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="409.0" text="Select the number of player!" textFill="RED">
-            <font>
-                <Font size="40.0" />
-            </font>
-        </Label>
-      <Label fx:id="principalLabel141" alignment="CENTER" contentDisplay="CENTER" layoutX="540.0" layoutY="231.0" prefHeight="50.0" prefWidth="130.0" text="WINNER!" textAlignment="CENTER" textFill="#ffb200">
+      <Label fx:id="principalLabel141" alignment="CENTER" contentDisplay="CENTER" layoutX="540.0" layoutY="231.0" prefHeight="50.0" prefWidth="130.0" text="WINNER!" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="Forte" size="22.0" />
          </font>

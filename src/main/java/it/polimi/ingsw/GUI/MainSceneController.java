@@ -36,6 +36,12 @@ public class MainSceneController implements Initializable {
     private String secondCommonGoalString;
     private Scene scene;
     @FXML
+    private ImageView victoryPoint;
+    @FXML
+    private ImageView pointsItem1;
+    @FXML
+    private ImageView pointsItem2;
+    @FXML
     private ImageView commonGoal1;
     @FXML
     private ImageView commonGoal2;
@@ -75,6 +81,12 @@ public class MainSceneController implements Initializable {
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
 
+        Image victoryImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg"));
+        victoryPoint.setImage(victoryImage);
+
+        Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+        pointsItem1.setImage(pointsImage);
+        pointsItem2.setImage(pointsImage);
     }
 
     public void selected(ActionEvent actionEvent) {
@@ -177,6 +189,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem1.setVisible(false);
+        pointsItem2.setVisible(false);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -188,6 +202,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(559);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem1.setVisible(true);
+        pointsItem2.setVisible(true);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -199,6 +215,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(601);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem2.setVisible(false);
+        pointsItem1.setVisible(false);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -210,6 +228,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(676);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem2.setVisible(true);
+        pointsItem1.setVisible(true);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {

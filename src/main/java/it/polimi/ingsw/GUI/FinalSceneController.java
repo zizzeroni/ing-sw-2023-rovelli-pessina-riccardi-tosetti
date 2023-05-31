@@ -55,10 +55,10 @@ public class FinalSceneController {
 
         scoreBoard = players.stream().mapToInt(PlayerView::score).sorted().toArray();
 
-        for(int i = players.size(); i > 0; i--){
-            String labelPlayerName= "#Player"+(i);
-            String labelPlayerPoints="#Points"+(i);
-            int score = i-1;
+        for(int i = players.size()-1; i >= 0; i--){
+            String labelPlayerName= "#Player"+(i+1);
+            String labelPlayerPoints="#Points"+(i+1);
+            int score = i;
 
             PlayerView playerNick = this.mainGui.getModel().getPlayers().stream().filter(playerNickname -> playerNickname.score()==(scoreBoard[score])).toList().get(0);
 
@@ -67,7 +67,7 @@ public class FinalSceneController {
             Label labelPoints = (Label) scene.lookup(labelPlayerPoints);
 
             labelName.setText(playerNick.getNickname());
-            labelPoints.setText(String.valueOf(scoreBoard[i]));
+            labelPoints.setText(String.valueOf(scoreBoard[score]));
         }
     }
 }

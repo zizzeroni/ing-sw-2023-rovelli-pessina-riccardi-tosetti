@@ -235,8 +235,6 @@ public class GUI extends UI {
                 throw new RuntimeException(e);
             }
 
-
-
         });
         th.setUncaughtExceptionHandler((t, e) -> {
             System.err.println("Uncaught exception in thread");

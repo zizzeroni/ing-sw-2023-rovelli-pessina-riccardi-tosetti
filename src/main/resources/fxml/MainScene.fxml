@@ -62,11 +62,12 @@
                         <Image url="@../image/misc/Sacchetto%20Aperto.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="67.0" layoutY="8.0" text="bag">
+                <Label layoutX="58.0" layoutY="5.0" text="bag">
                     <font>
                         <Font name="Forte" size="35.0" />
                     </font>
                 </Label>
+            <ImageView fx:id="victoryPoint" fitHeight="50.0" fitWidth="50.0" layoutX="424.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" rotate="8.0" />
             </children>
         </Pane>
         <Pane fx:id="secondPlayerBookshelf" layoutX="30.0" layoutY="560.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
@@ -108,7 +109,7 @@
                 <Button fx:id="secondPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
             <Label fx:id="nickname2" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: White;" text="secondP">
                <font>
-                  <Font name="Book Antiqua" size="20.0" />
+                  <Font name="Forte" size="20.0" />
                </font></Label>
             </children>
         </Pane>
@@ -182,11 +183,6 @@
                 <Button fx:id="selected2" layoutX="30.0" layoutY="110.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
             </children>
         </Pane>
-        <Label layoutX="610.0" layoutY="100.0" text="Selected tiles">
-            <font>
-                <Font name="Times New Roman" size="26.0" />
-            </font>
-        </Label>
         <Label layoutX="586.0" layoutY="434.0" text="CommonGoal">
             <font>
                 <Font name="Arial" size="25.0" />
@@ -202,16 +198,8 @@
                 <Font name="Arial" size="25.0" />
             </font>
         </Label>
-        <ImageView fx:id="commonGoal1" fitHeight="110.0" fitWidth="110.0" layoutX="559.0" layoutY="471.0" onMouseEntered="#onCommonGoal1" onMouseExited="#exitCommonGoal1" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../image/common%20goal%20cards/back.jpg" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="commonGoal2" fitHeight="110.0" fitWidth="110.0" layoutX="676.0" layoutY="471.0" onMouseEntered="#onCommonGoal2" onMouseExited="#exitCommonGoal2" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../image/common%20goal%20cards/back.jpg" />
-            </image>
-        </ImageView>
+        <ImageView fx:id="commonGoal1" fitHeight="110.0" fitWidth="110.0" layoutX="559.0" layoutY="471.0" onMouseEntered="#onCommonGoal1" onMouseExited="#exitCommonGoal1" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="commonGoal2" fitHeight="110.0" fitWidth="110.0" layoutX="676.0" layoutY="471.0" onMouseEntered="#onCommonGoal2" onMouseExited="#exitCommonGoal2" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="personalGoal" fitHeight="210.0" fitWidth="286.0" layoutX="915.0" layoutY="560.0" onMouseEntered="#onPersonalGoal" onMouseExited="#exitPersonalGoal" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../image/personal%20goal%20cards/back.jpg" />
@@ -256,7 +244,7 @@
                 <Button fx:id="fourthPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
             <Label fx:id="nickname4" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="fourthP">
                <font>
-                  <Font size="20.0" />
+                   <Font name="Forte" size="20.0" />
                </font></Label>
             </children>
         </Pane>
@@ -299,10 +287,17 @@
                 <Button fx:id="thirdPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
             <Label fx:id="nickname3" alignment="CENTER" layoutX="42.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="thirdP">
                <font>
-                  <Font size="20.0" />
+                   <Font name="Forte" size="20.0" />
                </font></Label>
             </children>
         </Pane>
-        <Button fx:id="insertTile" layoutX="552.0" layoutY="262.0" mnemonicParsing="false" onAction="#SelectTiles" text="Take Tiles" />
+        <Button fx:id="insertTile" layoutX="548.0" layoutY="260.0" mnemonicParsing="false" onAction="#SelectTiles" prefHeight="30.0" prefWidth="75.0" text="Select Tiles" />
+        <Label layoutX="610.0" layoutY="101.0" text="Selected tiles">
+            <font>
+                <Font name="Times New Roman" size="26.0" />
+            </font>
+        </Label>
+      <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="621.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+      <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="739.0" layoutY="486.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
     </children>
 </AnchorPane>
