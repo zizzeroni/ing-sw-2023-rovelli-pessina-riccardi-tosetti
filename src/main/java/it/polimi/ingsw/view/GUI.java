@@ -97,6 +97,7 @@ public class GUI extends UI {
                 }
             }
         }
+        mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
         mainSceneController.setBookshelf(this.getModel().getPlayers());
 
     }
@@ -298,6 +299,6 @@ public class GUI extends UI {
             }
         }
         mainSceneController.setBookshelf(this.getModel().getPlayers());
-
+        mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
     }
 }

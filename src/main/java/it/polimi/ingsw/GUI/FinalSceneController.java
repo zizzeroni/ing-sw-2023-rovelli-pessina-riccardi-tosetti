@@ -1,5 +1,6 @@
 package it.polimi.ingsw.GUI;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.view.PlayerView;
 import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +42,9 @@ public class FinalSceneController {
     }
 
     public void showResult(List<PlayerView> players) {
-        for(int i = 0; i < 4; i++){
-            String labelPlayerName= "#Player"+(i+1);
-            String labelPlayerPoints="#Points"+(i+1);
+        for (int i = 0; i < 4; i++) {
+            String labelPlayerName = "#Player" + (i + 1);
+            String labelPlayerPoints = "#Points" + (i + 1);
 
             Label labelName = (Label) scene.lookup(labelPlayerName);
             Label labelPoints = (Label) scene.lookup(labelPlayerPoints);
@@ -51,23 +53,17 @@ public class FinalSceneController {
             labelPoints.setText(" ");
         }
 
-        int[] scoreBoard;
+        List<PlayerView> scorePlayer = players.stream().sorted(Comparator.comparingInt(PlayerView::score).reversed()).toList();
 
-        scoreBoard = players.stream().mapToInt(PlayerView::score).sorted().toArray();
-
-        for(int i = players.size()-1; i >= 0; i--){
-            String labelPlayerName= "#Player"+(i+1);
-            String labelPlayerPoints="#Points"+(i+1);
-            int score = i;
-
-            PlayerView playerNick = this.mainGui.getModel().getPlayers().stream().filter(playerNickname -> playerNickname.score()==(scoreBoard[score])).toList().get(0);
-
+        for (int i = 0; i < players.size(); i++) {
+            String labelPlayerName = "#Player" + (i + 1);
+            String labelPlayerPoints = "#Points" + (i + 1);
 
             Label labelName = (Label) scene.lookup(labelPlayerName);
             Label labelPoints = (Label) scene.lookup(labelPlayerPoints);
 
-            labelName.setText(playerNick.getNickname());
-            labelPoints.setText(String.valueOf(scoreBoard[score]));
+            labelName.setText(scorePlayer.get(i).getNickname());
+            labelPoints.setText(String.valueOf(scorePlayer.get(i).score()));
         }
     }
 }
