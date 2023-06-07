@@ -4,6 +4,15 @@ import it.polimi.ingsw.model.Board;
 
 import java.io.Serializable;
 
+/**
+ * This class implements the {@code Board} serialization.
+ * All the players always access only the implementation of the {@code View} of the relative {@code Board},
+ * and are sensible to the inherent modifies.
+ * The class contains a series of getters to access the number of
+ * rows/columns and to retrieve the selected tiles from the {@code Board},
+ * given the current number of active players.
+ *
+ */
 public class BoardView implements Serializable {
     //private final Board boardModel;
     private final int numberOfUsableTiles;
@@ -27,14 +36,29 @@ public class BoardView implements Serializable {
         return this.numberOfUsableTiles;
     }
 
+    /**
+     * Return the set of tiles currently on the board.
+     *
+     * @return the {@code TileView} of the given {@code Board}.
+     */
     public TileView[][] getTiles() {
         return this.tiles;
     }
 
+    /**
+     * Returns the number of columns.
+     *
+     * @return the number of columns.
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
 
+    /**
+     * Returns the number of rows.
+     *
+     * @return the number of rows.
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
     }

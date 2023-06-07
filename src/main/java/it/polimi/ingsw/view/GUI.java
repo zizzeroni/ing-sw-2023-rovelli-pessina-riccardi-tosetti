@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

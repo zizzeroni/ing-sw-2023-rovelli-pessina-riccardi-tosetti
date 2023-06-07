@@ -12,6 +12,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class implements the ViewListener, representing the actual {@code GameController}.
+ * The Controller is used as an interface between the Server and the Client in order to
+ * evaluate and perform any of the {@code Player} actions.
+ * It
+ *
+ */
 public class GameController implements ViewListener {
     private final Game model;
     private ControllerState state;

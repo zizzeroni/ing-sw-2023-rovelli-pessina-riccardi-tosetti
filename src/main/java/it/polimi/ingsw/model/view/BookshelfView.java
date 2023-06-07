@@ -8,6 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ *
+ * This class implements the {@code Bookshelf} serialization.
+ * All the players always access only the implementation of the {@code View} of the relative {@code Bookshelf},
+ * and are sensible to the inherent modifies.
+ * The class contains a series of getters to access the number of
+ * rows/columns and to retrieve the selected tiles from the {@code Board},
+ * given the current number of active players.
+ *
+ */
 public class BookshelfView implements Serializable {
     //private final Bookshelf bookshelfModel;
     private final int numberOfColumns;
@@ -48,6 +58,12 @@ public class BookshelfView implements Serializable {
         return true;
     }
 
+    /**
+     * Returns the total number of empty cells in the given column.
+     *
+     * @param column the column to inspect.
+     * @return the number of empty cells in {@code column}.
+     */
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
@@ -59,18 +75,40 @@ public class BookshelfView implements Serializable {
         return counter;
     }
 
+    /**
+     * Getter to retrieve the Bookshelf image.
+     *
+     * @return the image of the Bookshelf.
+     */
     public String getImage() {
         return this.image;
     }
 
+    /**
+     * Returns the set of tiles currently on the board.
+     *
+     * @return the {@code TileView} of the given {@code Board}.
+     */
     public TileView[][] getTiles() {
         return this.tiles;
     }
 
+    /**
+     * Returns the Tile identified through its coordinates, passed as parameters.
+     *
+     * @param row the first coordinate of the tile.
+     * @param column the second coordinate of the tile.
+     * @return the {@code Tile} identified.
+     */
     public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
         return this.tiles[row][column];
     }
 
+    /**
+     * Returns the number of columns.
+     *
+     * @return the number of columns.
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
@@ -84,6 +122,11 @@ public class BookshelfView implements Serializable {
         return counter;
     }
 
+    /**
+     * Returns the number of rows.
+     *
+     * @return the number of rows.
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
     }
@@ -97,6 +140,11 @@ public class BookshelfView implements Serializable {
         return true;
     }
 
+    /**
+     *
+     *
+     * @return
+     */
     public int getMaxNumberOfCellsFreeInBookshelf() {
         int maxNumberOfCellsFreeInBookshelf = 0;
         for (int column = 0; column < this.numberOfColumns; column++) {
@@ -139,6 +187,14 @@ public class BookshelfView implements Serializable {
         return output.substring(0, output.length() - 1);
     }
 
+    /**
+     * Evaluates the score of the {@code Player} considering whether if he has
+     * accomplished an objective through the given group of tiles, the common goal
+     * or a personal goal.
+     *
+     * @return
+     * @throws Exception prints a message error when the -
+     */
     public int score() throws Exception {
         int score = 0;
         int[][] supportMatrix = new int[this.numberOfRows][this.numberOfColumns];
@@ -190,6 +246,15 @@ public class BookshelfView implements Serializable {
         return score;
     }
 
+    /**
+     * Assigns the tiles' group to the BookShelf that contains the correspondent pattern of tiles.
+     *
+     * @param supportMatrix the matrix used by the process to store intermediate values.
+     * @param row the selected row.
+     * @param column the selected column.
+     * @param group the chosen group.
+     * @param currentTileColor the color of the tiles in the current set.
+     */
     private void assignGroupToBookshelfEqualTiles(int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
         if ((supportMatrix[row][column] == 1) && currentTileColor.equals(this.getSingleTile(row, column).getColor())) {
             supportMatrix[row][column] = group;

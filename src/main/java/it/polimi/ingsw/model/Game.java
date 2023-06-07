@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.utils.Observer;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -13,8 +13,6 @@ import java.util.Scanner;
  */
 public class App {
     public static void main(String[] args) {
-        TextualUI genericPrintUi = new TextualUI(); // andrebbe messa come utility
-        genericPrintUi.printTitleScreen();
 
         /*int numPlayers = 4;
         Gson gson = new Gson();
