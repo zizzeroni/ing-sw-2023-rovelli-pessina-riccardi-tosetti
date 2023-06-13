@@ -60,7 +60,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 try {
                     client.receiveException(e);
                 } catch (RemoteException e2) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:"+client);
+                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:" + client);
                 }
             }
 
@@ -135,12 +135,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
 
     }
+
     /*TODO: Fare un thread che invoca altri 4 thread ciascuno dei quali fa un ping ad un client, altrimenti se il ping di un client non va a buon fine il server si blocca
             impedendo di inviare gli altri ping ad altri client*/
     public synchronized void pingClients() throws RemoteException {
         Game model = this.controller.getModel();
         Client clientToRemove = null;
-        for (Map.Entry<Client,  Optional<String>> entry : clientsToHandle.entrySet()) {
+        for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
             String nickname = entry.getValue().orElse("Unknown");
             Client client = entry.getKey();
             try {
@@ -334,27 +335,44 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                for(Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
-                    new Thread(() -> {
-                        String nickname = entry.getValue().orElse("Unknown");
-                        Client client = entry.getKey();
-                        try {
-                            entry.getKey().ping();
-                        } catch (RemoteException e) {
-                            System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
-                            if (model.getGameState() == GameState.IN_CREATION) {
-                                clientsToHandle.remove(client);
-                            }
-                            if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
-                                controller.disconnectPlayer(nickname);
+                for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
+                    //I declare a new Thread for each client registered, in this way each thread handle the sending of the ping to his associated client
+                    Thread pingSenderThread = new Thread() {
+                        @Override
+                        public void run() {
+                            String nickname = entry.getValue().orElse("Unknown");
+                            Client client = entry.getKey();
+
+                            //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                            Thread selfThread = this;
+                            Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                            stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    selfThread.interrupt();
+                                }
+                            }, 6000);
+
+                            try {
+                                entry.getKey().ping();
+                                stopIfWaitTooLongTimer.cancel();
+                            } catch (RemoteException e) {
+                                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
+                                if (model.getGameState() == GameState.IN_CREATION) {
+                                    clientsToHandle.remove(client);
+                                }
+                                if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
+                                    controller.disconnectPlayer(nickname);
+                                }
                             }
                         }
-                    }).start();
+                    };
+                    pingSenderThread.start();
                 }
             }
         };
 
-        Timer pingSender = new Timer("PingSender");
+        Timer pingSender = new Timer("PingSenderTimer");
         pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
     }
 
