@@ -7,16 +7,13 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

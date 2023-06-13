@@ -6,12 +6,12 @@ import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.network.exceptions.WrongInputDataException;
-import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,23 +56,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         try {
             this.controller.insertUserInputIntoModel(playerChoice);
         } catch (WrongInputDataException e) {
-            //TODO: Chiedere se dobbiamo inviare l'eccezione a tutti i client o solo 1
-            //TODO: Invio a tutti i client:
-//            for (Client client : this.clientsToHandle.keySet()) {
-//                try {
-//                    client.receiveException(e);
-//                } catch (RemoteException e2) {
-//                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:"+client);
-//                }
-//            }
-            //TODO: Invio al client che ha invocato il metodo (player attivo corrente)
-            Game model = this.controller.getModel();
+            for (Client client : this.clientsToHandle.keySet()) {
+                try {
+                    client.receiveException(e);
+                } catch (RemoteException e2) {
+                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:"+client);
+                }
+            }
+
+            /*Game model = this.controller.getModel();
             Client client = this.clientsToHandle.entrySet().stream()
                     //.filter(pair -> pair.getValue().equals(this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getNickname()))
                     .reduce(new AbstractMap.SimpleEntry<>(null,null),
                             (resultEntry, currentEntry)->resultEntry = currentEntry.getValue().equals(model.getPlayers().get(model.getActivePlayerIndex()).getNickname())
                                     ? currentEntry : resultEntry).getKey();
-            client.receiveException(e);
+            client.receiveException(e);*/
         }
     }
 

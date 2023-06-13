@@ -6,15 +6,8 @@ import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.network.exceptions.WrongInputDataException;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class OnGoingState extends ControllerState {
 
