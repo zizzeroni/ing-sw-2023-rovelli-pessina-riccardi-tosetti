@@ -18,6 +18,8 @@ public abstract class UI extends Application implements Runnable {
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
 
+    private final int countdown = 15;
+
     public UI(GameView model, ViewListener controller, String nickname) {
         this.model = model;
         this.controller = controller;
@@ -99,6 +101,10 @@ public abstract class UI extends Application implements Runnable {
 
     public void removeListener() {
         this.controller = null;
+    }
+
+    public int getCountdown() {
+        return countdown;
     }
 
     //Method in common with all UIs that must be implemented

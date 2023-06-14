@@ -55,7 +55,7 @@ public class TextualUI extends UI {
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
-        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState()==GameState.IN_CREATION) {
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState() == GameState.IN_CREATION) {
             this.controller.startGame();
         }
         System.out.println(this.getState());
@@ -69,7 +69,8 @@ public class TextualUI extends UI {
                     System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
-                case WAITING_FOR_RESUME -> System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+                case WAITING_FOR_RESUME ->
+                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
             while (getState() == clientGameState) {
                 try {
@@ -81,18 +82,49 @@ public class TextualUI extends UI {
         }
     }
 
+    private Thread createNewPrintCountdownThread() {
+        return new Thread(() -> {
+            System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+            System.out.print(getCountdown());
+            for (int countdown = getCountdown() - 1; countdown > -1; countdown--) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+                    System.out.println("\nA player has rejoined, game resumed...");
+                    return;
+                }
+                System.out.print("," + countdown);
+            }
+        });
+    }
+
     private void waitWhileInStates(List<ClientGameState> gameStates) {
+        boolean firstTime = true;
+        Thread printCountdownTh = this.createNewPrintCountdownThread();
+
         synchronized (this.getLockState()) {
             switch (getState()) {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
-                case WAITING_FOR_RESUME -> System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+                case WAITING_FOR_RESUME ->
+                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
             while (gameStates.contains(getState())) {
                 try {
                     getLockState().wait();
+
+                    if (this.getState() == ClientGameState.WAITING_FOR_RESUME) {
+                        if (firstTime) {
+                            firstTime = false;
+                            printCountdownTh.start();
+                        }
+                    } else {
+                        printCountdownTh.interrupt();
+                        printCountdownTh = this.createNewPrintCountdownThread();
+                        firstTime = true;
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -108,14 +140,14 @@ public class TextualUI extends UI {
         while (this.getState() != ClientGameState.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             //waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
-            waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER,ClientGameState.WAITING_FOR_RESUME));
+            waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
             if (this.getState() == ClientGameState.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
             this.controller.insertUserInputIntoModel(choice);
-            if(this.getExceptionToHandle()!=null) {
+            if (this.getExceptionToHandle() != null) {
                 this.getExceptionToHandle().handle();
                 this.setExceptionToHandle(null);
             }
@@ -401,8 +433,8 @@ public class TextualUI extends UI {
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
             if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
-                    (row != board.getNumberOfRows()-1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
-                    (column != board.getNumberOfColumns()-1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                    (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                    (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
             } else {
@@ -413,6 +445,7 @@ public class TextualUI extends UI {
         }
         return false;
     }
+
     //TODO: remove from UI
     public void showPersonalRecap() {
         PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);

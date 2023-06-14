@@ -34,7 +34,6 @@ public class OnGoingState extends ControllerState {
 
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        GameController controller = this.controller;
         if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
