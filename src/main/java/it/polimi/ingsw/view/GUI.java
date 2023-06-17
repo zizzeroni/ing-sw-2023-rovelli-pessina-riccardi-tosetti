@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -45,6 +46,7 @@ public class GUI extends UI {
 
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+        //this.primaryStage.set
         run();
     }
     public GUI(GameView model, ViewListener controller, String nickname) {
@@ -301,4 +303,20 @@ public class GUI extends UI {
         mainSceneController.setBookshelf(this.getModel().getPlayers());
         mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
     }
+    private double widthOld, heightOld;
+    private boolean resizing = true;
+    public void rescale(){
+        if(resizing){
+            double widthWindow = primaryStage.getScene().getWidth();
+            double heightWindow = primaryStage.getScene().getHeight();
+
+            widthOld=widthWindow;
+            heightOld=heightWindow;
+
+            Scale scale = new Scale(widthWindow, heightWindow, 0, 0);
+            primaryStage.getScene().lookup("#mainPage").getTransforms().add(scale);
+        }
+    }
+
+
 }
