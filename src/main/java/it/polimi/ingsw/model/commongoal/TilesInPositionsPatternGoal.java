@@ -41,7 +41,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         int numberOfElement = 0;
         for (int i = 0; i < this.positions.size(); i++) {
             for (int j = 0; j < this.positions.get(0).size(); j++) {
-                if (this.positions[i][j] == 1) {
+                if (this.positions.get(i).get(j) == 1) {
                     numberOfElement++;
                 }
             }

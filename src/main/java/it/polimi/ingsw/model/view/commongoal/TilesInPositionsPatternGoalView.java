@@ -4,15 +4,17 @@ import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+import java.util.List;
+
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
-    private final int[][] positions;
+    private final List<List<Integer>> positions;
 
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
         this.positions = commonGoalModel.getPositions();
     }
 
-    public int[][] getPositions() {
+    public List<List<Integer>> getPositions() {
         return this.positions;
     }
 
@@ -21,10 +23,10 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
         StringBuilder sendBack = new StringBuilder("Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles\n" +
                 "of one square can be different from those of the other square.\n");
 
-        for (int i = 0; i < this.positions.length; i++) {
+        for (int i = 0; i < this.positions.size(); i++) {
             sendBack.append("[");
-            for (int j = 0; j < this.positions[0].length; j++) {
-                if (this.positions[i][j] == 1) {
+            for (int j = 0; j < this.positions.get(0).size(); j++) {
+                if (this.positions.get(i).get(j) == 1) {
                     sendBack.append(" ").append(TileColor.BLUE);
                 } else {
                     sendBack.append(" -");

@@ -28,13 +28,13 @@ public class TextualUI extends UI {
     }
 
     private void firstInteractionWithUser() {
-        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
+        System.out.println("Welcome to My Shelfie");
 
         this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
 
         do {
             this.setExceptionToHandle(null);
-            System.out.println("Inserisci il tuo nickname!");
+            System.out.println("Insert your nickname!");
             String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
             this.setNickname(nickname);
@@ -49,7 +49,7 @@ public class TextualUI extends UI {
         int chosenNumberOfPlayer = 0;
         if (getModel().getPlayers().size() == 1) {
             do {
-                System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
+                System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
                 chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);

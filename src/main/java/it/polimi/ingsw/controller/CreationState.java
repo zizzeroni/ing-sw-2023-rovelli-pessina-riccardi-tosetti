@@ -129,32 +129,44 @@ public class CreationState extends ControllerState {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
         switch (this.controller.getRandomizer().nextInt(12)) {
             case 0 -> {
-                return new EightShapelessPatternGoal(0, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
+                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 1)),
+                        new ArrayList<>(Arrays.asList(1, 1))
+                )));
             }
             case 1 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 0);
+                return new MinEqualsTilesPattern(2, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 0);
             }
             case 2 -> {
-                return new MinEqualsTilesPattern(0, 3, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 3);
+                return new ConsecutiveTilesPatternGoal(3, 4, CheckType.EQUALS, numberOfPlayersToStartGame, 4);
             }
             case 3 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
+                return new ConsecutiveTilesPatternGoal(4, 6, CheckType.EQUALS, numberOfPlayersToStartGame, 2);
+            }
+            case 4 -> {
+                return new MinEqualsTilesPattern(5, 3, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 3);
+            }
+            case 5 -> {
+                return new MinEqualsTilesPattern(6, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 0);
+            }
+            case 6 -> {
+                return new MinEqualsTilesPattern(7, 4, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 2);
+            }
+            case 7 -> {
+                return new FourCornersPatternGoal(8, 1, CheckType.EQUALS, numberOfPlayersToStartGame);
+            }
+            case 8 -> {
+                return new EightShapelessPatternGoal(9, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
+            }
+            case 9 -> {
+                return new DiagonalEqualPattern(10, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
                         {1, 0, 1},
                         {0, 1, 0},
                         {1, 0, 1},
                 });
             }
-            case 4 -> {
-                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 2);
-            }
-            case 5 -> {
-                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
-            }
-            case 6 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 0);
-            }
-            case 7 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
+            case 10 -> {
+                return new DiagonalEqualPattern(11, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
                         {1, 0, 0, 0, 0},
                         {0, 1, 0, 0, 0},
                         {0, 0, 1, 0, 0},
@@ -162,20 +174,8 @@ public class CreationState extends ControllerState {
                         {0, 0, 0, 0, 1},
                 });
             }
-            case 8 -> {
-                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, numberOfPlayersToStartGame, 2);
-            }
-            case 9 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, Arrays.asList(Arrays.asList({
-                        [1, 1],
-                        [1, 1],
-                })));
-            }
-            case 10 -> {
-                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, numberOfPlayersToStartGame, 4);
-            }
             case 11 -> {
-                return new FourCornersPatternGoal(0, 1, CheckType.EQUALS, numberOfPlayersToStartGame);
+                return new StairPatternGoal(12, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
             }
             default -> {
                 throw new Exception("This class does not exists");

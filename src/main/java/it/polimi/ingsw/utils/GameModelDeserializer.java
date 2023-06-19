@@ -15,37 +15,45 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
     public Game deserialize(JsonElement jsonElement, Type type,
                             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
 
-        Game game = new Gson().fromJson(jsonElement.getAsJsonObject(), Game.class);
+        Gson gson = new Gson();
+        JsonElement commonGoalsAsJsonElement = gson.fromJson(jsonElement.toString(), JsonElement.class).getAsJsonObject().remove("commonGoals");
+        jsonElement.getAsJsonObject().remove("commonGoals");
+
+        Game game = gson.fromJson(jsonElement, Game.class);
 
         try {
             List<CommonGoal> commonGoals = new ArrayList<>();
-            if (jsonElement.getAsJsonObject().get("commonGoals") != null) {
-                for (JsonElement commonGoal : jsonElement.getAsJsonObject().get("commonGoals").getAsJsonArray()) {
+            if (commonGoalsAsJsonElement != null) {
+                for (JsonElement commonGoal : commonGoalsAsJsonElement.getAsJsonArray()) {
 
                     JsonObject commonGoalAsJsonObject = commonGoal.getAsJsonObject();
-                    
+
                     List<List<Integer>> pattern = new ArrayList<>();
-                    for (JsonElement patternRow : commonGoalAsJsonObject.get("pattern").getAsJsonArray()) {
-                        pattern.add(new ArrayList<>());
-                        for (JsonElement patternRowElement : patternRow.getAsJsonArray()) {
-                            pattern.get(pattern.size() - 1).add(patternRowElement.getAsInt());
+                    JsonElement patternAsJsonElement = commonGoalAsJsonObject.get("pattern");
+
+                    if (patternAsJsonElement != null) {
+                        for (JsonElement patternRow : patternAsJsonElement.getAsJsonArray()) {
+                            pattern.add(new ArrayList<>());
+                            for (JsonElement patternRowElement : patternRow.getAsJsonArray()) {
+                                pattern.get(pattern.size() - 1).add(patternRowElement.getAsInt());
+                            }
                         }
                     }
-                    
+
                     List<ScoreTile> scoreTiles = new ArrayList<>();
                     for (JsonElement scoreTile : commonGoalAsJsonObject.get("scoreTiles").getAsJsonArray()) {
                         JsonObject scoreTileAsJsonObject = scoreTile.getAsJsonObject();
                         int value = scoreTileAsJsonObject.get("value").getAsInt();
                         int playerID = scoreTileAsJsonObject.get("playerID").getAsInt();
                         int commonGoalID = scoreTileAsJsonObject.get("commonGoalID").getAsInt();
-                        
+
                         scoreTiles.add(new ScoreTile(value, playerID, commonGoalID));
                     }
 
                     int id = commonGoalAsJsonObject.get("id").isJsonNull() ? -1 : commonGoalAsJsonObject.get("id").getAsInt();
                     int numberOfPatternRepetitionsRequired = commonGoalAsJsonObject.get("numberOfPatternRepetitionsRequired").getAsInt();
                     CheckType commonGoalType = CheckType.valueOf(commonGoalAsJsonObject.get("type").getAsString());
-                    
+
                     switch (id) {
                         case 1 -> {
                             commonGoals.add(new TilesInPositionsPatternGoal(id, numberOfPatternRepetitionsRequired, commonGoalType, scoreTiles, pattern));
