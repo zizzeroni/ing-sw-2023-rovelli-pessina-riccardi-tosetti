@@ -13,8 +13,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -68,6 +70,8 @@ public class MainSceneController implements Initializable {
     private int turn;
     private Image pointsImage1;
    private Image pointsImage2;
+   @FXML
+   private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -236,7 +240,6 @@ public class MainSceneController implements Initializable {
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
-
         imageView.setFitHeight(315);
         imageView.setFitWidth(429);
         imageView.setLayoutX(844);
@@ -1024,5 +1027,8 @@ public class MainSceneController implements Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sendMessage(KeyEvent keyEvent) {
     }
 }
