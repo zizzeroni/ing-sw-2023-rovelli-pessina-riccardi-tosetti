@@ -16,6 +16,16 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
+/**
+ * This class contains a series of methods used to set and
+ * to modify the primary scenes of the {@code MainGui}.
+ * and to verify the user data when the different {@code Player}s
+ * decide to log into the lobby.
+ *
+ * @see MainGui
+ * @see it.polimi.ingsw.model.Player
+ *
+ */
 public class LoginController implements Initializable {
     //Fa schifo
     private GUI mainGui;
@@ -34,6 +44,22 @@ public class LoginController implements Initializable {
     private final String[] playerNumber = {"2", "3", "4"};
     private String numberOfPlayerInGame;
 
+    /**
+     * Verifies if the username has been entered correctly.
+     * In case no username is entered, calls an exception.
+     * <p>
+     * If an attempt is made to lookup or unbind in the registry a username
+     * that has no associated binding, calls an exception.
+     * <p>
+     * If every control is passed successfully, passes the username
+     * <p> to the GUI.
+     *
+     *
+     * @param actionEvent is the event linked to username entering.
+     * @throws IOException is the exception called if the wrong username has been passed as input.
+     * @throws NotBoundException is the exception called when lookup or unbind in the registry
+     *                              for username that has no associated binding is attempted.
+     */
     @FXML
     public void controlNickname(ActionEvent actionEvent) throws IOException, NotBoundException {
 
@@ -50,6 +76,12 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * This method sets the number of players for the current {@code Game} in the GUI.
+     *
+     * @param askNumberOfPlayer is the boolean representing if the number of players has been entered
+     *                          as consequence of an entering request displayed by the GUI.
+     */
     public void numberOfPlayer(boolean askNumberOfPlayer) {
         if (askNumberOfPlayer) {
             Platform.runLater(this::changeScene);
@@ -67,6 +99,15 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * This method initialize the url and resource bundle used for the
+     * setting of GUI scenes linked to the {@code Player}s login.
+     *
+     * @param url is the resources url.
+     * @param resourceBundle is the bundle of the resources utilized in the scenes development.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         NumberOfPlayerChoice.getItems().setAll(playerNumber);
@@ -75,6 +116,13 @@ public class LoginController implements Initializable {
         ErrorLabel.setText("");
     }
 
+    /**
+     * this method is used to change the current scene with that displaying the request
+     * for entering the number of {@code Player}s for the current {@code Game}.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     */
     public void changeScene() {
         //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
@@ -87,6 +135,12 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(true);
     }
 
+    /**
+     * This method is used to manage the wait on joining players during the lobby creation,
+     * once the number of players for the current {@code Game} has been set.
+     *
+     * @param actionEvent the join event
+     */
     public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException, InterruptedException {
         //Inserisco la scelta del numero di giocatori e metto in attesa
         numberOfPlayerInGame = NumberOfPlayerChoice.getValue();
@@ -113,6 +167,12 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * Setter used to adjust the {@code mainGui}.
+     *
+     * @param gui the gui passed to be set
+     *
+     */
     public void setMainGui(GUI gui) {
         this.mainGui = gui;
     }
