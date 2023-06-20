@@ -6,9 +6,11 @@ import it.polimi.ingsw.GUI.MainSceneController;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.view.*;
+import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 
+import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,6 +37,7 @@ public class GUI extends UI {
     private Stage primaryStage;
     private FXMLLoader loader;
     private volatile Choice takenTiles;
+    private static int typeOfConnection;
 
     public GUI(GameView model) {
         super(model);
@@ -126,13 +129,28 @@ public class GUI extends UI {
 
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
-            try {
-                Registry registry = LocateRegistry.getRegistry();
-                Server server = (Server) registry.lookup("server");
-                new ClientImpl(server, this);
-                startPingSenderThread(server);
-            } catch (RemoteException | NotBoundException e) {
-                throw new RuntimeException(e);
+            if(typeOfConnection==2){
+                ServerStub serverStub = new ServerStub("localhost", 1234);
+                //Creating a new client with a TextualUI and a Socket Server
+                Client client = null;
+                try {
+                    client = new ClientImpl(serverStub, new TextualUI());
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                //Creating a new Thread that will take care of checking on availability of connected client
+                startPingSenderThread(serverStub);
+                //Creating a new Thread that will take care of the responses coming from the Server side
+                startReceiverThread(client, serverStub);
+            }else {
+                try {
+                    Registry registry = LocateRegistry.getRegistry();
+                    Server server = (Server) registry.lookup("server");
+                    new ClientImpl(server, this);
+                    startPingSenderThread(server);
+                } catch (RemoteException | NotBoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
             //Add the player to the game, if he is the first return 1
@@ -247,6 +265,7 @@ public class GUI extends UI {
     }
 
     public static void main(String[] args) {
+        typeOfConnection=Integer.parseInt(args[0]);
         launch(args);
     }
 
@@ -317,6 +336,23 @@ public class GUI extends UI {
             primaryStage.getScene().lookup("#mainPage").getTransforms().add(scale);
         }
     }
-
+    private static void startReceiverThread(Client client, ServerStub serverStub) {
+        //Creating a new Thread that will take care of the responses coming from the Server side
+        new Thread(() -> {
+            while (true) {
+                try {
+                    serverStub.receive(client);
+                } catch (RemoteException e) {
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    try {
+                        serverStub.close();
+                    } catch (RemoteException ex) {
+                        System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
+                    }
+                    System.exit(1);
+                }
+            }
+        }).start();
+    }
 
 }
