@@ -115,7 +115,7 @@
                </font></Label>
             </children>
         </Pane>
-        <Pane layoutX="787.0" layoutY="78.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;file:C:/Users/franc/Progetto-INGSW/src/main/resources/image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;" AnchorPane.topAnchor="63.0">
+        <Pane layoutX="787.0" layoutY="78.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;" AnchorPane.topAnchor="63.0">
             <children>
                 <Button fx:id="firstPlayerTile50" layoutX="48.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
                 <Button fx:id="firstPlayerTile40" layoutX="48.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
