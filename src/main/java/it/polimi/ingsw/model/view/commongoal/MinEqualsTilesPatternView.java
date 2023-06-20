@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.commongoal.MinEqualsTilesPattern;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+/**
+ *
+ */
 public class MinEqualsTilesPatternView extends CommonGoalView {
     private final Direction direction;
     private final int maxEqualsTiles;

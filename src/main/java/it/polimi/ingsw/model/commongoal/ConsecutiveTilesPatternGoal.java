@@ -5,35 +5,73 @@ import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 
+/**
+ * This class is used to represent those objects that contains the number of {@code Tile}s
+ * that must be consecutive for making a point considering the pattern of the goal.
+ *
+ * @see it.polimi.ingsw.model.tile.Tile
+ * @see CommonGoal
+ */
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
-    //contains the number of tiles that must be consecutive for making a point of the pattern goal
+
     private final int consecutiveTiles;
-    //Constructors
+
+    /**
+     * Constructor of the class in the implementation with no parameters.
+     * Builds a ConsecutiveTilesPatternGoal with no type, ID, ...
+     */
     public ConsecutiveTilesPatternGoal() {
         super();
         this.consecutiveTiles = 0;
     }
+
+    /**
+     *
+     * Constructor of the class in the implementation with parameters.
+     * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
+     *
+     * @param imageID the image assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
+     */
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type);
         this.consecutiveTiles = consecutiveTiles;
     }
 
+    /**
+     *
+     * Constructor of the class in the implementation with parameters.
+     * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
+     * In this version are also considered the commonGoalID and numberOfPlayers.
+     *
+     * @param imageID the image assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
+     * @param numberOfPlayers number of active players.
+     * @param commonGoalID the identifier of the given common goal.
+     */
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int consecutiveTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.consecutiveTiles = consecutiveTiles;
     }
 
     /**
-     *     Here we search the number of pattern repetition in the player's bookshelf by declaring a support matrix of the same dimensions of the bookshelf,
-     *     for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
-     *     Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
-     *     then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+     * Here we search the number of pattern repetition in the player's bookshelf by declaring a support matrix of the same dimensions of the bookshelf,
+     * for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
+     * Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
+     * then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+     * <p>
+     * In the second part we count the number of different groups when the counter of the tiles in a group is
+     * at least the minimum number of consecutive tiles of the pattern goal.
      *
-     *     In the second part we count the number of different groups when the counter of the tiles in a group is
-     *     at least the minimum number of consecutive tiles of the pattern goal
+     * @param bookshelf contains the bookshelf of the player
+     * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
      *
-     *     @param bookshelf contains the bookshelf of the player
-     *     @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see Bookshelf
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
@@ -74,6 +112,22 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         return generalCounter;
     }
 
+    /**
+     * Applies the search pattern algorithm on the {@code Player}'s {@code Bookshelf},
+     * confronting the currentTileColor on adjacent rows and lines.
+     * Also, a support matrix is used when necessary to keep track of the current group of tiles,
+     * each group is distinguished for both number of tiles and color.
+     *
+     * @param bookshelf the bookshelf of the current active player.
+     * @param supportMatrix the matrix used as a support during the algorithm's unfolding.
+     * @param row the current row.
+     * @param column the current column.
+     * @param group the group assigned to the current set of tiles.
+     * @param currentTileColor the color of the actual group of tiles.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see Bookshelf
+     */
     private void searchGroup(Bookshelf bookshelf, int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
         if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row, column).getColor())) {
             supportMatrix[row][column] = group;
@@ -96,19 +150,33 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
             }
         }
     }
-    //Get method
+
+    /**
+     * Getter method to access the consecutiveTiles attribute.
+     *
+     * @return the value associated to consecutiveTiles.
+     */
+
     public int getConsecutiveTiles() {
         return this.consecutiveTiles;
     }
-    /*
-    @return an immutable copy of the common goal
-    */
+
+    /**
+     * Generates an immutable copy of the current {@code commonGoal}.
+     *
+     * @return an immutable copy of the ConsecutiveTilesPatternGoal.
+     */
     @Override
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
     }
-    /*
-    Redefine the equals method
+
+    /**
+     * Redefines the 'equals' method to apply it when considering consecutiveTiles.
+     *
+     * @param o is the object being evaluated to be equals to another (the one that calls the method).
+     * @return {@code true} if and only if the two tiles are 'equals',
+     *         {@code false} otherwise.
      */
     @Override
     public boolean equals(Object o) {

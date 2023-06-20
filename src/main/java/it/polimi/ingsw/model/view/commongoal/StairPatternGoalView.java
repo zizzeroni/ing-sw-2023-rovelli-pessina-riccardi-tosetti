@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.view.commongoal;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+/**
+ *
+ */
 public class StairPatternGoalView extends CommonGoalView {
     public StairPatternGoalView(CommonGoal commonGoalModel) {
         super(commonGoalModel);

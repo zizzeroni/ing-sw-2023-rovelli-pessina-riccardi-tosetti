@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+/**
+ *
+ */
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
     private final int[][] positions;
 
