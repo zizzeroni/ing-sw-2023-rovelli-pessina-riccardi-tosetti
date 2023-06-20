@@ -6,26 +6,61 @@ import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
+ * This class represents the View of the MinEqualsTilesPattern.
+ * Contains the part of the logic for displaying the MinEqualsTilesPattern and referencing it.
+ * This can be done through a series of methods to access direction, maxEqualsTiles value,
+ * and identifies the response to a given situation regarding the MinEqualsTilesPattern's goal achievement (toString).
  *
+ * @see MinEqualsTilesPattern
  */
 public class MinEqualsTilesPatternView extends CommonGoalView {
+
     private final Direction direction;
     private final int maxEqualsTiles;
 
+    /**
+     * Class constructor.
+     *
+     * @param commonGoalModel is the model linked to the commonGoal associated to the MinEqualsTilesPattern.
+     */
     public MinEqualsTilesPatternView(MinEqualsTilesPattern commonGoalModel) {
         super(commonGoalModel);
         this.maxEqualsTiles = commonGoalModel.getMaxEqualsTiles();
         this.direction = commonGoalModel.getDirection();
     }
 
+    /**
+     * Gets the directions that is used to retrieve the pattern.
+     *
+     * @return contains the directions that is used for the pattern representation.
+     *
+     */
     public Direction getDirection() {
         return this.direction;
     }
 
+    /**
+     * Used to access maxEqualsTiles value.
+     *
+     * @return contains the maximum number of tiles that can be the same in a column/row.
+     *
+     * @see MinEqualsTilesPattern
+     */
     public int getMaxEqualsTiles() {
         return this.maxEqualsTiles;
     }
 
+    /**
+     * This method is used to display the possible, different, results of the user's interactions with the view
+     * during the {@code Game} (those that produced a {@code MinEqualsTilesPattern} goal).
+     *
+     * @return a text message associated to the various combinations of tiles associated
+     *          that may satisfy the conditions to verify the MinEqualsTilesPattern
+     *          (or a text message to signal that the pattern has not been found).
+     *
+     * @see MinEqualsTilesPattern
+     *
+     */
     @Override
     public String toString() {
         switch (this.direction) {

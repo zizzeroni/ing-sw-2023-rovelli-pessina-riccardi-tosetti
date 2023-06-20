@@ -5,20 +5,50 @@ import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
+ * This class represents the View of the {@code TilesInPositionsPatternGoal}.
+ * It contains the part of the logic for displaying the pattern and referencing it.
+ * This can be done through a method to identify the response to a given situation regarding
+ * this goal pattern achievement (toString).
+ * It also provides a getter to access the matrix of tiles positions, peculiar to this type of pattern.
  *
+ * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
  */
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
     private final int[][] positions;
 
+    /**
+     * Class constructor.
+     * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
+     *
+     * @param commonGoalModel the referencing class for the call of the super method in the constructor
+     *                         in order to make possible the construction of the class object.
+     */
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
         this.positions = commonGoalModel.getPositions();
     }
 
+    /**
+     * Getter for identifying pattern's tiles positions.
+     *
+     * @return A matrix, linked to the particular class pattern, that contains 1
+     *          in positions where there must be same colour tiles, otherwise 0.
+     *
+     * @see TilesInPositionsPatternGoalView
+     */
     public int[][] getPositions() {
         return this.positions;
     }
 
+    /**
+     * This method is used to display the of the user's interactions with the view
+     * during the {@code Game} (those that produced a {@code TilesInPositionsPatternGoal}).
+     *
+     * @return a text message associated to the various combinations of tiles associated
+     *          that may satisfy the conditions to verify the TilesInPositionsPatternGoal.
+     *
+     * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
+     */
     @Override
     public String toString() {
         StringBuilder sendBack = new StringBuilder("Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles\n" +
