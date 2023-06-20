@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.Choice;
  * An interface used to represent an object of type 'listener'.
  * In this case the listener registers itself to the {@code View}.
  * When the view is subject to changes the listener responds to them
- * through a set of various methods reported in the various states, having
- * similar, yet different, implementations.
+ * through a set of various methods reported in the different states, having
+ * similar, but distinct, implementations.
  *
  * @see javax.swing.text.View
  * @see com.sun.glass.ui.View
