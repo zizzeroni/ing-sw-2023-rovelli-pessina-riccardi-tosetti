@@ -71,7 +71,7 @@ public class AppClient {
                 switch (connectionChoice) {
                     case 1 -> {
                         //Getting the remote server by RMI
-                        Registry registry = LocateRegistry.getRegistry(ServeripAddress, 1234);
+                        Registry registry = LocateRegistry.getRegistry(ServeripAddress, 1099);
                         Server server = (Server) registry.lookup("server");
 
                         //Creating a new client with a TextualUI and a RMI Server

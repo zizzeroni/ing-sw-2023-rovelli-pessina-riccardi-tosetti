@@ -361,13 +361,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                         @Override
                                         public void run() {
                                             selfThread.interrupt();
+                                            System.err.println("stopIfWaitTooLongTimer executed");
                                         }
                                     }, 6000);
 
                                     try {
                                         client.ping();
+                                        System.out.println("Client of: "+nickname+" successfully pinged");
                                         numberOfMissedPings.replace(client, 0);
                                         stopIfWaitTooLongTimer.cancel();
+                                        System.out.println("stopIfWaitTooLongTimer cancelled");
                                     } catch (RemoteException e) {
                                         try {
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);

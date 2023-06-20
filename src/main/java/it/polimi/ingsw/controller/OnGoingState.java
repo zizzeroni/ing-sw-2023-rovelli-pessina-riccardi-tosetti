@@ -194,6 +194,10 @@ public class OnGoingState extends ControllerState {
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
         }
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+            this.controller.changeState(new InPauseState(this.controller));
+            this.controller.getModel().setGameState(InPauseState.toEnum());
+        }
     }
 
     public static GameState toEnum() {
