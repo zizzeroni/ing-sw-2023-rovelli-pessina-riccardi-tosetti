@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
  * This class represents the View of the {@code DiagonalEqualPattern}.
- * It contains the part of the logic for displaying the pattern and referencing it.
+ * It contains the necessary components for displaying the pattern and referencing it.
  * This can be done through a method to identify the response to a given situation regarding
  * this goal pattern achievement (toString).
  * It also provides a method to directly access the class pattern which is linked to other
@@ -39,7 +39,7 @@ public class DiagonalEqualPatternView extends CommonGoalView {
     }
 
     /**
-     * This method is used to display the of the user's interactions with the view
+     * This method is used to display the result of the user's interactions with the view
      * during the {@code Game} (those that produced a {@code DiagonalEqualPattern}).
      *
      * @return a text message associated to the various combinations of tiles associated

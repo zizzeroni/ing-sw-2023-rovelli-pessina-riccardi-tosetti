@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
  * This class represents the View of the {@code FourCornersPatternGoal}.
- * It contains the part of the logic for displaying the pattern and referencing it.
+ * It contains the necessary components for displaying the pattern and referencing it.
  * This can be done through a method to identify the response to a given situation regarding
  * this goal pattern achievement (toString).
  *

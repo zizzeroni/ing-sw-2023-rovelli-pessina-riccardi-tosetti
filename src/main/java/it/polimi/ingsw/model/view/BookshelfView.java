@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.view;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
@@ -10,13 +11,16 @@ import java.util.Optional;
 
 /**
  *
- * This class implements the {@code Bookshelf} serialization.
+ * This class implements the {@code BookshelfView} through serialization.
  * All the players always access only the implementation of the {@code View} of the relative {@code Bookshelf},
  * and are sensible to the inherent modifies.
- * The class contains a series of getters to access the number of
+ * Also, the class contains a series of getters to access the number of
  * rows/columns and to retrieve the selected tiles from the {@code Board},
- * given the current number of active players.
+ * given the current number of active players, the considered group of {@code Tile}s, ...
  *
+ * @see Bookshelf
+ * @see it.polimi.ingsw.model.Board
+ * @see it.polimi.ingsw.model.tile.Tile
  */
 public class BookshelfView implements Serializable {
     //private final Bookshelf bookshelfModel;
@@ -27,6 +31,16 @@ public class BookshelfView implements Serializable {
     //private final Map<Integer, Integer> pointsForEachGroup;
     private final Map<Integer, Integer> pointsForEachGroup;
 
+    /**
+     * Class constructor.
+     * Used to associate the representation of the {@code Bookshelf} in the {@code BookshelfView}
+     * with the linked logic in the {@code bookshelfModel} (passed as parameter).
+     *
+     * @param bookshelfModel the model of the considered {@code Bookshelf}.
+     *
+     * @see Board
+     *
+     */
     public BookshelfView(Bookshelf bookshelfModel) {
         this.tiles = new TileView[bookshelfModel.getNumberOfRows()][bookshelfModel.getNumberOfColumns()];
         this.pointsForEachGroup = new HashMap<>();
@@ -62,7 +76,7 @@ public class BookshelfView implements Serializable {
      * Returns the total number of empty cells in the given column.
      *
      * @param column the column to inspect.
-     * @return the number of empty cells in {@code column}.
+     * @return the number of empty cells in column.
      */
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
@@ -76,9 +90,11 @@ public class BookshelfView implements Serializable {
     }
 
     /**
-     * Getter to retrieve the Bookshelf image.
+     * Getter to retrieve the {@code Bookshelf} image.
      *
      * @return the image of the Bookshelf.
+     *
+     * @see Bookshelf
      */
     public String getImage() {
         return this.image;
@@ -88,26 +104,35 @@ public class BookshelfView implements Serializable {
      * Returns the set of tiles currently on the board.
      *
      * @return the {@code TileView} of the given {@code Board}.
+     *
+     * @see it.polimi.ingsw.model.Board
+     * @see TileView
      */
     public TileView[][] getTiles() {
         return this.tiles;
     }
 
     /**
-     * Returns the Tile identified through its coordinates, passed as parameters.
+     * Returns the {@code Tile} correspondent to its coordinates,
+     * passed as parameters.
      *
      * @param row the first coordinate of the tile.
      * @param column the second coordinate of the tile.
-     * @return the {@code Tile} identified.
+     * @return the tile identified.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
      */
     public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
         return this.tiles[row][column];
     }
 
     /**
-     * Returns the number of columns.
+     * Getter that returns the number of columns
+     * in the {@code Bookshelf}.
      *
      * @return the number of columns.
+     *
+     * @see Bookshelf
      */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
@@ -123,9 +148,12 @@ public class BookshelfView implements Serializable {
     }
 
     /**
-     * Returns the number of rows.
+     * Getter that returns the number of rows
+     * in the {@code Bookshelf}.
      *
      * @return the number of rows.
+     *
+     * @see Bookshelf
      */
     public int getNumberOfRows() {
         return this.numberOfRows;
@@ -165,6 +193,9 @@ public class BookshelfView implements Serializable {
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         String output = "    ";
@@ -188,12 +219,18 @@ public class BookshelfView implements Serializable {
     }
 
     /**
-     * Evaluates the score of the {@code Player} considering whether if he has
-     * accomplished an objective through the given group of tiles, the common goal
-     * or a personal goal.
+     * Evaluates the score of the {@code Player}s considering whether if they have
+     * accomplished an objective through the given group of tiles, a {@code CommonGoal}
+     * or a {@code PersonalGoal}.
+     * If the number of tiles is below the first goal available, no points are assigned.
+     * If the number of tiles is over the last goal available, given points remain equal to the last goal points.
      *
-     * @return
-     * @throws Exception prints a message error when the -
+     * @return the current score.
+     * @throws Exception prints a message error in case Bookshelf points have not been set.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     * @see it.polimi.ingsw.model.PersonalGoal
      */
     public int score() throws Exception {
         int score = 0;
@@ -247,13 +284,17 @@ public class BookshelfView implements Serializable {
     }
 
     /**
-     * Assigns the tiles' group to the BookShelf that contains the correspondent pattern of tiles.
+     * This method is used to assign the {@code Tile}'s group to the {@code Bookshelf}
+     * that contains the correspondent pattern of tiles.
      *
-     * @param supportMatrix the matrix used by the process to store intermediate values.
+     * @param supportMatrix the matrix used during the method intermediate values.
      * @param row the selected row.
      * @param column the selected column.
      * @param group the chosen group.
      * @param currentTileColor the color of the tiles in the current set.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see Bookshelf
      */
     private void assignGroupToBookshelfEqualTiles(int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
         if ((supportMatrix[row][column] == 1) && currentTileColor.equals(this.getSingleTile(row, column).getColor())) {
