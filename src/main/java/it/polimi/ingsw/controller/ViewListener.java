@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
 
 public interface ViewListener {
     public void changeTurn();

@@ -39,7 +39,6 @@ public class InPauseState extends ControllerState{
             player.addMessage(message);
         }
     }
-    //TODO:Chiedere a rovo
     private boolean checkIfGameIsResumable() {
         Game model = this.controller.getModel();
         return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1;

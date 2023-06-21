@@ -40,6 +40,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
         }
@@ -50,6 +51,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendPingToClientCommand();
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
         }
@@ -60,20 +62,11 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendExceptionCommand(exception);
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
         }
     }
-
-    /*@Override
-    public void receiveException(RemoteException exception) throws RemoteException {
-        CommandToClient command = new SendExceptionCommand(exception);
-        try {
-            this.oos.writeObject(command);
-        } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
-        }
-    }*/
 
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
@@ -93,17 +86,5 @@ public class ClientSkeleton implements Client {
         } else {
             message.execute();
         }
-    }
-
-    public String receiveNickname(Server server) throws RemoteException {
-        try {
-            String nickname = (String) this.ois.readObject();
-            return nickname;
-        } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
-        }
-
     }
 }
