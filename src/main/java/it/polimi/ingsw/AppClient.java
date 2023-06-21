@@ -109,16 +109,10 @@ public class AppClient {
             case 2 -> {
                 switch (connectionChoice) {
                     case 1 -> {
-                        //Getting the remote server by RMI
-
-                        //Creating a new client with a TextualUI and a RMI Server
-                        Application.launch(GUI.class, "");
-
+                        Application.launch(GUI.class, "1");
                     }
                     case 2 -> {
-                        //Getting the remote server by Socket
-                        System.err.println("To be implemented");
-                        return;
+                        Application.launch(GUI.class, "2");
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");

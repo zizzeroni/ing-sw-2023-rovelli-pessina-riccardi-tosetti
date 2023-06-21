@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -367,12 +366,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
                                     try {
                                         client.ping();
-                                        System.out.println("Client of: "+nickname+" successfully pinged");
+                                        //System.out.println("Client of: "+nickname+" successfully pinged");
                                         numberOfMissedPings.replace(client, 0);
                                         stopIfWaitTooLongTimer.cancel();
-                                        System.out.println("stopIfWaitTooLongTimer cancelled");
+                                        //System.out.println("stopIfWaitTooLongTimer cancelled");
                                     } catch (RemoteException e) {
                                         try {
+                                            stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
                                             if (numberOfMissedPings.get(client) == 3) {
