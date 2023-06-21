@@ -5,11 +5,11 @@ import it.polimi.ingsw.GUI.LoginController;
 import it.polimi.ingsw.GUI.MainSceneController;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,13 +29,15 @@ import java.util.concurrent.CountDownLatch;
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
 public class GUI extends UI {
+    private double widthOld, heightOld;
+    private boolean resizing = true;
     private LoginController loginController;
     private MainSceneController mainSceneController;
     private FinalSceneController finalSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
     private volatile Choice takenTiles;
-    private static int typeOfConnection;
+    private int typeOfConnection;
 
     public GUI(GameView model) {
         super(model);
@@ -48,6 +48,7 @@ public class GUI extends UI {
     }
 
     public void start(Stage primaryStage) throws Exception {
+        this.typeOfConnection = Integer.parseInt(this.getParameters().getRaw().get(0));
         this.primaryStage = primaryStage;
         //this.primaryStage.set
         run();
@@ -134,7 +135,7 @@ public class GUI extends UI {
                 //Creating a new client with a TextualUI and a Socket Server
                 Client client = null;
                 try {
-                    client = new ClientImpl(serverStub, new TextualUI());
+                    client = new ClientImpl(serverStub, this);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -144,7 +145,7 @@ public class GUI extends UI {
                 startReceiverThread(client, serverStub);
             }else {
                 try {
-                    Registry registry = LocateRegistry.getRegistry();
+                    Registry registry = LocateRegistry.getRegistry("192.168.1.4", 1099);
                     Server server = (Server) registry.lookup("server");
                     new ClientImpl(server, this);
                     startPingSenderThread(server);
@@ -161,22 +162,24 @@ public class GUI extends UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
+            if(getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+                CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                    this.controller.startGame();
+                    countDownLatchStartGame.countDown();
+                });
+                try {
+                    countDownLatchStartGame.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             //Aspetto che ci sia il numero giusto di giocatori
             boolean esci = true;
             while (esci) {
                 //Se il numero di giocatori diventa corretto
-                if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+                if (getModel().getGameState()==GameState.ON_GOING) {
                     //Notifico il controller dell'inizio partita
-                    CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
-                    Platform.runLater(() -> {
-                        this.controller.startGame();
-                        countDownLatchStartGame.countDown();
-                    });
-                    try {
-                        countDownLatchStartGame.await();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                     esci = false;
                     Parent secondRoot;
                     //Carico la seconda scena e la mostro
@@ -264,11 +267,6 @@ public class GUI extends UI {
         th.start();
     }
 
-    public static void main(String[] args) {
-        typeOfConnection=Integer.parseInt(args[0]);
-        launch(args);
-    }
-
     public void waitWhileInState(ClientGameState state) {
         synchronized (this.getLockState()) {
             switch (state) {
@@ -322,8 +320,7 @@ public class GUI extends UI {
         mainSceneController.setBookshelf(this.getModel().getPlayers());
         mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
     }
-    private double widthOld, heightOld;
-    private boolean resizing = true;
+
     public void rescale(){
         if(resizing){
             double widthWindow = primaryStage.getScene().getWidth();

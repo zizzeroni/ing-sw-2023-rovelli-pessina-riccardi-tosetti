@@ -6,15 +6,8 @@ import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.network.exceptions.WrongInputDataException;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class OnGoingState extends ControllerState {
 
@@ -41,7 +34,6 @@ public class OnGoingState extends ControllerState {
 
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        GameController controller = this.controller;
         if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
@@ -201,6 +193,10 @@ public class OnGoingState extends ControllerState {
         model.getPlayerFromNickname(nickname).setConnected(false);
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
+        }
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+            this.controller.changeState(new InPauseState(this.controller));
+            this.controller.getModel().setGameState(InPauseState.toEnum());
         }
     }
 

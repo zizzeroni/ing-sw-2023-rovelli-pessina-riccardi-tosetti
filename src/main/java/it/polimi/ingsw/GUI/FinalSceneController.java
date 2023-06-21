@@ -1,17 +1,13 @@
 package it.polimi.ingsw.GUI;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.view.PlayerView;
 import it.polimi.ingsw.view.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FinalSceneController {
     @FXML

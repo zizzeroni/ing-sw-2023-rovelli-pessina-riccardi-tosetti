@@ -23,7 +23,7 @@ public class PersonalGoalView implements Serializable {
     }
 
     public int getImageID() {
-        return imageID;
+        return this.imageID;
     }
 
     public int getNumColumns() {

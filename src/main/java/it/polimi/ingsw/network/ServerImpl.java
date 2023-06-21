@@ -6,29 +6,34 @@ import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.network.exceptions.WrongInputDataException;
-import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
-    private Map<Client, String> clientsToHandle;
+    private Map<Client, Optional<String>> clientsToHandle;
+    private Map<Client, Integer> numberOfMissedPings;
 
     public ServerImpl() throws RemoteException {
         super();
-        this.clientsToHandle = new HashMap<>();
+        this.clientsToHandle = new ConcurrentHashMap<>();
         this.model = new Game();
         this.controller = new GameController(this.model);
         //Server start listening to Game for changes
         this.model.registerListener(this);
         //Server start listening to Board for changes
         this.model.getBoard().registerListener(this);
-
+        this.numberOfMissedPings = new ConcurrentHashMap<>();
         startPingSenderThread(this);
     }
 
@@ -55,23 +60,21 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         try {
             this.controller.insertUserInputIntoModel(playerChoice);
         } catch (WrongInputDataException e) {
-            //TODO: Chiedere se dobbiamo inviare l'eccezione a tutti i client o solo 1
-            //TODO: Invio a tutti i client:
-//            for (Client client : this.clientsToHandle.keySet()) {
-//                try {
-//                    client.receiveException(e);
-//                } catch (RemoteException e2) {
-//                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:"+client);
-//                }
-//            }
-            //TODO: Invio al client che ha invocato il metodo (player attivo corrente)
-            Game model = this.controller.getModel();
+            for (Client client : this.clientsToHandle.keySet()) {
+                try {
+                    client.receiveException(e);
+                } catch (RemoteException e2) {
+                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:" + client);
+                }
+            }
+
+            /*Game model = this.controller.getModel();
             Client client = this.clientsToHandle.entrySet().stream()
                     //.filter(pair -> pair.getValue().equals(this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getNickname()))
                     .reduce(new AbstractMap.SimpleEntry<>(null,null),
                             (resultEntry, currentEntry)->resultEntry = currentEntry.getValue().equals(model.getPlayers().get(model.getActivePlayerIndex()).getNickname())
                                     ? currentEntry : resultEntry).getKey();
-            client.receiveException(e);
+            client.receiveException(e);*/
         }
     }
 
@@ -87,21 +90,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
-        if (this.clientsToHandle.containsValue(nickname)) {
+        Optional<String> nicknameInInput = Optional.ofNullable(nickname);
+        if (this.clientsToHandle.containsValue(nicknameInInput)) {
             if (this.controller.getModel().getPlayerFromNickname(nickname).isConnected()) {
                 client.receiveException(new DuplicateNicknameException("[INPUT:ERROR] Chosen nickname is already being utilized, please try another one!"));
                 return;
             }
             Client key = null;
-            for (Map.Entry<Client, String> entry : this.clientsToHandle.entrySet()) {
-                if (entry.getValue() != null && entry.getValue().equals(nickname)) {
+            for (Map.Entry<Client, Optional<String>> entry : this.clientsToHandle.entrySet()) {
+                if (entry.getValue().isPresent() && entry.getValue().get().equals(nickname)) {
                     key = entry.getKey();
                 }
             }
             this.clientsToHandle.remove(key);
+            this.numberOfMissedPings.remove(key);
+            System.out.println("Removed key: " + key);
         }
 
-        this.clientsToHandle.put(client, nickname);
+        this.clientsToHandle.put(client, nicknameInInput);
+        this.numberOfMissedPings.put(client, 0);
         this.controller.addPlayer(nickname);
     }
 
@@ -120,7 +127,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.startGame();
     }
 
-    //TODO: Ask if we should pass nickname to register client
+    //TODO: Togliere il nickname come parametro del metodo
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         /*try {
@@ -130,17 +137,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }*/
         //this.addClientToHandle(client);
 
-
-        this.clientsToHandle.put(client, nickname);
-
+        Optional<String> nicknameInInput = Optional.ofNullable(nickname);
+        this.clientsToHandle.put(client, nicknameInInput);
+        this.numberOfMissedPings.put(client, 0);
 
     }
 
     public synchronized void pingClients() throws RemoteException {
         Game model = this.controller.getModel();
         Client clientToRemove = null;
-        for (Map.Entry<Client, String> entry : clientsToHandle.entrySet()) {
-            String nickname = entry.getValue();
+        for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
+            String nickname = entry.getValue().orElse("Unknown");
             Client client = entry.getKey();
             try {
                 client.ping();
@@ -167,7 +174,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public synchronized void disconnectPlayer(String nickname) throws RemoteException {
         this.controller.disconnectPlayer(nickname);
-        //this.clientsToHandle.remove(nickname);
     }
 
     //Listeners methods
@@ -313,7 +319,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    private void startPingSenderThread(ServerImpl server) {
+    /*private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -327,6 +333,74 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
         Timer pingSender = new Timer("PingSender");
         pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
+    }*/
+
+    /*TODO: DA TESTARE NON IN LOCALHOST*/
+
+    /*TODO: PROBLEMA: A volte capita che il metodo ping venga invocato contemporaneamente o comunque in vicinanza alla riconnessione del client al server,
+     *                 cosa che quindi fa disconnettere nuovamente il client anche se dovrebbe essere connesso*/
+    private void startPingSenderThread(ServerImpl server) {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                clientsToHandle.entrySet()
+                        .stream()
+                        .filter(entry -> model.getPlayerFromNickname(entry.getValue().orElse("Unknown")) != null
+                                && model.getPlayerFromNickname(entry.getValue().orElse("Unknown")).isConnected())
+                        .collect(Collectors.toSet())
+                        .forEach(clientOptionalEntry -> {
+                            //I declare a new Thread for each client registered, in this way each thread handle the sending of the ping to his associated client
+                            Thread pingSenderThread = new Thread() {
+                                @Override
+                                public void run() {
+                                    Client client = clientOptionalEntry.getKey();
+                                    String nickname = clientOptionalEntry.getValue().orElse("Unknown");
+
+                                    //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                                    Thread selfThread = this;
+                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            selfThread.interrupt();
+                                            System.err.println("stopIfWaitTooLongTimer executed");
+                                        }
+                                    }, 6000);
+
+                                    try {
+                                        client.ping();
+                                        //System.out.println("Client of: "+nickname+" successfully pinged");
+                                        numberOfMissedPings.replace(client, 0);
+                                        stopIfWaitTooLongTimer.cancel();
+                                        //System.out.println("stopIfWaitTooLongTimer cancelled");
+                                    } catch (RemoteException e) {
+                                        try {
+                                            stopIfWaitTooLongTimer.cancel();
+                                            numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
+                                            System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
+                                            if (numberOfMissedPings.get(client) == 3) {
+                                                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
+                                                if (model.getGameState() == GameState.IN_CREATION) {
+                                                    clientsToHandle.remove(client);
+                                                }
+                                                if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
+                                                    controller.disconnectPlayer(nickname);
+                                                }
+                                            }
+                                        } catch (NullPointerException e1) {
+                                            System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
+                                        }
+                                    }
+                                }
+                            };
+
+                            pingSenderThread.start();
+                        });
+            }
+        };
+
+        Timer pingSender = new Timer("PingSenderTimer");
+        pingSender.scheduleAtFixedRate(timerTask, 30, 1000);
     }
 
     private void resetServer() {
@@ -340,3 +414,50 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
 }
+
+
+/*
+                for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
+                    //I declare a new Thread for each client registered, in this way each thread handle the sending of the ping to his associated client
+                    Thread pingSenderThread = new Thread() {
+                        @Override
+                        public void run() {
+                            String nickname = entry.getValue().orElse("Unknown");
+                            Client client = entry.getKey();
+
+                            //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                            Thread selfThread = this;
+                            Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                            stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    selfThread.interrupt();
+                                }
+                            }, 6000);
+
+                            try {
+                                client.ping();
+                                numberOfMissedPings.replace(client, 0);
+                                stopIfWaitTooLongTimer.cancel();
+                            } catch (RemoteException e) {
+                                try {
+                                    numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
+                                    System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
+                                    if (numberOfMissedPings.get(client) == 3) {
+                                        System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
+                                        if (model.getGameState() == GameState.IN_CREATION) {
+                                            clientsToHandle.remove(client);
+                                        }
+                                        if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
+                                            controller.disconnectPlayer(nickname);
+                                        }
+                                    }
+                                } catch (NullPointerException e1) {
+                                    System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
+                                }
+                            }
+                        }
+                    };
+
+                    pingSenderThread.start();
+                }*/

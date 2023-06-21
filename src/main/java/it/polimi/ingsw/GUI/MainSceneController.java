@@ -550,7 +550,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
-        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getImageID() + ".png";
+
+        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getImageID()==1 ? "" : personalGoal.getImageID()) + ".png";
 
         //Assegnare il giusto personal goal
 

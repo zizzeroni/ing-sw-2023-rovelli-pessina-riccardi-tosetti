@@ -10,16 +10,33 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AppServer {
     private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public static void main(String[] args) throws RemoteException {
+        //Setting the ipAddress of this server to the one chosen by the admin
+        Scanner input = new Scanner(System.in);
+        String ipAddress = args.length>0 ? args[0] : "";
+        String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher;
+        while (ipAddress.equals("")) {
+            System.out.println("Insert a valid IpAddress for the server:");
+            ipAddress = input.next();
+            matcher = pattern.matcher(ipAddress);
+            ipAddress = matcher.matches() ? ipAddress : "";
+        }
+        System.setProperty("java.rmi.server.hostname", ipAddress);
+
         //Creating an implementation of a Server
         Server server = new ServerImpl();
-
 
         //Starting Thread that will take care of initializing RMI connection
         Thread rmiThread = new Thread() {
