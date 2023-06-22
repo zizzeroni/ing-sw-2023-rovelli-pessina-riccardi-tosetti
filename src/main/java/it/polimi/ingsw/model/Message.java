@@ -11,7 +11,9 @@ public record Message(MessageType messageType, String receiverNickname, String s
 
 
     /**
-     * @return
+     * This method is used to identify the String to be sent as message, while setting all its parameters.
+     *
+     * @return the String message to be sent.
      */
     @Override
     public String toString() {
