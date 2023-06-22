@@ -249,11 +249,13 @@ public class GameController implements ViewListener {
     }
 
     /**
-     * Getter used to assign a {@code PersonalGoal} to a {@code Player}.
+     * Getter used to access the {@code PersonalGoal} assigned to a {@code Player}.
      *
      *
      * @param index is the identifier of the goal.
      * @return the player's indexed personalGoal.
+     *
+     * @see PersonalGoal
      */
     public PersonalGoal getPersonalGoal(int index) {
         Collections.shuffle(personalGoalsDeck);
