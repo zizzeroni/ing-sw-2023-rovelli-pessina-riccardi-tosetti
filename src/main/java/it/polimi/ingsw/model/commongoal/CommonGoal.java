@@ -90,4 +90,10 @@ public abstract class CommonGoal extends Card {
         return new CommonGoalView(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof CommonGoal))
+            return false;
+        return (this.getImageID()==((CommonGoal) obj).getImageID());
+    }
 }

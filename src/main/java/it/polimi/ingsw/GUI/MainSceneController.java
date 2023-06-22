@@ -13,8 +13,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -26,7 +28,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
 public class MainSceneController implements Initializable {
-    //Fa schifo
     private GUI mainGui;
     @FXML
     private String tileName;
@@ -35,6 +36,12 @@ public class MainSceneController implements Initializable {
     private String firstCommonGoalString;
     private String secondCommonGoalString;
     private Scene scene;
+    @FXML
+    private ImageView victoryPoint;
+    @FXML
+    private ImageView pointsItem1;
+    @FXML
+    private ImageView pointsItem2;
     @FXML
     private ImageView commonGoal1;
     @FXML
@@ -60,9 +67,15 @@ public class MainSceneController implements Initializable {
     private int startOrder;
     @FXML
     private Label pointsLabel;
+    private int turn;
+    private Image pointsImage1;
+   private Image pointsImage2;
+   @FXML
+   private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
@@ -73,6 +86,12 @@ public class MainSceneController implements Initializable {
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
 
+        Image victoryImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg"));
+        victoryPoint.setImage(victoryImage);
+
+        Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+        pointsItem1.setImage(pointsImage);
+        pointsItem2.setImage(pointsImage);
     }
 
     public void selected(ActionEvent actionEvent) {
@@ -99,7 +118,7 @@ public class MainSceneController implements Initializable {
 
                         Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                         button.setBorder(border);
-                        if(maxNumberOfCellsFreeInBookshelf==1){
+                        if (maxNumberOfCellsFreeInBookshelf == 1) {
                             this.endSelectionTiles();
                         }
                     }
@@ -113,7 +132,7 @@ public class MainSceneController implements Initializable {
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
-                            if(maxNumberOfCellsFreeInBookshelf==2){
+                            if (maxNumberOfCellsFreeInBookshelf == 2) {
                                 this.endSelectionTiles();
                             }
                         }
@@ -175,6 +194,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem1.setVisible(false);
+        pointsItem2.setVisible(false);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -186,6 +207,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(559);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem1.setVisible(true);
+        pointsItem2.setVisible(true);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -197,6 +220,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(601);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem2.setVisible(false);
+        pointsItem1.setVisible(false);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -208,12 +233,13 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(676);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem2.setVisible(true);
+        pointsItem1.setVisible(true);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
-
         imageView.setFitHeight(315);
         imageView.setFitWidth(429);
         imageView.setLayoutX(844);
@@ -254,47 +280,51 @@ public class MainSceneController implements Initializable {
                 }
             }
             pointsLabel.setText(String.valueOf(points));
-            if (fourthPlayerBookshelf == null)
-                return;
-            else if (thirdPlayerBookshelf == null)
-                return;
-            if (numberOfPlayer != 4) {
-                Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile04");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile40");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile73");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile84");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile57");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile48");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile15");
-                fouPlayerButtons.setVisible(false);
-                fourthPlayerBookshelf.setVisible(false);
-                if (numberOfPlayer != 3) {
-                    Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile22");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile26");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile50");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile62");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile85");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile66");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile38");
-                    threePlayerButtons.setVisible(false);
-                    thirdPlayerBookshelf.setVisible(false);
+
+            if (turn == 0) {
+                if (fourthPlayerBookshelf == null)
+                    return;
+                else if (thirdPlayerBookshelf == null)
+                    return;
+                if (numberOfPlayer != 4) {
+                    Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile04");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile40");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile73");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile84");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile57");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile48");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile15");
+                    fouPlayerButtons.setVisible(false);
+                    fourthPlayerBookshelf.setVisible(false);
+                    if (numberOfPlayer != 3) {
+                        Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile22");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile26");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile50");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile62");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile85");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile66");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile38");
+                        threePlayerButtons.setVisible(false);
+                        thirdPlayerBookshelf.setVisible(false);
+                    }
                 }
+                turn++;
             }
             disableFirstPlayerButton();
             countDownLatchTable.countDown();
@@ -520,7 +550,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
-        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getImageID() +".png";
+
+        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getImageID()==1 ? "" : personalGoal.getImageID()) + ".png";
 
         //Assegnare il giusto personal goal
 
@@ -956,5 +987,49 @@ public class MainSceneController implements Initializable {
                 }
             }
         }
+    }
+
+    public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
+        int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
+        int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
+        if(numberOfScoreTiles2!=0) {
+            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        }else{
+            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+        if(numberOfScoreTiles1!=0) {
+            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        }else{
+            pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+
+        CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            pointsItem1.setImage(pointsImage1);
+            pointsItem2.setImage(pointsImage2);
+            countDownLatchCommonGoal.countDown();
+        });
+        try {
+            countDownLatchCommonGoal.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendMessage(KeyEvent keyEvent) {
     }
 }
