@@ -110,10 +110,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             System.out.println("Removed key: " + key);
         }
 
-        if(this.clientsToHandle.size() == 0) {
-            this.loadStoredGameIfAvailable(nickname);
-        }
-
         this.clientsToHandle.put(client, nicknameInInput);
         this.numberOfMissedPings.put(client, 0);
 
@@ -187,6 +183,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
         this.controller.restoreGameForPlayer(nickname);
+        this.model = this.controller.getModel();
+        this.model.registerListener(this);
     }
 
     @Override
@@ -419,29 +417,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
         Timer pingSender = new Timer("PingSenderTimer");
         pingSender.scheduleAtFixedRate(timerTask, 30, 1000);
-    }
-
-    private void loadStoredGameIfAvailable(String nickname) {
-        Gson gson = new Gson();
-        try {
-            Reader fileReader = Files.newBufferedReader(Paths.get("src/main/resources/storage/games.json"));
-            List<Game> games = gson.fromJson(fileReader, new TypeToken<ArrayList<Game>>() {}.getType());
-            fileReader.close();
-
-            Game storedCurrentGame = games.stream()
-                    .filter(game -> new HashSet<>(game.getPlayers().stream().map(Player::getNickname).toList()).contains(nickname))
-                    .findFirst()
-                    .orElse(null);
-
-            if(storedCurrentGame != null) {
-                this.model = storedCurrentGame;
-                this.controller = new GameController(storedCurrentGame);
-                this.model.registerListener(this);
-                this.model.getBoard().registerListener(this);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     
     private void resetServer() {
