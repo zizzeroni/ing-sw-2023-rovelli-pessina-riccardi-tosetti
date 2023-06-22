@@ -1,10 +1,18 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class CreationState extends ControllerState {
@@ -186,6 +194,66 @@ public class CreationState extends ControllerState {
                 throw new Exception("This class does not exists");
             }
         }
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        Game[] games = this.getStoredGamesFromJson();
+
+        if (games == null || games.length == 0) {
+            throw new RuntimeException("There aren't available games to restore!");
+        }
+
+        Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
+
+        if (storedCurrentGame != null) {
+            this.controller.setModel(storedCurrentGame);
+        } else {
+            throw new RuntimeException("There aren't available games to restore for player " + nickname);
+        }
+    }
+
+    /**
+     * Method to get all the stored games from the local json file.
+     *
+     * @return all stored games.
+     */
+    private Game[] getStoredGamesFromJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
+        String gamesPath = "src/main/resources/storage/games.json";
+        Path source = Paths.get(gamesPath);
+        Game[] games;
+
+        try {
+            fileReader = Files.newBufferedReader(source);
+
+            games = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return games;
+    }
+
+    /**
+     * Method to get the stored game for the given nickname.
+     *
+     * @return the stored game.
+     */
+    private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
+        List<Game> games = Arrays.asList(gamesAsArray);
+
+        //use hash set in filter to increase performance
+        return games.stream()
+                .filter(game -> new HashSet<>(
+                        game.getPlayers().stream()
+                                .map(Player::getNickname).toList())
+                        .contains(playerNickname))
+                .findFirst()
+                .orElse(null);
     }
 
     public static GameState toEnum() {

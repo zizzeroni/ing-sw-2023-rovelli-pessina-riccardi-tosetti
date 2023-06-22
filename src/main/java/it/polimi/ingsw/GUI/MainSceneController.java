@@ -551,7 +551,7 @@ public class MainSceneController implements Initializable {
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
-        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getImageID()==1 ? "" : personalGoal.getImageID()) + ".png";
+        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getId()==1 ? "" : personalGoal.getId()) + ".png";
 
         //Assegnare il giusto personal goal
 
@@ -570,8 +570,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
-        int firstCommonGoalID = commonGoals.get(0).getImageID();
-        int secondCommonGoalID = commonGoals.get(1).getImageID();
+        int firstCommonGoalID = commonGoals.get(0).getId();
+        int secondCommonGoalID = commonGoals.get(1).getId();
 
         firstCommonGoalString = "image/common goal cards/" + firstCommonGoalID + ".jpg";
         secondCommonGoalString = "image/common goal cards/" + secondCommonGoalID + ".jpg";
@@ -912,7 +912,7 @@ public class MainSceneController implements Initializable {
                     }
                     //Add tile color and ID
                     tileStyle = bookshelfSecondPlayer.getTiles()[row][column].getColor().toGUI()
-                            + bookshelfSecondPlayer.getTiles()[row][column].getImageID();
+                            + bookshelfSecondPlayer.getTiles()[row][column].getId();
 
                     CountDownLatch countDownLatchPlayer = new CountDownLatch(1);
                     Platform.runLater(() -> {

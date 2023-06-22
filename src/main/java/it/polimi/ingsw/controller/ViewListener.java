@@ -19,7 +19,7 @@ public interface ViewListener {
 
     public void disconnectPlayer(String nickname);
 
-    public boolean restoreGameForPlayer(String nickname);
+    public void restoreGameForPlayer(String nickname);
 
-    public boolean areThereStoredGamesForPlayer(String nickname);
+    public void areThereStoredGamesForPlayer(String nickname);
 }

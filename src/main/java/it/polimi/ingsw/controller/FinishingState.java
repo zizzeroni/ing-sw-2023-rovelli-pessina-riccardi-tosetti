@@ -155,6 +155,12 @@ public class FinishingState extends ControllerState {
         }
     }
 
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        //Game is finishing, so do nothing...
+    }
+
     public static GameState toEnum() {
         return GameState.FINISHING;
     }

@@ -200,6 +200,11 @@ public class OnGoingState extends ControllerState {
         }
     }
 
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        //Game is going, so do nothing...
+    }
+
     public static GameState toEnum() {
         return GameState.ON_GOING;
     }

@@ -6,10 +6,7 @@ import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendExceptionCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendPingToClientCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommand;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -60,6 +57,17 @@ public class ClientSkeleton implements Client {
     @Override
     public void receiveException(GenericException exception) throws RemoteException {
         CommandToClient command = new SendExceptionCommand(exception);
+        try {
+            this.oos.writeObject(command);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+        CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
         try {
             this.oos.writeObject(command);
             this.oos.reset();

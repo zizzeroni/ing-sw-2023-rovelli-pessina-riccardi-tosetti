@@ -17,6 +17,7 @@ public abstract class UI extends Application implements Runnable {
     private ClientGameState clientGameState;
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
+    private boolean areThereStoredGamesForPlayer = false;
     private final int countdown = 15;
 
     public UI(GameView model, ViewListener controller, String nickname) {
@@ -150,6 +151,14 @@ public abstract class UI extends Application implements Runnable {
         chat.setGameView(model);
         chat.start();
     }
+
+    public void setAreThereStoredGamesForPlayer(boolean result) {
+        this.areThereStoredGamesForPlayer = result;
+    }
+    public boolean areThereStoredGamesForPlayer() {
+        return this.areThereStoredGamesForPlayer;
+    }
+
     //ESEMPIO INTERAZIONE TESTUALE
     /*
         >>  ---NEW TURN---

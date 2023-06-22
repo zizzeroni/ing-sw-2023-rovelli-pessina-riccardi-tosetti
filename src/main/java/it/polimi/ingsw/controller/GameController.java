@@ -71,7 +71,6 @@ public class GameController {
         state.sendPrivateMessage(receiver, sender, content);
     }
 
-
     public void sendBroadcastMessage(String sender, String content) {
         state.sendBroadcastMessage(sender, content);
     }
@@ -89,11 +88,9 @@ public class GameController {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
-
     public void startGame() {
         state.startGame();
     }
-
 
     public void disconnectPlayer(String nickname) {
         System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
@@ -104,6 +101,10 @@ public class GameController {
     //------------------------------------UTILITY METHODS------------------------------------
     public Game getModel() {
         return this.model;
+    }
+
+    public void setModel(Game model) {
+        this.model = model;
     }
 
     public int getNumberOfPlayersCurrentlyInGame() {
@@ -146,29 +147,6 @@ public class GameController {
         return storedCurrentGame != null;
     }
 
-    /**
-     * Method to restore stored games.
-     *
-     * @return if the operation has been completed correctly.
-     */
-    public boolean restoreGameForPlayer(String playerNickname) {
-        Game[] games = this.getStoredGamesFromJson();
-
-        if (games == null || games.length == 0) {
-            throw new RuntimeException("There aren't available games to restore!");
-        }
-
-        Game storedCurrentGame = this.getStoredGameForPlayer(playerNickname, games);
-
-        if (storedCurrentGame != null) {
-            this.model = storedCurrentGame;
-        } else {
-            throw new RuntimeException("There aren't available games to restore for player " + playerNickname);
-        }
-
-        return true;
-
-    }
 
     /**
      * Method to get all the stored games from the local json file.
@@ -211,5 +189,14 @@ public class GameController {
                         .contains(playerNickname))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Method to restore stored games.
+     *
+     * @return if the operation has been completed correctly.
+     */
+    public void restoreGameForPlayer(String playerNickname) {
+        state.restoreGameForPlayer(playerNickname);
     }
 }

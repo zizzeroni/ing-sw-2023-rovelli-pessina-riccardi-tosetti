@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 
-import it.polimi.ingsw.model.view.boolean;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
@@ -31,7 +30,7 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
 
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
-            this.actuator.getBooleanResult(this.result);
+            this.actuator.setAreThereStoredGamesForPlayer(this.result);
         } else {
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"updateModelView(boolean)\" command because this.actuator is NULL");
         }

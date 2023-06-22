@@ -84,7 +84,7 @@ public class GUI extends UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    tileId = boardMatrix[row][column].getImageID();
+                    tileId = boardMatrix[row][column].getId();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
                 } else {
@@ -312,7 +312,7 @@ public class GUI extends UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    tileId = boardMatrix[row][column].getImageID();
+                    tileId = boardMatrix[row][column].getId();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
                 } else {

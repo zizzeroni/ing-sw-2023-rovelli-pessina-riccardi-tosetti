@@ -27,4 +27,6 @@ public abstract class ControllerState {
     public abstract void startGame();
 
     public abstract void disconnectPlayer(String nickname);
+
+    public abstract void restoreGameForPlayer(String nickname);
 }

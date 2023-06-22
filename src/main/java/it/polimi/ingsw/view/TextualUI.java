@@ -45,7 +45,9 @@ public class TextualUI extends UI {
 
         } while (this.getExceptionToHandle() != null);
 
-        if (this.controller.areThereStoredGamesForPlayer(this.getNickname())) {
+        this.controller.areThereStoredGamesForPlayer(this.getNickname());
+
+        if (this.areThereStoredGamesForPlayer()) {
             String restoreGameChoice;
             do {
                 System.out.println("There is a stored game for your user. Would you like to restore it? (Type \"YES\" to restore it, \"NO\" to delete it)");
@@ -53,23 +55,13 @@ public class TextualUI extends UI {
             } while (!restoreGameChoice.equalsIgnoreCase("YES") && !restoreGameChoice.equalsIgnoreCase("NO"));
 
             if (restoreGameChoice.equalsIgnoreCase("YES")) {
-                if (this.controller.restoreGameForPlayer(this.getNickname())) {
-                    System.out.println("Stored game has been restored correctly");
-                }
+                this.controller.restoreGameForPlayer(this.getNickname());
+                System.out.println("Stored game has been restored correctly");
             } else if (restoreGameChoice.equalsIgnoreCase("NO")) {
-                int chosenNumberOfPlayer = 0;
-                if (getModel().getPlayers().size() == 1) {
-                    do {
-                        System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
-                        chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
-                    } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
-                    this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
-                }
-
-                if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState() == GameState.IN_CREATION) {
-                    this.controller.startGame();
-                }
+                this.setUpLobby();
             }
+        } else {
+            this.setUpLobby();
         }
         System.out.println(this.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
@@ -481,6 +473,24 @@ public class TextualUI extends UI {
                 ", Obiettivo2:" + (playerGoalTiles.size() > 1 && playerGoalTiles.get(1) != null ? playerGoalTiles.get(1).getValue() : "/") + ", Vittoria:" +
                 (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
                 "Il tuo punteggio attuale " + playerScore);
+    }
+
+    private void setUpLobby() {
+        this.askNumberOfPlayers();
+
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState() == GameState.IN_CREATION) {
+            this.controller.startGame();
+        }
+    }
+    private void askNumberOfPlayers() {
+        int chosenNumberOfPlayer = 0;
+        if (getModel().getPlayers().size() == 1) {
+            do {
+                System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
+                chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
+            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+            this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+        }
     }
 
 }

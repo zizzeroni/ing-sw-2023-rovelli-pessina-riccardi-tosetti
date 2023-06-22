@@ -2,24 +2,24 @@ package it.polimi.ingsw.model.tile;
 
 public class Tile {
     private TileColor color;
-    private int imageID;
+    private int id;
 
     public Tile() {
         this.color = null;
-        this.imageID = 0;
+        this.id = 0;
     }
 
-    public Tile(TileColor color, int imageID) {
+    public Tile(TileColor color, int id) {
         this.color = color;
-        this.imageID = imageID;
+        this.id = id;
     }
 
-    public int getImageID() {
-        return this.imageID;
+    public int getId() {
+        return this.id;
     }
 
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public Tile(TileColor color) {

@@ -67,6 +67,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+        this.view.setAreThereStoredGamesForPlayer(result);
+    }
+
     //Methods used for forwarding notifications from view to the server
     @Override
     public void changeTurn() {

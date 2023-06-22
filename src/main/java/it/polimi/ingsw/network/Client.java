@@ -14,5 +14,5 @@ public interface Client extends Remote {
 
     public void receiveException(GenericException exception) throws RemoteException;
 
-    public boolean getBooleanResult(boolean result) throws RemoteException;
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException;
 }
