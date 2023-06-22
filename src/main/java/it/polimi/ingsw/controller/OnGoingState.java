@@ -37,18 +37,6 @@ public class OnGoingState extends ControllerState {
         if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
-            /*timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if(model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1) {
-                        controller.changeState(new OnGoingState(controller));
-                        controller.getModel().setGameState(OnGoingState.toEnum());
-                    } else {
-                        controller.getModel().setGameState(GameState.RESET_NEEDED);
-                    }
-                }
-            }, 15000);*/
-
         } else {
             if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
                 model.setActivePlayerIndex(0);
@@ -87,7 +75,7 @@ public class OnGoingState extends ControllerState {
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         } else {
-            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the model updated.
+            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the updated model.
             //Without this else we would receive only ONE time a notification that tell us that the state has changed, and we can't know when this will happen client-side
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }

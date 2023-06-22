@@ -64,14 +64,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                     System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:" + client);
                 }
             }
-
-            /*Game model = this.controller.getModel();
-            Client client = this.clientsToHandle.entrySet().stream()
-                    //.filter(pair -> pair.getValue().equals(this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getNickname()))
-                    .reduce(new AbstractMap.SimpleEntry<>(null,null),
-                            (resultEntry, currentEntry)->resultEntry = currentEntry.getValue().equals(model.getPlayers().get(model.getActivePlayerIndex()).getNickname())
-                                    ? currentEntry : resultEntry).getKey();
-            client.receiveException(e);*/
         }
     }
 
