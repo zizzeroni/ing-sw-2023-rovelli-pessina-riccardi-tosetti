@@ -8,6 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ *
+ */
 public class Bookshelf {
     private transient BookshelfListener listener;
     private final int numberOfColumns = 5;
@@ -41,6 +44,9 @@ public class Bookshelf {
         this.tiles = tiles;
     }
 
+    /**
+     *
+     */
     //Initialize the bookshelf of the single player
     public Bookshelf() {
         this.image = null;
@@ -103,15 +109,25 @@ public class Bookshelf {
         return counter;
     }
 
+    /**
+     * @param image
+     * @param tiles
+     */
     public Bookshelf(String image, Tile[][] tiles) {
         this.image = image;
         this.tiles = tiles;
     }
 
+    /**
+     * @return
+     */
     public String getImage() {
         return this.image;
     }
 
+    /**
+     * @param image
+     */
     public void setImage(String image) {
         this.image = image;
         this.listener.imageModified(this.image);
