@@ -8,16 +8,22 @@ public class PersonalGoalView implements Serializable {
     private final int numberOfColumns;
     private final int numberOfRows;
     private final TileView[][] pattern;
+    private final int imageID;    //Attribute from Card class, of which we don't have a "View" class
 
     public PersonalGoalView(PersonalGoal personalGoalModel) {
         this.numberOfColumns = personalGoalModel.getNumberOfColumns();
         this.numberOfRows = personalGoalModel.getNumberOfRows();
         this.pattern = new TileView[personalGoalModel.getNumberOfRows()][personalGoalModel.getNumberOfColumns()];
+        this.imageID = personalGoalModel.getImageID();
         for (int row = 0; row < personalGoalModel.getNumberOfRows(); row++) {
             for (int column = 0; column < personalGoalModel.getNumberOfColumns(); column++) {
                 this.pattern[row][column] = (personalGoalModel.getSingleTile(row, column) != null ? new TileView(personalGoalModel.getSingleTile(row, column)) : null);
             }
         }
+    }
+
+    public int getImageID() {
+        return this.imageID;
     }
 
     public int getNumColumns() {

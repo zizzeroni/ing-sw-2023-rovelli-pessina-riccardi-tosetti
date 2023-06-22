@@ -64,12 +64,14 @@ public class Bookshelf {
      */
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.tileAddedToBookshelf(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
+
+
 
     /*
     @param column is the column whose remaining places we want to know

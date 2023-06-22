@@ -66,6 +66,11 @@ public class CreationState extends ControllerState {
     }
 
     @Override
+    public void tryToResumeGame() {
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+    }
+
+    @Override
     public void startGame() {
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
             Collections.shuffle(this.controller.getModel().getPlayers());

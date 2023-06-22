@@ -108,6 +108,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     public void addPlayer(String nickname) {
         try {
             this.serverConnectedTo.addPlayer(this, nickname);
+            this.serverConnectedTo.tryToResumeGame();
         } catch (RemoteException e) {
             System.err.println("[COMMUNICATION:ERROR] Error while updating server(addPlayer):" + e.getMessage() + ".Skipping update");
         }

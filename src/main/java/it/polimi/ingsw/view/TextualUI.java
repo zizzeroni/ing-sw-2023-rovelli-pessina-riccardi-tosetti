@@ -52,8 +52,8 @@ public class TextualUI extends UI {
                 restoreGameChoice = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             } while (!restoreGameChoice.equalsIgnoreCase("YES") && !restoreGameChoice.equalsIgnoreCase("NO"));
 
-            if(restoreGameChoice.equalsIgnoreCase("YES")) {
-                if(this.controller.restoreGameForPlayer(this.getNickname())) {
+            if (restoreGameChoice.equalsIgnoreCase("YES")) {
+                if (this.controller.restoreGameForPlayer(this.getNickname())) {
                     System.out.println("Stored game has been restored correctly");
                 }
             } else if (restoreGameChoice.equalsIgnoreCase("NO")) {
@@ -71,7 +71,7 @@ public class TextualUI extends UI {
                 }
             }
         }
-
+        System.out.println(this.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
     }
 
@@ -82,10 +82,62 @@ public class TextualUI extends UI {
                     System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+                case WAITING_FOR_RESUME ->
+                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
             while (getState() == clientGameState) {
                 try {
                     getLockState().wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    private Thread createNewPrintCountdownThread() {
+        return new Thread(() -> {
+            System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+            System.out.print(getCountdown());
+            for (int countdown = getCountdown() - 1; countdown > -1; countdown--) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+                    System.out.println("\nA player has rejoined, game resumed...");
+                    return;
+                }
+                System.out.print("," + countdown);
+            }
+        });
+    }
+
+    private void waitWhileInStates(List<ClientGameState> gameStates) {
+        boolean firstTime = true;
+        Thread printCountdownTh = this.createNewPrintCountdownThread();
+
+        synchronized (this.getLockState()) {
+            switch (getState()) {
+                case WAITING_IN_LOBBY -> {
+                    System.out.println("Waiting...");
+                }
+                case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
+                case WAITING_FOR_RESUME ->
+                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+            }
+            while (gameStates.contains(getState())) {
+                try {
+                    getLockState().wait();
+
+                    if (this.getState() == ClientGameState.WAITING_FOR_RESUME) {
+                        if (firstTime) {
+                            firstTime = false;
+                            printCountdownTh.start();
+                        }
+                    } else {
+                        printCountdownTh.interrupt();
+                        printCountdownTh = this.createNewPrintCountdownThread();
+                        firstTime = true;
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -100,13 +152,18 @@ public class TextualUI extends UI {
 
         while (this.getState() != ClientGameState.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-            waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+            //waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+            waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
             if (this.getState() == ClientGameState.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
             this.controller.insertUserInputIntoModel(choice);
+            if (this.getExceptionToHandle() != null) {
+                this.getExceptionToHandle().handle();
+                this.setExceptionToHandle(null);
+            }
             this.controller.changeTurn();
         }
         showPersonalRecap();
@@ -284,7 +341,7 @@ public class TextualUI extends UI {
                                     System.err.println("Not fitting digits have been entered");
                                 }
                             } else {
-                                    System.err.println("The number of digits that has been entered is different from the " +
+                                System.err.println("The number of digits that has been entered is different from the " +
                                         "number of chosen tiles or the given input does not meet the given format, try again!");
                             }
                         } while (!isInsertCorrect);
@@ -343,7 +400,8 @@ public class TextualUI extends UI {
         return null;
     }
 
-    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
+    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
+            directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
@@ -390,8 +448,8 @@ public class TextualUI extends UI {
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
             if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
-                    (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
-                    (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                    (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                    (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
             } else {

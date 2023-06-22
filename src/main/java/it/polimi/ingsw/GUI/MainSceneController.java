@@ -13,29 +13,35 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
 public class MainSceneController implements Initializable {
-    //Fa schifo
     private GUI mainGui;
     @FXML
-    private AnchorPane anchorPane;
-    private User sceneData;
     private String tileName;
     private String tileStyle;
     private String personalGoalString;
     private String firstCommonGoalString;
     private String secondCommonGoalString;
     private Scene scene;
+    @FXML
+    private ImageView victoryPoint;
+    @FXML
+    private ImageView pointsItem1;
+    @FXML
+    private ImageView pointsItem2;
     @FXML
     private ImageView commonGoal1;
     @FXML
@@ -56,9 +62,22 @@ public class MainSceneController implements Initializable {
     private int firstRow;
     private int firstColumn;
     private Direction directionToCheck;
+    private String selectedColumn;
+    private int[] order;
+    private int startOrder;
+    @FXML
+    private Label pointsLabel;
+    private int turn;
+    private Image pointsImage1;
+   private Image pointsImage2;
+   @FXML
+   private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.turn = 0;
+        startOrder = 0;
+        selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         commonGoal2.setImage(firstCommonGoalImage);
@@ -67,37 +86,27 @@ public class MainSceneController implements Initializable {
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
 
-//        this.scene=personalGoal.getScene();
+        Image victoryImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg"));
+        victoryPoint.setImage(victoryImage);
 
-//        boardTile15.getStyleClass().add("cat1");
-//        boardTile33.getStyleClass().add("cat1");
-//        boardTile25.getStyleClass().add("cat1");
-
-
-//        for(int row=0; row< 9; row++) {
-//            for (int column = 0; column < 9; column++) {
-//                if (getBoardButton(row, column).isDefaultButton()) {
-//                    System.out.println(row+"  " +column);
-//                    getBoardButton(row,column).setStyle("");
-//                }
-//            }
-//        }
-
+        Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+        pointsItem1.setImage(pointsImage);
+        pointsItem2.setImage(pointsImage);
     }
 
-    //    public void Take(){
-//        String taken = boardTile15.getStyleClass().get(1);
-//        selected1.setOpacity(1);
-//        boardTile84.getStyleClass().add(taken);
-//        selected1.getStyleClass().add(taken);
-//        boardTile15.getStyleClass().remove(1);
-//    }
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
+        Button buttonTakeTiles = (Button) scene.lookup("#insertTile");
+        buttonTakeTiles.setOnAction(this::SelectTiles);
         String name = button.getId();
         int column = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1)));
         int row = Integer.parseInt(String.valueOf(name.charAt(name.length() - 2)));
+
+        int maxNumberOfCellsFreeInBookshelf;
+        //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
+        maxNumberOfCellsFreeInBookshelf = this.mainGui.getModel().getPlayers().get(this.mainGui.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
+
 
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
             if (checkIfPickable(row, column)) {
@@ -109,7 +118,9 @@ public class MainSceneController implements Initializable {
 
                         Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                         button.setBorder(border);
-
+                        if (maxNumberOfCellsFreeInBookshelf == 1) {
+                            this.endSelectionTiles();
+                        }
                     }
                     case 1 -> {
                         Direction res = checkIfInLine(row, column, firstRow, firstColumn);
@@ -121,6 +132,9 @@ public class MainSceneController implements Initializable {
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
+                            if (maxNumberOfCellsFreeInBookshelf == 2) {
+                                this.endSelectionTiles();
+                            }
                         }
 
                     }
@@ -132,16 +146,18 @@ public class MainSceneController implements Initializable {
 
                             Border border = new Border(new BorderStroke(Color.ORANGE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
                             button.setBorder(border);
+                            this.endSelectionTiles();
+
                         }
                     }
-                    case 3 -> {
-                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
-                            System.err.println("Numero massimo di tiles scelto");
-                        } else {
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
-                            takenTiles.removeTile(tileView);
-                        }
-                    }
+//                    case 3 -> {
+//                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
+//                            System.err.println("Numero massimo di tiles scelto");
+//                        } else {
+//                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+//                            takenTiles.removeTile(tileView);
+//                        }
+//                    }
                 }
                 firstRow = takenTiles.getTileCoordinates().get(0).getX();
                 firstColumn = takenTiles.getTileCoordinates().get(0).getY();
@@ -178,6 +194,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem1.setVisible(false);
+        pointsItem2.setVisible(false);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -189,6 +207,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(559);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem1.setVisible(true);
+        pointsItem2.setVisible(true);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -200,6 +220,8 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(601);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
+        pointsItem2.setVisible(false);
+        pointsItem1.setVisible(false);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -211,12 +233,13 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(676);
         imageView.setLayoutY(471);
         imageView.setViewOrder(1);
+        pointsItem2.setVisible(true);
+        pointsItem1.setVisible(true);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
-
         imageView.setFitHeight(315);
         imageView.setFitWidth(429);
         imageView.setLayoutX(844);
@@ -234,59 +257,104 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
+        startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
         directionToCheck = null;
         takenTiles = new Choice();
         CountDownLatch countDownLatchTable = new CountDownLatch(1);
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        int points = activePlayer.score();
 
         Platform.runLater(() -> {
-            if (fourthPlayerBookshelf == null)
-                return;
-            else if (thirdPlayerBookshelf == null)
-                return;
-            if (numberOfPlayer != 4) {
-                Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile04");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile40");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile73");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile84");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile57");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile48");
-                fouPlayerButtons.setVisible(false);
-                fouPlayerButtons = (Button) scene.lookup("#boardTile15");
-                fouPlayerButtons.setVisible(false);
-                fourthPlayerBookshelf.setVisible(false);
-                if (numberOfPlayer != 3) {
-                    Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile22");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile26");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile50");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile62");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile85");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile66");
-                    threePlayerButtons.setVisible(false);
-                    threePlayerButtons = (Button) scene.lookup("#boardTile38");
-                    threePlayerButtons.setVisible(false);
-                    thirdPlayerBookshelf.setVisible(false);
+            for (int c = 6; c >= 0; c--) {
+                for (int r = 5; r >= 0; r--) {
+                    String nome = "#firstPlayerTile" + r + c;
+                    Button button = (Button) scene.lookup(nome);
+                    if (button != null) {
+                        if (activePlayer.getBookshelf().getTiles()[r][c] == null) {
+                            button.setOpacity(0);
+                            button.setBorder(null);
+                        }
+                    }
                 }
             }
+            pointsLabel.setText(String.valueOf(points));
+
+            if (turn == 0) {
+                if (fourthPlayerBookshelf == null)
+                    return;
+                else if (thirdPlayerBookshelf == null)
+                    return;
+                if (numberOfPlayer != 4) {
+                    Button fouPlayerButtons = (Button) scene.lookup("#boardTile31");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile04");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile40");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile73");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile84");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile57");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile48");
+                    fouPlayerButtons.setVisible(false);
+                    fouPlayerButtons = (Button) scene.lookup("#boardTile15");
+                    fouPlayerButtons.setVisible(false);
+                    fourthPlayerBookshelf.setVisible(false);
+                    if (numberOfPlayer != 3) {
+                        Button threePlayerButtons = (Button) scene.lookup("#boardTile03");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile22");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile26");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile50");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile62");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile85");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile66");
+                        threePlayerButtons.setVisible(false);
+                        threePlayerButtons = (Button) scene.lookup("#boardTile38");
+                        threePlayerButtons.setVisible(false);
+                        thirdPlayerBookshelf.setVisible(false);
+                    }
+                }
+                turn++;
+            }
+            disableFirstPlayerButton();
             countDownLatchTable.countDown();
         });
         try {
             countDownLatchTable.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void cancelBoardTile(int row, int column) {
+        tileName = "";
+        tileName += "#boardTile";
+        tileName += row;
+        tileName += column;
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            //Select the button in the tile position
+            Button button = (Button) scene.lookup(tileName);
+            if (button != null) {
+                button.setVisible(false);
+                if (button.getStyleClass().size() > 1) {
+                    button.getStyleClass().remove(1);
+                }
+            }
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -309,62 +377,66 @@ public class MainSceneController implements Initializable {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
             if (button != null) {
-                //Only for test
+                button.setVisible(true);
                 //set tile color
                 if (tileStyle.equals("B0")) {
                     button.getStyleClass().add("B1");
                 }
-                if (tileStyle.equals("B2")) {
+                if (tileStyle.equals("B1")) {
                     button.getStyleClass().add("B2");
                 }
-                if (tileStyle.equals("B3")) {
+                if (tileStyle.equals("B2")) {
                     button.getStyleClass().add("B3");
                 }
                 if (tileStyle.equals("C0")) {
                     button.getStyleClass().add("C1");
                 }
-                if (tileStyle.equals("C2")) {
+                if (tileStyle.equals("C1")) {
                     button.getStyleClass().add("C2");
                 }
-                if (tileStyle.equals("C3")) {
+                if (tileStyle.equals("C2")) {
                     button.getStyleClass().add("C3");
                 }
                 if (tileStyle.equals("G0")) {
                     button.getStyleClass().add("G1");
                 }
-                if (tileStyle.equals("G2")) {
+                if (tileStyle.equals("G1")) {
                     button.getStyleClass().add("G2");
                 }
-                if (tileStyle.equals("G3")) {
+                if (tileStyle.equals("G2")) {
                     button.getStyleClass().add("G3");
                 }
                 if (tileStyle.equals("W0")) {
                     button.getStyleClass().add("W1");
                 }
-                if (tileStyle.equals("W2")) {
+                if (tileStyle.equals("W1")) {
                     button.getStyleClass().add("W2");
                 }
-                if (tileStyle.equals("W3")) {
+                if (tileStyle.equals("W2")) {
                     button.getStyleClass().add("W3");
                 }
                 if (tileStyle.equals("P0")) {
                     button.getStyleClass().add("P1");
                 }
-                if (tileStyle.equals("P2")) {
+                if (tileStyle.equals("P1")) {
                     button.getStyleClass().add("P2");
                 }
-                if (tileStyle.equals("P3")) {
+                if (tileStyle.equals("P2")) {
                     button.getStyleClass().add("P3");
                 }
                 if (tileStyle.equals("Y0")) {
                     button.getStyleClass().add("Y1");
                 }
-                if (tileStyle.equals("Y2")) {
+                if (tileStyle.equals("Y1")) {
                     button.getStyleClass().add("Y2");
                 }
-                if (tileStyle.equals("Y3")) {
+                if (tileStyle.equals("Y2")) {
                     button.getStyleClass().add("Y3");
                 }
+            }
+            assert button != null;
+            if (button.getStyleClass().size() > 2) {
+                button.getStyleClass().remove(2);
             }
             countDownLatch.countDown();
         });
@@ -386,10 +458,12 @@ public class MainSceneController implements Initializable {
         Platform.runLater(() -> {
             //Select the button in the tile position
             Button button = (Button) scene.lookup(tileName);
-            button.setOnAction(null);
-            button.setOnMouseEntered(null);
-            button.setOnMouseExited(null);
-            button.setOpacity(0.6);
+            if (button != null) {
+                button.setOnAction(null);
+                button.setOnMouseEntered(null);
+                button.setOnMouseExited(null);
+                button.setOpacity(0.6);
+            }
             countDownLatchDisable.countDown();
         });
         try {
@@ -412,7 +486,6 @@ public class MainSceneController implements Initializable {
             button.setOnMouseExited(null);
             button.setOpacity(0.6);
         }
-
     }
 
     public void ableTile(int row, int column) {
@@ -436,7 +509,6 @@ public class MainSceneController implements Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void setMainGui(GUI gui) {
@@ -455,18 +527,18 @@ public class MainSceneController implements Initializable {
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            String nickPlayer = "";
-            int count = 2;
+            String nickPlayer;
+            int countOtherPlayer = 2;
+            int countPlayer = 0;
             for (int i = 0; i < numberOfPlayer; i++) {
                 if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
-                    nickPlayer = "#nickname" + count;
-                    Label playerNicname = (Label) scene.lookup(nickPlayer);
-                    playerNicname.setText(players.get(i).getNickname());
-                    playerName[count-2] = players.get(i).getNickname();
-                }else{
-                    playerName[count-2] = players.get(i).getNickname();
+                    nickPlayer = "#nickname" + countOtherPlayer;
+                    Label playerNickname = (Label) scene.lookup(nickPlayer);
+                    playerNickname.setText(players.get(i).getNickname());
+                    countOtherPlayer++;
                 }
-                count++;
+                playerName[countPlayer] = players.get(i).getNickname();
+                countPlayer++;
             }
             countDownLatchAble.countDown();
         });
@@ -478,7 +550,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
-        personalGoalString = "image/personal goal cards/";
+
+        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getImageID()==1 ? "" : personalGoal.getImageID()) + ".png";
 
         //Assegnare il giusto personal goal
 
@@ -497,15 +570,16 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
-        firstCommonGoalString = "image/common goal cards/";
-        secondCommonGoalString = "image/common goal cards/";
+        int firstCommonGoalID = commonGoals.get(0).getImageID();
+        int secondCommonGoalID = commonGoals.get(1).getImageID();
 
-        //Assegnare i giusti common goal
+        firstCommonGoalString = "image/common goal cards/" + firstCommonGoalID + ".jpg";
+        secondCommonGoalString = "image/common goal cards/" + secondCommonGoalID + ".jpg";
 
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString));
-            Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString));
+            Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString)));
+            Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString)));
 
             commonGoal2.setImage(firstCommonGoalImage);
             commonGoal1.setImage(secondCommonGoalImage);
@@ -521,6 +595,42 @@ public class MainSceneController implements Initializable {
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
+
+        if (takenTiles.getChosenTiles().size() != 0) {
+            String style;
+            String selectedName;
+            int row;
+            int column;
+            int count;
+            for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
+                row = takenTiles.getTileCoordinates().get(i).getX();
+                column = takenTiles.getTileCoordinates().get(i).getY();
+
+                tileName = "#boardTile" + row + column;
+                Button buttonTile = (Button) scene.lookup(tileName);
+                style = buttonTile.getStyleClass().get(1);
+                count = i + 1;
+                selectedName = "#selected" + count;
+                Button selectedButton = (Button) scene.lookup(selectedName);
+                selectedButton.getStyleClass().add(style);
+                buttonTile.setBorder(null);
+                buttonTile.getStyleClass().remove(1);
+                buttonTile.setVisible(false);
+            }
+            order = new int[takenTiles.getChosenTiles().size()];
+            for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
+                for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+                    disableTileAfterPick(r, c);
+                }
+            }
+            ableFirstPlayerButton();
+            button.setOnAction(null);
+        } else {
+            System.err.println("seleziona almeno una tile");
+        }
+    }
+
+    public void endSelectionTiles() {
         String style;
         String selectedName;
         int row;
@@ -529,6 +639,7 @@ public class MainSceneController implements Initializable {
         for (int i = 0; i < takenTiles.getChosenTiles().size(); i++) {
             row = takenTiles.getTileCoordinates().get(i).getX();
             column = takenTiles.getTileCoordinates().get(i).getY();
+
             tileName = "#boardTile" + row + column;
             Button buttonTile = (Button) scene.lookup(tileName);
             style = buttonTile.getStyleClass().get(1);
@@ -536,22 +647,21 @@ public class MainSceneController implements Initializable {
             selectedName = "#selected" + count;
             Button selectedButton = (Button) scene.lookup(selectedName);
             selectedButton.getStyleClass().add(style);
-            buttonTile.getStyleClass().remove(style);
-            buttonTile.setOpacity(0);
-            buttonTile.setOnAction(null);
-            buttonTile.setOnMouseEntered(null);
-            buttonTile.setOnMouseExited(null);
-            buttonTile.setBorder(Border.EMPTY);
-
-            selectedButton.setOnAction(this::selectedSelection);
-            selectedButton.setOnMouseEntered(this::overButton);
-            selectedButton.setOnMouseExited(this::notOverButton);
+            buttonTile.setBorder(null);
+            buttonTile.getStyleClass().remove(1);
+            buttonTile.setVisible(false);
         }
+        order = new int[takenTiles.getChosenTiles().size()];
         for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
             for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
                 disableTileAfterPick(r, c);
             }
         }
+        ableFirstPlayerButton();
+
+        Button button = (Button) scene.lookup("#insertTile");
+        button.setOnAction(null);
+
     }
 
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
@@ -616,7 +726,7 @@ public class MainSceneController implements Initializable {
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-            if ((row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+            if (row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                     (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                     (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
@@ -631,7 +741,6 @@ public class MainSceneController implements Initializable {
     }
 
     public void overColumn(MouseEvent mouseEvent) {
-        System.out.println("ciau");
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
         String buttonOfColumnName;
@@ -639,13 +748,15 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
         Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
-            buttonOfColumnName="#firstPlayerTile"+i+column;
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        for (int i = 5; i >= 0; i--) {
+            buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-            if(buttonOfColumn!=null) {
-                buttonOfColumn.setBorder(border);
-                buttonOfColumn.setOpacity(0.3);
-                //button.getStyleClass().remove(1);
+            if (buttonOfColumn != null) {
+                if (activePlayer.getBookshelf().getTiles()[i][Integer.parseInt(column)] == null) {
+                    buttonOfColumn.setBorder(border);
+                    buttonOfColumn.setOpacity(0.3);
+                }
             }
         }
     }
@@ -657,19 +768,57 @@ public class MainSceneController implements Initializable {
         Button buttonOfColumn;
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
-        Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        for(int i=0; i<mainGui.getModel().getBoard().getNumberOfRows(); i++){
-            buttonOfColumnName="#firstPlayerTile"+i+column;
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        for (int i = 5; i >= 0; i--) {
+            buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-            if(buttonOfColumn!=null) {
-                //button.getStyleClass().add("C1");
-                buttonOfColumn.setOpacity(0);
-                buttonOfColumn.setBorder(null);
+            if (buttonOfColumn != null) {
+                if (activePlayer.getBookshelf().getTiles()[i][Integer.parseInt(column)] == null) {
+                    buttonOfColumn.setOpacity(0);
+                    buttonOfColumn.setBorder(null);
+                }
             }
         }
     }
 
-    public void selectedSelection(ActionEvent actionEvent) {
+    public void insertTileIntoBookshelf(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+        String name = button.getId();
+        order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1))) - 1;
+        String style = button.getStyleClass().get(1);
+
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        int row = 5 - startOrder - activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
+        String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
+        Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
+        if (firstPlayerButton != null) {
+            firstPlayerButton.getStyleClass().add(style);
+            firstPlayerButton.setOpacity(1);
+            firstPlayerButton.setBorder(null);
+        }
+        button.getStyleClass().remove(style);
+        button.setOnAction(null);
+        button.setOnMouseExited(null);
+        button.setOnMouseEntered(null);
+        button.setOpacity(1);
+        startOrder++;
+
+        if (startOrder == takenTiles.getChosenTiles().size()) {
+            takenTiles.setChosenColumn(Integer.parseInt(selectedColumn));
+            takenTiles.setTileOrder(order);
+            System.out.println("END TURN");
+
+//            for (int i = 5-startOrder+activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn)); i >= 0; i--) {
+//                String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
+//                Button buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
+//                if (buttonOfColumn != null) {
+//                    buttonOfColumn.setOpacity(0);
+//                    buttonOfColumn.setBorder(null);
+//                }
+//            }
+            mainGui.finishTurn(takenTiles);
+        }
     }
 
     public void setFirstPlayerNickname(String nickname) {
@@ -685,5 +834,202 @@ public class MainSceneController implements Initializable {
         }
     }
 
-}
+    public void selectColumn(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
 
+        String selectedButtonName;
+        Button selectedButton;
+        String name = button.getId();
+        selectedColumn = String.valueOf(name.charAt(name.length() - 1));
+
+        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+
+        if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
+            System.err.println("La colonna non è selezionabile");
+        } else {
+            for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
+                selectedButtonName = "#selected" + i;
+                selectedButton = (Button) scene.lookup(selectedButtonName);
+                selectedButton.setOnAction(this::insertTileIntoBookshelf);
+                selectedButton.setOnMouseEntered(this::overButton);
+                selectedButton.setOnMouseExited(this::notOverButton);
+            }
+            disableFirstPlayerButton();
+        }
+    }
+
+    private void disableFirstPlayerButton() {
+        for (int r = 0; r < 6; r++) {
+            for (int c = 0; c < 6; c++) {
+                String buttonName = "#firstPlayerTile" + r + c;
+                Button buttonDisable = (Button) scene.lookup(buttonName);
+                if (buttonDisable != null && !buttonDisable.getStyleClass().get(0).isEmpty()) {
+                    buttonDisable.setOnMouseEntered(null);
+                    buttonDisable.setOnMouseExited(null);
+                    buttonDisable.setOnAction(null);
+                }
+            }
+        }
+    }
+
+    private void ableFirstPlayerButton() {
+        for (int r = 0; r < 6; r++) {
+            for (int c = 0; c < 6; c++) {
+                String buttonName = "#firstPlayerTile" + r + c;
+                Button buttonDisable = (Button) scene.lookup(buttonName);
+                if (buttonDisable != null) {
+                    buttonDisable.setOnMouseEntered(this::overColumn);
+                    buttonDisable.setOnMouseExited(this::notOverColumn);
+                    buttonDisable.setOnAction(this::selectColumn);
+                }
+            }
+        }
+    }
+
+    public void lockAllTiles() {
+        for (int row = 0; row < mainGui.getModel().getBoard().getNumberOfRows(); row++) {
+            for (int column = 0; column < mainGui.getModel().getBoard().getNumberOfColumns(); column++) {
+                this.disableTile(row, column);
+            }
+        }
+    }
+
+    public void setBookshelf(List<PlayerView> players) {
+        for (int i = 0; i < players.size() - 1; i++) {
+            int playerNumber = i + 2;
+            String nickPlayer = "#nickname" + playerNumber;
+            Label playerNickname = (Label) scene.lookup(nickPlayer);
+            BookshelfView bookshelfSecondPlayer = players.stream().filter(player -> player.getNickname().equals(playerNickname.getText())).toList().get(0).getBookshelf();
+            for (int column = 0; column < bookshelfSecondPlayer.getNumberOfColumns(); column++) {
+                for (int row = 5; row > 5 - bookshelfSecondPlayer.getNumberOfTilesInColumn(column); row--) {
+                    if (playerNumber == 2) {
+                        tileName = "#secondPlayerTile" + row + column;
+                    } else if (playerNumber == 3) {
+                        tileName = "#thirdPlayerTile" + row + column;
+                    } else {
+                        tileName = "#fourthPlayerTile" + row + column;
+                    }
+                    //Add tile color and ID
+                    tileStyle = bookshelfSecondPlayer.getTiles()[row][column].getColor().toGUI()
+                            + bookshelfSecondPlayer.getTiles()[row][column].getImageID();
+
+                    CountDownLatch countDownLatchPlayer = new CountDownLatch(1);
+                    Platform.runLater(() -> {
+                        //Select the button in the tile position
+                        Button button = (Button) scene.lookup(tileName);
+                        if (button != null) {
+                            button.setVisible(true);
+                            button.setOpacity(1);
+                            //set tile color
+                            if (tileStyle.equals("B0")) {
+                                button.getStyleClass().add("B1");
+                            }
+                            if (tileStyle.equals("B1")) {
+                                button.getStyleClass().add("B2");
+                            }
+                            if (tileStyle.equals("B2")) {
+                                button.getStyleClass().add("B3");
+                            }
+                            if (tileStyle.equals("C0")) {
+                                button.getStyleClass().add("C1");
+                            }
+                            if (tileStyle.equals("C1")) {
+                                button.getStyleClass().add("C2");
+                            }
+                            if (tileStyle.equals("C2")) {
+                                button.getStyleClass().add("C3");
+                            }
+                            if (tileStyle.equals("G0")) {
+                                button.getStyleClass().add("G1");
+                            }
+                            if (tileStyle.equals("G1")) {
+                                button.getStyleClass().add("G2");
+                            }
+                            if (tileStyle.equals("G2")) {
+                                button.getStyleClass().add("G3");
+                            }
+                            if (tileStyle.equals("W0")) {
+                                button.getStyleClass().add("W1");
+                            }
+                            if (tileStyle.equals("W1")) {
+                                button.getStyleClass().add("W2");
+                            }
+                            if (tileStyle.equals("W2")) {
+                                button.getStyleClass().add("W3");
+                            }
+                            if (tileStyle.equals("P0")) {
+                                button.getStyleClass().add("P1");
+                            }
+                            if (tileStyle.equals("P1")) {
+                                button.getStyleClass().add("P2");
+                            }
+                            if (tileStyle.equals("P2")) {
+                                button.getStyleClass().add("P3");
+                            }
+                            if (tileStyle.equals("Y0")) {
+                                button.getStyleClass().add("Y1");
+                            }
+                            if (tileStyle.equals("Y1")) {
+                                button.getStyleClass().add("Y2");
+                            }
+                            if (tileStyle.equals("Y2")) {
+                                button.getStyleClass().add("Y3");
+                            }
+                        }
+                        countDownLatchPlayer.countDown();
+                    });
+                    try {
+                        countDownLatchPlayer.await();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
+        int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
+        int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
+        if(numberOfScoreTiles2!=0) {
+            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        }else{
+            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+        if(numberOfScoreTiles1!=0) {
+            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        }else{
+            pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+
+        CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            pointsItem1.setImage(pointsImage1);
+            pointsItem2.setImage(pointsImage2);
+            countDownLatchCommonGoal.countDown();
+        });
+        try {
+            countDownLatchCommonGoal.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendMessage(KeyEvent keyEvent) {
+    }
+}

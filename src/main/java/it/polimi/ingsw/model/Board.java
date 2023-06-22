@@ -61,11 +61,11 @@ public class Board {
                 }
             }
         }
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.addedTilesToBoard(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
 
     /*
@@ -107,11 +107,11 @@ public class Board {
             this.removeTile(coordinate.getX(), coordinate.getY());
         }
 
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.removedTilesFromBoard(this);
         } else {
             System.err.println("Board's listener is NULL!");
-        }
+        }*/
     }
 
     private void removeTile(int row, int column) {

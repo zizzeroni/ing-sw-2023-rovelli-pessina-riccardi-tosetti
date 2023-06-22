@@ -13,4 +13,5 @@ public enum CommandType {
     SEND_PING_TO_CLIENT,
     SEND_UPDATED_MODEL,
     EXCEPTION,
+    TRY_TO_RESUME_GAME,
 }
