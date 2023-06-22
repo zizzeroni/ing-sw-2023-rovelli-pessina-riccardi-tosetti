@@ -4,7 +4,14 @@ import it.polimi.ingsw.model.tile.Tile;
 
 /**
  * This class represents the {@code Player}'s personal goal.
- * 
+ * It provides a series of methods to access and sets the personal gaol's pattern,
+ * accessing single goal pattern's {@code Tile}s, ...
+ * It also permits to evaluate the number of goal pattern's repetitions in the {@code Bookshelf}
+ * and the score of the {@code Player} completing it.
+ *
+ * @see Player
+ * @see Bookshelf
+ * @see Tile
  */
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
@@ -12,7 +19,7 @@ public class PersonalGoal extends Card {
     private Tile[][] pattern;
 
     /**
-     *
+     * Class constructor.
      */
     public PersonalGoal() {
         super();
@@ -25,8 +32,10 @@ public class PersonalGoal extends Card {
     }
 
     /**
-     * @param imageID
-     * @param pattern
+     * Class constructor.
+     *
+     * @param imageID the image of the personal goal.
+     * @param pattern the pattern associated to the personal goal.
      */
     public PersonalGoal(int imageID, Tile[][] pattern) {
         super(imageID);
