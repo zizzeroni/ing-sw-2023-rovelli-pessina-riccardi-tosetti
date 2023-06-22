@@ -1,19 +1,23 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 public class GameController implements ViewListener {
-    private final Game model;
+    private Game model;
     private ControllerState state;
     private List<PersonalGoal> personalGoalsDeck;
     private List<JsonBoardPattern> boardPatterns;
@@ -121,5 +125,87 @@ public class GameController implements ViewListener {
 
     public Random getRandomizer() {
         return randomizer;
+    }
+
+    /**
+     * Method to check if there are stored games for the given nickname.
+     *
+     * @return if there are stored games.
+     */
+    public boolean areThereStoredGamesForPlayer(String playerNickname) {
+        Game[] games = this.getStoredGamesFromJson();
+
+        if (games == null || games.length == 0) return false;
+
+        Game storedCurrentGame = this.getStoredGameForPlayer(playerNickname, games);
+
+        return storedCurrentGame != null;
+    }
+
+    /**
+     * Method to restore stored games.
+     *
+     * @return if the operation has been completed correctly.
+     */
+    public boolean restoreGameForPlayer(String playerNickname) {
+        Game[] games = this.getStoredGamesFromJson();
+
+        if (games == null || games.length == 0) {
+            throw new RuntimeException("There aren't available games to restore!");
+        }
+
+        Game storedCurrentGame = this.getStoredGameForPlayer(playerNickname, games);
+
+        if (storedCurrentGame != null) {
+            this.model = storedCurrentGame;
+        } else {
+            throw new RuntimeException("There aren't available games to restore for player " + playerNickname);
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Method to get all the stored games from the local json file.
+     *
+     * @return all stored games.
+     */
+    private Game[] getStoredGamesFromJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
+        String gamesPath = "src/main/resources/storage/games.json";
+        Path source = Paths.get(gamesPath);
+        Game[] games;
+
+        try {
+            fileReader = Files.newBufferedReader(source);
+
+            games = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return games;
+    }
+
+    /**
+     * Method to get the stored game for the given nickname.
+     *
+     * @return the stored game.
+     */
+    private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
+        List<Game> games = Arrays.asList(gamesAsArray);
+
+        //use hash set in filter to increase performance
+        return games.stream()
+                .filter(game -> new HashSet<>(
+                        game.getPlayers().stream()
+                                .map(Player::getNickname).toList())
+                        .contains(playerNickname))
+                .findFirst()
+                .orElse(null);
     }
 }

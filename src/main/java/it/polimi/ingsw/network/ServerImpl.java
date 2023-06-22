@@ -160,6 +160,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         //this.clientsToHandle.remove(nickname);
     }
 
+    @Override
+    public void restoreGameForPlayer(String nickname) throws RemoteException {
+        this.controller.restoreGameForPlayer(nickname);
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+        this.controller.areThereStoredGamesForPlayer(nickname);
+    }
+
     //Listeners methods
     @Override
     public void addedTilesToBoard(Board board) {
