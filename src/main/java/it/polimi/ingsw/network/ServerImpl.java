@@ -111,7 +111,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     @Override
-    public void tryToResumeGame() throws RemoteException {
+    public synchronized void tryToResumeGame() throws RemoteException {
         this.controller.tryToResumeGame();
     }
 
@@ -128,13 +128,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     //TODO: Togliere il nickname come parametro del metodo
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
-        /*try {
-            System.out.println(RemoteServer.getClientHost());           //Alternative method for identify clients by their IP (Doesn't work on local)
-        } catch (ServerNotActiveException e) {
-            throw new RuntimeException(e);
-        }*/
-        //this.addClientToHandle(client);
-
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
         this.clientsToHandle.put(client, nicknameInInput);
         this.numberOfMissedPings.put(client, 0);
@@ -367,12 +360,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
                                     try {
                                         client.ping();
-                                        System.out.println("Client of: "+nickname+" successfully pinged");
                                         numberOfMissedPings.replace(client, 0);
                                         stopIfWaitTooLongTimer.cancel();
-                                        System.out.println("stopIfWaitTooLongTimer cancelled");
                                     } catch (RemoteException e) {
                                         try {
+                                            stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
                                             if (numberOfMissedPings.get(client) == 3) {

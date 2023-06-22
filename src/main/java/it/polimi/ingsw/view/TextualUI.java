@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextualUI extends UI {
 
@@ -83,10 +84,11 @@ public class TextualUI extends UI {
     }
 
     private Thread createNewPrintCountdownThread() {
+        AtomicInteger countdown = new AtomicInteger(getCountdown() - 1);
         return new Thread(() -> {
             System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             System.out.print(getCountdown());
-            for (int countdown = getCountdown() - 1; countdown > -1; countdown--) {
+            for (;countdown.get() > -1; countdown.getAndDecrement()) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ignored) {

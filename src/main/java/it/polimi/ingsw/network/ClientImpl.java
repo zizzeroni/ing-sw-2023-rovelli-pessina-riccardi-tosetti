@@ -63,7 +63,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     @Override
-    public void receiveException(GenericException exception) throws RemoteException {
+    public synchronized void receiveException(GenericException exception) throws RemoteException {
         this.view.printException(exception);
     }
 

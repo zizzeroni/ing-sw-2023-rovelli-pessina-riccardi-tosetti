@@ -25,7 +25,7 @@ public class SingleClientHandler extends Thread {
                 this.clientSkeleton.receive(this.generalServer);
             }
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] Cannot receive from client. Closing this connection...");
+            System.err.println("[COMMUNICATION:ERROR] Cannot receive from client. Closing this connection...;\n     " + "Caused by: " + e.getMessage());
         }
     }
 }

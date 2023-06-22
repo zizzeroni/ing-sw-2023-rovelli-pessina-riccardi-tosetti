@@ -113,7 +113,7 @@ public class Game {
         return this.gameState;
     }
 
-    public void setGameState(GameState gameState) {
+    public synchronized void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
             this.listener.gameStateChanged();
