@@ -1,70 +1,67 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
+import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.utils.CommandReader;
-import javafx.stage.Stage;
+import it.polimi.ingsw.view.GUI.UI;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TextualUI extends UI {
-
-    public TextualUI(GameView model) {
-        super(model);
+public class TextualUI implements UI {
+    private GenericUILogic genericUILogic;
+    public TextualUI(GenericUILogic genericUILogic) {
+        this.genericUILogic = genericUILogic;
     }
 
     public TextualUI() {
-        super();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
+        this.genericUILogic = new GenericUILogic();
     }
 
     private void firstInteractionWithUser() {
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
 
-        this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
+        this.genericUILogic.initializeChatThread(this.genericUILogic.controller, this.genericUILogic.getNickname(), this.genericUILogic.getModel());
 
         do {
-            this.setExceptionToHandle(null);
+            this.genericUILogic.setExceptionToHandle(null);
             System.out.println("Inserisci il tuo nickname!");
             String nickname = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
             this.setNickname(nickname);
-            this.controller.addPlayer(this.getNickname());
+            this.genericUILogic.controller.addPlayer(this.genericUILogic.getNickname());
 
-            if (this.getExceptionToHandle() != null) {
-                this.getExceptionToHandle().handle();
+            if (this.genericUILogic.getExceptionToHandle() != null) {
+                this.genericUILogic.getExceptionToHandle().handle();
             }
 
-        } while (this.getExceptionToHandle() != null);
+        } while (this.genericUILogic.getExceptionToHandle() != null);
 
         int chosenNumberOfPlayer = 0;
-        if (getModel().getPlayers().size() == 1) {
+        if (genericUILogic.getModel().getPlayers().size() == 1) {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
             } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
-            this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+            this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
-        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers() && getModel().getGameState() == GameState.IN_CREATION) {
-            this.controller.startGame();
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+            this.genericUILogic.controller.startGame();
         }
-        System.out.println(this.getState());
+        System.out.println(this.genericUILogic.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
     }
 
     private void waitWhileInState(ClientGameState clientGameState) {
-        synchronized (this.getLockState()) {
+        synchronized (this.genericUILogic.getLockState()) {
             switch (clientGameState) {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting...");
@@ -73,9 +70,9 @@ public class TextualUI extends UI {
                 case WAITING_FOR_RESUME ->
                         System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
-            while (getState() == clientGameState) {
+            while (genericUILogic.getState() == clientGameState) {
                 try {
-                    getLockState().wait();
+                    genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -84,10 +81,10 @@ public class TextualUI extends UI {
     }
 
     private Thread createNewPrintCountdownThread() {
-        AtomicInteger countdown = new AtomicInteger(getCountdown() - 1);
+        AtomicInteger countdown = new AtomicInteger(genericUILogic.getCountdown() - 1);
         return new Thread(() -> {
             System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
-            System.out.print(getCountdown());
+            System.out.print(genericUILogic.getCountdown());
             for (;countdown.get() > -1; countdown.getAndDecrement()) {
                 try {
                     Thread.sleep(1000);
@@ -104,8 +101,8 @@ public class TextualUI extends UI {
         boolean firstTime = true;
         Thread printCountdownTh = this.createNewPrintCountdownThread();
 
-        synchronized (this.getLockState()) {
-            switch (getState()) {
+        synchronized (this.genericUILogic.getLockState()) {
+            switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting...");
                 }
@@ -113,11 +110,11 @@ public class TextualUI extends UI {
                 case WAITING_FOR_RESUME ->
                         System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             }
-            while (gameStates.contains(getState())) {
+            while (gameStates.contains(genericUILogic.getState())) {
                 try {
-                    getLockState().wait();
+                    genericUILogic.getLockState().wait();
 
-                    if (this.getState() == ClientGameState.WAITING_FOR_RESUME) {
+                    if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME) {
                         if (firstTime) {
                             firstTime = false;
                             printCountdownTh.start();
@@ -135,37 +132,61 @@ public class TextualUI extends UI {
     }
 
     @Override
+    public void registerListener(ViewListener listener) {
+        this.genericUILogic.registerListener(listener);
+    }
+
+    @Override
+    public void removeListener() {
+        this.genericUILogic.removeListener();
+    }
+
+    @Override
+    public void setNickname(String nickname) {
+        this.genericUILogic.setNickname(nickname);
+    }
+
+    @Override
+    public void modelModified(GameView modelUpdated) {
+        this.genericUILogic.modelModified(modelUpdated);
+    }
+
+    @Override
+    public void printException(GenericException exception) {
+        this.genericUILogic.printException(exception);
+    }
+
+    @Override
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
         firstInteractionWithUser();
 
-        while (this.getState() != ClientGameState.GAME_ENDED) {
+        while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
             //------------------------------------WAITING OTHER PLAYERS-----------------------------------
             //waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
             waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
-            if (this.getState() == ClientGameState.GAME_ENDED) break;
+            if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
             //---------------------------------NOTIFY CONTROLLER---------------------------------
-            this.controller.insertUserInputIntoModel(choice);
-            if (this.getExceptionToHandle() != null) {
-                this.getExceptionToHandle().handle();
-                this.setExceptionToHandle(null);
+            this.genericUILogic.controller.insertUserInputIntoModel(choice);
+            if (this.genericUILogic.getExceptionToHandle() != null) {
+                this.genericUILogic.getExceptionToHandle().handle();
+                this.genericUILogic.setExceptionToHandle(null);
             }
-            this.controller.changeTurn();
+            this.genericUILogic.controller.changeTurn();
         }
         showPersonalRecap();
         System.out.println("---GAME ENDED---");
     }
 
-    @Override
     public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
-        String activePlayerNickname = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getNickname();
+        String activePlayerNickname = this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname();
         System.out.println("Tocca a te player: " + activePlayerNickname + "!");
         System.out.println("Stato della board attuale:");
-        System.out.println(this.getModel().getBoard());
+        System.out.println(this.genericUILogic.getModel().getBoard());
     }
 
     private int rowColumnTileChoiceFromBoard(int iterationCount, boolean isRowBeingChosen) {
@@ -180,10 +201,10 @@ public class TextualUI extends UI {
                 CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             }
 
-            if (choice > 0 && choice <= (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns())) {
+            if (choice > 0 && choice <= (isRowBeingChosen ? this.genericUILogic.getModel().getBoard().getNumberOfRows() : this.genericUILogic.getModel().getBoard().getNumberOfColumns())) {
                 isInsertCorrect = true;
             } else {
-                System.err.println("Inserisci una " + (isRowBeingChosen ? "riga" : "colonna") + " valida (Un numero compreso tra 1 e " + (isRowBeingChosen ? this.getModel().getBoard().getNumberOfRows() : this.getModel().getBoard().getNumberOfColumns()) + "!)");
+                System.err.println("Inserisci una " + (isRowBeingChosen ? "riga" : "colonna") + " valida (Un numero compreso tra 1 e " + (isRowBeingChosen ? this.genericUILogic.getModel().getBoard().getNumberOfRows() : this.genericUILogic.getModel().getBoard().getNumberOfColumns()) + "!)");
             }
         }
         return choice;
@@ -197,12 +218,12 @@ public class TextualUI extends UI {
             System.out.println("Scegli la colonna in cui vuoi inserire le tue tessere:");
             try {
                 chosenColumn = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
-                if (chosenColumn <= 0 || chosenColumn > this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
+                if (chosenColumn <= 0 || chosenColumn > this.genericUILogic.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns()) {
                     isInsertCorrect = false;
                     System.err.println("Hai scelto una colonna al di fuori dei limiti della bookshelf, inserisci un valore compreso tra" +
-                            " 1 e " + this.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
+                            " 1 e " + this.genericUILogic.getModel().getPlayers().get(0).getBookshelf().getNumberOfColumns() + "!");
                 } else {
-                    if (this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) < iterationCount) {
+                    if (this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getBookshelf().getNumberOfEmptyCellsInColumn(chosenColumn - 1) < iterationCount) {
                         isInsertCorrect = false;
                         System.err.println("Hai scelto una colonna con un numero di spazi liberi non sufficiente per inserire le tessere scelte, riprova!");
                     }
@@ -216,7 +237,6 @@ public class TextualUI extends UI {
         return chosenColumn;
     }
 
-    @Override
     public Choice askPlayer() {
         while (true) {
             System.out.println("Seleziona l'azione(Digita il numero associato all'azione):");
@@ -231,7 +251,7 @@ public class TextualUI extends UI {
                 }
                 case "2" -> {
                     System.out.println("La situazione della board attuale:");
-                    System.out.println(this.getModel().getBoard());
+                    System.out.println(this.genericUILogic.getModel().getBoard());
 
                     int counter = 0, firstRow = 0, firstColumn = 0;
 
@@ -239,7 +259,7 @@ public class TextualUI extends UI {
                     Direction directionToCheck = null;
                     int maxNumberOfCellsFreeInBookshelf;
                     //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
-                    maxNumberOfCellsFreeInBookshelf = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
+                    maxNumberOfCellsFreeInBookshelf = this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
                     do {
                         int row, column;
                         row = rowColumnTileChoiceFromBoard(counter, true);
@@ -251,7 +271,7 @@ public class TextualUI extends UI {
                                     counter++;
                                     firstRow = row;
                                     firstColumn = column;
-                                    playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
+                                    playerChoice.addTile(this.genericUILogic.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                     playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                 }
                                 case 1 -> {
@@ -259,14 +279,14 @@ public class TextualUI extends UI {
                                     if (res != null) {
                                         directionToCheck = res;
                                         counter++;
-                                        playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addTile(this.genericUILogic.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                         playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
                                 case 2 -> {
                                     if (checkIfInLine(row - 1, column - 1, playerChoice.getTileCoordinates(), directionToCheck)) {
                                         counter++;
-                                        playerChoice.addTile(this.getModel().getBoard().getTiles()[row - 1][column - 1]);
+                                        playerChoice.addTile(this.genericUILogic.getModel().getBoard().getTiles()[row - 1][column - 1]);
                                         playerChoice.addCoordinates(new Coordinates(row - 1, column - 1));
                                     }
                                 }
@@ -288,7 +308,7 @@ public class TextualUI extends UI {
                     } while (!input.equalsIgnoreCase("NO") && counter < 3);
 
                     //---------------------------------SCELTA COLONNA---------------------------------
-                    System.out.println(this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex()).getBookshelf());
+                    System.out.println(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getBookshelf());
 
                     int chosenColumn = bookshelfColumnChoice(counter);
 
@@ -352,9 +372,9 @@ public class TextualUI extends UI {
                     String content = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
 
                     if (messageType.equals("P")) {
-                        this.controller.sendPrivateMessage(this.getNickname(), receiver, content);
+                        this.genericUILogic.controller.sendPrivateMessage(this.genericUILogic.getNickname(), receiver, content);
                     } else if (messageType.equals("B")) {
-                        this.controller.sendBroadcastMessage(this.getNickname(), content);
+                        this.genericUILogic.controller.sendBroadcastMessage(this.genericUILogic.getNickname(), content);
                     } else {
                         System.err.println("La tipologia di messaggio specificata non è riconosciuta, utilizzarne una valida");
                     }
@@ -362,7 +382,7 @@ public class TextualUI extends UI {
 
                 }
                 case "4" -> {
-                    this.controller.disconnectPlayer(this.getNickname());
+                    this.genericUILogic.controller.disconnectPlayer(this.genericUILogic.getNickname());
                     System.err.println("Ti sei disconnesso dalla partita");
                     System.exit(0);
                 }
@@ -430,7 +450,7 @@ public class TextualUI extends UI {
     }
 
     private boolean checkIfPickable(int row, int column) {
-        BoardView board = this.getModel().getBoard();
+        BoardView board = this.genericUILogic.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
@@ -450,7 +470,7 @@ public class TextualUI extends UI {
 
     //TODO: remove from UI
     public void showPersonalRecap() {
-        PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
+        PlayerView activePlayer = this.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.genericUILogic.getNickname())).toList().get(0);
         //PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
@@ -458,7 +478,7 @@ public class TextualUI extends UI {
 
         int playerScore = activePlayer.score();
 
-        List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
+        List<CommonGoalView> commonGoals = this.genericUILogic.getModel().getCommonGoals();
 
         System.out.println("Ecco il tuo recap:");
         System.out.println("Stato della tua bookshelf:\n" + playerBookshelf + "\n" +
