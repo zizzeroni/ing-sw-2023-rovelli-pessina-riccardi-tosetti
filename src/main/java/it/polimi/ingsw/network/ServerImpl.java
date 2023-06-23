@@ -189,7 +189,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
-        this.controller.areThereStoredGamesForPlayer(nickname);
+        boolean result = this.controller.areThereStoredGamesForPlayer(nickname);
+        for (Client client : this.clientsToHandle.keySet()) {
+            try {
+                client.setAreThereStoredGamesForPlayer(result);
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(addedTilesToBoard):" + e.getMessage() + ".Skipping update");
+            }
+        }
     }
 
     //Listeners methods
