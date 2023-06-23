@@ -1,7 +1,7 @@
-package it.polimi.ingsw.GUI;
+package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.view.PlayerView;
-import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.GraphicalUI;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -26,11 +26,11 @@ public class FinalSceneController {
     private Label Points3;
     @FXML
     private Label Points4;
-    private GUI mainGui;
+    private GraphicalUI mainGraphicalUI;
     private Scene scene;
 
-    public void setMainGui(GUI gui) {
-        this.mainGui = gui;
+    public void setMainGui(GraphicalUI graphicalUI) {
+        this.mainGraphicalUI = graphicalUI;
     }
 
     public void setScene(Scene scene) {

@@ -1,10 +1,10 @@
-package it.polimi.ingsw.GUI;
+package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
-import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.GraphicalUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
 public class MainSceneController implements Initializable {
-    private GUI mainGui;
+    private GraphicalUI mainGraphicalUI;
     @FXML
     private String tileName;
     private String tileStyle;
@@ -105,14 +105,14 @@ public class MainSceneController implements Initializable {
 
         int maxNumberOfCellsFreeInBookshelf;
         //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
-        maxNumberOfCellsFreeInBookshelf = this.mainGui.getModel().getPlayers().get(this.mainGui.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
+        maxNumberOfCellsFreeInBookshelf = this.mainGraphicalUI.getModel().getPlayers().get(this.mainGraphicalUI.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
 
 
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
             if (checkIfPickable(row, column)) {
                 switch (takenTiles.getChosenTiles().size()) {
                     case 0 -> {
-                        TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+                        TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
                         takenTiles.addTile(tileView);
                         takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -126,7 +126,7 @@ public class MainSceneController implements Initializable {
                         Direction res = checkIfInLine(row, column, firstRow, firstColumn);
                         if (res != null) {
                             directionToCheck = res;
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+                            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
                             takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -140,7 +140,7 @@ public class MainSceneController implements Initializable {
                     }
                     case 2 -> {
                         if (checkIfInLine(row, column, takenTiles.getTileCoordinates(), directionToCheck)) {
-                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+                            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
                             takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -164,7 +164,7 @@ public class MainSceneController implements Initializable {
             }
 
         } else {
-            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
+            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
             takenTiles.removeTile(tileView);
 
             button.setBorder(Border.EMPTY);
@@ -263,7 +263,7 @@ public class MainSceneController implements Initializable {
         directionToCheck = null;
         takenTiles = new Choice();
         CountDownLatch countDownLatchTable = new CountDownLatch(1);
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         int points = activePlayer.score();
 
         Platform.runLater(() -> {
@@ -511,8 +511,8 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void setMainGui(GUI gui) {
-        this.mainGui = gui;
+    public void setMainGui(GraphicalUI graphicalUI) {
+        this.mainGraphicalUI = graphicalUI;
     }
 
     public void setScene(Scene scene) {
@@ -618,8 +618,8 @@ public class MainSceneController implements Initializable {
                 buttonTile.setVisible(false);
             }
             order = new int[takenTiles.getChosenTiles().size()];
-            for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
-                for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+            for (int r = 0; r < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); r++) {
+                for (int c = 0; c < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); c++) {
                     disableTileAfterPick(r, c);
                 }
             }
@@ -652,8 +652,8 @@ public class MainSceneController implements Initializable {
             buttonTile.setVisible(false);
         }
         order = new int[takenTiles.getChosenTiles().size()];
-        for (int r = 0; r < mainGui.getModel().getBoard().getNumberOfRows(); r++) {
-            for (int c = 0; c < mainGui.getModel().getBoard().getNumberOfColumns(); c++) {
+        for (int r = 0; r < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); r++) {
+            for (int c = 0; c < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); c++) {
                 disableTileAfterPick(r, c);
             }
         }
@@ -722,7 +722,7 @@ public class MainSceneController implements Initializable {
     }
 
     private boolean checkIfPickable(int row, int column) {
-        BoardView board = mainGui.getModel().getBoard();
+        BoardView board = mainGraphicalUI.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
@@ -748,7 +748,7 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
         Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         for (int i = 5; i >= 0; i--) {
             buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
@@ -768,7 +768,7 @@ public class MainSceneController implements Initializable {
         Button buttonOfColumn;
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         for (int i = 5; i >= 0; i--) {
             buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
@@ -788,7 +788,7 @@ public class MainSceneController implements Initializable {
         order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1))) - 1;
         String style = button.getStyleClass().get(1);
 
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         int row = 5 - startOrder - activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
         String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
         Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
@@ -817,7 +817,7 @@ public class MainSceneController implements Initializable {
 //                    buttonOfColumn.setBorder(null);
 //                }
 //            }
-            mainGui.finishTurn(takenTiles);
+            mainGraphicalUI.finishTurn(takenTiles);
         }
     }
 
@@ -843,7 +843,7 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         selectedColumn = String.valueOf(name.charAt(name.length() - 1));
 
-        PlayerView activePlayer = this.mainGui.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
         if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
             System.err.println("La colonna non è selezionabile");
@@ -888,8 +888,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void lockAllTiles() {
-        for (int row = 0; row < mainGui.getModel().getBoard().getNumberOfRows(); row++) {
-            for (int column = 0; column < mainGui.getModel().getBoard().getNumberOfColumns(); column++) {
+        for (int row = 0; row < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); row++) {
+            for (int column = 0; column < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); column++) {
                 this.disableTile(row, column);
             }
         }

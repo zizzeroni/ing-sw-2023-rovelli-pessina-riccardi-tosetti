@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.GUI.FinalSceneController;
-import it.polimi.ingsw.GUI.LoginController;
-import it.polimi.ingsw.GUI.MainSceneController;
+import it.polimi.ingsw.view.GUI.FinalSceneController;
+import it.polimi.ingsw.view.GUI.LoginController;
+import it.polimi.ingsw.view.GUI.MainSceneController;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
@@ -29,7 +29,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
-public class GUI extends UI {
+public class GraphicalUI extends UI {
     private double widthOld, heightOld;
     private boolean resizing = true;
     private LoginController loginController;
@@ -40,11 +40,11 @@ public class GUI extends UI {
     private volatile Choice takenTiles;
     private int typeOfConnection;
 
-    public GUI(GameView model) {
+    public GraphicalUI(GameView model) {
         super(model);
     }
 
-    public GUI() {
+    public GraphicalUI() {
         super();
     }
 
@@ -54,11 +54,11 @@ public class GUI extends UI {
         //this.primaryStage.set
         run();
     }
-    public GUI(GameView model, ViewListener controller, String nickname) {
+    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
         super(model, controller, nickname);
     }
 
-    public GUI(GameView model, ViewListener controller) {
+    public GraphicalUI(GameView model, ViewListener controller) {
         super(model, controller);
     }
 
