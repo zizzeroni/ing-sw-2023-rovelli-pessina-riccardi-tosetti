@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class LoginController implements Initializable {
     @FXML
     private Button FirstButton;
     @FXML
+    private Pane error;
+    @FXML
     private ChoiceBox<String> NumberOfPlayerChoice;
     @FXML
     private Button PlayerOk;
@@ -45,6 +48,7 @@ public class LoginController implements Initializable {
             //Se i è uguale a 1 devo scegliere il numero di giocatori
             //Altrimenti metto in pausa in attesa che arrivino giocatori
         } else {
+            error.setVisible(true);
             ErrorLabel.setText("Insert a nickname!");
         }
     }
@@ -58,10 +62,10 @@ public class LoginController implements Initializable {
                 principalLabel.setText("Attesa di altri giocatori");
                 ErrorLabel.setText("");
                 principalLabel.setFont(font);
+                error.setVisible(false);
                 FirstButton.setVisible(false);
                 Nickname.setVisible(false);
             });
-
 //            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
         }
     }
@@ -72,6 +76,7 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.getItems().setAll(playerNumber);
         PlayerOk.setVisible(false);
         NumberOfPlayerChoice.setVisible(false);
+        error.setVisible(false);
         ErrorLabel.setText("");
     }
 
@@ -79,6 +84,7 @@ public class LoginController implements Initializable {
         //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
+        error.setVisible(false);
         ErrorLabel.setText("");
         principalLabel.setFont(font);
         FirstButton.setVisible(false);
@@ -98,15 +104,18 @@ public class LoginController implements Initializable {
 
             Font font = principalLabel.getFont();
             principalLabel.setText("Attesa di altri giocatori");
+            error.setVisible(false);
             ErrorLabel.setText("");
             principalLabel.setFont(font);
 
         } else {
+            error.setVisible(true);
             ErrorLabel.setText("Select the number of player!");
         }
         Platform.runLater(() -> {
             if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
                 mainGraphicalUI.setNumberOfPlayer(Integer.parseInt(numberOfPlayerInGame));
+
 //            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
             }
         });

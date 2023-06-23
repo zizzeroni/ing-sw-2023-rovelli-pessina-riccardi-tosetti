@@ -73,9 +73,9 @@ public class MainSceneController implements Initializable {
     private Label pointsLabel;
     private int turn;
     private Image pointsImage1;
-   private Image pointsImage2;
-   @FXML
-   private ScrollPane scrollPane;
+    private Image pointsImage2;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -176,12 +176,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void setChat(){
+    public void setChat() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            int c=0;
-            for( int i=0; i < 10; i++) {
-                Text text = new Text(10,10, String.valueOf(i));
+            int c = 0;
+            for (int i = 0; i < 10; i++) {
+                Text text = new Text(10, 10, String.valueOf(i));
                 VBoxMessage.getChildren().add(0, text); // add on top
             }
             countDownLatch.countDown();
@@ -217,9 +217,16 @@ public class MainSceneController implements Initializable {
         imageView.setFitWidth(240);
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
-        imageView.setViewOrder(0.0);
-        pointsItem1.setVisible(false);
+        commonGoal2.setVisible(false);
         pointsItem2.setVisible(false);
+
+        pointsItem1.setFitHeight(78.5454);
+        pointsItem1.setFitWidth(87.2727);
+        pointsItem1.setLayoutX(485.45);
+        pointsItem1.setLayoutY(693.527);
+
+        //pointsItem1.setVisible(false);
+        //pointsItem2.setVisible(false);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -228,11 +235,17 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(110);
         imageView.setFitWidth(110);
-        imageView.setLayoutX(559);
-        imageView.setLayoutY(471);
-        imageView.setViewOrder(1);
-        pointsItem1.setVisible(true);
+        imageView.setLayoutX(529);
+        imageView.setLayoutY(454);
+        commonGoal2.setVisible(true);
         pointsItem2.setVisible(true);
+
+        pointsItem1.setFitHeight(36);
+        pointsItem1.setFitWidth(40);
+        pointsItem1.setLayoutX(588.7);
+        pointsItem1.setLayoutY(473);
+        //pointsItem1.setVisible(true);
+        //pointsItem2.setVisible(true);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -246,6 +259,7 @@ public class MainSceneController implements Initializable {
         imageView.setViewOrder(0.0);
         pointsItem2.setVisible(false);
         pointsItem1.setVisible(false);
+        commonGoal1.setVisible(false);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -254,11 +268,12 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(110);
         imageView.setFitWidth(110);
-        imageView.setLayoutX(676);
-        imageView.setLayoutY(471);
+        imageView.setLayoutX(646);
+        imageView.setLayoutY(454);
         imageView.setViewOrder(1);
         pointsItem2.setVisible(true);
         pointsItem1.setVisible(true);
+        commonGoal1.setVisible(true);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
@@ -276,8 +291,8 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(210);
         imageView.setFitWidth(286);
-        imageView.setLayoutX(915);
-        imageView.setLayoutY(560);
+        imageView.setLayoutX(885);
+        imageView.setLayoutY(510);
     }
 
     public void setTable() {
@@ -304,6 +319,11 @@ public class MainSceneController implements Initializable {
                 }
             }
             pointsLabel.setText(String.valueOf(points));
+
+            if (!this.firstPlayerNickname.getText().equals(this.mainGraphicalUI.getModel().getPlayers().get(0).getNickname())) {
+                ImageView imageView = (ImageView) scene.lookup("#chair1");
+                imageView.setVisible(false);
+            }
 
             if (turn == 0) {
                 if (fourthPlayerBookshelf == null)
@@ -545,26 +565,33 @@ public class MainSceneController implements Initializable {
 
     public void setNumberOfPlayer(int numberOfPlayers) {
         this.numberOfPlayer = numberOfPlayers;
-        playerName = new String[numberOfPlayers+1];
+        playerName = new String[numberOfPlayers + 1];
     }
 
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
             String nickPlayer;
+            String chair;
             int countOtherPlayer = 2;
             int countPlayer = 0;
             for (int i = 0; i < numberOfPlayer; i++) {
                 if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
+                    chair = "#chair" + countOtherPlayer;
                     nickPlayer = "#nickname" + countOtherPlayer;
                     Label playerNickname = (Label) scene.lookup(nickPlayer);
                     playerNickname.setText(players.get(i).getNickname());
+                    //Controllare se il player è quello che ha iniziato
+                    if (!players.get(i).getNickname().equals(this.mainGraphicalUI.getModel().getPlayers().get(0).getNickname())) {
+                        ImageView imageView = (ImageView) scene.lookup(chair);
+                        imageView.setVisible(false);
+                    }
                     countOtherPlayer++;
                 }
                 playerName[countPlayer] = players.get(i).getNickname();
                 countPlayer++;
             }
-            playerName[countPlayer]="All";
+            playerName[countPlayer] = "All";
 
             this.playerChatChoice.getItems().setAll(playerName);
             this.playerChatChoice.setValue("All");
@@ -853,6 +880,8 @@ public class MainSceneController implements Initializable {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
             this.firstPlayerNickname.setText(nickname);
+            //Se il firstPlayer è anche il primo giocatore lascio la sedia
+
             countDownLatchAble.countDown();
         });
         try {
@@ -1020,28 +1049,38 @@ public class MainSceneController implements Initializable {
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
         int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
-        if(numberOfScoreTiles2!=0) {
+        if (numberOfScoreTiles2 != 0) {
             int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
-                case 2 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                case 2 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
             }
-        }else{
+        } else {
             pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
-        if(numberOfScoreTiles1!=0) {
+        if (numberOfScoreTiles1 != 0) {
             int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
-                case 2 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                case 2 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
             }
-        }else{
+        } else {
             pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
 
@@ -1058,28 +1097,45 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void sendMessage(KeyEvent keyEvent) {
-        if (!(keyEvent.getSource() instanceof TextField node))
-            return;
-
-        String sender = this.firstPlayerNickname.getText();
-        String message = this.chatMessage.getText();
-        String receiver = (playerChatChoice.getValue());
-        if(!message.isEmpty()) {
-            if (receiver.equals("All")) {
-                this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
-            } else {
-                this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
-            }
-
-            node.setText("");
-        }
-    }
 
     public void DeletePrevious(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof TextField node))
             return;
 
         node.setText("");
+    }
+
+    public void refreshPoint() {
+        CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+            int points = activePlayer.score();
+            pointsLabel.setText(String.valueOf(points));
+            countDownLatchCommonGoal.countDown();
+        });
+        try {
+            countDownLatchCommonGoal.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendMessage(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+
+        String sender = this.firstPlayerNickname.getText();
+        String message = this.chatMessage.getText();
+        String receiver = (playerChatChoice.getValue());
+
+        if (!message.isEmpty()) {
+            if (receiver.equals("All")) {
+                this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
+            } else {
+                this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
+            }
+
+        }
+        chatMessage.setText("");
     }
 }

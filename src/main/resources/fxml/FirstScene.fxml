@@ -42,6 +42,7 @@
                   <Insets />
                </opaqueInsets>
             </Pane>
+            <Pane fx:id="error" layoutX="126.0" layoutY="416.0" opacity="0.6" prefHeight="58.0" prefWidth="529.0" style="-fx-background-color: white;" />
             <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="126.0" layoutY="416.0" text="Select the number of player!" textFill="RED">
                <font>
                   <Font size="40.0" />

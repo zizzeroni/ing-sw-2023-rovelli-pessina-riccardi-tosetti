@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
@@ -162,8 +163,19 @@ public class GraphicalUI extends UI {
             }
             this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
             //Add the player to the game, if he is the first return 1
-            this.setNickname(nickname);
+
             this.controller.addPlayer(nickname);
+//
+//            this.setExceptionToHandle(null);
+//
+//            this.setNickname(nickname);
+//            this.controller.addPlayer(this.getNickname());
+//
+//            if (this.getExceptionToHandle() != null) {
+//                this.getExceptionToHandle().handle();
+//            }
+
+            this.setNickname(nickname);
 
             boolean askNumberOfPlayer = this.getModel().getPlayers().size() == 1;
 
@@ -238,6 +250,7 @@ public class GraphicalUI extends UI {
                 this.controller.insertUserInputIntoModel(takenTiles);
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
                 this.controller.changeTurn();
+                this.mainSceneController.refreshPoint();
 
             }
             System.out.println("---GAME ENDED---");
@@ -302,6 +315,25 @@ public class GraphicalUI extends UI {
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+        var th = new Thread(() -> {
+        if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+            CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                this.controller.startGame();
+                countDownLatchStartGame.countDown();
+            });
+            try {
+                countDownLatchStartGame.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
 
     public void finishTurn(Choice takenTiles) {
