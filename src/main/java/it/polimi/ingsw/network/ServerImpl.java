@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.FinishingState;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.OnGoingState;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
@@ -182,6 +184,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.restoreGameForPlayer(nickname);
         this.model = this.controller.getModel();
         this.model.registerListener(this);
+        switch (this.model.getGameState()) {
+            case ON_GOING -> this.controller.changeState(new OnGoingState(this.controller));
+            case FINISHING -> this.controller.changeState(new FinishingState(this.controller));
+        }
     }
 
     @Override

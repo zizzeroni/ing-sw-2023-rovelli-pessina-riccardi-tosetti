@@ -145,7 +145,7 @@ public class Game {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
-        this.saveGame();
+
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
         } else {
@@ -269,7 +269,9 @@ public class Game {
                         .filter(game -> new HashSet<>(
                                 game.players.stream()
                                         .map(Player::getNickname).toList())
-                                .containsAll(this.players.stream().map(Player::getNickname).toList()))
+                                .containsAll(this.players.stream().map(Player::getNickname).toList())
+                                && game.getGameState() != GameState.RESET_NEEDED
+                        )
                         .findFirst()
                         .orElse(null);
 

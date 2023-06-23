@@ -50,7 +50,7 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
                         scoreTiles.add(new ScoreTile(value, playerID, commonGoalID));
                     }
 
-                    int id = commonGoalAsJsonObject.get("id").isJsonNull() ? -1 : commonGoalAsJsonObject.get("id").getAsInt();
+                    int id = commonGoalAsJsonObject.get("id") == null ? -1 : commonGoalAsJsonObject.get("id").getAsInt();
                     int numberOfPatternRepetitionsRequired = commonGoalAsJsonObject.get("numberOfPatternRepetitionsRequired").getAsInt();
                     CheckType commonGoalType = CheckType.valueOf(commonGoalAsJsonObject.get("type").getAsString());
 

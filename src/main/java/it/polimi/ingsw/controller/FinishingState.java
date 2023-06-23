@@ -25,6 +25,7 @@ public class FinishingState extends ControllerState {
             }
             changeActivePlayer();
         }
+        this.controller.getModel().saveGame();
     }
 
     private void refillBoard() {

@@ -21,6 +21,7 @@ public class OnGoingState extends ControllerState {
             this.refillBoard();
         }
         changeActivePlayer();
+        this.controller.getModel().saveGame();
     }
 
     private void refillBoard() {

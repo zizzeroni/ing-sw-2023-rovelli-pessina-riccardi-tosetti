@@ -47,7 +47,7 @@ public class TextualUI extends UI {
 
         this.controller.areThereStoredGamesForPlayer(this.getNickname());
 
-        if (this.areThereStoredGamesForPlayer()) {
+        if (this.areThereStoredGamesForPlayer() && getModel().getPlayers().size() == 1) {
             String restoreGameChoice;
             do {
                 System.out.println("There is a stored game for your user. Would you like to restore it? (Type \"YES\" to restore it, \"NO\" to delete it)");
@@ -57,6 +57,7 @@ public class TextualUI extends UI {
             if (restoreGameChoice.equalsIgnoreCase("YES")) {
                 this.controller.restoreGameForPlayer(this.getNickname());
                 System.out.println("Stored game has been restored correctly");
+
             } else if (restoreGameChoice.equalsIgnoreCase("NO")) {
                 this.setUpLobby();
             }
