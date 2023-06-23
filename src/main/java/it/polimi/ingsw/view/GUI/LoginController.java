@@ -1,6 +1,5 @@
-package it.polimi.ingsw.GUI;
+package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.view.GUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     //Fa schifo
-    private GUI mainGui;
+    private GraphicalUI mainGraphicalUI;
     @FXML
     private Label principalLabel;
     @FXML
@@ -42,7 +41,7 @@ public class LoginController implements Initializable {
         if (!nickname.isEmpty()) {
 
             //Pass the nickname to the GUI
-            mainGui.joinGameWithNick(Nickname.getText());
+            mainGraphicalUI.joinGameWithNick(Nickname.getText());
             //Se i è uguale a 1 devo scegliere il numero di giocatori
             //Altrimenti metto in pausa in attesa che arrivino giocatori
         } else {
@@ -106,14 +105,14 @@ public class LoginController implements Initializable {
         }
         Platform.runLater(() -> {
             if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
-                mainGui.setNumberOfPlayer(Integer.parseInt(numberOfPlayerInGame));
+                mainGraphicalUI.setNumberOfPlayer(Integer.parseInt(numberOfPlayerInGame));
 //            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
             }
         });
 
     }
 
-    public void setMainGui(GUI gui) {
-        this.mainGui = gui;
+    public void setMainGui(GraphicalUI graphicalUI) {
+        this.mainGraphicalUI = graphicalUI;
     }
 }
