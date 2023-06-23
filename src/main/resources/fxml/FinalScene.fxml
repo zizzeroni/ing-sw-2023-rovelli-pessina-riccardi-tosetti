@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageBackground" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.GUI.FinalSceneController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageBackground" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.FinalSceneController">
     <children>
         <Pane layoutX="97.0" prefHeight="178.0" prefWidth="555.0" style="-fx-background-image: url(&quot;Image/Publisher%20material/Title%202000x618px.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageTitle" stylesheets="@../css/Style.css" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="97.79999999999995" />
         <Pane layoutX="210.0" layoutY="178.0" opacity="0.9" prefHeight="239.0" prefWidth="330.0" style="-fx-background-color: wheat;" stylesheets="@../css/Style.css">

@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.CommandReader;
-import it.polimi.ingsw.view.GUI;
+import it.polimi.ingsw.view.GUI.GraphicalUI;
 import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
 
@@ -109,10 +109,10 @@ public class AppClient {
             case 2 -> {
                 switch (connectionChoice) {
                     case 1 -> {
-                        Application.launch(GUI.class, "1");
+                        Application.launch(GraphicalUI.class, "1", ServeripAddress , "1099" );
                     }
                     case 2 -> {
-                        Application.launch(GUI.class, "2");
+                        Application.launch(GraphicalUI.class, "2", ServeripAddress , "1234");
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
