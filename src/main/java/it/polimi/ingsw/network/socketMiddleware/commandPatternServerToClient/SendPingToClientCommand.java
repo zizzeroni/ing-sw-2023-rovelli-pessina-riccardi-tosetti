@@ -5,6 +5,9 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
+/**
+ *
+ */
 public class SendPingToClientCommand implements CommandToClient {
     private Client actuator;
 

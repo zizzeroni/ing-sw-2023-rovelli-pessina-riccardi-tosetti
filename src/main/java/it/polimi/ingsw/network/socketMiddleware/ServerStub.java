@@ -13,6 +13,9 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.Semaphore;
 
+/**
+ *
+ */
 //Necessary for the client in order to function
 public class ServerStub implements Server {
     //Server's IP address

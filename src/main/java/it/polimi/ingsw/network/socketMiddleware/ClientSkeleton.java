@@ -17,6 +17,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ *
+ */
 //Necessary for the server in order to function
 public class ClientSkeleton implements Client {
     private final ObjectOutputStream oos;
