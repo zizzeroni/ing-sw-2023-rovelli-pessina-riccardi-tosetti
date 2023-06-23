@@ -10,15 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
@@ -55,6 +54,12 @@ public class MainSceneController implements Initializable {
     private Pane fourthPlayerBookshelf;
     @FXML
     private Label firstPlayerNickname;
+    @FXML
+    private VBox VBoxMessage;
+    @FXML
+    private TextField chatMessage;
+    @FXML
+    private ChoiceBox<String> playerChatChoice;
     private int numberOfPlayer;
     private Choice takenTiles;
     private String[] playerName;
@@ -91,8 +96,6 @@ public class MainSceneController implements Initializable {
         Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
-
-        Label label = new Label("paolo");
 
     }
 
@@ -171,6 +174,25 @@ public class MainSceneController implements Initializable {
 
             button.setBorder(Border.EMPTY);
         }
+    }
+
+    public void setChat(){
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            int c=0;
+            for( int i=0; i < 10; i++) {
+                Text text = new Text(10,10, String.valueOf(i));
+                VBoxMessage.getChildren().add(0, text); // add on top
+            }
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     public void overButton(MouseEvent mouseEvent) {
@@ -523,7 +545,7 @@ public class MainSceneController implements Initializable {
 
     public void setNumberOfPlayer(int numberOfPlayers) {
         this.numberOfPlayer = numberOfPlayers;
-        playerName = new String[numberOfPlayers];
+        playerName = new String[numberOfPlayers+1];
     }
 
     public void setPlayersName(List<PlayerView> players) {
@@ -542,6 +564,10 @@ public class MainSceneController implements Initializable {
                 playerName[countPlayer] = players.get(i).getNickname();
                 countPlayer++;
             }
+            playerName[countPlayer]="All";
+
+            this.playerChatChoice.getItems().setAll(playerName);
+            this.playerChatChoice.setValue("All");
             countDownLatchAble.countDown();
         });
         try {
@@ -1033,5 +1059,27 @@ public class MainSceneController implements Initializable {
     }
 
     public void sendMessage(KeyEvent keyEvent) {
+        if (!(keyEvent.getSource() instanceof TextField node))
+            return;
+
+        String sender = this.firstPlayerNickname.getText();
+        String message = this.chatMessage.getText();
+        String receiver = (playerChatChoice.getValue());
+        if(!message.isEmpty()) {
+            if (receiver.equals("All")) {
+                this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
+            } else {
+                this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
+            }
+
+            node.setText("");
+        }
+    }
+
+    public void DeletePrevious(MouseEvent mouseEvent) {
+        if (!(mouseEvent.getSource() instanceof TextField node))
+            return;
+
+        node.setText("");
     }
 }

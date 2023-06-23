@@ -68,6 +68,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         NumberOfPlayerChoice.getItems().setAll(playerNumber);
         PlayerOk.setVisible(false);
         NumberOfPlayerChoice.setVisible(false);

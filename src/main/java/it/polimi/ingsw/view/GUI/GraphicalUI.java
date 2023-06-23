@@ -29,8 +29,6 @@ import java.util.concurrent.CountDownLatch;
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
 public class GraphicalUI extends UI {
-    private double widthOld, heightOld;
-    private boolean resizing = true;
     private LoginController loginController;
     private MainSceneController mainSceneController;
     private FinalSceneController finalSceneController;
@@ -50,7 +48,7 @@ public class GraphicalUI extends UI {
     }
 
     public void start(Stage primaryStage) throws Exception {
-        List<String> temp=this.getParameters().getRaw();
+        List<String> temp = this.getParameters().getRaw();
         this.typeOfConnection = Integer.parseInt(temp.get(0));
         this.ip = temp.get(1);
         this.port = temp.get(2);
@@ -58,6 +56,7 @@ public class GraphicalUI extends UI {
         //this.primaryStage.set
         run();
     }
+
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
         super(model, controller, nickname);
     }
@@ -68,20 +67,22 @@ public class GraphicalUI extends UI {
 
     //TODO non usata
     @Override
-    public Choice askPlayer() {return null;
+    public Choice askPlayer() {
+        return null;
     }
 
     @Override
     public void showNewTurnIntro() {
         int tileId;
         String tileColor;
-        takenTiles=null;
+        takenTiles = null;
 
         BoardView boardView = this.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
         TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
 
         mainSceneController.setTable();
+        mainSceneController.setChat();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -89,7 +90,7 @@ public class GraphicalUI extends UI {
                     tileId = boardMatrix[row][column].getImageID();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
-                }else{
+                } else {
                     mainSceneController.cancelBoardTile(row, column);
                 }
             }
@@ -97,7 +98,7 @@ public class GraphicalUI extends UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    if (row==8 || column ==8 || row == 0 || column==0 || ((boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                    if (row == 8 || column == 8 || row == 0 || column == 0 || ((boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                             (row != boardView.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                             (column != boardView.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                             ((boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
@@ -129,13 +130,14 @@ public class GraphicalUI extends UI {
         }
         //Mostro la prima scena
         primaryStage.setTitle("First Scene");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        setPrimaryStage(new Scene(root));
+        //primaryStage.setScene(new Scene(root));
+        //primaryStage.show();
     }
 
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
-            if(typeOfConnection==2){
+            if (typeOfConnection == 2) {
                 ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
                 //Creating a new client with a TextualUI and a Socket Server
                 Client client = null;
@@ -148,7 +150,7 @@ public class GraphicalUI extends UI {
                 startPingSenderThread(serverStub);
                 //Creating a new Thread that will take care of the responses coming from the Server side
                 startReceiverThread(client, serverStub);
-            }else {
+            } else {
                 try {
                     Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
                     Server server = (Server) registry.lookup("server");
@@ -167,7 +169,7 @@ public class GraphicalUI extends UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if(getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+            if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.controller.startGame();
@@ -183,7 +185,7 @@ public class GraphicalUI extends UI {
             boolean esci = true;
             while (esci) {
                 //Se il numero di giocatori diventa corretto
-                if (getModel().getGameState()==GameState.ON_GOING) {
+                if (getModel().getGameState() == GameState.ON_GOING) {
                     //Notifico il controller dell'inizio partita
                     esci = false;
                     Parent secondRoot;
@@ -200,7 +202,8 @@ public class GraphicalUI extends UI {
                     CountDownLatch countDownLatch = new CountDownLatch(1);
                     Platform.runLater(() -> {
                         primaryStage.setTitle("Main Scene");
-                        primaryStage.setScene(new Scene(secondRoot));
+                        setPrimaryStage(new Scene(secondRoot));
+                        //primaryStage.setScene(new Scene(secondRoot));
                         countDownLatch.countDown();
                     });
                     try {
@@ -253,7 +256,8 @@ public class GraphicalUI extends UI {
             CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 primaryStage.setTitle("Last Scene");
-                primaryStage.setScene(new Scene(lastRoot));
+                setPrimaryStage(new Scene(lastRoot));
+                //primaryStage.setScene(new Scene(lastRoot));
                 countDownLatch.countDown();
                 finalSceneController.setScene(primaryStage.getScene());
                 finalSceneController.showResult(this.getModel().getPlayers());
@@ -301,7 +305,7 @@ public class GraphicalUI extends UI {
     }
 
     public void finishTurn(Choice takenTiles) {
-        this.takenTiles=takenTiles;
+        this.takenTiles = takenTiles;
     }
 
     public void showUpdateFromOtherPlayer() {
@@ -317,7 +321,7 @@ public class GraphicalUI extends UI {
                     tileId = boardMatrix[row][column].getImageID();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
-                }else{
+                } else {
                     mainSceneController.cancelBoardTile(row, column);
                 }
             }
@@ -326,18 +330,6 @@ public class GraphicalUI extends UI {
         mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
     }
 
-    public void rescale(){
-        if(resizing){
-            double widthWindow = primaryStage.getScene().getWidth();
-            double heightWindow = primaryStage.getScene().getHeight();
-
-            widthOld=widthWindow;
-            heightOld=heightWindow;
-
-            Scale scale = new Scale(widthWindow, heightWindow, 0, 0);
-            primaryStage.getScene().lookup("#mainPage").getTransforms().add(scale);
-        }
-    }
     private static void startReceiverThread(Client client, ServerStub serverStub) {
         //Creating a new Thread that will take care of the responses coming from the Server side
         new Thread(() -> {
@@ -357,4 +349,33 @@ public class GraphicalUI extends UI {
         }).start();
     }
 
+    private double widthOld, heightOld;
+    private boolean resizing = true;
+
+    private void setPrimaryStage(Scene scene) {
+        resizing = false;
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        widthOld=primaryStage.getScene().getWidth();
+        heightOld=primaryStage.getScene().getHeight();
+        this.primaryStage.widthProperty().addListener((obs, oldVal, newV) -> {
+            rescale((double)newV,heightOld);         });
+        this.primaryStage.heightProperty().addListener((obs, oldVal, newV) -> {
+            rescale(widthOld,(double)newV);         });
+        resizing=true;
+    }
+
+    public void rescale(double wi, double he) {
+        if (resizing) {
+            double w = wi/widthOld;
+            double h = he/heightOld;
+
+            widthOld = wi;
+            heightOld = he;
+
+            Scale scale = new Scale(w, h, 0, 0);
+            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
+        }
+    }
 }
