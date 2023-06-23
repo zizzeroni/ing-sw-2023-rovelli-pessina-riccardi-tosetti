@@ -15,7 +15,7 @@ public class InPauseState extends ControllerState{
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(gameResumed) {
+                if(!gameResumed) {
                     System.out.println(controller.getModel().getGameState());
                     controller.getModel().setGameState(GameState.RESET_NEEDED);
                     System.out.println("RESET_NEEDED Timer executed");

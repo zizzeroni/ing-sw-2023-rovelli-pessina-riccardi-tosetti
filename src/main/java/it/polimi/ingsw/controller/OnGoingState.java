@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 
 import java.util.Collections;
 import java.util.List;

@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;

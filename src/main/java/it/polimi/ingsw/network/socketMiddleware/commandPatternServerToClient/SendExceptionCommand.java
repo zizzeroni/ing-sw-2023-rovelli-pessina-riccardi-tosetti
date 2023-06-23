@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 
 import it.polimi.ingsw.network.Client;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;

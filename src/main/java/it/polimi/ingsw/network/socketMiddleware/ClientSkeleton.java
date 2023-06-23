@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.socketMiddleware;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;

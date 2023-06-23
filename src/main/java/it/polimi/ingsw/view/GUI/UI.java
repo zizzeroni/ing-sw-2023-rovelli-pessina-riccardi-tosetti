@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 
 public interface UI {
     public void registerListener(ViewListener listener);

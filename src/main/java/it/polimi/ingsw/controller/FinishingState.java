@@ -46,7 +46,7 @@ public class FinishingState extends ControllerState {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
         if (checkIfUserInputIsCorrect(playerChoice)) {
-            removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+            removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
             System.err.println("[INPUT:ERROR]: User data not correct");
@@ -93,7 +93,7 @@ public class FinishingState extends ControllerState {
                         (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
+    private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
         board.removeTiles(tileCoordinates);
     }

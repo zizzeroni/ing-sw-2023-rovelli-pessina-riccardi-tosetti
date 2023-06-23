@@ -5,11 +5,11 @@ import it.polimi.ingsw.model.commongoal.MinEqualsTilesPattern;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
-public class MinEqualsTilesPatternView extends CommonGoalView {
+public class MinEqualsTilesPatternGoalView extends CommonGoalView {
     private final Direction direction;
     private final int maxEqualsTiles;
 
-    public MinEqualsTilesPatternView(MinEqualsTilesPattern commonGoalModel) {
+    public MinEqualsTilesPatternGoalView(MinEqualsTilesPattern commonGoalModel) {
         super(commonGoalModel);
         this.maxEqualsTiles = commonGoalModel.getMaxEqualsTiles();
         this.direction = commonGoalModel.getDirection();

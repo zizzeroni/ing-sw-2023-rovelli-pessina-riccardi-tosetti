@@ -3,7 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 
 public class GenericUILogic {
     private volatile GameView model;

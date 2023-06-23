@@ -15,7 +15,6 @@ import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
-    private int counter = 0;
     //Server's IP address
     private final String ip;
     //Server's port address

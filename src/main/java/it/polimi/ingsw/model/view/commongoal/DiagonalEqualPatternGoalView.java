@@ -4,10 +4,10 @@ import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
-public class DiagonalEqualPatternView extends CommonGoalView {
+public class DiagonalEqualPatternGoalView extends CommonGoalView {
     private final int[][] pattern;
 
-    public DiagonalEqualPatternView(DiagonalEqualPattern commonGoalModel) {
+    public DiagonalEqualPatternGoalView(DiagonalEqualPattern commonGoalModel) {
         super(commonGoalModel);
         this.pattern = commonGoalModel.getPattern();
     }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.GUI.UI;
 
@@ -120,9 +120,11 @@ public class TextualUI implements UI {
                             printCountdownTh.start();
                         }
                     } else {
-                        printCountdownTh.interrupt();
-                        printCountdownTh = this.createNewPrintCountdownThread();
-                        firstTime = true;
+                        if(this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
+                            printCountdownTh.interrupt();
+                            printCountdownTh = this.createNewPrintCountdownThread();
+                            firstTime = true;
+                        }
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

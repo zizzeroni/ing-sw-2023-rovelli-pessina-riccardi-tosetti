@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
+import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternGoalView;
 
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
@@ -153,7 +153,7 @@ public class DiagonalEqualPattern extends CommonGoal {
     */
     @Override
     public CommonGoalView copyImmutable() {
-        return new DiagonalEqualPatternView(this);
+        return new DiagonalEqualPatternGoalView(this);
     }
     /*
     Redefine the equals method

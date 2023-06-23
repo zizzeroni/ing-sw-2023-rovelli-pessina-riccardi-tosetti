@@ -4,8 +4,8 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.exceptions.DuplicateNicknameException;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
