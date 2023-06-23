@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.view.PlayerView;
-import it.polimi.ingsw.view.GraphicalUI;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

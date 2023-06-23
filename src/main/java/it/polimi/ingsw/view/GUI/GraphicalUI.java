@@ -1,8 +1,6 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.view.GUI.FinalSceneController;
-import it.polimi.ingsw.view.GUI.LoginController;
-import it.polimi.ingsw.view.GUI.MainSceneController;
+import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
@@ -12,6 +10,7 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.view.UI;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +38,8 @@ public class GraphicalUI extends UI {
     private FXMLLoader loader;
     private volatile Choice takenTiles;
     private int typeOfConnection;
+    private String ip;
+    private String port;
 
     public GraphicalUI(GameView model) {
         super(model);
@@ -49,7 +50,10 @@ public class GraphicalUI extends UI {
     }
 
     public void start(Stage primaryStage) throws Exception {
-        this.typeOfConnection = Integer.parseInt(this.getParameters().getRaw().get(0));
+        List<String> temp=this.getParameters().getRaw();
+        this.typeOfConnection = Integer.parseInt(temp.get(0));
+        this.ip = temp.get(1);
+        this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
         run();
@@ -132,7 +136,7 @@ public class GraphicalUI extends UI {
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
             if(typeOfConnection==2){
-                ServerStub serverStub = new ServerStub("localhost", 1234);
+                ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
                 //Creating a new client with a TextualUI and a Socket Server
                 Client client = null;
                 try {
@@ -146,7 +150,7 @@ public class GraphicalUI extends UI {
                 startReceiverThread(client, serverStub);
             }else {
                 try {
-                    Registry registry = LocateRegistry.getRegistry("192.168.1.4", 1099);
+                    Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
                     Server server = (Server) registry.lookup("server");
                     new ClientImpl(server, this);
                     startPingSenderThread(server);

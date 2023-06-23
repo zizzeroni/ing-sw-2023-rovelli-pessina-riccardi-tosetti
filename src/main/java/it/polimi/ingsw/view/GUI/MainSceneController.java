@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
-import it.polimi.ingsw.view.GraphicalUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,6 +91,9 @@ public class MainSceneController implements Initializable {
         Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
+
+        Label label = new Label("paolo");
+
     }
 
     public void selected(ActionEvent actionEvent) {
@@ -551,7 +553,7 @@ public class MainSceneController implements Initializable {
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
-        personalGoalString = "image/personal goal cards/Personal_Goals" + (personalGoal.getImageID()==1 ? "" : personalGoal.getImageID()) + ".png";
+        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getImageID() + ".png";
 
         //Assegnare il giusto personal goal
 
