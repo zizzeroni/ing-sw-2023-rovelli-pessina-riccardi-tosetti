@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
