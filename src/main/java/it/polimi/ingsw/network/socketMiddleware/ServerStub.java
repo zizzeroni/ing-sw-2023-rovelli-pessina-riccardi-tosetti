@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+import it.polimi.ingsw.controller.CreationState;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
@@ -14,7 +15,7 @@ import java.rmi.RemoteException;
 import java.util.concurrent.Semaphore;
 
 /**
- *
+ * ... it is necessary fo the {@code Client}'s correct functioning.
  */
 //Necessary for the client in order to function
 public class ServerStub implements Server {
@@ -156,6 +157,16 @@ public class ServerStub implements Server {
 
     }
 
+    /**
+     * Permits to set the number of active {@code Player}s in the current {@code Game}.
+     *
+     * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
+     * @throws RemoteException signals the occurrence of an error while sending the message.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     * @see CreationState#chooseNumberOfPlayerInTheGame(int)
+     */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -174,6 +185,9 @@ public class ServerStub implements Server {
 
     }
 
+    /**
+     * @throws RemoteException
+     */
     @Override
     public void startGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -198,6 +212,16 @@ public class ServerStub implements Server {
         System.out.println("Valore permit semaphore: " + this.semaphoreUpdate.availablePermits());
     }
 
+    /**
+     * Allows client's registration, every {@code Client} is associated to its {@code Player}'s nickname.
+     *
+     * @param client is the client being registered.
+     * @param nickname is the client's player's nickname.
+     * @throws RemoteException an exception called to notify that an error occurred while connecting to the server.
+     *
+     * @see Client
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void register(Client client, String nickname) throws RemoteException {
         try {

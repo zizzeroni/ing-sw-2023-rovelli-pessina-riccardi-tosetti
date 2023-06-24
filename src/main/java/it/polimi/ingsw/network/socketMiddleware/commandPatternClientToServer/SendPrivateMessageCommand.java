@@ -68,7 +68,7 @@ public class SendPrivateMessageCommand implements CommandToServer {
     }
 
     /**
-     * Gets the change turn command's actuator.
+     * Gets the command's actuator.
      *
      * @return the actuator of the private message sending command.
      */
@@ -78,7 +78,7 @@ public class SendPrivateMessageCommand implements CommandToServer {
     }
 
     /**
-     * Sets the change turn command's actuator.
+     * Sets the command's actuator.
      *
      * @param actuator the actuator of the private message sending command.
      */

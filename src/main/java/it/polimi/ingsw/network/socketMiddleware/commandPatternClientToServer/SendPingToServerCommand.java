@@ -37,7 +37,7 @@ public class SendPingToServerCommand implements CommandToServer {
     }
 
     /**
-     * Gets the change turn command's actuator.
+     * Gets the command's actuator.
      *
      * @return the actuator of the server's ping sending command.
      */
@@ -47,7 +47,7 @@ public class SendPingToServerCommand implements CommandToServer {
     }
 
     /**
-     * Sets the change turn command's actuator.
+     * Sets the command's actuator.
      *
      * @param actuator the actuator of the server's ping sending command.
      */

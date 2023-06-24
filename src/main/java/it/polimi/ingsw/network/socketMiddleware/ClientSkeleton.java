@@ -18,13 +18,29 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 /**
+ * This class represents the {@code Client}'s skeleton, it is necessary for the correct functioning of the {@code Server}
+ * It contains for pinging the client, updating the model view, receiving exceptions, ...
+ * and also displaying modifies to the current client's implementation.
  *
+ * @see Client
+ * @see javax.swing.text.View
+ * @see Server
+ * @see it.polimi.ingsw.network.ClientImpl
  */
 //Necessary for the server in order to function
 public class ClientSkeleton implements Client {
     private final ObjectOutputStream oos;
     private final ObjectInputStream ois;
 
+    /**
+     * The class constructor.
+     * Initialize the client's socket.
+     *
+     * @param socket is the client's socket.
+     * @throws RemoteException to signal the occurrence of a resource error on input or output streams.
+     *
+     * @see Client
+     */
     public ClientSkeleton(Socket socket) throws RemoteException {
         try {
             this.oos = new ObjectOutputStream(socket.getOutputStream());
@@ -38,6 +54,14 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * This method permits to convey the updated model view.
+     *
+     * @param modelUpdated contains the model updates.
+     * @throws RemoteException is called when a communication error occurs and the modelView can't be sent.
+     *
+     * @see javax.swing.text.View
+     */
     @Override
     public void updateModelView(GameView modelUpdated) throws RemoteException {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
@@ -48,6 +72,13 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Allows to ping the client.
+     *
+     * @throws RemoteException signals the occurrence of a communication error with the client.
+     *
+     * @see Client
+     */
     @Override
     public void ping() throws RemoteException {
         CommandToClient command = new SendPingToClientCommand();
@@ -58,6 +89,14 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Used to receive a generic exception in order to handle it.
+     *
+     * @param exception the GENERIC except being received.
+     * @throws RemoteException called when a communication error with the client occurs.
+     *
+     * @see Client
+     */
     @Override
     public void receiveException(GenericException exception) throws RemoteException {
         CommandToClient command = new SendExceptionCommand(exception);
@@ -78,6 +117,14 @@ public class ClientSkeleton implements Client {
         }
     }*/
 
+    /**
+     * Receives (and provides a response) to server's messages.
+     *
+     * @param server is the server communicating to.
+     * @throws RemoteException called when the server's message can't be cast or received.
+     *
+     * @see Server
+     */
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
         try {
@@ -98,6 +145,14 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Receives (and provides a response) to server's messages related to player's nickname.
+     *
+     * @param server is the server communicating to.
+     * @throws RemoteException called when the server's message can't be cast or received.
+     *
+     * @see Server
+     */
     public String receiveNickname(Server server) throws RemoteException {
         try {
             String nickname = (String) this.ois.readObject();

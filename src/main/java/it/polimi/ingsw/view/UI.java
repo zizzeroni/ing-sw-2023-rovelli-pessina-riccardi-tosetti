@@ -134,6 +134,13 @@ public abstract class UI extends Application implements Runnable {
         }
     }
 
+    /**
+     * Ini
+     *
+     * @param controller
+     * @param nickname
+     * @param model
+     */
     public void initializeChatThread(ViewListener controller, String nickname, GameView model) {
         chat = new ChatThread(controller, nickname);
         //we do not set the game view in the constructor because we need the value passed as reference instead of value
