@@ -16,6 +16,7 @@ public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
     }
+
     /*
     Check if there are tiles of the same color in the 4 corners of the bookshelf
     @param bookshelf contains the bookshelf of the player
@@ -29,6 +30,7 @@ public class FourCornersPatternGoal extends CommonGoal {
                 && bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns() - 1).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, 0).getColor())
                 && bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, 0).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, bookshelf.getNumberOfColumns() - 1).getColor())) ? 1 : 0;
     }
+
     /*
     @return an immutable copy of the common goal
     */
@@ -36,6 +38,7 @@ public class FourCornersPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new FourCornersPatternGoalView(this);
     }
+
     /*
     Redefine the equals method
      */

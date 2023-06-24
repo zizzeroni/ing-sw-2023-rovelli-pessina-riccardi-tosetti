@@ -9,7 +9,12 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
 
     public DiagonalEqualPatternGoalView(DiagonalEqualPattern commonGoalModel) {
         super(commonGoalModel);
-        this.pattern = commonGoalModel.getPattern();
+        this.pattern = new int[commonGoalModel.getPattern().length][commonGoalModel.getPattern()[0].length];
+        for (int row = 0; row < this.pattern.length; row++) {
+            for (int column = 0; column < this.pattern[0].length; column++) {
+                this.pattern[row][column] = commonGoalModel.getPattern()[row][column];
+            }
+        }
     }
 
     public int[][] getPattern() {
@@ -24,7 +29,7 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
             sendBack.append("[");
             for (int j = 0; j < this.pattern[0].length; j++) {
                 if (this.pattern[i][j] == 1) {
-                    sendBack.append(" "+ TileColor.BLUE+" ");
+                    sendBack.append(" " + TileColor.BLUE + " ");
                 } else {
                     sendBack.append(" -");
                 }

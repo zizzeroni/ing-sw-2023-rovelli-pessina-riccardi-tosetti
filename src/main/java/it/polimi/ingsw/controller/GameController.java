@@ -77,7 +77,9 @@ public class GameController {
         state.addPlayer(nickname);
     }
 
-    public void tryToResumeGame() {state.tryToResumeGame();}
+    public void tryToResumeGame() {
+        state.tryToResumeGame();
+    }
 
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);

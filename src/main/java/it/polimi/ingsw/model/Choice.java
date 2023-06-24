@@ -21,6 +21,7 @@ public class Choice implements Serializable {
         this.chosenColumn = 0;
         this.tileCoordinates = new ArrayList<>();
     }
+
     /*
     @params chosenTiles are the tiles chosen by the player
     @params tileCoordinates are the coordinates of the tiles chosen by the player
@@ -68,11 +69,13 @@ public class Choice implements Serializable {
     public void addTile(TileView tile) {
         this.chosenTiles.add(tile);
     }
+
     public void removeTile(TileView tile) {
         int pos = this.chosenTiles.indexOf(tile);
         this.chosenTiles.remove(tile);
         this.tileCoordinates.remove(pos);
     }
+
     public void addCoordinates(Coordinates coordinates) {
         this.tileCoordinates.add(coordinates);
     }

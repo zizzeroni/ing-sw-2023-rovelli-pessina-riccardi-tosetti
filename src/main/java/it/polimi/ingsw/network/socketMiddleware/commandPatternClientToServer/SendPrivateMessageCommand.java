@@ -58,6 +58,6 @@ public class SendPrivateMessageCommand implements CommandToServer {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:SendPrivateMessage, Parameters:{Receiver:" + this.receiver + "; Sender:" + this.sender + "; Content:" + this.content + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Receiver: " + this.receiver + "; Sender: " + this.sender + "; Content: " + this.content + "}]";
     }
 }

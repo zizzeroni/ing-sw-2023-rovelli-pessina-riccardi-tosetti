@@ -8,11 +8,13 @@ import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
     //contains the number of tiles that must be consecutive for making a point of the pattern goal
     private final int consecutiveTiles;
+
     //Constructors
     public ConsecutiveTilesPatternGoal() {
         super();
         this.consecutiveTiles = 0;
     }
+
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type);
         this.consecutiveTiles = consecutiveTiles;
@@ -24,16 +26,16 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     /**
-     *     Here we search the number of pattern repetition in the player's bookshelf by declaring a support matrix of the same dimensions of the bookshelf,
-     *     for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
-     *     Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
-     *     then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+     * Here we search the number of pattern repetition in the player's bookshelf by declaring a support matrix of the same dimensions of the bookshelf,
+     * for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
+     * Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
+     * then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+     * <p>
+     * In the second part we count the number of different groups when the counter of the tiles in a group is
+     * at least the minimum number of consecutive tiles of the pattern goal
      *
-     *     In the second part we count the number of different groups when the counter of the tiles in a group is
-     *     at least the minimum number of consecutive tiles of the pattern goal
-     *
-     *     @param bookshelf contains the bookshelf of the player
-     *     @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
+     * @param bookshelf contains the bookshelf of the player
+     * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
@@ -96,10 +98,12 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
             }
         }
     }
+
     //Get method
     public int getConsecutiveTiles() {
         return this.consecutiveTiles;
     }
+
     /*
     @return an immutable copy of the common goal
     */
@@ -107,6 +111,7 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
     }
+
     /*
     Redefine the equals method
      */

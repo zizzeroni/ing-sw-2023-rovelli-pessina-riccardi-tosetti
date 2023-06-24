@@ -24,7 +24,7 @@ public class AppClient {
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
         Scanner input = new Scanner(System.in);
-        String ServeripAddress = args.length>0 ? args[0] : "";
+        String ServeripAddress = args.length > 0 ? args[0] : "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -109,10 +109,10 @@ public class AppClient {
             case 2 -> {
                 switch (connectionChoice) {
                     case 1 -> {
-                        Application.launch(GraphicalUI.class, "1", ServeripAddress , "1099" );
+                        Application.launch(GraphicalUI.class, "1", ServeripAddress, "1099");
                     }
                     case 2 -> {
-                        Application.launch(GraphicalUI.class, "2", ServeripAddress , "1234");
+                        Application.launch(GraphicalUI.class, "2", ServeripAddress, "1234");
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");

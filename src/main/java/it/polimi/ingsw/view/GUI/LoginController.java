@@ -16,7 +16,6 @@ import java.rmi.NotBoundException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    //Fa schifo
     private GraphicalUI mainGraphicalUI;
     @FXML
     private Label principalLabel;

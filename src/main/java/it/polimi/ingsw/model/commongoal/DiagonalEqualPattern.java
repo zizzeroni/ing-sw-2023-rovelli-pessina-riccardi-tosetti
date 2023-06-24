@@ -127,6 +127,7 @@ public class DiagonalEqualPattern extends CommonGoal {
             }
         }
     }
+
     /*
     in this method we rotate the matrix by starting from the first element and exchanging the row and the column
     @param the matrix that we need to rotate
@@ -143,6 +144,7 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
         return rotatedMatrix;
     }
+
     // get
     public int[][] getPattern() {
         return this.pattern;
@@ -155,6 +157,7 @@ public class DiagonalEqualPattern extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new DiagonalEqualPatternGoalView(this);
     }
+
     /*
     Redefine the equals method
      */

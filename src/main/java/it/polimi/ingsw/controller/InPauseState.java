@@ -5,17 +5,18 @@ import it.polimi.ingsw.model.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InPauseState extends ControllerState{
+public class InPauseState extends ControllerState {
     private final Timer timer = new Timer();
     //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
     private boolean gameResumed;
+
     public InPauseState(GameController controller) {
         super(controller);
         this.gameResumed = false;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(!gameResumed) {
+                if (!gameResumed) {
                     System.out.println(controller.getModel().getGameState());
                     controller.getModel().setGameState(GameState.RESET_NEEDED);
                     System.out.println("RESET_NEEDED Timer executed");
@@ -48,6 +49,7 @@ public class InPauseState extends ControllerState{
             player.addMessage(message);
         }
     }
+
     private boolean checkIfGameIsResumable() {
         Game model = this.controller.getModel();
         return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1;
@@ -60,7 +62,7 @@ public class InPauseState extends ControllerState{
 
     @Override
     public void tryToResumeGame() {
-        if(checkIfGameIsResumable()) {
+        if (checkIfGameIsResumable()) {
             this.gameResumed = true;
             timer.cancel();
             System.out.println("RESET_NEEDED Timer cancelled");

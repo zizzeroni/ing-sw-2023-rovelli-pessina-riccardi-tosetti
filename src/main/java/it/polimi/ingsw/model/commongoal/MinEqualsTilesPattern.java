@@ -14,6 +14,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
     private Direction direction;
     //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
+
     //Constructors
     public MinEqualsTilesPattern() {
         super();
@@ -32,6 +33,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
+
     //Get/Set method
     public Direction getDirection() {
         return this.direction;
@@ -118,6 +120,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         patternAppearances = appearancesInDirection;
         return patternAppearances;
     }
+
     /*
     @
      */
@@ -139,6 +142,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
+
     /*
     @return an immutable copy of the common goal
     */
@@ -146,6 +150,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternGoalView(this);
     }
+
     /*
     Redefine the equals method
      */

@@ -110,7 +110,6 @@ public class Player {
         }
     }
 
-
     public void addScoreTile(ScoreTile tile) {
         this.scoreTiles.add(tile);
     }
@@ -148,9 +147,5 @@ public class Player {
         if (listener != null) {
             listener.chatUpdated();
         }
-    }
-
-    public void printChat() {
-
     }
 }

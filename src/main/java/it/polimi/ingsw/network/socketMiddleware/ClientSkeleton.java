@@ -26,12 +26,12 @@ public class ClientSkeleton implements Client {
         try {
             this.oos = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
+            throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream.", e);
         }
         try {
             this.ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
+            throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream.", e);
         }
     }
 
@@ -42,7 +42,7 @@ public class ClientSkeleton implements Client {
             this.oos.writeObject(command);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
         }
     }
 
@@ -53,7 +53,7 @@ public class ClientSkeleton implements Client {
             this.oos.writeObject(command);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class ClientSkeleton implements Client {
             this.oos.writeObject(command);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " to client.", e);
         }
     }
 
@@ -74,9 +74,9 @@ public class ClientSkeleton implements Client {
             System.out.println("Ready to receive (from Client)");
             message = (CommandToServer) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from client.", e);
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the client.", e);
         }
         message.setActuator(server);
         if (message.toEnum() == CommandType.ADD_PLAYER) {

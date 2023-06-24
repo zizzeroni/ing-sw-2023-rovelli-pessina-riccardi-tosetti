@@ -69,20 +69,6 @@ public class Game {
             player.setPersonalGoal(personalGoals.remove(0));
         }
 
-        /*
-        //initialize common goals
-        CommonGoal newCommonGoal;
-        while (this.commonGoals.size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.commonGoals.contains(newCommonGoal)) {
-                    this.commonGoals.add(newCommonGoal);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        */
         Collections.shuffle(this.bag);
 
         List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());

@@ -64,7 +64,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 try {
                     client.receiveException(e);
                 } catch (RemoteException e2) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception:" + e.getMessage() + " ; to client:" + client);
+                    System.err.println("[COMMUNICATION:ERROR] Error while sending exception to client: " + client + ", error caused by \"receiveException(GenericException)\" invocation\n  " + e.getMessage() + ".Skipping client update");
                 }
             }
         }
@@ -96,7 +96,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             }
             this.clientsToHandle.remove(key);
             this.numberOfMissedPings.remove(key);
-            System.out.println("Removed key: " + key);
         }
 
         this.clientsToHandle.put(client, nicknameInInput);

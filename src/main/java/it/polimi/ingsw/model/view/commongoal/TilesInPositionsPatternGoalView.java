@@ -9,7 +9,12 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
 
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
-        this.positions = commonGoalModel.getPositions();
+        this.positions = new int[commonGoalModel.getPositions().length][commonGoalModel.getPositions()[0].length];
+        for (int row = 0; row < this.positions.length; row++) {
+            for (int column = 0; column < this.positions[0].length; column++) {
+                this.positions[row][column] = commonGoalModel.getPositions()[row][column];
+            }
+        }
     }
 
     public int[][] getPositions() {

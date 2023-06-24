@@ -37,6 +37,7 @@ public abstract class CommonGoal extends Card {
         this.type = type;
         this.initScoreTiles(numberOfPlayers, commonGoalID);
     }
+
     //Set/Get methods of variables
     public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
@@ -61,6 +62,7 @@ public abstract class CommonGoal extends Card {
     public void setType(CheckType type) {
         this.type = type;
     }
+
     /*
     initialize the scoring tiles
     @param numberOfPlayers contains the number of players in the game
@@ -82,6 +84,7 @@ public abstract class CommonGoal extends Card {
             }
         }
     }
+
     /*
     This method will be redefined in each common goal and will serve to print on the terminal the common goal
     @return an immutable copy of the common goal
@@ -92,8 +95,8 @@ public abstract class CommonGoal extends Card {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof CommonGoal))
+        if (!(obj instanceof CommonGoal))
             return false;
-        return (this.getImageID()==((CommonGoal) obj).getImageID());
+        return (this.getImageID() == ((CommonGoal) obj).getImageID());
     }
 }

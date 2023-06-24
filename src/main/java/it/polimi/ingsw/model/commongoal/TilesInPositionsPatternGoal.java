@@ -23,6 +23,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
         this.positions = positions;
     }
+
     /*
     Count the number of 1 in the positions matrix
     @return number of 1
@@ -38,6 +39,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         }
         return numberOfElement;
     }
+
     /*
     Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
     for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
@@ -129,6 +131,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
             }
         }
     }
+
     //method get
     public int[][] getPositions() {
         return this.positions;
@@ -141,6 +144,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new TilesInPositionsPatternGoalView(this);
     }
+
     /*
     Redefine the equals method
      */

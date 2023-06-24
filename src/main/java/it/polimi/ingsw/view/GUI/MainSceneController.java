@@ -68,9 +68,9 @@ public class MainSceneController implements Initializable {
     private Label pointsLabel;
     private int turn;
     private Image pointsImage1;
-   private Image pointsImage2;
-   @FXML
-   private ScrollPane scrollPane;
+    private Image pointsImage2;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -994,28 +994,38 @@ public class MainSceneController implements Initializable {
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
         int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
-        if(numberOfScoreTiles2!=0) {
+        if (numberOfScoreTiles2 != 0) {
             int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
-                case 2 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default -> pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                case 2 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
             }
-        }else{
+        } else {
             pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
-        if(numberOfScoreTiles1!=0) {
+        if (numberOfScoreTiles1 != 0) {
             int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
-                case 2 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default -> pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                case 2 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
             }
-        }else{
+        } else {
             pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
 

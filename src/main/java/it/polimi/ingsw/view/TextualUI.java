@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextualUI implements UI {
     private GenericUILogic genericUILogic;
+
     public TextualUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
     }
@@ -85,7 +86,7 @@ public class TextualUI implements UI {
         return new Thread(() -> {
             System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
             System.out.print(genericUILogic.getCountdown());
-            for (;countdown.get() > -1; countdown.getAndDecrement()) {
+            for (; countdown.get() > -1; countdown.getAndDecrement()) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ignored) {
@@ -120,7 +121,7 @@ public class TextualUI implements UI {
                             printCountdownTh.start();
                         }
                     } else {
-                        if(this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
+                        if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                             printCountdownTh.interrupt();
                             printCountdownTh = this.createNewPrintCountdownThread();
                             firstTime = true;

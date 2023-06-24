@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
+//TODO: Chiedere se tenerla anche se non utilizzata attualmente nel progetto
 public class RegisterCommand implements CommandToServer {
     private Server actuator;
     private String nickname;
@@ -45,11 +46,11 @@ public class RegisterCommand implements CommandToServer {
 
     @Override
     public CommandType toEnum() {
-        return null;
+        return CommandType.REGISTER;
     }
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:Register, Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
     }
 }
