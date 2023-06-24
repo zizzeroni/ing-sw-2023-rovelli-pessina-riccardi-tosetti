@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 
@@ -43,11 +46,10 @@ public class CreationState extends ControllerState {
             Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
             player.addMessage(message);
         }
-
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
@@ -65,7 +67,11 @@ public class CreationState extends ControllerState {
         } else {*/
         newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
         //}
-        this.controller.getModel().addPlayer(newPlayer);
+        if ((this.controller.getModel().getNumberOfPlayersToStartGame() == 0 || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame()) && this.controller.getNumberOfPlayersCurrentlyInGame() < 4) {
+            this.controller.getModel().addPlayer(newPlayer);
+        } else {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full");
+        }
     }
 
     @Override
@@ -111,6 +117,8 @@ public class CreationState extends ControllerState {
 
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(OnGoingState.toEnum());
+        } else {
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 
@@ -122,14 +130,17 @@ public class CreationState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
-                System.err.println("Number of players in the lobby exceed the chosen one");
-            } else {
-                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
+            if (this.controller.getNumberOfPlayersCurrentlyInGame() > chosenNumberOfPlayers) {
+                throw new ExcessOfPlayersException("The creator of the lobby has chosen a number of players smaller than the number of connected one");
             }
         } else {
-            System.err.println("Unexpected value for number of lobby's players");
+            throw new WrongInputDataException("Unexpected value for number of lobby's players");
         }
     }
 

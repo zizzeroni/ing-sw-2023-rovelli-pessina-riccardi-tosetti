@@ -3,6 +3,8 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 
 import java.io.Reader;
@@ -73,7 +75,7 @@ public class GameController {
     }
 
 
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
     }
 
@@ -85,6 +87,9 @@ public class GameController {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        state.checkExceedingPlayer(chosenNumberOfPlayers);
+    }
 
     public void startGame() {
         state.startGame();

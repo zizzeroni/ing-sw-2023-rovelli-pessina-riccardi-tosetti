@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
+import it.polimi.ingsw.model.exceptions.ExceptionType;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.GenericException;
 
@@ -107,6 +108,9 @@ public class GenericUILogic {
 
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
+        if(this.exceptionToHandle.toEnum()== ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
+            this.setState(ClientGameState.GAME_ENDED);
+        }
     }
 
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes

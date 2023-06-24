@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextualUI implements UI {
-    private GenericUILogic genericUILogic;
+    private final GenericUILogic genericUILogic;
 
     public TextualUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
@@ -65,11 +65,10 @@ public class TextualUI implements UI {
         synchronized (this.genericUILogic.getLockState()) {
             switch (clientGameState) {
                 case WAITING_IN_LOBBY -> {
-                    System.out.println("Waiting...");
+                    System.out.println("Waiting for the game to start...");
                 }
-                case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
-                case WAITING_FOR_RESUME ->
-                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+                case WAITING_FOR_OTHER_PLAYER ->
+                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (genericUILogic.getState() == clientGameState) {
                 try {
@@ -105,11 +104,10 @@ public class TextualUI implements UI {
         synchronized (this.genericUILogic.getLockState()) {
             switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
-                    System.out.println("Waiting...");
+                    System.out.println("Waiting for the game to start...");
                 }
-                case WAITING_FOR_OTHER_PLAYER -> System.out.println("Waiting for others player moves...");
-                case WAITING_FOR_RESUME ->
-                        System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
+                case WAITING_FOR_OTHER_PLAYER ->
+                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
@@ -180,8 +178,12 @@ public class TextualUI implements UI {
             }
             this.genericUILogic.controller.changeTurn();
         }
-        showPersonalRecap();
-        System.out.println("---GAME ENDED---");
+        if(this.genericUILogic.getExceptionToHandle()!=null) {
+            this.genericUILogic.getExceptionToHandle().handle();
+        } else {
+            showPersonalRecap();
+            System.out.println("---GAME ENDED---");
+        }
     }
 
     public void showNewTurnIntro() {

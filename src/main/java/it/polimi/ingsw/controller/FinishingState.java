@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
@@ -126,9 +129,13 @@ public class FinishingState extends ControllerState {
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
     }
 
     @Override
@@ -138,6 +145,11 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Game is finishing, so do nothing...
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Game is finishing, so do nothing...
     }
 

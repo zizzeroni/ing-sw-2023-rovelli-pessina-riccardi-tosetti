@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
@@ -155,9 +157,13 @@ public class OnGoingState extends ControllerState {
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
     }
 
     @Override
@@ -167,6 +173,11 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Game is going, so do nothing...
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Game is going, so do nothing...
     }
 
@@ -181,8 +192,7 @@ public class OnGoingState extends ControllerState {
         model.getPlayerFromNickname(nickname).setConnected(false);
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
-        }
-        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+        } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
         }
