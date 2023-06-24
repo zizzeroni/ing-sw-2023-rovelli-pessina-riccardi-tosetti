@@ -193,7 +193,7 @@ public abstract class UI extends Application implements Runnable {
         >>  [ 0 Y 0 0 0 ]
         >>  [ 0 0 0 0 0 ]
         >>  [ 0 0 C 0 0 ]
-        >>  Obiettivi comuni completati: Obiettivo1:4, Obiettivo2: (Valore delle goalTile)
+        >>  Obiettivi comuni completati: Obiettivo1:4, Obiettivo2: (Valore delle score tiles)
         >>  //Visualizzazione dei pattern degli obiettivi
         >>  Il tuo punteggio attuale: 28
         >>  Seleziona l'azione(Digita il numero associato all'azione):

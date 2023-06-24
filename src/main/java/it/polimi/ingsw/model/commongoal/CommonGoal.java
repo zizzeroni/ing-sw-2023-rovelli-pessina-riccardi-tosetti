@@ -104,6 +104,7 @@ public abstract class CommonGoal extends Card {
     public boolean equals(Object obj) {
         if (!(obj instanceof CommonGoal))
             return false;
+
         return (this.getId() == ((CommonGoal) obj).getId());
     }
 }

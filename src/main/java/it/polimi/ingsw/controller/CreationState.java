@@ -35,7 +35,8 @@ public class CreationState extends ControllerState {
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
-            if (player.getNickname().equals(receiver)) {
+            //sender and receiver will see the message, in order to keep the full history
+            if (player.getNickname().equals(receiver) || player.getNickname().equals(sender)) {
                 player.addMessage(message);
             }
         }
@@ -56,20 +57,8 @@ public class CreationState extends ControllerState {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
-        Player newPlayer;
-        /*if (this.controller.getModel().getPlayers().size() == 0) {
-            //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
-            Tile[][] temp = {
-                    {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
-            newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf(temp));
-        } else {*/
-        newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<>(), new Bookshelf());
-        //}
+        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<>(), new Bookshelf());
+
         this.controller.getModel().addPlayer(newPlayer);
     }
 
@@ -91,9 +80,6 @@ public class CreationState extends ControllerState {
             List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
             this.controller.getModel().getBoard().addTiles(drawnTiles);
 
-
-        /*REMINDER: I moved this piece of code from Game constructor without parameters because the scoreTile list initialization requires the number of player to play the game
-                    Ask if it is ok or find an alternative way*/
             CommonGoal newCommonGoal;
             while (this.controller.getModel().getCommonGoals().size() != 2) {
                 try {
@@ -110,7 +96,7 @@ public class CreationState extends ControllerState {
             for (Player player : this.controller.getModel().getPlayers()) {
                 // the available score tiles in a game are one for each common goal plus the first finisher's score tile
                 for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
-                    player.getGoalTiles().add(new ScoreTile(0));
+                    player.getScoreTiles().add(new ScoreTile(0));
                 }
             }
 
@@ -138,7 +124,7 @@ public class CreationState extends ControllerState {
         }
     }
 
-    private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
+    public CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
         switch (this.controller.getRandomizer().nextInt(12)) {
             case 0 -> {

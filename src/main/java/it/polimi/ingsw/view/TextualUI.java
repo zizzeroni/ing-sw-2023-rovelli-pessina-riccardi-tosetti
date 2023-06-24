@@ -457,23 +457,22 @@ public class TextualUI extends UI {
     //TODO: remove from UI
     public void showPersonalRecap() {
         PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
-        //PlayerView activePlayer = this.getModel().getPlayers().get(this.getModel().getActivePlayerIndex());
         BookshelfView playerBookshelf = activePlayer.getBookshelf();
         PersonalGoalView playerPersonalGoal = activePlayer.getPersonalGoal();
-        List<ScoreTileView> playerGoalTiles = activePlayer.getGoalTiles();
+        List<ScoreTileView> playerScoreTiles = activePlayer.getScoreTiles();
 
         int playerScore = activePlayer.score();
 
         List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
 
-        System.out.println("Ecco il tuo recap:");
-        System.out.println("Stato della tua bookshelf:\n" + playerBookshelf + "\n" +
-                "Il tuo obiettivo personale:\n" + playerPersonalGoal + "\n" +
-                "Gli obiettivi comuni sono:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
-                "Obiettivi comuni completati: Obiettivo1:" + (playerGoalTiles.size() > 0 && playerGoalTiles.get(0) != null ? playerGoalTiles.get(0).getValue() : "/") +
-                ", Obiettivo2:" + (playerGoalTiles.size() > 1 && playerGoalTiles.get(1) != null ? playerGoalTiles.get(1).getValue() : "/") + ", Vittoria:" +
-                (playerGoalTiles.size() > 2 && playerGoalTiles.get(2) != null ? playerGoalTiles.get(2).getValue() : "/") + " (Valore delle goalTile)" + "\n" +
-                "Il tuo punteggio attuale " + playerScore);
+        System.out.println("Here is your recap:");
+        System.out.println("Bookshelf's state:\n" + playerBookshelf + "\n" +
+                "Personal goal:\n" + playerPersonalGoal + "\n" +
+                "Common goals:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
+                "Completed common goals: First common goal:" + (playerScoreTiles.size() > 0 && playerScoreTiles.get(0) != null ? playerScoreTiles.get(0).getValue() : "/") +
+                ", Second common goal:" + (playerScoreTiles.size() > 1 && playerScoreTiles.get(1) != null ? playerScoreTiles.get(1).getValue() : "/") + ", Victory:" +
+                (playerScoreTiles.size() > 2 && playerScoreTiles.get(2) != null ? playerScoreTiles.get(2).getValue() : "/") + " (Score tiles values)" + "\n" +
+                "Your current score: " + playerScore);
     }
 
     private void setUpLobby() {

@@ -162,16 +162,4 @@ public class DiagonalEqualPattern extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new DiagonalEqualPatternView(this);
     }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof DiagonalEqualPattern obj) {
-            return this.pattern == obj.getPattern()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
 }

@@ -57,15 +57,4 @@ public class StairPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new StairPatternGoalView(this);
     }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof StairPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
 }

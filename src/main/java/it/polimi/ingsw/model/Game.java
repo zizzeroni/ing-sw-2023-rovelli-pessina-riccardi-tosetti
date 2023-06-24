@@ -50,8 +50,6 @@ public class Game {
         this.initializeBag(numberOfTilesInBag);
         this.board = new Board();
 
-        Collections.shuffle(this.bag);
-
     }
 
     public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
@@ -71,7 +69,7 @@ public class Game {
         //initialize players
         for (Player player : this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTiles(new ArrayList<>(3));
+            player.setScoreTiles(new ArrayList<>(3));
             player.setPersonalGoal(personalGoals.remove(0));
         }
 

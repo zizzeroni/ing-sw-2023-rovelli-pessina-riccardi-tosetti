@@ -113,6 +113,10 @@ public class GameController {
         return personalGoalsDeck.remove(index);
     }
 
+    public List<PersonalGoal> getPersonalGoalsDeck() {
+        return personalGoalsDeck;
+    }
+
     public void addPersonalGoal(PersonalGoal personalGoal) {
         personalGoalsDeck.add(personalGoal);
     }

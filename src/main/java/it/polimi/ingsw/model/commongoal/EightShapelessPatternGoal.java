@@ -50,15 +50,4 @@ public class EightShapelessPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
     }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof EightShapelessPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
 }

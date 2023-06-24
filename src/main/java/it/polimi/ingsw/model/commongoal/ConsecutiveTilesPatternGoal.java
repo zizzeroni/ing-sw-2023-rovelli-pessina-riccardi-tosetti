@@ -114,16 +114,4 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
     }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof ConsecutiveTilesPatternGoal obj) {
-            return this.consecutiveTiles == obj.getConsecutiveTiles()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
 }

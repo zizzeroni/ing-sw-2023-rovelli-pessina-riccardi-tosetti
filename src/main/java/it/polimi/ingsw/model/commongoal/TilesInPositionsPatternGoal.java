@@ -153,19 +153,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new TilesInPositionsPatternGoalView(this);
     }
-
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof TilesInPositionsPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()
-                    && this.getPositions() == obj.getPositions();
-        }
-        return false;
-    }
 }
 
 
