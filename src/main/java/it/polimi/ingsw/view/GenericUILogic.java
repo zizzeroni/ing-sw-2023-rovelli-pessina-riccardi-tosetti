@@ -17,8 +17,9 @@ public class GenericUILogic {
     private ClientGameState clientGameState;
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
+    private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
+    private boolean areThereStoredGamesForPlayer = false;
 
-    private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE/1000;
 
     public GenericUILogic(GameView model, ViewListener controller, String nickname) {
         this.model = model;
@@ -109,7 +110,7 @@ public class GenericUILogic {
 
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
-        if(this.exceptionToHandle.toEnum()== ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
+        if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
             this.setState(ClientGameState.GAME_ENDED);
         }
     }
@@ -143,5 +144,13 @@ public class GenericUILogic {
         //we do not set the game view in the constructor because we need the value passed as reference instead of value
         chat.setGameView(model);
         chat.start();
+    }
+
+    public void setAreThereStoredGamesForPlayer(boolean result) {
+        this.areThereStoredGamesForPlayer = result;
+    }
+
+    public boolean areThereStoredGamesForPlayer() {
+        return this.areThereStoredGamesForPlayer;
     }
 }

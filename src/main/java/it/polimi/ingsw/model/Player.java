@@ -75,11 +75,11 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public List<ScoreTile> getGoalTiles() {
+    public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
 
-    public void setGoalTiles(List<ScoreTile> scoreTiles) {
+    public void setScoreTiles(List<ScoreTile> scoreTiles) {
         this.scoreTiles = scoreTiles;
     }
 

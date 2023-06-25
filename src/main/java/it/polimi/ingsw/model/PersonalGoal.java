@@ -18,9 +18,14 @@ public class PersonalGoal extends Card {
         }
     }
 
-    public PersonalGoal(int imageID, Tile[][] pattern) {
-        super(imageID);
+    public PersonalGoal(int id, Tile[][] pattern) {
+        super(id);
         this.pattern = pattern;
+    }
+
+    public PersonalGoal(PersonalGoal personalGoal) {
+        this.pattern = personalGoal.getPattern();
+        this.setId(personalGoal.getId());
     }
 
     public int getNumberOfColumns() {
@@ -98,5 +103,13 @@ public class PersonalGoal extends Card {
             output.append("]\n");
         }
         return output.substring(0, output.length() - 1);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PersonalGoal))
+            return false;
+
+        return (this.getId() == ((PersonalGoal) obj).getId());
     }
 }

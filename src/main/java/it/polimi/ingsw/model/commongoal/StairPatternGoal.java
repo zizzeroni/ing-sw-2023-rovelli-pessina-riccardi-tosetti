@@ -1,17 +1,24 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
+import java.util.List;
+
 public class StairPatternGoal extends CommonGoal {
     //Constructors
-    public StairPatternGoal(int imageID, int patternRepetition, CheckType type) {
-        super(imageID, patternRepetition, type);
+    public StairPatternGoal(int id, int patternRepetition, CheckType type) {
+        super(id, patternRepetition, type);
     }
 
-    public StairPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+    }
+
+    public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
 
     /*
@@ -52,17 +59,5 @@ public class StairPatternGoal extends CommonGoal {
     @Override
     public CommonGoalView copyImmutable() {
         return new StairPatternGoalView(this);
-    }
-
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof StairPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
     }
 }

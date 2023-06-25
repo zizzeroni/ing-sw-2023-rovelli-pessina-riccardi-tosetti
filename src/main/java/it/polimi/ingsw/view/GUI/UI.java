@@ -15,5 +15,9 @@ public interface UI {
 
     public void printException(GenericException exception);
 
+    public void setAreThereStoredGamesForPlayer(boolean result);
+
     public void run();
+
+
 }

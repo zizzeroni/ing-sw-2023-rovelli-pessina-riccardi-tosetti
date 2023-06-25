@@ -66,6 +66,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+        this.view.setAreThereStoredGamesForPlayer(result);
+    }
+
     //Methods used for forwarding notifications from view to the server
     @Override
     public void changeTurn() {
@@ -137,6 +142,24 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
             this.serverConnectedTo.disconnectPlayer(nickname);
         } catch (RemoteException e) {
             System.err.println("[COMMUNICATION:ERROR] while updating server: " + this.serverConnectedTo + ", error caused by \"disconnectPlayer(String)\" invocation:\n  " + e.getMessage() + ".Skipping server update");
+        }
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        try {
+            this.serverConnectedTo.restoreGameForPlayer(nickname);
+        } catch (RemoteException e) {
+            System.err.println("[COMMUNICATION:ERROR] while updating server(restoreGameForPlayer):" + e.getMessage() + ".Skipping update");
+        }
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) {
+        try {
+            this.serverConnectedTo.areThereStoredGamesForPlayer(nickname);
+        } catch (RemoteException e) {
+            System.err.println("[COMMUNICATION:ERROR] while updating server(areThereStoredGamesForPlayer):" + e.getMessage() + ".Skipping update");
         }
     }
 

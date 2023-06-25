@@ -77,10 +77,7 @@ public class AppClient {
 
                         //Creating a new client with a TextualUI and a RMI Server
                         client = new ClientImpl(server, new TextualUI());
-
-
                         startPingSenderThread(server);
-
 
                         //Calling the run method of the UI
                         client.run();

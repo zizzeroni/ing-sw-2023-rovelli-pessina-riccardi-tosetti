@@ -24,6 +24,7 @@ public class OnGoingState extends ControllerState {
             this.refillBoard();
         }
         changeActivePlayer();
+        this.controller.getModel().saveGame();
     }
 
     private void refillBoard() {
@@ -67,9 +68,9 @@ public class OnGoingState extends ControllerState {
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
             int finalI = i;
             if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
-                    && currentPlayer.getGoalTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
+                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
                 currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
-                currentPlayer.getGoalTiles().get(i).setPlayerID(model.getActivePlayerIndex());
+                currentPlayer.getScoreTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }
         }
 
@@ -197,6 +198,11 @@ public class OnGoingState extends ControllerState {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
         }
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        //Game is going, so do nothing...
     }
 
     public static GameState toEnum() {

@@ -84,7 +84,7 @@ public class GraphicalUI extends Application implements UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    tileId = boardMatrix[row][column].getImageID();
+                    tileId = boardMatrix[row][column].getId();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
                 } else {
@@ -134,6 +134,11 @@ public class GraphicalUI extends Application implements UI {
     @Override
     public void printException(GenericException exception) {
         this.genericUILogic.printException(exception);
+    }
+
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) {
+        this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
     @Override
@@ -337,7 +342,7 @@ public class GraphicalUI extends Application implements UI {
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-                    tileId = boardMatrix[row][column].getImageID();
+                    tileId = boardMatrix[row][column].getId();
                     tileColor = boardMatrix[row][column].getColor().toGUI();
                     mainSceneController.setBoardTile(row, column, tileId, tileColor);
                 } else {

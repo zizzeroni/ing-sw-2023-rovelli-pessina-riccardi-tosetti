@@ -13,4 +13,6 @@ public interface Client extends Remote {
     public void ping() throws RemoteException;
 
     public void receiveException(GenericException exception) throws RemoteException;
+
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException;
 }
