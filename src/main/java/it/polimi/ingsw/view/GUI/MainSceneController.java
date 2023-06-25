@@ -217,13 +217,17 @@ public class MainSceneController implements Initializable {
         imageView.setFitWidth(240);
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
-        commonGoal2.setVisible(false);
+        imageView.setViewOrder(0.0);
         pointsItem2.setVisible(false);
-
-        pointsItem1.setFitHeight(78.5454);
-        pointsItem1.setFitWidth(87.2727);
-        pointsItem1.setLayoutX(485.45);
-        pointsItem1.setLayoutY(693.527);
+        pointsItem1.setVisible(false);
+        commonGoal2.setVisible(false);
+//        commonGoal2.setVisible(false);
+//        pointsItem2.setVisible(false);
+//
+//        pointsItem1.setFitHeight(78.5454);
+//        pointsItem1.setFitWidth(87.2727);
+//        pointsItem1.setLayoutX(485.45);
+//        pointsItem1.setLayoutY(693.527);
 
         //pointsItem1.setVisible(false);
         //pointsItem2.setVisible(false);
@@ -237,13 +241,17 @@ public class MainSceneController implements Initializable {
         imageView.setFitWidth(110);
         imageView.setLayoutX(529);
         imageView.setLayoutY(454);
-        commonGoal2.setVisible(true);
+        imageView.setViewOrder(1);
         pointsItem2.setVisible(true);
-
-        pointsItem1.setFitHeight(36);
-        pointsItem1.setFitWidth(40);
-        pointsItem1.setLayoutX(588.7);
-        pointsItem1.setLayoutY(473);
+        pointsItem1.setVisible(true);
+        commonGoal2.setVisible(true);
+//        commonGoal2.setVisible(true);
+//        pointsItem2.setVisible(true);
+//
+//        pointsItem1.setFitHeight(36);
+//        pointsItem1.setFitWidth(40);
+//        pointsItem1.setLayoutX(588.7);
+//        pointsItem1.setLayoutY(473);
         //pointsItem1.setVisible(true);
         //pointsItem2.setVisible(true);
     }
@@ -1178,29 +1186,36 @@ public class MainSceneController implements Initializable {
 //    }
 
     public void chatUpdate(boolean gameState) {
-        gameOn=gameState;
-        while(gameOn) {
-            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+        var th = new Thread( ()-> {
+            gameOn = gameState;
+            while (gameOn) {
+                List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
 
-            CountDownLatch countDownLatch = new CountDownLatch(1);
-            Platform.runLater(() -> {
-                VBoxMessage.getChildren().clear();
-                if (fullChat.size() != 0) {
-                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-                        Text text = new Text(message.toString());
-                        Font font = new Font(14);
-                        text.setFont(font);
-                        VBoxMessage.getChildren().add(0, text); // add on top
+                CountDownLatch countDownLatch = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                    VBoxMessage.getChildren().clear();
+                    if (fullChat.size() != 0) {
+                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+                            Text text = new Text(message.toString());
+                            Font font = new Font(14);
+                            text.setFont(font);
+                            VBoxMessage.getChildren().add(0, text); // add on top
+                        }
                     }
+                    countDownLatch.countDown();
+                });
+                try {
+                    countDownLatch.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                countDownLatch.countDown();
-            });
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
-        }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
 
     public boolean isGameOn() {
