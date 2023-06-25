@@ -48,6 +48,6 @@ public class DisconnectPlayerCommand implements CommandToServer {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:disconnectPlayer, Parameters:{Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Nickname: " + this.nickname + "}]";
     }
 }

@@ -1,6 +1,5 @@
->package it.polimi.ingsw.view.GUI;
+package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
@@ -8,8 +7,11 @@ import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
-import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.ClientGameState;
+import it.polimi.ingsw.view.GenericUILogic;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +29,8 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
-public class GraphicalUI extends UI {
+public class GraphicalUI extends Application implements UI {
+    protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
     private boolean resizing = true;
     private LoginController loginController;
@@ -40,16 +43,17 @@ public class GraphicalUI extends UI {
     private String ip;
     private String port;
 
-    public GraphicalUI(GameView model) {
-        super(model);
+    public GraphicalUI(GenericUILogic genericUILogic) {
+        this.genericUILogic = genericUILogic;
     }
 
     public GraphicalUI() {
-        super();
+        this.genericUILogic = new GenericUILogic();
     }
 
+    @Override
     public void start(Stage primaryStage) throws Exception {
-        List<String> temp=this.getParameters().getRaw();
+        List<String> temp = this.getParameters().getRaw();
         this.typeOfConnection = Integer.parseInt(temp.get(0));
         this.ip = temp.get(1);
         this.port = temp.get(2);
@@ -57,29 +61,23 @@ public class GraphicalUI extends UI {
         //this.primaryStage.set
         run();
     }
+
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
-        super(model, controller, nickname);
+        this.genericUILogic = new GenericUILogic(model, controller, nickname);
     }
 
     public GraphicalUI(GameView model, ViewListener controller) {
-        super(model, controller);
+        this.genericUILogic = new GenericUILogic(model, controller);
     }
 
-    //TODO non usata
-    @Override
-    public Choice askPlayer() {
-        return null;
-    }
-
-    @Override
     public void showNewTurnIntro() {
         int tileId;
         String tileColor;
         takenTiles = null;
 
-        BoardView boardView = this.getModel().getBoard();
+        BoardView boardView = this.genericUILogic.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
-        TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
+        TileView[][] boardMatrix = this.genericUILogic.getModel().getBoard().getTiles();
 
         mainSceneController.setTable();
 
@@ -108,9 +106,39 @@ public class GraphicalUI extends UI {
                 }
             }
         }
-        mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
-        mainSceneController.setBookshelf(this.getModel().getPlayers());
+        mainSceneController.setCommonGoalPoints(this.genericUILogic.getModel().getCommonGoals());
+        mainSceneController.setBookshelf(this.genericUILogic.getModel().getPlayers());
 
+    }
+
+    @Override
+    public void registerListener(ViewListener listener) {
+        this.genericUILogic.registerListener(listener);
+    }
+
+    @Override
+    public void removeListener() {
+        this.genericUILogic.removeListener();
+    }
+
+    @Override
+    public void setNickname(String nickname) {
+        this.genericUILogic.setNickname(nickname);
+    }
+
+    @Override
+    public void modelModified(GameView modelUpdated) {
+        this.genericUILogic.modelModified(modelUpdated);
+    }
+
+    @Override
+    public void printException(GenericException exception) {
+        this.genericUILogic.printException(exception);
+    }
+
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) {
+        this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
     @Override
@@ -135,7 +163,7 @@ public class GraphicalUI extends UI {
 
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
-            if(typeOfConnection == 2){
+            if (typeOfConnection == 2) {
                 ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
                 //Creating a new client with a TextualUI and a Socket Server
                 Client client = null;
@@ -158,19 +186,19 @@ public class GraphicalUI extends UI {
                     throw new RuntimeException(e);
                 }
             }
-            this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
+            this.genericUILogic.initializeChatThread(this.genericUILogic.getController(), this.genericUILogic.getNickname(), this.genericUILogic.getModel());
             //Add the player to the game, if he is the first return 1
             this.setNickname(nickname);
-            this.controller.addPlayer(nickname);
+            this.genericUILogic.getController().addPlayer(nickname);
 
-            boolean askNumberOfPlayer = this.getModel().getPlayers().size() == 1;
+            boolean askNumberOfPlayer = this.genericUILogic.getModel().getPlayers().size() == 1;
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if (getModel().getPlayers().size() == getModel().getNumberOfPlayers()) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
-                    this.controller.startGame();
+                    this.genericUILogic.getController().startGame();
                     countDownLatchStartGame.countDown();
                 });
                 try {
@@ -183,7 +211,7 @@ public class GraphicalUI extends UI {
             boolean esci = true;
             while (esci) {
                 //Se il numero di giocatori diventa corretto
-                if (getModel().getGameState() == GameState.ON_GOING) {
+                if (genericUILogic.getModel().getGameState() == GameState.ON_GOING) {
                     //Notifico il controller dell'inizio partita
                     esci = false;
                     Parent secondRoot;
@@ -212,29 +240,29 @@ public class GraphicalUI extends UI {
             }
             mainSceneController.setFirstPlayerNickname(nickname);
             mainSceneController.setScene(primaryStage.getScene());
-            mainSceneController.setNumberOfPlayer(getModel().getNumberOfPlayers());
-            mainSceneController.setPlayersName(getModel().getPlayers());
+            mainSceneController.setNumberOfPlayer(genericUILogic.getModel().getNumberOfPlayers());
+            mainSceneController.setPlayersName(genericUILogic.getModel().getPlayers());
 
-            PlayerView activePlayer = this.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.getNickname())).toList().get(0);
+            PlayerView activePlayer = this.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.genericUILogic.getNickname())).toList().get(0);
             mainSceneController.setPersonalGoal(activePlayer.getPersonalGoal());
 
-            List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
+            List<CommonGoalView> commonGoals = this.genericUILogic.getModel().getCommonGoals();
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
-            while (this.getState() != ClientGameState.GAME_ENDED) {
+            while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
-                if (this.getState() == ClientGameState.GAME_ENDED) break;
+                if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
                 showNewTurnIntro();
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                 while (takenTiles == null) {
                     Thread.onSpinWait();
                     //Aspetto che arrivino le scelte del player;
                 }
-                this.controller.insertUserInputIntoModel(takenTiles);
+                this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
-                this.controller.changeTurn();
+                this.genericUILogic.getController().changeTurn();
 
             }
             System.out.println("---GAME ENDED---");
@@ -256,7 +284,7 @@ public class GraphicalUI extends UI {
                 primaryStage.setScene(new Scene(lastRoot));
                 countDownLatch.countDown();
                 finalSceneController.setScene(primaryStage.getScene());
-                finalSceneController.showResult(this.getModel().getPlayers());
+                finalSceneController.showResult(this.genericUILogic.getModel().getPlayers());
             });
             try {
                 countDownLatch.await();
@@ -273,7 +301,7 @@ public class GraphicalUI extends UI {
     }
 
     public void waitWhileInState(ClientGameState state) {
-        synchronized (this.getLockState()) {
+        synchronized (this.genericUILogic.getLockState()) {
             switch (state) {
                 //Questo non dovrebbe più servire
                 case WAITING_IN_LOBBY -> {
@@ -284,10 +312,10 @@ public class GraphicalUI extends UI {
                     mainSceneController.lockAllTiles();
                 }
             }
-            while (getState() == state) {
+            while (genericUILogic.getState() == state) {
                 showUpdateFromOtherPlayer();
                 try {
-                    getLockState().wait();
+                    genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -297,7 +325,7 @@ public class GraphicalUI extends UI {
 
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
-        this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+        this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
     }
 
     public void finishTurn(Choice takenTiles) {
@@ -308,8 +336,8 @@ public class GraphicalUI extends UI {
         int tileId;
         String tileColor;
 
-        BoardView boardView = this.getModel().getBoard();
-        TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
+        BoardView boardView = this.genericUILogic.getModel().getBoard();
+        TileView[][] boardMatrix = this.genericUILogic.getModel().getBoard().getTiles();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -322,8 +350,8 @@ public class GraphicalUI extends UI {
                 }
             }
         }
-        mainSceneController.setBookshelf(this.getModel().getPlayers());
-        mainSceneController.setCommonGoalPoints(this.getModel().getCommonGoals());
+        mainSceneController.setBookshelf(this.genericUILogic.getModel().getPlayers());
+        mainSceneController.setCommonGoalPoints(this.genericUILogic.getModel().getCommonGoals());
     }
 
     public void rescale() {

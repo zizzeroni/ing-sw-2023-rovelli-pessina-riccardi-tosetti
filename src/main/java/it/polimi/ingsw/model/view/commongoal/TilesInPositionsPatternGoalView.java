@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
@@ -11,7 +12,12 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
 
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
-        this.positions = commonGoalModel.getPositions();
+        this.positions = new ArrayList<>();
+        for (int row = 0; row < commonGoalModel.getPositions().size(); row++) {
+            for (int column = 0; column < commonGoalModel.getPositions().get(0).size(); column++) {
+                this.positions.get(row).set(column, commonGoalModel.getPositions().get(row).get(column));
+            }
+        }
     }
 
     public List<List<Integer>> getPositions() {

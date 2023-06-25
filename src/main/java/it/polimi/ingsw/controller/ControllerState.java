@@ -1,7 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 
 public abstract class ControllerState {
     protected GameController controller;
@@ -18,11 +20,12 @@ public abstract class ControllerState {
 
     public abstract void sendBroadcastMessage(String sender, String content);
 
-    public abstract void addPlayer(String nickname);
+    public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 
     public abstract void tryToResumeGame();
 
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
+    public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     public abstract void startGame();
 

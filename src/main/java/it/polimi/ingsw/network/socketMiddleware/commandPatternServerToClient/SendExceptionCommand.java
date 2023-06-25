@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 
 import it.polimi.ingsw.network.Client;
-import it.polimi.ingsw.network.exceptions.GenericException;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
@@ -36,7 +36,7 @@ public class SendExceptionCommand implements CommandToClient {
         if (this.actuator != null) {
             this.actuator.receiveException(this.exception);
         } else {
-            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"receiveException(GameView)\" command because this.actuator is NULL");
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"receiveException(GenericException)\" command because this.actuator is NULL");
         }
     }
 
@@ -47,6 +47,6 @@ public class SendExceptionCommand implements CommandToClient {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:UI, CommandType:NONE, Parameters:NONE]";
+        return "[CommandReceiver:Client, CommandType:" + this.toEnum() + ", Parameters:{Exception: " + this.exception + "}]";
     }
 }

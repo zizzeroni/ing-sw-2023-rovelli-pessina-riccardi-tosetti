@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 
 public class TryToResumeGameCommand implements CommandToServer {
     private Server actuator;
+
     @Override
     public Server getActuator() {
         return this.actuator;
@@ -14,7 +15,7 @@ public class TryToResumeGameCommand implements CommandToServer {
 
     @Override
     public void setActuator(Server actuator) {
-        this.actuator=actuator;
+        this.actuator = actuator;
     }
 
     @Override
@@ -33,6 +34,6 @@ public class TryToResumeGameCommand implements CommandToServer {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:TryToResumeGame, Parameters:NONE]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters: NONE]";
     }
 }

@@ -15,7 +15,6 @@ import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
-    private int counter = 0;
     //Server's IP address
     private final String ip;
     //Server's port address
@@ -40,7 +39,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -59,7 +58,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -77,7 +76,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -96,7 +95,8 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e)
+                    ;
         }
 
         try {
@@ -114,7 +114,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -132,7 +132,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -150,7 +150,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -169,7 +169,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(message);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -186,15 +186,15 @@ public class ServerStub implements Server {
             try {
                 this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream.", e);
             }
             try {
                 this.ois = new ObjectInputStream(this.socket.getInputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream.", e);
             }
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while creating socket connection to server.", e);
         }
     }
 
@@ -205,7 +205,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(command);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
         }
     }
 
@@ -216,7 +216,7 @@ public class ServerStub implements Server {
             this.oos.writeObject(command);
             this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
         }
     }
 
@@ -262,12 +262,16 @@ public class ServerStub implements Server {
             //System.out.println("Ready to receive (from Server)");
             command = (CommandToClient) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from server.", e);
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot cast modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the server.", e);
         }
         command.setActuator(client);
-        command.execute();
+        try {
+            command.execute();
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
+        }
 
         if (command.toEnum() != CommandType.SEND_PING_TO_CLIENT) {
             this.semaphoreUpdate.release();

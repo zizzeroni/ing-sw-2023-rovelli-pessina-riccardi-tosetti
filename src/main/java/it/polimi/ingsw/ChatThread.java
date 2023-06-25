@@ -79,6 +79,7 @@ public class ChatThread extends Thread {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }

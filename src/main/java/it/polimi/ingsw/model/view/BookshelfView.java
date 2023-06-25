@@ -128,10 +128,10 @@ public class BookshelfView implements Serializable {
             output += (row + 1) + " [ ";
             for (int column = 0; column < this.numberOfColumns; column++) {
                 TileView currentTile = this.tiles[row][column];
-                if((currentTile == null || currentTile.getColor() == null)){
-                    output+="0 ";
-                }else{
-                    output+=(currentTile.getColor()) + " ";
+                if ((currentTile == null || currentTile.getColor() == null)) {
+                    output += "0 ";
+                } else {
+                    output += (currentTile.getColor()) + " ";
                 }
             }
             output += "] " + "\n";

@@ -20,16 +20,8 @@ public enum TileColor {
 
         return stringBuilder.append(ansi().fg(color).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
     }
+
     public String toGUI() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Ansi.Color color;
-
-        switch (this) {
-            case BLUE, GREEN, CYAN, YELLOW, WHITE -> color = Ansi.Color.valueOf(this.name());
-            case PURPLE -> color = Ansi.Color.MAGENTA;
-            default -> color = Ansi.Color.DEFAULT;
-        }
-
-        return stringBuilder.append(this.name().charAt(0)).toString();
+        return String.valueOf(this.name().charAt(0));
     }
 }

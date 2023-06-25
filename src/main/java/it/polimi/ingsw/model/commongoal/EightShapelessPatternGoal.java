@@ -26,9 +26,11 @@ public class EightShapelessPatternGoal extends CommonGoal {
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
+
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
+
     /*
     Control if there are 8 tiles of the same colour
     @param bookshelf contains the bookshelf of the player
@@ -43,6 +45,7 @@ public class EightShapelessPatternGoal extends CommonGoal {
                 .entrySet().stream()                                              //I transform the Map into a Set and then into a Stream
                 .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
+
     /*
     @return an immutable copy of the common goal
     */

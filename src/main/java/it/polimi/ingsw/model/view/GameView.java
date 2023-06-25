@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameView implements Serializable {
-    private static final long serialVersionUID = 1L;
     private final int numberOfPlayers;
     private final GameState gameState;
     private final int activePlayerIndex;

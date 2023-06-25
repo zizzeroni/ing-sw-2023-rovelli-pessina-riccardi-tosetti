@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
@@ -73,7 +75,7 @@ public class GameController {
     }
 
 
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
     }
 
@@ -83,6 +85,10 @@ public class GameController {
 
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
+    }
+
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        state.checkExceedingPlayer(chosenNumberOfPlayers);
     }
 
     public void startGame() {
@@ -194,8 +200,6 @@ public class GameController {
 
     /**
      * Method to restore stored games.
-     *
-     * @return if the operation has been completed correctly.
      */
     public void restoreGameForPlayer(String playerNickname) {
         state.restoreGameForPlayer(playerNickname);

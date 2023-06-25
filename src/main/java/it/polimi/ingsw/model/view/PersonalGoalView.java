@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view;
 
 import it.polimi.ingsw.model.PersonalGoal;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 
@@ -63,28 +64,28 @@ public class PersonalGoalView implements Serializable {
     public int score(BookshelfView bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
-                return 0;
+                return OptionsValues.PERSONAL_GOAL_ZERO_TILE_SCORE;
             }
             case 1 -> {
-                return 1;
+                return OptionsValues.PERSONAL_GOAL_ONE_TILE_SCORE;
             }
             case 2 -> {
-                return 2;
+                return OptionsValues.PERSONAL_GOAL_TWO_TILE_SCORE;
             }
             case 3 -> {
-                return 4;
+                return OptionsValues.PERSONAL_GOAL_THREE_TILE_SCORE;
             }
             case 4 -> {
-                return 6;
+                return OptionsValues.PERSONAL_GOAL_FOUR_TILE_SCORE;
             }
             case 5 -> {
-                return 9;
+                return OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE;
             }
             case 6 -> {
-                return 12;
+                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
             default -> {
-                return 12;
+                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
         }
     }

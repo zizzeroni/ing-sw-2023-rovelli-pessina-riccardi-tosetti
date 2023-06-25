@@ -42,6 +42,6 @@ public class ChangeTurnCommand implements CommandToServer {
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:ChangeTurn, Parameters:NONE]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters: NONE]";
     }
 }

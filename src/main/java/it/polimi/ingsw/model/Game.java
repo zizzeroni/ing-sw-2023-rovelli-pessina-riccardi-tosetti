@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.File;
@@ -44,9 +45,9 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = null;
         this.numberOfPlayersToStartGame = 0;
-        int numberOfTilesInBag = 132;
+        int numberOfTilesInBag = OptionsValues.BAG_SIZE;
         this.bag = new ArrayList<>(numberOfTilesInBag);
-        this.commonGoals = new ArrayList<>(2);
+        this.commonGoals = new ArrayList<>(OptionsValues.NUMBER_OF_COMMON_GOAL);
         this.initializeBag(numberOfTilesInBag);
         this.board = new Board();
 
@@ -59,7 +60,7 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = new Board(boardPattern);
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
-        int numberOfTilesInBag = 132;
+        int numberOfTilesInBag = OptionsValues.BAG_SIZE;
         this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>();
         this.initializeBag(numberOfTilesInBag);
@@ -69,24 +70,12 @@ public class Game {
         //initialize players
         for (Player player : this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setScoreTiles(new ArrayList<>(3));
+
+            player.setScoreTiles(new ArrayList<>(OptionsValues.NUMBER_OF_SCORE_TILE));
+
             player.setPersonalGoal(personalGoals.remove(0));
         }
 
-        /*
-        //initialize common goals
-        CommonGoal newCommonGoal;
-        while (this.commonGoals.size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.commonGoals.contains(newCommonGoal)) {
-                    this.commonGoals.add(newCommonGoal);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        */
         Collections.shuffle(this.bag);
 
         List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());
@@ -117,7 +106,7 @@ public class Game {
         return this.gameState;
     }
 
-    public void setGameState(GameState gameState) {
+    public synchronized void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
             this.listener.gameStateChanged();
@@ -205,7 +194,7 @@ public class Game {
     }
 
     private boolean isPaused() {
-        return this.connectedPlayers().size() == 1;
+        return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
     private List<Player> connectedPlayers() {

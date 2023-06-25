@@ -1,20 +1,49 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InPauseState extends ControllerState{
+public class InPauseState extends ControllerState {
+    //private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final Timer timer = new Timer();
+    //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
+    private boolean gameResumed;
+    //ScheduledFuture<?> scheduledTimer;
+    //private final Object gameResumedLock = new Object();
+
     public InPauseState(GameController controller) {
         super(controller);
+        this.gameResumed = false;
+        /*this.scheduledTimer = executorService.schedule(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (gameResumedLock) {
+                    if (!gameResumed) {
+                        System.out.println(controller.getModel().getGameState());
+                        controller.getModel().setGameState(GameState.RESET_NEEDED);
+                        System.out.println("RESET_NEEDED Timer executed");
+                    }
+                }
+            }
+        },15000, TimeUnit.MILLISECONDS);*/
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                controller.getModel().setGameState(GameState.RESET_NEEDED);
+                if (!gameResumed) {
+                    System.out.println(controller.getModel().getGameState());
+                    controller.getModel().setGameState(GameState.RESET_NEEDED);
+                    System.out.println("RESET_NEEDED Timer executed");
+                } else {
+                    this.cancel();
+                }
             }
-        }, 15000);
+        }, OptionsValues.MILLISECOND_COUNTDOWN_VALUE);
     }
 
     @Override
@@ -39,20 +68,28 @@ public class InPauseState extends ControllerState{
             player.addMessage(message);
         }
     }
+
     private boolean checkIfGameIsResumable() {
         Game model = this.controller.getModel();
-        return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1;
+        return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
     @Override
-    public void addPlayer(String nickname) {
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+    public void addPlayer(String nickname) throws LobbyIsFullException {
+        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
     }
 
     @Override
     public void tryToResumeGame() {
-        if(checkIfGameIsResumable()) {
-            timer.cancel();
+        if (checkIfGameIsResumable()) {
+            this.gameResumed = true;
+            this.timer.cancel();
+            //executorService.shutdownNow();
+            System.out.println("RESET_NEEDED Timer cancelled");
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(GameState.ON_GOING);
         } else {
@@ -64,6 +101,11 @@ public class InPauseState extends ControllerState{
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Game is in pause so do nothing...
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Game is in pause so do nothing...
     }
 

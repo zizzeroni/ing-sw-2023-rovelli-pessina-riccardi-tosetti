@@ -26,8 +26,8 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.positions = positions;
-    }    
-    
+    }
+
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.positions = positions;

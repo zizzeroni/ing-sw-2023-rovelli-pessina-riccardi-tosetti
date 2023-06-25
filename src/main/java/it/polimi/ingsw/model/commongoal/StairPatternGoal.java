@@ -16,9 +16,11 @@ public class StairPatternGoal extends CommonGoal {
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
+
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
+
     /*
     Start from the first column, if there are minimum 1 and at least the number of rows minus 3 tiles, control if the bookshelf have a stair (one more tile in the consecutive column) x4,
     then if there are minimum 5 tiles on the first column and haven't found a stair yet control if the bookshelf have a stair (one less tile in the consecutive column) x4
@@ -50,6 +52,7 @@ public class StairPatternGoal extends CommonGoal {
         }
         return 0;
     }
+
     /*
     @return an immutable copy of the common goal
     */

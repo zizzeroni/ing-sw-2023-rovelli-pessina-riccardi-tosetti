@@ -1,10 +1,13 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
-import it.polimi.ingsw.network.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,21 +38,9 @@ public class OnGoingState extends ControllerState {
 
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
-            /*timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if(model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1) {
-                        controller.changeState(new OnGoingState(controller));
-                        controller.getModel().setGameState(OnGoingState.toEnum());
-                    } else {
-                        controller.getModel().setGameState(GameState.RESET_NEEDED);
-                    }
-                }
-            }, 15000);*/
-
         } else {
             if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
                 model.setActivePlayerIndex(0);
@@ -84,11 +75,11 @@ public class OnGoingState extends ControllerState {
         }
 
         if (this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
-            currentPlayer.setSingleScoreTile(new ScoreTile(1, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
+            currentPlayer.setSingleScoreTile(new ScoreTile(OptionsValues.WINNING_TILE_VALUE, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         } else {
-            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the model updated.
+            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the updated model.
             //Without this else we would receive only ONE time a notification that tell us that the state has changed, and we can't know when this will happen client-side
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
@@ -168,9 +159,13 @@ public class OnGoingState extends ControllerState {
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
     }
 
     @Override
@@ -180,6 +175,11 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Game is going, so do nothing...
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Game is going, so do nothing...
     }
 
@@ -194,8 +194,7 @@ public class OnGoingState extends ControllerState {
         model.getPlayerFromNickname(nickname).setConnected(false);
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
-        }
-        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+        } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
         }

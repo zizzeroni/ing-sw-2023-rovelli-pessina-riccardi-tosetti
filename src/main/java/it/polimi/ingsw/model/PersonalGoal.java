@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.OptionsValues;
 
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
@@ -63,25 +64,25 @@ public class PersonalGoal extends Card {
     public int score(Bookshelf bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
-                return 0;
+                return OptionsValues.PERSONAL_GOAL_ZERO_TILE_SCORE;
             }
             case 1 -> {
-                return 1;
+                return OptionsValues.PERSONAL_GOAL_ONE_TILE_SCORE;
             }
             case 2 -> {
-                return 2;
+                return OptionsValues.PERSONAL_GOAL_TWO_TILE_SCORE;
             }
             case 3 -> {
-                return 4;
+                return OptionsValues.PERSONAL_GOAL_THREE_TILE_SCORE;
             }
             case 4 -> {
-                return 6;
+                return OptionsValues.PERSONAL_GOAL_FOUR_TILE_SCORE;
             }
             case 5 -> {
-                return 9;
+                return OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE;
             }
             default -> {
-                return 12;
+                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
         }
     }

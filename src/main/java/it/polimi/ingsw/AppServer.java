@@ -3,13 +3,18 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.network.SingleClientHandler;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +38,7 @@ public class AppServer {
             matcher = pattern.matcher(ipAddress);
             ipAddress = matcher.matches() ? ipAddress : "";
         }
-        System.setProperty("java.rmi.server.hostname", ipAddress);
+        System.setProperty("java.rmi.server.hostname", ipAddress.equals("localhost") ? getFirstUpNetworkInterface() : ipAddress);
 
         //Creating an implementation of a Server
         Server server = new ServerImpl();
@@ -79,13 +84,13 @@ public class AppServer {
         //RMI service creation
 
 
-        Registry registry = LocateRegistry.createRegistry(1099);
-        registry.rebind("server", server);
+        Registry registry = LocateRegistry.createRegistry(OptionsValues.RMI_PORT);
+        registry.rebind(OptionsValues.SERVER_RMI_NAME, server);
     }
 
     private static void startSocket(Server server) throws RemoteException {
         //Socket service creation
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
+        try (ServerSocket serverSocket = new ServerSocket(OptionsValues.SOCKET_PORT)) {
             while (true) {
                 //Waiting for a connection request from a client
                 Socket socket = serverSocket.accept();
@@ -98,5 +103,21 @@ public class AppServer {
         }
     }
 
-
+    private static String getFirstUpNetworkInterface() throws RemoteException {
+        //TODO: Da verificarne funzionamento
+        Random rand = new Random();
+        List<NetworkInterface> networkInterfacesList;
+        try {
+            networkInterfacesList = NetworkInterface.networkInterfaces().filter(networkInterface -> {
+                try {
+                    return networkInterface.isUp() && !networkInterface.isLoopback();
+                } catch (SocketException e) {
+                    throw new RuntimeException(e);
+                }
+            }).toList();
+        } catch (SocketException e) {
+            throw new RemoteException("Error while retrieving network interfaces, closing client...");
+        }
+        return networkInterfacesList.get(rand.nextInt(networkInterfacesList.size())).getInetAddresses().nextElement().getHostAddress();
+    }
 }

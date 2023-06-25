@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
@@ -49,17 +53,21 @@ public class CreationState extends ControllerState {
             Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
             player.addMessage(message);
         }
-
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) /*throws LobbyIsFullException*/ {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
-        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<>(), new Bookshelf());
-
-        this.controller.getModel().addPlayer(newPlayer);
+        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
+        if ((this.controller.getModel().getNumberOfPlayersToStartGame() == OptionsValues.MIN_NUMBER_OF_PLAYERS_TO_START_GAME
+                || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame())
+                && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
+            this.controller.getModel().addPlayer(newPlayer);
+        } else {
+            //throw new LobbyIsFullException("Cannot access a game: Lobby is full");
+        }
     }
 
     @Override
@@ -81,7 +89,7 @@ public class CreationState extends ControllerState {
             this.controller.getModel().getBoard().addTiles(drawnTiles);
 
             CommonGoal newCommonGoal;
-            while (this.controller.getModel().getCommonGoals().size() != 2) {
+            while (this.controller.getModel().getCommonGoals().size() != OptionsValues.NUMBER_OF_COMMON_GOAL) {
                 try {
                     newCommonGoal = this.getRandomCommonGoalSubclassInstance();
                     if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
@@ -102,6 +110,8 @@ public class CreationState extends ControllerState {
 
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(OnGoingState.toEnum());
+        } else {
+            this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 
@@ -113,20 +123,24 @@ public class CreationState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if (this.controller.getModel().getPlayers().size() > chosenNumberOfPlayers) {
-                System.err.println("Number of players in the lobby exceed the chosen one");
-            } else {
-                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
+        this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        if (chosenNumberOfPlayers >= OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS && chosenNumberOfPlayers <= OptionsValues.MAX_SELECTABLE_NUMBER_OF_PLAYERS) {
+            if (this.controller.getNumberOfPlayersCurrentlyInGame() > chosenNumberOfPlayers) {
+                throw new ExcessOfPlayersException("The creator of the lobby has chosen a number of players smaller than the number of connected one");
             }
         } else {
-            System.err.println("Unexpected value for number of lobby's players");
+            throw new WrongInputDataException("Unexpected value for number of lobby's players");
         }
     }
 
     public CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
-        switch (this.controller.getRandomizer().nextInt(12)) {
+
+        switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
             case 0 -> {
                 return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
                         new ArrayList<>(Arrays.asList(1, 1)),
@@ -158,20 +172,20 @@ public class CreationState extends ControllerState {
                 return new EightShapelessPatternGoal(9, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
             }
             case 9 -> {
-                return new DiagonalEqualPattern(10, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
-                        {1, 0, 1},
-                        {0, 1, 0},
-                        {1, 0, 1},
-                });
+                return new DiagonalEqualPattern(10, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 0, 1)),
+                        new ArrayList<>(Arrays.asList(0, 1, 0)),
+                        new ArrayList<>(Arrays.asList(1, 0, 1))
+                )));
             }
             case 10 -> {
-                return new DiagonalEqualPattern(11, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new int[][]{
-                        {1, 0, 0, 0, 0},
-                        {0, 1, 0, 0, 0},
-                        {0, 0, 1, 0, 0},
-                        {0, 0, 0, 1, 0},
-                        {0, 0, 0, 0, 1},
-                });
+                return new DiagonalEqualPattern(11, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 0, 0, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 1, 0, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 0, 1, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1))
+                )));
             }
             case 11 -> {
                 return new StairPatternGoal(12, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
