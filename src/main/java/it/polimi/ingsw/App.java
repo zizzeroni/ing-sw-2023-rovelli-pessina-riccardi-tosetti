@@ -8,8 +8,9 @@ import it.polimi.ingsw.view.TextualUI;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+
 /**
- * Hello world!
+ *
  */
 public class App {
     public static void main(String[] args) {
