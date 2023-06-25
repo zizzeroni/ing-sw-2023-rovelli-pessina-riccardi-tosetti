@@ -26,38 +26,97 @@ import java.util.concurrent.CountDownLatch;
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
 /**
+ * This class contains the GUI's methods.
+ * It is developed as an extension of UI, because it shares some base methods
+ * with the TextualUI
  *
+ * @see UI
+ * @see TextualUI
  */
 public class GUI extends UI {
     private LoginController loginController;
     private MainSceneController mainSceneController;
     private Stage primaryStage;
     private FXMLLoader loader;
+
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @see GameView
+     */
     public GUI(GameView model) {
         super(model);
     }
 
+    /**
+     * Class constructor.
+     *
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GUI() {
         super();
     }
 
+    /**
+     * Signals the starting of the primary stage.
+     *
+     * @param primaryStage the GUI's main stage.
+     */
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         run();
     }
+
+    /**
+     * Class constructor.
+     * Initialize the game's model and controller based on player's (client's) nickname.
+     *
+     *
+     * @param model the model to be set for the GUI.
+     * @param controller the game controller passed to be associated with the GUI.
+     * @param nickname the player's nickname.
+     *
+     * @see GameView
+     */
     public GUI(GameView model, ViewListener controller, String nickname) {
         super(model, controller, nickname);
     }
 
+    /**
+     * Class constructor.
+     * Initialize the game's model and controller.
+     *
+     * @param model the model to be set for the GUI.
+     * @param controller the game controller passed to be associated with the GUI.
+     */
     public GUI(GameView model, ViewListener controller) {
         super(model, controller);
     }
 
+    /**
+     * Necessary for the proper functioning of the Game.
+     * Counterpart of the CLI's askPlayer method.
+     *
+     * @return null
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see TextualUI#askPlayer()
+     */
     @Override
     public Choice askPlayer() {
         return null;
     }
 
+    /**
+     * Displays a standard message to identify the starting of the next turn.
+     * Calls the nickname of the active player and the shows the board's state.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     */
     @Override
     public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
@@ -97,6 +156,15 @@ public class GUI extends UI {
         }
     }
 
+    /**
+     * Performs the following in game actions. <p>
+     * Creates the first scene root. <p>
+     * Displays the first scene. <p>
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public void run() {
         Parent root;
@@ -117,6 +185,18 @@ public class GUI extends UI {
         primaryStage.show();
     }
 
+    /**
+     * Consents to a player to join the game's lobby using his nickname.
+     * It is also used as follows to link the first the scene with the second: <p>
+     * Waits to reach the given players number, notifies the controller of the game's start
+     * then checks the second scene before displaying it.
+     *
+     * @param nickname the player's nickname.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
             try {
@@ -222,6 +302,12 @@ public class GUI extends UI {
         th.start();
     }
 
+    /**
+     * Implementation of the main method used only to 'launch'
+     * its arguments.
+     *
+     * @param args the main method's arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -249,6 +335,15 @@ public class GUI extends UI {
             }
         }
     }
+
+    /**
+     * Sets the number of players for the current Game.
+     *
+     * @param chosenNumberOfPlayer the selected number of players.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);

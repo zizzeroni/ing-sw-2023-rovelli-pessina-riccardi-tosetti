@@ -7,6 +7,9 @@ import it.polimi.ingsw.utils.CommandReader;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class ChatThread extends Thread {
 
     private final ViewListener controller;

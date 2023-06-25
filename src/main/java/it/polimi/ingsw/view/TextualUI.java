@@ -43,8 +43,6 @@ public class TextualUI extends UI {
     /**
      * Class constructor.
      * Initialize the game's model.
-     *
-     * @see GameView
      */
     public TextualUI() {
         super();
