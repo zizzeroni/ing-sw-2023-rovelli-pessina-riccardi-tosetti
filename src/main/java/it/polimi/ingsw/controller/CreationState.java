@@ -1,15 +1,23 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.OptionsValues;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class CreationState extends ControllerState {
 
@@ -29,167 +37,223 @@ public class CreationState extends ControllerState {
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            //sender and receiver will see the message, in order to keep the full history
+            if (player.getNickname().equals(receiver) || player.getNickname().equals(sender)) {
+                player.addMessage(message);
+            }
+        }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) {
-        //Game is in creation phase, so do nothing...
+        for (Player player : this.controller.getModel().getPlayers()) {
+            Message message = new Message(MessageType.BROADCAST, player.getNickname(), sender, content);
+            player.addMessage(message);
+        }
     }
 
     @Override
-    public void addPlayer(String nickname) {
-        Random rand = new Random();
-        PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(rand.nextInt(this.controller.getNumberOfPersonalGoals()));
+    public void addPlayer(String nickname) /*throws LobbyIsFullException*/ {
+        Random randomizer = new Random();
+        PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
-        Player newPlayer;
-        /*if (this.controller.getModel().getPlayers().size() == 0) {
-            //REMINDER: Only for test purposes (i need a almost full bookshelf for testing the ending of the game), remember to delete
-            Tile[][] temp = {
-                    {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
-                    {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
-            newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf(temp));
-        } else {*/
-            newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
-        //}
-        this.controller.getModel().addPlayer(newPlayer);
-
-        if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
-            startGame();
+        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
+        if ((this.controller.getModel().getNumberOfPlayersToStartGame() == OptionsValues.MIN_NUMBER_OF_PLAYERS_TO_START_GAME
+                || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame())
+                && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
+            this.controller.getModel().addPlayer(newPlayer);
         } else {
-            //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
-            //the game, which lead to a notification to the client for the state change
+            //throw new LobbyIsFullException("Cannot access a game: Lobby is full");
+        }
+    }
+
+    @Override
+    public void tryToResumeGame() {
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+    }
+
+    @Override
+    public void startGame() {
+        if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
+            Collections.shuffle(this.controller.getModel().getPlayers());
+
+            this.controller.getBoardPatterns().stream()
+                    .filter(boardPattern -> boardPattern.numberOfPlayers() == this.controller.getModel().getPlayers().size())
+                    .findFirst()
+                    .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setPattern(jsonBoardPattern));
+
+            List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
+            this.controller.getModel().getBoard().addTiles(drawnTiles);
+
+            CommonGoal newCommonGoal;
+            while (this.controller.getModel().getCommonGoals().size() != OptionsValues.NUMBER_OF_COMMON_GOAL) {
+                try {
+                    newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                    if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
+                        this.controller.getModel().getCommonGoals().add(newCommonGoal);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
+            for (Player player : this.controller.getModel().getPlayers()) {
+                // the available score tiles in a game are one for each common goal plus the first finisher's score tile
+                for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
+                    player.getScoreTiles().add(new ScoreTile(0));
+                }
+            }
+
+            this.controller.changeState(new OnGoingState(this.controller));
+            this.controller.getModel().setGameState(OnGoingState.toEnum());
+        } else {
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
     }
 
-    private void startGame() {
-        //One way to randomize starting player
-        //Random rand = new Random();
-        //this.controller.getModel().setActivePlayerIndex(rand.nextInt(this.controller.getModel().getNumberOfPlayersToStartGame()));
-
-        //REMINDER: Ask rovo
-        //Second way to randomize starting player, in this way we can keep track of which player started (the player in position 0)
-        //WARNING: This way to randomize however breaks completely the registration of the lister for the last player's bookshelf that happens in ServerImpl at the end of
-        //         the execution of this method, so this obliges to reassign the listener (ServerImpl) to all players for each player added.
-        Collections.shuffle(this.controller.getModel().getPlayers());
-        this.controller.getModel().setActivePlayerIndex(0);
-
-        this.controller.getBoardPatterns().stream()
-                .filter(boardPattern -> boardPattern.numberOfPlayers() == this.controller.getModel().getPlayers().size())
-                .findFirst()
-                .ifPresent(jsonBoardPattern -> this.controller.getModel().getBoard().setPattern(jsonBoardPattern));
-
-        List<Tile> drawnTiles = this.controller.getModel().getBag().subList(0, this.controller.getModel().getBoard().numberOfTilesToRefill());
-        this.controller.getModel().getBoard().addTiles(drawnTiles);
-
-
-        /*REMINDER: I moved this piece of code from Game constructor without parameters because the scoreTile list initialization requires the number of player to play the game
-                    Ask if it is ok or find an alternative way*/
-        CommonGoal newCommonGoal;
-        while (this.controller.getModel().getCommonGoals().size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
-                    this.controller.getModel().getCommonGoals().add(newCommonGoal);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        //Initializing score tile list for each player, this is necessary in order to replace them later if a player complete a common goal
-        for (Player player : this.controller.getModel().getPlayers()) {
-            List<ScoreTile> temporaryTiles = new ArrayList<>();
-            for (int i = 0; i < this.controller.getModel().getCommonGoals().size() + 1; i++) {
-                temporaryTiles.add(new ScoreTile(0));
-            }
-            player.getGoalTiles().addAll(temporaryTiles);
-        }
-
-        this.controller.changeState(new OnGoingState(this.controller));
-        this.controller.getModel().setGameState(OnGoingState.toEnum());
+    @Override
+    public void disconnectPlayer(String nickname) {
+        this.controller.addPersonalGoal(this.controller.getModel().getPlayerFromNickname(nickname).getPersonalGoal());
+        this.controller.getModel().getPlayers().remove(this.controller.getModel().getPlayerFromNickname(nickname));
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
-            if (this.controller.getModel().getNumberOfPlayersToStartGame() == 0) {
-                this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
-                if (this.controller.getModel().getPlayers().size() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
-                    startGame();
-                } else {
-                    //Necessary for unlock client-side the lock used to wait an update from the server, this is necessary because at some point i have to start
-                    //the game, which lead to a notification to the client for the state change
-                    this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-                }
+        this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        if (chosenNumberOfPlayers >= OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS && chosenNumberOfPlayers <= OptionsValues.MAX_SELECTABLE_NUMBER_OF_PLAYERS) {
+            if (this.controller.getNumberOfPlayersCurrentlyInGame() > chosenNumberOfPlayers) {
+                throw new ExcessOfPlayersException("The creator of the lobby has chosen a number of players smaller than the number of connected one");
             }
         } else {
-            System.err.println("Unexpected value for number of lobby's players");
+            throw new WrongInputDataException("Unexpected value for number of lobby's players");
         }
     }
 
-    private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
+    public CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
-        int commonGoalSize = this.controller.getModel().getCommonGoals().size();
-        switch (this.controller.getRandomizer().nextInt(12)) {
+
+        switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
             case 0 -> {
-                return new EightShapelessPatternGoal(0, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize);
+                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 1)),
+                        new ArrayList<>(Arrays.asList(1, 1))
+                )));
             }
             case 1 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.HORIZONTAL, 0);
+                return new MinEqualsTilesPattern(2, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 0);
             }
             case 2 -> {
-                return new MinEqualsTilesPattern(0, 3, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.VERTICAL, 3);
+                return new ConsecutiveTilesPatternGoal(3, 4, CheckType.EQUALS, numberOfPlayersToStartGame, 4);
             }
             case 3 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
-                        {1, 0, 1},
-                        {0, 1, 0},
-                        {1, 0, 1},
-                });
+                return new ConsecutiveTilesPatternGoal(4, 6, CheckType.EQUALS, numberOfPlayersToStartGame, 2);
             }
             case 4 -> {
-                return new MinEqualsTilesPattern(0, 4, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.HORIZONTAL, 2);
+                return new MinEqualsTilesPattern(5, 3, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.VERTICAL, 3);
             }
             case 5 -> {
-                return new StairPatternGoal(1, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame, commonGoalSize);
+                return new MinEqualsTilesPattern(6, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 0);
             }
             case 6 -> {
-                return new MinEqualsTilesPattern(0, 2, CheckType.DIFFERENT, numberOfPlayersToStartGame, commonGoalSize, Direction.VERTICAL, 0);
+                return new MinEqualsTilesPattern(7, 4, CheckType.INDIFFERENT, numberOfPlayersToStartGame, Direction.HORIZONTAL, 2);
             }
             case 7 -> {
-                return new DiagonalEqualPattern(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
-                        {1, 0, 0, 0, 0},
-                        {0, 1, 0, 0, 0},
-                        {0, 0, 1, 0, 0},
-                        {0, 0, 0, 1, 0},
-                        {0, 0, 0, 0, 1},
-                });
+                return new FourCornersPatternGoal(8, 1, CheckType.EQUALS, numberOfPlayersToStartGame);
             }
             case 8 -> {
-                return new ConsecutiveTilesPatternGoal(1, 6, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, 2);
+                return new EightShapelessPatternGoal(9, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
             }
             case 9 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
-                        {1, 1},
-                        {1, 1},
-                });
+                return new DiagonalEqualPattern(10, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 0, 1)),
+                        new ArrayList<>(Arrays.asList(0, 1, 0)),
+                        new ArrayList<>(Arrays.asList(1, 0, 1))
+                )));
             }
             case 10 -> {
-                return new ConsecutiveTilesPatternGoal(1, 4, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, 4);
+                return new DiagonalEqualPattern(11, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList(1, 0, 0, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 1, 0, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 0, 1, 0)),
+                        new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1))
+                )));
             }
             case 11 -> {
-                return new FourCornersPatternGoal(0, 1, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize);
+                return new StairPatternGoal(12, 1, CheckType.INDIFFERENT, numberOfPlayersToStartGame);
             }
             default -> {
                 throw new Exception("This class does not exists");
             }
         }
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        Game[] games = this.getStoredGamesFromJson();
+
+        if (games == null || games.length == 0) {
+            throw new RuntimeException("There aren't available games to restore!");
+        }
+
+        Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
+
+        if (storedCurrentGame != null) {
+            this.controller.setModel(storedCurrentGame);
+        } else {
+            throw new RuntimeException("There aren't available games to restore for player " + nickname);
+        }
+    }
+
+    /**
+     * Method to get all the stored games from the local json file.
+     *
+     * @return all stored games.
+     */
+    private Game[] getStoredGamesFromJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
+        String gamesPath = "src/main/resources/storage/games.json";
+        Path source = Paths.get(gamesPath);
+        Game[] games;
+
+        try {
+            fileReader = Files.newBufferedReader(source);
+
+            games = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return games;
+    }
+
+    /**
+     * Method to get the stored game for the given nickname.
+     *
+     * @return the stored game.
+     */
+    private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
+        List<Game> games = Arrays.asList(gamesAsArray);
+
+        //use hash set in filter to increase performance
+        return games.stream()
+                .filter(game -> new HashSet<>(
+                        game.getPlayers().stream()
+                                .map(Player::getNickname).toList())
+                        .contains(playerNickname))
+                .findFirst()
+                .orElse(null);
     }
 
     public static GameState toEnum() {

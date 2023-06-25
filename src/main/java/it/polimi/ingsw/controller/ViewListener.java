@@ -14,4 +14,12 @@ public interface ViewListener {
     public void addPlayer(String nickname);
 
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
+
+    public void startGame();
+
+    public void disconnectPlayer(String nickname);
+
+    public void restoreGameForPlayer(String nickname);
+
+    public void areThereStoredGamesForPlayer(String nickname);
 }

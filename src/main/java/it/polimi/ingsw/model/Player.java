@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.listeners.PlayerListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 
 import java.util.ArrayList;
@@ -13,14 +14,18 @@ public class Player {
     private PersonalGoal personalGoal; //The single goal of the player
     private List<ScoreTile> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private Bookshelf bookshelf; //The bookshelf of the player
+    private transient PlayerListener listener;
+    private final List<Message> chat;
 
-    //Constructor
+    //Constructors
     public Player(String nickname, boolean connected) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = null;
         this.scoreTiles = null;
         this.bookshelf = null;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
@@ -29,6 +34,8 @@ public class Player {
         this.scoreTiles = scoreTiles;
         this.personalGoal = null;
         this.bookshelf = null;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
@@ -37,6 +44,8 @@ public class Player {
         this.scoreTiles = scoreTiles;
         this.personalGoal = null;
         this.bookshelf = bookshelf;
+        this.listener = null;
+        this.chat = new ArrayList<>();
     }
 
     public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
@@ -45,6 +54,16 @@ public class Player {
         this.personalGoal = personalGoal;
         this.scoreTiles = scoreTiles;
         this.bookshelf = bookshelf;
+        this.listener = null;
+        this.chat = new ArrayList<>();
+    }
+
+    public void registerListener(PlayerListener listener) {
+        this.listener = listener;
+    }
+
+    public void removeListener() {
+        this.listener = null;
     }
 
     //Getter and Setter
@@ -56,11 +75,11 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public List<ScoreTile> getGoalTiles() {
+    public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
 
-    public void setGoalTiles(List<ScoreTile> scoreTiles) {
+    public void setScoreTiles(List<ScoreTile> scoreTiles) {
         this.scoreTiles = scoreTiles;
     }
 
@@ -86,6 +105,9 @@ public class Player {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+        if (listener != null && this.connected) {
+            listener.playerHasReconnected();
+        }
     }
 
     public void addScoreTile(ScoreTile tile) {
@@ -96,9 +118,14 @@ public class Player {
         this.scoreTiles.set(position, tile);
     }
 
+    public List<Message> getChat() {
+        return this.chat;
+    }
+
     /*
-    Set the score of the player by the score of his bookshelf
+        Set the score of the player by the score of his bookshelf
      */
+
     public int score() {
         int score = 0;
         for (ScoreTile scoreTile : this.scoreTiles) {
@@ -111,6 +138,14 @@ public class Player {
         }
         score += this.personalGoal.score(this.bookshelf);
 
-        return score; //this value is based on the number of player
+        return score;
+    }
+
+    public void addMessage(Message message) {
+        chat.add(message);
+
+        if (listener != null) {
+            listener.chatUpdated();
+        }
     }
 }

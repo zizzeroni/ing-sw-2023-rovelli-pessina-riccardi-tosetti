@@ -1,16 +1,17 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
 import it.polimi.ingsw.model.Choice;
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.socketMiddleware.commandPattern.*;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.concurrent.Semaphore;
 
 //Necessary for the client in order to function
 public class ServerStub implements Server {
@@ -21,9 +22,9 @@ public class ServerStub implements Server {
     private Socket socket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    //Lock used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
+    //Sempahore used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
     //a "response" (A new GameView object) form the Server itself
-    private final Object lockUpdate = new Object();
+    private final Semaphore semaphoreUpdate = new Semaphore(0);
 
     public ServerStub(String ip, int port) {
         this.ip = ip;
@@ -32,182 +33,248 @@ public class ServerStub implements Server {
 
     @Override
     public void changeTurn() throws RemoteException {
-        Command message = new ChangeTurnCommand();
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new ChangeTurnCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
-        Command message = new InsertUserInputCommand(playerChoice);
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new InsertUserInputCommand(playerChoice);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        //Necessary for how we implemented the adding of the tiles to the player's bookshelf
-        //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
-        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
-            synchronized (this.lockUpdate) {
-                try {
-                    this.lockUpdate.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        //Necessary because at the end of the game i receive the notification that the game passed from ON_GOING state to the FINISHING state
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
-        Command message = new SendPrivateMessageCommand(receiver, sender, content);
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
-        Command message = new SendBroadcastMessageCommand(sender, content);
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e)
+                    ;
         }
 
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void addPlayer(String nickname) throws RemoteException {
-        Command message = new AddPlayerCommand(nickname);
+    public void addPlayer(Client client, String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void tryToResumeGame() throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new TryToResumeGameCommand();
+        try {
+            this.oos.writeObject(message);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        //Necessary because when the game start i need to receive the change of the state of the game
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
-        Command message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
-        //Waiting for state model update
-        synchronized (this.lockUpdate) {
-            try {
-                this.lockUpdate.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    }
+
+    @Override
+    public void startGame() throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer message = new StartGameCommand();
+        try {
+            this.oos.writeObject(message);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void register(Client client) throws RemoteException {
+    public void register(Client client, String nickname) throws RemoteException {
         try {
             this.socket = new Socket(this.ip, this.port);
             try {
                 this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream.", e);
             }
             try {
                 this.ois = new ObjectInputStream(this.socket.getInputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream.", e);
             }
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while creating socket connection to server.", e);
         }
     }
 
+    @Override
+    public void ping() throws RemoteException {
+        CommandToServer command = new SendPingToServerCommand();
+        try {
+            this.oos.writeObject(command);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
+        }
+    }
+
+    @Override
+    public void disconnectPlayer(String nickname) throws RemoteException {
+        CommandToServer command = new DisconnectPlayerCommand(nickname);
+        try {
+            this.oos.writeObject(command);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
+        }
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new RestoreStoredGameCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new AreThereStoredGamesForPlayerCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void receive(Client client) throws RemoteException {
-        GameView gameView;
+        CommandToClient command;
         try {
             //System.out.println("Ready to receive (from Server)");
-            gameView = (GameView) this.ois.readObject();
+            command = (CommandToClient) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from server.", e);
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot cast modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the server.", e);
         }
-        client.updateModelView(gameView);
+        command.setActuator(client);
+        try {
+            command.execute();
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
+        }
 
-        synchronized (this.lockUpdate) {
-            this.lockUpdate.notifyAll();
+        if (command.toEnum() != CommandType.SEND_PING_TO_CLIENT) {
+            this.semaphoreUpdate.release();
         }
     }
 

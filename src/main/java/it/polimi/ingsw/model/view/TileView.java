@@ -7,15 +7,15 @@ import java.io.Serializable;
 
 public class TileView implements Serializable {
     private final TileColor color;
-    private final int imageID;
+    private final int id;
 
     public TileView(Tile tileModel) {
         this.color = tileModel.getColor();
-        this.imageID = tileModel.getImageID();
+        this.id = tileModel.getId();
     }
 
-    public int getImageID() {
-        return this.imageID;
+    public int getId() {
+        return this.id;
     }
 
     public TileColor getColor() {

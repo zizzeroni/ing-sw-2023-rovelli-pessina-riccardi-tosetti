@@ -4,12 +4,12 @@ import it.polimi.ingsw.model.listeners.BookshelfListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Bookshelf {
-    private BookshelfListener listener;
+    private transient BookshelfListener listener;
     private final int numberOfColumns = 5;
     private final int numberOfRows = 6;
     private final Map<Integer, Integer> pointsForEachGroup = new LinkedHashMap<>(4) {{
@@ -29,11 +29,6 @@ public class Bookshelf {
         this.listener = null;
     }
 
-    //REMINDER: For testing purposes only
-    public Bookshelf(Tile[][] tiles) {
-        this.tiles = tiles;
-    }
-
     //Initialize the bookshelf of the single player
     public Bookshelf() {
         this.image = null;
@@ -41,6 +36,10 @@ public class Bookshelf {
         for (int row = 0; row < this.numberOfRows; row++)
             for (int column = 0; column < this.numberOfColumns; column++)
                 this.tiles[row][column] = null;
+    }
+
+    public Bookshelf(Tile[][] tiles) {
+        this.tiles = tiles;
     }
 
     public Map<Integer, Integer> getPointsForEachGroup() {
@@ -64,12 +63,13 @@ public class Bookshelf {
      */
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.tileAddedToBookshelf(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
+
 
     /*
     @param column is the column whose remaining places we want to know

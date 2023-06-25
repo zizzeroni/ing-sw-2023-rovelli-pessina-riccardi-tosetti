@@ -1,0 +1,130 @@
+.secondPageBackground{
+    -fx-background-image: url("/image/Publisher%20material/Display_2.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: stretch;
+}
+.firstPageBackground{
+    -fx-background-image: url("/image/Publisher%20material/Display_5.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: stretch;
+}
+.firstPageTitle{
+    -fx-background-image: url("/image/Publisher%20material/Title%202000x618px.png");
+    -fx-background-size: stretch;
+    -fx-background-position: center;
+}
+.secondPageSelectNumberOfPlayer{
+    -fx-background-image: url("/image/misc/sfondo%20parquet.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-border-color: black;
+}
+.mainPageBackground{
+    -fx-background-image: url("/image/misc/sfondo%20parquet.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.mainPageBard{
+    -fx-background-image: url("/image/boards/livingroom.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Cats sections*/
+.G1{
+    -fx-background-image: url("/image/item%20tiles/Gatti1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.G2{
+    -fx-background-image: url("/image/item%20tiles/Gatti1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.G3{
+    -fx-background-image: url("/image/item%20tiles/Gatti1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Frames sections*/
+.B1{
+    -fx-background-image: url("/image/item%20tiles/Cornici1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.B2{
+    -fx-background-image: url("/image/item%20tiles/Cornici1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.B3{
+    -fx-background-image: url("/image/item%20tiles/Cornici1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Books sections*/
+.W1{
+    -fx-background-image: url("/image/item%20tiles/Libri1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.W2{
+    -fx-background-image: url("/image/item%20tiles/Libri1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.W3{
+    -fx-background-image: url("/image/item%20tiles/Libri1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Plants sections*/
+.P1{
+    -fx-background-image: url("/image/item%20tiles/Piante1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.P2{
+    -fx-background-image: url("/image/item%20tiles/Piante1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.P3{
+     -fx-background-image: url("/image/item%20tiles/Piante1.2.png");
+     -fx-background-repeat: stretch;
+     -fx-background-size: cover;
+ }
+/*Trophies sections*/
+.C1{
+    -fx-background-image: url("/image/item%20tiles/Trofei1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.C2{
+    -fx-background-image: url("/image/item%20tiles/Trofei1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.C3{
+    -fx-background-image: url("/image/item%20tiles/Trofei1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+/*Games sections*/
+.Y1{
+    -fx-background-image: url("/image/item%20tiles/Giochi1.1.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.Y2{
+    -fx-background-image: url("/image/item%20tiles/Giochi1.2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.Y3{
+    -fx-background-image: url("/image/item%20tiles/Giochi1.3.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+
+/*url("file:C:/Users/franc/Progetto-INGSW/src/main/resources/Image/boards/livingroom.png")

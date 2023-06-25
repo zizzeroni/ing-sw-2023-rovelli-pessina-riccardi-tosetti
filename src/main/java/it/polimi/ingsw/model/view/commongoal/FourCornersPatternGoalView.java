@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.view.commongoal;
 
 import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
+import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 public class FourCornersPatternGoalView extends CommonGoalView {
@@ -11,11 +12,11 @@ public class FourCornersPatternGoalView extends CommonGoalView {
     @Override
     public String toString() {
         return "Four tiles of the same type in the four corners of the bookshelf. \n" +
-                "[ B - - - B ] \n" +
+                "[ " + TileColor.BLUE + " - - - " + TileColor.BLUE + " ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
-                "[ B - - - B ] \n";
+                "[ " + TileColor.BLUE + " - - - " + TileColor.BLUE + " ] \n";
     }
 }

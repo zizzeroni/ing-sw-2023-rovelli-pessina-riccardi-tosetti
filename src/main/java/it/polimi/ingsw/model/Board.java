@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-import java.util.List;
-
 import it.polimi.ingsw.model.listeners.BoardListener;
 import it.polimi.ingsw.model.tile.Tile;
 
+import java.util.List;
+
 public class Board {
-    private BoardListener listener;
+    private transient BoardListener listener;
     private int numberOfUsableTiles;
     private final int numberOfColumns = 9;
     private final int numberOfRows = 9;
@@ -61,11 +61,11 @@ public class Board {
                 }
             }
         }
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.addedTilesToBoard(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
 
     /*
@@ -107,11 +107,11 @@ public class Board {
             this.removeTile(coordinate.getX(), coordinate.getY());
         }
 
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.removedTilesFromBoard(this);
         } else {
             System.err.println("Board's listener is NULL!");
-        }
+        }*/
     }
 
     private void removeTile(int row, int column) {

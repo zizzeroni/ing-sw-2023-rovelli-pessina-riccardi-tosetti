@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternView;
+import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternGoalView;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MinEqualsTilesPattern extends CommonGoal {
@@ -14,6 +15,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
     private Direction direction;
     //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
+
     //Constructors
     public MinEqualsTilesPattern() {
         super();
@@ -21,17 +23,24 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = 0;
     }
 
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type);
+    public MinEqualsTilesPattern(int id, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
+        super(id, patternRepetition, type);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
+
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+        this.direction = direction;
+        this.maxEqualsTiles = maxEqualsTiles;
+    }
+
     //Get/Set method
     public Direction getDirection() {
         return this.direction;
@@ -118,6 +127,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         patternAppearances = appearancesInDirection;
         return patternAppearances;
     }
+
     /*
     @
      */
@@ -139,24 +149,12 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
+
     /*
     @return an immutable copy of the common goal
     */
     @Override
     public CommonGoalView copyImmutable() {
-        return new MinEqualsTilesPatternView(this);
-    }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof MinEqualsTilesPattern obj) {
-            return this.getDirection() == obj.getDirection()
-                    && this.getMaxEqualsTiles() == obj.getMaxEqualsTiles()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
+        return new MinEqualsTilesPatternGoalView(this);
     }
 }

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameView implements Serializable {
-    private static final long serialVersionUID = 1L;
     private final int numberOfPlayers;
     private final GameState gameState;
     private final int activePlayerIndex;
@@ -42,6 +41,17 @@ public class GameView implements Serializable {
         for (CommonGoal commonGoal : gameModel.getCommonGoals()) {
             this.commonGoals.add(commonGoal.copyImmutable());
         }
+    }
+
+    public PlayerView getPlayerViewFromNickname(String nickname) {
+        return this.players.stream()
+                .filter(player -> player.getNickname().equals(nickname))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
 
     public GameState getGameState() {

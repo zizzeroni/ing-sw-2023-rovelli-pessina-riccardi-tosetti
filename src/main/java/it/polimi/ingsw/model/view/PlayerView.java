@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.view;
 
+import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.tile.ScoreTile;
 
@@ -14,16 +15,18 @@ public class PlayerView implements Serializable {
     private final PersonalGoalView personalGoal; //The single goal of the player
     private final List<ScoreTileView> scoreTiles; // new ArrayList<Tile>(); //The array of tile...
     private final BookshelfView bookshelf; //The bookshelf of the player
+    private final List<Message> chat; //The bookshelf of the player
 
     public PlayerView(Player playerModel) {
         this.nickname = playerModel.getNickname();
         this.connected = playerModel.isConnected();
         this.personalGoal = new PersonalGoalView(playerModel.getPersonalGoal());
         this.scoreTiles = new ArrayList<>();
-        for (ScoreTile scoreTile : playerModel.getGoalTiles()) {
+        for (ScoreTile scoreTile : playerModel.getScoreTiles()) {
             this.scoreTiles.add(new ScoreTileView(scoreTile));
         }
         this.bookshelf = new BookshelfView(playerModel.getBookshelf());
+        this.chat = playerModel.getChat();
 
     }
 
@@ -31,7 +34,7 @@ public class PlayerView implements Serializable {
         return this.personalGoal;
     }
 
-    public List<ScoreTileView> getGoalTiles() {
+    public List<ScoreTileView> getScoreTiles() {
         return this.scoreTiles;
     }
 
@@ -46,6 +49,11 @@ public class PlayerView implements Serializable {
     public boolean isConnected() {
         return this.connected;
     }
+
+    public List<Message> getChat() {
+        return this.chat;
+    }
+
 
     public int score() {
         int score = 0;
