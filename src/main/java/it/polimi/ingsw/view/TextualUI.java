@@ -15,21 +15,59 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * This class represents the {@code TextualUI}, an extension of the Game's UI
+ * that contains methods used to react to the player's interactions in the CLI textual format.
+ * These methods are related to the management of the first user's interaction at the start of the game, that of
+ * the waiting states for the players lobby, the chat, line selection and tile's management and many others.
+ * It also provides the displaying of messages to require a particular input necessary to proceed from a turn to the following one.
+ *
+ * @see UI
+ * @see it.polimi.ingsw.model.Game
+ * @see it.polimi.ingsw.model.Player
+ */
 public class TextualUI extends UI {
 
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @param model the assigned model.
+     *
+     * @see GameView
+     */
     public TextualUI(GameView model) {
         super(model);
     }
 
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @see GameView
+     */
     public TextualUI() {
         super();
     }
 
+    /**
+     * Signals the starting of the primary stage (used for the GUI)
+     *
+     * @param primaryStage the GUI's main stage.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
     }
 
+    /**
+     * Prints the standard message when the game starts, to welcome the players and ask for their nicknames.
+     * Reiterates until all the players' nicknames have been acquired.
+     * Identifies the first player and the total number of players in the lobby.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     */
     private void firstInteractionWithUser() {
         this.printTitleScreen();
         System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
@@ -66,6 +104,14 @@ public class TextualUI extends UI {
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
     }
 
+    /**
+     * Evaluates the waiting states for the game's lobby and the adding of a player.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     *
+     * @param clientGameState
+     */
     private void waitWhileInState(ClientGameState clientGameState) {
         synchronized (this.getLockState()) {
             switch (clientGameState) {
@@ -84,6 +130,17 @@ public class TextualUI extends UI {
         }
     }
 
+    /**
+     * Performs the following in game actions. <p>
+     * Adds the first player to the game's lobby. <p>
+     * Waits for other players.<p>
+     * Enacts the first player interaction.<p>
+     * Notifies the controller.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------
@@ -104,6 +161,13 @@ public class TextualUI extends UI {
         System.out.println("---GAME ENDED---");
     }
 
+    /**
+     * Displays a standard message to identify the starting of the next turn.
+     * Calls the nickname of the active player and the shows the board's state.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     */
     @Override
     public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
@@ -113,6 +177,18 @@ public class TextualUI extends UI {
         System.out.println(this.getModel().getBoard());
     }
 
+    /**
+     * Identifies the choices of the player during the turn, the ones related to tiles selection.
+     *
+     * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
+     * @param isRowBeingChosen {@code true} if and only if the selected bookshelf's row is the one passed as parameter, {@code false} otherwise.
+     * @return the index of the chosen rowColumnTile.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see Choice
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     private int rowColumnTileChoiceFromBoard(int iterationCount, boolean isRowBeingChosen) {
         boolean isInsertCorrect = false;
         int choice = 0;
@@ -134,6 +210,16 @@ public class TextualUI extends UI {
         return choice;
     }
 
+    /**
+     * Identifies the player's chosen column in the bookshelf.
+     *
+     * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
+     * @return the index of the selected column.
+     *
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see it.polimi.ingsw.model.Player
+     * @see Choice
+     */
     private int bookshelfColumnChoice(int iterationCount) {
         boolean isInsertCorrect;
         int chosenColumn = 0;
@@ -162,7 +248,19 @@ public class TextualUI extends UI {
     }
 
     /**
-     * @return
+     * Displays the part of the CLI interacting with the user to ask the type of action
+     * the player will enact after the method's call.
+     * In order to do this it interacts with the commands queue.
+     * The possible choices are: 'display the personal recap', tile's selection, 'send chat message', call disconnection.
+     *
+     * @return the player's choice.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.network.Client
+     * @see it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.DisconnectPlayerCommand
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see it.polimi.ingsw.utils.CommandQueue
+     * @see it.polimi.ingsw.utils.CommandReader
      */
     @Override
     public Choice askPlayer() {
@@ -334,6 +432,9 @@ public class TextualUI extends UI {
      * @param firstRow the inspection starting row.
      * @param firstColumn the inspection starting column.
      * @return the direction of the two current tiles chosen.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
      */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
@@ -361,6 +462,10 @@ public class TextualUI extends UI {
      * @param directionToCheck the direction (on row/column) which is selected for inspection.
      * @return {@code true} if and only if the {@code Tile}
      *          has already been placed in a previous turn.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
      */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
@@ -413,6 +518,9 @@ public class TextualUI extends UI {
      *                presents a collectable tile in the position
      *                identified though the given coordinates;
      *                {@code false} otherwise
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
      */
     private boolean checkIfPickable(int row, int column) {
         BoardView board = this.getModel().getBoard();
@@ -438,6 +546,11 @@ public class TextualUI extends UI {
      * with his score and personal goal, the common goals and
      * number of completed goals overall.
      * Also shows the current state of the {@code Bookshelf}.
+     *
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     * @see it.polimi.ingsw.model.PersonalGoal
      */
     //TODO: remove from UI
     public void showPersonalRecap() {
@@ -463,6 +576,8 @@ public class TextualUI extends UI {
 
     /**
      * Prints the Game Title Screen.
+     *
+     * @see it.polimi.ingsw.model.Game
      */
     public void printTitleScreen(){
 

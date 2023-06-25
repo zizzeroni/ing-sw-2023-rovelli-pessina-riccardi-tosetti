@@ -16,9 +16,31 @@ import java.rmi.registry.Registry;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class is used to represent the application's client.
+ * It also contains the methods to initialize the pinging and receiving server's threads.
+ *
+ * @see Client
+ * @see Server
+ * @see App
+ */
 public class AppClient {
     static CommandReader commandReader = new CommandReader();
 
+    /**
+     * It is the main method of the AppClient.
+     * Initialize all the necessary client's informations.
+     * Asks the preferred client connection's and UI types and manages the related player's choices.
+     *
+     * @param args the main's arguments.
+     *
+     * @throws RemoteException called to handle connection errors.
+     * @throws NotBoundException called to handle UI errors.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see Client
+     * @see it.polimi.ingsw.view.UI
+     */
     public static void main(String[] args) throws RemoteException, NotBoundException {
         commandReader.start();
         //Initialize client necessities
@@ -108,6 +130,13 @@ public class AppClient {
         System.exit(0);
     }
 
+    /**
+     * Start up the thread used to ping the server.
+     *
+     * @param server the server to be pinged.
+     *
+     * @see Server
+     */
     public static void startPingSenderThread(Server server) {
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -124,8 +153,20 @@ public class AppClient {
         pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
     }
 
+    /**
+     * Creates a new Thread that will take care of the responses coming from the Server side.
+     * Starts up the related thread's receiver.
+     *
+     * @param client the player's client.
+     * @param serverStub the stub used to enable server's interaction.
+     *
+     * @see Thread
+     * @see Server
+     * @see ServerStub
+     * @see Client
+     */
     private static void startReceiverThread(Client client, ServerStub serverStub) {
-        //Creating a new Thread that will take care of the responses coming from the Server side
+
         new Thread(() -> {
             while (true) {
                 try {

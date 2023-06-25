@@ -25,6 +25,9 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
+/**
+ *
+ */
 public class GUI extends UI {
     private LoginController loginController;
     private MainSceneController mainSceneController;

@@ -85,14 +85,23 @@ public abstract class UI extends Application implements Runnable {
         this.chat.setNickname(nickname);
     }
 
+    /**
+     * @return
+     */
     public GameView getModel() {
         return this.model;
     }
 
+    /**
+     * @return
+     */
     public ViewListener getController() {
         return this.controller;
     }
 
+    /**
+     * @param controller
+     */
     public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
@@ -101,9 +110,15 @@ public abstract class UI extends Application implements Runnable {
         this.controller = null;
     }
 
+    /**
+     * @return
+     */
     //Method in common with all UIs that must be implemented
     public abstract Choice askPlayer();
 
+    /**
+     *
+     */
     //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
@@ -111,10 +126,16 @@ public abstract class UI extends Application implements Runnable {
     //Method in common with all UIs that must be implemented
     //public abstract void showPersonalRecap();
 
+    /**
+     * @param clientErrorState
+     */
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
     }
 
+    /**
+     * @param game
+     */
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
     //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
