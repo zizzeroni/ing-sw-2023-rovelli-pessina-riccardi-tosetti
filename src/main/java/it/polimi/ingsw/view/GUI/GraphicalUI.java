@@ -107,7 +107,7 @@ public class GraphicalUI extends UI {
 
         mainSceneController.setTable();
         //mainSceneController.setChat();
-        mainSceneController.updateChat();
+        //mainSceneController.updateChat();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -232,6 +232,7 @@ public class GraphicalUI extends UI {
             List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
+            mainSceneController.chatUpdate(true);
 
             while (this.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
@@ -249,7 +250,7 @@ public class GraphicalUI extends UI {
                 this.mainSceneController.refreshPoint();
 
             }
-            System.out.println("---GAME ENDED---");
+            mainSceneController.setGameOn(false);
             Parent lastRoot;
             //Carico l'ultima scena e la mostro
             try {
@@ -338,7 +339,7 @@ public class GraphicalUI extends UI {
 
     public void showUpdateFromOtherPlayer() {
 
-        mainSceneController.updateChat();
+        //mainSceneController.updateChat();
         int tileId;
         String tileColor;
 

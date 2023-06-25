@@ -76,11 +76,11 @@ public class MainSceneController implements Initializable {
     private int turn;
     private Image pointsImage1;
     private Image pointsImage2;
-    @FXML
-    private ScrollPane scrollPane;
+    private boolean gameOn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.gameOn=true;
         this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
@@ -1154,27 +1154,60 @@ public class MainSceneController implements Initializable {
         th.start();
     }
 
-    public void updateChat() {
-        List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//    public void updateChat() {
+//        List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        Platform.runLater(() -> {
+//            VBoxMessage.getChildren().clear();
+//            if (fullChat.size() != 0) {
+//                for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+//                    Text text = new Text(message.toString());
+//                    Font font = new Font(14);
+//                    text.setFont(font);
+//                    VBoxMessage.getChildren().add(0, text); // add on top
+//                }
+//            }
+//            countDownLatch.countDown();
+//        });
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            VBoxMessage.getChildren().clear();
-            if (fullChat.size() != 0) {
-                for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-                    Text text = new Text(message.toString());
-                    Font font = new Font(14);
-                    text.setFont(font);
-                    VBoxMessage.getChildren().add(0, text); // add on top
+    public void chatUpdate(boolean gameState) {
+        gameOn=gameState;
+        while(gameOn) {
+            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                VBoxMessage.getChildren().clear();
+                if (fullChat.size() != 0) {
+                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+                        Text text = new Text(message.toString());
+                        Font font = new Font(14);
+                        text.setFont(font);
+                        VBoxMessage.getChildren().add(0, text); // add on top
+                    }
                 }
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            countDownLatch.countDown();
-        });
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
+    public boolean isGameOn() {
+        return gameOn;
+    }
+
+    public void setGameOn(boolean gameOn) {
+        this.gameOn = gameOn;
+    }
 }
