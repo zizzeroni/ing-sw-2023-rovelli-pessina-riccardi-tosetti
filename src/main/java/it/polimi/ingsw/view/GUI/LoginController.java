@@ -42,8 +42,8 @@ public class LoginController implements Initializable {
         //Controllo se è corretto l'username
         String nickname = Nickname.getText();
         if (!nickname.isEmpty()) {
-
             //Pass the nickname to the GUI
+
             mainGraphicalUI.joinGameWithNick(Nickname.getText());
             //Se i è uguale a 1 devo scegliere il numero di giocatori
             //Altrimenti metto in pausa in attesa che arrivino giocatori
@@ -124,5 +124,12 @@ public class LoginController implements Initializable {
 
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
+    }
+
+    public void nicknameAlreadyUsed() {
+        Platform.runLater(() -> {
+        error.setVisible(true);
+        ErrorLabel.setText("nickname already used!");
+        });
     }
 }

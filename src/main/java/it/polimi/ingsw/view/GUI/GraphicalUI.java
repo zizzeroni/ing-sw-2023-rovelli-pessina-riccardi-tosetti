@@ -55,6 +55,29 @@ public class GraphicalUI extends UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
+        if (typeOfConnection == 2) {
+            ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
+            //Creating a new client with a TextualUI and a Socket Server
+            Client client = null;
+            try {
+                client = new ClientImpl(serverStub, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            //Creating a new Thread that will take care of checking on availability of connected client
+            startPingSenderThread(serverStub);
+            //Creating a new Thread that will take care of the responses coming from the Server side
+            startReceiverThread(client, serverStub);
+        } else {
+            try {
+                Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+                Server server = (Server) registry.lookup("server");
+                new ClientImpl(server, this);
+                startPingSenderThread(server);
+            } catch (RemoteException | NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
         run();
     }
 
@@ -83,7 +106,8 @@ public class GraphicalUI extends UI {
         TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
 
         mainSceneController.setTable();
-        mainSceneController.setChat();
+        //mainSceneController.setChat();
+        mainSceneController.updateChat();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -138,44 +162,16 @@ public class GraphicalUI extends UI {
 
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
-            if (typeOfConnection == 2) {
-                ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
-                //Creating a new client with a TextualUI and a Socket Server
-                Client client = null;
-                try {
-                    client = new ClientImpl(serverStub, this);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                //Creating a new Thread that will take care of checking on availability of connected client
-                startPingSenderThread(serverStub);
-                //Creating a new Thread that will take care of the responses coming from the Server side
-                startReceiverThread(client, serverStub);
-            } else {
-                try {
-                    Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                    Server server = (Server) registry.lookup("server");
-                    new ClientImpl(server, this);
-                    startPingSenderThread(server);
-                } catch (RemoteException | NotBoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
             this.initializeChatThread(this.controller, this.getNickname(), this.getModel());
-            //Add the player to the game, if he is the first return 1
-
-            this.controller.addPlayer(nickname);
-//
-//            this.setExceptionToHandle(null);
-//
-//            this.setNickname(nickname);
-//            this.controller.addPlayer(this.getNickname());
-//
-//            if (this.getExceptionToHandle() != null) {
-//                this.getExceptionToHandle().handle();
-//            }
+            this.setExceptionToHandle(null);
 
             this.setNickname(nickname);
+            this.controller.addPlayer(this.getNickname());
+
+            if (this.getExceptionToHandle() != null) {
+                loginController.nicknameAlreadyUsed();
+                return;
+            }
 
             boolean askNumberOfPlayer = this.getModel().getPlayers().size() == 1;
 
@@ -341,6 +337,8 @@ public class GraphicalUI extends UI {
     }
 
     public void showUpdateFromOtherPlayer() {
+
+        mainSceneController.updateChat();
         int tileId;
         String tileColor;
 

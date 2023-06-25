@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
 import javafx.application.Platform;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -175,25 +177,23 @@ public class MainSceneController implements Initializable {
             button.setBorder(Border.EMPTY);
         }
     }
-
-    public void setChat() {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            int c = 0;
-            for (int i = 0; i < 10; i++) {
-                Text text = new Text(10, 10, String.valueOf(i));
-                VBoxMessage.getChildren().add(0, text); // add on top
-            }
-            countDownLatch.countDown();
-        });
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
+//
+//    public void setChat() {
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        Platform.runLater(() -> {
+//            int c = 0;
+//            for (int i = 0; i < 10; i++) {
+//                Text text = new Text(10, 10, String.valueOf(i));
+//                VBoxMessage.getChildren().add(0, text); // add on top
+//            }
+//            countDownLatch.countDown();
+//        });
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void overButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
@@ -1126,16 +1126,55 @@ public class MainSceneController implements Initializable {
 
         String sender = this.firstPlayerNickname.getText();
         String message = this.chatMessage.getText();
+        chatMessage.setText("");
         String receiver = (playerChatChoice.getValue());
 
-        if (!message.isEmpty()) {
-            if (receiver.equals("All")) {
-                this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
-            } else {
-                this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
+        var th = new Thread( ()->{
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                if (!message.isEmpty()) {
+                    if (receiver.equals("All")) {
+                        this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
+                    } else {
+                        this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
+                    }
+                }
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-
-        }
-        chatMessage.setText("");
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
+
+    public void updateChat() {
+        List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            VBoxMessage.getChildren().clear();
+            if (fullChat.size() != 0) {
+                for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+                    Text text = new Text(message.toString());
+                    Font font = new Font(14);
+                    text.setFont(font);
+                    VBoxMessage.getChildren().add(0, text); // add on top
+                }
+            }
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
