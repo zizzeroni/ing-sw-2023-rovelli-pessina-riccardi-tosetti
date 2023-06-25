@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +68,9 @@ public class CreationState extends ControllerState {
         } else {*/
         newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
         //}
-        if ((this.controller.getModel().getNumberOfPlayersToStartGame() == 0 || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame()) && this.controller.getNumberOfPlayersCurrentlyInGame() < 4) {
+        if ((this.controller.getModel().getNumberOfPlayersToStartGame() == OptionsValues.MIN_NUMBER_OF_PLAYERS_TO_START_GAME
+                || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame())
+                && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
             this.controller.getModel().addPlayer(newPlayer);
         } else {
             throw new LobbyIsFullException("Cannot access a game: Lobby is full");
@@ -96,7 +99,7 @@ public class CreationState extends ControllerState {
         /*REMINDER: I moved this piece of code from Game constructor without parameters because the scoreTile list initialization requires the number of player to play the game
                     Ask if it is ok or find an alternative way*/
             CommonGoal newCommonGoal;
-            while (this.controller.getModel().getCommonGoals().size() != 2) {
+            while (this.controller.getModel().getCommonGoals().size() != OptionsValues.NUMBER_OF_COMMON_GOAL) {
                 try {
                     newCommonGoal = this.getRandomCommonGoalSubclassInstance();
                     if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
@@ -135,7 +138,7 @@ public class CreationState extends ControllerState {
 
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
-        if (chosenNumberOfPlayers >= 2 && chosenNumberOfPlayers <= 4) {
+        if (chosenNumberOfPlayers >= OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS && chosenNumberOfPlayers <= OptionsValues.MAX_SELECTABLE_NUMBER_OF_PLAYERS) {
             if (this.controller.getNumberOfPlayersCurrentlyInGame() > chosenNumberOfPlayers) {
                 throw new ExcessOfPlayersException("The creator of the lobby has chosen a number of players smaller than the number of connected one");
             }
@@ -147,7 +150,7 @@ public class CreationState extends ControllerState {
     private CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
         int commonGoalSize = this.controller.getModel().getCommonGoals().size();
-        switch (this.controller.getRandomizer().nextInt(12)) {
+        switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
             case 0 -> {
                 return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, commonGoalSize, new int[][]{
                         {1, 1},

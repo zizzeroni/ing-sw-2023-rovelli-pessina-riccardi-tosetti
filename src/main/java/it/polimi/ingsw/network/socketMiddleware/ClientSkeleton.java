@@ -79,12 +79,16 @@ public class ClientSkeleton implements Client {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the client.", e);
         }
         message.setActuator(server);
-        if (message.toEnum() == CommandType.ADD_PLAYER) {
-            AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
-            convertedMessage.setClient(this);
-            convertedMessage.execute();
-        } else {
-            message.execute();
+        try {
+            if (message.toEnum() == CommandType.ADD_PLAYER) {
+                AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
+                convertedMessage.setClient(this);
+                convertedMessage.execute();
+            } else {
+                message.execute();
+            }
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
         }
     }
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.UI;
 
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class TextualUI implements UI {
             do {
                 System.out.println("Sei il primo giocatore, per quante persone vuoi creare la lobby? (Min:2, Max:4)");
                 chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
-            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+            } while (chosenNumberOfPlayer < OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS || chosenNumberOfPlayer > OptionsValues.MAX_SELECTABLE_NUMBER_OF_PLAYERS);
             this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         }
 
@@ -301,7 +302,7 @@ public class TextualUI implements UI {
                             }
                         }
                         if (counter < maxNumberOfCellsFreeInBookshelf) {
-                            if (counter > 0 && counter != 3) {
+                            if (counter > 0 && counter != OptionsValues.MAX_NUMBER_PICKABLE_TILES) {
                                 do {
                                     System.out.println("Vuoi continuare? (Digita \"SI\" per continuare, \"NO\" per fermarti)");
                                     input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();

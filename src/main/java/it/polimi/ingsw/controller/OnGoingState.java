@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +37,7 @@ public class OnGoingState extends ControllerState {
 
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
         } else {
@@ -73,7 +74,7 @@ public class OnGoingState extends ControllerState {
         }
 
         if (this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
-            currentPlayer.setSingleScoreTile(new ScoreTile(1, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
+            currentPlayer.setSingleScoreTile(new ScoreTile(OptionsValues.WINNING_TILE_VALUE, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         } else {
@@ -192,7 +193,7 @@ public class OnGoingState extends ControllerState {
         model.getPlayerFromNickname(nickname).setConnected(false);
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
-        } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == 1) {
+        } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
             this.controller.changeState(new InPauseState(this.controller));
             this.controller.getModel().setGameState(InPauseState.toEnum());
         }

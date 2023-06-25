@@ -4,13 +4,13 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.*;
 
 public class InPauseState extends ControllerState {
-    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    //private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final Timer timer = new Timer();
     //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
     private boolean gameResumed;
@@ -43,7 +43,7 @@ public class InPauseState extends ControllerState {
                     this.cancel();
                 }
             }
-        }, 15000);
+        }, OptionsValues.MILLISECOND_COUNTDOWN_VALUE);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class InPauseState extends ControllerState {
 
     private boolean checkIfGameIsResumable() {
         Game model = this.controller.getModel();
-        return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > 1;
+        return model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() > OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class InPauseState extends ControllerState {
         if (checkIfGameIsResumable()) {
             this.gameResumed = true;
             this.timer.cancel();
-            executorService.shutdownNow();
+            //executorService.shutdownNow();
             System.out.println("RESET_NEEDED Timer cancelled");
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(GameState.ON_GOING);

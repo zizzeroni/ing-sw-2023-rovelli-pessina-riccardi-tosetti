@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
@@ -98,7 +99,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
 
         this.clientsToHandle.put(client, nicknameInInput);
-        this.numberOfMissedPings.put(client, 0);
+        this.numberOfMissedPings.put(client, OptionsValues.INITIAL_MISSED_PINGS);
         try {
             this.controller.addPlayer(nickname);
         } catch (LobbyIsFullException e) {
@@ -385,11 +386,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                             selfThread.interrupt();
                                             System.err.println("stopIfWaitTooLongTimer executed");
                                         }
-                                    }, 6000);
+                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);
 
                                     try {
                                         client.ping();
-                                        numberOfMissedPings.replace(client, 0);
+                                        numberOfMissedPings.replace(client, OptionsValues.INITIAL_MISSED_PINGS);
                                         stopIfWaitTooLongTimer.cancel();
                                     } catch (RemoteException e) {
                                         try {
@@ -418,7 +419,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         };
 
         Timer pingSender = new Timer("PingSenderTimer");
-        pingSender.scheduleAtFixedRate(timerTask, 30, 1000);
+        pingSender.scheduleAtFixedRate(timerTask, 30, OptionsValues.MILLISECOND_PING_TO_CLIENT_PERIOD);
     }
 
     private void resetServer() {

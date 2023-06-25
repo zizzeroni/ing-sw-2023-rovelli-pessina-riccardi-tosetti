@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Choice implements Serializable {
 
     public Choice() {
         this.chosenTiles = new ArrayList<>();
-        this.tileOrder = new int[3];
+        this.tileOrder = new int[OptionsValues.MAX_NUMBER_PICKABLE_TILES];
         for (int i = 0; i < this.tileOrder.length; i++) {
             tileOrder[i] = 0;
         }

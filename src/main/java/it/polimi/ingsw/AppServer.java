@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.network.SingleClientHandler;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.IOException;
 import java.net.NetworkInterface;
@@ -83,13 +84,13 @@ public class AppServer {
         //RMI service creation
 
 
-        Registry registry = LocateRegistry.createRegistry(1099);
-        registry.rebind("server", server);
+        Registry registry = LocateRegistry.createRegistry(OptionsValues.RMI_PORT);
+        registry.rebind(OptionsValues.SERVER_RMI_NAME, server);
     }
 
     private static void startSocket(Server server) throws RemoteException {
         //Socket service creation
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
+        try (ServerSocket serverSocket = new ServerSocket(OptionsValues.SOCKET_PORT)) {
             while (true) {
                 //Waiting for a connection request from a client
                 Socket socket = serverSocket.accept();

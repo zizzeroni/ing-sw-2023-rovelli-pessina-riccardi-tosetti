@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.exceptions.ExceptionType;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.utils.OptionsValues;
 
 public class GenericUILogic {
     private volatile GameView model;
@@ -17,7 +18,7 @@ public class GenericUILogic {
     //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
     private final Object lockState = new Object();
 
-    private final int countdown = 15;
+    private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE/1000;
 
     public GenericUILogic(GameView model, ViewListener controller, String nickname) {
         this.model = model;

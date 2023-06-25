@@ -96,7 +96,7 @@ public class ServerStub implements Server {
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e)
-            ;
+                    ;
         }
 
         try {
@@ -232,7 +232,11 @@ public class ServerStub implements Server {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the server.", e);
         }
         command.setActuator(client);
-        command.execute();
+        try {
+            command.execute();
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
+        }
 
         if (command.toEnum() != CommandType.SEND_PING_TO_CLIENT) {
             this.semaphoreUpdate.release();

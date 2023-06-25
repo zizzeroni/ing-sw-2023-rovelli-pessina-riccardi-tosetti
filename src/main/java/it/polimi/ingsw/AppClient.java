@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.GraphicalUI;
 import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
@@ -71,8 +72,8 @@ public class AppClient {
                 switch (connectionChoice) {
                     case 1 -> {
                         //Getting the remote server by RMI
-                        Registry registry = LocateRegistry.getRegistry(ServeripAddress, 1099);
-                        Server server = (Server) registry.lookup("server");
+                        Registry registry = LocateRegistry.getRegistry(ServeripAddress, OptionsValues.RMI_PORT);
+                        Server server = (Server) registry.lookup(OptionsValues.SERVER_RMI_NAME);
 
                         //Creating a new client with a TextualUI and a RMI Server
                         client = new ClientImpl(server, new TextualUI());
@@ -86,7 +87,7 @@ public class AppClient {
                     }
                     case 2 -> {
                         //Creating an Object that will allow the client to communicate with the Server (In the RMI case, this was created by RMI itself)
-                        ServerStub serverStub = new ServerStub(ServeripAddress, 1234);
+                        ServerStub serverStub = new ServerStub(ServeripAddress, OptionsValues.SOCKET_PORT);
 
                         //Creating a new client with a TextualUI and a Socket Server
                         client = new ClientImpl(serverStub, new TextualUI());
@@ -109,10 +110,10 @@ public class AppClient {
             case 2 -> {
                 switch (connectionChoice) {
                     case 1 -> {
-                        Application.launch(GraphicalUI.class, "1", ServeripAddress, "1099");
+                        Application.launch(GraphicalUI.class, "1", ServeripAddress, String.valueOf(OptionsValues.RMI_PORT));
                     }
                     case 2 -> {
-                        Application.launch(GraphicalUI.class, "2", ServeripAddress, "1234");
+                        Application.launch(GraphicalUI.class, "2", ServeripAddress, String.valueOf(OptionsValues.SOCKET_PORT));
                     }
                     default -> {
                         System.err.println("[INPUT:ERROR] Unexpected value for the type of connection choice");
@@ -143,7 +144,7 @@ public class AppClient {
         };
 
         Timer pingSender = new Timer("PingSender");
-        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
+        pingSender.scheduleAtFixedRate(timerTask, 30, OptionsValues.MILLISECOND_PING_TO_SERVER_PERIOD);
     }
 
     private static void startReceiverThread(Client client, ServerStub serverStub) {
@@ -153,7 +154,7 @@ public class AppClient {
                 try {
                     serverStub.receive(client);
                 } catch (RemoteException e) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed);" + e.getMessage());
                     try {
                         serverStub.close();
                     } catch (RemoteException ex) {
