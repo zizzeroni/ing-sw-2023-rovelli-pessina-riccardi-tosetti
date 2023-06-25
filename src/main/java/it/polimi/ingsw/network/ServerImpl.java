@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.FinishingState;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.OnGoingState;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
@@ -11,7 +13,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -106,6 +111,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
         this.clientsToHandle.put(client, nicknameInInput);
         this.numberOfMissedPings.put(client, 0);
+
         this.controller.addPlayer(nickname);
     }
 
@@ -171,6 +177,29 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public synchronized void disconnectPlayer(String nickname) throws RemoteException {
         this.controller.disconnectPlayer(nickname);
+    }
+
+    @Override
+    public void restoreGameForPlayer(String nickname) throws RemoteException {
+        this.controller.restoreGameForPlayer(nickname);
+        this.model = this.controller.getModel();
+        this.model.registerListener(this);
+        switch (this.model.getGameState()) {
+            case ON_GOING -> this.controller.changeState(new OnGoingState(this.controller));
+            case FINISHING -> this.controller.changeState(new FinishingState(this.controller));
+        }
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+        boolean result = this.controller.areThereStoredGamesForPlayer(nickname);
+        for (Client client : this.clientsToHandle.keySet()) {
+            try {
+                client.setAreThereStoredGamesForPlayer(result);
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(addedTilesToBoard):" + e.getMessage() + ".Skipping update");
+            }
+        }
     }
 
     //Listeners methods
@@ -399,7 +428,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         Timer pingSender = new Timer("PingSenderTimer");
         pingSender.scheduleAtFixedRate(timerTask, 30, 1000);
     }
-
+    
     private void resetServer() {
         this.model = new Game();
         this.controller = new GameController(this.model);

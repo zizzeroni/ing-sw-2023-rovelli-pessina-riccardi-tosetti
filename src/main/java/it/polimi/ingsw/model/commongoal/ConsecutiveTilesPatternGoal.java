@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
+
+import java.util.List;
 
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
     //contains the number of tiles that must be consecutive for making a point of the pattern goal
@@ -13,13 +16,17 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         super();
         this.consecutiveTiles = 0;
     }
-    public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
-        super(imageID, numberOfPatternRepetitionsRequired, type);
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type);
         this.consecutiveTiles = consecutiveTiles;
     }
 
-    public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int consecutiveTiles) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.consecutiveTiles = consecutiveTiles;
+    }
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.consecutiveTiles = consecutiveTiles;
     }
 
@@ -106,17 +113,5 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     @Override
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
-    }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof ConsecutiveTilesPatternGoal obj) {
-            return this.consecutiveTiles == obj.getConsecutiveTiles()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
     }
 }

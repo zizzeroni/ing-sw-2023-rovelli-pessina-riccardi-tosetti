@@ -51,6 +51,10 @@ public class GameView implements Serializable {
                 .orElse(null);
     }
 
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
+    }
+
     public GameState getGameState() {
         return this.gameState;
     }

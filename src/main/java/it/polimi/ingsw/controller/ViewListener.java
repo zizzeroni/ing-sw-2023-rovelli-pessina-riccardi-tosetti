@@ -18,4 +18,8 @@ public interface ViewListener {
     public void startGame();
 
     public void disconnectPlayer(String nickname);
+
+    public void restoreGameForPlayer(String nickname);
+
+    public void areThereStoredGamesForPlayer(String nickname);
 }

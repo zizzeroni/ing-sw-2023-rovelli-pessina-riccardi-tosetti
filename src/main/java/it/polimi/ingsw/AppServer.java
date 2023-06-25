@@ -5,8 +5,6 @@ import it.polimi.ingsw.network.ServerImpl;
 import it.polimi.ingsw.network.SingleClientHandler;
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;

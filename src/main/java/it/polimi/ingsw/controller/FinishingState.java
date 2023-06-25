@@ -25,6 +25,7 @@ public class FinishingState extends ControllerState {
             }
             changeActivePlayer();
         }
+        this.controller.getModel().saveGame();
     }
 
     private void refillBoard() {
@@ -109,7 +110,8 @@ public class FinishingState extends ControllerState {
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
-            if (player.getNickname().equals(receiver)) {
+            //sender and receiver will see the message, in order to keep the full history
+            if (player.getNickname().equals(receiver) || player.getNickname().equals(sender)) {
                 player.addMessage(message);
             }
         }
@@ -153,6 +155,12 @@ public class FinishingState extends ControllerState {
         if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
             this.changeActivePlayer();
         }
+    }
+
+
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        //Game is finishing, so do nothing...
     }
 
     public static GameState toEnum() {

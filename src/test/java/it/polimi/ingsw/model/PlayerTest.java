@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class PlayerTest {
 
-    private Player p;
-    private int image;
+    private Player player;
     private Board board;
 
     private Tile[][] tiles;

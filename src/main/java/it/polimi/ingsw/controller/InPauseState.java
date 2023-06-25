@@ -78,6 +78,11 @@ public class InPauseState extends ControllerState{
         model.getPlayerFromNickname(nickname).setConnected(false);
     }
 
+    @Override
+    public void restoreGameForPlayer(String nickname) {
+        //Game is in pause so do nothing...
+    }
+
     public static GameState toEnum() {
         return GameState.PAUSED;
     }

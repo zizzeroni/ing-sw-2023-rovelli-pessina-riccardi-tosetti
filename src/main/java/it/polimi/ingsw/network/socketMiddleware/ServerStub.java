@@ -220,6 +220,41 @@ public class ServerStub implements Server {
         }
     }
 
+    @Override
+    public void restoreGameForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new RestoreStoredGameCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new AreThereStoredGamesForPlayerCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void receive(Client client) throws RemoteException {
         CommandToClient command;

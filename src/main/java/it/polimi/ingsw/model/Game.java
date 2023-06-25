@@ -1,16 +1,22 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -44,8 +50,6 @@ public class Game {
         this.initializeBag(numberOfTilesInBag);
         this.board = new Board();
 
-        Collections.shuffle(this.bag);
-
     }
 
     public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
@@ -65,7 +69,7 @@ public class Game {
         //initialize players
         for (Player player : this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTiles(new ArrayList<>(3));
+            player.setScoreTiles(new ArrayList<>(3));
             player.setPersonalGoal(personalGoals.remove(0));
         }
 
@@ -139,7 +143,7 @@ public class Game {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
-        this.saveGame();
+
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
         } else {
@@ -217,32 +221,76 @@ public class Game {
                 .orElse(null);
     }
 
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
+    }
+
     public void saveGame() {
-        Gson gson = new Gson();
+        //there is no need to store games in different files or handle simultaneous access to the file because there
+        //are no cases in which this method is called from different games (multi game is not available) neither the
+        //file is accessed while saving and vice-versa
+
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
         FileWriter fileWriter;
+        String gamesPath = "src/main/resources/storage/games.json";
+        String gamesBkpPath = "src/main/resources/storage/games-bkp.json";
+        Path source = Paths.get(gamesPath);
+        List<Game> games;
+
         try {
-            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-            gson.toJson(this, fileWriter);
+            //create a new empty games file if it does not exists
+            File gamesFile = new File(gamesPath);
+
+            if (gamesFile.createNewFile()) {
+                System.out.println("Games' storage file created correctly");
+            } else {
+                System.out.println("Games' storage file already exists, skipping creation");
+            }
+
+            //make a backup of the stored games in case something goes wrong during the saving
+            Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
+
+            fileReader = Files.newBufferedReader(source);
+
+            Game[] gamesAsArray = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+
+            fileWriter = new FileWriter(gamesPath);
+            if (gamesAsArray == null) gamesAsArray = new Game[0];
+            games = Arrays.asList(gamesAsArray);
+
+            if (!games.isEmpty()) {
+                //use hash set in filter to increase performance
+                Game storedCurrentGame = games.stream()
+                        .filter(game -> new HashSet<>(
+                                game.players.stream()
+                                        .map(Player::getNickname).toList())
+                                .containsAll(this.players.stream().map(Player::getNickname).toList())
+                                && game.getGameState() != GameState.RESET_NEEDED
+                        )
+                        .findFirst()
+                        .orElse(null);
+
+                if (storedCurrentGame != null) {
+                    games.set(games.indexOf(storedCurrentGame), this);
+                } else {
+                    games.add(this);
+                }
+            } else {
+                games = new ArrayList<>();
+                games.add(this);
+            }
+
+            gson.toJson(games, fileWriter);
 
             fileWriter.flush();
             fileWriter.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
-//
-//        Gson gson = gsonBuilder.setPrettyPrinting().create();
-//        FileWriter fileWriter;
-//        try {
-//            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-//            gson.toJson(this, fileWriter);
-//
-//            fileWriter.flush();
-//            fileWriter.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     private void initializeBag(int numberOfTilesInBag) {
