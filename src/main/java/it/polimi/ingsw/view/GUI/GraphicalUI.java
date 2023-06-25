@@ -70,6 +70,7 @@ public class GraphicalUI extends Application implements UI {
         this.genericUILogic = new GenericUILogic(model, controller);
     }
 
+    @Override
     public void showNewTurnIntro() {
         int tileId;
         String tileColor;

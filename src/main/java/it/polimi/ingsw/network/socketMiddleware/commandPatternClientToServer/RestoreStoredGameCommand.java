@@ -43,11 +43,11 @@ public class RestoreStoredGameCommand implements CommandToServer {
 
     @Override
     public CommandType toEnum() {
-        return CommandType.DISCONNECT_PLAYER;
+        return CommandType.RESTORE_STORED_GAME;
     }
 
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:restoreGameForPlayer, Parameters:{Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:Server, CommandType:restoreGameForPlayer, Parameters:{Nickname: " + this.nickname + "}]";
     }
 }

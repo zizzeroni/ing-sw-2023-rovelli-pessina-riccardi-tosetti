@@ -7,8 +7,10 @@ import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
@@ -197,7 +199,7 @@ public class CreationState extends ControllerState {
     }
 
     @Override
-    public void restoreGameForPlayer(String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname) {
         Game[] games = this.getStoredGamesFromJson();
 
         if (games == null || games.length == 0) {
@@ -205,6 +207,7 @@ public class CreationState extends ControllerState {
         }
 
         Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
+
 
         if (storedCurrentGame != null) {
             this.controller.setModel(storedCurrentGame);

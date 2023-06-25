@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
+import it.polimi.ingsw.model.listeners.ModelListener;
+import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class GameController {
+    //private ModelListener listener;
     private Game model;
     private ControllerState state;
     private List<PersonalGoal> personalGoalsDeck;
@@ -47,6 +51,12 @@ public class GameController {
 
     }
 
+    /*public void registerListener(ModelListener listener) {
+        this.listener = listener;
+    }
+    public void removeListener() {
+        this.listener = null;
+    }*/
     public void changeState(ControllerState state) {
         this.state = state;
     }
@@ -108,6 +118,7 @@ public class GameController {
 
     public void setModel(Game model) {
         this.model = model;
+        //this.listener.gameRestored();
     }
 
     public int getNumberOfPlayersCurrentlyInGame() {
@@ -201,7 +212,7 @@ public class GameController {
     /**
      * Method to restore stored games.
      */
-    public void restoreGameForPlayer(String playerNickname) {
-        state.restoreGameForPlayer(playerNickname);
+    public void restoreGameForPlayer(GameListener server, String playerNickname) {
+        state.restoreGameForPlayer(server, playerNickname);
     }
 }

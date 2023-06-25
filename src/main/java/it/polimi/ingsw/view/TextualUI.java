@@ -25,6 +25,7 @@ public class TextualUI implements UI {
 
     public TextualUI() {
         this.genericUILogic = new GenericUILogic();
+        new CountdownHandler(genericUILogic).start();
     }
 
     private void firstInteractionWithUser() {
@@ -88,27 +89,7 @@ public class TextualUI implements UI {
         }
     }
 
-    private Thread createNewPrintCountdownThread() {
-        AtomicInteger countdown = new AtomicInteger(genericUILogic.getCountdown() - 1);
-        return new Thread(() -> {
-            System.out.println("You are the last player in the game, 15 seconds remaining to win the game...");
-            System.out.print(genericUILogic.getCountdown());
-            for (; countdown.get() > -1; countdown.getAndDecrement()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {
-                    System.out.println("\nA player has rejoined, game resumed...");
-                    return;
-                }
-                System.out.print("," + countdown);
-            }
-        });
-    }
-
     private void waitWhileInStates(List<ClientGameState> gameStates) {
-        boolean firstTime = true;
-        Thread printCountdownTh = this.createNewPrintCountdownThread();
-
         synchronized (this.genericUILogic.getLockState()) {
             switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
@@ -120,19 +101,6 @@ public class TextualUI implements UI {
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
                     genericUILogic.getLockState().wait();
-
-                    if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME) {
-                        if (firstTime) {
-                            firstTime = false;
-                            printCountdownTh.start();
-                        }
-                    } else {
-                        if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
-                            printCountdownTh.interrupt();
-                            printCountdownTh = this.createNewPrintCountdownThread();
-                            firstTime = true;
-                        }
-                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -183,6 +151,7 @@ public class TextualUI implements UI {
             //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
             showNewTurnIntro();
             Choice choice = askPlayer();
+            if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
             //---------------------------------NOTIFY CONTROLLER---------------------------------
             this.genericUILogic.controller.insertUserInputIntoModel(choice);
             if (this.genericUILogic.getExceptionToHandle() != null) {
@@ -199,6 +168,7 @@ public class TextualUI implements UI {
         }
     }
 
+    @Override
     public void showNewTurnIntro() {
         System.out.println("---NEW TURN---");
         String activePlayerNickname = this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname();
@@ -463,7 +433,6 @@ public class TextualUI implements UI {
         return false;
     }
 
-    //TODO: remove from UI
     public void showPersonalRecap() {
         PlayerView activePlayer = this.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.genericUILogic.getNickname())).toList().get(0);
         BookshelfView playerBookshelf = activePlayer.getBookshelf();

@@ -15,4 +15,5 @@ public enum CommandType {
     SEND_UPDATED_MODEL,
     EXCEPTION,
     TRY_TO_RESUME_GAME,
+    RESTORE_STORED_GAME
 }

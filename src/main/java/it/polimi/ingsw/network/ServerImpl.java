@@ -107,7 +107,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         } catch (LobbyIsFullException e) {
             client.receiveException(e);
             Optional<String> nullNickname = Optional.empty();
-            this.clientsToHandle.replace(client,nullNickname); //Look down tryToResumeGame method
+            this.clientsToHandle.replace(client, nullNickname); //Look down tryToResumeGame method
+            this.numberOfMissedPings.remove(client);            //I will remove it anyway in the next tryToResumeGame call, so I remove it at this point
             //this.clientsToHandle.remove(client);
         }
     }
@@ -115,7 +116,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     @Override
     public synchronized void tryToResumeGame() throws RemoteException {
         this.controller.tryToResumeGame();
-        //Necessary because with the socket connection, in case the addPlayer method threw an exception I still need to execute the tryToResumeGame
+        //Necessary because with the socket connection, in case the addPlayer method threw an exception I still need to execute the tryToResumeGame otherwise i get stuck in the semaphore wait.
+        //Wouldn't be necessary for RMI because once the methods calling reach the notification method (gameStateChanged in this case) it will throw an exception and simply return. Socket
+        //don't do this on his own.
         //TODO: Verificare se esiste una soluzione migliore
         Optional<String> nullNickname = Optional.empty();
         this.clientsToHandle.values().removeAll(Collections.singleton(nullNickname));
@@ -138,6 +141,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 this.controller.disconnectPlayer(orderedConnectedPlayersNickname.get(numberOfRemainingPlayer - 1));
                 if (this.controller.getModel().getGameState() == GameState.IN_CREATION) {
                     this.clientsToHandle.remove(clientToRemove);
+                    this.numberOfMissedPings.remove(clientToRemove);
                 }
             }
             this.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
@@ -162,7 +166,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
         this.clientsToHandle.put(client, nicknameInInput);
-        this.numberOfMissedPings.put(client, 0);
+        this.numberOfMissedPings.put(client, OptionsValues.INITIAL_MISSED_PINGS);
 
     }
 
@@ -201,12 +205,41 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
-        this.controller.restoreGameForPlayer(nickname);
+        this.controller.restoreGameForPlayer(this, nickname);
         this.model = this.controller.getModel();
-        this.model.registerListener(this);
-        switch (this.model.getGameState()) {
-            case ON_GOING -> this.controller.changeState(new OnGoingState(this.controller));
-            case FINISHING -> this.controller.changeState(new FinishingState(this.controller));
+        disconnectPlayerNotPartOfTheLobby();
+        notifyClientsAfterRestoring();
+    }
+
+    private void disconnectPlayerNotPartOfTheLobby() throws RemoteException {
+        Game model = this.controller.getModel();
+        List<String> orderedConnectedPlayersNickname = model.getPlayers().stream().map(Player::getNickname).toList();
+        List<Client> clientsToRemove = this.clientsToHandle.entrySet().stream()
+                .filter(clientOptionalEntry -> !orderedConnectedPlayersNickname.contains(clientOptionalEntry.getValue().orElse("Unknown")))
+                .map(Map.Entry::getKey)
+                .toList();
+
+        for(Client client : clientsToRemove) {
+            client.receiveException(new ExcessOfPlayersException("The creator of the lobby restored a previous game that you weren't part of"));
+            this.clientsToHandle.remove(client);
+            this.numberOfMissedPings.remove(client);
+        }
+    }
+
+    //TODO: Possibilmente da cambiare, non mi piace che la notifica venga inviata "a mano" in questo metodo e soprattutto dal server
+    private void notifyClientsAfterRestoring() {
+        switch (this.controller.getModel().getGameState()) {
+            case ON_GOING -> {
+                this.controller.changeState(new OnGoingState(this.controller));
+                this.controller.getModel().registerListener(this);
+                this.controller.getModel().setGameState(OnGoingState.toEnum());
+            }
+            case FINISHING -> {
+                this.controller.changeState(new FinishingState(this.controller));
+                this.controller.getModel().registerListener(this);
+                this.controller.getModel().setGameState(FinishingState.toEnum());
+
+            }
         }
     }
 
@@ -365,6 +398,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /*@Override
+    public void gameRestored() {
+        for (Client client : this.clientsToHandle.keySet()) {
+            try {
+                client.updateModelView(new GameView(this.controller.getModel()));
+            } catch (RemoteException e) {
+                System.err.println("[COMMUNICATION:ERROR] Error while updating client(gameRestored):" + e.getMessage() + ".Skipping update");
+            }
+        }
+    }*/
     /*private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -426,6 +469,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                                 System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
                                                 if (model.getGameState() == GameState.IN_CREATION) {
                                                     clientsToHandle.remove(client);
+                                                    numberOfMissedPings.remove(client);
                                                 }
                                                 if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
                                                     controller.disconnectPlayer(nickname);
@@ -446,7 +490,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         Timer pingSender = new Timer("PingSenderTimer");
         pingSender.scheduleAtFixedRate(timerTask, 30, OptionsValues.MILLISECOND_PING_TO_CLIENT_PERIOD);
     }
-    
+
     private void resetServer() {
         this.model = new Game();
         this.controller = new GameController(this.model);
@@ -456,6 +500,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.model.getBoard().registerListener(this);
         this.clientsToHandle.clear();
     }
+
 
 }
 
