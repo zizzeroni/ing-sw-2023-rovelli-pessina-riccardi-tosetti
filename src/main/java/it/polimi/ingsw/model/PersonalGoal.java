@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.utils.OptionsValues;
 
 /**
- *
+ * This class represents the {@code Player}'s personal goal.
+ * 
  */
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
@@ -24,6 +25,10 @@ public class PersonalGoal extends Card {
         }
     }
 
+    /**
+     * @param id
+     * @param pattern
+     */
     public PersonalGoal(int id, Tile[][] pattern) {
         super(id);
         this.pattern = pattern;
@@ -34,29 +39,61 @@ public class PersonalGoal extends Card {
         this.setId(personalGoal.getId());
     }
 
+    /**
+     * Gets the number of columns in the personal goal's pattern.
+     *
+     * @return the number of columns.
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
 
+    /**
+     * Gets the number of rows in the personal goal's pattern.
+     *
+     * @return the number of rows.
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
     }
 
+    /**
+     * Gets the {@code PersonalGoal}'s pattern.
+     *
+     * @return the pattern linked to the current personal goal.
+     */
     public Tile[][] getPattern() {
         return this.pattern;
     }
 
+    /**
+     * Sets the personal goal's pattern.
+     *
+     * @param pattern is the pattern to be set.
+     */
     public void setPattern(Tile[][] pattern) {
         this.pattern = pattern;
     }
 
+    /**
+     * Gets the {@code Tile} at the given coordinates,
+     * expressed as rows and columns.
+     *
+     * @param row is the first coordinate.
+     * @param column is the second coordinate.
+     * @return the Tile of the specified {@code PersonalGoal}.
+     *
+     * @see Tile
+     */
     public Tile getSingleTile(int row, int column) {
         return this.pattern[row][column];
     }
 
     /**
+     * Gives the number of pattern repetitions in the chosen Bookshelf.
+     *
      * @param bookshelf is the selected {@code Bookshelf}.
-     * @return
+     * @return the number of pattern's repetitions.
      */
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
@@ -72,9 +109,14 @@ public class PersonalGoal extends Card {
     }
 
     /**
-     * @param bookshelf
+     * Evaluates the score of the Bookshelf based on the repetitions of the {@code PersonalGoal}'s patterns.
+     *
+     * @param bookshelf is the {@code Player}'s {@code Bookshelf}.
      * @return the value of the points assigned to the pattern repetitions identified in the {@code Bookshelf}
-     * using the #numberOfPatternRepetitionInBookshelf
+     *          using the #numberOfPatternRepetitionInBookshelf.
+     *
+     * @see Bookshelf
+     * @see Player
      */
     public int score(Bookshelf bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
@@ -102,6 +144,11 @@ public class PersonalGoal extends Card {
         }
     }
 
+    /**
+     * Deploys a simple representation of the personal goal.
+     *
+     * @return the String representing the {@code PersonalGoal}
+     */
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();

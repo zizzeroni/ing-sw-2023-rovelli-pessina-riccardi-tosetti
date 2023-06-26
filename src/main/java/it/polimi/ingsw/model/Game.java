@@ -48,7 +48,8 @@ public class Game {
     /**
      * Registers the {@code GameListener}.
      *
-     * @param listener is the {@code GameListener} being registered
+     * @param listener is the {@code GameListener} being registered.
+     *
      * @see   GameListener
      */
     public void registerListener(GameListener listener) {
@@ -59,12 +60,16 @@ public class Game {
      * Removes the {@code GameListener}.
      *
      * Listener is the {@code GameListener} being registered
+     *
      * @see   GameListener
      */
     public void removeListener() {
         this.listener = null;
     }
 
+    /**
+     * Class Builder. Creates the object {@code Game} with the initial unset values of lists for commonGoals, gameState, class listener, ...
+     */
     public Game() {
         this.gameState = GameState.IN_CREATION;
         this.listener = null;
@@ -80,6 +85,9 @@ public class Game {
 
     }
 
+    /**
+     * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     */
     public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.gameState = GameState.IN_CREATION;
         this.listener = null;
@@ -109,6 +117,9 @@ public class Game {
         this.board.addTiles(drawnTiles);
     }
 
+    /**
+     * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     */
     public Game(int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
         this.activePlayerIndex = activePlayerIndex;
@@ -119,6 +130,9 @@ public class Game {
         this.listener = null;
     }
 
+    /**
+     * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     */
     public Game(GameListener listener, int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.listener = listener;
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
@@ -130,14 +144,22 @@ public class Game {
     }
 
     /**
-     * @return
+     * Gets the current state of the {@code Game}.
+     *
+     * @return the game's state.
+     *
+     * @see Game
      */
     public GameState getGameState() {
         return this.gameState;
     }
 
     /**
-     * @param gameState
+     * Sets the current state of the {@code Game}.
+     *
+     * @param gameState the state being set.
+     *
+     * @see Game
      */
     public synchronized void setGameState(GameState gameState) {
         this.gameState = gameState;

@@ -34,7 +34,7 @@ public abstract class Card {
     }
 
     /**
-     * @param imageID
+     * @param id
      */
     public void setId(int id) {
         this.id = id;
