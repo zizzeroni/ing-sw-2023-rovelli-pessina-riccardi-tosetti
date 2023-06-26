@@ -13,7 +13,6 @@ import it.polimi.ingsw.utils.OptionsValues;
  *
  * @see it.polimi.ingsw.GUI.User
  * @see TextualUI
- * @see GUI
  */
 public class GenericUILogic {
     private volatile GameView model;
@@ -118,7 +117,6 @@ public class GenericUILogic {
      * Gets a lock on the current client's game state.
      *
      * @return lockState
-     * @see UI#lockState
      * @see ClientGameState
      */
     public Object getLockState() {
@@ -164,7 +162,6 @@ public class GenericUILogic {
      * Sets the UI's nickname.
      *
      * @param nickname the UI associated nickname.
-     * @see UI
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;
@@ -208,31 +205,6 @@ public class GenericUILogic {
     }
 
     /**
-     * Displays the part of the CLI interacting with the user to ask the type of action
-     * the player will enact after the method's call.
-     * In order to do this it interacts with the commands queue.
-     * The possible choices are: 'display the personal recap', tile's selection, 'send chat message', call disconnection.
-     *
-     * @return the player's choice.
-     * @see it.polimi.ingsw.model.Player
-     * @see it.polimi.ingsw.network.Client
-     * @see it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.DisconnectPlayerCommand
-     * @see it.polimi.ingsw.model.tile.Tile
-     * @see it.polimi.ingsw.utils.CommandQueue
-     * @see it.polimi.ingsw.utils.CommandReader
-     */
-    public abstract Choice askPlayer();
-
-    /**
-     * Displays a standard message to identify the starting of the next turn.
-     * Calls the nickname of the active player and the shows the board's state.
-     *
-     * @see it.polimi.ingsw.model.Player
-     * @see it.polimi.ingsw.model.Board
-     */
-    public abstract void showNewTurnIntro();
-
-    /*
      * TODO
      */
     public int getCountdown() {

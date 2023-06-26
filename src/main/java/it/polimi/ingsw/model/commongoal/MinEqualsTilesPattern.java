@@ -181,8 +181,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
         return patternAppearances;
     }
 
-<<<<<<<HEAD
-
     /**
      * This method is used to verify the CheckType of the {@code Tile}s.
      *
@@ -191,10 +189,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @return {@code true} if and only if the CheckType correspond,
      * {@code false} otherwise.
      * @throws Exception if the considered CheckType does not exist.
-     * @ >>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
-     * @see it.polimi.ingsw.model.tile.Tile
-     * =======
-     * /*
      */
     private boolean confrontEqualsDifferentTiles(int numberOfEqualTiles, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
@@ -214,7 +208,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
-<<<<<<<HEAD
 
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
@@ -224,33 +217,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      */
     @Override
     public CommonGoalView copyImmutable() {
-        return new MinEqualsTilesPatternView(this);
+        return new MinEqualsTilesPatternGoalView(this);
     }
-
-    /**
-     * Redefine the equals method to allow a compare based on the MinEqualsTilesPattern.
-     *
-     * @param o is the object being evaluated to be equals to another (the one that calls the method).
-     * @return {@code true} if and only if the two tiles are 'equals',
-     * {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof MinEqualsTilesPattern obj) {
-            return this.getDirection() == obj.getDirection()
-                    && this.getMaxEqualsTiles() == obj.getMaxEqualsTiles()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-=======
-
-    /*
-    @return an immutable copy of the common goal
-    */
-        @Override
-        public CommonGoalView copyImmutable () {
-            return new MinEqualsTilesPatternGoalView(this);
->>>>>>>859 bad82d69f5d3a13cbdcd56fcc32f950648cfd
-        }
-    }
+}

@@ -178,7 +178,7 @@ public class GameController {
      * @see Game
      * @see Game#getPlayers()
      */
-    @Override
+
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
@@ -200,7 +200,7 @@ public class GameController {
      * @see Board#setPattern(JsonBoardPattern)
      * @see Board#numberOfTilesToRefill()
      */
-    @Override
+
     public void startGame() {
         state.startGame();
     }

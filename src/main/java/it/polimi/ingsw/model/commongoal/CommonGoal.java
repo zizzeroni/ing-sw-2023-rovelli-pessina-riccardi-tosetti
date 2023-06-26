@@ -43,7 +43,7 @@ public abstract class CommonGoal extends Card {
      * Class constructor with parameters.
      * Builds a CommonGoal with a specific type, ID, ...
      *
-     * @param imageID                            the image assigned to the card.
+     * @param id                            the image assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      */
@@ -59,11 +59,10 @@ public abstract class CommonGoal extends Card {
      * Builds a CommonGoal with specific type, ID ...
      * (numberOfPlayers and commonGoalID are also considered).
      *
-     * @param imageID                            the image assigned to the card.
+     * @param id                            the image assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
-     * @param numberOfPlayers                    number of active players.
-     * @param commonGoalID                       the identifier of the given common goal.
+     * @param scoreTiles                    score tiles of the common goal
      */
     public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id);
@@ -72,6 +71,16 @@ public abstract class CommonGoal extends Card {
         this.scoreTiles = scoreTiles;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds a CommonGoal with specific type, ID ...
+     * (numberOfPlayers and commonGoalID are also considered).
+     *
+     * @param id                            the image assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers                    number of the players
+     */
     public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;

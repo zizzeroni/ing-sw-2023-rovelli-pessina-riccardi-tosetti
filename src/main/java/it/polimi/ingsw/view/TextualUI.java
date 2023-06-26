@@ -315,7 +315,6 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.utils.CommandQueue
      * @see it.polimi.ingsw.utils.CommandReader
      */
-    @Override
     public Choice askPlayer() {
         while (true) {
             System.out.println("Choose what to do (Type the number paired to the action):");

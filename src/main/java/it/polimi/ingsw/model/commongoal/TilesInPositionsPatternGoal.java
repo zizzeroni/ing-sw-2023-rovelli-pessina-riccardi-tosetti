@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
@@ -32,7 +33,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Class constructor with parameters.
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      *
-     * @param imageID           the image assigned to the card.
+     * @param id           the image assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
      * @param type              the type of check that has to be done on the considered common goal's card.
      * @param positions         the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
@@ -47,17 +48,30 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      * (numberOfPlayers and commonGoalID are also considered in this version).
      *
-     * @param imageID         the image assigned to the card.
+     * @param id         the image assigned to the card.
      * @param type            the type of check that has to be done on the considered common goal's card.
      * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID    the identifier of the given common goal.
      */
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.positions = positions;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
+     * (numberOfPlayers and commonGoalID are also considered in this version).
+     *
+     * @param id         the image assigned to the card.
+     * @param type            the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles
+     * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     */
+    public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> positions) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+        this.positions = positions;
+    }
 
     /**
      * Counts the number of 1 in the 'positions' matrix.
