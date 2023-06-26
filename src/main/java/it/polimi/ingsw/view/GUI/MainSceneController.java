@@ -1055,10 +1055,10 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
-        int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
-        int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
+        int numberOfScoreTiles1 = commonGoals.get(1).getScoreTiles().size();
+        int numberOfScoreTiles2 = commonGoals.get(0).getScoreTiles().size();
         if (numberOfScoreTiles2 != 0) {
-            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
                         pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
@@ -1075,7 +1075,7 @@ public class MainSceneController implements Initializable {
             pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
         if (numberOfScoreTiles1 != 0) {
-            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
+            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
                         pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));

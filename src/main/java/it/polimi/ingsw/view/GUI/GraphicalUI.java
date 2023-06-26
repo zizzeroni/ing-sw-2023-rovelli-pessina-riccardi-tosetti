@@ -460,7 +460,7 @@ public class GraphicalUI extends Application implements UI {
                 try {
                     serverStub.receive(client);
                 } catch (RemoteException e) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)" + e.getMessage());
                     try {
                         serverStub.close();
                     } catch (RemoteException ex) {

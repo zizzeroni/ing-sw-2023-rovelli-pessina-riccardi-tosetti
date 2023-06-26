@@ -133,6 +133,7 @@ public class AppServer {
             while (true) {
                 //Waiting for a connection request from a client
                 Socket socket = serverSocket.accept();
+                socket.setTcpNoDelay(true);
 
                 //Let handle the client to another Thread, letting this thread to take care of new Client's connection requests
                 executorService.submit(new SingleClientHandler(server, socket));

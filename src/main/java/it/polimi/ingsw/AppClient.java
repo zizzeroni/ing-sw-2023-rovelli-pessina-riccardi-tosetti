@@ -194,6 +194,7 @@ public class AppClient {
                     } catch (RemoteException ex) {
                         System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
                     }
+
                     System.exit(1);
                 }
             }

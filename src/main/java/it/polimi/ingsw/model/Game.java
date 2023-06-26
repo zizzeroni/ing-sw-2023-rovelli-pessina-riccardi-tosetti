@@ -80,6 +80,7 @@ public class Game {
         this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>(OptionsValues.NUMBER_OF_COMMON_GOAL);
         this.initializeBag(numberOfTilesInBag);
+        Collections.shuffle(this.bag);
         this.board = new Board();
 
     }

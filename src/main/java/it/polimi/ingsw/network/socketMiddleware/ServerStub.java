@@ -280,6 +280,7 @@ public class ServerStub implements Server {
     public void register(Client client, String nickname) throws RemoteException {
         try {
             this.socket = new Socket(this.ip, this.port);
+            this.socket.setTcpNoDelay(true);
             try {
                 this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {

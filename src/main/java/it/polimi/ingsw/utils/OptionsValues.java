@@ -8,7 +8,7 @@ public class OptionsValues {
     public static final int MIN_SELECTABLE_NUMBER_OF_PLAYERS = 2;
     public static final int MAX_SELECTABLE_NUMBER_OF_PLAYERS = 4;
     public static final int NUMBER_OF_PERSONAL_GOALS = 12;
-    public static final int MILLISECOND_COUNTDOWN_VALUE = 15000;
+    public static final int MILLISECOND_COUNTDOWN_VALUE = 60000;
     public static final int MIN_PLAYERS_TO_GO_ON_PAUSE = 1;
     public static final int WINNING_TILE_VALUE = 1;
     public static final int PERSONAL_GOAL_ZERO_TILE_SCORE = 0;
@@ -23,7 +23,7 @@ public class OptionsValues {
     public static final int NUMBER_OF_SCORE_TILE = 3;
     public static final int INITIAL_MISSED_PINGS = 0;
     public static final int MILLISECOND_TIMEOUT_PING = 6000;
-    public static final int MILLISECOND_PING_TO_CLIENT_PERIOD = 1000;
+    public static final int MILLISECOND_PING_TO_CLIENT_PERIOD = 2000;
     public static final int MILLISECOND_PING_TO_SERVER_PERIOD = 3000;
     public static final String SERVER_RMI_NAME = "server";
     public static final int SOCKET_PORT = 1234;
