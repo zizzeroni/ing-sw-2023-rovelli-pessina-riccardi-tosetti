@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.view.*;
+import it.polimi.ingsw.utils.OptionsValues;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainSceneController implements Initializable {
     private GraphicalUI mainGraphicalUI;
@@ -48,6 +50,8 @@ public class MainSceneController implements Initializable {
     @FXML
     private ImageView personalGoal;
     @FXML
+    private Pane censure;
+    @FXML
     private Pane secondPlayerBookshelf;
     @FXML
     private Pane thirdPlayerBookshelf;
@@ -61,6 +65,8 @@ public class MainSceneController implements Initializable {
     private TextField chatMessage;
     @FXML
     private ChoiceBox<String> playerChatChoice;
+    @FXML
+    private Label countdownLabel;
     private int numberOfPlayer;
     private Choice takenTiles;
     private String[] playerName;
@@ -156,14 +162,6 @@ public class MainSceneController implements Initializable {
 
                         }
                     }
-//                    case 3 -> {
-//                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
-//                            System.err.println("Numero massimo di tiles scelto");
-//                        } else {
-//                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
-//                            takenTiles.removeTile(tileView);
-//                        }
-//                    }
                 }
                 firstRow = takenTiles.getTileCoordinates().get(0).getX();
                 firstColumn = takenTiles.getTileCoordinates().get(0).getY();
@@ -220,17 +218,7 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(1);
         pointsItem1.setViewOrder(1);
         commonGoal2.setViewOrder(1);
-
-//        commonGoal2.setVisible(false);
-//        pointsItem2.setVisible(false);
-//
-//        pointsItem1.setFitHeight(78.5454);
-//        pointsItem1.setFitWidth(87.2727);
-//        pointsItem1.setLayoutX(485.45);
-//        pointsItem1.setLayoutY(693.527);
-
-        //pointsItem1.setVisible(false);
-        //pointsItem2.setVisible(false);
+        thirdPlayerBookshelf.setViewOrder(1);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -245,15 +233,7 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(0.0);
         pointsItem1.setViewOrder(0.0);
         commonGoal2.setViewOrder(0.0);
-//        commonGoal2.setVisible(true);
-//        pointsItem2.setVisible(true);
-//
-//        pointsItem1.setFitHeight(36);
-//        pointsItem1.setFitWidth(40);
-//        pointsItem1.setLayoutX(588.7);
-//        pointsItem1.setLayoutY(473);
-        //pointsItem1.setVisible(true);
-        //pointsItem2.setVisible(true);
+        thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -268,6 +248,7 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(1);
         pointsItem1.setViewOrder(1);
         commonGoal1.setViewOrder(1);
+        thirdPlayerBookshelf.setViewOrder(1);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -282,6 +263,7 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(0.0);
         pointsItem1.setViewOrder(0.0);
         commonGoal1.setViewOrder(0.0);
+        thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
@@ -324,6 +306,75 @@ public class MainSceneController implements Initializable {
                             button.setBorder(null);
                         }
                     }
+                }
+            }
+
+
+            for (int column = 0; column < activePlayer.getBookshelf().getNumberOfColumns(); column++) {
+                for (int row = 5; row > 5 - activePlayer.getBookshelf().getNumberOfTilesInColumn(column); row--) {
+                    tileStyle = activePlayer.getBookshelf().getTiles()[row][column].getColor().toGUI()
+                            + activePlayer.getBookshelf().getTiles()[row][column].getId();
+                    String nome = "#firstPlayerTile" + (row) + (column);
+                    Button button = (Button) scene.lookup(nome);
+                    if (button != null) {
+                        button.setOpacity(1);
+                        //set tile color
+                        if (tileStyle.equals("B0")) {
+                            button.getStyleClass().add("B1");
+                        }
+                        if (tileStyle.equals("B1")) {
+                            button.getStyleClass().add("B2");
+                        }
+                        if (tileStyle.equals("B2")) {
+                            button.getStyleClass().add("B3");
+                        }
+                        if (tileStyle.equals("C0")) {
+                            button.getStyleClass().add("C1");
+                        }
+                        if (tileStyle.equals("C1")) {
+                            button.getStyleClass().add("C2");
+                        }
+                        if (tileStyle.equals("C2")) {
+                            button.getStyleClass().add("C3");
+                        }
+                        if (tileStyle.equals("G0")) {
+                            button.getStyleClass().add("G1");
+                        }
+                        if (tileStyle.equals("G1")) {
+                            button.getStyleClass().add("G2");
+                        }
+                        if (tileStyle.equals("G2")) {
+                            button.getStyleClass().add("G3");
+                        }
+                        if (tileStyle.equals("W0")) {
+                            button.getStyleClass().add("W1");
+                        }
+                        if (tileStyle.equals("W1")) {
+                            button.getStyleClass().add("W2");
+                        }
+                        if (tileStyle.equals("W2")) {
+                            button.getStyleClass().add("W3");
+                        }
+                        if (tileStyle.equals("P0")) {
+                            button.getStyleClass().add("P1");
+                        }
+                        if (tileStyle.equals("P1")) {
+                            button.getStyleClass().add("P2");
+                        }
+                        if (tileStyle.equals("P2")) {
+                            button.getStyleClass().add("P3");
+                        }
+                        if (tileStyle.equals("Y0")) {
+                            button.getStyleClass().add("Y1");
+                        }
+                        if (tileStyle.equals("Y1")) {
+                            button.getStyleClass().add("Y2");
+                        }
+                        if (tileStyle.equals("Y2")) {
+                            button.getStyleClass().add("Y3");
+                        }
+                    }
+
                 }
             }
             pointsLabel.setText(String.valueOf(points));
@@ -644,8 +695,8 @@ public class MainSceneController implements Initializable {
             Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString)));
             Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString)));
 
-            commonGoal2.setImage(firstCommonGoalImage);
-            commonGoal1.setImage(secondCommonGoalImage);
+            commonGoal1.setImage(firstCommonGoalImage);
+            commonGoal2.setImage(secondCommonGoalImage);
             countDownLatchAble.countDown();
         });
         try {
@@ -1057,25 +1108,8 @@ public class MainSceneController implements Initializable {
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
         int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
-        if (numberOfScoreTiles2 != 0) {
-            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
-            switch (firstScoringTile) {
-                case 2 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
-            }
-        } else {
-            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
-        }
         if (numberOfScoreTiles1 != 0) {
-            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
                         pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
@@ -1090,6 +1124,23 @@ public class MainSceneController implements Initializable {
             }
         } else {
             pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+        if (numberOfScoreTiles2 != 0) {
+            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        } else {
+            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
 
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
@@ -1233,5 +1284,86 @@ public class MainSceneController implements Initializable {
 
     public void setGameOn(boolean gameOn) {
         this.gameOn = gameOn;
+    }
+    public void startCensure(){
+        double wi = this.mainGraphicalUI.getWidthOld();
+        double he = this.mainGraphicalUI.getHeightOld();
+        censure.setMaxSize(wi, he);
+        censure.setOpacity(0.5);
+        commonGoal1.setOnMouseEntered(null);
+        commonGoal2.setOnMouseEntered(null);
+        commonGoal1.setOnMouseExited(null);
+        commonGoal2.setOnMouseExited(null);
+        personalGoal.setOnMouseEntered(null);
+        personalGoal.setOnMouseExited(null);
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        Platform.runLater(() -> {
+//            countdownLabel.setText("COUTNDOWN AVVIATO");
+//
+//            countDownLatch.countDown();
+//        });
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+        countdownLabel.setLayoutX(wi*0.55);
+        countdownLabel.setLayoutY(he*0.70);
+        personalGoal.setVisible(false);
+        this.threadCounter();
+    }
+    public void endCensure(){
+        censure.setMaxSize(1, 1);
+        censure.setOpacity(0.0);
+        commonGoal1.setOnMouseEntered(this::onCommonGoal1);
+        commonGoal2.setOnMouseEntered(this::onCommonGoal2);
+        commonGoal1.setOnMouseExited(this::exitCommonGoal1);
+        commonGoal2.setOnMouseExited(this::exitCommonGoal2);
+        personalGoal.setOnMouseEntered(this::onPersonalGoal);
+        personalGoal.setOnMouseExited(this::exitPersonalGoal);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            countdownLabel.setText("");
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        personalGoal.setVisible(true);
+    }
+
+    private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
+
+    public void threadCounter(){
+        var th = new Thread(() -> {
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                AtomicInteger countdownAtomic = new AtomicInteger(countdown - 1);
+                countdownLabel.setText("COUTNDOWN AVVIATO: " + countdownAtomic);
+                for (; countdownAtomic.get() > 0; countdownAtomic.getAndDecrement()) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        //RESUME
+                        return;
+                    }
+                    countdownLabel.setText("COUTNDOWN AVVIATO: " + countdownAtomic);
+                }
+                System.out.println();
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
 }

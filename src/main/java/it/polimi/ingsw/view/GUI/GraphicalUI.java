@@ -52,6 +52,14 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    public double getWidthOld() {
+        return widthOld;
+    }
+
+    public double getHeightOld() {
+        return heightOld;
+    }
+
     /**
      * Class constructor.
      * Initialize the game's model.
@@ -314,12 +322,17 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
+            if(!activePlayer.equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()))){
+                mainSceneController.lockAllTiles();
+            }
+
             mainSceneController.setGameOn(true);
             mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+                this.mainSceneController.endCensure();
                 showNewTurnIntro();
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                 while (takenTiles == null) {
@@ -330,6 +343,7 @@ public class GraphicalUI extends Application implements UI {
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
+                this.mainSceneController.startCensure();
                 this.mainSceneController.refreshPoint();
 
             }
