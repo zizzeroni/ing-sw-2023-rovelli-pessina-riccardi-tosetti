@@ -6,25 +6,20 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 import java.rmi.RemoteException;
 
 /**
- * An implementation of the {@code CommandToServer} interface.
- * It allows to communicate a command sent by the {@code Player} to the {@code Server}.
+ * This class represents the command that permits to change the {@code Game}'s turn.
+ * It contains a series of methods to access and modify the class attributes (getters and setters)
+ * and for the associated command execution and displaying.
+ * It is developed as an implementation of the {@code CommandToServer} interface.
+ *
  *
  * @see CommandToServer
- * @see Server
- * @see it.polimi.ingsw.network.ServerImpl
- * @see it.polimi.ingsw.model.Player
+ * @see it.polimi.ingsw.model.Game
  */
 public class ChangeTurnCommand implements CommandToServer {
     private Server actuator;
 
     /**
      * Class constructor.
-     * Initialize the actuator and the {@code Player}'s nickname to the given values.
-     *
-     * @param actuator the command's actuator.
-     * @param nickname the {@code Player}'s nickname.
-     *
-     * @see it.polimi.ingsw.model.Player
      */
     public ChangeTurnCommand() {
         this.actuator = null;
@@ -32,10 +27,9 @@ public class ChangeTurnCommand implements CommandToServer {
 
     /**
      * Class constructor.
-     * Initialize the actuator and the {@code Player}'s nickname to the given values.
+     * Initialize the actuator to the given value.
      *
      * @param actuator the command's actuator.
-     * @param nickname the {@code Player}'s nickname.
      *
      * @see it.polimi.ingsw.model.Player
      */

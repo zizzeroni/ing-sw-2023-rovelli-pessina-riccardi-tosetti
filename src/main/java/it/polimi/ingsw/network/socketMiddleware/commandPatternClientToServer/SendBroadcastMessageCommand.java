@@ -59,8 +59,6 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * @param actuator the command's actuator.
      * @param content the content of the message.
      * @param sender the sender of the message.
-     *
-     * @see it.polimi.ingsw.model.Player
      */
     public SendBroadcastMessageCommand(Server actuator, String sender, String content) {
         this.actuator = actuator;
