@@ -6,7 +6,12 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 import java.rmi.RemoteException;
 
 /**
+ * This class represents the command that enables {@code Player}'s disconnection.
+ * It is developed as an implementation of the {@code CommandToServer} interface.
  *
+ *
+ * @see CommandToServer
+ * @see it.polimi.ingsw.model.Player
  */
 public class DisconnectPlayerCommand implements CommandToServer {
     private Server actuator;
@@ -74,6 +79,14 @@ public class DisconnectPlayerCommand implements CommandToServer {
         this.actuator = actuator;
     }
 
+    /**
+     * This method permits the execution of the {@code PLayer}'s disconnection command.
+     *
+     * @throws NullPointerException if there is no command to execute.
+     * @throws RemoteException
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
@@ -83,11 +96,26 @@ public class DisconnectPlayerCommand implements CommandToServer {
         }
     }
 
+    /**
+     * Used to enumerate the type of the class command.
+     *
+     * @return the {@code CommandType} of the {@code Player}'s disconnection command.
+     *
+     * @see CommandType
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public CommandType toEnum() {
         return CommandType.DISCONNECT_PLAYER;
     }
 
+    /**
+     * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
+     *
+     * @return the string representing the class command.
+     *
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public String toString() {
         return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Nickname: " + this.nickname + "}]";
