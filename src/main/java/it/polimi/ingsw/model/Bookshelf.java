@@ -48,6 +48,19 @@ public class Bookshelf {
         this.listener = null;
     }
 
+    /** Class constructor.
+     * Initialize the bookshelf of the single {@code Player}.
+     *
+     * @see Player
+     */
+    public Bookshelf() {
+        this.image = null;
+        this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
+        for (int row = 0; row < this.numberOfRows; row++)
+            for (int column = 0; column < this.numberOfColumns; column++)
+                this.tiles[row][column] = null;
+    }
+    
     /**
      * Class constructor.
      * Initialize the bookshelf of the single {@code Player}.
@@ -57,23 +70,8 @@ public class Bookshelf {
      * @see Player
      * @see Tile
      */
-    //REMINDER: For testing purposes only
     public Bookshelf(Tile[][] tiles) {
         this.tiles = tiles;
-    }
-
-    /** Class constructor.
-     * Initialize the bookshelf of the single {@code Player}.
-     *
-     * @see Player
-     */
-    //Initialize the bookshelf of the single player
-    public Bookshelf() {
-        this.image = null;
-        this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
-        for (int row = 0; row < this.numberOfRows; row++)
-            for (int column = 0; column < this.numberOfColumns; column++)
-                this.tiles[row][column] = null;
     }
 
     /**
@@ -116,11 +114,11 @@ public class Bookshelf {
      */
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
-        if (this.listener != null) {
+        /*if (this.listener != null) {
             this.listener.tileAddedToBookshelf(this);
         } else {
             System.err.println("Bookshelf's listener is NULL!");
-        }
+        }*/
     }
 
     /**

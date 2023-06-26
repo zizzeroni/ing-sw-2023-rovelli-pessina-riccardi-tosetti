@@ -17,17 +17,18 @@ public record Message(MessageType messageType, String receiverNickname, String s
      */
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("[FROM] " + this.senderNickname + " [TO] ");
+        StringBuilder stringBuilder = new StringBuilder();
 
         switch (this.messageType) {
             case PRIVATE -> {
-                stringBuilder.append(this.receiverNickname);
+                stringBuilder.append("[PVT] ");
             }
             case BROADCAST -> {
-                stringBuilder.append("ALL");
+                stringBuilder.append("[ALL] ");
             }
         }
-        stringBuilder.append(" : ").append(this.content);
+        
+        stringBuilder.append(this.senderNickname).append(": ").append(this.content);
 
         return stringBuilder.toString();
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Choice implements Serializable {
      */
     public Choice() {
         this.chosenTiles = new ArrayList<>();
-        this.tileOrder = new int[3];
+        this.tileOrder = new int[OptionsValues.MAX_NUMBER_PICKABLE_TILES];
         for (int i = 0; i < this.tileOrder.length; i++) {
             tileOrder[i] = 0;
         }
@@ -41,6 +42,9 @@ public class Choice implements Serializable {
 
     /**
      * Class Builder. Creates the object Choice with the values of lists for chosenTile/tileCoordinates, the tileOrder array, ecc.
+     * @params chosenTiles are the tiles chosen by the player
+     * @params tileCoordinates are the coordinates of the tiles chosen by the player
+     * @params tileOrder is the order in which the player want to insert the tiles in his bookshelf
      */
     public Choice(List<TileView> chosenTiles, List<Coordinates> tileCoordinates, int[] tileOrder, int chosenColumn) {
         this.chosenTiles = chosenTiles;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.socketMiddleware.ClientSkeleton;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -12,6 +13,7 @@ import java.rmi.RemoteException;
  * @see ClientImpl
  */
 public class SingleClientHandler extends Thread {
+    Socket socket;
     Server generalServer;
     ClientSkeleton clientSkeleton;
 
@@ -23,6 +25,7 @@ public class SingleClientHandler extends Thread {
      * @throws RemoteException
      */
     public SingleClientHandler(Server server, Socket socket) throws RemoteException {
+        this.socket = socket;
         this.generalServer = server;
         this.clientSkeleton = new ClientSkeleton(socket);
     }
@@ -46,7 +49,12 @@ public class SingleClientHandler extends Thread {
                 this.clientSkeleton.receive(this.generalServer);
             }
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] Cannot receive from client. Closing this connection...");
+            System.err.println("[COMMUNICATION:ERROR] Cannot receive from client. Closing this connection...;\n     " + "Caused by: " + e.getMessage());
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
+            }
         }
     }
 }

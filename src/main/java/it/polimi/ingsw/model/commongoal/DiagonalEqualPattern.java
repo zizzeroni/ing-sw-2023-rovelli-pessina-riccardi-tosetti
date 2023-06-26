@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
+import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternGoalView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to represent the goal pattern with all the {@code Tile}s disposed diagonally.
@@ -12,8 +16,9 @@ import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
  */
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
-    private int[][] pattern;
+    private List<List<Integer>> pattern;
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a CommonGoal with type, ID, ...
@@ -21,10 +26,15 @@ public class DiagonalEqualPattern extends CommonGoal {
      * @param pattern matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
      */
     public DiagonalEqualPattern(int[][] pattern) {
+=======
+    //Constructors
+    public DiagonalEqualPattern(List<List<Integer>> pattern) {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         super();
         this.pattern = pattern;
     }
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with type, ID ...
@@ -53,6 +63,20 @@ public class DiagonalEqualPattern extends CommonGoal {
      */
     public DiagonalEqualPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] pattern) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+=======
+    public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, List<List<Integer>> pattern) {
+        super(id, patternRepetition, type);
+        this.pattern = pattern;
+    }
+
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.pattern = pattern;
+    }
+
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.pattern = pattern;
     }
 
@@ -98,13 +122,13 @@ public class DiagonalEqualPattern extends CommonGoal {
         int rotations = 0;
 
         do {
-            for (int row = 0; row < supportMatrix.length - this.pattern.length + 1; row++) {
-                for (int column = 0; column < supportMatrix[0].length - this.pattern[0].length + 1; column++) {
+            for (int row = 0; row < supportMatrix.length - this.pattern.size() + 1; row++) {
+                for (int column = 0; column < supportMatrix[0].length - this.pattern.get(0).size() + 1; column++) {
                     int checkGroup = 0;
                     boolean exit = false;
-                    for (int patternRow = 0; patternRow < this.pattern.length && !exit; patternRow++) {
-                        for (int patternColumn = 0; patternColumn < this.pattern[0].length && !exit; patternColumn++) {
-                            if (this.pattern[patternRow][patternColumn] == 1) {
+                    for (int patternRow = 0; patternRow < this.pattern.size() && !exit; patternRow++) {
+                        for (int patternColumn = 0; patternColumn < this.pattern.get(0).size() && !exit; patternColumn++) {
+                            if (this.pattern.get(patternRow).get(patternColumn) == 1) {
                                 if (checkGroup == 0) {
                                     checkGroup = supportMatrix[row + patternRow][column + patternColumn];
                                 }
@@ -115,9 +139,9 @@ public class DiagonalEqualPattern extends CommonGoal {
                         }
                     }
                     if (!exit) {
-                        for (int patternRow = 0; patternRow < this.pattern.length; patternRow++) {
-                            for (int patternColumn = 0; patternColumn < this.pattern[0].length; patternColumn++) {
-                                if (this.pattern[patternRow][patternColumn] == 1 && supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
+                        for (int patternRow = 0; patternRow < this.pattern.size(); patternRow++) {
+                            for (int patternColumn = 0; patternColumn < this.pattern.get(0).size(); patternColumn++) {
+                                if (this.pattern.get(patternRow).get(patternColumn) == 1 && supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
                                     alreadyChecked[row + patternRow][column + patternColumn] = 1;
                                 }
                             }
@@ -174,33 +198,49 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
     }
 
+<<<<<<< HEAD
     /**
      * In this method we rotate the matrix by starting from the first element and exchanging the row and the column.
      *
      * @param matrixToRotate the matrix that we need to rotate.
      * @return the rotated matrix.
      */
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     /*
 
      */
-    private int[][] rotateMatrix(int[][] matrixToRotate) {
-        int[][] rotatedMatrix = new int[matrixToRotate[0].length][matrixToRotate.length];
-        for (int row = 0; row < matrixToRotate.length; row++) {
-            for (int column = 0; column < matrixToRotate[0].length; column++) {
-                if (matrixToRotate[row][column] == 1) {
-                    rotatedMatrix[row][rotatedMatrix.length - 1 - column] = 1;
+    private List<List<Integer>> rotateMatrix(List<List<Integer>> matrixToRotate) {
+        List<List<Integer>> rotatedMatrix = new ArrayList<>(matrixToRotate.get(0).size());
+        for (int i = 0; i < matrixToRotate.get(0).size(); i++) {
+            rotatedMatrix.add(new ArrayList<>(matrixToRotate.get(0).size()));
+            for (int j = 0; j < matrixToRotate.size(); j++) {
+                rotatedMatrix.get(i).add(0);
+            }
+        }
+        for (int row = 0; row < matrixToRotate.size(); row++) {
+            for (int column = 0; column < matrixToRotate.get(0).size(); column++) {
+                if (matrixToRotate.get(row).get(column) == 1) {
+                    rotatedMatrix.get(row).set(rotatedMatrix.size() - 1 - column,1);
                 }
             }
         }
         return rotatedMatrix;
+
+
     }
 
+<<<<<<< HEAD
     /**
      * Getter to access the diagonal pattern.
      *
      * @return the diagonal pattern.
      */
     public int[][] getPattern() {
+=======
+    // get
+    public List<List<Integer>> getPattern() {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.pattern;
     }
 
@@ -213,6 +253,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      */
     @Override
     public CommonGoalView copyImmutable() {
+<<<<<<< HEAD
         return new DiagonalEqualPatternView(this);
     }
 
@@ -231,5 +272,8 @@ public class DiagonalEqualPattern extends CommonGoal {
                     && this.getType() == obj.getType();
         }
         return false;
+=======
+        return new DiagonalEqualPatternGoalView(this);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 }

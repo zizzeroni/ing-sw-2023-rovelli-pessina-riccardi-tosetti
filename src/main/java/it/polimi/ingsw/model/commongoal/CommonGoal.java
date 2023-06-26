@@ -39,6 +39,7 @@ public abstract class CommonGoal extends Card {
         this.numberOfPatternRepetitionsRequired = 0;
     }
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a CommonGoal with a specific type, ID, ...
@@ -49,11 +50,16 @@ public abstract class CommonGoal extends Card {
      */
     public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type) {
         super(imageID);
+=======
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type) {
+        super(id);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
         this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8), new ScoreTile(6), new ScoreTile(4), new ScoreTile(2)));
     }
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a CommonGoal with specific type, ID ...
@@ -67,16 +73,31 @@ public abstract class CommonGoal extends Card {
      */
     public CommonGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
         super(imageID);
+=======
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
         this.type = type;
-        this.initScoreTiles(numberOfPlayers, commonGoalID);
+        this.scoreTiles = scoreTiles;
     }
 
+<<<<<<< HEAD
     /**
      * Gets the list of score tiles.
      *
      * @return the list of score tiles.
      */
+=======
+    public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id);
+        this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
+        this.type = type;
+        this.initScoreTiles(numberOfPlayers, id);
+    }
+
+    //Set/Get methods of variables
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
@@ -122,6 +143,7 @@ public abstract class CommonGoal extends Card {
         this.type = type;
     }
 
+<<<<<<< HEAD
     /**
      * Initialize the different {@code ScoreTile}s
      * with their respective values basing assignment on
@@ -133,6 +155,12 @@ public abstract class CommonGoal extends Card {
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see ScoreTile
+=======
+    /*
+    initialize the scoring tiles
+    @param numberOfPlayers contains the number of players in the game
+    @param commonGoalID contain the common goal used in the game
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
      */
 
     private void initScoreTiles(int numberOfPlayers, int commonGoalID) {
@@ -152,6 +180,7 @@ public abstract class CommonGoal extends Card {
         }
     }
 
+<<<<<<< HEAD
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the common goal.
      *
@@ -159,8 +188,21 @@ public abstract class CommonGoal extends Card {
      *
      * @see CommonGoal
      */
+=======
+    /*
+    This method will be redefined in each common goal and will serve to print on the terminal the common goal
+    @return an immutable copy of the common goal
+    */
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public CommonGoalView copyImmutable() {
         return new CommonGoalView(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CommonGoal))
+            return false;
+
+        return (this.getId() == ((CommonGoal) obj).getId());
+    }
 }

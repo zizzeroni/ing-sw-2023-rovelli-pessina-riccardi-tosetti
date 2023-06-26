@@ -20,6 +20,7 @@ import java.io.Serializable;
  */
 public class TileView implements Serializable {
     private final TileColor color;
+<<<<<<< HEAD
     private final int imageID;
 
     /**
@@ -32,11 +33,16 @@ public class TileView implements Serializable {
      * @see Tile
      *
      */
+=======
+    private final int id;
+
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public TileView(Tile tileModel) {
         this.color = tileModel.getColor();
-        this.imageID = tileModel.getImageID();
+        this.id = tileModel.getId();
     }
 
+<<<<<<< HEAD
     /**
      * Getter used to access {@code CommonGoal}'s image identifier.
      *
@@ -46,6 +52,10 @@ public class TileView implements Serializable {
      */
     public int getImageID() {
         return this.imageID;
+=======
+    public int getId() {
+        return this.id;
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 
     /**

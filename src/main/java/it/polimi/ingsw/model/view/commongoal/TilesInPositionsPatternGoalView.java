@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
+<<<<<<< HEAD
 /**
  * This class represents the View of the {@code TilesInPositionsPatternGoal}.
  * It contains the necessary components for displaying the pattern and referencing it.
@@ -13,8 +14,13 @@ import it.polimi.ingsw.model.view.CommonGoalView;
  *
  * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
  */
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
-    private final int[][] positions;
+    private final List<List<Integer>> positions;
 
     /**
      * Class constructor.
@@ -25,9 +31,16 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      */
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
-        this.positions = commonGoalModel.getPositions();
+        //TODO: Controllare se è corretto
+        this.positions = new ArrayList<>(commonGoalModel.getPositions());
+        /*for (int row = 0; row < commonGoalModel.getPositions().size(); row++) {
+            for (int column = 0; column < commonGoalModel.getPositions().get(0).size(); column++) {
+                this.positions.get(row).set(column, commonGoalModel.getPositions().get(row).get(column));
+            }
+        }*/
     }
 
+<<<<<<< HEAD
     /**
      * Getter for identifying pattern's tiles positions.
      *
@@ -37,6 +50,9 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      * @see TilesInPositionsPatternGoalView
      */
     public int[][] getPositions() {
+=======
+    public List<List<Integer>> getPositions() {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.positions;
     }
 
@@ -54,10 +70,10 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
         StringBuilder sendBack = new StringBuilder("Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles\n" +
                 "of one square can be different from those of the other square.\n");
 
-        for (int i = 0; i < this.positions.length; i++) {
+        for (int i = 0; i < this.positions.size(); i++) {
             sendBack.append("[");
-            for (int j = 0; j < this.positions[0].length; j++) {
-                if (this.positions[i][j] == 1) {
+            for (int j = 0; j < this.positions.get(0).size(); j++) {
+                if (this.positions.get(i).get(j) == 1) {
                     sendBack.append(" ").append(TileColor.BLUE);
                 } else {
                     sendBack.append(" -");

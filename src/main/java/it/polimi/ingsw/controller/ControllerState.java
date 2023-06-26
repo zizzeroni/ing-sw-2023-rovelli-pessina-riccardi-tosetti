@@ -1,6 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 
 /**
  * This Class is used to describe the State Pattern
@@ -37,8 +41,10 @@ public abstract class ControllerState {
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      * @see Choice
+     *
+     * @throws WrongInputDataException if the input choice is wrong
      */
-    public abstract void insertUserInputIntoModel(Choice playerChoice);
+    public abstract void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException;
 
     /**
      * This method implementations allows to send
@@ -85,8 +91,14 @@ public abstract class ControllerState {
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
      *
+     * @throws TODO
      */
-    public abstract void addPlayer(String nickname);
+    public abstract void addPlayer(String nickname) throws LobbyIsFullException;
+
+    /*
+    * TODO
+    */
+    public abstract void tryToResumeGame();
 
     /**
      * Permits to set the number of active players in the current {@code Game}.
@@ -109,6 +121,12 @@ public abstract class ControllerState {
      */
     public abstract void startGame();
 
+    /*
+    * TODO
+    */
+    public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
+
+
     /**
      * The implementation of this method in the different states
      * enacts the disconnection of a {@code Player}.
@@ -120,4 +138,6 @@ public abstract class ControllerState {
      * @see OnGoingState#disconnectPlayer(String)
      */
     public abstract void disconnectPlayer(String nickname);
+
+    public abstract void restoreGameForPlayer(GameListener server, String nickname);
 }

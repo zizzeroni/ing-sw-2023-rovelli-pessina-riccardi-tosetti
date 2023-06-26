@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.EightShapelessPatternGoalView;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class EightShapelessPatternGoal extends CommonGoal {
         super();
     }
 
+<<<<<<< HEAD
     /**
      *
      * Class constructor with parameters.
@@ -73,6 +76,25 @@ public class EightShapelessPatternGoal extends CommonGoal {
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
       */
+=======
+    public EightShapelessPatternGoal(int id, int patternRepetition, CheckType type) {
+        super(id, patternRepetition, type);
+    }
+
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+    }
+
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+    }
+
+    /*
+    Control if there are 8 tiles of the same colour
+    @param bookshelf contains the bookshelf of the player
+    @return true if I found 8 same colour tiles, otherwise false
+     */
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Transform the bookshelf in a Stream of tiles' ARRAYS
@@ -83,6 +105,7 @@ public class EightShapelessPatternGoal extends CommonGoal {
                 .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
 
+<<<<<<< HEAD
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
@@ -90,10 +113,16 @@ public class EightShapelessPatternGoal extends CommonGoal {
      *
      * @see CommonGoal
      */
+=======
+    /*
+    @return an immutable copy of the common goal
+    */
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
     }
+<<<<<<< HEAD
 
     /**
      * Redefine the equals method to allow a compare based on the EightShapelessPatternGoal.
@@ -110,4 +139,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
         }
         return false;
     }
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }

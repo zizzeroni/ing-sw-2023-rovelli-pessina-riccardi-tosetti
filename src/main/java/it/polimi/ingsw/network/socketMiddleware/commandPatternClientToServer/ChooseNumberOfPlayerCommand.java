@@ -116,6 +116,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:ChooseNumberOfPlayers, Parameters:{NumberOfPlayers: " + this.numberOfPlayers + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{NumberOfPlayers: " + this.numberOfPlayers + "}]";
     }
 }

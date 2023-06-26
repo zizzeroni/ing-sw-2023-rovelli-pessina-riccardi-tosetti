@@ -53,8 +53,7 @@ public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
                 "The tiles of one group can be different from those of another group. \n");
 
         for (int i = 0; i < getConsecutiveTiles(); i++) {
-            sendBack.append("[ "+ TileColor.BLUE+ " ]\n");
-
+            sendBack.append("[ " + TileColor.BLUE + " ]\n");
         }
         return sendBack.toString();
     }

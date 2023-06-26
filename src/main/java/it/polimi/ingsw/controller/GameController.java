@@ -1,18 +1,23 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class implements the ViewListener, representing the actual {@code GameController}.
@@ -28,8 +33,9 @@ import java.util.Random;
  * @see Game
  * @see GameController#state
  */
-public class GameController implements ViewListener {
-    private final Game model;
+public class GameController {
+    //private ModelListener listener;
+    private Game model;
     private ControllerState state;
     private List<PersonalGoal> personalGoalsDeck;
     private List<JsonBoardPattern> boardPatterns;
@@ -89,7 +95,6 @@ public class GameController implements ViewListener {
     /**
      * Change the turn in the context of the present {@code State}.
      */
-    @Override
     public void changeTurn() {
         state.changeTurn();
     }
@@ -104,9 +109,10 @@ public class GameController implements ViewListener {
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
+     * 
+     * @throws TODO
      */
-    @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         state.insertUserInputIntoModel(playerChoice);
     }
 
@@ -124,7 +130,6 @@ public class GameController implements ViewListener {
      * @see Player#getNickname()
      * @see Message#messageType()
      */
-    @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
         state.sendPrivateMessage(receiver, sender, content);
     }
@@ -142,7 +147,6 @@ public class GameController implements ViewListener {
      * @see Player#getNickname()
      * @see Message#messageType()
      */
-    @Override
     public void sendBroadcastMessage(String sender, String content) {
         state.sendBroadcastMessage(sender, content);
     }
@@ -162,10 +166,18 @@ public class GameController implements ViewListener {
      *
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
+     * 
+     * @throws TODO
      */
-    @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
+    }
+
+    /*
+    * TODO
+    */
+    public void tryToResumeGame() {
+        state.tryToResumeGame();
     }
 
     /**
@@ -205,6 +217,13 @@ public class GameController implements ViewListener {
         state.startGame();
     }
 
+    /*
+    * TODO
+    */
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        state.checkExceedingPlayer(chosenNumberOfPlayers);
+    }
+
     /** Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
@@ -216,7 +235,6 @@ public class GameController implements ViewListener {
      * @see Game
      * @see Player#setConnected(boolean)
      */
-    @Override
     public void disconnectPlayer(String nickname) {
         System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
@@ -234,6 +252,11 @@ public class GameController implements ViewListener {
      */
     public Game getModel() {
         return this.model;
+    }
+
+    public void setModel(Game model) {
+        this.model = model;
+        //this.listener.gameRestored();
     }
 
     /**
@@ -275,6 +298,10 @@ public class GameController implements ViewListener {
         personalGoalsDeck.add(personalGoal);
     }
 
+    public List<PersonalGoal> getPersonalGoalsDeck() {
+        return personalGoalsDeck;
+    }
+
     /**
      * Getter to access the size of the deck of personal goals available.
      *
@@ -307,5 +334,73 @@ public class GameController implements ViewListener {
      */
     public Random getRandomizer() {
         return randomizer;
+    }
+
+    /**
+     * Method to check if there are stored games for the given nickname.
+     *
+     * @return if there are stored games.
+     */
+    public boolean areThereStoredGamesForPlayer(String playerNickname) {
+        String gamesPath = "src/main/resources/storage/games.json";
+        this.model.createGameFileIfNotExist(gamesPath);
+        Game[] games = this.getStoredGamesFromJson();
+
+        if (games == null || games.length == 0) return false;
+
+        Game storedCurrentGame = this.getStoredGameForPlayer(playerNickname, games);
+
+        return storedCurrentGame != null;
+    }
+
+
+    /**
+     * Method to get all the stored games from the local json file.
+     *
+     * @return all stored games.
+     */
+    private Game[] getStoredGamesFromJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
+        String gamesPath = "src/main/resources/storage/games.json";
+        Path source = Paths.get(gamesPath);
+        Game[] games;
+
+        try {
+            fileReader = Files.newBufferedReader(source);
+
+            games = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return games;
+    }
+
+    /**
+     * Method to get the stored game for the given nickname.
+     *
+     * @return the stored game.
+     */
+    private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
+        List<Game> games = Arrays.asList(gamesAsArray);
+
+        //use hash set in filter to increase performance
+        return games.stream()
+                .filter(game -> new HashSet<>(
+                        game.getPlayers().stream()
+                                .map(Player::getNickname).toList())
+                        .contains(playerNickname))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Method to restore stored games.
+     */
+    public void restoreGameForPlayer(GameListener server, String playerNickname) {
+        state.restoreGameForPlayer(server, playerNickname);
     }
 }

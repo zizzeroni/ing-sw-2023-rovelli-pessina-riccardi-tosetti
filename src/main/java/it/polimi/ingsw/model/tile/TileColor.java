@@ -32,21 +32,15 @@ public enum TileColor {
         return stringBuilder.append(ansi().fg(color).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
     }
 
+<<<<<<< HEAD
     /**
      * Defines a string associated to the colored text for the GUI's representation.
      *
      * @return the string used to represent the color text associated to the Tile.
      */
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public String toGUI() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Ansi.Color color;
-
-        switch (this) {
-            case BLUE, GREEN, CYAN, YELLOW, WHITE -> color = Ansi.Color.valueOf(this.name());
-            case PURPLE -> color = Ansi.Color.MAGENTA;
-            default -> color = Ansi.Color.DEFAULT;
-        }
-
-        return stringBuilder.append(this.name().charAt(0)).toString();
+        return String.valueOf(this.name().charAt(0));
     }
 }

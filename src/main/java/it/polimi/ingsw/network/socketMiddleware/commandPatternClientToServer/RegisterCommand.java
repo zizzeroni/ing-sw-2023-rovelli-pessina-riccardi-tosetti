@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
+<<<<<<< HEAD
 /**
  * This class represents the command that enables registration of the {@code Player}.
  * It is developed as an implementation of the {@code CommandToServer} interface.
@@ -14,6 +15,9 @@ import java.rmi.RemoteException;
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Player
  */
+=======
+//TODO: Chiedere se tenerla anche se non utilizzata attualmente nel progetto
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 public class RegisterCommand implements CommandToServer {
     private Server actuator;
     private String nickname;
@@ -99,7 +103,7 @@ public class RegisterCommand implements CommandToServer {
      */
     @Override
     public CommandType toEnum() {
-        return null;
+        return CommandType.REGISTER;
     }
 
     /**
@@ -111,7 +115,7 @@ public class RegisterCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:Register, Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
     }
 }
 

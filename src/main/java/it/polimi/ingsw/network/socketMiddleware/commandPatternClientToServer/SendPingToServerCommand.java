@@ -63,8 +63,11 @@ public class SendPingToServerCommand implements CommandToServer {
      * @throws RemoteException
      */
     public void execute() throws NullPointerException, RemoteException {
-        //System.out.println("ping sended from the client");
-        //Do nothing, you just received a ping message...
+        if (this.actuator != null) {
+            this.actuator.ping();
+        } else {
+            throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"ping()\" command because this.actuator is NULL");
+        }
     }
 
     /**
@@ -88,6 +91,6 @@ public class SendPingToServerCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:UI, CommandType:NONE, Parameters:NONE]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters: NONE]";
     }
 }

@@ -123,6 +123,6 @@ public class InsertUserInputCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:InsertUserInput, Parameters:{PlayerChoice: " + this.playerChoice + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{PlayerChoice: " + this.playerChoice + "}]";
     }
 }

@@ -81,6 +81,6 @@ public class StartGameCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:StartGame, Parameters:NONE]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters: NONE]";
     }
 }

@@ -44,7 +44,7 @@ public class PlayerView implements Serializable {
         this.connected = playerModel.isConnected();
         this.personalGoal = new PersonalGoalView(playerModel.getPersonalGoal());
         this.scoreTiles = new ArrayList<>();
-        for (ScoreTile scoreTile : playerModel.getGoalTiles()) {
+        for (ScoreTile scoreTile : playerModel.getScoreTiles()) {
             this.scoreTiles.add(new ScoreTileView(scoreTile));
         }
         this.bookshelf = new BookshelfView(playerModel.getBookshelf());
@@ -64,10 +64,14 @@ public class PlayerView implements Serializable {
         return this.personalGoal;
     }
 
+<<<<<<< HEAD
     /**
      * @return
      */
     public List<ScoreTileView> getGoalTiles() {
+=======
+    public List<ScoreTileView> getScoreTiles() {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.scoreTiles;
     }
 

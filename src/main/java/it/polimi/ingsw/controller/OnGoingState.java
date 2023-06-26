@@ -1,9 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +26,7 @@ import java.util.List;
  * @see Game
  */
 public class OnGoingState extends ControllerState {
+
     public OnGoingState(GameController controller) {
         super(controller);
     }
@@ -36,6 +42,7 @@ public class OnGoingState extends ControllerState {
             this.refillBoard();
         }
         changeActivePlayer();
+        this.controller.getModel().saveGame();
     }
 
     /**
@@ -64,17 +71,17 @@ public class OnGoingState extends ControllerState {
      */
     private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            model.setActivePlayerIndex(0);
+        if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
+            this.controller.changeState(new InPauseState(this.controller));
+            this.controller.getModel().setGameState(InPauseState.toEnum());
         } else {
-            model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
-        }
-
-        if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
-            if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> !connected).count() == model.getPlayers().size() - 1) {
-                //TODO: Implement PauseState for the game controller
-                System.out.println("Game in pausa");
+            if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
+                model.setActivePlayerIndex(0);
             } else {
+                model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
+            }
+
+            if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
                 this.changeActivePlayer();
             }
         }
@@ -92,31 +99,31 @@ public class OnGoingState extends ControllerState {
      * @see ControllerState#insertUserInputIntoModel(Choice)
      */
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         Game model = this.controller.getModel();
         Player currentPlayer = model.getPlayers().get(model.getActivePlayerIndex());
         if (checkIfUserInputIsCorrect(playerChoice)) {
             removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[INPUT:ERROR]: User data not correct");
+            throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
         }
 
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
             int finalI = i;
             if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
-                    && currentPlayer.getGoalTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
+                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
                 currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
-                currentPlayer.getGoalTiles().get(i).setPlayerID(model.getActivePlayerIndex());
+                currentPlayer.getScoreTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }
         }
 
         if (this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf().isFull()) {
-            currentPlayer.setSingleScoreTile(new ScoreTile(1, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
+            currentPlayer.setSingleScoreTile(new ScoreTile(OptionsValues.WINNING_TILE_VALUE, model.getActivePlayerIndex(), model.getCommonGoals().size()), model.getCommonGoals().size());
             this.controller.changeState(new FinishingState(this.controller));
             this.controller.getModel().setGameState(FinishingState.toEnum());
         } else {
-            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the model updated.
+            //Necessary because we ALWAYS need a feedback to the client in order to wait client-side for the updated model.
             //Without this else we would receive only ONE time a notification that tell us that the state has changed, and we can't know when this will happen client-side
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         }
@@ -197,9 +204,10 @@ public class OnGoingState extends ControllerState {
         Tile[][] boardMatrix = board.getTiles();
 
         return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
-                (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
-                        (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
-                        (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 ||
+                        (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+                        (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                        (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                         (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
@@ -292,9 +300,18 @@ public class OnGoingState extends ControllerState {
      * @param nickname is the nickname of the previously disconnected {@code Player}.
      */
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
+    }
+
+    @Override
+    public void tryToResumeGame() {
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
     /**
      * In this implementation it is referred to the ON_GOING state.
@@ -308,6 +325,11 @@ public class OnGoingState extends ControllerState {
      * In this implementation it is referred to the ON_GOING state.
      * It falls unused.
      */
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        //Game is going, so do nothing...
+    }
+
     @Override
     public void startGame() {
         //Game is going, so do nothing...
@@ -327,10 +349,24 @@ public class OnGoingState extends ControllerState {
     public void disconnectPlayer(String nickname) {
         Game model = this.controller.getModel();
         model.getPlayerFromNickname(nickname).setConnected(false);
-        if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
-            this.changeActivePlayer();
+
+        if (model.getPlayers().size() == model.getPlayers().stream().filter(player -> !player.isConnected()).count()) {
+            this.controller.getModel().setGameState(GameState.RESET_NEEDED);
+        } else {
+            if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
+                this.changeActivePlayer();
+            } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
+                this.controller.changeState(new InPauseState(this.controller));
+                this.controller.getModel().setGameState(InPauseState.toEnum());
+            }
         }
     }
+
+    @Override
+    public void restoreGameForPlayer(GameListener server, String nickname) {
+        //Game is going, so do nothing...
+    }
+
     /**
      * Returns the current {@code State} of the {@code Game}.
      *

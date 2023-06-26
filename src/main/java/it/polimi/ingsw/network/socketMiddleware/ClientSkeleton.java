@@ -1,15 +1,12 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.network.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.AddPlayerCommand;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.CommandToClient;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendExceptionCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendPingToClientCommand;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.SendUpdatedModelCommand;
+import it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,12 +42,12 @@ public class ClientSkeleton implements Client {
         try {
             this.oos = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
+            throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream.", e);
         }
         try {
             this.ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
+            throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream.", e);
         }
     }
 
@@ -67,8 +64,9 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
         }
     }
 
@@ -84,8 +82,9 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendPingToClientCommand();
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
         }
     }
 
@@ -102,11 +101,24 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendExceptionCommand(exception);
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " to client.", e);
+        }
+    }
+
+    @Override
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+        CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
+        try {
+            this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());
         }
     }
 
+<<<<<<< HEAD
     /*@Override
     public void receiveException(RemoteException exception) throws RemoteException {
         CommandToClient command = new SendExceptionCommand(exception);
@@ -125,17 +137,20 @@ public class ClientSkeleton implements Client {
      *
      * @see Server
      */
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
         try {
             System.out.println("Ready to receive (from Client)");
             message = (CommandToServer) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from client.", e);
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the client.", e);
         }
         message.setActuator(server);
+<<<<<<< HEAD
         if (message.toEnum() == CommandType.ADD_PLAYER) {
             AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
             convertedMessage.setClient(this);
@@ -154,14 +169,18 @@ public class ClientSkeleton implements Client {
      * @see Server
      */
     public String receiveNickname(Server server) throws RemoteException {
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         try {
-            String nickname = (String) this.ois.readObject();
-            return nickname;
-        } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message: " + e.getMessage());
+            if (message.toEnum() == CommandType.ADD_PLAYER) {
+                AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
+                convertedMessage.setClient(this);
+                convertedMessage.execute();
+            } else {
+                message.execute();
+            }
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
         }
-
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.exceptions;
+package it.polimi.ingsw.model.exceptions;
 
 /**
  * This class is used to represent the GENERIC {code ExceptionType}.

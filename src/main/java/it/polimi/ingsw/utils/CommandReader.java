@@ -12,7 +12,6 @@ import java.util.Scanner;
  * @see it.polimi.ingsw.view.GUI
  */
 public class CommandReader extends Thread {
-
     private final Scanner scanner = new Scanner(System.in);
     public final static CommandQueue chatCommandQueue;
     public final static CommandQueue standardCommandQueue;

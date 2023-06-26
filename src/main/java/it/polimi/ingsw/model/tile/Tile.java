@@ -6,16 +6,17 @@ package it.polimi.ingsw.model.tile;
  */
 public class Tile {
     private TileColor color;
-    private int imageID;
+    private int id;
 
     /**
      * Constructor of the class, sets tile color and id to default values.
      */
     public Tile() {
         this.color = null;
-        this.imageID = 0;
+        this.id = 0;
     }
 
+<<<<<<< HEAD
     /**
      * Constructor of the class, assigns {@code Tile}'s
      * color and id (passed as parameters).
@@ -26,10 +27,14 @@ public class Tile {
      * @see Tile
      */
     public Tile(TileColor color, int imageID) {
+=======
+    public Tile(TileColor color, int id) {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.color = color;
-        this.imageID = imageID;
+        this.id = id;
     }
 
+<<<<<<< HEAD
     /**
      * Getter used to access {@code Tile}'s image identifier.
      *
@@ -50,6 +55,14 @@ public class Tile {
      */
     public void setImageID(int imageID) {
         this.imageID = imageID;
+=======
+    public int getId() {
+        return this.id;
+    }
+
+    public void setid(int id) {
+        this.id = id;
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 
     /**

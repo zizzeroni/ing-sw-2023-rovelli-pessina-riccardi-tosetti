@@ -122,6 +122,6 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:SendBroadcastMessage, Parameters:{Sender:" + this.sender + "; Content:" + this.content + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Sender: " + this.sender + "; Content: " + this.content + "}]";
     }
 }

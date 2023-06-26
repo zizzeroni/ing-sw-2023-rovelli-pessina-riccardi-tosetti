@@ -62,8 +62,9 @@ public class ServerStub implements Server {
         CommandToServer message = new ChangeTurnCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -92,26 +93,11 @@ public class ServerStub implements Server {
         CommandToServer message = new InsertUserInputCommand(playerChoice);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
-        try {
-            this.semaphoreUpdate.acquire();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //Necessary for how we implemented the adding of the tiles to the player's bookshelf
-        //We add one tile at a time, this brings the Model (Bookshelf) to notify the Server a number of times equals to the number of tile chosen by the User
-        for (int i = 0; i < playerChoice.getChosenTiles().size(); i++) {
-            try {
-                this.semaphoreUpdate.acquire();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        //Necessary because at the end of the game I receive the notification that the game passed from ON_GOING state to the FINISHING state
         try {
             this.semaphoreUpdate.acquire();
         } catch (InterruptedException e) {
@@ -140,10 +126,10 @@ public class ServerStub implements Server {
         CommandToServer message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
-
 
         try {
             this.semaphoreUpdate.acquire();
@@ -170,8 +156,10 @@ public class ServerStub implements Server {
         CommandToServer message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e)
+                    ;
         }
 
         try {
@@ -200,8 +188,9 @@ public class ServerStub implements Server {
         CommandToServer message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -211,6 +200,7 @@ public class ServerStub implements Server {
         }
     }
 
+<<<<<<< HEAD
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
      * through the knowledge of the nickname he has chosen during game creation and the client
@@ -224,12 +214,17 @@ public class ServerStub implements Server {
      * @see Player
      */
     public void addPlayer(String nickname) throws RemoteException {
+=======
+    @Override
+    public void tryToResumeGame() throws RemoteException {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.semaphoreUpdate.drainPermits();
-        CommandToServer message = new AddPlayerCommand(nickname);
+        CommandToServer message = new TryToResumeGameCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -237,7 +232,6 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
@@ -256,8 +250,9 @@ public class ServerStub implements Server {
         CommandToServer message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -281,8 +276,9 @@ public class ServerStub implements Server {
         CommandToServer message = new StartGameCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
         }
 
         try {
@@ -290,13 +286,6 @@ public class ServerStub implements Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        try {
-            this.semaphoreUpdate.acquire();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("Valore permit semaphore: " + this.semaphoreUpdate.availablePermits());
     }
 
     /**
@@ -316,15 +305,15 @@ public class ServerStub implements Server {
             try {
                 this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create output stream.", e);
             }
             try {
                 this.ois = new ObjectInputStream(this.socket.getInputStream());
             } catch (IOException e) {
-                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream: " + e.getMessage());
+                throw new RemoteException("[RESOURCE:ERROR] Cannot create input stream.", e);
             }
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while connection to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while creating socket connection to server.", e);
         }
     }
 
@@ -342,8 +331,9 @@ public class ServerStub implements Server {
         CommandToServer command = new SendPingToServerCommand();
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
         }
     }
 
@@ -365,11 +355,47 @@ public class ServerStub implements Server {
         CommandToServer command = new DisconnectPlayerCommand(nickname);
         try {
             this.oos.writeObject(command);
+            this.oos.reset();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
         }
     }
 
+    @Override
+    public void restoreGameForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new RestoreStoredGameCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+        this.semaphoreUpdate.drainPermits();
+        CommandToServer command = new AreThereStoredGamesForPlayerCommand(nickname);
+
+        try {
+            this.oos.writeObject(command);
+        } catch (IOException e) {
+            throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
+        }
+
+        try {
+            this.semaphoreUpdate.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Receives (and provides a response) to client's messages.
@@ -385,12 +411,16 @@ public class ServerStub implements Server {
             //System.out.println("Ready to receive (from Server)");
             command = (CommandToClient) this.ois.readObject();
         } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from server.", e);
         } catch (ClassNotFoundException e) {
-            throw new RemoteException("[RESOURCE:ERROR] Cannot cast modelView: " + e.getMessage());
+            throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the server.", e);
         }
         command.setActuator(client);
-        command.execute();
+        try {
+            command.execute();
+        } catch (NullPointerException e) {
+            throw new RemoteException("Error while executing command.", e);
+        }
 
         if (command.toEnum() != CommandType.SEND_PING_TO_CLIENT) {
             this.semaphoreUpdate.release();

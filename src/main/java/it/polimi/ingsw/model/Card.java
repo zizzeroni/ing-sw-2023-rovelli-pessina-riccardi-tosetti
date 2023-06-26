@@ -12,24 +12,24 @@ import it.polimi.ingsw.model.tile.Tile;
  * @see Bookshelf
  */
 public abstract class Card {
-    private int imageID;
+    private int id;
 
     /**
      * Class constructor.
      * Initialize the single card.
      */
     public Card() {
-        this.imageID = 0;
+        this.id = 0;
     }
 
     /**
      * Class constructor.
-     * Initialize the card's image.
+     * Initialize the card's id.
      *
-     * @param imageID the card's image.
+     * @param id the card's id.
      */
-    public Card(int imageID) {
-        this.imageID = imageID;
+    public Card(int id) {
+        this.id = id;
     }
 
     /**
@@ -48,8 +48,8 @@ public abstract class Card {
      *
      * @return the {@code Card}'s imageID.
      */
-    public int getImageID() {
-        return this.imageID;
+    public int getId() {
+        return this.id;
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class Card {
      *
      * @param imageID is the image identifier of the considered card.
      */
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
+    public void setId(int id) {
+        this.id = id;
     }
 }

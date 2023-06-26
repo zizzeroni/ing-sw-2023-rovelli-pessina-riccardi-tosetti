@@ -157,6 +157,7 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
+<<<<<<< HEAD
     /**
      * Gets the goal {@code Tile}s list.
      *
@@ -180,6 +181,13 @@ public class Player {
      * @see Tile
      */
     public void setGoalTiles(List<ScoreTile> scoreTiles) {
+=======
+    public List<ScoreTile> getScoreTiles() {
+        return this.scoreTiles;
+    }
+
+    public void setScoreTiles(List<ScoreTile> scoreTiles) {
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.scoreTiles = scoreTiles;
     }
 
@@ -239,11 +247,12 @@ public class Player {
      */
     public void setConnected(boolean connected) {
         this.connected = connected;
-        if (listener != null) {
+        if (listener != null && this.connected) {
             listener.playerHasReconnected();
         }
     }
 
+<<<<<<< HEAD
 
     /**
      * Adds the given {@code ScoreTile} to the player's list of score {@code Tile}s.
@@ -253,6 +262,8 @@ public class Player {
      * @see Tile
      * @see ScoreTile
      */
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public void addScoreTile(ScoreTile tile) {
         this.scoreTiles.add(tile);
     }
@@ -302,6 +313,7 @@ public class Player {
             listener.chatUpdated();
         }
     }
+<<<<<<< HEAD
 
 
     /**
@@ -312,4 +324,6 @@ public class Player {
     public List<Message> getChat(){
         return chat;
     }
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }

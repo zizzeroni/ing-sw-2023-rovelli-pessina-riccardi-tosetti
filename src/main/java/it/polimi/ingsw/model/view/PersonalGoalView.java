@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.view;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.PersonalGoal;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 
@@ -22,6 +23,7 @@ public class PersonalGoalView implements Serializable {
     private final int numberOfColumns;
     private final int numberOfRows;
     private final TileView[][] pattern;
+    private final int id;    //Attribute from Card class, of which we don't have a "View" class
 
     /**
      * Class constructor.
@@ -37,6 +39,7 @@ public class PersonalGoalView implements Serializable {
         this.numberOfColumns = personalGoalModel.getNumberOfColumns();
         this.numberOfRows = personalGoalModel.getNumberOfRows();
         this.pattern = new TileView[personalGoalModel.getNumberOfRows()][personalGoalModel.getNumberOfColumns()];
+        this.id = personalGoalModel.getId();
         for (int row = 0; row < personalGoalModel.getNumberOfRows(); row++) {
             for (int column = 0; column < personalGoalModel.getNumberOfColumns(); column++) {
                 this.pattern[row][column] = (personalGoalModel.getSingleTile(row, column) != null ? new TileView(personalGoalModel.getSingleTile(row, column)) : null);
@@ -44,6 +47,7 @@ public class PersonalGoalView implements Serializable {
         }
     }
 
+<<<<<<< HEAD
     /**
      * Getter that returns the number of columns
      * in the {@code Bookshelf}.
@@ -52,6 +56,12 @@ public class PersonalGoalView implements Serializable {
      *
      * @see Bookshelf
      */
+=======
+    public int getId() {
+        return this.id;
+    }
+
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public int getNumColumns() {
         return this.numberOfColumns;
     }
@@ -137,28 +147,28 @@ public class PersonalGoalView implements Serializable {
     public int score(BookshelfView bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
-                return 0;
+                return OptionsValues.PERSONAL_GOAL_ZERO_TILE_SCORE;
             }
             case 1 -> {
-                return 1;
+                return OptionsValues.PERSONAL_GOAL_ONE_TILE_SCORE;
             }
             case 2 -> {
-                return 2;
+                return OptionsValues.PERSONAL_GOAL_TWO_TILE_SCORE;
             }
             case 3 -> {
-                return 4;
+                return OptionsValues.PERSONAL_GOAL_THREE_TILE_SCORE;
             }
             case 4 -> {
-                return 6;
+                return OptionsValues.PERSONAL_GOAL_FOUR_TILE_SCORE;
             }
             case 5 -> {
-                return 9;
+                return OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE;
             }
             case 6 -> {
-                return 12;
+                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
             default -> {
-                return 12;
+                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
         }
     }

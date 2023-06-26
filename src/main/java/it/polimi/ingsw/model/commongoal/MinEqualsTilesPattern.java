@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternView;
+import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternGoalView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +27,13 @@ public class MinEqualsTilesPattern extends CommonGoal {
     //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
 
+<<<<<<< HEAD
     /**
      * Class constructor without parameters.
      * Builds a MinEqualsTilesPattern.
      */
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     //Constructors
     public MinEqualsTilesPattern() {
         super();
@@ -37,6 +41,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = 0;
     }
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
@@ -49,10 +54,15 @@ public class MinEqualsTilesPattern extends CommonGoal {
      */
     public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
         super(imageID, patternRepetition, type);
+=======
+    public MinEqualsTilesPattern(int id, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
+        super(id, patternRepetition, type);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
+<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
@@ -68,16 +78,29 @@ public class MinEqualsTilesPattern extends CommonGoal {
      */
     public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+=======
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
+<<<<<<< HEAD
     /**
      * Gets the directions that is used to retrieve the pattern.
      *
      * @return contains the directions that is used for the pattern representation.
      *
      */
+=======
+    public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, Direction direction, int maxEqualsTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+        this.direction = direction;
+        this.maxEqualsTiles = maxEqualsTiles;
+    }
+
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     //Get/Set method
     public Direction getDirection() {
         return this.direction;
@@ -179,6 +202,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         return patternAppearances;
     }
 
+<<<<<<< HEAD
     /**
      * This method is used to verify the CheckType of the {@code Tile}s.
      *
@@ -189,6 +213,10 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @throws Exception if the considered CheckType does not exist.
      *
      * @see it.polimi.ingsw.model.tile.Tile
+=======
+    /*
+    @
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
      */
     private boolean confrontEqualsDifferentTiles(int numberOfEqualTiles, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
@@ -208,6 +236,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
+<<<<<<< HEAD
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
@@ -235,5 +264,14 @@ public class MinEqualsTilesPattern extends CommonGoal {
                     && this.getType() == obj.getType();
         }
         return false;
+=======
+
+    /*
+    @return an immutable copy of the common goal
+    */
+    @Override
+    public CommonGoalView copyImmutable() {
+        return new MinEqualsTilesPatternGoalView(this);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 }

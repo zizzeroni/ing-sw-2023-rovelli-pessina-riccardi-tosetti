@@ -144,6 +144,6 @@ public class AddPlayerCommand implements CommandToServer {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:GameController, CommandType:AddPlayer, Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
+        return "[CommandReceiver:Server, CommandType:" + this.toEnum() + ", Parameters:{Client: " + this.client + ",Nickname: " + this.nickname + "}]";
     }
 }

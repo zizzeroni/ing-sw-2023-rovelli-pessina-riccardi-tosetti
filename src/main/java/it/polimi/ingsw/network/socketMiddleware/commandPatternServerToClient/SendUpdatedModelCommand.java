@@ -97,6 +97,6 @@ public class SendUpdatedModelCommand implements CommandToClient {
      */
     @Override
     public String toString() {
-        return "[CommandReceiver:UI, CommandType:updateModelView, Parameters:{modelUpdated: " + this.updatedModel + "}]";
+        return "[CommandReceiver:Client, CommandType:" + this.toEnum() + ", Parameters:{updatedModel: " + this.updatedModel + "}]";
     }
 }

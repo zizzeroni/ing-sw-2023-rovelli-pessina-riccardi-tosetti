@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
 
+<<<<<<< HEAD
 /**
  * This class is used to represent those objects that contains the number of {@code Tile}s
  * that must be consecutive for making a point considering the pattern of the goal.
@@ -12,19 +14,28 @@ import it.polimi.ingsw.model.view.commongoal.ConsecutiveTilesPatternGoalView;
  * @see it.polimi.ingsw.model.tile.Tile
  * @see CommonGoal
  */
+=======
+import java.util.List;
+
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 public class ConsecutiveTilesPatternGoal extends CommonGoal {
 
     private final int consecutiveTiles;
 
+<<<<<<< HEAD
     /**
      * Constructor of the class in the implementation with no parameters.
      * Builds a ConsecutiveTilesPatternGoal with no type, ID, ...
      */
+=======
+    //Constructors
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public ConsecutiveTilesPatternGoal() {
         super();
         this.consecutiveTiles = 0;
     }
 
+<<<<<<< HEAD
     /**
      *
      * Constructor of the class in the implementation with parameters.
@@ -55,6 +66,20 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      */
     public ConsecutiveTilesPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int consecutiveTiles) {
         super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+=======
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type);
+        this.consecutiveTiles = consecutiveTiles;
+    }
+
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.consecutiveTiles = consecutiveTiles;
+    }
+
+    public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, int consecutiveTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.consecutiveTiles = consecutiveTiles;
     }
 
@@ -65,6 +90,7 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      * then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
      * <p>
      * In the second part we count the number of different groups when the counter of the tiles in a group is
+<<<<<<< HEAD
      * at least the minimum number of consecutive tiles of the pattern goal.
      *
      * @param bookshelf contains the bookshelf of the player
@@ -72,6 +98,12 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf
+=======
+     * at least the minimum number of consecutive tiles of the pattern goal
+     *
+     * @param bookshelf contains the bookshelf of the player
+     * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
@@ -151,25 +183,36 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         }
     }
 
+<<<<<<< HEAD
     /**
      * Getter method to access the consecutiveTiles attribute.
      *
      * @return the value associated to consecutiveTiles.
      */
 
+=======
+    //Get method
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public int getConsecutiveTiles() {
         return this.consecutiveTiles;
     }
 
+<<<<<<< HEAD
     /**
      * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the ConsecutiveTilesPatternGoal.
      */
+=======
+    /*
+    @return an immutable copy of the common goal
+    */
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public CommonGoalView copyImmutable() {
         return new ConsecutiveTilesPatternGoalView(this);
     }
+<<<<<<< HEAD
 
     /**
      * Redefines the 'equals' method to apply it when considering consecutiveTiles.
@@ -187,4 +230,6 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         }
         return false;
     }
+=======
+>>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }

@@ -60,7 +60,6 @@ public class ChatThread extends Thread {
                 String command = CommandReader.chatCommandQueue.waitAndGetFirstCommandAvailable();
 
                 switch (command.split(" ")[0]) {
-                    //use controller to call server
                     case "/all" -> {
                         String[] commandAndContent = command.split(" ", 2);
                         if (commandAndContent.length > 1) {
@@ -70,11 +69,16 @@ public class ChatThread extends Thread {
                         }
                     }
                     case "/private" -> {
-                        String[] commandReceiverAndContent = command.split(" ", 2);
+                        String[] commandReceiverAndContent = command.split(" ", 3);
                         if (commandReceiverAndContent.length > 2) {
                             String receiver = commandReceiverAndContent[1];
-                            String content = commandReceiverAndContent[2];
-                            this.controller.sendPrivateMessage(receiver, this.nickname, content);
+
+                            if(this.gameView.isPlayerInGame(receiver)) {
+                                String content = commandReceiverAndContent[2];
+                                this.controller.sendPrivateMessage(receiver, this.nickname, content);
+                            } else {
+                                System.out.println("There are no players named " + receiver + " in this game");
+                            }
                         } else if (commandReceiverAndContent.length > 1) {
                             System.err.println("Can't send private messages without content!");
                         } else {
@@ -93,7 +97,7 @@ public class ChatThread extends Thread {
                         }
                     }
                     default ->
-                            throw new Exception("Command not recognized: chat behaviour is handled only for broadcast and private messages");
+                            throw new Exception("Chat command not recognized");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -111,6 +115,7 @@ public class ChatThread extends Thread {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }

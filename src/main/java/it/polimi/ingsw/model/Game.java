@@ -1,16 +1,23 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -70,14 +77,11 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = null;
         this.numberOfPlayersToStartGame = 0;
-        this.bag = new ArrayList<>(132);
-        this.commonGoals = new ArrayList<>(2);
-        for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
-        }
+        int numberOfTilesInBag = OptionsValues.BAG_SIZE;
+        this.bag = new ArrayList<>(numberOfTilesInBag);
+        this.commonGoals = new ArrayList<>(OptionsValues.NUMBER_OF_COMMON_GOAL);
+        this.initializeBag(numberOfTilesInBag);
         this.board = new Board();
-
-        Collections.shuffle(this.bag);
 
     }
 
@@ -91,37 +95,22 @@ public class Game {
         this.activePlayerIndex = 0;
         this.board = new Board(boardPattern);
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
-        this.bag = new ArrayList<>(132);
+        int numberOfTilesInBag = OptionsValues.BAG_SIZE;
+        this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>();
-
-        //initialize bag and shuffle items
-        for (int i = 0; i < 132; i++) {
-            this.bag.add(new Tile(TileColor.values()[i % 6]));
-        }
+        this.initializeBag(numberOfTilesInBag);
 
         Collections.shuffle(personalGoals);
 
         //initialize players
         for (Player player : this.players) {
             player.setBookshelf(new Bookshelf());
-            player.setGoalTiles(new ArrayList<>(3));
+
+            player.setScoreTiles(new ArrayList<>(OptionsValues.NUMBER_OF_SCORE_TILE));
+
             player.setPersonalGoal(personalGoals.remove(0));
         }
 
-        /*
-        //initialize common goals
-        CommonGoal newCommonGoal;
-        while (this.commonGoals.size() != 2) {
-            try {
-                newCommonGoal = this.getRandomCommonGoalSubclassInstance();
-                if (!this.commonGoals.contains(newCommonGoal)) {
-                    this.commonGoals.add(newCommonGoal);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        */
         Collections.shuffle(this.bag);
 
         List<Tile> drawnTiles = this.bag.subList(0, this.board.numberOfTilesToRefill());
@@ -172,7 +161,7 @@ public class Game {
      *
      * @see Game
      */
-    public void setGameState(GameState gameState) {
+    public synchronized void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
             this.listener.gameStateChanged();
@@ -229,7 +218,7 @@ public class Game {
      */
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
-        this.saveGame();
+
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
         } else {
@@ -358,7 +347,7 @@ public class Game {
     }
 
     private boolean isPaused() {
-        return this.connectedPlayers().size() == 1;
+        return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
     /**
@@ -391,6 +380,24 @@ public class Game {
                 .orElse(null);
     }
 
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
+    }
+    public void createGameFileIfNotExist(String gamesPath){
+        //create a new empty games file if it does not exist
+        File gamesFile = new File(gamesPath);
+
+        try {
+            if (gamesFile.createNewFile()) {
+                System.out.println("Games' storage file created correctly");
+            } else {
+                System.out.println("Games' storage file already exists, skipping creation");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Method used to save the current state of the {@code Game}.
      * The state is stored in a json file. BY saving
@@ -402,31 +409,77 @@ public class Game {
      * @see Player
      */
     public void saveGame() {
-        Gson gson = new Gson();
+        //there is no need to store games in different files or handle simultaneous access to the file because there
+        //are no cases in which this method is called from different games (multi game is not available) neither the
+        //file is accessed while saving and vice-versa
+
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
+        Gson gson = gsonBuilder.create();
+        Reader fileReader;
         FileWriter fileWriter;
+        String gamesPath = "src/main/resources/storage/games.json";
+        String gamesBkpPath = "src/main/resources/storage/games-bkp.json";
+        Path source = Paths.get(gamesPath);
+        List<Game> games;
+
         try {
-            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-            gson.toJson(this, fileWriter);
+            this.createGameFileIfNotExist(gamesPath);
+            //make a backup of the stored games in case something goes wrong during the saving
+            Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
+
+            fileReader = Files.newBufferedReader(source);
+
+            Game[] gamesAsArray = gson.fromJson(fileReader, Game[].class);
+            fileReader.close();
+
+            fileWriter = new FileWriter(gamesPath);
+            if (gamesAsArray == null) gamesAsArray = new Game[0];
+            games = new ArrayList<>(Arrays.asList(gamesAsArray));
+
+            if (!games.isEmpty()) {
+                //use hash set in filter to increase performance
+                Game storedCurrentGame = games.stream()
+                        .filter(game -> new HashSet<>(
+                                game.players.stream()
+                                        .map(Player::getNickname).toList())
+                                .containsAll(this.players.stream().map(Player::getNickname).toList())
+                                && game.getGameState() != GameState.RESET_NEEDED
+                        )
+                        .findFirst()
+                        .orElse(null);
+                System.out.println(storedCurrentGame);
+                if (storedCurrentGame != null) {
+                    games.set(games.indexOf(storedCurrentGame), this);
+                } else {
+                    games.add(this);
+                }
+            } else {
+                games = new ArrayList<>();
+                games.add(this);
+            }
+
+            gson.toJson(games, fileWriter);
 
             fileWriter.flush();
             fileWriter.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(Game.class, new GameSerializer());
-//
-//        Gson gson = gsonBuilder.setPrettyPrinting().create();
-//        FileWriter fileWriter;
-//        try {
-//            fileWriter = new FileWriter("src/main/resources/storage/games.json");
-//            gson.toJson(this, fileWriter);
-//
-//            fileWriter.flush();
-//            fileWriter.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    }
+
+    private void initializeBag(int numberOfTilesInBag) {
+        int id = 0;
+        //initialize bag and shuffle items
+        for (int i = 0; i < numberOfTilesInBag; i++) {
+            if (i == numberOfTilesInBag / 3) {
+                id = 1;
+            }
+            if (i == numberOfTilesInBag * 2 / 3) {
+                id = 2;
+            }
+            this.bag.add(new Tile(TileColor.values()[i % 6], id));
+        }
     }
 
 }
