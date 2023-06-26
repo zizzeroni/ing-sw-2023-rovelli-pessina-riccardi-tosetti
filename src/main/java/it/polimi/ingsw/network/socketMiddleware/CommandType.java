@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+/**
+ *
+ */
 public enum CommandType {
     ADD_PLAYER,
     CHANGE_TURN,
