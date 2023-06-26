@@ -88,14 +88,23 @@ public class GenericUILogic {
         this.chat.setNickname(nickname);
     }
 
+    /**
+     * @return
+     */
     public GameView getModel() {
         return this.model;
     }
 
+    /**
+     * @return
+     */
     public ViewListener getController() {
         return this.controller;
     }
 
+    /**
+     * @param controller
+     */
     public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
@@ -108,6 +117,9 @@ public class GenericUILogic {
         return countdown;
     }
 
+    /**
+     * @param clientErrorState
+     */
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
         if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
@@ -115,6 +127,9 @@ public class GenericUILogic {
         }
     }
 
+    /**
+     * @param game
+     */
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
     //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
