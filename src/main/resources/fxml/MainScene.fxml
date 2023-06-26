@@ -318,8 +318,8 @@
                       <Font name="Times New Roman" size="26.0" />
                   </font>
               </Label>
-            <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="588.7" layoutY="473" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-            <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="706.7" layoutY="473" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+            <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="590.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+            <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="708.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
          </children>
       </Pane>
     </children>

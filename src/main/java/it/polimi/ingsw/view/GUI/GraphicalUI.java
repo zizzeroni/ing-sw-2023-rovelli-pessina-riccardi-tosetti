@@ -97,6 +97,7 @@ public class GraphicalUI extends UI {
 
     @Override
     public void showNewTurnIntro() {
+
         int tileId;
         String tileColor;
         takenTiles = null;
@@ -106,6 +107,7 @@ public class GraphicalUI extends UI {
         TileView[][] boardMatrix = this.getModel().getBoard().getTiles();
 
         mainSceneController.setTable();
+
         //mainSceneController.setChat();
         //mainSceneController.updateChat();
 
@@ -232,8 +234,9 @@ public class GraphicalUI extends UI {
             List<CommonGoalView> commonGoals = this.getModel().getCommonGoals();
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
-            mainSceneController.chatUpdate(true);
 
+            mainSceneController.setGameOn(true);
+            mainSceneController.chatUpdate(true);
             while (this.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
@@ -248,9 +251,9 @@ public class GraphicalUI extends UI {
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
                 this.controller.changeTurn();
                 this.mainSceneController.refreshPoint();
-
             }
             mainSceneController.setGameOn(false);
+
             Parent lastRoot;
             //Carico l'ultima scena e la mostro
             try {
@@ -295,6 +298,7 @@ public class GraphicalUI extends UI {
                 }
                 case WAITING_FOR_OTHER_PLAYER -> {
                     System.out.println("Waiting for others player moves...");
+                    //mainSceneController.updateChat();
                     mainSceneController.lockAllTiles();
                 }
             }

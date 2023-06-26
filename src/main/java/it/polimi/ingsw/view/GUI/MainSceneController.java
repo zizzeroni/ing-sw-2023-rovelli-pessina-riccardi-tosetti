@@ -80,7 +80,7 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.gameOn=true;
+        this.gameOn = true;
         this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
@@ -218,9 +218,10 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
-        pointsItem2.setVisible(false);
-        pointsItem1.setVisible(false);
-        commonGoal2.setVisible(false);
+        pointsItem2.setViewOrder(1);
+        pointsItem1.setViewOrder(1);
+        commonGoal2.setViewOrder(1);
+
 //        commonGoal2.setVisible(false);
 //        pointsItem2.setVisible(false);
 //
@@ -242,9 +243,9 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(529);
         imageView.setLayoutY(454);
         imageView.setViewOrder(1);
-        pointsItem2.setVisible(true);
-        pointsItem1.setVisible(true);
-        commonGoal2.setVisible(true);
+        pointsItem2.setViewOrder(0.0);
+        pointsItem1.setViewOrder(0.0);
+        commonGoal2.setViewOrder(0.0);
 //        commonGoal2.setVisible(true);
 //        pointsItem2.setVisible(true);
 //
@@ -265,9 +266,9 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(601);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
-        pointsItem2.setVisible(false);
-        pointsItem1.setVisible(false);
-        commonGoal1.setVisible(false);
+        pointsItem2.setViewOrder(1);
+        pointsItem1.setViewOrder(1);
+        commonGoal1.setViewOrder(1);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -279,9 +280,9 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(646);
         imageView.setLayoutY(454);
         imageView.setViewOrder(1);
-        pointsItem2.setVisible(true);
-        pointsItem1.setVisible(true);
-        commonGoal1.setVisible(true);
+        pointsItem2.setViewOrder(0.0);
+        pointsItem1.setViewOrder(0.0);
+        commonGoal1.setViewOrder(0.0);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
@@ -1137,7 +1138,7 @@ public class MainSceneController implements Initializable {
         chatMessage.setText("");
         String receiver = (playerChatChoice.getValue());
 
-        var th = new Thread( ()->{
+        var th = new Thread(() -> {
             CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 if (!message.isEmpty()) {
@@ -1163,30 +1164,38 @@ public class MainSceneController implements Initializable {
     }
 
 //    public void updateChat() {
-//        List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//        var th1 = new Thread(() -> {
+//            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
 //
-//        CountDownLatch countDownLatch = new CountDownLatch(1);
-//        Platform.runLater(() -> {
-//            VBoxMessage.getChildren().clear();
-//            if (fullChat.size() != 0) {
-//                for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-//                    Text text = new Text(message.toString());
-//                    Font font = new Font(14);
-//                    text.setFont(font);
-//                    VBoxMessage.getChildren().add(0, text); // add on top
+//            CountDownLatch countDownLatch = new CountDownLatch(1);
+//            Platform.runLater(() -> {
+//                VBoxMessage.getChildren().clear();
+//                if (fullChat.size() != 0) {
+//                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+//                        Text text = new Text(message.toString());
+//                        Font font = new Font(14);
+//                        text.setFont(font);
+//                        VBoxMessage.getChildren().add(0, text); // add on top
+//                    }
 //                }
+//                countDownLatch.countDown();
+//            });
+//
+//            try {
+//                countDownLatch.await();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
 //            }
-//            countDownLatch.countDown();
 //        });
-//        try {
-//            countDownLatch.await();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+//        th1.setUncaughtExceptionHandler((t, e) -> {
+//            System.err.println("Uncaught exception in thread");
+//            e.printStackTrace();
+//        });
+//        th1.start();
 //    }
 
     public void chatUpdate(boolean gameState) {
-        var th = new Thread( ()-> {
+        var th = new Thread(() -> {
             gameOn = gameState;
             while (gameOn) {
                 List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
