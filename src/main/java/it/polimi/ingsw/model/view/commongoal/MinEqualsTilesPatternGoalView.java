@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
  * This class represents the View of the MinEqualsTilesPattern.
- * Contains the part of the logic for displaying the MinEqualsTilesPattern and referencing it.
+ * Contains the necessary components for displaying the MinEqualsTilesPattern and referencing it.
  * This can be done through a series of methods to access direction, maxEqualsTiles value,
  * and identifies the response to a given situation regarding the MinEqualsTilesPattern's goal achievement (toString).
  *

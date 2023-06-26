@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * This class represents the View of the {@code TilesInPositionsPatternGoal}.
- * It contains the part of the logic for displaying the pattern and referencing it.
+ * It contains the necessary components for displaying the pattern and referencing it.
  * This can be done through a method to identify the response to a given situation regarding
  * this goal pattern achievement (toString).
  * It also provides a getter to access the matrix of tiles positions, peculiar to this type of pattern.
@@ -50,7 +50,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
     }
 
     /**
-     * This method is used to display the of the user's interactions with the view
+     * This method is used to display the result of the user's interactions with the view
      * during the {@code Game} (those that produced a {@code TilesInPositionsPatternGoal}).
      *
      * @return a text message associated to the various combinations of tiles associated
