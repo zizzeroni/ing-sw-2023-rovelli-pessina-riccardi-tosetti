@@ -89,7 +89,6 @@ public interface Server extends Remote {
      */
     public void addPlayer(Client client, String nickname) throws RemoteException;
 
-<<<<<<< HEAD
     /**
      * Method to implement the selection of the number of {@code Player}s for the {@code Game}.
      *
@@ -103,11 +102,12 @@ public interface Server extends Remote {
      * @see Player
      *
      */
-=======
-    public void tryToResumeGame() throws RemoteException;
-
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException;
+
+    /*
+    * TODO
+    */
+    public void tryToResumeGame() throws RemoteException;
 
     /**
      * Controls that all the necessary preparing has been done due to initiating the {@code Game}.
@@ -134,7 +134,6 @@ public interface Server extends Remote {
      */
     public void disconnectPlayer(String nickname) throws RemoteException;
 
-<<<<<<< HEAD
     /**
      * Method used by the clients in order to register to a specific remote server.
      *
@@ -144,14 +143,17 @@ public interface Server extends Remote {
      * @param nickname the player's nickname related to the client.
      * @throws RemoteException called if a communication error occurs.
      */
-=======
+    public void register(Client client, String nickname) throws RemoteException;
+
+    /*
+    * TODO
+    */
     public void restoreGameForPlayer(String nickname) throws RemoteException;
 
+    /*
+    * TODO
+    */
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
-
-    //Method used by the clients in order to register to a specific remote server
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
-    public void register(Client client, String nickname) throws RemoteException;
 
     /**
      * Allows to ping the server.

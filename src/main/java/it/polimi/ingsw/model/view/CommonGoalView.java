@@ -83,7 +83,6 @@ public class CommonGoalView implements Serializable {
         return this.type;
     }
 
-<<<<<<< HEAD
     /**
      * Getter used to access {@code CommonGoal}'s image identifier.
      *
@@ -91,11 +90,7 @@ public class CommonGoalView implements Serializable {
      *
      * @see CommonGoal
      */
-    public int getImageID() {
-        return this.imageID;
-=======
     public int getId() {
         return this.id;
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 }

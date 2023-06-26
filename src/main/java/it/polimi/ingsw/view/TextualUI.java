@@ -8,19 +8,15 @@ import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
-<<<<<<< HEAD
 import javafx.stage.Stage;
 import org.fusesource.jansi.Ansi;
-=======
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.UI;
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 
-<<<<<<< HEAD
 import static org.fusesource.jansi.Ansi.ansi;
 
 /**
@@ -34,25 +30,20 @@ import static org.fusesource.jansi.Ansi.ansi;
  * @see it.polimi.ingsw.model.Game
  * @see it.polimi.ingsw.model.Player
  */
-public class TextualUI extends UI {
+public class TextualUI implements UI {
+
+    private final GenericUILogic genericUILogic;
 
     /**
      * Class constructor.
      * Initialize the game's model.
      *
-     * @param model the assigned model.
+     * @param TODO
      *
-     * @see GameView
+     * @see GenericUILogic
      */
-    public TextualUI(GameView model) {
-        super(model);
-=======
-public class TextualUI implements UI {
-    private final GenericUILogic genericUILogic;
-
     public TextualUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 
     /**
@@ -60,22 +51,8 @@ public class TextualUI implements UI {
      * Initialize the game's model.
      */
     public TextualUI() {
-<<<<<<< HEAD
-        super();
-    }
-
-    /**
-     * Signals the starting of the primary stage (used for the GUI)
-     *
-     * @param primaryStage the GUI's main stage.
-     */
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-=======
         this.genericUILogic = new GenericUILogic();
         new CountdownHandler(genericUILogic).start();
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 
     /**
@@ -87,12 +64,8 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.model.Game
      */
     private void firstInteractionWithUser() {
-<<<<<<< HEAD
         this.printTitleScreen();
-        System.out.println("Benvenuto a MyShelfie, inserisci il tuo nickname!");
-=======
         System.out.println("Welcome to My Shelfie");
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 
         this.genericUILogic.initializeChatThread(this.genericUILogic.controller, this.genericUILogic.getNickname(), this.genericUILogic.getModel());
 
@@ -336,7 +309,6 @@ public class TextualUI implements UI {
         return chosenColumn;
     }
 
-<<<<<<< HEAD
     /**
      * Displays the part of the CLI interacting with the user to ask the type of action
      * the player will enact after the method's call.
@@ -353,8 +325,6 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.utils.CommandReader
      */
     @Override
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public Choice askPlayer() {
         while (true) {
             System.out.println("Choose what to do (Type the number paired to the action):");
@@ -519,7 +489,6 @@ public class TextualUI implements UI {
         return null;
     }
 
-<<<<<<< HEAD
     /**
      * Check if the {@code Tile} chosen by the {@code Player} is already
      * present in the current selection at the given coordinates and
@@ -537,10 +506,6 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.model.Board
      */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
-=======
-    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
-            directionToCheck) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
@@ -614,7 +579,6 @@ public class TextualUI implements UI {
         return false;
     }
 
-<<<<<<< HEAD
     /**
      * Displays the recap of the player during the turn
      * with his score and personal goal, the common goals and
@@ -626,9 +590,6 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      * @see it.polimi.ingsw.model.PersonalGoal
      */
-    //TODO: remove from UI
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public void showPersonalRecap() {
         PlayerView activePlayer = this.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.genericUILogic.getNickname())).toList().get(0);
         BookshelfView playerBookshelf = activePlayer.getBookshelf();

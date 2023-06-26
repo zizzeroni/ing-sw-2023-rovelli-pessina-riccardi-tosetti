@@ -64,14 +64,10 @@ public class PlayerView implements Serializable {
         return this.personalGoal;
     }
 
-<<<<<<< HEAD
     /**
      * @return
      */
-    public List<ScoreTileView> getGoalTiles() {
-=======
     public List<ScoreTileView> getScoreTiles() {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.scoreTiles;
     }
 

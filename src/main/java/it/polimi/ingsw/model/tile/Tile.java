@@ -16,7 +16,6 @@ public class Tile {
         this.id = 0;
     }
 
-<<<<<<< HEAD
     /**
      * Constructor of the class, assigns {@code Tile}'s
      * color and id (passed as parameters).
@@ -26,43 +25,31 @@ public class Tile {
      *
      * @see Tile
      */
-    public Tile(TileColor color, int imageID) {
-=======
     public Tile(TileColor color, int id) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.color = color;
         this.id = id;
     }
 
-<<<<<<< HEAD
     /**
-     * Getter used to access {@code Tile}'s image identifier.
+     * Getter used to access {@code Tile}'s identifier.
      *
-     * @return the tile's imageID.
+     * @return the tile's id.
      *
      * @see Tile
      */
-    public int getImageID() {
-        return this.imageID;
-    }
-
-    /**
-     * Setter used to modify {@code Tile}'s imageID.
-     *
-     * @param imageID is the image identifier of the considered tile.
-     *
-     * @see Tile
-     */
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
-=======
     public int getId() {
         return this.id;
     }
 
-    public void setid(int id) {
+    /**
+     * Setter used to modify {@code Tile}'s identifier.
+     *
+     * @param id is the image identifier of the considered tile.
+     *
+     * @see Tile
+     */
+    public void setId(int id) {
         this.id = id;
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 
     /**

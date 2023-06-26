@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.commongoal.MinEqualsTilesPattern;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/model/view/commongoal/MinEqualsTilesPatternView.java
 /**
  * This class represents the View of the MinEqualsTilesPattern.
  * Contains the necessary components for displaying the MinEqualsTilesPattern and referencing it.
@@ -14,7 +13,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
  *
  * @see MinEqualsTilesPattern
  */
-public class MinEqualsTilesPatternView extends CommonGoalView {
+public class MinEqualsTilesPatternGoalView extends CommonGoalView {
 
     private final Direction direction;
     private final int maxEqualsTiles;
@@ -24,14 +23,7 @@ public class MinEqualsTilesPatternView extends CommonGoalView {
      *
      * @param commonGoalModel is the model linked to the commonGoal associated to the MinEqualsTilesPattern.
      */
-    public MinEqualsTilesPatternView(MinEqualsTilesPattern commonGoalModel) {
-=======
-public class MinEqualsTilesPatternGoalView extends CommonGoalView {
-    private final Direction direction;
-    private final int maxEqualsTiles;
-
     public MinEqualsTilesPatternGoalView(MinEqualsTilesPattern commonGoalModel) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/model/view/commongoal/MinEqualsTilesPatternGoalView.java
         super(commonGoalModel);
         this.maxEqualsTiles = commonGoalModel.getMaxEqualsTiles();
         this.direction = commonGoalModel.getDirection();

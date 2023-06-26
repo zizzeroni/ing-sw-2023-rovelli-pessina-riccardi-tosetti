@@ -32,14 +32,11 @@ public enum TileColor {
         return stringBuilder.append(ansi().fg(color).a(this.name().charAt(0)).fg(Ansi.Color.DEFAULT)).toString();
     }
 
-<<<<<<< HEAD
     /**
      * Defines a string associated to the colored text for the GUI's representation.
      *
      * @return the string used to represent the color text associated to the Tile.
      */
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public String toGUI() {
         return String.valueOf(this.name().charAt(0));
     }

@@ -47,7 +47,13 @@ public class PersonalGoalView implements Serializable {
         }
     }
 
-<<<<<<< HEAD
+    /*
+    * TODO
+    */
+    public int getId() {
+        return this.id;
+    }
+
     /**
      * Getter that returns the number of columns
      * in the {@code Bookshelf}.
@@ -56,12 +62,6 @@ public class PersonalGoalView implements Serializable {
      *
      * @see Bookshelf
      */
-=======
-    public int getId() {
-        return this.id;
-    }
-
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public int getNumColumns() {
         return this.numberOfColumns;
     }

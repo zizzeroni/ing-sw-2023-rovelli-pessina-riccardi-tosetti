@@ -200,24 +200,8 @@ public class ServerStub implements Server {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * This method is used to add a {@code Player} to the current {@code Game}
-     * through the knowledge of the nickname he has chosen during game creation and the client
-     * he has been assigned to.
-     *
-     * @param nickname is the reference for the name of the {@code Player} being added.
-     * @throws RemoteException called if a communication error occurs.
-     *
-     * @see Client
-     * @see Game
-     * @see Player
-     */
-    public void addPlayer(String nickname) throws RemoteException {
-=======
     @Override
     public void tryToResumeGame() throws RemoteException {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new TryToResumeGameCommand();
         try {

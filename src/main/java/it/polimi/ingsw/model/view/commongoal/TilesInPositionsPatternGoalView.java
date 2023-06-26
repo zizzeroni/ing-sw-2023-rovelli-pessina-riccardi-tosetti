@@ -3,8 +3,9 @@ package it.polimi.ingsw.model.view.commongoal;
 import it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
+import java.util.ArrayList;
+import java.util.List;
 
-<<<<<<< HEAD
 /**
  * This class represents the View of the {@code TilesInPositionsPatternGoal}.
  * It contains the necessary components for displaying the pattern and referencing it.
@@ -14,11 +15,8 @@ import it.polimi.ingsw.model.view.CommonGoalView;
  *
  * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
  */
-=======
-import java.util.ArrayList;
-import java.util.List;
 
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
     private final List<List<Integer>> positions;
 
@@ -31,16 +29,9 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      */
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
-        //TODO: Controllare se è corretto
         this.positions = new ArrayList<>(commonGoalModel.getPositions());
-        /*for (int row = 0; row < commonGoalModel.getPositions().size(); row++) {
-            for (int column = 0; column < commonGoalModel.getPositions().get(0).size(); column++) {
-                this.positions.get(row).set(column, commonGoalModel.getPositions().get(row).get(column));
-            }
-        }*/
     }
 
-<<<<<<< HEAD
     /**
      * Getter for identifying pattern's tiles positions.
      *
@@ -49,10 +40,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      *
      * @see TilesInPositionsPatternGoalView
      */
-    public int[][] getPositions() {
-=======
     public List<List<Integer>> getPositions() {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.positions;
     }
 

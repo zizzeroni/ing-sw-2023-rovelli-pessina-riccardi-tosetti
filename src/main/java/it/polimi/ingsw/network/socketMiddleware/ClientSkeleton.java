@@ -118,17 +118,6 @@ public class ClientSkeleton implements Client {
         }
     }
 
-<<<<<<< HEAD
-    /*@Override
-    public void receiveException(RemoteException exception) throws RemoteException {
-        CommandToClient command = new SendExceptionCommand(exception);
-        try {
-            this.oos.writeObject(command);
-        } catch (IOException e) {
-            throw new RemoteException("[COMMUNICATION:ERROR] Cannot send modelView: " + e.getMessage());
-        }
-    }*/
-
     /**
      * Receives (and provides a response) to server's messages.
      *
@@ -137,8 +126,6 @@ public class ClientSkeleton implements Client {
      *
      * @see Server
      */
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
         try {
@@ -150,27 +137,6 @@ public class ClientSkeleton implements Client {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot cast message received by the client.", e);
         }
         message.setActuator(server);
-<<<<<<< HEAD
-        if (message.toEnum() == CommandType.ADD_PLAYER) {
-            AddPlayerCommand convertedMessage = (AddPlayerCommand) message;
-            convertedMessage.setClient(this);
-            convertedMessage.execute();
-        } else {
-            message.execute();
-        }
-    }
-
-    /**
-     * Receives (and provides a response) to server's messages related to player's nickname.
-     *
-     * @param server is the server communicating to.
-     * @throws RemoteException called when the server's message can't be cast or received.
-     *
-     * @see Server
-     */
-    public String receiveNickname(Server server) throws RemoteException {
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         try {
             if (message.toEnum() == CommandType.ADD_PLAYER) {
                 AddPlayerCommand convertedMessage = (AddPlayerCommand) message;

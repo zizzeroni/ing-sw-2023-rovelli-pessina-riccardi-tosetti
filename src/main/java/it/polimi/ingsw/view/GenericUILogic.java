@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
 /**
  * The abstract class used to represent the User Interface (UI).
  * It has two different implementations in the TextualUI and the GUI classes.
@@ -16,10 +15,7 @@ import it.polimi.ingsw.utils.OptionsValues;
  * @see TextualUI
  * @see GUI
  */
-public abstract class UI extends Application implements Runnable {
-=======
 public class GenericUILogic {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
     private volatile GameView model;
     private ChatThread chat;
     protected ViewListener controller;
@@ -35,7 +31,6 @@ public class GenericUILogic {
     private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
     private boolean areThereStoredGamesForPlayer = false;
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
     /**
      * Class constructor.
      * Initialize the model and the controller to the associated values.
@@ -47,11 +42,7 @@ public class GenericUILogic {
      * @see GameView
      * @see ViewListener
      */
-    public UI(GameView model, ViewListener controller, String nickname) {
-=======
-
     public GenericUILogic(GameView model, ViewListener controller, String nickname) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
         this.model = model;
         this.controller = controller;
         this.nickname = nickname;
@@ -60,7 +51,6 @@ public class GenericUILogic {
         this.initializeChatThread(this.controller, this.nickname, this.getModel());
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
     /**
      * Class constructor.
      * Initialize the model and the controller to the associated values.
@@ -71,10 +61,7 @@ public class GenericUILogic {
      * @see GameView
      * @see ViewListener
      */
-    public UI(GameView model, ViewListener controller) {
-=======
     public GenericUILogic(GameView model, ViewListener controller) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
         this.model = model;
         this.controller = controller;
         this.nickname = null;
@@ -82,7 +69,6 @@ public class GenericUILogic {
         this.exceptionToHandle = null;
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
     /**
      * Class constructor.
      * Initialize the model and the controller to the associated values.
@@ -91,10 +77,7 @@ public class GenericUILogic {
      *
      * @see GameView
      */
-    public UI(GameView model) {
-=======
     public GenericUILogic(GameView model) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
         this.model = model;
         this.controller = null;
         this.nickname = null;
@@ -102,15 +85,11 @@ public class GenericUILogic {
         this.exceptionToHandle = null;
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
     /**
      * Class constructor.
      * Initialize the model and the controller to the default values (null).
      */
-    public UI() {
-=======
     public GenericUILogic() {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
         this.model = null;
         this.controller = null;
         this.nickname = null;
@@ -239,7 +218,6 @@ public class GenericUILogic {
         this.controller = null;
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/view/UI.java
     /**
      * Displays the part of the CLI interacting with the user to ask the type of action
      * the player will enact after the method's call.
@@ -255,7 +233,6 @@ public class GenericUILogic {
      * @see it.polimi.ingsw.utils.CommandQueue
      * @see it.polimi.ingsw.utils.CommandReader
      */
-    //Method in common with all UIs that must be implemented
     public abstract Choice askPlayer();
 
     /**
@@ -265,17 +242,14 @@ public class GenericUILogic {
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      */
-    //Method in common with all UIs that must be implemented
     public abstract void showNewTurnIntro();
 
-    //ONLY IN TextualUI
-    //Method in common with all UIs that must be implemented
-    //public abstract void showPersonalRecap();
-=======
+    /*
+    * TODO
+    */
     public int getCountdown() {
         return countdown;
     }
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GenericUILogic.java
 
     /**
      * Used to print an exception when it is identified.

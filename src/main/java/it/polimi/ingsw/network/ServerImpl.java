@@ -265,7 +265,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.startGame();
     }
 
-<<<<<<< HEAD
     /**
      * Used to pass the registration of a player's client, basing on his nickname.
      *
@@ -276,10 +275,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @see Client
      * @see Server
      */
-    //TODO: Ask if we should pass nickname to register client
-=======
-    //TODO: Togliere il nickname come parametro del metodo
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -616,17 +611,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-<<<<<<< HEAD
-
-    /**
-     * Allows the server to ping a game's thread.
-     *
-     * @param server the server starting the thread's pinging.
-     *
-     * @see Game
-     */
-    private void startPingSenderThread(ServerImpl server) {
-=======
     /*@Override
     public void gameRestored() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -637,8 +621,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             }
         }
     }*/
+
+    /**
+     * Allows the server to ping a game's thread.
+     *
+     * @param server the server starting the thread's pinging.
+     *
+     * @see Game
+     */
     /*private void startPingSenderThread(ServerImpl server) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

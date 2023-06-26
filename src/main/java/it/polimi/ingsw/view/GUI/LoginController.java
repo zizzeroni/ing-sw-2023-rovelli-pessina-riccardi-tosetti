@@ -175,16 +175,12 @@ public class LoginController implements Initializable {
 
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/GUI/LoginController.java
     /**
      * Setter used to adjust the {@code mainGui}.
      *
      * @param gui the gui passed to be set
      *
      */
-    public void setMainGui(GUI gui) {
-        this.mainGui = gui;
-=======
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
     }
@@ -194,6 +190,5 @@ public class LoginController implements Initializable {
         error.setVisible(true);
         ErrorLabel.setText("nickname already used!");
         });
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/view/GUI/LoginController.java
     }
 }

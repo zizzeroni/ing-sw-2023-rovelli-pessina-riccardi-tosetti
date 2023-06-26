@@ -2,13 +2,10 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
-<<<<<<< HEAD
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.listeners.ModelListener;
-=======
 import it.polimi.ingsw.model.exceptions.GenericException;
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.GUI.UI;
 
@@ -162,19 +159,18 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
-<<<<<<< HEAD
-
-    /**
-     * Allows to transmit the information about turns management to the view.
-     */
-=======
+    /*
+    * TODO
+    */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         this.view.setAreThereStoredGamesForPlayer(result);
     }
 
-    //Methods used for forwarding notifications from view to the server
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+    
+    /**
+     * Allows to transmit the information about turns management to the view.
+     */
     @Override
     public void changeTurn() {
         try {

@@ -82,7 +82,6 @@ public class GameView implements Serializable {
                 .orElse(null);
     }
 
-<<<<<<< HEAD
     /**
      * Used to retrieve the present state of the {@code Game}.
      *
@@ -90,14 +89,15 @@ public class GameView implements Serializable {
      *
      * @see Game
      */
-=======
-    public boolean isPlayerInGame(String nickname) {
-        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
-    }
-
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     public GameState getGameState() {
         return this.gameState;
+    }
+
+    /*
+    * TODO
+    */
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
 
     /**

@@ -3,8 +3,9 @@ package it.polimi.ingsw.model.view.commongoal;
 import it.polimi.ingsw.model.commongoal.DiagonalEqualPattern;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
+import java.util.ArrayList;
+import java.util.List;
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/model/view/commongoal/DiagonalEqualPatternView.java
 /**
  * This class represents the View of the {@code DiagonalEqualPattern}.
  * It contains the necessary components for displaying the pattern and referencing it.
@@ -15,8 +16,8 @@ import it.polimi.ingsw.model.view.CommonGoalView;
  *
  * @see it.polimi.ingsw.model.commongoal.DiagonalEqualPattern
  */
-public class DiagonalEqualPatternView extends CommonGoalView {
-    private final int[][] pattern;
+public class DiagonalEqualPatternGoalView extends CommonGoalView {
+    private final List<List<Integer>> pattern;
 
     /**
      * Class constructor.
@@ -25,31 +26,18 @@ public class DiagonalEqualPatternView extends CommonGoalView {
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
      *                         in order to make possible the construction of the class object.
      */
-    public DiagonalEqualPatternView(DiagonalEqualPattern commonGoalModel) {
-=======
-import java.util.ArrayList;
-import java.util.List;
-
-public class DiagonalEqualPatternGoalView extends CommonGoalView {
-    private final List<List<Integer>> pattern;
-
     public DiagonalEqualPatternGoalView(DiagonalEqualPattern commonGoalModel) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/model/view/commongoal/DiagonalEqualPatternGoalView.java
         super(commonGoalModel);
         //TODO: Controllare se è corretto
         this.pattern = new ArrayList<>(commonGoalModel.getPattern());
     }
 
-<<<<<<< HEAD:src/main/java/it/polimi/ingsw/model/view/commongoal/DiagonalEqualPatternView.java
     /**
      * Getter to access the diagonal pattern.
      *
      * @return the diagonal pattern.
      */
-    public int[][] getPattern() {
-=======
     public List<List<Integer>> getPattern() {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd:src/main/java/it/polimi/ingsw/model/view/commongoal/DiagonalEqualPatternGoalView.java
         return this.pattern;
     }
 
