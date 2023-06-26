@@ -64,7 +64,7 @@ public abstract class ControllerState {
     public abstract void sendPrivateMessage(String receiver, String sender, String content);
 
     /**
-     * This method implementations allows to send
+     * This method implementations allow to send
      * broadcast messages, while in different states, to all
      * the {@code Player}s.
      *

@@ -6,17 +6,38 @@ import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * This class depicts the handler used for the management of a specific client.
+ *
+ * @see Client
+ * @see ClientImpl
+ */
 public class SingleClientHandler extends Thread {
     Socket socket;
     Server generalServer;
     ClientSkeleton clientSkeleton;
 
+    /**
+     * Links the client to the server through a socket communication port.
+     *
+     * @param server is the server communicating to.
+     * @param socket is the communication port used to forward the machine messages.
+     * @throws RemoteException
+     */
     public SingleClientHandler(Server server, Socket socket) throws RemoteException {
         this.socket = socket;
         this.generalServer = server;
         this.clientSkeleton = new ClientSkeleton(socket);
     }
 
+    /**
+     * Consents to run the Client's implementation.
+     * It basically waits to receive the nickname from the player's client and then
+     * registers the client associated with the nickname received.
+     *
+     * @see Client
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void run() {
         try {
