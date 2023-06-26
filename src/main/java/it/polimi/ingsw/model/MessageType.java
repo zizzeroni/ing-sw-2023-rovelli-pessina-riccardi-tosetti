@@ -4,6 +4,12 @@ import org.fusesource.jansi.Ansi;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * An enumeration of the possible types of Messages
+ * that the {@code Player} may send: {@code BROADCAST},
+ * for messages readable by all other players or {@code PRIVATE},
+ * for those sent to another chosen active {@code Player}.
+ */
 public enum MessageType {
     BROADCAST, PRIVATE;
 

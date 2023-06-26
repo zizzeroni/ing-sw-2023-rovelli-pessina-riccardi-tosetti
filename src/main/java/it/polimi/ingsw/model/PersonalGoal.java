@@ -3,11 +3,17 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.utils.OptionsValues;
 
+/**
+ *
+ */
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
     private final int numberOfRows = 6;
     private Tile[][] pattern;
 
+    /**
+     *
+     */
     public PersonalGoal() {
         super();
         this.pattern = new Tile[this.numberOfRows][this.numberOfColumns];
@@ -48,6 +54,10 @@ public class PersonalGoal extends Card {
         return this.pattern[row][column];
     }
 
+    /**
+     * @param bookshelf is the selected {@code Bookshelf}.
+     * @return
+     */
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int counter = 0;
@@ -61,6 +71,11 @@ public class PersonalGoal extends Card {
         return counter;
     }
 
+    /**
+     * @param bookshelf
+     * @return the value of the points assigned to the pattern repetitions identified in the {@code Bookshelf}
+     * using the #numberOfPatternRepetitionInBookshelf
+     */
     public int score(Bookshelf bookshelf) {
         switch (this.numberOfPatternRepetitionInBookshelf(bookshelf)) {
             case 0 -> {
