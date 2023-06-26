@@ -97,7 +97,7 @@ public class ScoreTile {
     }
 
     /**
-     * Sets the {@code ScoreTile}'s value.
+     * Gets the {@code ScoreTile}'s value.
      *
      * @return the value assigned to the ScoreTile.
      */

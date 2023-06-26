@@ -105,7 +105,7 @@ public abstract class CommonGoal extends Card {
     }
 
     /**
-     * Gets the type of check that has to be done on the considered common goal's card.
+     * Gets the type of check that has to be done on the considered common goal's card (inherently to the card's depicted pattern).
      *
      * @return the type's associated value.
      *

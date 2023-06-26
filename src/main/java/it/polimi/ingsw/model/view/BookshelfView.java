@@ -38,7 +38,7 @@ public class BookshelfView implements Serializable {
      *
      * @param bookshelfModel the model of the considered {@code Bookshelf}.
      *
-     * @see Board
+     * @see Bookshelf
      *
      */
     public BookshelfView(Bookshelf bookshelfModel) {
@@ -169,9 +169,11 @@ public class BookshelfView implements Serializable {
     }
 
     /**
+     * Gets the maximum number of empty {@code Bookshelf}'s cells.
      *
+     * @return the maximum number of empty {@code Bookshelf}'s cells.
      *
-     * @return
+     * @see Bookshelf
      */
     public int getMaxNumberOfCellsFreeInBookshelf() {
         int maxNumberOfCellsFreeInBookshelf = 0;
@@ -194,7 +196,13 @@ public class BookshelfView implements Serializable {
     }
 
     /**
-     * @return
+     * This method is used to display the result of the user's interactions
+     * during the {@code Game} (those linked with the {@code Bookshelf}).
+     *
+     * @return the current display of the Bookshelf.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see Bookshelf
      */
     @Override
     public String toString() {
