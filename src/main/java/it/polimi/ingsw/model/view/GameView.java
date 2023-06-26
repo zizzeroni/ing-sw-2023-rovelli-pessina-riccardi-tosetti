@@ -5,13 +5,14 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameView implements Serializable {
-    private static final long serialVersionUID = 1L;
     private final int numberOfPlayers;
     private final GameState gameState;
     private final int activePlayerIndex;
@@ -51,6 +52,10 @@ public class GameView implements Serializable {
                 .orElse(null);
     }
 
+    public boolean isPlayerInGame(String nickname) {
+        return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
+    }
+
     public GameState getGameState() {
         return this.gameState;
     }
@@ -77,5 +82,15 @@ public class GameView implements Serializable {
 
     public List<CommonGoalView> getCommonGoals() {
         return this.commonGoals;
+    }
+
+    public boolean isPaused() {
+        return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
+    }
+
+    public List<PlayerView> connectedPlayers() {
+        return this.players.stream()
+                .filter(PlayerView::isConnected)
+                .collect(Collectors.toList());
     }
 }

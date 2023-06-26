@@ -75,11 +75,11 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
-    public List<ScoreTile> getGoalTiles() {
+    public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
 
-    public void setGoalTiles(List<ScoreTile> scoreTiles) {
+    public void setScoreTiles(List<ScoreTile> scoreTiles) {
         this.scoreTiles = scoreTiles;
     }
 
@@ -109,7 +109,6 @@ public class Player {
             listener.playerHasReconnected();
         }
     }
-
 
     public void addScoreTile(ScoreTile tile) {
         this.scoreTiles.add(tile);
@@ -148,9 +147,5 @@ public class Player {
         if (listener != null) {
             listener.chatUpdated();
         }
-    }
-
-    public void printChat() {
-
     }
 }

@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -112,14 +114,14 @@ public class MainSceneController implements Initializable {
 
         int maxNumberOfCellsFreeInBookshelf;
         //---------------------------------SCELTA COORDINATE TESSERE---------------------------------
-        maxNumberOfCellsFreeInBookshelf = this.mainGraphicalUI.getModel().getPlayers().get(this.mainGraphicalUI.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
+        maxNumberOfCellsFreeInBookshelf = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().get(this.mainGraphicalUI.genericUILogic.getModel().getActivePlayerIndex()).getBookshelf().getMaxNumberOfCellsFreeInBookshelf();
 
 
         if (button.getBorder() == null || button.getBorder().isEmpty()) {
             if (checkIfPickable(row, column)) {
                 switch (takenTiles.getChosenTiles().size()) {
                     case 0 -> {
-                        TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
+                        TileView tileView = mainGraphicalUI.genericUILogic.getModel().getBoard().getTiles()[row][column];
                         takenTiles.addTile(tileView);
                         takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -133,7 +135,7 @@ public class MainSceneController implements Initializable {
                         Direction res = checkIfInLine(row, column, firstRow, firstColumn);
                         if (res != null) {
                             directionToCheck = res;
-                            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
+                            TileView tileView = mainGraphicalUI.genericUILogic.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
                             takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -147,7 +149,7 @@ public class MainSceneController implements Initializable {
                     }
                     case 2 -> {
                         if (checkIfInLine(row, column, takenTiles.getTileCoordinates(), directionToCheck)) {
-                            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
+                            TileView tileView = mainGraphicalUI.genericUILogic.getModel().getBoard().getTiles()[row][column];
                             takenTiles.addTile(tileView);
                             takenTiles.addCoordinates(new Coordinates(row, column));
 
@@ -171,7 +173,7 @@ public class MainSceneController implements Initializable {
             }
 
         } else {
-            TileView tileView = mainGraphicalUI.getModel().getBoard().getTiles()[row][column];
+            TileView tileView = mainGraphicalUI.genericUILogic.getModel().getBoard().getTiles()[row][column];
             takenTiles.removeTile(tileView);
 
             button.setBorder(Border.EMPTY);
@@ -311,7 +313,7 @@ public class MainSceneController implements Initializable {
         directionToCheck = null;
         takenTiles = new Choice();
         CountDownLatch countDownLatchTable = new CountDownLatch(1);
-        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         int points = activePlayer.score();
 
         Platform.runLater(() -> {
@@ -329,7 +331,7 @@ public class MainSceneController implements Initializable {
             }
             pointsLabel.setText(String.valueOf(points));
 
-            if (!this.firstPlayerNickname.getText().equals(this.mainGraphicalUI.getModel().getPlayers().get(0).getNickname())) {
+            if (!this.firstPlayerNickname.getText().equals(this.mainGraphicalUI.genericUILogic.getModel().getPlayers().get(0).getNickname())) {
                 ImageView imageView = (ImageView) scene.lookup("#chair1");
                 imageView.setVisible(false);
             }
@@ -591,7 +593,7 @@ public class MainSceneController implements Initializable {
                     Label playerNickname = (Label) scene.lookup(nickPlayer);
                     playerNickname.setText(players.get(i).getNickname());
                     //Controllare se il player è quello che ha iniziato
-                    if (!players.get(i).getNickname().equals(this.mainGraphicalUI.getModel().getPlayers().get(0).getNickname())) {
+                    if (!players.get(i).getNickname().equals(this.mainGraphicalUI.genericUILogic.getModel().getPlayers().get(0).getNickname())) {
                         ImageView imageView = (ImageView) scene.lookup(chair);
                         imageView.setVisible(false);
                     }
@@ -615,7 +617,7 @@ public class MainSceneController implements Initializable {
 
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
-        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getImageID() + ".png";
+        personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getId() + ".png";
 
         //Assegnare il giusto personal goal
 
@@ -634,8 +636,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
-        int firstCommonGoalID = commonGoals.get(0).getImageID();
-        int secondCommonGoalID = commonGoals.get(1).getImageID();
+        int firstCommonGoalID = commonGoals.get(0).getId();
+        int secondCommonGoalID = commonGoals.get(1).getId();
 
         firstCommonGoalString = "image/common goal cards/" + firstCommonGoalID + ".jpg";
         secondCommonGoalString = "image/common goal cards/" + secondCommonGoalID + ".jpg";
@@ -682,8 +684,8 @@ public class MainSceneController implements Initializable {
                 buttonTile.setVisible(false);
             }
             order = new int[takenTiles.getChosenTiles().size()];
-            for (int r = 0; r < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); r++) {
-                for (int c = 0; c < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); c++) {
+            for (int r = 0; r < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); r++) {
+                for (int c = 0; c < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); c++) {
                     disableTileAfterPick(r, c);
                 }
             }
@@ -716,8 +718,8 @@ public class MainSceneController implements Initializable {
             buttonTile.setVisible(false);
         }
         order = new int[takenTiles.getChosenTiles().size()];
-        for (int r = 0; r < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); r++) {
-            for (int c = 0; c < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); c++) {
+        for (int r = 0; r < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); r++) {
+            for (int c = 0; c < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); c++) {
                 disableTileAfterPick(r, c);
             }
         }
@@ -786,7 +788,7 @@ public class MainSceneController implements Initializable {
     }
 
     private boolean checkIfPickable(int row, int column) {
-        BoardView board = mainGraphicalUI.getModel().getBoard();
+        BoardView board = mainGraphicalUI.genericUILogic.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
@@ -812,7 +814,7 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
         Border border = new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3)));
-        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         for (int i = 5; i >= 0; i--) {
             buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
@@ -832,7 +834,7 @@ public class MainSceneController implements Initializable {
         Button buttonOfColumn;
         String name = button.getId();
         String column = String.valueOf(name.charAt(name.length() - 1));
-        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         for (int i = 5; i >= 0; i--) {
             buttonOfColumnName = "#firstPlayerTile" + i + column;
             buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
@@ -852,7 +854,7 @@ public class MainSceneController implements Initializable {
         order[startOrder] = Integer.parseInt(String.valueOf(name.charAt(name.length() - 1))) - 1;
         String style = button.getStyleClass().get(1);
 
-        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
         int row = 5 - startOrder - activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn));
         String firstPlayerTile = "#firstPlayerTile" + row + selectedColumn;
         Button firstPlayerButton = (Button) scene.lookup(firstPlayerTile);
@@ -909,7 +911,7 @@ public class MainSceneController implements Initializable {
         String name = button.getId();
         selectedColumn = String.valueOf(name.charAt(name.length() - 1));
 
-        PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+        PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
         if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
             System.err.println("La colonna non è selezionabile");
@@ -954,8 +956,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void lockAllTiles() {
-        for (int row = 0; row < mainGraphicalUI.getModel().getBoard().getNumberOfRows(); row++) {
-            for (int column = 0; column < mainGraphicalUI.getModel().getBoard().getNumberOfColumns(); column++) {
+        for (int row = 0; row < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); row++) {
+            for (int column = 0; column < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); column++) {
                 this.disableTile(row, column);
             }
         }
@@ -978,7 +980,7 @@ public class MainSceneController implements Initializable {
                     }
                     //Add tile color and ID
                     tileStyle = bookshelfSecondPlayer.getTiles()[row][column].getColor().toGUI()
-                            + bookshelfSecondPlayer.getTiles()[row][column].getImageID();
+                            + bookshelfSecondPlayer.getTiles()[row][column].getId();
 
                     CountDownLatch countDownLatchPlayer = new CountDownLatch(1);
                     Platform.runLater(() -> {
@@ -1117,7 +1119,7 @@ public class MainSceneController implements Initializable {
     public void refreshPoint() {
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
         Platform.runLater(() -> {
-            PlayerView activePlayer = this.mainGraphicalUI.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+            PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
             int points = activePlayer.score();
             pointsLabel.setText(String.valueOf(points));
             countDownLatchCommonGoal.countDown();
@@ -1141,11 +1143,12 @@ public class MainSceneController implements Initializable {
         var th = new Thread(() -> {
             CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {
+                System.out.println(message);
                 if (!message.isEmpty()) {
                     if (receiver.equals("All")) {
-                        this.mainGraphicalUI.getController().sendBroadcastMessage(sender, message);
+                        this.mainGraphicalUI.genericUILogic.getController().sendBroadcastMessage(sender, message);
                     } else {
-                        this.mainGraphicalUI.getController().sendPrivateMessage(sender, receiver, message);
+                        this.mainGraphicalUI.genericUILogic.getController().sendPrivateMessage(sender, receiver, message);
                     }
                 }
                 countDownLatch.countDown();
@@ -1195,36 +1198,36 @@ public class MainSceneController implements Initializable {
 //    }
 
     public void chatUpdate(boolean gameState) {
-        var th = new Thread(() -> {
-            gameOn = gameState;
-            while (gameOn) {
-                List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
-
-                CountDownLatch countDownLatch = new CountDownLatch(1);
-                Platform.runLater(() -> {
-                    VBoxMessage.getChildren().clear();
-                    if (fullChat.size() != 0) {
-                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-                            Text text = new Text(message.toString());
-                            Font font = new Font(14);
-                            text.setFont(font);
-                            VBoxMessage.getChildren().add(0, text); // add on top
-                        }
-                    }
-                    countDownLatch.countDown();
-                });
-                try {
-                    countDownLatch.await();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        th.setUncaughtExceptionHandler((t, e) -> {
-            System.err.println("Uncaught exception in thread");
-            e.printStackTrace();
-        });
-        th.start();
+//        var th = new Thread(() -> {
+//            gameOn = gameState;
+//            while (gameOn) {
+//                List<Message> fullChat = this.mainGraphicalUI.genericUILogic.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//
+//                CountDownLatch countDownLatch = new CountDownLatch(1);
+//                Platform.runLater(() -> {
+//                    VBoxMessage.getChildren().clear();
+//                    if (fullChat.size() != 0) {
+//                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+//                            Text text = new Text(message.toString());
+//                            Font font = new Font(14);
+//                            text.setFont(font);
+//                            VBoxMessage.getChildren().add(0, text); // add on top
+//                        }
+//                    }
+//                    countDownLatch.countDown();
+//                });
+//                try {
+//                    countDownLatch.await();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//        th.setUncaughtExceptionHandler((t, e) -> {
+//            System.err.println("Uncaught exception in thread");
+//            e.printStackTrace();
+//        });
+//        th.start();
     }
 
     public boolean isGameOn() {

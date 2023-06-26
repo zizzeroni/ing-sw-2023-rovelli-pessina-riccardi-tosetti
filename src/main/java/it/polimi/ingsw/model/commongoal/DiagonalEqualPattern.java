@@ -1,27 +1,36 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
-import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternView;
+import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternGoalView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
-    private int[][] pattern;
+    private List<List<Integer>> pattern;
 
     //Constructors
-    public DiagonalEqualPattern(int[][] pattern) {
+    public DiagonalEqualPattern(List<List<Integer>> pattern) {
         super();
         this.pattern = pattern;
     }
 
-    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
-        super(imageID, patternRepetition, type);
+    public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, List<List<Integer>> pattern) {
+        super(id, patternRepetition, type);
         this.pattern = pattern;
     }
 
-    public DiagonalEqualPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] pattern) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+        this.pattern = pattern;
+    }
+
+    public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> pattern) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.pattern = pattern;
     }
 
@@ -67,13 +76,13 @@ public class DiagonalEqualPattern extends CommonGoal {
         int rotations = 0;
 
         do {
-            for (int row = 0; row < supportMatrix.length - this.pattern.length + 1; row++) {
-                for (int column = 0; column < supportMatrix[0].length - this.pattern[0].length + 1; column++) {
+            for (int row = 0; row < supportMatrix.length - this.pattern.size() + 1; row++) {
+                for (int column = 0; column < supportMatrix[0].length - this.pattern.get(0).size() + 1; column++) {
                     int checkGroup = 0;
                     boolean exit = false;
-                    for (int patternRow = 0; patternRow < this.pattern.length && !exit; patternRow++) {
-                        for (int patternColumn = 0; patternColumn < this.pattern[0].length && !exit; patternColumn++) {
-                            if (this.pattern[patternRow][patternColumn] == 1) {
+                    for (int patternRow = 0; patternRow < this.pattern.size() && !exit; patternRow++) {
+                        for (int patternColumn = 0; patternColumn < this.pattern.get(0).size() && !exit; patternColumn++) {
+                            if (this.pattern.get(patternRow).get(patternColumn) == 1) {
                                 if (checkGroup == 0) {
                                     checkGroup = supportMatrix[row + patternRow][column + patternColumn];
                                 }
@@ -84,9 +93,9 @@ public class DiagonalEqualPattern extends CommonGoal {
                         }
                     }
                     if (!exit) {
-                        for (int patternRow = 0; patternRow < this.pattern.length; patternRow++) {
-                            for (int patternColumn = 0; patternColumn < this.pattern[0].length; patternColumn++) {
-                                if (this.pattern[patternRow][patternColumn] == 1 && supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
+                        for (int patternRow = 0; patternRow < this.pattern.size(); patternRow++) {
+                            for (int patternColumn = 0; patternColumn < this.pattern.get(0).size(); patternColumn++) {
+                                if (this.pattern.get(patternRow).get(patternColumn) == 1 && supportMatrix[row + patternRow][column + patternColumn] == checkGroup) {
                                     alreadyChecked[row + patternRow][column + patternColumn] = 1;
                                 }
                             }
@@ -127,24 +136,34 @@ public class DiagonalEqualPattern extends CommonGoal {
             }
         }
     }
+
     /*
     in this method we rotate the matrix by starting from the first element and exchanging the row and the column
     @param the matrix that we need to rotate
     @return the matrix rotated
      */
-    private int[][] rotateMatrix(int[][] matrixToRotate) {
-        int[][] rotatedMatrix = new int[matrixToRotate[0].length][matrixToRotate.length];
-        for (int row = 0; row < matrixToRotate.length; row++) {
-            for (int column = 0; column < matrixToRotate[0].length; column++) {
-                if (matrixToRotate[row][column] == 1) {
-                    rotatedMatrix[row][rotatedMatrix.length - 1 - column] = 1;
+    private List<List<Integer>> rotateMatrix(List<List<Integer>> matrixToRotate) {
+        List<List<Integer>> rotatedMatrix = new ArrayList<>(matrixToRotate.get(0).size());
+        for (int i = 0; i < matrixToRotate.get(0).size(); i++) {
+            rotatedMatrix.add(new ArrayList<>(matrixToRotate.get(0).size()));
+            for (int j = 0; j < matrixToRotate.size(); j++) {
+                rotatedMatrix.get(i).add(0);
+            }
+        }
+        for (int row = 0; row < matrixToRotate.size(); row++) {
+            for (int column = 0; column < matrixToRotate.get(0).size(); column++) {
+                if (matrixToRotate.get(row).get(column) == 1) {
+                    rotatedMatrix.get(row).set(rotatedMatrix.size() - 1 - column,1);
                 }
             }
         }
         return rotatedMatrix;
+
+
     }
+
     // get
-    public int[][] getPattern() {
+    public List<List<Integer>> getPattern() {
         return this.pattern;
     }
 
@@ -153,18 +172,6 @@ public class DiagonalEqualPattern extends CommonGoal {
     */
     @Override
     public CommonGoalView copyImmutable() {
-        return new DiagonalEqualPatternView(this);
-    }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof DiagonalEqualPattern obj) {
-            return this.pattern == obj.getPattern()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
+        return new DiagonalEqualPatternGoalView(this);
     }
 }

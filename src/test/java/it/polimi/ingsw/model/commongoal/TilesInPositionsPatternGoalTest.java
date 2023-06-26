@@ -7,12 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TilesInPositionsPatternGoalTest {
     private TilesInPositionsPatternGoal fourElementAsASquare;
     private Bookshelf bookshelf;
-    private int[][] positions;
+    private List<List<Integer>> positions;
+    
     @BeforeEach
     public void cleanGoal() {
         fourElementAsASquare = null;
@@ -23,10 +28,10 @@ public class TilesInPositionsPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a generic bookshelf matches zero time")
     public void GivenAGenericBookshelf_whenSearchingTheFourElementSquare_thenReturnZero() {
-        this.positions = new int[][]{
-                {1, 1},
-                {1, 1}
-        };
+        this.positions = new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList(1, 1)),
+                new ArrayList<>(Arrays.asList(1, 1))
+        ));
         fourElementAsASquare = new TilesInPositionsPatternGoal(0,1, CheckType.EQUALS, positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -42,10 +47,10 @@ public class TilesInPositionsPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a full of blue element bookshelf matches one time")
     public void GivenAFullOfBlueBookshelf_whenSearchingTheFourElementSquare_thenReturnOne() {
-        this.positions = new int[][]{
-                {1, 1},
-                {1, 1}
-        };
+        this.positions = new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList(1, 1)),
+                new ArrayList<>(Arrays.asList(1, 1))
+        ));
         fourElementAsASquare = new TilesInPositionsPatternGoal(0,1, CheckType.EQUALS, positions );
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -61,10 +66,10 @@ public class TilesInPositionsPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a full of null element bookshelf matches zero time")
     public void GivenAFullOfNullBookshelf_whenSearchingTheFourElementSquare_thenReturnZero() {
-        this.positions = new int[][]{
-                {1, 1},
-                {1, 1}
-        };
+        this.positions = new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList(1, 1)),
+                new ArrayList<>(Arrays.asList(1, 1))
+        ));
         fourElementAsASquare = new TilesInPositionsPatternGoal(0,1, CheckType.EQUALS, positions );
         Tile[][] temp = {
                 {null, null, null, null, null},
@@ -81,10 +86,10 @@ public class TilesInPositionsPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a generic bookshelf matches zero time")
     public void GivenAMixedBookshelf_whenSearchingTheFourElementSquare_thenReturnZero() {
-        this.positions = new int[][]{
-                {1, 1},
-                {1, 1}
-        };
+        this.positions = new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList(1, 1)),
+                new ArrayList<>(Arrays.asList(1, 1))
+        ));
         fourElementAsASquare = new TilesInPositionsPatternGoal(0,1, CheckType.EQUALS, positions );
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
@@ -100,10 +105,10 @@ public class TilesInPositionsPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a casual three colour bookshelf matches two time")
     public void GivenACasual3ColorBookshelf_whenSearchingTheFourElementSquare_thenReturnTwo() {
-        this.positions = new int[][]{
-                {1, 1},
-                {1, 1}
-        };
+        this.positions = new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList(1, 1)),
+                new ArrayList<>(Arrays.asList(1, 1))
+        ));
         fourElementAsASquare = new TilesInPositionsPatternGoal(0,1, CheckType.EQUALS, positions );
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
@@ -111,7 +116,7 @@ public class TilesInPositionsPatternGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
-                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
+                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
         bookshelf = new Bookshelf("", temp);
 
         assertEquals(2, fourElementAsASquare.numberOfPatternRepetitionInBookshelf(bookshelf));

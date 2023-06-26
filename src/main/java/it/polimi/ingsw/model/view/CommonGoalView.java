@@ -13,13 +13,13 @@ public class CommonGoalView implements Serializable {
     private final int numberOfPatternRepetitionsRequired;
     private final CheckType type;
     private final List<ScoreTileView> scoreTiles;
-    private final int imageID;    //Attribute from Card class, of which we don't have a "View" class
+    private final int id;    //Attribute from Card class, of which we don't have a "View" class
 
     public CommonGoalView(CommonGoal commonGoalModel) {
         this.numberOfPatternRepetitionsRequired = commonGoalModel.getNumberOfPatternRepetitionsRequired();
         this.type = commonGoalModel.getType();
         this.scoreTiles = new ArrayList<>();
-        this.imageID = commonGoalModel.getImageID();
+        this.id = commonGoalModel.getId();
         for (ScoreTile scoreTile : commonGoalModel.getScoreTiles()) {
             this.scoreTiles.add(new ScoreTileView(scoreTile));
         }
@@ -37,7 +37,7 @@ public class CommonGoalView implements Serializable {
         return this.type;
     }
 
-    public int getImageID() {
-        return this.imageID;
+    public int getId() {
+        return this.id;
     }
 }

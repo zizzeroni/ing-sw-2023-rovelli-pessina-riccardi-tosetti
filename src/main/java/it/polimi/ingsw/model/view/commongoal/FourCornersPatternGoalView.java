@@ -12,11 +12,11 @@ public class FourCornersPatternGoalView extends CommonGoalView {
     @Override
     public String toString() {
         return "Four tiles of the same type in the four corners of the bookshelf. \n" +
-                "[ "+ TileColor.BLUE +" - - - "+ TileColor.BLUE +" ] \n" +
+                "[ " + TileColor.BLUE + " - - - " + TileColor.BLUE + " ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
                 "[ - - - - - ] \n" +
-                "[ "+ TileColor.BLUE +" - - - "+ TileColor.BLUE +" ] \n";
+                "[ " + TileColor.BLUE + " - - - " + TileColor.BLUE + " ] \n";
     }
 }

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
@@ -25,6 +29,7 @@ public class FinishingState extends ControllerState {
             }
             changeActivePlayer();
         }
+        this.controller.getModel().saveGame();
     }
 
     private void refillBoard() {
@@ -46,7 +51,7 @@ public class FinishingState extends ControllerState {
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
         if (checkIfUserInputIsCorrect(playerChoice)) {
-            removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+            removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
             System.err.println("[INPUT:ERROR]: User data not correct");
@@ -88,12 +93,12 @@ public class FinishingState extends ControllerState {
 
         return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
                 (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
-                        (row != board.getNumberOfRows() -1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
-                        (column != board.getNumberOfColumns()-1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
+                        (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
+                        (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                         (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null)));
     }
 
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
+    private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
         board.removeTiles(tileCoordinates);
     }
@@ -109,7 +114,8 @@ public class FinishingState extends ControllerState {
     public void sendPrivateMessage(String receiver, String sender, String content) {
         Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
         for (Player player : this.controller.getModel().getPlayers()) {
-            if (player.getNickname().equals(receiver)) {
+            //sender and receiver will see the message, in order to keep the full history
+            if (player.getNickname().equals(receiver) || player.getNickname().equals(sender)) {
                 player.addMessage(message);
             }
         }
@@ -126,9 +132,13 @@ public class FinishingState extends ControllerState {
     }
 
     @Override
-    public void addPlayer(String nickname) {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+        } else {
+            this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
+        }
     }
 
     @Override
@@ -138,6 +148,11 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Game is finishing, so do nothing...
+    }
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Game is finishing, so do nothing...
     }
 
@@ -154,6 +169,12 @@ public class FinishingState extends ControllerState {
             this.changeActivePlayer();
         }
     }
+
+    @Override
+    public void restoreGameForPlayer(GameListener server, String nickname) {
+        //Game is finishing, so do nothing...
+    }
+
 
     public static GameState toEnum() {
         return GameState.FINISHING;

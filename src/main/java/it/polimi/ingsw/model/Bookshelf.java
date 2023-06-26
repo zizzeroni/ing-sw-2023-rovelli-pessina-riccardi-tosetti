@@ -29,11 +29,6 @@ public class Bookshelf {
         this.listener = null;
     }
 
-    //REMINDER: For testing purposes only
-    public Bookshelf(Tile[][] tiles) {
-        this.tiles = tiles;
-    }
-
     //Initialize the bookshelf of the single player
     public Bookshelf() {
         this.image = null;
@@ -41,6 +36,10 @@ public class Bookshelf {
         for (int row = 0; row < this.numberOfRows; row++)
             for (int column = 0; column < this.numberOfColumns; column++)
                 this.tiles[row][column] = null;
+    }
+
+    public Bookshelf(Tile[][] tiles) {
+        this.tiles = tiles;
     }
 
     public Map<Integer, Integer> getPointsForEachGroup() {
@@ -70,7 +69,6 @@ public class Bookshelf {
             System.err.println("Bookshelf's listener is NULL!");
         }*/
     }
-
 
 
     /*

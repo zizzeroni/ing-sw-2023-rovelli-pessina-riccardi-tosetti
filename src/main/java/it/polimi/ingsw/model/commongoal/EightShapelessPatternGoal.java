@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.EightShapelessPatternGoalView;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -17,13 +19,18 @@ public class EightShapelessPatternGoal extends CommonGoal {
         super();
     }
 
-    public EightShapelessPatternGoal(int imageID, int patternRepetition, CheckType type) {
-        super(imageID, patternRepetition, type);
+    public EightShapelessPatternGoal(int id, int patternRepetition, CheckType type) {
+        super(id, patternRepetition, type);
     }
 
-    public EightShapelessPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
+
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+    }
+
     /*
     Control if there are 8 tiles of the same colour
     @param bookshelf contains the bookshelf of the player
@@ -38,22 +45,12 @@ public class EightShapelessPatternGoal extends CommonGoal {
                 .entrySet().stream()                                              //I transform the Map into a Set and then into a Stream
                 .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
+
     /*
     @return an immutable copy of the common goal
     */
     @Override
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
-    }
-    /*
-    Redefine the equals method
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof EightShapelessPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
     }
 }

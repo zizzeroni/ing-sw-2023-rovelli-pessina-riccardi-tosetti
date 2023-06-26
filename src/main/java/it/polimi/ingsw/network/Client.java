@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.network.exceptions.GenericException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -13,4 +13,6 @@ public interface Client extends Remote {
     public void ping() throws RemoteException;
 
     public void receiveException(GenericException exception) throws RemoteException;
+
+    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException;
 }

@@ -25,6 +25,10 @@ public interface Server extends Remote {
 
     public void disconnectPlayer(String nickname) throws RemoteException;
 
+    public void restoreGameForPlayer(String nickname) throws RemoteException;
+
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
+
     //Method used by the clients in order to register to a specific remote server
     public void register(Client client, String nickname) throws RemoteException;
 

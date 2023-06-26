@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.exceptions;
+package it.polimi.ingsw.model.exceptions;
 
 public class DuplicateNicknameException extends GenericException {
     public DuplicateNicknameException(String message) {
