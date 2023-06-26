@@ -20,12 +20,31 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * This class indicates the server's implementation.
+ * It is an extension of the UnicastRemoteObject and also a ModelListener's implementation.
+ * It contains methods that implements all the server's functionalities described in
+ * the server's interface class.
+ *
+ * @see Server
+ * @see ModelListener
+ * @see UnicastRemoteObject
+ */
 public class ServerImpl extends UnicastRemoteObject implements Server, ModelListener {
     private GameController controller;
     private Game model;
     private Map<Client, Optional<String>> clientsToHandle;
     private Map<Client, Integer> numberOfMissedPings;
 
+    /**
+     * Class constructor.
+     * initialize the server's attributes to their default values, also instantiating a new game controller.
+     * Finally, the server registers itself as a listener on the game and the board classes to identify changes.
+     *
+     * @see GameController
+     * @see Game
+     * @see Board
+     */
     public ServerImpl() throws RemoteException {
         super();
         this.clientsToHandle = new ConcurrentHashMap<>();
@@ -39,16 +58,46 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         startPingSenderThread(this);
     }
 
+    /**
+     * Class constructor.
+     * initialize the server's port to the given value.
+     * Starts the thread's pinging.
+     *
+     * @param port the server's port number.
+     */
     public ServerImpl(int port) throws RemoteException {
         super(port);
         startPingSenderThread(this);
     }
 
+    /**
+     * Class constructor.
+     * initialize the server's ip and port to the given values.
+     * Starts the thread's pinging.
+     *
+     * @param port the server's port number.
+     * @param csf the client socket factory employed for the RMI.
+     * @param ssf the server socket factory employed for the RMI.
+     *
+     * @see Server
+     * @see RMIClientSocketFactory
+     * @see RMIServerSocketFactory
+     */
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
         startPingSenderThread(this);
     }
 
+    /**
+     * Allows to change the turn and update the state of the game.
+     * Registers a listener for game and board changes.
+     *
+     * @throws RemoteException is called when a communication error occurs.
+     *
+     * @see Game
+     * @see Board
+     * @see java.net.http.WebSocket.Listener
+     */
     @Override
     public synchronized void changeTurn() throws RemoteException {
         this.controller.changeTurn();
@@ -57,6 +106,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Allows to notify the input insertion through the controller.
+     *
+     * @param playerChoice the choice made by the player.
+     * @throws RemoteException is called when a communication error occurs.
+     *
+     * @see Player
+     * @see GameController
+     */
     @Override
     public synchronized void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         try {
@@ -72,16 +130,43 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Calls the sending of a private message through the controller's implementation.
+     *
+     * @param receiver the {@code Player} receiving the message.
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
+     * @throws RemoteException is called when a communication error occurs.
+     */
     @Override
     public synchronized void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.controller.sendPrivateMessage(receiver, sender, content);
     }
 
+
+    /**
+     * Calls the sending of a broadcast message through the controller's implementation.
+     *
+     * @param sender  the sender of the broadcast {@code Message}.
+     * @param content the text of the message.
+     * @throws RemoteException is called when a communication error occurs.
+     */
     @Override
     public synchronized void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.controller.sendBroadcastMessage(sender, content);
     }
 
+    /**
+     * Adds a player to the game through its client. Updates the connection state of the new player to 'connected'.
+     *
+     * @param client   is the player's client.
+     * @param nickname is the reference for the name of the {@code Player} being added.
+     * @throws RemoteException is called when a communication error occurs.
+     *
+     * @see Player
+     * @see Client
+     * @see Game
+     */
     @Override
     public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -124,6 +209,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.clientsToHandle.values().removeAll(Collections.singleton(nullNickname));
     }
 
+    /**
+     * Allows to communicate the players number selection from the GameController.
+     *
+     * @param chosenNumberOfPlayers identifies the number of players present
+     *                              in the lobby during the game creation.
+     *
+     * @throws RemoteException if a communication error occurs.
+     *
+     * @see Game
+     * @see GameController
+     */
     @Override
     public synchronized void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         try {
@@ -156,12 +252,30 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Calls the controller to start up the current Game.
+     *
+     * @throws RemoteException if a communication error occurs.
+     *
+     * @see GameController#startGame()
+     * @see Game
+     */
     @Override
     public synchronized void startGame() throws RemoteException {
         this.controller.startGame();
     }
 
-    //TODO: Togliere il nickname come parametro del metodo
+    /**
+     * Used to pass the registration of a player's client, basing on his nickname.
+     *
+     * @param client   is the client registering to the server.
+     * @param nickname the player's nickname related to the client.
+     * @throws RemoteException
+     *
+     * @see Client
+     * @see Server
+     */
+    //TODO: Ask if we should pass nickname to register client
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -170,6 +284,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     }
 
+    /**
+     * Routes the server's pings to the proper player's client.
+     *
+     * @throws RemoteException if a communication error occurs.
+     *
+     * @see Player
+     */
     public synchronized void pingClients() throws RemoteException {
         Game model = this.controller.getModel();
         Client clientToRemove = null;
@@ -193,11 +314,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.clientsToHandle.remove(clientToRemove);
     }
 
+    /**
+     * Receives ping from the client.
+     *
+     * @throws RemoteException if a communication error occurs.
+     */
     @Override
     public synchronized void ping() throws RemoteException {
         //Receiving ping from the client... so do nothing
     }
 
+    /**
+     * Signals to the game's view the disconnection of a player.
+     *
+     * @param nickname is the nickname identifying the player selected for disconnection.
+     * @throws RemoteException if a communication error occurs.
+     *
+     * @see Game
+     * @see Player
+     */
     @Override
     public synchronized void disconnectPlayer(String nickname) throws RemoteException {
         this.controller.disconnectPlayer(nickname);
@@ -252,6 +387,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Signals to the view that the board has changed.
+     * Tiles have been added.
+     *
+     * @param board the tiles are added on this board.
+     *
+     * @see Board
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     //Listeners methods
     @Override
     public void addedTilesToBoard(Board board) {
@@ -264,6 +408,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Signals to the view that the board has changed.
+     * Tiles have been removed.
+     *
+     * @param board the tiles are removed from this board.
+     *
+     * @see Board
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     @Override
     public void removedTilesFromBoard(Board board) {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -275,6 +428,16 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Signals to the view that the bookshelf has changed.
+     * Tiles have been added.
+     *
+     * @param bookshelf the tiles are added on this Bookshelf.
+     *
+     * @see Bookshelf
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see javax.swing.text.View
+     */
     @Override
     public void tileAddedToBookshelf(Bookshelf bookshelf) {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -286,6 +449,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Notifies to the game's view that the given image has been modified.
+     *
+     * @param image the image that has changed following the method call.
+     *
+     * @see Client
+     * @see GameView
+     */
     @Override
     public void imageModified(String image) {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -297,6 +468,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Notifies to the game's view that the number of players has changed (due to a disconnection/reconnection/registration event).
+     *
+     * @see Player
+     */
     @Override
     public void numberOfPlayersModified() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -308,6 +484,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Notifies the game's view the index of the active player has been modified.
+     *
+     * @see Client
+     * @see GameView
+     * @see Player
+     */
     @Override
     public void activePlayerIndexModified() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -319,6 +502,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Notifies the bag-related changes.
+     *
+     * @see Client
+     */
     @Override
     public void bagModified() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -330,6 +518,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void commonGoalsModified() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -341,6 +532,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Consents to communicate and register the adding of a player to the game's lobby.
+     *
+     * @see Game
+     * @see Player
+     */
     @Override
     public void addedPlayer() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -352,6 +549,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Indicates a change in the current game's state.
+     * It is also used to register every player and his bookshelf as a listener on the server implementation.
+     *
+     * @see Game
+     * @see Player
+     * @see java.net.http.WebSocket.Listener
+     */
     @Override
     public void gameStateChanged() {
         if (this.controller.getModel().getGameState() == GameState.ON_GOING) {
@@ -373,6 +578,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Used for game's chat updating management.
+     * In case of a communication error prints a control message to signal it.
+     *
+     * @see Game
+     */
     @Override
     public void chatUpdated() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -384,6 +595,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Indicates if a player has reconnected to the current game's lobby .
+     * In case of a communication error prints a control message to signal it.
+     *
+     * @see Game
+     */
     @Override
     public void playerHasReconnected() {
         for (Client client : this.clientsToHandle.keySet()) {
@@ -405,6 +622,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             }
         }
     }*/
+
+    /**
+     * Allows the server to ping a game's thread.
+     *
+     * @param server the server starting the thread's pinging.
+     *
+     * @see Game
+     */
+
     /*private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override

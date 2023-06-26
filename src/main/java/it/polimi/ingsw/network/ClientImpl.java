@@ -11,10 +11,33 @@ import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * This class indicates the client's implementation.
+ * It is an extension of the UnicastRemoteObject and also a ModelListener's implementation.
+ * It contains methods that implements all the client's functionalities described in
+ * the client's interface class (and methods used for forwarding notifications from view to the server, ...).
+ *
+ * @see Client
+ * @see ModelListener
+ * @see UnicastRemoteObject
+ */
 public class ClientImpl extends UnicastRemoteObject implements Client, ViewListener, Runnable {
     private final Server serverConnectedTo;
     private final UI view;
 
+    /**
+     * Class constructor.
+     * initialize the client's server, client's view and nickname to the given values.
+     * Registers the view's listener.
+     *
+     * @param server the current server.
+     * @param view the UI's view.
+     * @throws RemoteException
+     *
+     * @see Server
+     * @see UI
+     * @see Player#getNickname()
+     */
     public ClientImpl(Server server, UI view) throws RemoteException {
         super();
         this.serverConnectedTo = server;
@@ -23,6 +46,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         view.registerListener(this);
     }
 
+    /**
+     * Class constructor.
+     * initialize the client's server, client's view and nickname to the given values.
+     * Registers the view's listener.
+     *
+     * @param server the current server.
+     * @param view the UI's view.
+     * @param nickname the client's (player's) nickname.
+     * @throws RemoteException
+     *
+     * @see Server
+     * @see UI
+     * @see Player#getNickname()
+     */
     public ClientImpl(Server server, UI view, String nickname) throws RemoteException {
         super();
         this.serverConnectedTo = server;
@@ -32,6 +69,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         view.registerListener(this);
     }
 
+    /**
+     * Class constructor.
+     * initialize the client's server, client's view and nickname to the given values.
+     * Registers the view's listener.
+     *
+     * @param server the current server.
+     * @param view the UI's view.
+     * @param nickname the client's (player's) nickname.
+     * @throws RemoteException
+     *
+     * @see Server
+     * @see UI
+     * @see Player#getNickname()
+     */
     public ClientImpl(Server server, UI view, String nickname, int port) throws RemoteException {
         super(port);
         this.serverConnectedTo = server;
@@ -41,6 +92,28 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         view.registerListener(this);
     }
 
+    /**
+     * Class constructor.
+     * initialize the client's server, client's view and nickname to the given values.
+     * initialize the server's ip and port to the given values.
+     * Registers the view's listener.
+     *
+     * @param port the server's port number.
+     * @param csf the client socket factory employed for the RMI.
+     * @param ssf the server socket factory employed for the RMI.
+     * @param server the current server.
+     * @param view the UI's view.
+     * @param nickname the client's (player's) nickname.
+     *
+     * @throws RemoteException
+     *
+     * @see Server
+     * @see RMIClientSocketFactory
+     * @see RMIServerSocketFactory
+     * @see Server
+     * @see UI
+     * @see Player#getNickname()
+     */
     public ClientImpl(Server server, UI view, String nickname, int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
         this.serverConnectedTo = server;
@@ -50,17 +123,34 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         view.registerListener(this);
     }
 
+    /**
+     * Forwards to the view the updates received from the server.
+     *
+     * @param modelUpdated contains the model updates.
+     * @throws RemoteException if a communication error occurs.
+     */
     //Update coming from the server, I forward it to the view
     @Override
     public synchronized void updateModelView(GameView modelUpdated) throws RemoteException {
         this.view.modelModified(modelUpdated);
     }
 
+    /**
+     * Receives the ping from server.
+     *
+     * @throws RemoteException if a communication error occurs.
+     */
     @Override
     public synchronized void ping() throws RemoteException {
         //Receiving ping from server... do nothing.
     }
 
+    /**
+     * Receives the generic type exception.
+     *
+     * @param exception the GENERIC except being received.
+     * @throws RemoteException if a communication error occurs.
+     */
     @Override
     public synchronized void receiveException(GenericException exception) throws RemoteException {
         this.view.printException(exception);
@@ -70,8 +160,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         this.view.setAreThereStoredGamesForPlayer(result);
     }
-
-    //Methods used for forwarding notifications from view to the server
+    
+    /**
+     * Allows to transmit the information about turns management to the view.
+     */
     @Override
     public void changeTurn() {
         try {
@@ -81,6 +173,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Allows to transmit the information about the choices of the player.
+     *
+     * @param playerChoice the choice made by the player.
+     */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
         try {
@@ -90,6 +187,14 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Allows to send a message to a specified player (receiver)
+     * in the game's lobby while he is connected.
+     *
+     * @param receiver the receiver of the private message.
+     * @param sender   the sender of the broadcast {@code Message}.
+     * @param content  the text of the message.
+     */
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
         try {
@@ -99,6 +204,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Allows to broadcast a message to all the active players
+     * in the game's lobby while they're connected.
+     *
+     * @param sender  the sender of the broadcast {@code Message}.
+     * @param content the text of the message.
+     */
     @Override
     public void sendBroadcastMessage(String sender, String content) {
         try {
@@ -108,6 +220,14 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Signals the adding of a player to the current game.
+     *
+     * @param nickname the nickname of the {@code Player}.
+     *
+     * @see Player
+     * @see Game
+     */
     @Override
     public void addPlayer(String nickname) {
         try {
@@ -118,6 +238,14 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Communicates the choice of the players number.
+     *
+     * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
+     *
+     * @see Player
+     * @see Game
+     */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         try {
@@ -127,6 +255,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Updates the server game's state to signal that the game has started.
+     *
+     * @see Game
+     * @see ServerImpl
+     * @see Server
+     */
     @Override
     public void startGame() {
         try {
@@ -136,6 +271,19 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /** Signals the disconnection of the selected {@code Player} from the current game to the server
+     * by changing his connectivity state.
+     * (only possible when the {@code Game} has already started).
+     *
+     *
+     * @param nickname is the nickname identifying the player selected for disconnection.
+     * @throws RemoteException called if a communication error occurs.
+     *
+     * @see Player
+     * @see Server
+     * @see Game
+     * @see Player#setConnected(boolean)
+     */
     @Override
     public void disconnectPlayer(String nickname) {
         try {
@@ -163,6 +311,14 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Consents to run the Client's implementation.
+     * It basically waits to receive the nickname from the player's client and then
+     * registers the client associated with the nickname received.
+     *
+     * @see Client
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void run() {
         this.view.run();

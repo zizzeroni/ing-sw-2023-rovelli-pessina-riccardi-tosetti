@@ -24,16 +24,14 @@ public interface Server extends Remote {
     //Methods used by the clients to notify the Server of some events
 
     /**
-     * Change the turn in the context of the present state through its implementations.
+     * Change the turn in the server's context.
      *
-     * @see CreationState#sendPrivateMessage(String, String, String)
-     * @see FinishingState#sendPrivateMessage(String, String, String)
-     * @see OnGoingState#sendPrivateMessage(String, String, String)
+     * @see OnGoingState#changeTurn()
      */
     public void changeTurn() throws RemoteException;
 
     /**
-     * Through its various implementations, allows the {@code Player}
+     * Allows the {@code Player} communicating with the server
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.
@@ -64,37 +62,30 @@ public interface Server extends Remote {
 
     /**
      * This method implementations allow to send
-     * broadcast messages, while in different states, to all
-     * the {@code Player}s.
+     * broadcast messages to all the {@code Player}s.
      *
      * @param sender the sender of the broadcast {@code Message}.
      * @param content the text of the message.
      * @throws RemoteException called if a communication error occurs.
      *
      * @see it.polimi.ingsw.model.Player
-     * @see CreationState#sendBroadcastMessage(String, String)
-     * @see FinishingState#sendBroadcastMessage(String, String)
-     * @see OnGoingState#sendBroadcastMessage(String, String)
-     *
+     * @see Message
      */
     public void sendBroadcastMessage(String sender, String content) throws RemoteException;
 
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
-     * through the nickname he has chosen during game creation and to assign a player a
-     * randomly chosen {@code PersonalGoal}. In order to provide the goal it as to
-     * access the GameController to get the number of persona goals for each player.
-     * <p>
-     * All the added players are characterized by {@code Bookshelf},
-     * {@code PersonalGoal} and an array of {@code ScoreTile} elements.
-     * <p>
-     * The method also sets the connection state of any given {@code Player} to {@code true}.
+     * through the knowledge of the nickname he has chosen during game creation and the client
+     * he has been assigned to.
      *
+     *
+     * @param client is the player's client
      * @param nickname is the reference for the name of the {@code Player} being added.
      * @throws RemoteException called if a communication error occurs.
      *
-     * @see PersonalGoal
-     * @see GameController#getNumberOfPersonalGoals()
+     * @see Client
+     * @see Game
+     * @see Player
      */
     public void addPlayer(Client client, String nickname) throws RemoteException;
 
