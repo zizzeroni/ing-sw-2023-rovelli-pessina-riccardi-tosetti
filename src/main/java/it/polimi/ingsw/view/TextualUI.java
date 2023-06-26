@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.commongoal.Direction;
-import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.UI;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.view.GUI.UI;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextualUI implements UI {
     private final GenericUILogic genericUILogic;

@@ -5,14 +5,12 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
-import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -200,6 +198,8 @@ public class CreationState extends ControllerState {
 
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname) {
+        String gamesPath = "src/main/resources/storage/games.json";
+        this.controller.getModel().createGameFileIfNotExist(gamesPath);
         Game[] games = this.getStoredGamesFromJson();
 
         if (games == null || games.length == 0) {

@@ -8,8 +8,6 @@ import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
-import it.polimi.ingsw.model.listeners.ModelListener;
-import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
@@ -156,6 +154,8 @@ public class GameController {
      * @return if there are stored games.
      */
     public boolean areThereStoredGamesForPlayer(String playerNickname) {
+        String gamesPath = "src/main/resources/storage/games.json";
+        this.model.createGameFileIfNotExist(gamesPath);
         Game[] games = this.getStoredGamesFromJson();
 
         if (games == null || games.length == 0) return false;

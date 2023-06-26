@@ -3,8 +3,8 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.ChatThread;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.exceptions.ExceptionType;
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 
 public class GenericUILogic {

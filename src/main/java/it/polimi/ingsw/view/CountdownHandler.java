@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.view.PlayerView;
 import it.polimi.ingsw.view.GUI.ThPrintCountdown;
 
 public class CountdownHandler extends Thread{

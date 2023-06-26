@@ -4,12 +4,12 @@ import it.polimi.ingsw.controller.FinishingState;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OnGoingState;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.model.exceptions.DuplicateNicknameException;
-import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.utils.OptionsValues;
 
 import java.rmi.RemoteException;

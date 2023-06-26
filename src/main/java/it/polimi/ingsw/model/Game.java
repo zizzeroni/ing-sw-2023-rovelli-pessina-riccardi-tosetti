@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -213,6 +213,21 @@ public class Game {
     public boolean isPlayerInGame(String nickname) {
         return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
+    public void createGameFileIfNotExist(String gamesPath){
+        //create a new empty games file if it does not exist
+        File gamesFile = new File(gamesPath);
+
+        try {
+            if (gamesFile.createNewFile()) {
+                System.out.println("Games' storage file created correctly");
+            } else {
+                System.out.println("Games' storage file already exists, skipping creation");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void saveGame() {
         //there is no need to store games in different files or handle simultaneous access to the file because there
@@ -229,15 +244,7 @@ public class Game {
         List<Game> games;
 
         try {
-            //create a new empty games file if it does not exists
-            File gamesFile = new File(gamesPath);
-
-            if (gamesFile.createNewFile()) {
-                System.out.println("Games' storage file created correctly");
-            } else {
-                System.out.println("Games' storage file already exists, skipping creation");
-            }
-
+            this.createGameFileIfNotExist(gamesPath);
             //make a backup of the stored games in case something goes wrong during the saving
             Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
 
@@ -248,7 +255,7 @@ public class Game {
 
             fileWriter = new FileWriter(gamesPath);
             if (gamesAsArray == null) gamesAsArray = new Game[0];
-            games = Arrays.asList(gamesAsArray);
+            games = new ArrayList<>(Arrays.asList(gamesAsArray));
 
             if (!games.isEmpty()) {
                 //use hash set in filter to increase performance
@@ -261,7 +268,7 @@ public class Game {
                         )
                         .findFirst()
                         .orElse(null);
-
+                System.out.println(storedCurrentGame);
                 if (storedCurrentGame != null) {
                     games.set(games.indexOf(storedCurrentGame), this);
                 } else {

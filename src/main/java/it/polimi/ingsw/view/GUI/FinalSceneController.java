@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.view.PlayerView;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
@@ -9,22 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FinalSceneController {
-    @FXML
-    private Label Player1;
-    @FXML
-    private Label Player2;
-    @FXML
-    private Label Player3;
-    @FXML
-    private Label Player4;
-    @FXML
-    private Label Points1;
-    @FXML
-    private Label Points2;
-    @FXML
-    private Label Points3;
-    @FXML
-    private Label Points4;
     private GraphicalUI mainGraphicalUI;
     private Scene scene;
 

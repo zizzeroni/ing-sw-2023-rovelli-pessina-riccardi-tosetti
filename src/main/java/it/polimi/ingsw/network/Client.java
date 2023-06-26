@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.view.GameView;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
