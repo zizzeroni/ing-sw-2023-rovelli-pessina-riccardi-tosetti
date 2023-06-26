@@ -2,7 +2,10 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.GUI.UI;
 
@@ -156,6 +159,9 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
+    /*
+     * TODO
+     */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         this.view.setAreThereStoredGamesForPlayer(result);

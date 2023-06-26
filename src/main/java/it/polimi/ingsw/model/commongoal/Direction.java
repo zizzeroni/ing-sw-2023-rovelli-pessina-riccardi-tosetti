@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.commongoal;
+
 /**
  * Enumeration that defines the type of direction that must be considered while checking onn a {@code CommonGoal} pattern.
  * <p>

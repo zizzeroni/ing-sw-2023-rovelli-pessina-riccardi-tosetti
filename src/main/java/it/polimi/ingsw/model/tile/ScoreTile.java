@@ -33,7 +33,7 @@ public class ScoreTile {
      * Constructs a ScoreTile.
      */
     public ScoreTile() {
-        this.value = -1;
+        this.value = 0;
         this.playerID = -1;
         this.commonGoalID = -1;
     }

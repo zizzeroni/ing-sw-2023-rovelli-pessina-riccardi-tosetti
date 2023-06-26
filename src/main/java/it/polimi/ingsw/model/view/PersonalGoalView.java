@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.utils.OptionsValues;
@@ -47,6 +46,9 @@ public class PersonalGoalView implements Serializable {
         }
     }
 
+    /*
+     * TODO
+     */
     public int getId() {
         return this.id;
     }

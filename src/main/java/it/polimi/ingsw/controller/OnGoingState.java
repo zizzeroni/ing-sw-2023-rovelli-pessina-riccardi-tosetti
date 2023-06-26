@@ -112,7 +112,7 @@ public class OnGoingState extends ControllerState {
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
             int finalI = i;
             if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
-                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI)) {
+                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == model.getCommonGoals().get(finalI).getId()) && model.getCommonGoals().get(i).getScoreTiles().size()!=0) {
                 currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
                 currentPlayer.getScoreTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }
@@ -311,27 +311,38 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void tryToResumeGame() {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is going, so do nothing...
     }
+
     /**
      * In this implementation it is referred to the ON_GOING state.
      * It falls unused.
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
+
+
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is going, so do nothing...
+    }
+
     /**
      * In this implementation it is referred to the ON_GOING state.
      * It falls unused.
      */
     @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
-        //Game is going, so do nothing...
-    }
-
-    @Override
     public void startGame() {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
     /** Disconnects the selected {@code Player} from the {@code Game}
@@ -364,6 +375,8 @@ public class OnGoingState extends ControllerState {
 
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname) {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
 

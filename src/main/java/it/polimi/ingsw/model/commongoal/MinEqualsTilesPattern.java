@@ -113,9 +113,8 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * finding the number of different {@code Tile}s only in the complete rows/columns,
      * with the maximum number of equal tiles.
      *
-     * @params bookshelf contains the bookshelf of the {@code Player}
-     * @return the number of rows or column that respect the maxEquals
      * @param bookshelf is the selected {@code Bookshelf}.
+     * @return the number of rows or column that respect the maxEquals
      * @return the number of times the current pattern occurs in the {@code Bookshelf}.
      *
      * @see Bookshelf

@@ -217,6 +217,9 @@ public class GenericUILogic {
         this.controller = null;
     }
 
+    /**
+     * TODO
+     */
     public int getCountdown() {
         return countdown;
     }

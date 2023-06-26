@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.listeners;
 
 import it.polimi.ingsw.model.Bookshelf;
+
 /**
  * An interface used to represent an object of type 'listener'.
  * In this case the listener registers itself to the {@code Bookshelf}.
@@ -18,6 +19,7 @@ public interface BookshelfListener {
      * @see Bookshelf
      */
     public void tileAddedToBookshelf(Bookshelf bookshelf);
+    
     /**
      * Notifies if the current {@code Bookshelf} image has been modified.
      *

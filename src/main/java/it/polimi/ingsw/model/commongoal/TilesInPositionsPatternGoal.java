@@ -48,17 +48,26 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      * (numberOfPlayers and commonGoalID are also considered in this version).
      *
-     * @param id the identifier assigned to the card.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param positions the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     * @param id         the image assigned to the card.
+     * @param type            the type of check that has to be done on the considered common goal's card.
+     * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      */
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.positions = positions;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
+     * (numberOfPlayers and commonGoalID are also considered in this version).
+     *
+     * @param id         the image assigned to the card.
+     * @param type            the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles
+     * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     */
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.positions = positions;
@@ -89,10 +98,9 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      *
      * In the second part we count the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
      *
-     * @params bookshelf contains the bookshelf of the player.
-     * @return generalCounter contains the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the number of repetitions of the TilesInPositionsPatternGoal.
+     * @return generalCounter contains the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
      *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.view.PlayerView

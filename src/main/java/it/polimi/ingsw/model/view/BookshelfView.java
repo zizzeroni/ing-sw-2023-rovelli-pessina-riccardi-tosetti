@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.TileColor;
 
@@ -326,4 +325,6 @@ public class BookshelfView implements Serializable {
             }
         }
     }
+
+
 }

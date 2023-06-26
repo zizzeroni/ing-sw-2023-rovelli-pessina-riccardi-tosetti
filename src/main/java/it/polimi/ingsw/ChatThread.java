@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.CommandReader;
-import it.polimi.ingsw.view.UI;
 
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class ChatThread extends Thread {
                         if (commandReceiverAndContent.length > 2) {
                             String receiver = commandReceiverAndContent[1];
 
-                            if(this.gameView.isPlayerInGame(receiver)) {
+                            if (this.gameView.isPlayerInGame(receiver)) {
                                 String content = commandReceiverAndContent[2];
                                 this.controller.sendPrivateMessage(receiver, this.nickname, content);
                             } else {
@@ -96,8 +95,7 @@ public class ChatThread extends Thread {
                             System.out.println("No message found");
                         }
                     }
-                    default ->
-                            throw new Exception("Chat command not recognized");
+                    default -> throw new Exception("Chat command not recognized");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

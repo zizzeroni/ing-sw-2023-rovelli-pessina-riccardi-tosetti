@@ -9,8 +9,10 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
+import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +31,17 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
+/**
+ * This class contains the GUI's methods.
+ * It is developed as an extension of UI, because it shares some base methods
+ * with the TextualUI
+ *
+ * @see UI
+ * @see TextualUI
+ */
 public class GraphicalUI extends Application implements UI {
+    Server serverConnectedTo;
+    Client selfClient;
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
     private boolean resizing = true;
@@ -43,12 +55,34 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @see GameView
+     */
     public GraphicalUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
     }
 
+    /**
+     * Class constructor.
+     * <p>
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GraphicalUI() {
         this.genericUILogic = new GenericUILogic();
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
+        this.genericUILogic = new GenericUILogic(model, controller, nickname);
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller) {
+        super();
+        this.genericUILogic = new GenericUILogic(model, controller);
     }
 
     @Override
@@ -59,25 +93,25 @@ public class GraphicalUI extends Application implements UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
+
         if (typeOfConnection == 2) {
-            ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
+            serverConnectedTo = new ServerStub(ip, Integer.parseInt(port));
             //Creating a new client with a TextualUI and a Socket Server
-            Client client = null;
             try {
-                client = new ClientImpl(serverStub, this);
+                selfClient = new ClientImpl(serverConnectedTo, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
             //Creating a new Thread that will take care of checking on availability of connected client
-            startPingSenderThread(serverStub);
+            startPingSenderThread(serverConnectedTo);
             //Creating a new Thread that will take care of the responses coming from the Server side
-            startReceiverThread(client, serverStub);
+            startReceiverThread(selfClient, (ServerStub) serverConnectedTo);
         } else {
             try {
                 Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                Server server = (Server) registry.lookup("server");
-                new ClientImpl(server, this);
-                startPingSenderThread(server);
+                serverConnectedTo = (Server) registry.lookup(OptionsValues.SERVER_RMI_NAME);
+                new ClientImpl(serverConnectedTo, this);
+                startPingSenderThread(serverConnectedTo);
             } catch (RemoteException | NotBoundException e) {
                 throw new RuntimeException(e);
             }
@@ -85,15 +119,13 @@ public class GraphicalUI extends Application implements UI {
         run();
     }
 
-    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
-        this.genericUILogic = new GenericUILogic(model, controller, nickname);
-    }
-
-    public GraphicalUI(GameView model, ViewListener controller) {
-        super();
-        this.genericUILogic=new GenericUILogic(model, controller);
-    }
-
+    /**
+     * Displays a standard message to identify the starting of the next turn.
+     * Calls the nickname of the active player and the shows the board's state.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     */
     @Override
     public void showNewTurnIntro() {
 
@@ -170,6 +202,15 @@ public class GraphicalUI extends Application implements UI {
         this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
+    /**
+     * Performs the following in game actions. <p>
+     * Creates the first scene root. <p>
+     * Displays the first scene. <p>
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public void run() {
         Parent root;
@@ -191,6 +232,17 @@ public class GraphicalUI extends Application implements UI {
         //primaryStage.show();
     }
 
+    /**
+     * Consents to a player to join the game's lobby using his nickname.
+     * It is also used as follows to link the first the scene with the second: <p>
+     * Waits to reach the given players number, notifies the controller of the game's start
+     * then checks the second scene before displaying it.
+     *
+     * @param nickname the player's nickname.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
 
@@ -209,7 +261,7 @@ public class GraphicalUI extends Application implements UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.genericUILogic.getController().startGame();
@@ -345,22 +397,29 @@ public class GraphicalUI extends Application implements UI {
         }
     }
 
+    /**
+     * Sets the number of players for the current Game.
+     *
+     * @param chosenNumberOfPlayer the selected number of players.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         var th = new Thread(() -> {
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
-            CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
-            Platform.runLater(() -> {
-                this.genericUILogic.getController().startGame();
-                countDownLatchStartGame.countDown();
-            });
-            try {
-                countDownLatchStartGame.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+                CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                    this.genericUILogic.getController().startGame();
+                    countDownLatchStartGame.countDown();
+                });
+                try {
+                    countDownLatchStartGame.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
         });
         th.setUncaughtExceptionHandler((t, e) -> {
             System.err.println("Uncaught exception in thread");
@@ -404,7 +463,7 @@ public class GraphicalUI extends Application implements UI {
                 try {
                     serverStub.receive(client);
                 } catch (RemoteException e) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)" + e.getMessage());
                     try {
                         serverStub.close();
                     } catch (RemoteException ex) {
@@ -421,19 +480,21 @@ public class GraphicalUI extends Application implements UI {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        widthOld=primaryStage.getScene().getWidth();
-        heightOld=primaryStage.getScene().getHeight();
+        widthOld = primaryStage.getScene().getWidth();
+        heightOld = primaryStage.getScene().getHeight();
         this.primaryStage.widthProperty().addListener((obs, oldVal, newV) -> {
-            rescale((double)newV,heightOld);         });
+            rescale((double) newV, heightOld);
+        });
         this.primaryStage.heightProperty().addListener((obs, oldVal, newV) -> {
-            rescale(widthOld,(double)newV);         });
-        resizing=true;
+            rescale(widthOld, (double) newV);
+        });
+        resizing = true;
     }
 
     public void rescale(double wi, double he) {
         if (resizing) {
-            double w = wi/widthOld;
-            double h = he/heightOld;
+            double w = wi / widthOld;
+            double h = he / heightOld;
 
             widthOld = wi;
             heightOld = he;

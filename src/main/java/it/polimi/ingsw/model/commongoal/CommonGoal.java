@@ -59,11 +59,10 @@ public abstract class CommonGoal extends Card {
      * Builds a CommonGoal with specific type, ID ...
      * (numberOfPlayers and commonGoalID are also considered).
      *
-     * @param id the identifier assigned to the card.
+     * @param id                            the image assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles                    score tiles of the common goal
      */
     public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id);
@@ -72,6 +71,16 @@ public abstract class CommonGoal extends Card {
         this.scoreTiles = scoreTiles;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds a CommonGoal with specific type, ID ...
+     * (numberOfPlayers and commonGoalID are also considered).
+     *
+     * @param id                            the image assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers                    number of the players
+     */
     public CommonGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id);
         this.numberOfPatternRepetitionsRequired = numberOfPatternRepetitionsRequired;
@@ -145,13 +154,13 @@ public abstract class CommonGoal extends Card {
     private void initScoreTiles(int numberOfPlayers, int commonGoalID) {
         switch (numberOfPlayers) {
             case 2 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID)));
             }
             case 3 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(6, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID)));
             }
             case 4 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID), new ScoreTile(2, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(6, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID), new ScoreTile(2, -1, commonGoalID)));
             }
             default -> {
                 this.scoreTiles = null;

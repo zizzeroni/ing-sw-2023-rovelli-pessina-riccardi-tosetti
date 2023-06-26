@@ -187,8 +187,8 @@ public class LoginController implements Initializable {
 
     public void nicknameAlreadyUsed() {
         Platform.runLater(() -> {
-        error.setVisible(true);
-        ErrorLabel.setText("nickname already used!");
+            error.setVisible(true);
+            ErrorLabel.setText("nickname already used!");
         });
     }
 }

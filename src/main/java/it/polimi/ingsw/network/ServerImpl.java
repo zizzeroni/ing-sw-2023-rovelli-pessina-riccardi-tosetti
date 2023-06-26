@@ -354,7 +354,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                 .map(Map.Entry::getKey)
                 .toList();
 
-        for(Client client : clientsToRemove) {
+        for (Client client : clientsToRemove) {
             client.receiveException(new ExcessOfPlayersException("The creator of the lobby restored a previous game that you weren't part of"));
             this.clientsToHandle.remove(client);
             this.numberOfMissedPings.remove(client);
@@ -668,27 +668,18 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                     Client client = clientOptionalEntry.getKey();
                                     String nickname = clientOptionalEntry.getValue().orElse("Unknown");
 
-                                    //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                                    Thread selfThread = this;
-                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            selfThread.interrupt();
-                                            System.err.println("stopIfWaitTooLongTimer executed");
-                                        }
-                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);
+
 
                                     try {
                                         client.ping();
                                         numberOfMissedPings.replace(client, OptionsValues.INITIAL_MISSED_PINGS);
-                                        stopIfWaitTooLongTimer.cancel();
+                                        //stopIfWaitTooLongTimer.cancel();
                                     } catch (RemoteException e) {
                                         try {
-                                            stopIfWaitTooLongTimer.cancel();
+                                            //stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
-                                            if (numberOfMissedPings.get(client) == 3) {
+                                            if (numberOfMissedPings.get(client) >= 3) {
                                                 System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
                                                 if (model.getGameState() == GameState.IN_CREATION) {
                                                     clientsToHandle.remove(client);
@@ -698,6 +689,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                                     controller.disconnectPlayer(nickname);
                                                 }
                                             }
+                                            this.interrupt();
                                         } catch (NullPointerException e1) {
                                             System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
                                         }
@@ -726,6 +718,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
 
 }
+//I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                                    /*Thread selfThread = this;
+                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            selfThread.interrupt();
+                                            System.err.println("stopIfWaitTooLongTimer executed");
+                                        }
+                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
+
 
 
 /*

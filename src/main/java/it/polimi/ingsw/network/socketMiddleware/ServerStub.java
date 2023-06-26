@@ -1,9 +1,11 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
 import it.polimi.ingsw.controller.CreationState;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OnGoingState;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Message;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
@@ -57,11 +59,12 @@ public class ServerStub implements Server {
      * @see OnGoingState#changeTurn()
      */
     @Override
-    public void changeTurn() throws RemoteException {
+    public synchronized void changeTurn() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new ChangeTurnCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -88,11 +91,12 @@ public class ServerStub implements Server {
      * @see Choice
      */
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
+    public synchronized void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new InsertUserInputCommand(playerChoice);
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -121,11 +125,12 @@ public class ServerStub implements Server {
      * @see Message#messageType()
      */
     @Override
-    public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
+    public synchronized void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new SendPrivateMessageCommand(receiver, sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -151,11 +156,12 @@ public class ServerStub implements Server {
      * @see Message
      */
     @Override
-    public void sendBroadcastMessage(String sender, String content) throws RemoteException {
+    public synchronized void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new SendBroadcastMessageCommand(sender, content);
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e)
@@ -168,6 +174,7 @@ public class ServerStub implements Server {
             throw new RuntimeException(e);
         }
     }
+    
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
      * through the knowledge of the nickname he has chosen during game creation and the client
@@ -183,11 +190,12 @@ public class ServerStub implements Server {
      * @see Player
      */
     @Override
-    public void addPlayer(Client client, String nickname) throws RemoteException {
+    public synchronized void addPlayer(Client client, String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new AddPlayerCommand(nickname);
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -201,11 +209,12 @@ public class ServerStub implements Server {
     }
 
     @Override
-    public void tryToResumeGame() throws RemoteException {
+    public synchronized void tryToResumeGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new TryToResumeGameCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -229,11 +238,12 @@ public class ServerStub implements Server {
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
      */
     @Override
-    public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
+    public synchronized void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new ChooseNumberOfPlayerCommand(chosenNumberOfPlayers);
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -255,11 +265,12 @@ public class ServerStub implements Server {
      * @see Game
      */
     @Override
-    public void startGame() throws RemoteException {
+    public synchronized void startGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer message = new StartGameCommand();
         try {
             this.oos.writeObject(message);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + message + " ,to server.", e);
@@ -283,9 +294,10 @@ public class ServerStub implements Server {
      * @see it.polimi.ingsw.model.Player
      */
     @Override
-    public void register(Client client, String nickname) throws RemoteException {
+    public synchronized void register(Client client, String nickname) throws RemoteException {
         try {
             this.socket = new Socket(this.ip, this.port);
+            this.socket.setTcpNoDelay(true);
             try {
                 this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             } catch (IOException e) {
@@ -311,10 +323,11 @@ public class ServerStub implements Server {
      * @see Server
      */
     @Override
-    public void ping() throws RemoteException {
+    public synchronized void ping() throws RemoteException {
         CommandToServer command = new SendPingToServerCommand();
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
@@ -335,10 +348,11 @@ public class ServerStub implements Server {
      * @see Player#setConnected(boolean)
      */
     @Override
-    public void disconnectPlayer(String nickname) throws RemoteException {
+    public synchronized void disconnectPlayer(String nickname) throws RemoteException {
         CommandToServer command = new DisconnectPlayerCommand(nickname);
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server.", e);
@@ -346,12 +360,14 @@ public class ServerStub implements Server {
     }
 
     @Override
-    public void restoreGameForPlayer(String nickname) throws RemoteException {
+    public synchronized void restoreGameForPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer command = new RestoreStoredGameCommand(nickname);
 
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
         }
@@ -364,12 +380,14 @@ public class ServerStub implements Server {
     }
 
     @Override
-    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
+    public synchronized void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
         CommandToServer command = new AreThereStoredGamesForPlayerCommand(nickname);
 
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
+            this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to server: " + e.getMessage());
         }

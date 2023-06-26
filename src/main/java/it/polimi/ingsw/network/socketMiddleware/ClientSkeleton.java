@@ -60,7 +60,7 @@ public class ClientSkeleton implements Client {
      * @see javax.swing.text.View
      */
     @Override
-    public void updateModelView(GameView modelUpdated) throws RemoteException {
+    public synchronized void updateModelView(GameView modelUpdated) throws RemoteException {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
@@ -78,7 +78,7 @@ public class ClientSkeleton implements Client {
      * @see Client
      */
     @Override
-    public void ping() throws RemoteException {
+    public synchronized void ping() throws RemoteException {
         CommandToClient command = new SendPingToClientCommand();
         try {
             this.oos.writeObject(command);
@@ -97,7 +97,7 @@ public class ClientSkeleton implements Client {
      * @see Client
      */
     @Override
-    public void receiveException(GenericException exception) throws RemoteException {
+    public synchronized void receiveException(GenericException exception) throws RemoteException {
         CommandToClient command = new SendExceptionCommand(exception);
         try {
             this.oos.writeObject(command);
@@ -108,7 +108,7 @@ public class ClientSkeleton implements Client {
     }
 
     @Override
-    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+    public synchronized void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
         try {
             this.oos.writeObject(command);

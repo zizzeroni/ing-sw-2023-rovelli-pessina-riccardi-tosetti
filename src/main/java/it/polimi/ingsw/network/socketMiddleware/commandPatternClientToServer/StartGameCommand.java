@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
-import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 

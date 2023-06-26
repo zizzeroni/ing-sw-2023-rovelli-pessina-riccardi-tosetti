@@ -61,6 +61,14 @@ public class Bookshelf {
                 this.tiles[row][column] = null;
     }
 
+    /**
+     * Class constructor.
+     * Initialize the bookshelf of the single {@code Player}.
+     *
+     * @param tiles are the {@code Tile}s to be disposed in the bookshelf.
+     * @see Player
+     * @see Tile
+     */
     public Bookshelf(Tile[][] tiles) {
         this.tiles = tiles;
     }

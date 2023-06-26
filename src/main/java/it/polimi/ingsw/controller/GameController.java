@@ -4,13 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
-import it.polimi.ingsw.utils.GameModelDeserializer;
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
+import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -151,7 +151,6 @@ public class GameController {
         state.sendBroadcastMessage(sender, content);
     }
 
-
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
      * through the nickname he has chosen during game creation and to assign a player a
@@ -174,6 +173,9 @@ public class GameController {
         state.addPlayer(nickname);
     }
 
+    /*
+     * TODO
+     */
     public void tryToResumeGame() {
         state.tryToResumeGame();
     }
@@ -192,9 +194,23 @@ public class GameController {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
 
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
-        state.checkExceedingPlayer(chosenNumberOfPlayers);
-    }
+    /**
+     * The method starts verifying  if the {@code Game} creation has occurred properly,
+     * confronting the number of active players registered during the previous phase with
+     * that stored in the {@code Model}.
+     * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
+     * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
+     * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
+     *
+     * @see Game
+     * @see Player
+     * @see ScoreTile
+     * @see CommonGoal
+     * @see Game#getNumberOfPlayersToStartGame()
+     * @see Game#getPlayers()
+     * @see Board#setPattern(JsonBoardPattern)
+     * @see Board#numberOfTilesToRefill()
+     */
 
     /**
      * The method starts verifying  if the {@code Game} creation has occurred properly,
@@ -217,13 +233,19 @@ public class GameController {
         state.startGame();
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}
+    /*
+     * TODO
+     */
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        state.checkExceedingPlayer(chosenNumberOfPlayers);
+    }
+
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -278,16 +300,11 @@ public class GameController {
         return personalGoalsDeck.remove(index);
     }
 
-    public List<PersonalGoal> getPersonalGoalsDeck() {
-        return personalGoalsDeck;
-    }
-
     /**
      * This method is used to add a {@code PersonalGoal} to the list of the {@code Player}'s possible
      * personal goals ({@code personalGoalsDeck}).
      *
      * @param personalGoal is the goal being added to the deck.
-     *
      * @see PersonalGoal
      * @see GameController#personalGoalsDeck
      */
@@ -295,11 +312,14 @@ public class GameController {
         personalGoalsDeck.add(personalGoal);
     }
 
+    public List<PersonalGoal> getPersonalGoalsDeck() {
+        return personalGoalsDeck;
+    }
+
     /**
      * Getter to access the size of the deck of personal goals available.
      *
      * @return the size of the {@code personalGoalsDeck}
-     *
      * @see PersonalGoal
      * @see GameController#personalGoalsDeck
      */

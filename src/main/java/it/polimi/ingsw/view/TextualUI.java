@@ -27,15 +27,15 @@ import java.util.List;
  * @see it.polimi.ingsw.model.Player
  */
 public class TextualUI implements UI {
+
     private final GenericUILogic genericUILogic;
 
     /**
      * Class constructor.
      * Initialize the game's model.
      *
-     * @param model the assigned model.
-     *
-     * @see GameView
+     * @param TODO
+     * @see GenericUILogic
      */
     public TextualUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
@@ -104,10 +104,9 @@ public class TextualUI implements UI {
     /**
      * Evaluates the waiting states for the game's lobby and the adding of a player.
      *
+     * @param clientGameState
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
-     *
-     * @param clientGameState
      */
     private void waitWhileInState(ClientGameState clientGameState) {
         synchronized (this.genericUILogic.getLockState()) {
@@ -121,6 +120,8 @@ public class TextualUI implements UI {
             while (genericUILogic.getState() == clientGameState) {
                 try {
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -134,12 +135,17 @@ public class TextualUI implements UI {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting for the game to start...");
                 }
-                case WAITING_FOR_OTHER_PLAYER ->
-                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                //case WAITING_FOR_OTHER_PLAYER ->
+                        //System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
+                    if(genericUILogic.getState() == ClientGameState.WAITING_FOR_OTHER_PLAYER) {
+                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                    }
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

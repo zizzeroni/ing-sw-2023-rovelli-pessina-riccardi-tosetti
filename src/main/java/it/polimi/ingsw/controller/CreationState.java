@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
@@ -41,6 +42,8 @@ public class CreationState extends ControllerState {
      */
     @Override
     public void changeTurn() {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
@@ -56,6 +59,8 @@ public class CreationState extends ControllerState {
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
@@ -123,7 +128,7 @@ public class CreationState extends ControllerState {
      * @see GameController#getNumberOfPersonalGoals()
      */
     @Override
-    public void addPlayer(String nickname) /*throws LobbyIsFullException*/ {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
@@ -133,13 +138,15 @@ public class CreationState extends ControllerState {
                 && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
             this.controller.getModel().addPlayer(newPlayer);
         } else {
-            //throw new LobbyIsFullException("Cannot access a game: Lobby is full");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full");
         }
     }
 
     @Override
     public void tryToResumeGame() {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is in creation phase, so do nothing...
     }
 
     /**
@@ -257,7 +264,7 @@ public class CreationState extends ControllerState {
 
         switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
             case 0 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
                         new ArrayList<>(Arrays.asList(1, 1)),
                         new ArrayList<>(Arrays.asList(1, 1))
                 )));

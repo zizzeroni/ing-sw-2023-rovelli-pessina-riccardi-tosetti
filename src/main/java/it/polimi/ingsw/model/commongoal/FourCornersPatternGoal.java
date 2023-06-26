@@ -15,8 +15,6 @@ import java.util.List;
  * @see it.polimi.ingsw.model.Board
  */
 public class FourCornersPatternGoal extends CommonGoal {
-
-    //Constructors
     /**
      * Class constructor without parameters.
      * Builds a FourCornersPatternGoal.

@@ -203,7 +203,7 @@ public class DiagonalEqualPattern extends CommonGoal {
         for (int row = 0; row < matrixToRotate.size(); row++) {
             for (int column = 0; column < matrixToRotate.get(0).size(); column++) {
                 if (matrixToRotate.get(row).get(column) == 1) {
-                    rotatedMatrix.get(row).set(rotatedMatrix.size() - 1 - column,1);
+                    rotatedMatrix.get(row).set(rotatedMatrix.size() - 1 - column, 1);
                 }
             }
         }

@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.view.CommonGoalView;
  * @see MinEqualsTilesPattern
  */
 public class MinEqualsTilesPatternGoalView extends CommonGoalView {
+
     private final Direction direction;
     private final int maxEqualsTiles;
 

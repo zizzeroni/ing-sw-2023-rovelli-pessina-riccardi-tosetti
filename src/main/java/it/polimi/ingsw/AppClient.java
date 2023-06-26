@@ -164,7 +164,7 @@ public class AppClient {
                 try {
                     server.ping();
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    System.err.println("Error while pinging server. " + e.getMessage());
                 }
             }
         };
@@ -198,6 +198,7 @@ public class AppClient {
                     } catch (RemoteException ex) {
                         System.err.println("[RESOURCE:ERROR] Cannot close connection with server. Halting...");
                     }
+
                     System.exit(1);
                 }
             }

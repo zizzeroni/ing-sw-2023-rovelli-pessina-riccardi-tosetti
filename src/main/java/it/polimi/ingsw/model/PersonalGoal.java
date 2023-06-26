@@ -35,7 +35,7 @@ public class PersonalGoal extends Card {
     /**
      * Class constructor.
      *
-     * @param id the image of the personal goal.
+     * @param id the identifier of the personal goal.
      * @param pattern the pattern associated to the personal goal.
      */
     public PersonalGoal(int id, Tile[][] pattern) {

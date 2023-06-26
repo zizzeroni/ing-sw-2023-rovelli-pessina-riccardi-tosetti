@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commongoal.CommonGoal;
-import it.polimi.ingsw.model.tile.Tile;
-
 /**
  * This class is used to represent the Card objects.
  * It provides methods to access and modify the image of the card, plus a method

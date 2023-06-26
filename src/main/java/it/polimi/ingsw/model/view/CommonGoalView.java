@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.PersonalGoal;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CheckType;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;

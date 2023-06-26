@@ -4,14 +4,11 @@ package it.polimi.ingsw.utils;
  * A class can implement the {@code Observer} interface when it
  * wants to be informed of changes in observable objects.
  *
- * @see     Observable
- *
  * @param <SubjectType> the type of the observable object
- *                     that this observer is observing
- * @param <Event> the enumeration of the event that this observer is observing
- *
- * @implNote
- * This class is a Generic Implementation of the deprecated {@link java.util.Observer}.
+ *                      that this observer is observing
+ * @param <Event>       the enumeration of the event that this observer is observing
+ * @implNote This class is a Generic Implementation of the deprecated {@link java.util.Observer}.
+ * @see Observable
  */
 public interface Observer<SubjectType extends Observable<Event>, Event extends ObservableType> {
     /**
@@ -20,9 +17,9 @@ public interface Observer<SubjectType extends Observable<Event>, Event extends O
      * {@code notifyObservers} method to have all the object's
      * observers notified of the change.
      *
-     * @param   o     the observable object.
-     * @param   arg   an argument passed to the {@code notifyObservers}
-     *                 method.
+     * @param o   the observable object.
+     * @param arg an argument passed to the {@code notifyObservers}
+     *            method.
      */
 
     void update(SubjectType o, Event arg);

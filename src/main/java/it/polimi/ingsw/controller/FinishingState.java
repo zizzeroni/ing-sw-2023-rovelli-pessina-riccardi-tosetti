@@ -280,7 +280,7 @@ public class FinishingState extends ControllerState {
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+        if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
             throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
@@ -289,6 +289,7 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void tryToResumeGame() {
+        //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
 
@@ -298,6 +299,8 @@ public class FinishingState extends ControllerState {
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
+        //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
     }
 
@@ -307,11 +310,15 @@ public class FinishingState extends ControllerState {
      */
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+        //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
     }
 
     @Override
     public void startGame() {
+        //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
     }
 
@@ -337,6 +344,8 @@ public class FinishingState extends ControllerState {
 
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname) {
+        //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
     }
 

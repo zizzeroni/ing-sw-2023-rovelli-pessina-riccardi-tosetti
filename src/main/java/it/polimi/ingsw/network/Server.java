@@ -2,9 +2,11 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.CreationState;
 import it.polimi.ingsw.controller.FinishingState;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OnGoingState;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Message;
+import it.polimi.ingsw.model.Player;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -131,20 +133,25 @@ public interface Server extends Remote {
      */
     public void disconnectPlayer(String nickname) throws RemoteException;
 
-    public void restoreGameForPlayer(String nickname) throws RemoteException;
-
-    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
-
     /**
      * Method used by the clients in order to register to a specific remote server.
      *
-     * @throws RemoteException called if a communication error occurs.
-     *
-     * @param client is the client registering to the server.
+     * @param client   is the client registering to the server.
      * @param nickname the player's nickname related to the client.
+     * @throws RemoteException called if a communication error occurs.
      * @throws RemoteException called if a communication error occurs.
      */
     public void register(Client client, String nickname) throws RemoteException;
+
+    /*
+     * TODO
+     */
+    public void restoreGameForPlayer(String nickname) throws RemoteException;
+
+    /*
+     * TODO
+     */
+    public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
 
     /**
      * Allows to ping the server.

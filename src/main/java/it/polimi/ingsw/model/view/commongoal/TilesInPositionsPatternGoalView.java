@@ -28,13 +28,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      */
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
-        //TODO: Controllare se è corretto
         this.positions = new ArrayList<>(commonGoalModel.getPositions());
-        /*for (int row = 0; row < commonGoalModel.getPositions().size(); row++) {
-            for (int column = 0; column < commonGoalModel.getPositions().get(0).size(); column++) {
-                this.positions.get(row).set(column, commonGoalModel.getPositions().get(row).get(column));
-            }
-        }*/
     }
 
     /**

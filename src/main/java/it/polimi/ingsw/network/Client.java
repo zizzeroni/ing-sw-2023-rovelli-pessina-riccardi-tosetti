@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
  * @see ClientImpl
  */
 public interface Client extends Remote {
-    //Method used by Server to forward an updated model to the client
+     
     /**
      * This method permits to convey the updated model view.
      *

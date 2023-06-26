@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
 
-//TODO: Chiedere se tenerla anche se non utilizzata attualmente nel progetto
 /**
  * This class represents the command that enables registration of the {@code Player}.
  * It is developed as an implementation of the {@code CommandToServer} interface.
