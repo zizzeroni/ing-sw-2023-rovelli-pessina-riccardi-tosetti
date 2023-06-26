@@ -9,7 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * This class represents the {@code Player}'s bookshelf.
+ * It contains a series of methods to access the values of bookshelf's columns, rows and others attributes.
+ * It also contains methods to allow the bookshelf to be modified by active players in the lobby during the {@code Game}
+ * (these are used mainly for adding or removing {@code Tile}s from the bookshelf).
  *
+ * @see Player
+ * @see Tile
+ * @see Game
  */
 public class Bookshelf {
     private transient BookshelfListener listener;
@@ -30,6 +37,8 @@ public class Bookshelf {
      * set of bookshelf's listeners.
      *
      * @param listener the listener object that is added.
+     *
+     * @see java.net.http.WebSocket.Listener
      */
     public void registerListener(BookshelfListener listener) {
         this.listener = listener;
@@ -39,7 +48,11 @@ public class Bookshelf {
         this.listener = null;
     }
 
-    //Initialize the bookshelf of the single player
+    /** Class constructor.
+     * Initialize the bookshelf of the single {@code Player}.
+     *
+     * @see Player
+     */
     public Bookshelf() {
         this.image = null;
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
@@ -54,16 +67,25 @@ public class Bookshelf {
 
     /**
      * provides the number of points for all the different groups
-     * identifiable in the Bookshelf for each player.
+     * identifiable in the Bookshelf for each {@code Player}.
      *
      * @return pointsForEachGroup contains the provided score
      *  for each group of tiles in the corresponding map.
+     *
+     * @see Player
      */
     public Map<Integer, Integer> getPointsForEachGroup() {
         return pointsForEachGroup;
     }
 
-    //If all the columns are empty return true, otherwise false
+    /**
+     * Verifies if the Bookshelf is filled with {@code Tile}s.
+     *
+     * @return {code True} if and only if all the columns are empty, otherwise returns {@code False}.
+     *
+     * @see Tile
+     */
+    //
     public boolean isFull() {
         for (int column = 0; column < this.numberOfColumns; column++) {
             if (this.tiles[0][column] == null) {
@@ -76,8 +98,10 @@ public class Bookshelf {
     /**
     * Adds the tile in the column where the player choose to insert it.
      *
-    * @param tile is the type of tile selected from the player.
+    * @param tile is the type of tile selected from the {@code Player}.
     * @param column is the column where the player want to insert the tile.
+     *
+     * @see Player
      */
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
@@ -106,8 +130,11 @@ public class Bookshelf {
     }
 
     /**
-     * @param image
-     * @param tiles
+     * Class constructor.
+     * Assigns default values for bookshelf's image and {@code Tile}s.
+     *
+     * @param image the Bookshelf's image.
+     * @param tiles the Bookshelf's set of tiles.
      */
     public Bookshelf(String image, Tile[][] tiles) {
         this.image = image;
@@ -115,24 +142,40 @@ public class Bookshelf {
     }
 
     /**
-     * @return
+     * Gets the bookshelf's image.
+     *
+     * @return the bookshelf's image.
      */
     public String getImage() {
         return this.image;
     }
 
     /**
-     * @param image
+     * Sets the bookshelf's image.
+     *
+     * @param image the image to be set.
      */
     public void setImage(String image) {
         this.image = image;
         this.listener.imageModified(this.image);
     }
 
+    /**
+     * Getter used to retrieve the {@code Tile}s to be displaced on the bookshelf.
+     *
+     * @return the bookshelf's tile set.
+     *
+     * @see Tile
+     */
     public Tile[][] getTiles() {
         return this.tiles;
     }
 
+    /**
+     * Setter used to decide the {@code Tile}s to be displaced on the bookshelf.
+     *
+     * @see Tile
+     */
     public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
         this.tiles = tiles;
     }
@@ -141,10 +184,26 @@ public class Bookshelf {
         this.tiles[row][column] = tile;
     }
 
+
+    /**
+     * Gets the {@code Tile} at the given coordinates,
+     * expressed as rows and columns.
+     *
+     * @param row is the first coordinate.
+     * @param column is the second coordinate.
+     * @return the Tile at the specified position on the {@code Bookshelf}.
+     *
+     * @see Tile
+     */
     public Tile getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
         return this.tiles[row][column];
     }
 
+    /**
+     * Gets the number of columns in the bookshelf.
+     *
+     * @return the bookshelf's columns number.
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
@@ -199,10 +258,12 @@ public class Bookshelf {
 
     /**
      * Controls if the current column still has free positions to
-     * insert other tiles.
+     * insert other {@code Tile}s.
      *
      * @param column is the column that we want to check.
      * @return {@code true} if the column is full, otherwise {@code false}.
+     *
+     * @see Tile
      */
     public boolean isColumnFull(int column) {
         for (int row = 0; row < this.numberOfRows; row++) {
@@ -218,7 +279,7 @@ public class Bookshelf {
      * Evaluate the total points assigned to every group of tiles of the same color in the board.
      * The Bookshelf is split in the different color-groups and then by the number of element of each group
      * we assign the points to.
-     * If the number of tiles is below the first goal available, the player doesn't get any points.
+     * If the number of {@code Tile}s is below the first goal available, the player doesn't get any points.
      * If the number of tiles is over the last goal available, the player get an amount of points
      * equals to those of the last goal.
      *
@@ -226,6 +287,8 @@ public class Bookshelf {
      *
      * @throws Exception print a message that signals that the total
      * of points for the current Bookshelf have not been set.
+     *
+     * @see Tile
      */
     public int score() throws Exception {
         int score = 0;
