@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
@@ -161,7 +162,7 @@ public class OnGoingState extends ControllerState {
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+        if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
             throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
@@ -192,16 +193,21 @@ public class OnGoingState extends ControllerState {
     public void disconnectPlayer(String nickname) {
         Game model = this.controller.getModel();
         model.getPlayerFromNickname(nickname).setConnected(false);
-        if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
-            this.changeActivePlayer();
-        } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
-            this.controller.changeState(new InPauseState(this.controller));
-            this.controller.getModel().setGameState(InPauseState.toEnum());
+
+        if (model.getPlayers().size() == model.getPlayers().stream().filter(player -> !player.isConnected()).count()) {
+            this.controller.getModel().setGameState(GameState.RESET_NEEDED);
+        } else {
+            if (model.getPlayers().get(model.getActivePlayerIndex()).getNickname().equals(nickname)) {
+                this.changeActivePlayer();
+            } else if (model.getPlayers().stream().map(Player::isConnected).filter(connected -> connected).count() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE) {
+                this.controller.changeState(new InPauseState(this.controller));
+                this.controller.getModel().setGameState(InPauseState.toEnum());
+            }
         }
     }
 
     @Override
-    public void restoreGameForPlayer(String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname) {
         //Game is going, so do nothing...
     }
 

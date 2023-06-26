@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Timer;
@@ -121,9 +122,10 @@ public class InPauseState extends ControllerState {
     }
 
     @Override
-    public void restoreGameForPlayer(String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname) {
         //Game is in pause so do nothing...
     }
+
 
     public static GameState toEnum() {
         return GameState.PAUSED;

@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameView implements Serializable {
     private final int numberOfPlayers;
@@ -80,5 +82,15 @@ public class GameView implements Serializable {
 
     public List<CommonGoalView> getCommonGoals() {
         return this.commonGoals;
+    }
+
+    public boolean isPaused() {
+        return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
+    }
+
+    public List<PlayerView> connectedPlayers() {
+        return this.players.stream()
+                .filter(PlayerView::isConnected)
+                .collect(Collectors.toList());
     }
 }

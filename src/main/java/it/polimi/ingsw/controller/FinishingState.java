@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
 
@@ -169,11 +170,11 @@ public class FinishingState extends ControllerState {
         }
     }
 
-
     @Override
-    public void restoreGameForPlayer(String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname) {
         //Game is finishing, so do nothing...
     }
+
 
     public static GameState toEnum() {
         return GameState.FINISHING;

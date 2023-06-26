@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.listeners.GameListener;
+import it.polimi.ingsw.network.Server;
 
 public abstract class ControllerState {
     protected GameController controller;
@@ -25,11 +27,12 @@ public abstract class ControllerState {
     public abstract void tryToResumeGame();
 
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
+
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     public abstract void startGame();
 
     public abstract void disconnectPlayer(String nickname);
 
-    public abstract void restoreGameForPlayer(String nickname);
+    public abstract void restoreGameForPlayer(GameListener server, String nickname);
 }
