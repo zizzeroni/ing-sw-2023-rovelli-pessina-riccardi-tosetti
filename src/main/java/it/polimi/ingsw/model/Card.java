@@ -11,6 +11,12 @@ public abstract class Card {
         this.id = id;
     }
 
+    /**
+     * Identify the number of repetitions of the goal pattern in the chosen Bookshelf.
+     *
+     * @param bookshelf is the selected Bookshelf.
+     * @return the number of goal pattern repetitions.
+     */
     public abstract int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf);
 
     public int getId() {

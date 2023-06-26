@@ -46,9 +46,9 @@ public class Board {
         this.tiles = tiles;
     }
 
-    /*
-    Descriptions
-    @param tilesToAdd
+    /**
+    Add the tiles selected by players in the positions previously chosen
+    @param tilesToAdd is the list of the selected tiles
      */
     public void addTiles(List<Tile> tilesToAdd) {
         if (tilesToAdd.size() == 0) {
@@ -68,9 +68,10 @@ public class Board {
         }*/
     }
 
-    /*
-    We search in the board if there are only tiles "alone" that means don't have any nearby tiles
-    @return if we found that there are 2 or more nearby tiles we return 0, otherwise we return the number of "alone" tiles
+    /**
+     * Search in the board for "lonely" tiles (whitout any nearby tiles)
+     *
+     * @return if 2 or more nearby tiles are found, returns '0', otherwise returns the number of "lonely" tiles
      */
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
         int usableTilesStillAvailable = 0;
@@ -97,10 +98,11 @@ public class Board {
         return this.numberOfUsableTiles - usableTilesStillAvailable;
     }
 
-    /*
-       When the player take some tiles from the board we need to remove that from the board
-    @param tilesToRemove are the tiles that was taken by a player from the board
-    @param positions are the positions of this tiles
+    /**
+     * The player can take some tiles from the board and keep playing.
+     * When they are taken, selected tiles need to be removed from
+     * their current position. This method implements tiles removal.
+    @param coordinates are the coordinates of the tiles selected by a player to be removed.
      */
     public void removeTiles(List<Coordinates> coordinates) {
         for (Coordinates coordinate : coordinates) {
@@ -114,6 +116,10 @@ public class Board {
         }*/
     }
 
+    /**
+     * @param row
+     * @param column
+     */
     private void removeTile(int row, int column) {
         this.tiles[row][column] = null;
     }
@@ -134,8 +140,9 @@ public class Board {
         this.tiles = tiles;
     }
 
-    /*Set only the tiles in the positions where there are ones in the jsonBoardPattern, and set non-usable tiles as tiles without color
-        @param jsonBoardPattern pattern that contains the positions where we need to insert the tiles
+    /**
+     * Set only the tiles in the positions where there are ones in the jsonBoardPattern, and set non-usable tiles as tiles without color
+        @param boardPattern pattern that contains the positions where we need to insert the tiles
         */
     public void setPattern(JsonBoardPattern boardPattern) {
         this.numberOfUsableTiles = 0;

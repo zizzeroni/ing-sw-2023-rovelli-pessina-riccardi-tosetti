@@ -21,6 +21,12 @@ public class Bookshelf {
     private String image;
     private Tile[][] tiles;
 
+
+    /**
+     * register a listener in the set of bookshelf's listeners
+     *
+     * @param listener the listener object
+     */
     public void registerListener(BookshelfListener listener) {
         this.listener = listener;
     }
@@ -42,6 +48,13 @@ public class Bookshelf {
         this.tiles = tiles;
     }
 
+    /**
+     * provides the number of points for all the different groups
+     * identifiable in the Bookshelf for each player.
+     *
+     * @return pointsForEachGroup contains the provided score
+     *  for each group of tiles in the corresponding map.
+     */
     public Map<Integer, Integer> getPointsForEachGroup() {
         return pointsForEachGroup;
     }
@@ -56,10 +69,11 @@ public class Bookshelf {
         return true;
     }
 
-    /*
-    Add the tile in the column where the player choose to insert
-    @param tile is the type of tile selected from the player
-    @param column is the column where the player want to insert the tile
+    /**
+    * Adds the tile in the column where the player choose to insert it.
+     *
+    * @param tile is the type of tile selected from the player.
+    * @param column is the column where the player want to insert the tile.
      */
     public void addTile(Tile tile, int column) {
         this.tiles[(this.numberOfRows - 1) - getNumberOfTilesInColumn(column)][column] = tile;
@@ -70,10 +84,11 @@ public class Bookshelf {
         }*/
     }
 
-
-    /*
-    @param column is the column whose remaining places we want to know
-    @return counter is the remaining places of the column
+    /**
+     * DESCRIPTION FOR GETTER ?
+     *
+     * @param column is the column whose remaining places we want to know.
+     * @return counter contains the number of the remaining places of the column.
      */
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
@@ -120,9 +135,11 @@ public class Bookshelf {
         return this.numberOfColumns;
     }
 
-    /*
-    @param column is the column of which we want to know the number of tiles
-    @return counter is the number of tiles in the column
+    /**
+     * Returns the number of tiles in the selected column.
+     *
+     * @param column is the column of which we want to know the number of tiles.
+     * @return counter is the number of tiles in the column.
      */
     public int getNumberOfTilesInColumn(int column) {
         int counter = 0;
@@ -137,9 +154,14 @@ public class Bookshelf {
         return this.numberOfRows;
     }
 
-    /*
-    @param row is the row that we want to control if il full of element
-    @return true if the row is full, otherwise false
+
+    /**
+     * evaluates if the current row is already been filled with tiles
+     *
+     * @param row is the row that we want to check.
+     * @return  {@code true} if and only if the current column is not entirely
+     *          occupied by tiles,
+     *          {@code false} otherwise.
      */
     public boolean isRowFull(int row) {
         for (int column = 0; column < this.numberOfColumns; column++) {
@@ -161,10 +183,13 @@ public class Bookshelf {
         return maxNumberOfCellsFreeInBookshelf;
     }
 
-    /*
-        @param column is the column that we want to control if il full of element
-        @return true if the column is full, otherwise false
-         */
+    /**
+     * Controls if the current column still has free positions to
+     * insert other tiles.
+     *
+     * @param column is the column that we want to check.
+     * @return {@code true} if the column is full, otherwise {@code false}.
+     */
     public boolean isColumnFull(int column) {
         for (int row = 0; row < this.numberOfRows; row++) {
             if (this.tiles[row][column] == null) {
@@ -174,10 +199,19 @@ public class Bookshelf {
         return true;
     }
 
-    /*
-    Here we calculate the point of every group of same color tiles in the board, we split the bookshelf in the groups and then by the number of element of each group we assign the points
-    if the number of tiles is below the first goal available, you don't get points
-    if the number of tiles is over the last goal available, you get points equal to the last goal points
+
+    /**
+     * Evaluate the total points assigned to every group of tiles of the same color in the board.
+     * The Bookshelf is split in the different color-groups and then by the number of element of each group
+     * we assign the points to.
+     * If the number of tiles is below the first goal available, the player doesn't get any points.
+     * If the number of tiles is over the last goal available, the player get an amount of points
+     * equals to those of the last goal.
+     *
+     * @return score is the number of points assigned to the group.
+     *
+     * @throws Exception print a message that signals that the total
+     * of points for the current Bookshelf have not been set.
      */
     public int score() throws Exception {
         int score = 0;
@@ -224,15 +258,23 @@ public class Bookshelf {
                     score += this.pointsForEachGroup.get(numberOfTilesInGroup);
                 }
             } else {
-                throw new Exception("[RESOURCE:ERROR] Bookshelf points are not setted");
+                throw new Exception("[RESOURCE:ERROR] Bookshelf points are not set");
             }
         }
         return score;
     }
 
-    /*
-    Used by the soring method for determinate if two tiles are from the same group or from different group
+    /**
+     *
+     * Used by the soring method for determinate if two tiles are from the same group or from different group
+     *
+     * @param supportMatrix is used to contains part of the intermediate values processed by the algorithm
+     * @param row the current row
+     * @param column the current column
+     * @param group the group individuated in the Bookshelf
+     * @param currentTileColor the current tile color
      */
+
     private void assignGroupToBookshelfEqualTiles(int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
         if ((supportMatrix[row][column] == 1) && currentTileColor.equals(this.getSingleTile(row, column).getColor())) {
             supportMatrix[row][column] = group;
