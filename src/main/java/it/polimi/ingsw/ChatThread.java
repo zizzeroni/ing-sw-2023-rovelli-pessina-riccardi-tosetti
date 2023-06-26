@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.CommandReader;
-import it.polimi.ingsw.view.UI;
 
 import java.util.List;
 
@@ -34,8 +33,7 @@ public class ChatThread extends Thread {
      * Initialize the employed controller and client chat's nickname to the given values.
      *
      * @param controller the game's controller.
-     * @param nickname the player's nickname used in the chatroom.
-     *
+     * @param nickname   the player's nickname used in the chatroom.
      * @see it.polimi.ingsw.controller.GameController
      * @see ViewListener
      * @see it.polimi.ingsw.network.Client
@@ -73,7 +71,7 @@ public class ChatThread extends Thread {
                         if (commandReceiverAndContent.length > 2) {
                             String receiver = commandReceiverAndContent[1];
 
-                            if(this.gameView.isPlayerInGame(receiver)) {
+                            if (this.gameView.isPlayerInGame(receiver)) {
                                 String content = commandReceiverAndContent[2];
                                 this.controller.sendPrivateMessage(receiver, this.nickname, content);
                             } else {
@@ -96,8 +94,7 @@ public class ChatThread extends Thread {
                             System.out.println("No message found");
                         }
                     }
-                    default ->
-                            throw new Exception("Chat command not recognized");
+                    default -> throw new Exception("Chat command not recognized");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -109,7 +106,6 @@ public class ChatThread extends Thread {
      * Sets the chat's nickname.
      *
      * @param nickname the player's nickname associated with the chat's thread.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setNickname(String nickname) {

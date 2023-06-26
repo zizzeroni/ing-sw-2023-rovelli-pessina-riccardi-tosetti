@@ -17,7 +17,7 @@ import java.util.Objects;
  * @see it.polimi.ingsw.model.Game
  * @see it.polimi.ingsw.model.Player
  */
-public class MainGui extends Application{
+public class MainGui extends Application {
     private static Stage primaryStage;
 
     /**
@@ -25,18 +25,18 @@ public class MainGui extends Application{
      *
      * @param primaryStage the stage linked to the primary scene.
      * @throws IOException the exception raised in case the primaryStage doesn't exist.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     @Override
-    public void start(Stage primaryStage)throws IOException {
+    public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/FirstScene.fxml")));
         primaryStage.setTitle("First Scene");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        this.primaryStage=primaryStage;
+        this.primaryStage = primaryStage;
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -46,7 +46,7 @@ public class MainGui extends Application{
      * @param stage the stage that will be first displayed during game setup.
      * @throws IOException the exception raised in case the Stage is not passed correctly.
      */
-    public void startGame(Stage stage) throws IOException{
+    public void startGame(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/MainScene.fxml")));
         stage.setTitle("Main Scene");

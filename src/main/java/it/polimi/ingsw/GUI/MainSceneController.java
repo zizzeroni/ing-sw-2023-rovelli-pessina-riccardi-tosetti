@@ -27,9 +27,6 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  *
- *
- *
- *
  */
 public class MainSceneController implements Initializable {
     private GUI mainGui;
@@ -70,9 +67,8 @@ public class MainSceneController implements Initializable {
      * the one of the {@code PersonalGoal}, those of the {@code Tile}s and the images of the rest of the
      * elements employed for the graphics of the scenes.
      *
-     * @param url of the images to be set.
+     * @param url            of the images to be set.
      * @param resourceBundle the bundle containing the graphical resources.
-     *
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      * @see it.polimi.ingsw.model.PersonalGoal
      * @see it.polimi.ingsw.model.tile.Tile
@@ -120,7 +116,6 @@ public class MainSceneController implements Initializable {
      * Permits the selection of a {@code Button} in a scene of the GUI
      *
      * @param actionEvent is the event associated to the button selection.
-     *
      * @see Button
      */
     public void selected(ActionEvent actionEvent) {
@@ -186,10 +181,10 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    /** Modifies the opacity of a {@code Button} when under the mouse cursor.
+    /**
+     * Modifies the opacity of a {@code Button} when under the mouse cursor.
      *
      * @param mouseEvent the event linked to the mouse cursor.
-     *
      * @see Button
      */
     public void overButton(MouseEvent mouseEvent) {
@@ -199,11 +194,11 @@ public class MainSceneController implements Initializable {
         node.setOpacity(0.5);
     }
 
-    /** Adjusts the opacity of a {@code Button} when it is not under the mouse cursor,
+    /**
+     * Adjusts the opacity of a {@code Button} when it is not under the mouse cursor,
      * resetting it to its original value.
      *
      * @param mouseEvent the event linked to the mouse cursor.
-     *
      * @see Button
      */
     public void notOverButton(MouseEvent mouseEvent) {
@@ -219,7 +214,6 @@ public class MainSceneController implements Initializable {
      * common goal visualization.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over the first common goal.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
@@ -239,7 +233,6 @@ public class MainSceneController implements Initializable {
      * first {@code CommonGoal} of a {@code Player}.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over the first common goal.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
@@ -260,7 +253,6 @@ public class MainSceneController implements Initializable {
      * common goal visualization.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over the second common goal.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
@@ -280,7 +272,6 @@ public class MainSceneController implements Initializable {
      * second {@code CommonGoal} of a {@code Player}.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over the second common goal.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
@@ -300,7 +291,6 @@ public class MainSceneController implements Initializable {
      * cursor passes over it.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over a personal goal.
-     *
      * @see it.polimi.ingsw.model.PersonalGoal
      */
     public void onPersonalGoal(MouseEvent mouseEvent) {
@@ -318,7 +308,6 @@ public class MainSceneController implements Initializable {
      * cursor is no more over it.
      *
      * @param mouseEvent is the event linked to mouse cursor movement over a personal goal.
-     *
      * @see it.polimi.ingsw.model.PersonalGoal
      */
     public void exitPersonalGoal(MouseEvent mouseEvent) {
@@ -402,11 +391,10 @@ public class MainSceneController implements Initializable {
      * Used to set the name of the {@code Button} in the correspondent {@code Tile} position.
      * It is also employed for setting the different style class of every tile.
      *
-     * @param row the first coordinate of the considered tile.
-     * @param column the second coordinate of the current tile.
-     * @param tileId the identifier of the considered tile.
+     * @param row       the first coordinate of the considered tile.
+     * @param column    the second coordinate of the current tile.
+     * @param tileId    the identifier of the considered tile.
      * @param tileColor the color of the current tile.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Button
      * @see Node#getStyleClass()
@@ -499,9 +487,8 @@ public class MainSceneController implements Initializable {
      * {@code Board} cause of the current settings of the {@code Game}
      * and the actual number of {@code Player}s in the lobby.
      *
-     * @param row the first coordinate of the tile to be 'disabled'.
+     * @param row    the first coordinate of the tile to be 'disabled'.
      * @param column the second coordinate of the tile to be 'disabled'.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Board
      * @see it.polimi.ingsw.model.Player
@@ -530,12 +517,12 @@ public class MainSceneController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Blocks the selection a {@code Tile} removed after its picking.
      *
-     * @param row the first coordinate of the tile to be 'disabled'.
+     * @param row    the first coordinate of the tile to be 'disabled'.
      * @param column the second coordinate of the tile to be 'disabled'.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public void disableTileAfterPick(int row, int column) {
@@ -545,7 +532,7 @@ public class MainSceneController implements Initializable {
         tileName += row;
         tileName += column;
         Button button = (Button) scene.lookup(tileName);
-        if(button!=null) {
+        if (button != null) {
             button.setOnAction(null);
             button.setOnMouseEntered(null);
             button.setOnMouseExited(null);
@@ -553,13 +540,13 @@ public class MainSceneController implements Initializable {
         }
 
     }
+
     /**
      * Enable the selection of a given {@code Tile} after it has
      * been disabled (for {@code Game} settings od pinking).
      *
-     * @param row the first coordinate of the tile to be 'disabled'.
+     * @param row    the first coordinate of the tile to be 'disabled'.
      * @param column the second coordinate of the tile to be 'disabled'.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Game
      */
@@ -612,7 +599,6 @@ public class MainSceneController implements Initializable {
      * the {@code numberOfPlayers}.
      *
      * @param numberOfPlayers the selected number of players.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see GUI
@@ -629,7 +615,6 @@ public class MainSceneController implements Initializable {
      *
      * @param players is the list of names of the players participating
      *                the active {@code Game}.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      * @see MainSceneController#playerName
@@ -647,7 +632,6 @@ public class MainSceneController implements Initializable {
      * from the graphics resources.
      *
      * @param personalGoal is the personal goal to be set.
-     *
      * @see it.polimi.ingsw.model.PersonalGoal
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
@@ -678,7 +662,6 @@ public class MainSceneController implements Initializable {
      * from the graphics resources.
      *
      * @param commonGoals is the list of common goals to be set.
-     *
      * @see it.polimi.ingsw.model.PersonalGoal
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
@@ -710,7 +693,6 @@ public class MainSceneController implements Initializable {
      * of the tile's selection in the GUI.
      *
      * @param actionEvent the event linked to the selection of a tile.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Choice#getTileCoordinates()
      */
@@ -755,9 +737,9 @@ public class MainSceneController implements Initializable {
      * Verify if the {@code Player} commits mistakes during selection signaling them
      * by printing a series of control errors.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
-     * @param firstRow the inspection starting row.
+     * @param row         the row in selection.
+     * @param column      the column in selection.
+     * @param firstRow    the inspection starting row.
      * @param firstColumn the inspection starting column.
      * @return the direction of the two current tiles chosen.
      */
@@ -781,12 +763,12 @@ public class MainSceneController implements Initializable {
      * present in the current selection at the given coordinates and
      * if the {@code Player} has properly inserted all the tiles in the {@code Board}.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
+     * @param row                  the row in selection.
+     * @param column               the column in selection.
      * @param prevTilesCoordinates the coordinates of the Tiles which have already been placed on the {@code Board}.
-     * @param directionToCheck the direction (on row/column) which is selected for inspection.
+     * @param directionToCheck     the direction (on row/column) which is selected for inspection.
      * @return {@code true} if and only if the {@code Tile}
-     *          has already been placed in a previous turn.
+     * has already been placed in a previous turn.
      */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
             directionToCheck) {
@@ -835,11 +817,10 @@ public class MainSceneController implements Initializable {
      * Verify if the {@code Player} commits mistakes during selection signaling them
      * by printing a series of control errors.
      *
-     * @param row is the row of the checked {@code Tile}.
+     * @param row    is the row of the checked {@code Tile}.
      * @param column is the column of the checked {@code Tile}.
      * @return {@code true} if and only if the {@code Tile}'s can be picked,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      */
     private boolean checkIfPickable(int row, int column) {

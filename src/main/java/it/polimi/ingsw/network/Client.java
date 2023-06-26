@@ -12,17 +12,16 @@ import java.rmi.RemoteException;
  * The methods allow the server to update the client's model view and to ping the client, also allows the client to receive
  * client's exceptions.
  *
- *
  * @see ClientImpl
  */
 public interface Client extends Remote {
     //Method used by Server to forward an updated model to the client
+
     /**
      * This method permits to convey the updated model view.
      *
      * @param modelUpdated contains the model updates.
      * @throws RemoteException is called when a communication error occurs and the modelView can't be sent.
-     *
      * @see javax.swing.text.View
      */
     public void updateModelView(GameView modelUpdated) throws RemoteException;
@@ -31,7 +30,6 @@ public interface Client extends Remote {
      * Allows to ping the client.
      *
      * @throws RemoteException signals the occurrence of a communication error with the client.
-     *
      * @see Client
      */
     public void ping() throws RemoteException;
@@ -41,7 +39,6 @@ public interface Client extends Remote {
      *
      * @param exception the GENERIC except being received.
      * @throws RemoteException called when a communication error with the client occurs.
-     *
      * @see Client
      */
     public void receiveException(GenericException exception) throws RemoteException;

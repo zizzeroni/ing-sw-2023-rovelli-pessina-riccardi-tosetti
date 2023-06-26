@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
  *
  * @see MainGui
  * @see it.polimi.ingsw.model.Player
- *
  */
 public class LoginController implements Initializable {
     private GraphicalUI mainGraphicalUI;
@@ -55,11 +54,10 @@ public class LoginController implements Initializable {
      * If every control is passed successfully, passes the username
      * <p> to the GUI.
      *
-     *
      * @param actionEvent is the event linked to username entering.
-     * @throws IOException is the exception called if the wrong username has been passed as input.
+     * @throws IOException       is the exception called if the wrong username has been passed as input.
      * @throws NotBoundException is the exception called when lookup or unbind in the registry
-     *                              for username that has no associated binding is attempted.
+     *                           for username that has no associated binding is attempted.
      */
     @FXML
     public void controlNickname(ActionEvent actionEvent) throws IOException, NotBoundException {
@@ -105,9 +103,8 @@ public class LoginController implements Initializable {
      * This method initialize the url and resource bundle used for the
      * setting of GUI scenes linked to the {@code Player}s login.
      *
-     * @param url is the resources url.
+     * @param url            is the resources url.
      * @param resourceBundle is the bundle of the resources utilized in the scenes development.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -179,7 +176,6 @@ public class LoginController implements Initializable {
      * Setter used to adjust the {@code mainGui}.
      *
      * @param gui the gui passed to be set
-     *
      */
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
@@ -187,8 +183,8 @@ public class LoginController implements Initializable {
 
     public void nicknameAlreadyUsed() {
         Platform.runLater(() -> {
-        error.setVisible(true);
-        ErrorLabel.setText("nickname already used!");
+            error.setVisible(true);
+            ErrorLabel.setText("nickname already used!");
         });
     }
 }

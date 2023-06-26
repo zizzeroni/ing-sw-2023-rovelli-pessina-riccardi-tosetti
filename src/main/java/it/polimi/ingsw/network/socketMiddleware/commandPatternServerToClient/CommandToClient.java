@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
-import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.CommandToServer;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -44,7 +43,6 @@ public interface CommandToClient extends Serializable {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the command.
-     *
      * @see CommandType
      */
     public CommandType toEnum();

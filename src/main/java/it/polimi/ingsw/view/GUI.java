@@ -51,7 +51,7 @@ public class GUI extends UI {
 
     /**
      * Class constructor.
-     *
+     * <p>
      * Sets the attributes as in the UI's superclass.
      *
      * @see UI
@@ -74,11 +74,9 @@ public class GUI extends UI {
      * Class constructor.
      * Initialize the game's model and controller based on player's (client's) nickname.
      *
-     *
-     * @param model the model to be set for the GUI.
+     * @param model      the model to be set for the GUI.
      * @param controller the game controller passed to be associated with the GUI.
-     * @param nickname the player's nickname.
-     *
+     * @param nickname   the player's nickname.
      * @see GameView
      */
     public GUI(GameView model, ViewListener controller, String nickname) {
@@ -89,7 +87,7 @@ public class GUI extends UI {
      * Class constructor.
      * Initialize the game's model and controller.
      *
-     * @param model the model to be set for the GUI.
+     * @param model      the model to be set for the GUI.
      * @param controller the game controller passed to be associated with the GUI.
      */
     public GUI(GameView model, ViewListener controller) {
@@ -101,7 +99,6 @@ public class GUI extends UI {
      * Counterpart of the CLI's askPlayer method.
      *
      * @return null
-     *
      * @see it.polimi.ingsw.model.Game
      * @see TextualUI#askPlayer()
      */
@@ -192,7 +189,6 @@ public class GUI extends UI {
      * then checks the second scene before displaying it.
      *
      * @param nickname the player's nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.controller.GameController
@@ -286,7 +282,7 @@ public class GUI extends UI {
                 try {
                     String s = br.readLine();
                     System.out.println(s);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     System.out.println(e);
                 }
                 this.controller.changeTurn();
@@ -340,7 +336,6 @@ public class GUI extends UI {
      * Sets the number of players for the current Game.
      *
      * @param chosenNumberOfPlayer the selected number of players.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      */

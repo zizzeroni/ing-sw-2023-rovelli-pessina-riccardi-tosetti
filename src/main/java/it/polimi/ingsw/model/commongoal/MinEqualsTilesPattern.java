@@ -41,11 +41,11 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      *
-     * @param imageID the image assigned to the card.
+     * @param imageID           the image assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param direction contains the directions that can be used in this pattern.
-     * @param maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row.
+     * @param type              the type of check that has to be done on the considered common goal's card.
+     * @param direction         contains the directions that can be used in this pattern.
+     * @param maxEqualsTiles    contains the maximum number of tiles that can be the same in a column/row.
      */
     public MinEqualsTilesPattern(int id, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
         super(id, patternRepetition, type);
@@ -58,13 +58,13 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      * (numberOfPlayers and commonGoalID are also considered in this version).
      *
-     * @param imageID the image assigned to the card.
+     * @param imageID                            the image assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param direction contains the directions that can be used in this pattern.
-     * @param maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row.
-     * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param direction                          contains the directions that can be used in this pattern.
+     * @param maxEqualsTiles                     contains the maximum number of tiles that can be the same in a column/row.
+     * @param numberOfPlayers                    number of active players.
+     * @param commonGoalID                       the identifier of the given common goal
      */
     public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
@@ -82,7 +82,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Gets the directions that is used to retrieve the pattern.
      *
      * @return contains the directions that is used for the pattern representation.
-     *
      */
     public Direction getDirection() {
         return this.direction;
@@ -96,7 +95,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Used to access maxEqualsTiles value.
      *
      * @return contains the maximum number of tiles that can be the same in a column/row.
-     *
      * @see MinEqualsTilesPattern#maxEqualsTiles
      */
     public int getMaxEqualsTiles() {
@@ -113,11 +111,10 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * finding the number of different {@code Tile}s only in the complete rows/columns,
      * with the maximum number of equal tiles.
      *
-     * @params bookshelf contains the bookshelf of the {@code Player}
-     * @return the number of rows or column that respect the maxEquals
      * @param bookshelf is the selected {@code Bookshelf}.
+     * @return the number of rows or column that respect the maxEquals
      * @return the number of times the current pattern occurs in the {@code Bookshelf}.
-     *
+     * @params bookshelf contains the bookshelf of the {@code Player}
      * @see Bookshelf
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player
@@ -184,21 +181,20 @@ public class MinEqualsTilesPattern extends CommonGoal {
         return patternAppearances;
     }
 
-<<<<<<< HEAD
+<<<<<<<HEAD
+
     /**
      * This method is used to verify the CheckType of the {@code Tile}s.
      *
      * @param numberOfEqualTiles number of total tiles found equal during the call of the method.
-     * @param typeOfChecking the type checked by the method when it is called.
+     * @param typeOfChecking     the type checked by the method when it is called.
      * @return {@code true} if and only if the CheckType correspond,
-     *          {@code false} otherwise.
+     * {@code false} otherwise.
      * @throws Exception if the considered CheckType does not exist.
-     *
+     * @ >>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
      * @see it.polimi.ingsw.model.tile.Tile
-=======
-    /*
-    @
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+     * =======
+     * /*
      */
     private boolean confrontEqualsDifferentTiles(int numberOfEqualTiles, CheckType typeOfChecking) throws Exception {
         switch (typeOfChecking) {
@@ -218,24 +214,25 @@ public class MinEqualsTilesPattern extends CommonGoal {
         }
         return false;
     }
-<<<<<<< HEAD
+<<<<<<<HEAD
+
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
      * @return an immutable copy of the MinEqualsTilesPatternView.
-     *
      * @see CommonGoal
      */
     @Override
     public CommonGoalView copyImmutable() {
         return new MinEqualsTilesPatternView(this);
     }
+
     /**
      * Redefine the equals method to allow a compare based on the MinEqualsTilesPattern.
      *
      * @param o is the object being evaluated to be equals to another (the one that calls the method).
      * @return {@code true} if and only if the two tiles are 'equals',
-     *         {@code false} otherwise.
+     * {@code false} otherwise.
      */
     @Override
     public boolean equals(Object o) {
@@ -251,9 +248,9 @@ public class MinEqualsTilesPattern extends CommonGoal {
     /*
     @return an immutable copy of the common goal
     */
-    @Override
-    public CommonGoalView copyImmutable() {
-        return new MinEqualsTilesPatternGoalView(this);
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+        @Override
+        public CommonGoalView copyImmutable () {
+            return new MinEqualsTilesPatternGoalView(this);
+>>>>>>>859 bad82d69f5d3a13cbdcd56fcc32f950648cfd
+        }
     }
-}

@@ -36,7 +36,6 @@ public class FinishingState extends ControllerState {
      * Otherwise, checks if there are tiles to be refilled and calls the {@code refillBoard} method.
      *
      * @see FinishingState#refillBoard()
-     *
      */
     @Override
     public void changeTurn() {
@@ -86,14 +85,14 @@ public class FinishingState extends ControllerState {
         }
     }
 
-    /** Calls the {@code checkIfUserInputIsCorrect} method.
-     *  then proceeds to deploy the chosen tiles in the proper order.
-     *  If the initial check rejects the {@code Choice}, an error message is printed.
-     *
-     * @see Choice
-     * @see #checkIfUserInputIsCorrect(Choice playerChoice)
+    /**
+     * Calls the {@code checkIfUserInputIsCorrect} method.
+     * then proceeds to deploy the chosen tiles in the proper order.
+     * If the initial check rejects the {@code Choice}, an error message is printed.
      *
      * @param playerChoice is the player's choice
+     * @see Choice
+     * @see #checkIfUserInputIsCorrect(Choice playerChoice)
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
@@ -112,11 +111,9 @@ public class FinishingState extends ControllerState {
      * prints an error message. To effectively produce the check the method also needs to access
      * the {@code Bookshelf} of the player making the choice.
      *
-     *
      * @param choice is the player's {@code Choice}.
      * @return {@code true} if and only if the player has entered his choice in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Player
      * @see Choice
@@ -151,11 +148,9 @@ public class FinishingState extends ControllerState {
      *
      * @param coordinates represents the list of the coordinates being checked.
      * @return {@code true} if and only if the player has entered all the {@code Tile}'s coordinates in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Board
-     *
      */
     private boolean checkIfCoordinatesArePlausible(List<Coordinates> coordinates) {
         for (Coordinates coordinate : coordinates) {
@@ -169,11 +164,10 @@ public class FinishingState extends ControllerState {
     /**
      * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
      *
-     * @param row is the row of the checked {@code Tile}.
+     * @param row    is the row of the checked {@code Tile}.
      * @param column is the column of the checked {@code Tile}.
      * @return {@code true} if and only if the {@code Tile}'s can be picked,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      */
     private boolean checkIfPickable(int row, int column) {
@@ -193,12 +187,10 @@ public class FinishingState extends ControllerState {
      * in order to be removed.
      *
      * @param tileCoordinates is the list of the coordinates associated
-     *                       to the respective tiles in the {@code chosenTiles} list.
-     *
+     *                        to the respective tiles in the {@code chosenTiles} list.
      * @see Board
      * @see Board#removeTiles(List)
      * @see Player
-     *
      */
     private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
@@ -209,10 +201,9 @@ public class FinishingState extends ControllerState {
      * Used to deploy the tiles chosen from the {@code Board} by {@code Player}
      * in the correspondent {@code Bookshelf}
      *
-     * @param chosenTiles is the list of the selected Tiles.
-     * @param positions are the positions selected for each tile during its placing in the {@code Bookshelf}.
+     * @param chosenTiles  is the list of the selected Tiles.
+     * @param positions    are the positions selected for each tile during its placing in the {@code Bookshelf}.
      * @param chosenColumn the column of the bookshelf selected for placing the tiles.
-     *
      * @see Bookshelf
      * @see Player
      * @see Board
@@ -231,9 +222,8 @@ public class FinishingState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -256,9 +246,8 @@ public class FinishingState extends ControllerState {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -280,7 +269,7 @@ public class FinishingState extends ControllerState {
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
-        if(this.controller.getModel().getPlayerFromNickname(nickname)==null) {
+        if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
             throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
@@ -315,13 +304,12 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible because the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -345,7 +333,6 @@ public class FinishingState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the FINISHING STATE of the {@code Game}.
-     *
      * @see Game
      * @see GameState#FINISHING
      */

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
 import it.polimi.ingsw.controller.CreationState;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OnGoingState;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Message;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
@@ -43,7 +45,7 @@ public class ServerStub implements Server {
      * Class constructor.
      * initialize the server's ip and port to the given values.
      *
-     * @param ip the address of the server.
+     * @param ip   the address of the server.
      * @param port the server's port number.
      */
     public ServerStub(String ip, int port) {
@@ -79,10 +81,8 @@ public class ServerStub implements Server {
      * Provides the server communication that allow the {@code Player} to insert {@code Tile}s,
      * in a given order (contained in {@code Choice}) into the {@code Board}.
      *
-     *
      * @param playerChoice the choice made by the player.
      * @throws RemoteException
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      * @see Choice
@@ -112,10 +112,9 @@ public class ServerStub implements Server {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -143,10 +142,9 @@ public class ServerStub implements Server {
      * This method implementations allow to send
      * broadcast messages to all the {@code Player}s.
      *
-     * @param sender the sender of the broadcast {@code Message}.
+     * @param sender  the sender of the broadcast {@code Message}.
      * @param content the text of the message.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Message
      */
@@ -168,16 +166,15 @@ public class ServerStub implements Server {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
      * through the knowledge of the nickname he has chosen during game creation and the client
      * he has been assigned to.
      *
-     *
-     * @param client is the player's client
+     * @param client   is the player's client
      * @param nickname is the reference for the name of the {@code Player} being added.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Client
      * @see Game
      * @see Player
@@ -223,7 +220,6 @@ public class ServerStub implements Server {
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
      * @throws RemoteException signals the occurrence of an error while sending the message.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
@@ -251,7 +247,6 @@ public class ServerStub implements Server {
      * Updates (or acquires) the permissions on the semaphores to start up the Game.
      *
      * @throws RemoteException called when occurs a communication error with the server.
-     *
      * @see Game
      */
     @Override
@@ -275,10 +270,9 @@ public class ServerStub implements Server {
     /**
      * Allows client's registration, every {@code Client} is associated to its {@code Player}'s nickname.
      *
-     * @param client is the client being registered.
+     * @param client   is the client being registered.
      * @param nickname is the client's player's nickname.
      * @throws RemoteException an exception called to notify that an error occurred while connecting to the server.
-     *
      * @see Client
      * @see it.polimi.ingsw.model.Player
      */
@@ -305,9 +299,7 @@ public class ServerStub implements Server {
      * Allows to ping the server.
      *
      * @throws RemoteException called if a communication error occurs.
-     *
      * @throws RemoteException signals the occurrence of a communication error with the server.
-     *
      * @see Server
      */
     @Override
@@ -321,14 +313,13 @@ public class ServerStub implements Server {
         }
     }
 
-    /** Signals the disconnection of the selected {@code Player} from the current game to the server
+    /**
+     * Signals the disconnection of the selected {@code Player} from the current game to the server
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Server
      * @see Game
@@ -386,7 +377,6 @@ public class ServerStub implements Server {
      *
      * @param client is the client communicating to.
      * @throws RemoteException called when the client's message can't be cast or received.
-     *
      * @see Client
      */
     public void receive(Client client) throws RemoteException {

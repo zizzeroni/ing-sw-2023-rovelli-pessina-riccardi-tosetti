@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
  * This class implements the {@code GameView} through the {@code Serializable} interface.
  * All the {@code Player}s always access only the implementation of the {@code Game}s various views,
  * and are sensible to any inherent modification.
@@ -39,7 +38,6 @@ public class GameView implements Serializable {
      * Also, sets the bag and the {@code Board} for the game.
      *
      * @param gameModel the model of the {@code Game}.
-     *
      * @see Game
      * @see it.polimi.ingsw.model.Board
      */
@@ -72,7 +70,6 @@ public class GameView implements Serializable {
      *
      * @param nickname the player's nickname.
      * @return the View for the player, based on the nickname received as parameter.
-     *
      * @see Player
      */
     public PlayerView getPlayerViewFromNickname(String nickname) {
@@ -86,7 +83,6 @@ public class GameView implements Serializable {
      * Used to retrieve the present state of the {@code Game}.
      *
      * @return the game's state.
-     *
      * @see Game
      */
     public GameState getGameState() {
@@ -94,8 +90,8 @@ public class GameView implements Serializable {
     }
 
     /*
-    * TODO
-    */
+     * TODO
+     */
     public boolean isPlayerInGame(String nickname) {
         return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
@@ -104,7 +100,6 @@ public class GameView implements Serializable {
      * Gets the number of active {@code Player}s in the current {@code Game},
      *
      * @return the number of players participating the {@code Game}.
-     *
      * @see Game
      * @see Player
      */
@@ -116,7 +111,6 @@ public class GameView implements Serializable {
      * Gets the number of the active {@code Player}.
      *
      * @return {@code activePlayerIndex}, the index of the current player.
-     *
      * @see Player
      */
     public int getActivePlayerIndex() {
@@ -127,7 +121,6 @@ public class GameView implements Serializable {
      * Gets the game's {@code Player}s.
      *
      * @return the list of players in the {@code Game} linked to the current GameView.
-     *
      * @see Game
      * @see Player
      */
@@ -140,7 +133,6 @@ public class GameView implements Serializable {
      * available to the active {@code Player}s at the start of the {@code Game}, before the shuffle.
      *
      * @return the "bag" of tiles to be shuffled.
-     *
      * @see Player
      * @see Tile
      * @see Game
@@ -153,7 +145,6 @@ public class GameView implements Serializable {
      * Gets the {@code Board}'s view.
      *
      * @return the view of the Board.
-     *
      * @see it.polimi.ingsw.model.Board
      */
     public BoardView getBoard() {
@@ -164,7 +155,6 @@ public class GameView implements Serializable {
      * Gets the views of all the common goals in the {@code Game}.
      *
      * @return the list of the common goals views in the current GameView.
-     *
      * @see CommonGoal
      * @see Game
      */

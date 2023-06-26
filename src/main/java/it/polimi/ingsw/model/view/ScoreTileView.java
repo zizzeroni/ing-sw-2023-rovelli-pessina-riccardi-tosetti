@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.tile.ScoreTile;
 import java.io.Serializable;
 
 /**
- *
  * This class implements the {@code ScoreTileView} through the {@code Serializable} interface.
  * All the {@code Player}s always access only the implementation of the {@code ScoreTile}s different views,
  * and are sensible to any inherent modification.
@@ -28,9 +27,7 @@ public class ScoreTileView implements Serializable {
      * with the linked logic in the {@code scoreTileModel} (passed as parameter).
      *
      * @param scoreTileModel the model of the considered {@code ScoreTile}.
-     *
      * @see ScoreTile
-     *
      */
     public ScoreTileView(ScoreTile scoreTileModel) {
         this.value = scoreTileModel.getValue();
@@ -46,7 +43,6 @@ public class ScoreTileView implements Serializable {
      * Getter to retrieve the {@code CommonGoal}'s identifier.
      *
      * @return reference to the common goal the {@code ScoreTile} refers to.
-     *
      * @see CommonGoal
      * @see ScoreTile
      */

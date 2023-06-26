@@ -91,7 +91,7 @@ public class GraphicalUI extends Application implements UI {
 
     public GraphicalUI(GameView model, ViewListener controller) {
         super();
-        this.genericUILogic=new GenericUILogic(model, controller);
+        this.genericUILogic = new GenericUILogic(model, controller);
     }
 
     @Override
@@ -349,18 +349,18 @@ public class GraphicalUI extends Application implements UI {
         //Setto il numero di player
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         var th = new Thread(() -> {
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
-            CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
-            Platform.runLater(() -> {
-                this.genericUILogic.getController().startGame();
-                countDownLatchStartGame.countDown();
-            });
-            try {
-                countDownLatchStartGame.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+                CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                    this.genericUILogic.getController().startGame();
+                    countDownLatchStartGame.countDown();
+                });
+                try {
+                    countDownLatchStartGame.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
         });
         th.setUncaughtExceptionHandler((t, e) -> {
             System.err.println("Uncaught exception in thread");
@@ -421,19 +421,21 @@ public class GraphicalUI extends Application implements UI {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        widthOld=primaryStage.getScene().getWidth();
-        heightOld=primaryStage.getScene().getHeight();
+        widthOld = primaryStage.getScene().getWidth();
+        heightOld = primaryStage.getScene().getHeight();
         this.primaryStage.widthProperty().addListener((obs, oldVal, newV) -> {
-            rescale((double)newV,heightOld);         });
+            rescale((double) newV, heightOld);
+        });
         this.primaryStage.heightProperty().addListener((obs, oldVal, newV) -> {
-            rescale(widthOld,(double)newV);         });
-        resizing=true;
+            rescale(widthOld, (double) newV);
+        });
+        resizing = true;
     }
 
     public void rescale(double wi, double he) {
         if (resizing) {
-            double w = wi/widthOld;
-            double h = he/heightOld;
+            double w = wi / widthOld;
+            double h = he / heightOld;
 
             widthOld = wi;
             heightOld = he;

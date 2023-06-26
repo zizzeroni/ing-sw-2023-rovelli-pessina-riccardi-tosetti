@@ -1,14 +1,13 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
-import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
 import java.rmi.RemoteException;
+
 /**
  * This class represents the command that enables the {@code Game}'s startup.
  * It is developed as an implementation of the {@code CommandToServer} interface.
- *
  *
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Player
@@ -20,7 +19,6 @@ public class StartGameCommand implements CommandToServer {
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Game}'s start command.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      */
@@ -33,7 +31,6 @@ public class StartGameCommand implements CommandToServer {
      * Sets the command's actuator.
      *
      * @param actuator the actuator of the {@code Game}'s start command.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      */
@@ -47,7 +44,6 @@ public class StartGameCommand implements CommandToServer {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -63,7 +59,6 @@ public class StartGameCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the {@code Game}'s start command.
-     *
      * @see CommandType
      * @see it.polimi.ingsw.model.Player
      */
@@ -76,7 +71,6 @@ public class StartGameCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

@@ -12,7 +12,6 @@ public class DuplicateNicknameException extends GenericException {
      * Initializes the exception used to handle the occurrence of a {code Player}'s nickname duplication.
      *
      * @param message is the message to signal nickname's duplication.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public DuplicateNicknameException(String message) {
@@ -23,7 +22,6 @@ public class DuplicateNicknameException extends GenericException {
      * Used to enumerate the type of the class exception.
      *
      * @return the {@code ExceptionType} of the nickname's duplication exception.
-     *
      * @see ExceptionType
      */
     public ExceptionType toEnum() {

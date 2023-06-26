@@ -93,7 +93,6 @@ public class OnGoingState extends ControllerState {
      * the controller linked to the actual state.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player} in the current selection.
-     *
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
@@ -135,11 +134,9 @@ public class OnGoingState extends ControllerState {
      * prints an error message. To effectively produce the check the method also needs to access
      * the {@code Bookshelf} of the player making the choice.
      *
-     *
      * @param choice is the player's {@code Choice}.
      * @return {@code true} if and only if the player has entered his choice in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Player
      * @see Choice
@@ -174,11 +171,9 @@ public class OnGoingState extends ControllerState {
      *
      * @param coordinates represents the list of the coordinates being checked.
      * @return {@code true} if and only if the player has entered all the {@code Tile}'s coordinates in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Board
-     *
      */
     private boolean checkIfCoordinatesArePlausible(List<Coordinates> coordinates) {
         for (Coordinates coordinate : coordinates) {
@@ -192,11 +187,10 @@ public class OnGoingState extends ControllerState {
     /**
      * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
      *
-     * @param row is the row of the checked {@code Tile}.
+     * @param row    is the row of the checked {@code Tile}.
      * @param column is the column of the checked {@code Tile}.
      * @return {@code true} if and only if the {@code Tile}'s can be picked,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      */
     private boolean checkIfPickable(int row, int column) {
@@ -216,14 +210,12 @@ public class OnGoingState extends ControllerState {
      * The {@code Player} select a list of {@code Tile}s which are passed altogether with their coordinates
      * in order to be removed.
      *
-     * @param chosenTiles is the list of the selected Tiles.
+     * @param chosenTiles     is the list of the selected Tiles.
      * @param tileCoordinates is the list of the coordinates associated
-     *                       to the respective tiles in the {@code chosenTiles} list.
-     *
+     *                        to the respective tiles in the {@code chosenTiles} list.
      * @see Board
      * @see Board#removeTiles(List)
      * @see Player
-     *
      */
     private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
@@ -234,10 +226,9 @@ public class OnGoingState extends ControllerState {
      * Used to deploy the tiles chosen from the {@code Board} by {@code Player}
      * in the correspondent {@code Bookshelf}
      *
-     * @param chosenTiles is the list of the selected Tiles.
-     * @param positions are the positions selected for each tile during its placing in the {@code Bookshelf}.
+     * @param chosenTiles  is the list of the selected Tiles.
+     * @param positions    are the positions selected for each tile during its placing in the {@code Bookshelf}.
      * @param chosenColumn the column of the bookshelf selected for placing the tiles.
-     *
      * @see Bookshelf
      * @see Player
      * @see Board
@@ -248,6 +239,7 @@ public class OnGoingState extends ControllerState {
             bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
         }
     }
+
     /**
      * This method is used to stream a message privately.
      * Only the specified receiver will be able to read the message
@@ -255,9 +247,8 @@ public class OnGoingState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -273,15 +264,15 @@ public class OnGoingState extends ControllerState {
         }
 
     }
+
     /**
      * This method is used to stream a message in broadcast mode.
      * All the players will be able to read the message
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -294,6 +285,7 @@ public class OnGoingState extends ControllerState {
         }
 
     }
+
     /**
      * This method is used to reconnect the {@code Player} in case of temporary disconnection.
      *
@@ -313,6 +305,7 @@ public class OnGoingState extends ControllerState {
     public void tryToResumeGame() {
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
+
     /**
      * In this implementation it is referred to the ON_GOING state.
      * It falls unused.
@@ -321,6 +314,7 @@ public class OnGoingState extends ControllerState {
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         //Game is going, so do nothing...
     }
+
     /**
      * In this implementation it is referred to the ON_GOING state.
      * It falls unused.
@@ -334,13 +328,13 @@ public class OnGoingState extends ControllerState {
     public void startGame() {
         //Game is going, so do nothing...
     }
-    /** Disconnects the selected {@code Player} from the {@code Game}
+
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible because the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -371,7 +365,6 @@ public class OnGoingState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the ONGOING STATE of the {@code Game}.
-     *
      * @see Game
      * @see GameState#ON_GOING
      */

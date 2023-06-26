@@ -27,7 +27,7 @@ public record Message(MessageType messageType, String receiverNickname, String s
                 stringBuilder.append("[ALL] ");
             }
         }
-        
+
         stringBuilder.append(this.senderNickname).append(": ").append(this.content);
 
         return stringBuilder.toString();

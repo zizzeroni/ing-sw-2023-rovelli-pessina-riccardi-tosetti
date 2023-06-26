@@ -18,7 +18,7 @@ public class ScoreTile {
      * Constructs a ScoreTile considering its assigned value
      * and also current player's and common goal's id.
      *
-     * @param value the value associated to the given ScoreTile.
+     * @param value        the value associated to the given ScoreTile.
      * @param playerID
      * @param commonGoalID
      */
@@ -54,7 +54,6 @@ public class ScoreTile {
      * Sets the {@code ScoreTile}'s value.
      *
      * @param value is the value assigned to the ScoreTile.
-     *
      */
     public void setValue(int value) {
         this.value = value;

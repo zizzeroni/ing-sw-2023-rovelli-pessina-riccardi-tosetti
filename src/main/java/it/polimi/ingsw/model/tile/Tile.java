@@ -20,9 +20,8 @@ public class Tile {
      * Constructor of the class, assigns {@code Tile}'s
      * color and id (passed as parameters).
      *
-     * @param color the tile's color.
+     * @param color   the tile's color.
      * @param imageID the identifier associated to the tile.
-     *
      * @see Tile
      */
     public Tile(TileColor color, int id) {
@@ -34,7 +33,6 @@ public class Tile {
      * Getter used to access {@code Tile}'s identifier.
      *
      * @return the tile's id.
-     *
      * @see Tile
      */
     public int getId() {
@@ -45,7 +43,6 @@ public class Tile {
      * Setter used to modify {@code Tile}'s identifier.
      *
      * @param id is the image identifier of the considered tile.
-     *
      * @see Tile
      */
     public void setId(int id) {
@@ -57,7 +54,6 @@ public class Tile {
      * Sets the {@code Tile}'s color to an initial value.
      *
      * @param color is the color given to the current tile.
-     *
      * @see Tile
      */
     public Tile(TileColor color) {
@@ -68,7 +64,6 @@ public class Tile {
      * Getter used to access {@code Tile}'s color.
      *
      * @return the tile's color.
-     *
      * @see Tile
      */
     public TileColor getColor() {
@@ -79,7 +74,6 @@ public class Tile {
      * Setter used to modify {@code Tile}'s color.
      *
      * @param color is the color of the considered tile.
-     *
      * @see Tile
      */
     public void setColor(TileColor color) {

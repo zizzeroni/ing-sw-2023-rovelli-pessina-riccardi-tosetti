@@ -4,46 +4,60 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.LoginController">
-   <children>
-      <Pane fx:id="content" layoutX="1.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageBackground" stylesheets="@../css/Style.css">
-         <children>
-            <Pane layoutX="98.0" layoutY="22.0" prefHeight="178.0" prefWidth="555.0" style="-fx-background-image: url(&quot;Image/Publisher%20material/Title%202000x618px.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageTitle" stylesheets="@../css/Style.css" />
-            <Pane layoutX="227.0" layoutY="200.0" opacity="0.9" prefHeight="200.0" prefWidth="297.0" style="-fx-background-color: wheat;" stylesheets="@../css/Style.css">
-               <children>
-                  <Label fx:id="principalLabel" alignment="CENTER" layoutX="-6.0" prefHeight="81.0" prefWidth="307.0" text=" Inserisci il nick della libreria" textAlignment="CENTER">
-                     <font>
-                        <Font name="Forte" size="22.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="Nickname" alignment="CENTER" layoutX="49.0" layoutY="81.0" prefHeight="63.0" prefWidth="200.0" text="nickname...">
-                     <font>
-                        <Font name="Forte" size="20.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="FirstButton" alignment="CENTER" layoutX="97.0" layoutY="144.0" mnemonicParsing="false" onAction="#controlNickname" text="Avanti">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Button>
-                  <ChoiceBox fx:id="NumberOfPlayerChoice" layoutX="74.0" layoutY="78.0" prefWidth="150.0" />
-                  <Button fx:id="PlayerOk" layoutX="42.0" layoutY="130.0" mnemonicParsing="false" onAction="#ControlNumberOfPlayer" text="Iniziamo la partita!">
-                     <font>
-                        <Font name="Forte" size="21.0" />
-                     </font>
-                  </Button>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Pane>
-            <Pane fx:id="error" layoutX="126.0" layoutY="416.0" opacity="0.6" prefHeight="58.0" prefWidth="529.0" style="-fx-background-color: white;" />
-            <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="126.0" layoutY="416.0" text="Select the number of player!" textFill="RED">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-   </children>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@../css/Style.css"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.view.GUI.LoginController">
+    <children>
+        <Pane fx:id="content" layoutX="1.0" prefHeight="500.0" prefWidth="750.0"
+              style="-fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageBackground"
+              stylesheets="@../css/Style.css">
+            <children>
+                <Pane layoutX="98.0" layoutY="22.0" prefHeight="178.0" prefWidth="555.0"
+                      style="-fx-background-image: url(&quot;Image/Publisher%20material/Title%202000x618px.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch;"
+                      styleClass="firstPageTitle" stylesheets="@../css/Style.css"/>
+                <Pane layoutX="227.0" layoutY="200.0" opacity="0.9" prefHeight="200.0" prefWidth="297.0"
+                      style="-fx-background-color: wheat;" stylesheets="@../css/Style.css">
+                    <children>
+                        <Label fx:id="principalLabel" alignment="CENTER" layoutX="-6.0" prefHeight="81.0"
+                               prefWidth="307.0" text=" Inserisci il nick della libreria" textAlignment="CENTER">
+                            <font>
+                                <Font name="Forte" size="22.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="Nickname" alignment="CENTER" layoutX="49.0" layoutY="81.0" prefHeight="63.0"
+                                   prefWidth="200.0" text="nickname...">
+                            <font>
+                                <Font name="Forte" size="20.0"/>
+                            </font>
+                        </TextField>
+                        <Button fx:id="FirstButton" alignment="CENTER" layoutX="97.0" layoutY="144.0"
+                                mnemonicParsing="false" onAction="#controlNickname" text="Avanti">
+                            <font>
+                                <Font size="25.0"/>
+                            </font>
+                        </Button>
+                        <ChoiceBox fx:id="NumberOfPlayerChoice" layoutX="74.0" layoutY="78.0" prefWidth="150.0"/>
+                        <Button fx:id="PlayerOk" layoutX="42.0" layoutY="130.0" mnemonicParsing="false"
+                                onAction="#ControlNumberOfPlayer" text="Iniziamo la partita!">
+                            <font>
+                                <Font name="Forte" size="21.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane fx:id="error" layoutX="126.0" layoutY="416.0" opacity="0.6" prefHeight="58.0" prefWidth="529.0"
+                      style="-fx-background-color: white;"/>
+                <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="126.0" layoutY="416.0"
+                       text="Select the number of player!" textFill="RED">
+                    <font>
+                        <Font size="40.0"/>
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

@@ -35,7 +35,6 @@ public class ClientSkeleton implements Client {
      *
      * @param socket is the client's socket.
      * @throws RemoteException to signal the occurrence of a resource error on input or output streams.
-     *
      * @see Client
      */
     public ClientSkeleton(Socket socket) throws RemoteException {
@@ -56,7 +55,6 @@ public class ClientSkeleton implements Client {
      *
      * @param modelUpdated contains the model updates.
      * @throws RemoteException is called when a communication error occurs and the modelView can't be sent.
-     *
      * @see javax.swing.text.View
      */
     @Override
@@ -74,7 +72,6 @@ public class ClientSkeleton implements Client {
      * Allows to ping the client.
      *
      * @throws RemoteException signals the occurrence of a communication error with the client.
-     *
      * @see Client
      */
     @Override
@@ -93,7 +90,6 @@ public class ClientSkeleton implements Client {
      *
      * @param exception the GENERIC except being received.
      * @throws RemoteException called when a communication error with the client occurs.
-     *
      * @see Client
      */
     @Override
@@ -123,7 +119,6 @@ public class ClientSkeleton implements Client {
      *
      * @param server is the server communicating to.
      * @throws RemoteException called when the server's message can't be cast or received.
-     *
      * @see Server
      */
     public void receive(Server server) throws RemoteException {

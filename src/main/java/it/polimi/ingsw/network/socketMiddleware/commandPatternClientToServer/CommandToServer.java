@@ -18,7 +18,6 @@ public interface CommandToServer extends Serializable {
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Player}'s command.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public Server getActuator();
@@ -27,7 +26,6 @@ public interface CommandToServer extends Serializable {
      * Sets the command's actuator.
      *
      * @param actuator the actuator of the command.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setActuator(Server actuator);
@@ -37,7 +35,6 @@ public interface CommandToServer extends Serializable {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
-     *
      */
     public void execute() throws NullPointerException, RemoteException;
 
@@ -45,7 +42,6 @@ public interface CommandToServer extends Serializable {
      * Enumerates the class command.
      *
      * @return the type of the class command.
-     *
      * @see CommandType
      */
     public CommandType toEnum();

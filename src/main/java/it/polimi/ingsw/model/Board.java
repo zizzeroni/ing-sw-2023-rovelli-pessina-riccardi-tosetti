@@ -10,7 +10,6 @@ import java.util.List;
  * It may vary in its size and form depending on the number of {@code Player}s that will
  * be registered in the lobby when the game starts.
  *
- *
  * @see Game
  * @see Board
  * @see Tile
@@ -26,7 +25,6 @@ public class Board {
      * Registers the {@code BoardListener} on the Board.
      *
      * @param listener the listener that will register on the {@code Board}.
-     *
      * @see BoardListener
      * @see java.net.http.WebSocket.Listener
      */
@@ -55,8 +53,8 @@ public class Board {
     /**
      * Initializes only the {@code Tile}s in the positions where there are ones in the {@code JsonBoardPattern},
      * and set non-usable tiles as tiles without a specified color.
-     * @param jsonBoardPattern pattern that contains the positions where the tiles can be inserted.
      *
+     * @param jsonBoardPattern pattern that contains the positions where the tiles can be inserted.
      * @see JsonBoardPattern
      * @see Tile
      */
@@ -70,7 +68,6 @@ public class Board {
      *
      * @param numberOfUsableTiles number of {@code Tile}s that are usable, set during the {@code Game}'s creation.
      * @param tiles
-     *
      * @see Tile
      * @see Game
      */
@@ -83,7 +80,6 @@ public class Board {
      * Adds the tiles selected by {@code Player}s in the positions previously chosen.
      *
      * @param tilesToAdd is the list of the selected {@code Tile}s.
-     *
      * @see Player
      * @see Tile
      */
@@ -109,8 +105,7 @@ public class Board {
      * The method searches in the board for "lonely" {@code Tile}s (whitout any nearby, adjacent tiles).
      *
      * @return if 2 or more nearby tiles are found, returns '0',
-     *          otherwise returns the number of "lonely" tiles.
-     *
+     * otherwise returns the number of "lonely" tiles.
      * @see Tile
      */
     public int numberOfTilesToRefill() { //returns the number of tiles required for refill. 0 if not needed
@@ -143,9 +138,7 @@ public class Board {
      * When they are taken, selected tiles need to be removed from
      * their current position. This method implements tiles removal.
      *
-     *
      * @param coordinates are the coordinates of the tiles selected by a player to be removed.
-     *
      * @see Player
      * @see Tile
      */
@@ -164,9 +157,8 @@ public class Board {
     /**
      * Methods used to remove a {@code Tile} in a specific position from the {@code Board}.
      *
-     * @param row the row of the tile to be removed.
+     * @param row    the row of the tile to be removed.
      * @param column the column of the tile to be removed.
-     *
      * @see Tile
      * @see Board
      */
@@ -178,7 +170,6 @@ public class Board {
      * Gets the number of usable {@code Tile}s.
      *
      * @return the number of usable tiles.
-     *
      * @see Tile
      */
     public int getNumberOfUsableTiles() {
@@ -189,7 +180,6 @@ public class Board {
      * Sets the number of usable {@code Tile}s.
      *
      * @param numberOfUsableTiles the number of tiles that can be actually used during the {@code Game}.
-     *
      * @see Tile
      * @see Game
      */
@@ -201,7 +191,6 @@ public class Board {
      * Getter used to retrieve the {@code Tile}s to be displaced on the board.
      *
      * @return the board's tile set.
-     *
      * @see Tile
      */
     public Tile[][] getTiles() {
@@ -231,7 +220,6 @@ public class Board {
      * also sets non-usable tiles as tiles without any specific color.
      *
      * @param boardPattern pattern that contains the positions where we need to insert the tiles.
-     *
      * @see Tile
      */
     public void setPattern(JsonBoardPattern boardPattern) {
@@ -265,10 +253,9 @@ public class Board {
      * Gets the {@code Tile} at the given coordinates,
      * expressed as rows and columns.
      *
-     * @param row is the first coordinate.
+     * @param row    is the first coordinate.
      * @param column is the second coordinate.
      * @return the Tile at the specified position on the {@code Board}.
-     *
      * @see Tile
      */
     public Tile getSingleTile(int row, int column) {
@@ -279,9 +266,9 @@ public class Board {
      * Sets the value of the {@code Tile} at the given coordinates,
      * expressed as rows and columns.
      *
-     * @param row is the first coordinate.
+     * @param row    is the first coordinate.
      * @param column is the second coordinate.
-     * @param tile is the tile's value to be set by the method.
+     * @param tile   is the tile's value to be set by the method.
      */
     public void setSingleTile(int row, int column, Tile tile) {
         this.tiles[row][column] = tile;
@@ -291,7 +278,6 @@ public class Board {
      * Used to displays a simple representation of the {@code Board}.
      *
      * @return a representation of the current board, empty {@code Tile}s as indicated as '0'.
-     *
      * @see Tile
      */
     @Override

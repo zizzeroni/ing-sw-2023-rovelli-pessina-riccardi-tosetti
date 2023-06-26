@@ -5,11 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
-import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 
 import java.io.IOException;
@@ -42,8 +42,6 @@ public class GameController {
     private final Random randomizer = new Random();
 
     /**
-     *
-     *
      * @param model
      */
     public GameController(Game model) {
@@ -74,7 +72,6 @@ public class GameController {
      * A setter employed to change the current state of the {@Game}
      *
      * @param state is the current state to be setted.
-     *
      * @see GameState
      */
     public void changeState(ControllerState state) {
@@ -85,7 +82,6 @@ public class GameController {
      * A getter which returns the current state of the {@code Game}.
      *
      * @return the game's current state.
-     *
      * @see Game
      */
     public ControllerState getState() {
@@ -105,12 +101,10 @@ public class GameController {
      * the controller linked to the actual state.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player} in the current selection.
-     *
+     * @throws TODO
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
-     * 
-     * @throws TODO
      */
     public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         state.insertUserInputIntoModel(playerChoice);
@@ -123,9 +117,8 @@ public class GameController {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -140,9 +133,8 @@ public class GameController {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -163,19 +155,17 @@ public class GameController {
      * The method also sets the connection state of any given {@code Player} to {@code true}.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
-     *
+     * @throws TODO
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
-     * 
-     * @throws TODO
      */
     public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
     }
 
     /*
-    * TODO
-    */
+     * TODO
+     */
     public void tryToResumeGame() {
         state.tryToResumeGame();
     }
@@ -185,10 +175,8 @@ public class GameController {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @see Game
      * @see Game#getPlayers()
-     *
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
@@ -218,19 +206,18 @@ public class GameController {
     }
 
     /*
-    * TODO
-    */
+     * TODO
+     */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -243,11 +230,11 @@ public class GameController {
 
 
     //------------------------------------UTILITY METHODS------------------------------------
+
     /**
      * Getter used to retrieve the {@code Game} model.
      *
      * @return the model of the game created.
-     *
      * @see Game
      */
     public Game getModel() {
@@ -263,7 +250,6 @@ public class GameController {
      * Getter used to retrieve the number of {@code Player}s in the {@code Game}.
      *
      * @return the number of active players for the current game.
-     *
      * @see Player
      * @see Game
      */
@@ -274,10 +260,8 @@ public class GameController {
     /**
      * Getter used to access the {@code PersonalGoal} assigned to a {@code Player}.
      *
-     *
      * @param index is the identifier of the goal.
      * @return the player's indexed personalGoal.
-     *
      * @see PersonalGoal
      */
     public PersonalGoal getPersonalGoal(int index) {
@@ -290,7 +274,6 @@ public class GameController {
      * personal goals ({@code personalGoalsDeck}).
      *
      * @param personalGoal is the goal being added to the deck.
-     *
      * @see PersonalGoal
      * @see GameController#personalGoalsDeck
      */
@@ -306,7 +289,6 @@ public class GameController {
      * Getter to access the size of the deck of personal goals available.
      *
      * @return the size of the {@code personalGoalsDeck}
-     *
      * @see PersonalGoal
      * @see GameController#personalGoalsDeck
      */
@@ -318,7 +300,6 @@ public class GameController {
      * Getter to access the {@code Board}'s patterns of tiles (stored in a json file).
      *
      * @return the list of possible identified patterns
-     *
      * @see GameController#boardPatterns
      */
     public List<JsonBoardPattern> getBoardPatterns() {
@@ -329,7 +310,6 @@ public class GameController {
      * This method is used to access the randomizer used to shuffle the {@code personalGoalsDeck}.
      *
      * @return the randomizer used for shuffling.
-     *
      * @see GameController#personalGoalsDeck
      */
     public Random getRandomizer() {

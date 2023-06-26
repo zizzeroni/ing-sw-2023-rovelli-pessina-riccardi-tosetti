@@ -4,8 +4,8 @@ import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.GUI.UI;
 
@@ -34,9 +34,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * Registers the view's listener.
      *
      * @param server the current server.
-     * @param view the UI's view.
+     * @param view   the UI's view.
      * @throws RemoteException
-     *
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -54,11 +53,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the client's server, client's view and nickname to the given values.
      * Registers the view's listener.
      *
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
      * @throws RemoteException
-     *
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -77,11 +75,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the client's server, client's view and nickname to the given values.
      * Registers the view's listener.
      *
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
      * @throws RemoteException
-     *
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -101,15 +98,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the server's ip and port to the given values.
      * Registers the view's listener.
      *
-     * @param port the server's port number.
-     * @param csf the client socket factory employed for the RMI.
-     * @param ssf the server socket factory employed for the RMI.
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param port     the server's port number.
+     * @param csf      the client socket factory employed for the RMI.
+     * @param ssf      the server socket factory employed for the RMI.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
-     *
      * @throws RemoteException
-     *
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
@@ -160,14 +155,14 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /*
-    * TODO
-    */
+     * TODO
+     */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         this.view.setAreThereStoredGamesForPlayer(result);
     }
 
-    
+
     /**
      * Allows to transmit the information about turns management to the view.
      */
@@ -231,7 +226,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * Signals the adding of a player to the current game.
      *
      * @param nickname the nickname of the {@code Player}.
-     *
      * @see Player
      * @see Game
      */
@@ -249,7 +243,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * Communicates the choice of the players number.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
-     *
      * @see Player
      * @see Game
      */
@@ -278,14 +271,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
-    /** Signals the disconnection of the selected {@code Player} from the current game to the server
+    /**
+     * Signals the disconnection of the selected {@code Player} from the current game to the server
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Server
      * @see Game
