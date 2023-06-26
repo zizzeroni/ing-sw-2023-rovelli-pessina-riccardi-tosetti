@@ -11,11 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -55,6 +55,12 @@ public class MainSceneController implements Initializable {
     private Pane fourthPlayerBookshelf;
     @FXML
     private Label firstPlayerNickname;
+    @FXML
+    private VBox VBoxMessage;
+    @FXML
+    private TextField chatMessage;
+    @FXML
+    private ChoiceBox<String> playerChatChoice;
     private int numberOfPlayer;
     private Choice takenTiles;
     private String[] playerName;
@@ -69,11 +75,11 @@ public class MainSceneController implements Initializable {
     private int turn;
     private Image pointsImage1;
     private Image pointsImage2;
-    @FXML
-    private ScrollPane scrollPane;
+    private boolean gameOn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.gameOn = true;
         this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
@@ -91,8 +97,6 @@ public class MainSceneController implements Initializable {
         Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
-
-        Label label = new Label("paolo");
 
     }
 
@@ -172,6 +176,23 @@ public class MainSceneController implements Initializable {
             button.setBorder(Border.EMPTY);
         }
     }
+//
+//    public void setChat() {
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        Platform.runLater(() -> {
+//            int c = 0;
+//            for (int i = 0; i < 10; i++) {
+//                Text text = new Text(10, 10, String.valueOf(i));
+//                VBoxMessage.getChildren().add(0, text); // add on top
+//            }
+//            countDownLatch.countDown();
+//        });
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void overButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
@@ -196,8 +217,20 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(500);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
-        pointsItem1.setVisible(false);
-        pointsItem2.setVisible(false);
+        pointsItem2.setViewOrder(1);
+        pointsItem1.setViewOrder(1);
+        commonGoal2.setViewOrder(1);
+
+//        commonGoal2.setVisible(false);
+//        pointsItem2.setVisible(false);
+//
+//        pointsItem1.setFitHeight(78.5454);
+//        pointsItem1.setFitWidth(87.2727);
+//        pointsItem1.setLayoutX(485.45);
+//        pointsItem1.setLayoutY(693.527);
+
+        //pointsItem1.setVisible(false);
+        //pointsItem2.setVisible(false);
     }
 
     public void exitCommonGoal1(MouseEvent mouseEvent) {
@@ -206,11 +239,21 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(110);
         imageView.setFitWidth(110);
-        imageView.setLayoutX(559);
-        imageView.setLayoutY(471);
+        imageView.setLayoutX(529);
+        imageView.setLayoutY(454);
         imageView.setViewOrder(1);
-        pointsItem1.setVisible(true);
-        pointsItem2.setVisible(true);
+        pointsItem2.setViewOrder(0.0);
+        pointsItem1.setViewOrder(0.0);
+        commonGoal2.setViewOrder(0.0);
+//        commonGoal2.setVisible(true);
+//        pointsItem2.setVisible(true);
+//
+//        pointsItem1.setFitHeight(36);
+//        pointsItem1.setFitWidth(40);
+//        pointsItem1.setLayoutX(588.7);
+//        pointsItem1.setLayoutY(473);
+        //pointsItem1.setVisible(true);
+        //pointsItem2.setVisible(true);
     }
 
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -222,8 +265,9 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutX(601);
         imageView.setLayoutY(406);
         imageView.setViewOrder(0.0);
-        pointsItem2.setVisible(false);
-        pointsItem1.setVisible(false);
+        pointsItem2.setViewOrder(1);
+        pointsItem1.setViewOrder(1);
+        commonGoal1.setViewOrder(1);
     }
 
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -232,11 +276,12 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(110);
         imageView.setFitWidth(110);
-        imageView.setLayoutX(676);
-        imageView.setLayoutY(471);
+        imageView.setLayoutX(646);
+        imageView.setLayoutY(454);
         imageView.setViewOrder(1);
-        pointsItem2.setVisible(true);
-        pointsItem1.setVisible(true);
+        pointsItem2.setViewOrder(0.0);
+        pointsItem1.setViewOrder(0.0);
+        commonGoal1.setViewOrder(0.0);
     }
 
     public void onPersonalGoal(MouseEvent mouseEvent) {
@@ -254,8 +299,8 @@ public class MainSceneController implements Initializable {
 
         imageView.setFitHeight(210);
         imageView.setFitWidth(286);
-        imageView.setLayoutX(915);
-        imageView.setLayoutY(560);
+        imageView.setLayoutX(885);
+        imageView.setLayoutY(510);
     }
 
     public void setTable() {
@@ -282,6 +327,11 @@ public class MainSceneController implements Initializable {
                 }
             }
             pointsLabel.setText(String.valueOf(points));
+
+            if (!this.firstPlayerNickname.getText().equals(this.mainGraphicalUI.genericUILogic.getModel().getPlayers().get(0).getNickname())) {
+                ImageView imageView = (ImageView) scene.lookup("#chair1");
+                imageView.setVisible(false);
+            }
 
             if (turn == 0) {
                 if (fourthPlayerBookshelf == null)
@@ -523,25 +573,36 @@ public class MainSceneController implements Initializable {
 
     public void setNumberOfPlayer(int numberOfPlayers) {
         this.numberOfPlayer = numberOfPlayers;
-        playerName = new String[numberOfPlayers];
+        playerName = new String[numberOfPlayers + 1];
     }
 
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
             String nickPlayer;
+            String chair;
             int countOtherPlayer = 2;
             int countPlayer = 0;
             for (int i = 0; i < numberOfPlayer; i++) {
                 if (!players.get(i).getNickname().equals(this.firstPlayerNickname.getText())) {
+                    chair = "#chair" + countOtherPlayer;
                     nickPlayer = "#nickname" + countOtherPlayer;
                     Label playerNickname = (Label) scene.lookup(nickPlayer);
                     playerNickname.setText(players.get(i).getNickname());
+                    //Controllare se il player è quello che ha iniziato
+                    if (!players.get(i).getNickname().equals(this.mainGraphicalUI.genericUILogic.getModel().getPlayers().get(0).getNickname())) {
+                        ImageView imageView = (ImageView) scene.lookup(chair);
+                        imageView.setVisible(false);
+                    }
                     countOtherPlayer++;
                 }
                 playerName[countPlayer] = players.get(i).getNickname();
                 countPlayer++;
             }
+            playerName[countPlayer] = "All";
+
+            this.playerChatChoice.getItems().setAll(playerName);
+            this.playerChatChoice.setValue("All");
             countDownLatchAble.countDown();
         });
         try {
@@ -827,6 +888,8 @@ public class MainSceneController implements Initializable {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
             this.firstPlayerNickname.setText(nickname);
+            //Se il firstPlayer è anche il primo giocatore lascio la sedia
+
             countDownLatchAble.countDown();
         });
         try {
@@ -1042,6 +1105,133 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void sendMessage(KeyEvent keyEvent) {
+
+    public void DeletePrevious(MouseEvent mouseEvent) {
+        if (!(mouseEvent.getSource() instanceof TextField node))
+            return;
+
+        node.setText("");
+    }
+
+    public void refreshPoint() {
+        CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
+            int points = activePlayer.score();
+            pointsLabel.setText(String.valueOf(points));
+            countDownLatchCommonGoal.countDown();
+        });
+        try {
+            countDownLatchCommonGoal.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendMessage(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+
+        String sender = this.firstPlayerNickname.getText();
+        String message = this.chatMessage.getText();
+        chatMessage.setText("");
+        String receiver = (playerChatChoice.getValue());
+
+        var th = new Thread(() -> {
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                System.out.println(message);
+                if (!message.isEmpty()) {
+                    if (receiver.equals("All")) {
+                        this.mainGraphicalUI.genericUILogic.getController().sendBroadcastMessage(sender, message);
+                    } else {
+                        this.mainGraphicalUI.genericUILogic.getController().sendPrivateMessage(sender, receiver, message);
+                    }
+                }
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
+    }
+
+//    public void updateChat() {
+//        var th1 = new Thread(() -> {
+//            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//
+//            CountDownLatch countDownLatch = new CountDownLatch(1);
+//            Platform.runLater(() -> {
+//                VBoxMessage.getChildren().clear();
+//                if (fullChat.size() != 0) {
+//                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+//                        Text text = new Text(message.toString());
+//                        Font font = new Font(14);
+//                        text.setFont(font);
+//                        VBoxMessage.getChildren().add(0, text); // add on top
+//                    }
+//                }
+//                countDownLatch.countDown();
+//            });
+//
+//            try {
+//                countDownLatch.await();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//        th1.setUncaughtExceptionHandler((t, e) -> {
+//            System.err.println("Uncaught exception in thread");
+//            e.printStackTrace();
+//        });
+//        th1.start();
+//    }
+
+    public void chatUpdate(boolean gameState) {
+//        var th = new Thread(() -> {
+//            gameOn = gameState;
+//            while (gameOn) {
+//                List<Message> fullChat = this.mainGraphicalUI.genericUILogic.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+//
+//                CountDownLatch countDownLatch = new CountDownLatch(1);
+//                Platform.runLater(() -> {
+//                    VBoxMessage.getChildren().clear();
+//                    if (fullChat.size() != 0) {
+//                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
+//                            Text text = new Text(message.toString());
+//                            Font font = new Font(14);
+//                            text.setFont(font);
+//                            VBoxMessage.getChildren().add(0, text); // add on top
+//                        }
+//                    }
+//                    countDownLatch.countDown();
+//                });
+//                try {
+//                    countDownLatch.await();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//        th.setUncaughtExceptionHandler((t, e) -> {
+//            System.err.println("Uncaught exception in thread");
+//            e.printStackTrace();
+//        });
+//        th.start();
+    }
+
+    public boolean isGameOn() {
+        return gameOn;
+    }
+
+    public void setGameOn(boolean gameOn) {
+        this.gameOn = gameOn;
     }
 }

@@ -1,6 +1,11 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+import it.polimi.ingsw.controller.CreationState;
+import it.polimi.ingsw.controller.OnGoingState;
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Message;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.*;
@@ -13,6 +18,16 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.Semaphore;
 
+/**
+ * This class identifies the functioning of the server's stub, it is necessary fo the {@code Client}'s correct functioning.
+ * It incorporates the same methods of the server interface, implementing them.
+ * It also contains semaphores used in order to synchronize the sending of a notification of an input or event coming from the View and sent to the Server, and the reception of
+ * a "response" (A new GameView object) form the Server itself
+ *
+ * @see Server
+ * @see it.polimi.ingsw.model.view.GameView
+ * @see Client
+ */
 //Necessary for the client in order to function
 public class ServerStub implements Server {
     //Server's IP address
@@ -26,11 +41,23 @@ public class ServerStub implements Server {
     //a "response" (A new GameView object) form the Server itself
     private final Semaphore semaphoreUpdate = new Semaphore(0);
 
+    /**
+     * Class constructor.
+     * initialize the server's ip and port to the given values.
+     *
+     * @param ip   the address of the server.
+     * @param port the server's port number.
+     */
     public ServerStub(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
+    /**
+     * Change the turn in the server's context.
+     *
+     * @see OnGoingState#changeTurn()
+     */
     @Override
     public void changeTurn() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -50,6 +77,16 @@ public class ServerStub implements Server {
 
     }
 
+    /**
+     * Provides the server communication that allow the {@code Player} to insert {@code Tile}s,
+     * in a given order (contained in {@code Choice}) into the {@code Board}.
+     *
+     * @param playerChoice the choice made by the player.
+     * @throws RemoteException
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     * @see Choice
+     */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -68,6 +105,20 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * This method is used to stream a message privately.
+     * Only the specified receiver will be able to read the message
+     * in any chat. It builds a new object message at each call, setting
+     * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
+     *
+     * @param receiver the {@code Player} receiving the message.
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
+     * @throws RemoteException called if a communication error occurs.
+     * @see Player
+     * @see Player#getNickname()
+     * @see Message#messageType()
+     */
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -87,6 +138,16 @@ public class ServerStub implements Server {
 
     }
 
+    /**
+     * This method implementations allow to send
+     * broadcast messages to all the {@code Player}s.
+     *
+     * @param sender  the sender of the broadcast {@code Message}.
+     * @param content the text of the message.
+     * @throws RemoteException called if a communication error occurs.
+     * @see it.polimi.ingsw.model.Player
+     * @see Message
+     */
     @Override
     public void sendBroadcastMessage(String sender, String content) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -106,6 +167,18 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * This method is used to add a {@code Player} to the current {@code Game}
+     * through the knowledge of the nickname he has chosen during game creation and the client
+     * he has been assigned to.
+     *
+     * @param client   is the player's client
+     * @param nickname is the reference for the name of the {@code Player} being added.
+     * @throws RemoteException called if a communication error occurs.
+     * @see Client
+     * @see Game
+     * @see Player
+     */
     @Override
     public void addPlayer(Client client, String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -142,6 +215,15 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Permits to set the number of active {@code Player}s in the current {@code Game}.
+     *
+     * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
+     * @throws RemoteException signals the occurrence of an error while sending the message.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     * @see CreationState#chooseNumberOfPlayerInTheGame(int)
+     */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -161,6 +243,12 @@ public class ServerStub implements Server {
 
     }
 
+    /**
+     * Updates (or acquires) the permissions on the semaphores to start up the Game.
+     *
+     * @throws RemoteException called when occurs a communication error with the server.
+     * @see Game
+     */
     @Override
     public void startGame() throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -179,6 +267,15 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Allows client's registration, every {@code Client} is associated to its {@code Player}'s nickname.
+     *
+     * @param client   is the client being registered.
+     * @param nickname is the client's player's nickname.
+     * @throws RemoteException an exception called to notify that an error occurred while connecting to the server.
+     * @see Client
+     * @see it.polimi.ingsw.model.Player
+     */
     @Override
     public void register(Client client, String nickname) throws RemoteException {
         try {
@@ -198,6 +295,13 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Allows to ping the server.
+     *
+     * @throws RemoteException called if a communication error occurs.
+     * @throws RemoteException signals the occurrence of a communication error with the server.
+     * @see Server
+     */
     @Override
     public void ping() throws RemoteException {
         CommandToServer command = new SendPingToServerCommand();
@@ -209,6 +313,18 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Signals the disconnection of the selected {@code Player} from the current game to the server
+     * by changing his connectivity state.
+     * (only possible when the {@code Game} has already started).
+     *
+     * @param nickname is the nickname identifying the player selected for disconnection.
+     * @throws RemoteException called if a communication error occurs.
+     * @see Player
+     * @see Server
+     * @see Game
+     * @see Player#setConnected(boolean)
+     */
     @Override
     public void disconnectPlayer(String nickname) throws RemoteException {
         CommandToServer command = new DisconnectPlayerCommand(nickname);
@@ -256,6 +372,13 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Receives (and provides a response) to client's messages.
+     *
+     * @param client is the client communicating to.
+     * @throws RemoteException called when the client's message can't be cast or received.
+     * @see Client
+     */
     public void receive(Client client) throws RemoteException {
         CommandToClient command;
         try {
@@ -278,6 +401,11 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Used to close the server's socket.
+     *
+     * @throws RemoteException is launched if it is not possible to close the socket connection.
+     */
     public void close() throws RemoteException {
         try {
             this.socket.close();

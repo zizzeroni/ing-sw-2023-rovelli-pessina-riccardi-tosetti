@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+/**
+ * Enumeration of all the possible types of commands/exceptions.
+ */
 public enum CommandType {
     ADD_PLAYER,
     CHANGE_TURN,
@@ -15,4 +18,5 @@ public enum CommandType {
     SEND_UPDATED_MODEL,
     EXCEPTION,
     TRY_TO_RESUME_GAME,
+    RESTORE_STORED_GAME
 }

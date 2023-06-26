@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.controller.ViewListener;
-import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.model.exceptions.GenericException;
+import it.polimi.ingsw.model.view.GameView;
 
 public interface UI {
+    public void showNewTurnIntro();
+
     public void registerListener(ViewListener listener);
 
     public void removeListener();

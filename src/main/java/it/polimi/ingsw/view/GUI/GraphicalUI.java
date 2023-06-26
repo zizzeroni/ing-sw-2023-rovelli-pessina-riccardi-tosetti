@@ -3,14 +3,15 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
+import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
-import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
+import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,14 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
+/**
+ * This class contains the GUI's methods.
+ * It is developed as an extension of UI, because it shares some base methods
+ * with the TextualUI
+ *
+ * @see UI
+ * @see TextualUI
+ */
 public class GraphicalUI extends Application implements UI {
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
@@ -43,12 +52,34 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @see GameView
+     */
     public GraphicalUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
     }
 
+    /**
+     * Class constructor.
+     * <p>
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GraphicalUI() {
         this.genericUILogic = new GenericUILogic();
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
+        this.genericUILogic = new GenericUILogic(model, controller, nickname);
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller) {
+        super();
+        this.genericUILogic = new GenericUILogic(model, controller);
     }
 
     @Override
@@ -59,18 +90,42 @@ public class GraphicalUI extends Application implements UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
+        if (typeOfConnection == 2) {
+            ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
+            //Creating a new client with a TextualUI and a Socket Server
+            Client client = null;
+            try {
+                client = new ClientImpl(serverStub, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            //Creating a new Thread that will take care of checking on availability of connected client
+            startPingSenderThread(serverStub);
+            //Creating a new Thread that will take care of the responses coming from the Server side
+            startReceiverThread(client, serverStub);
+        } else {
+            try {
+                Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+                Server server = (Server) registry.lookup("server");
+                new ClientImpl(server, this);
+                startPingSenderThread(server);
+            } catch (RemoteException | NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
         run();
     }
 
-    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
-        this.genericUILogic = new GenericUILogic(model, controller, nickname);
-    }
-
-    public GraphicalUI(GameView model, ViewListener controller) {
-        this.genericUILogic = new GenericUILogic(model, controller);
-    }
-
+    /**
+     * Displays a standard message to identify the starting of the next turn.
+     * Calls the nickname of the active player and the shows the board's state.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     */
+    @Override
     public void showNewTurnIntro() {
+
         int tileId;
         String tileColor;
         takenTiles = null;
@@ -80,6 +135,9 @@ public class GraphicalUI extends Application implements UI {
         TileView[][] boardMatrix = this.genericUILogic.getModel().getBoard().getTiles();
 
         mainSceneController.setTable();
+
+        //mainSceneController.setChat();
+        //mainSceneController.updateChat();
 
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
@@ -141,6 +199,15 @@ public class GraphicalUI extends Application implements UI {
         this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
+    /**
+     * Performs the following in game actions. <p>
+     * Creates the first scene root. <p>
+     * Displays the first scene. <p>
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public void run() {
         Parent root;
@@ -157,40 +224,36 @@ public class GraphicalUI extends Application implements UI {
         }
         //Mostro la prima scena
         primaryStage.setTitle("First Scene");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        setPrimaryStage(new Scene(root));
+        //primaryStage.setScene(new Scene(root));
+        //primaryStage.show();
     }
 
+    /**
+     * Consents to a player to join the game's lobby using his nickname.
+     * It is also used as follows to link the first the scene with the second: <p>
+     * Waits to reach the given players number, notifies the controller of the game's start
+     * then checks the second scene before displaying it.
+     *
+     * @param nickname the player's nickname.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
-            if (typeOfConnection == 2) {
-                ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
-                //Creating a new client with a TextualUI and a Socket Server
-                Client client = null;
-                try {
-                    client = new ClientImpl(serverStub, this);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                //Creating a new Thread that will take care of checking on availability of connected client
-                startPingSenderThread(serverStub);
-                //Creating a new Thread that will take care of the responses coming from the Server side
-                startReceiverThread(client, serverStub);
-            } else {
-                try {
-                    Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                    Server server = (Server) registry.lookup("server");
-                    new ClientImpl(server, this);
-                    startPingSenderThread(server);
-                } catch (RemoteException | NotBoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+
             this.genericUILogic.initializeChatThread(this.genericUILogic.getController(), this.genericUILogic.getNickname(), this.genericUILogic.getModel());
+            this.genericUILogic.setExceptionToHandle(null);
+
             //Add the player to the game, if he is the first return 1
             this.setNickname(nickname);
             this.genericUILogic.getController().addPlayer(nickname);
 
+            if (this.genericUILogic.getExceptionToHandle() != null) {
+                loginController.nicknameAlreadyUsed();
+                return;
+            }
             boolean askNumberOfPlayer = this.genericUILogic.getModel().getPlayers().size() == 1;
 
             loginController.numberOfPlayer(askNumberOfPlayer);
@@ -228,7 +291,8 @@ public class GraphicalUI extends Application implements UI {
                     CountDownLatch countDownLatch = new CountDownLatch(1);
                     Platform.runLater(() -> {
                         primaryStage.setTitle("Main Scene");
-                        primaryStage.setScene(new Scene(secondRoot));
+                        setPrimaryStage(new Scene(secondRoot));
+                        //primaryStage.setScene(new Scene(secondRoot));
                         countDownLatch.countDown();
                     });
                     try {
@@ -250,6 +314,8 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
+            mainSceneController.setGameOn(true);
+            mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
@@ -262,10 +328,13 @@ public class GraphicalUI extends Application implements UI {
                 }
                 this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
+
                 this.genericUILogic.getController().changeTurn();
+                this.mainSceneController.refreshPoint();
 
             }
-            System.out.println("---GAME ENDED---");
+            mainSceneController.setGameOn(false);
+
             Parent lastRoot;
             //Carico l'ultima scena e la mostro
             try {
@@ -281,7 +350,8 @@ public class GraphicalUI extends Application implements UI {
             CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 primaryStage.setTitle("Last Scene");
-                primaryStage.setScene(new Scene(lastRoot));
+                setPrimaryStage(new Scene(lastRoot));
+                //primaryStage.setScene(new Scene(lastRoot));
                 countDownLatch.countDown();
                 finalSceneController.setScene(primaryStage.getScene());
                 finalSceneController.showResult(this.genericUILogic.getModel().getPlayers());
@@ -309,6 +379,7 @@ public class GraphicalUI extends Application implements UI {
                 }
                 case WAITING_FOR_OTHER_PLAYER -> {
                     System.out.println("Waiting for others player moves...");
+                    //mainSceneController.updateChat();
                     mainSceneController.lockAllTiles();
                 }
             }
@@ -323,9 +394,35 @@ public class GraphicalUI extends Application implements UI {
         }
     }
 
+    /**
+     * Sets the number of players for the current Game.
+     *
+     * @param chosenNumberOfPlayer the selected number of players.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+        var th = new Thread(() -> {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+                CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
+                Platform.runLater(() -> {
+                    this.genericUILogic.getController().startGame();
+                    countDownLatchStartGame.countDown();
+                });
+                try {
+                    countDownLatchStartGame.await();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
     }
 
     public void finishTurn(Choice takenTiles) {
@@ -333,6 +430,8 @@ public class GraphicalUI extends Application implements UI {
     }
 
     public void showUpdateFromOtherPlayer() {
+
+        //mainSceneController.updateChat();
         int tileId;
         String tileColor;
 
@@ -354,19 +453,6 @@ public class GraphicalUI extends Application implements UI {
         mainSceneController.setCommonGoalPoints(this.genericUILogic.getModel().getCommonGoals());
     }
 
-    public void rescale() {
-        if (resizing) {
-            double widthWindow = primaryStage.getScene().getWidth();
-            double heightWindow = primaryStage.getScene().getHeight();
-
-            widthOld = widthWindow;
-            heightOld = heightWindow;
-
-            Scale scale = new Scale(widthWindow, heightWindow, 0, 0);
-            primaryStage.getScene().lookup("#mainPage").getTransforms().add(scale);
-        }
-    }
-
     private static void startReceiverThread(Client client, ServerStub serverStub) {
         //Creating a new Thread that will take care of the responses coming from the Server side
         new Thread(() -> {
@@ -386,4 +472,32 @@ public class GraphicalUI extends Application implements UI {
         }).start();
     }
 
+    private void setPrimaryStage(Scene scene) {
+        resizing = false;
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        widthOld = primaryStage.getScene().getWidth();
+        heightOld = primaryStage.getScene().getHeight();
+        this.primaryStage.widthProperty().addListener((obs, oldVal, newV) -> {
+            rescale((double) newV, heightOld);
+        });
+        this.primaryStage.heightProperty().addListener((obs, oldVal, newV) -> {
+            rescale(widthOld, (double) newV);
+        });
+        resizing = true;
+    }
+
+    public void rescale(double wi, double he) {
+        if (resizing) {
+            double w = wi / widthOld;
+            double h = he / heightOld;
+
+            widthOld = wi;
+            heightOld = he;
+
+            Scale scale = new Scale(w, h, 0, 0);
+            primaryStage.getScene().lookup("#content").getTransforms().add(scale);
+        }
+    }
 }

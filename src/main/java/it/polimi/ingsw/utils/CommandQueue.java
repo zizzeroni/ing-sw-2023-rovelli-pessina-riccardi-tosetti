@@ -3,6 +3,10 @@ package it.polimi.ingsw.utils;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Utility class used for all operations related to running/setting
+ * the active {@code Player} commands as represented in a default queue {@code commands}.
+ */
 public class CommandQueue {
 
     private BlockingQueue<String> commands;
@@ -20,6 +24,11 @@ public class CommandQueue {
         return command;
     }
 
+    /**
+     * Tries to get a Command from the BlockingQueue {@code commands}.
+     *
+     * @return the parsed command identified in the queue.
+     */
     public int waitAndGetFirstIntegerCommandAvailable() {
         int parsedCommand;
         try {
@@ -32,6 +41,13 @@ public class CommandQueue {
         return parsedCommand;
     }
 
+    /**
+     * Adds a command to BlockingQueue {@code commands}.
+     *
+     * @param command the {@code command} from the
+     * @throws Exception if the command can't be added,
+     *                   prints an error message with the size of the queue.
+     */
     public void addCommand(String command) throws Exception {
         if (!this.commands.add(command)) {
             throw new Exception("Error while adding a command to the queue, size of the queue: " + this.commands.size());
