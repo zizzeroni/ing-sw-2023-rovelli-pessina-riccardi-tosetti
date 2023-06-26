@@ -95,7 +95,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
     /**
      * Used to access maxEqualsTiles value.
      *
-     * @return contains the maximum number of tiles that can be the same in a column/row
+     * @return contains the maximum number of tiles that can be the same in a column/row.
      *
      * @see MinEqualsTilesPattern#maxEqualsTiles
      */
