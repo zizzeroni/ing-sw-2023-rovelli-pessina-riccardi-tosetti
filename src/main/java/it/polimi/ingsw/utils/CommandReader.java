@@ -2,6 +2,10 @@ package it.polimi.ingsw.utils;
 
 import java.util.Scanner;
 
+/**
+ * Utility class used for managing the {@code Player} input
+ * for CLI/GUI implementation.
+ */
 public class CommandReader extends Thread {
     private final Scanner scanner = new Scanner(System.in);
     public final static CommandQueue chatCommandQueue;
@@ -12,6 +16,13 @@ public class CommandReader extends Thread {
         standardCommandQueue = new CommandQueue();
     }
 
+    /**
+     * Identifies the command written by the {@code Player} in the CLI.
+     * The available commands are /all /private and /showChat.
+     * If the given input doesn't match the referred command names, prints a message error.
+     * 
+     * @see CommandQueue#addCommand(String) 
+     */
     public CommandReader() {
         super();
     }

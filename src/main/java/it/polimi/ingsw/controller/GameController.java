@@ -17,6 +17,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * This class implements the ViewListener, representing the actual {@code GameController}.
+ * The Controller is used as an interface between the Server and the Client in order to
+ * evaluate and perform any of the {@code Player} actions.
+ * It
+ *
+ */
 public class GameController {
     //private ModelListener listener;
     private Game model;

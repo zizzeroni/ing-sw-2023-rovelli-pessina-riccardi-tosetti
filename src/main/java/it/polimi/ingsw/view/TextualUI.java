@@ -28,6 +28,7 @@ public class TextualUI implements UI {
     }
 
     private void firstInteractionWithUser() {
+        this.printTitleScreen();
         System.out.println("Welcome to My Shelfie");
 
         this.genericUILogic.initializeChatThread(this.genericUILogic.controller, this.genericUILogic.getNickname(), this.genericUILogic.getModel());
@@ -360,11 +361,18 @@ public class TextualUI implements UI {
     }
 
     /**
-     * @param row
-     * @param column
-     * @param firstRow
-     * @param firstColumn
-     * @return
+     * Checks if the first two tiles chosen by the {@code Player} are present in the same direction.
+     * The HORIZONTAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in row.
+     * The VERTICAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in column.
+     * Verify if the {@code Player} commit mistakes during selection.
+     *
+     * @param row the row in selection.
+     * @param column the column in selection.
+     * @param firstRow the inspection starting row.
+     * @param firstColumn the inspection starting column.
+     * @return the direction of the two current tiles chosen.
      */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
@@ -382,14 +390,18 @@ public class TextualUI implements UI {
     }
 
     /**
-     * @param row
-     * @param column
-     * @param prevTilesCoordinates
-     * @param directionToCheck
-     * @return
+     * Check if the {@code Tile} chosen by the {@code Player} is already
+     * present in the current selection at the given coordinates and
+     * if the {@code Player} has properly inserted all the tiles in the {@code Board}.
+     *
+     * @param row the row in selection.
+     * @param column the column in selection.
+     * @param prevTilesCoordinates the coordinates of the Tiles which have already been placed on the {@code Board}.
+     * @param directionToCheck the direction (on row/column) which is selected for inspection.
+     * @return {@code true} if and only if the {@code Tile}
+     *          has already been placed in a previous turn.
      */
-    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
-        directionToCheck) {
+    private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
