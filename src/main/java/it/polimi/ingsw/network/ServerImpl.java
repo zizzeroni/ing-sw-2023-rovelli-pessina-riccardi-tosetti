@@ -672,6 +672,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                                     controller.disconnectPlayer(nickname);
                                                 }
                                             }
+                                            this.interrupt();
                                         } catch (NullPointerException e1) {
                                             System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
                                         }

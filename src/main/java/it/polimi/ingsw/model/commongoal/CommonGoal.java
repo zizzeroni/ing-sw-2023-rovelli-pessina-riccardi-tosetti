@@ -150,13 +150,13 @@ public abstract class CommonGoal extends Card {
     private void initScoreTiles(int numberOfPlayers, int commonGoalID) {
         switch (numberOfPlayers) {
             case 2 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID)));
             }
             case 3 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(6, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID)));
             }
             case 4 -> {
-                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, 0, commonGoalID), new ScoreTile(6, 0, commonGoalID), new ScoreTile(4, 0, commonGoalID), new ScoreTile(2, 0, commonGoalID)));
+                this.scoreTiles = new ArrayList<>(Arrays.asList(new ScoreTile(8, -1, commonGoalID), new ScoreTile(6, -1, commonGoalID), new ScoreTile(4, -1, commonGoalID), new ScoreTile(2, -1, commonGoalID)));
             }
             default -> {
                 this.scoreTiles = null;

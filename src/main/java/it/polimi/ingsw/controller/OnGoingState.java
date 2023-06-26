@@ -114,7 +114,7 @@ public class OnGoingState extends ControllerState {
             }*/
             int finalI = i;
             if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
-                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == finalI) && model.getCommonGoals().get(i).getScoreTiles().size()!=0) {
+                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == model.getCommonGoals().get(finalI).getId()) && model.getCommonGoals().get(i).getScoreTiles().size()!=0) {
                 currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
                 currentPlayer.getScoreTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }

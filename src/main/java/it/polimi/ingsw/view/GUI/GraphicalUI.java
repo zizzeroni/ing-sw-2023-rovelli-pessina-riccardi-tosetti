@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
 import it.polimi.ingsw.view.TextualUI;
@@ -39,6 +40,8 @@ import static it.polimi.ingsw.AppClient.startPingSenderThread;
  * @see TextualUI
  */
 public class GraphicalUI extends Application implements UI {
+    Server serverConnectedTo;
+    Client selfClient;
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
     private boolean resizing = true;
@@ -90,36 +93,29 @@ public class GraphicalUI extends Application implements UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
-        var th = new Thread(() -> {
-            if (typeOfConnection == 2) {
-                ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
-                //Creating a new client with a TextualUI and a Socket Server
-                Client client = null;
-                try {
-                    client = new ClientImpl(serverStub, this);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                //Creating a new Thread that will take care of checking on availability of connected client
-                startPingSenderThread(serverStub);
-                //Creating a new Thread that will take care of the responses coming from the Server side
-                startReceiverThread(client, serverStub);
-            } else {
-                try {
-                    Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                    Server server = (Server) registry.lookup("server");
-                    new ClientImpl(server, this);
-                    startPingSenderThread(server);
-                } catch (RemoteException | NotBoundException e) {
-                    throw new RuntimeException(e);
-                }
+
+        if (typeOfConnection == 2) {
+            serverConnectedTo = new ServerStub(ip, Integer.parseInt(port));
+            //Creating a new client with a TextualUI and a Socket Server
+            try {
+                selfClient = new ClientImpl(serverConnectedTo, this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
-        });
-        th.setUncaughtExceptionHandler((t, e) -> {
-            System.err.println("Uncaught exception in thread");
-            e.printStackTrace();
-        });
-        th.start();
+            //Creating a new Thread that will take care of checking on availability of connected client
+            startPingSenderThread(serverConnectedTo);
+            //Creating a new Thread that will take care of the responses coming from the Server side
+            startReceiverThread(selfClient, (ServerStub) serverConnectedTo);
+        } else {
+            try {
+                Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+                serverConnectedTo = (Server) registry.lookup(OptionsValues.SERVER_RMI_NAME);
+                new ClientImpl(serverConnectedTo, this);
+                startPingSenderThread(serverConnectedTo);
+            } catch (RemoteException | NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
         run();
     }
 
