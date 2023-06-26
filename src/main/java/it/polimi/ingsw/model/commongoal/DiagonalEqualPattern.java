@@ -9,21 +9,52 @@ import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternGoalView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to represent the goal pattern with all the {@code Tile}s disposed diagonally.
+ *
+ * @see it.polimi.ingsw.model.tile.Tile
+ */
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private List<List<Integer>> pattern;
 
-    //Constructors
+    /**
+     * Class constructor with parameters.
+     * Builds a CommonGoal with type, ID, ...
+     *
+     * @param pattern matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
+     */
     public DiagonalEqualPattern(List<List<Integer>> pattern) {
         super();
         this.pattern = pattern;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds a DiagonalEqualPattern with type, ID ...
+     *
+     * @param id the identifier assigned to the card.
+     * @param patternRepetition contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     */
     public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, List<List<Integer>> pattern) {
         super(id, patternRepetition, type);
         this.pattern = pattern;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds a DiagonalEqualPattern with a specific type, ID ...
+     * (numberOfPlayers and commonGoalID are also considered).
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers number of active players.
+     * @param commonGoalID the identifier of the given common goal.
+     * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     */
     public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> pattern) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.pattern = pattern;
@@ -34,17 +65,17 @@ public class DiagonalEqualPattern extends CommonGoal {
         this.pattern = pattern;
     }
 
-    /*
-    Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
-    for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls) and an alreadyChecked matrix for checking if a tiles is already checked.
-    Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
-    then we search if the oblique nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
-
-    In the second part we count the number of different groups when the counter of the tiles in a group is
-    at least the minimum number of consecutive tiles of the pattern goal
-
-    @params bookshelf contains the bookshelf of the player
-    @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
+    /**
+     * Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
+     * for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls) and an alreadyChecked matrix for checking if a tiles is already checked.
+     * Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
+     * then we search if the oblique nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
+     *<p>
+     * In the second part we count the number of different groups when the counter of the tiles in a group is
+     * at least the minimum number of consecutive tiles of the goal pattern.
+     *
+     * @params bookshelf contains the bookshelf of the player.
+     * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles.
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int[][] supportMatrix = new int[bookshelf.getNumberOfRows()][bookshelf.getNumberOfColumns()];
@@ -113,6 +144,21 @@ public class DiagonalEqualPattern extends CommonGoal {
         return repetitions;
     }
 
+    /**
+     * Assigns a group to the DiagonalEqualTiles pattern when this is identified while inspecting the
+     * {@code Bookshelf} of a certain active {@code Player}.
+     * Every group is characterized by the tile's color.
+     *
+     * @param bookshelf the bookshelf of the current active player.
+     * @param supportMatrix the matrix used as a support during the algorithm's unfolding.
+     * @param row the current row.
+     * @param column the current column.
+     * @param group the assigned group.
+     * @param currentTileColor the current color of the pattern tiles.
+     *
+     * @see java.awt.print.Book
+     * @see it.polimi.ingsw.model.Player
+     */
     private void assignGroupToDiagonalEqualTiles(Bookshelf bookshelf, int[][] supportMatrix, int row, int column, int group, TileColor currentTileColor) {
 
         if ((supportMatrix[row][column] == 1) && currentTileColor.equals(bookshelf.getSingleTile(row, column).getColor())) {
@@ -137,10 +183,14 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
     }
 
+    /**
+     * In this method we rotate the matrix by starting from the first element and exchanging the row and the column.
+     *
+     * @param matrixToRotate the matrix that we need to rotate.
+     * @return the rotated matrix.
+     */
     /*
-    in this method we rotate the matrix by starting from the first element and exchanging the row and the column
-    @param the matrix that we need to rotate
-    @return the matrix rotated
+
      */
     private List<List<Integer>> rotateMatrix(List<List<Integer>> matrixToRotate) {
         List<List<Integer>> rotatedMatrix = new ArrayList<>(matrixToRotate.get(0).size());
@@ -162,14 +212,22 @@ public class DiagonalEqualPattern extends CommonGoal {
 
     }
 
-    // get
+    /**
+     * Getter to access the diagonal pattern.
+     *
+     * @return the diagonal pattern.
+     */
     public List<List<Integer>> getPattern() {
         return this.pattern;
     }
 
-    /*
-    @return an immutable copy of the common goal
-    */
+    /**
+     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     *
+     * @return an immutable copy of the DiagonalEqualPatternView.
+     *
+     * @see CommonGoal
+     */
     @Override
     public CommonGoalView copyImmutable() {
         return new DiagonalEqualPatternGoalView(this);
