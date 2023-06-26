@@ -19,11 +19,11 @@ public class StairPatternGoal extends CommonGoal {
      * Class constructor.
      * Builds an StairPatternGoal with a specified type, ID, ...
      *
-     * @param imageID           the image assigned to the card.
+     * @param id the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type              the type of check that has to be done on the considered common goal's card.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     *
      */
-    //Constructors
     public StairPatternGoal(int id, int patternRepetition, CheckType type) {
         super(id, patternRepetition, type);
     }
@@ -33,11 +33,11 @@ public class StairPatternGoal extends CommonGoal {
      * Builds a StairPatternGoal with specific type, ID ...
      * (in this case numberOfPlayers and commonGoalID are also considered).
      *
-     * @param imageID                            the image assigned to the card.
+     * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
-     * @param type                               the type of check that has to be done on the considered common goal's card.
-     * @param numberOfPlayers                    number of active players.
-     * @param commonGoalID                       the identifier of the given common goal.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers number of active players.
+     * @param commonGoalID the identifier of the given common goal.
      */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
@@ -55,6 +55,7 @@ public class StairPatternGoal extends CommonGoal {
      *
      * @param bookshelf contains the bookshelf of the player.
      * @return 1 if found a stair, otherwise 0.
+     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf#getNumberOfTilesInColumn(int)
      */
@@ -88,6 +89,7 @@ public class StairPatternGoal extends CommonGoal {
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
      * @return an immutable copy of the FourCornersPatternGoalView.
+     *
      * @see CommonGoal
      */
     @Override

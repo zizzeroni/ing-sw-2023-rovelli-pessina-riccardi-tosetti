@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.ClientImpl;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
+import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
 import it.polimi.ingsw.view.TextualUI;
@@ -39,6 +40,8 @@ import static it.polimi.ingsw.AppClient.startPingSenderThread;
  * @see TextualUI
  */
 public class GraphicalUI extends Application implements UI {
+    Server serverConnectedTo;
+    Client selfClient;
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
     private boolean resizing = true;
@@ -90,25 +93,25 @@ public class GraphicalUI extends Application implements UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
+
         if (typeOfConnection == 2) {
-            ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
+            serverConnectedTo = new ServerStub(ip, Integer.parseInt(port));
             //Creating a new client with a TextualUI and a Socket Server
-            Client client = null;
             try {
-                client = new ClientImpl(serverStub, this);
+                selfClient = new ClientImpl(serverConnectedTo, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
             //Creating a new Thread that will take care of checking on availability of connected client
-            startPingSenderThread(serverStub);
+            startPingSenderThread(serverConnectedTo);
             //Creating a new Thread that will take care of the responses coming from the Server side
-            startReceiverThread(client, serverStub);
+            startReceiverThread(selfClient, (ServerStub) serverConnectedTo);
         } else {
             try {
                 Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                Server server = (Server) registry.lookup("server");
-                new ClientImpl(server, this);
-                startPingSenderThread(server);
+                serverConnectedTo = (Server) registry.lookup(OptionsValues.SERVER_RMI_NAME);
+                new ClientImpl(serverConnectedTo, this);
+                startPingSenderThread(serverConnectedTo);
             } catch (RemoteException | NotBoundException e) {
                 throw new RuntimeException(e);
             }
@@ -258,7 +261,7 @@ public class GraphicalUI extends Application implements UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.genericUILogic.getController().startGame();
@@ -460,7 +463,7 @@ public class GraphicalUI extends Application implements UI {
                 try {
                     serverStub.receive(client);
                 } catch (RemoteException e) {
-                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)");
+                    System.err.println("[COMMUNICATION:ERROR] Error while receiving message from server (Server was closed)" + e.getMessage());
                     try {
                         serverStub.close();
                     } catch (RemoteException ex) {

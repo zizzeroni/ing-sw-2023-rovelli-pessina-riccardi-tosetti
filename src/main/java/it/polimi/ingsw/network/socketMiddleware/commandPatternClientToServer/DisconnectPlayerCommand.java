@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
  * This class represents the command that enables {@code Player}'s disconnection.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
+ *
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Player
  */
@@ -21,6 +22,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Initialize the {@code Player}'s command, based on his nickname.
      *
      * @param nickname is the {@code Player}'s nickname.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public DisconnectPlayerCommand(String nickname) {
@@ -32,6 +34,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Initialize the {@code Player}'s command, based on the actuator.
      *
      * @param actuator is the server receiving the command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public DisconnectPlayerCommand(Server actuator) {
@@ -44,6 +47,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      *
      * @param actuator the command's actuator.
      * @param nickname the {@code Player}'s nickname.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public DisconnectPlayerCommand(Server actuator, String nickname) {
@@ -55,6 +59,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Player}'s disconnection command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -66,6 +71,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Sets the command's actuator.
      *
      * @param actuator the actuator of the {@code Player}'s disconnection command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -78,6 +84,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -93,6 +100,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the {@code Player}'s disconnection command.
+     *
      * @see CommandType
      * @see it.polimi.ingsw.model.Player
      */
@@ -105,6 +113,7 @@ public class DisconnectPlayerCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
+     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

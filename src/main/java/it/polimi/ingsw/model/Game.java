@@ -49,7 +49,8 @@ public class Game {
      * Registers the {@code GameListener}.
      *
      * @param listener is the {@code GameListener} being registered.
-     * @see GameListener
+     *
+     * @see   GameListener
      */
     public void registerListener(GameListener listener) {
         this.listener = listener;
@@ -57,10 +58,10 @@ public class Game {
 
     /**
      * Removes the {@code GameListener}.
-     * <p>
+     *
      * Listener is the {@code GameListener} being registered
      *
-     * @see GameListener
+     * @see   GameListener
      */
     public void removeListener() {
         this.listener = null;
@@ -80,6 +81,7 @@ public class Game {
         this.bag = new ArrayList<>(numberOfTilesInBag);
         this.commonGoals = new ArrayList<>(OptionsValues.NUMBER_OF_COMMON_GOAL);
         this.initializeBag(numberOfTilesInBag);
+        Collections.shuffle(this.bag);
         this.board = new Board();
 
     }
@@ -146,6 +148,7 @@ public class Game {
      * Gets the current state of the {@code Game}.
      *
      * @return the game's state.
+     *
      * @see Game
      */
     public GameState getGameState() {
@@ -156,6 +159,7 @@ public class Game {
      * Sets the current state of the {@code Game}.
      *
      * @param gameState the state being set.
+     *
      * @see Game
      */
     public synchronized void setGameState(GameState gameState) {
@@ -167,11 +171,11 @@ public class Game {
         }
     }
 
-    /**
-     * Gets the number of {@code Player}s before the {@code Game} starts,
+    /** Gets the number of {@code Player}s before the {@code Game} starts,
      * respecting the limitations about maximum and minimum number of players.
      *
      * @return {@code numberOfPlayersToStartGame} the number of players participating the {@code Game}.
+     *
      * @see Game
      * @see Player
      */
@@ -184,6 +188,7 @@ public class Game {
      * respecting the limitations about maximum and minimum number of players.
      *
      * @param numberOfPlayersToStartGame the number of players participating the {@code Game}.
+     *
      * @see Game
      * @see Player
      */
@@ -198,6 +203,7 @@ public class Game {
      * Gets the number of the active {@code Player}.
      *
      * @return {@code activePlayerIndex}, the index of the current player.
+     *
      * @see Player
      */
     public int getActivePlayerIndex() {
@@ -208,6 +214,7 @@ public class Game {
      * Sets the index of the {@code Player} actually active.
      *
      * @param activePlayerIndex is the index of the current {@code Player}.
+     *
      * @see Player
      */
     public void setActivePlayerIndex(int activePlayerIndex) {
@@ -224,6 +231,7 @@ public class Game {
      * Gets the list of the {@code Player}s for the {@code Game}.
      *
      * @return the list of {@code Game}'s participants.
+     *
      * @see Game
      * @see Player
      */
@@ -235,6 +243,7 @@ public class Game {
      * Sets the active {@code Player}s.
      *
      * @param players the players participating the {@code Game}.
+     *
      * @see Player
      * @see Game
      */
@@ -246,6 +255,7 @@ public class Game {
      * Adds a {@code Player} to the {@code Game} using the relative {@code GameListener}.
      *
      * @param player the {@code Player} added to the list of the current active players.
+     *
      * @see Game
      * @see GameListener
      * @see java.net.http.WebSocket.Listener
@@ -265,6 +275,7 @@ public class Game {
      * available to the active {@code Player} at the start of the {@code Game}, before the shuffling.
      *
      * @return the "bag" of tiles to be shuffled.
+     *
      * @see Tile
      * @see Game
      * @see Player
@@ -284,6 +295,7 @@ public class Game {
      * A getter used to return the {@code Board} state.
      *
      * @return the Board with the changes up to now.
+     *
      * @see Board
      */
     public Board getBoard() {
@@ -294,6 +306,7 @@ public class Game {
      * Sets the changes to the {@code Board}.
      *
      * @param board is the modified {@code Board}.
+     *
      * @see Board
      */
     public void setBoard(Board board) {
@@ -304,6 +317,7 @@ public class Game {
      * Gets the list of the {@code CommonGoal}s in the actual {@code Game}
      *
      * @return the common goals for the players.
+     *
      * @see CommonGoal
      * @see Game
      */
@@ -316,6 +330,7 @@ public class Game {
      *
      * @param commonGoals is the list of goals achievable from all the players
      *                    in any given moment of the {@code Game}.
+     *
      * @see Game
      * @see CommonGoal
      */
@@ -341,6 +356,7 @@ public class Game {
      * are still connected and participating the {@code Game}.
      *
      * @return the list of the active players.
+     *
      * @see Player
      * @see Game
      */
@@ -355,6 +371,7 @@ public class Game {
      *
      * @param nickname of the player to return
      * @return the player selected by his nickname
+     *
      * @see Player
      */
     public Player getPlayerFromNickname(String nickname) {

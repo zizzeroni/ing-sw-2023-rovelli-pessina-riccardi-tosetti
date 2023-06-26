@@ -30,7 +30,7 @@ public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
      * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
      *
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
-     *                        in order to make possible the construction of the class object.
+     *                         in order to make possible the construction of the class object.
      */
     public ConsecutiveTilesPatternGoalView(ConsecutiveTilesPatternGoal commonGoalModel) {
         super(commonGoalModel);
@@ -42,7 +42,8 @@ public class ConsecutiveTilesPatternGoalView extends CommonGoalView {
      * during the {@code Game} (those that produced a {@code ConsecutiveTilesPatternGoal}).
      *
      * @return a text message associated to the various combinations of tiles associated
-     * that may satisfy the conditions to verify the ConsecutiveTilesPatternGoal.
+     *          that may satisfy the conditions to verify the ConsecutiveTilesPatternGoal.
+     *
      * @see it.polimi.ingsw.model.commongoal.ConsecutiveTilesPatternGoal
      */
     @Override

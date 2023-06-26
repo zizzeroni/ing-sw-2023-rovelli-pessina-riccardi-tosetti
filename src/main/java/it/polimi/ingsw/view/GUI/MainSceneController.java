@@ -77,6 +77,7 @@ public class MainSceneController implements Initializable {
     private Image pointsImage2;
     private boolean gameOn;
 
+    //TODO: NON UTILIZZATO
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameOn = true;
@@ -85,8 +86,8 @@ public class MainSceneController implements Initializable {
         selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
-        commonGoal2.setImage(firstCommonGoalImage);
-        commonGoal1.setImage(secondCommonGoalImage);
+        commonGoal1.setImage(firstCommonGoalImage);
+        commonGoal2.setImage(secondCommonGoalImage);
 
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
@@ -644,8 +645,8 @@ public class MainSceneController implements Initializable {
             Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(firstCommonGoalString)));
             Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(secondCommonGoalString)));
 
-            commonGoal2.setImage(firstCommonGoalImage);
-            commonGoal1.setImage(secondCommonGoalImage);
+            commonGoal1.setImage(firstCommonGoalImage);
+            commonGoal2.setImage(secondCommonGoalImage);
             countDownLatchAble.countDown();
         });
         try {
@@ -1055,27 +1056,12 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
+        //I take the number of score tiles remaining for both common goals
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
         int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
-        if (numberOfScoreTiles2 != 0) {
-            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
-            switch (firstScoringTile) {
-                case 2 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
-                case 4 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
-                case 6 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
-                case 8 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
-                default ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
-            }
-        } else {
-            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
-        }
         if (numberOfScoreTiles1 != 0) {
-            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            //I take the value of the first score tile of the first commonGoal
+            int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
                         pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
@@ -1090,6 +1076,23 @@ public class MainSceneController implements Initializable {
             }
         } else {
             pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+        }
+        if (numberOfScoreTiles2 != 0) {
+            int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
+            switch (firstScoringTile) {
+                case 2 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                case 4 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                case 6 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                case 8 ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                default ->
+                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            }
+        } else {
+            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
         }
 
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);

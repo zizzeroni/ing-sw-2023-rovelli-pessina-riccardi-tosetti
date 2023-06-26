@@ -25,6 +25,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Initialize the {@code Player}'s command, based on his nickname.
      *
      * @param nickname is the {@code Player}'s nickname.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public AddPlayerCommand(String nickname) {
@@ -36,6 +37,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Initialize the {@code Player}'s command, based on the actuator.
      *
      * @param actuator is the server receiving the command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public AddPlayerCommand(Server actuator) {
@@ -48,6 +50,7 @@ public class AddPlayerCommand implements CommandToServer {
      *
      * @param actuator the command's actuator.
      * @param nickname the {@code Player}'s nickname.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public AddPlayerCommand(Server actuator, String nickname) {
@@ -59,6 +62,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Player}'s command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -70,6 +74,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Sets the command's actuator.
      *
      * @param actuator the actuator of the {@code Player}'s command.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -81,6 +86,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Getter to identify the {@code Player}'s client.
      *
      * @return the player's client.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public Client getClient() {
@@ -91,6 +97,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Sets the client for the {@code Player} giving the command.
      *
      * @param client the client to be set.
+     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setClient(Client client) {
@@ -102,6 +109,7 @@ public class AddPlayerCommand implements CommandToServer {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
+     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -117,6 +125,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the add {@code Player}'s command.
+     *
      * @see CommandType
      * @see it.polimi.ingsw.model.Player
      */
@@ -129,6 +138,7 @@ public class AddPlayerCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
+     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

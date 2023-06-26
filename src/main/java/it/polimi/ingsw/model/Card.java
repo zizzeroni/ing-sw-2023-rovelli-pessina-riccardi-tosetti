@@ -21,9 +21,9 @@ public abstract class Card {
 
     /**
      * Class constructor.
-     * Initialize the card's id.
+     * Initialize the card's identifier.
      *
-     * @param id the card's id.
+     * @param id the card's identifier.
      */
     public Card(int id) {
         this.id = id;
@@ -35,6 +35,7 @@ public abstract class Card {
      *
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the total number of goal pattern repetitions.
+     *
      * @see Bookshelf
      */
     public abstract int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf);
@@ -49,9 +50,9 @@ public abstract class Card {
     }
 
     /**
-     * Setter used to modify {@code Card}'s imageID.
+     * Setter used to modify {@code Card}'s identifier.
      *
-     * @param imageID is the image identifier of the considered card.
+     * @param id is the identifier of the considered card.
      */
     public void setId(int id) {
         this.id = id;

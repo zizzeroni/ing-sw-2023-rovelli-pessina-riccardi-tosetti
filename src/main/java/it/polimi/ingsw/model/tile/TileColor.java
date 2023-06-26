@@ -15,6 +15,7 @@ public enum TileColor {
      * Redefines the toString method to incorporate colored text.
      *
      * @return the string used to represent the color associated to the Tile.
+     *
      * @see Tile
      */
     @Override

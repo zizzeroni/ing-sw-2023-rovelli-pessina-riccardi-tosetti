@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * This class implements the {@code PlayerView} through the {@code Serializable} interface.
  * All the {@code Player}s always access only the implementation of the {@code View}s,
  * and are sensible to the inherent modifies.
@@ -34,7 +35,9 @@ public class PlayerView implements Serializable {
      * with the linked logic in the {@code playerModel} (passed as parameter).
      *
      * @param playerModel the model of the considered {@code Player}.
+     *
      * @see Player
+     *
      */
     public PlayerView(Player playerModel) {
         this.nickname = playerModel.getNickname();
@@ -53,6 +56,7 @@ public class PlayerView implements Serializable {
      * Getter used to access the {@code Player}'s {@code PersonalGoal}.
      *
      * @return the player's personalGoal.
+     *
      * @see Player
      * @see PersonalGoal
      */
@@ -71,6 +75,7 @@ public class PlayerView implements Serializable {
      * Gets the {@code Bookshelf} associated to the current {@code Player}'s view.
      *
      * @return the Bookshelf of the given player.
+     *
      * @see Player
      */
     public BookshelfView getBookshelf() {
@@ -81,6 +86,7 @@ public class PlayerView implements Serializable {
      * Gets the {@code Player}'s nickname in the PlayerView context.
      *
      * @return the nickname of the selected player.
+     *
      * @see Player
      */
     public String getNickname() {
@@ -91,7 +97,7 @@ public class PlayerView implements Serializable {
      * Verifies the {@code Player}'s connection.
      *
      * @return {@code true} if and only if the player is still connected to
-     * the considered {@code Game}.
+     *          the considered {@code Game}.
      */
     public boolean isConnected() {
         return this.connected;
@@ -101,6 +107,7 @@ public class PlayerView implements Serializable {
      * Used to access the {@code PlayerView}'s chat.
      *
      * @return the chat of the player.
+     *
      * @see Player
      */
     public List<Message> getChat() {
@@ -113,6 +120,7 @@ public class PlayerView implements Serializable {
      * provides its score.
      *
      * @return the score of the considered player.
+     *
      * @see Player
      */
     public int score() {

@@ -11,28 +11,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class InPauseState extends ControllerState {
-    //private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final Timer timer = new Timer();
     //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
     private boolean gameResumed;
-    //ScheduledFuture<?> scheduledTimer;
-    //private final Object gameResumedLock = new Object();
 
     public InPauseState(GameController controller) {
         super(controller);
         this.gameResumed = false;
-        /*this.scheduledTimer = executorService.schedule(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (gameResumedLock) {
-                    if (!gameResumed) {
-                        System.out.println(controller.getModel().getGameState());
-                        controller.getModel().setGameState(GameState.RESET_NEEDED);
-                        System.out.println("RESET_NEEDED Timer executed");
-                    }
-                }
-            }
-        },15000, TimeUnit.MILLISECONDS);*/
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -49,17 +34,23 @@ public class InPauseState extends ControllerState {
 
     @Override
     public void changeTurn() {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
 
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
 
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //No other player in the game...
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //In pause so do nothing...
     }
 
     @Override
@@ -102,17 +93,23 @@ public class InPauseState extends ControllerState {
 
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        //Game is in pause so do nothing...
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //In pause so do nothing...
     }
 
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
-        //Game is in pause so do nothing...
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //In pause so do nothing...
     }
 
     @Override
     public void startGame() {
-        //Game is in pause so do nothing...
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //In pause so do nothing...
     }
 
     @Override
@@ -123,7 +120,9 @@ public class InPauseState extends ControllerState {
 
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname) {
-        //Game is in pause so do nothing...
+        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //In pause so do nothing...
     }
 
 

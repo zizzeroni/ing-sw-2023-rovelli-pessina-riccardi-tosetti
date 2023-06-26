@@ -27,7 +27,9 @@ public class BoardView implements Serializable {
      * with logic in the {@code BoardModel} (passed as parameter).
      *
      * @param boardModel the model of the {@code Board}.
+     *
      * @see Board
+     *
      */
     public BoardView(Board boardModel) {
         this.numberOfUsableTiles = boardModel.getNumberOfUsableTiles();
@@ -58,6 +60,7 @@ public class BoardView implements Serializable {
      * Returns the number of columns in the {@code Board}.
      *
      * @return the number of columns.
+     *
      * @see Board
      */
     public int getNumberOfColumns() {
@@ -68,6 +71,7 @@ public class BoardView implements Serializable {
      * Returns the number of rows in the {@code Board}.
      *
      * @return the number of rows.
+     *
      * @see Board
      */
     public int getNumberOfRows() {
@@ -79,6 +83,7 @@ public class BoardView implements Serializable {
      * during the {@code Game} (those linked with the {@code Board}).
      *
      * @return the current display of the board
+     *
      * @see it.polimi.ingsw.model.Game
      * @see Board
      */

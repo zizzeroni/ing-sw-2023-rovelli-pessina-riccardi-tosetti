@@ -35,6 +35,7 @@ public class ClientSkeleton implements Client {
      *
      * @param socket is the client's socket.
      * @throws RemoteException to signal the occurrence of a resource error on input or output streams.
+     *
      * @see Client
      */
     public ClientSkeleton(Socket socket) throws RemoteException {
@@ -55,10 +56,11 @@ public class ClientSkeleton implements Client {
      *
      * @param modelUpdated contains the model updates.
      * @throws RemoteException is called when a communication error occurs and the modelView can't be sent.
+     *
      * @see javax.swing.text.View
      */
     @Override
-    public void updateModelView(GameView modelUpdated) throws RemoteException {
+    public synchronized void updateModelView(GameView modelUpdated) throws RemoteException {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
@@ -72,10 +74,11 @@ public class ClientSkeleton implements Client {
      * Allows to ping the client.
      *
      * @throws RemoteException signals the occurrence of a communication error with the client.
+     *
      * @see Client
      */
     @Override
-    public void ping() throws RemoteException {
+    public synchronized void ping() throws RemoteException {
         CommandToClient command = new SendPingToClientCommand();
         try {
             this.oos.writeObject(command);
@@ -90,10 +93,11 @@ public class ClientSkeleton implements Client {
      *
      * @param exception the GENERIC except being received.
      * @throws RemoteException called when a communication error with the client occurs.
+     *
      * @see Client
      */
     @Override
-    public void receiveException(GenericException exception) throws RemoteException {
+    public synchronized void receiveException(GenericException exception) throws RemoteException {
         CommandToClient command = new SendExceptionCommand(exception);
         try {
             this.oos.writeObject(command);
@@ -104,7 +108,7 @@ public class ClientSkeleton implements Client {
     }
 
     @Override
-    public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
+    public synchronized void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
         try {
             this.oos.writeObject(command);
@@ -119,6 +123,7 @@ public class ClientSkeleton implements Client {
      *
      * @param server is the server communicating to.
      * @throws RemoteException called when the server's message can't be cast or received.
+     *
      * @see Server
      */
     public void receive(Server server) throws RemoteException {

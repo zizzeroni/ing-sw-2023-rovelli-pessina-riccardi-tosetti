@@ -76,8 +76,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Starts the thread's pinging.
      *
      * @param port the server's port number.
-     * @param csf  the client socket factory employed for the RMI.
-     * @param ssf  the server socket factory employed for the RMI.
+     * @param csf the client socket factory employed for the RMI.
+     * @param ssf the server socket factory employed for the RMI.
+     *
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
@@ -92,6 +93,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Registers a listener for game and board changes.
      *
      * @throws RemoteException is called when a communication error occurs.
+     *
      * @see Game
      * @see Board
      * @see java.net.http.WebSocket.Listener
@@ -109,6 +111,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param playerChoice the choice made by the player.
      * @throws RemoteException is called when a communication error occurs.
+     *
      * @see Player
      * @see GameController
      */
@@ -159,6 +162,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @param client   is the player's client.
      * @param nickname is the reference for the name of the {@code Player} being added.
      * @throws RemoteException is called when a communication error occurs.
+     *
      * @see Player
      * @see Client
      * @see Game
@@ -210,7 +214,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
+     *
      * @throws RemoteException if a communication error occurs.
+     *
      * @see Game
      * @see GameController
      */
@@ -250,6 +256,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Calls the controller to start up the current Game.
      *
      * @throws RemoteException if a communication error occurs.
+     *
      * @see GameController#startGame()
      * @see Game
      */
@@ -264,9 +271,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @param client   is the client registering to the server.
      * @param nickname the player's nickname related to the client.
      * @throws RemoteException
+     *
      * @see Client
      * @see Server
      */
+    //TODO: Ask if we should pass nickname to register client
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -279,6 +288,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Routes the server's pings to the proper player's client.
      *
      * @throws RemoteException if a communication error occurs.
+     *
      * @see Player
      */
     public synchronized void pingClients() throws RemoteException {
@@ -319,6 +329,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException if a communication error occurs.
+     *
      * @see Game
      * @see Player
      */
@@ -381,6 +392,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been added.
      *
      * @param board the tiles are added on this board.
+     *
      * @see Board
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -401,6 +413,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been removed.
      *
      * @param board the tiles are removed from this board.
+     *
      * @see Board
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -420,6 +433,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been added.
      *
      * @param bookshelf the tiles are added on this Bookshelf.
+     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.tile.Tile
      * @see javax.swing.text.View
@@ -439,6 +453,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Notifies to the game's view that the given image has been modified.
      *
      * @param image the image that has changed following the method call.
+     *
      * @see Client
      * @see GameView
      */
@@ -612,8 +627,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Allows the server to ping a game's thread.
      *
      * @param server the server starting the thread's pinging.
+     *
      * @see Game
      */
+
     /*private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -651,27 +668,18 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                     Client client = clientOptionalEntry.getKey();
                                     String nickname = clientOptionalEntry.getValue().orElse("Unknown");
 
-                                    //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                                    Thread selfThread = this;
-                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            selfThread.interrupt();
-                                            System.err.println("stopIfWaitTooLongTimer executed");
-                                        }
-                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);
+
 
                                     try {
                                         client.ping();
                                         numberOfMissedPings.replace(client, OptionsValues.INITIAL_MISSED_PINGS);
-                                        stopIfWaitTooLongTimer.cancel();
+                                        //stopIfWaitTooLongTimer.cancel();
                                     } catch (RemoteException e) {
                                         try {
-                                            stopIfWaitTooLongTimer.cancel();
+                                            //stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
-                                            if (numberOfMissedPings.get(client) == 3) {
+                                            if (numberOfMissedPings.get(client) >= 3) {
                                                 System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
                                                 if (model.getGameState() == GameState.IN_CREATION) {
                                                     clientsToHandle.remove(client);
@@ -681,6 +689,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                                     controller.disconnectPlayer(nickname);
                                                 }
                                             }
+                                            this.interrupt();
                                         } catch (NullPointerException e1) {
                                             System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
                                         }
@@ -709,6 +718,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
 
 }
+//I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                                    /*Thread selfThread = this;
+                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            selfThread.interrupt();
+                                            System.err.println("stopIfWaitTooLongTimer executed");
+                                        }
+                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
+
 
 
 /*

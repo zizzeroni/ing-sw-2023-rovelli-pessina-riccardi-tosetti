@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ *
  * This class implements the {@code BookshelfView} through serialization.
  * All the players always access only the implementation of the {@code View} of the relative {@code Bookshelf},
  * and are sensible to the inherent modifies.
@@ -35,7 +36,9 @@ public class BookshelfView implements Serializable {
      * with the linked logic in the {@code bookshelfModel} (passed as parameter).
      *
      * @param bookshelfModel the model of the considered {@code Bookshelf}.
+     *
      * @see Bookshelf
+     *
      */
     public BookshelfView(Bookshelf bookshelfModel) {
         this.tiles = new TileView[bookshelfModel.getNumberOfRows()][bookshelfModel.getNumberOfColumns()];
@@ -89,6 +92,7 @@ public class BookshelfView implements Serializable {
      * Getter to retrieve the {@code Bookshelf} image.
      *
      * @return the image of the Bookshelf.
+     *
      * @see Bookshelf
      */
     public String getImage() {
@@ -99,6 +103,7 @@ public class BookshelfView implements Serializable {
      * Returns the set of tiles currently on the board.
      *
      * @return the {@code TileView} of the given {@code Board}.
+     *
      * @see it.polimi.ingsw.model.Board
      * @see TileView
      */
@@ -110,9 +115,10 @@ public class BookshelfView implements Serializable {
      * Returns the {@code Tile} correspondent to its coordinates,
      * passed as parameters.
      *
-     * @param row    the first coordinate of the tile.
+     * @param row the first coordinate of the tile.
      * @param column the second coordinate of the tile.
      * @return the tile identified.
+     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public TileView getSingleTile(int row, int column) { // funzione estrazione singola Tile selezionata
@@ -124,6 +130,7 @@ public class BookshelfView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of columns.
+     *
      * @see Bookshelf
      */
     public int getNumberOfColumns() {
@@ -144,6 +151,7 @@ public class BookshelfView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of rows.
+     *
      * @see Bookshelf
      */
     public int getNumberOfRows() {
@@ -163,6 +171,7 @@ public class BookshelfView implements Serializable {
      * Gets the maximum number of empty {@code Bookshelf}'s cells.
      *
      * @return the maximum number of empty {@code Bookshelf}'s cells.
+     *
      * @see Bookshelf
      */
     public int getMaxNumberOfCellsFreeInBookshelf() {
@@ -190,6 +199,7 @@ public class BookshelfView implements Serializable {
      * during the {@code Game} (those linked with the {@code Bookshelf}).
      *
      * @return the current display of the Bookshelf.
+     *
      * @see it.polimi.ingsw.model.Game
      * @see Bookshelf
      */
@@ -224,6 +234,7 @@ public class BookshelfView implements Serializable {
      *
      * @return the current score.
      * @throws Exception prints a message error in case Bookshelf points have not been set.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      * @see it.polimi.ingsw.model.PersonalGoal
@@ -283,11 +294,12 @@ public class BookshelfView implements Serializable {
      * This method is used to assign the {@code Tile}'s group to the {@code Bookshelf}
      * that contains the correspondent pattern of tiles.
      *
-     * @param supportMatrix    the matrix used during the method intermediate values.
-     * @param row              the selected row.
-     * @param column           the selected column.
-     * @param group            the chosen group.
+     * @param supportMatrix the matrix used during the method intermediate values.
+     * @param row the selected row.
+     * @param column the selected column.
+     * @param group the chosen group.
      * @param currentTileColor the color of the tiles in the current set.
+     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf
      */
