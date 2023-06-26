@@ -44,8 +44,6 @@ public class TextualUI implements UI {
     /**
      * Class constructor.
      * Initialize the game's model.
-     *
-     * @see GameView
      */
     public TextualUI() {
         this.genericUILogic = new GenericUILogic();
