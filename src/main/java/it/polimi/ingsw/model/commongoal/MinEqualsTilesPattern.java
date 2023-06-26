@@ -27,21 +27,16 @@ public class MinEqualsTilesPattern extends CommonGoal {
     //contains the maximum number of tiles that can be the same in a column/row
     private int maxEqualsTiles;     //HORIZONTAL should be 2, VERTICAL should be 3, full should be 0
 
-<<<<<<< HEAD
     /**
      * Class constructor without parameters.
      * Builds a MinEqualsTilesPattern.
      */
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
-    //Constructors
     public MinEqualsTilesPattern() {
         super();
         this.direction = null;
         this.maxEqualsTiles = 0;
     }
 
-<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
@@ -52,17 +47,12 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @param direction contains the directions that can be used in this pattern.
      * @param maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row.
      */
-    public MinEqualsTilesPattern(int imageID, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
-        super(imageID, patternRepetition, type);
-=======
     public MinEqualsTilesPattern(int id, int patternRepetition, CheckType type, Direction direction, int maxEqualsTiles) {
         super(id, patternRepetition, type);
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
@@ -76,32 +66,24 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @param numberOfPlayers number of active players.
      * @param commonGoalID the identifier of the given common goal
      */
-    public MinEqualsTilesPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, Direction direction, int maxEqualsTiles) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
-=======
     public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
-<<<<<<< HEAD
-    /**
-     * Gets the directions that is used to retrieve the pattern.
-     *
-     * @return contains the directions that is used for the pattern representation.
-     *
-     */
-=======
     public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, Direction direction, int maxEqualsTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.direction = direction;
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
-    //Get/Set method
+    /**
+     * Gets the directions that is used to retrieve the pattern.
+     *
+     * @return contains the directions that is used for the pattern representation.
+     *
+     */
     public Direction getDirection() {
         return this.direction;
     }

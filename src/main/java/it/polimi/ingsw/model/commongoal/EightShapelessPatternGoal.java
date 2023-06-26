@@ -28,7 +28,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
         super();
     }
 
-<<<<<<< HEAD
     /**
      *
      * Class constructor with parameters.
@@ -39,8 +38,8 @@ public class EightShapelessPatternGoal extends CommonGoal {
      * @param type the type of check that has to be done on the considered common goal's card.
      *
      */
-    public EightShapelessPatternGoal(int imageID, int patternRepetition, CheckType type) {
-        super(imageID, patternRepetition, type);
+    public EightShapelessPatternGoal(int id, int patternRepetition, CheckType type) {
+        super(id, patternRepetition, type);
     }
 
     /**
@@ -55,9 +54,14 @@ public class EightShapelessPatternGoal extends CommonGoal {
      * @param numberOfPlayers number of active players.
      * @param commonGoalID the identifier of the given common goal.
      */
-    public EightShapelessPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
+
+    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
+    }
+
 
     /**
     * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
@@ -76,25 +80,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
       */
-=======
-    public EightShapelessPatternGoal(int id, int patternRepetition, CheckType type) {
-        super(id, patternRepetition, type);
-    }
-
-    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
-        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
-    }
-
-    public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
-        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
-    }
-
-    /*
-    Control if there are 8 tiles of the same colour
-    @param bookshelf contains the bookshelf of the player
-    @return true if I found 8 same colour tiles, otherwise false
-     */
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Transform the bookshelf in a Stream of tiles' ARRAYS
@@ -105,7 +90,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
                 .filter(x -> x.getValue() >= 8).count());                         //I filter the Stream keeping only the Colors to which are associated more than 7 tiles and then i count them
     }
 
-<<<<<<< HEAD
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
@@ -113,32 +97,8 @@ public class EightShapelessPatternGoal extends CommonGoal {
      *
      * @see CommonGoal
      */
-=======
-    /*
-    @return an immutable copy of the common goal
-    */
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public CommonGoalView copyImmutable() {
         return new EightShapelessPatternGoalView(this);
     }
-<<<<<<< HEAD
-
-    /**
-     * Redefine the equals method to allow a compare based on the EightShapelessPatternGoal.
-     *
-     * @param o is the object being evaluated to be equals to another (the one that calls the method).
-     * @return {@code true} if and only if the two tiles are 'equals',
-     *         {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof EightShapelessPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }

@@ -18,23 +18,17 @@ public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private List<List<Integer>> pattern;
 
-<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a CommonGoal with type, ID, ...
      *
      * @param pattern matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
      */
-    public DiagonalEqualPattern(int[][] pattern) {
-=======
-    //Constructors
     public DiagonalEqualPattern(List<List<Integer>> pattern) {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         super();
         this.pattern = pattern;
     }
 
-<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with type, ID ...
@@ -44,8 +38,8 @@ public class DiagonalEqualPattern extends CommonGoal {
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
-    public DiagonalEqualPattern(int imageID, int patternRepetition, CheckType type, int[][] pattern) {
-        super(imageID, patternRepetition, type);
+    public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, List<List<Integer>> pattern) {
+        super(id, patternRepetition, type);
         this.pattern = pattern;
     }
 
@@ -61,14 +55,6 @@ public class DiagonalEqualPattern extends CommonGoal {
      * @param commonGoalID the identifier of the given common goal.
      * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
-    public DiagonalEqualPattern(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] pattern) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
-=======
-    public DiagonalEqualPattern(int id, int patternRepetition, CheckType type, List<List<Integer>> pattern) {
-        super(id, patternRepetition, type);
-        this.pattern = pattern;
-    }
-
     public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> pattern) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.pattern = pattern;
@@ -76,7 +62,6 @@ public class DiagonalEqualPattern extends CommonGoal {
 
     public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> pattern) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         this.pattern = pattern;
     }
 
@@ -198,15 +183,12 @@ public class DiagonalEqualPattern extends CommonGoal {
         }
     }
 
-<<<<<<< HEAD
     /**
      * In this method we rotate the matrix by starting from the first element and exchanging the row and the column.
      *
      * @param matrixToRotate the matrix that we need to rotate.
      * @return the rotated matrix.
      */
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     /*
 
      */
@@ -230,17 +212,12 @@ public class DiagonalEqualPattern extends CommonGoal {
 
     }
 
-<<<<<<< HEAD
     /**
      * Getter to access the diagonal pattern.
      *
      * @return the diagonal pattern.
      */
-    public int[][] getPattern() {
-=======
-    // get
     public List<List<Integer>> getPattern() {
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
         return this.pattern;
     }
 
@@ -253,27 +230,6 @@ public class DiagonalEqualPattern extends CommonGoal {
      */
     @Override
     public CommonGoalView copyImmutable() {
-<<<<<<< HEAD
-        return new DiagonalEqualPatternView(this);
-    }
-
-    /**
-     * Redefines the 'equals' method to apply it when considering the DiagonalEqualPattern.
-     *
-     * @param o is the object being evaluated to be equals to another (the one that calls the method).
-     * @return {@code true} if and only if the two tiles are 'equals',
-     *         {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof DiagonalEqualPattern obj) {
-            return this.pattern == obj.getPattern()
-                    && this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-=======
         return new DiagonalEqualPatternGoalView(this);
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     }
 }

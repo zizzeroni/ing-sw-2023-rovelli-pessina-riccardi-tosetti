@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.FourCornersPatternGoalView;
+import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Class to represent the goal pattern with all {@code Tile}s
  * disposed at the four corners of the {@code Board} .
@@ -13,13 +13,7 @@ import it.polimi.ingsw.model.view.commongoal.FourCornersPatternGoalView;
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Board
  */
-=======
-import java.util.List;
-
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 public class FourCornersPatternGoal extends CommonGoal {
-
-    //Constructors
     /**
      * Class constructor without parameters.
      * Builds a FourCornersPatternGoal.
@@ -27,7 +21,6 @@ public class FourCornersPatternGoal extends CommonGoal {
     public FourCornersPatternGoal() {
     }
 
-<<<<<<< HEAD
     /**
      *
      * Class constructor with parameters.
@@ -38,8 +31,8 @@ public class FourCornersPatternGoal extends CommonGoal {
      * @param type the type of check that has to be done on the considered common goal's card.
      *
      */
-    public FourCornersPatternGoal(int imageID, int patternRepetition, CheckType type) {
-        super(imageID, patternRepetition, type);
+    public FourCornersPatternGoal(int id, int patternRepetition, CheckType type) {
+        super(id, patternRepetition, type);
     }
 
     /**
@@ -54,8 +47,12 @@ public class FourCornersPatternGoal extends CommonGoal {
      * @param numberOfPlayers number of active players.
      * @param commonGoalID the identifier of the given common goal.
      */
-    public FourCornersPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
+    public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
+        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
+    }
+
+    public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
+        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
 
     /**
@@ -68,24 +65,6 @@ public class FourCornersPatternGoal extends CommonGoal {
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
-=======
-    public FourCornersPatternGoal(int id, int patternRepetition, CheckType type) {
-        super(id, patternRepetition, type);
-    }
-
-    public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
-        super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
-    }
-
-    public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
-        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
-    }
-
-    /*
-    Check if there are tiles of the same color in the 4 corners of the bookshelf
-    @param bookshelf contains the bookshelf of the player
-    @return true if the condition is satisfied, otherwise false
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         return (bookshelf.getSingleTile(0, 0) != null && bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns() - 1) != null
@@ -94,7 +73,7 @@ public class FourCornersPatternGoal extends CommonGoal {
                 && bookshelf.getSingleTile(0, bookshelf.getNumberOfColumns() - 1).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, 0).getColor())
                 && bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, 0).getColor().equals(bookshelf.getSingleTile(bookshelf.getNumberOfRows() - 1, bookshelf.getNumberOfColumns() - 1).getColor())) ? 1 : 0;
     }
-<<<<<<< HEAD
+    
     /**
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
@@ -102,32 +81,8 @@ public class FourCornersPatternGoal extends CommonGoal {
      *
      * @see CommonGoal
      */
-=======
-
-    /*
-    @return an immutable copy of the common goal
-    */
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
     @Override
     public CommonGoalView copyImmutable() {
         return new FourCornersPatternGoalView(this);
     }
-<<<<<<< HEAD
-    /**
-     * Redefine the equals method to allow a compare based on the FourCornersPatternGoal.
-     *
-     * @param o is the object being evaluated to be equals to another (the one that calls the method).
-     * @return {@code true} if and only if the two tiles are 'equals',
-     *         {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof FourCornersPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType();
-        }
-        return false;
-    }
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }

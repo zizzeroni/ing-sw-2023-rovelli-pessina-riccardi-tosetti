@@ -32,24 +32,12 @@ public class PersonalGoal extends Card {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Class constructor.
      *
-     * @param imageID the image of the personal goal.
+     * @param id the identifier of the personal goal.
      * @param pattern the pattern associated to the personal goal.
      */
-    public PersonalGoal(int imageID, Tile[][] pattern) {
-        super(imageID);
-        this.pattern = pattern;
-    }
-
-    /**
-     * Gets the number of columns in the personal goal's pattern.
-     *
-     * @return the number of columns.
-     */
-=======
     public PersonalGoal(int id, Tile[][] pattern) {
         super(id);
         this.pattern = pattern;
@@ -60,7 +48,11 @@ public class PersonalGoal extends Card {
         this.setId(personalGoal.getId());
     }
 
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+    /**
+     * Gets the number of columns in the personal goal's pattern.
+     *
+     * @return the number of columns.
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
@@ -183,17 +175,4 @@ public class PersonalGoal extends Card {
         }
         return output.substring(0, output.length() - 1);
     }
-<<<<<<< HEAD
 }
-
-=======
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PersonalGoal))
-            return false;
-
-        return (this.getId() == ((PersonalGoal) obj).getId());
-    }
-}
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd

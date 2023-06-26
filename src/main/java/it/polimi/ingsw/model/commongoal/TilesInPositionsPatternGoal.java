@@ -5,8 +5,9 @@ import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
+import java.util.ArrayList;
+import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Class to represent the goal pattern with all {@code Tile}s
  * disposed in the given positions of the {@code Board} .
@@ -14,11 +15,6 @@ import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Board
  */
-=======
-import java.util.ArrayList;
-import java.util.List;
-
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 public class TilesInPositionsPatternGoal extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
     private final List<List<Integer>> positions;
@@ -32,7 +28,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         this.positions = new ArrayList<>();
     }
 
-<<<<<<< HEAD
     /**
      * Class constructor with parameters.
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
@@ -42,8 +37,8 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param positions the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
-    public TilesInPositionsPatternGoal(int imageID, int patternRepetition, CheckType type, int[][] positions) {
-        super(imageID, patternRepetition, type);
+    public TilesInPositionsPatternGoal(int id, int patternRepetition, CheckType type, List<List<Integer>> positions) {
+        super(id, patternRepetition, type);
         this.positions = positions;
     }
 
@@ -58,34 +53,16 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * @param numberOfPlayers number of active players.
      * @param commonGoalID the identifier of the given common goal.
      */
-    public TilesInPositionsPatternGoal(int imageID, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int commonGoalID, int[][] positions) {
-        super(imageID, numberOfPatternRepetitionsRequired, type, numberOfPlayers, commonGoalID);
-        this.positions = positions;
-    }
-    /**
-     * Counts the number of 1 in the 'positions' matrix.
-     *
-     * @return the total number of 1 that compares in the assigned matrix.
-=======
-    public TilesInPositionsPatternGoal(int id, int patternRepetition, CheckType type, List<List<Integer>> positions) {
-        super(id, patternRepetition, type);
-        this.positions = positions;
-    }
-
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
         this.positions = positions;
     }
 
-    public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> positions) {
-        super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
-        this.positions = positions;
-    }
 
-    /*
-    Count the number of 1 in the positions matrix
-    @return number of 1
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
+    /**
+     * Counts the number of 1 in the 'positions' matrix.
+     *
+     * @return the total number of 1 that compares in the assigned matrix.
      */
     private int numberOfElement() {
         int numberOfElement = 0;
@@ -98,15 +75,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         }
         return numberOfElement;
     }
-<<<<<<< HEAD
-=======
-
-    /*
-    Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
-    for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls).
-    Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
-    then we search if the nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 
     /**
      * Searches the number of pattern repetitions in the {@code Bookshelf} of the {@code Player} by declaring a support matrix of the same dimensions of the bookshelf,
@@ -222,15 +190,11 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Getter for identifying pattern's tiles positions.
      *
      * @return A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
-    //method get
     public List<List<Integer>> getPositions() {
         return this.positions;
     }
@@ -246,25 +210,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     public CommonGoalView copyImmutable() {
         return new TilesInPositionsPatternGoalView(this);
     }
-<<<<<<< HEAD
-    /**
-     * Redefine the equals method to allow a compare based on the TilesInPositionsPatternGoal.
-     *
-     * @param o is the object being evaluated to be equals to another (the one that calls the method).
-     * @return {@code true} if and only if the two tiles are 'equals',
-     *         {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof TilesInPositionsPatternGoal obj) {
-            return this.getNumberOfPatternRepetitionsRequired() == obj.getNumberOfPatternRepetitionsRequired()
-                    && this.getType() == obj.getType()
-                    && this.getPositions() == obj.getPositions();
-        }
-        return false;
-    }
-=======
->>>>>>> 859bad82d69f5d3a13cbdcd56fcc32f950648cfd
 }
 
 
