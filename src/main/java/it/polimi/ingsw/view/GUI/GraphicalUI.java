@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
+import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,14 @@ import java.util.concurrent.CountDownLatch;
 
 import static it.polimi.ingsw.AppClient.startPingSenderThread;
 
+/**
+ * This class contains the GUI's methods.
+ * It is developed as an extension of UI, because it shares some base methods
+ * with the TextualUI
+ *
+ * @see UI
+ * @see TextualUI
+ */
 public class GraphicalUI extends Application implements UI {
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
@@ -43,12 +52,34 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    /**
+     * Class constructor.
+     * Initialize the game's model.
+     *
+     * @see GameView
+     */
     public GraphicalUI(GenericUILogic genericUILogic) {
         this.genericUILogic = genericUILogic;
     }
 
+    /**
+     * Class constructor.
+     * <p>
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GraphicalUI() {
         this.genericUILogic = new GenericUILogic();
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
+        this.genericUILogic = new GenericUILogic(model, controller, nickname);
+    }
+
+    public GraphicalUI(GameView model, ViewListener controller) {
+        super();
+        this.genericUILogic = new GenericUILogic(model, controller);
     }
 
     @Override
@@ -85,15 +116,13 @@ public class GraphicalUI extends Application implements UI {
         run();
     }
 
-    public GraphicalUI(GameView model, ViewListener controller, String nickname) {
-        this.genericUILogic = new GenericUILogic(model, controller, nickname);
-    }
-
-    public GraphicalUI(GameView model, ViewListener controller) {
-        super();
-        this.genericUILogic = new GenericUILogic(model, controller);
-    }
-
+    /**
+     * Displays a standard message to identify the starting of the next turn.
+     * Calls the nickname of the active player and the shows the board's state.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Board
+     */
     @Override
     public void showNewTurnIntro() {
 
@@ -170,6 +199,15 @@ public class GraphicalUI extends Application implements UI {
         this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
+    /**
+     * Performs the following in game actions. <p>
+     * Creates the first scene root. <p>
+     * Displays the first scene. <p>
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     @Override
     public void run() {
         Parent root;
@@ -191,6 +229,17 @@ public class GraphicalUI extends Application implements UI {
         //primaryStage.show();
     }
 
+    /**
+     * Consents to a player to join the game's lobby using his nickname.
+     * It is also used as follows to link the first the scene with the second: <p>
+     * Waits to reach the given players number, notifies the controller of the game's start
+     * then checks the second scene before displaying it.
+     *
+     * @param nickname the player's nickname.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void joinGameWithNick(String nickname) {
         var th = new Thread(() -> {
 
@@ -345,6 +394,13 @@ public class GraphicalUI extends Application implements UI {
         }
     }
 
+    /**
+     * Sets the number of players for the current Game.
+     *
+     * @param chosenNumberOfPlayer the selected number of players.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         //Setto il numero di player
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
