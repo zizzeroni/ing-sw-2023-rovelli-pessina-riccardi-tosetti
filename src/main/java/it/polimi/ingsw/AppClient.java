@@ -161,7 +161,7 @@ public class AppClient {
                 try {
                     server.ping();
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    System.err.println("Error while pinging server. " + e.getMessage());
                 }
             }
         };

@@ -261,7 +261,7 @@ public class GraphicalUI extends Application implements UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.genericUILogic.getController().startGame();

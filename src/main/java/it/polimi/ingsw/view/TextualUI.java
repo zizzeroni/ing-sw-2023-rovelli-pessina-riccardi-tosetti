@@ -120,6 +120,8 @@ public class TextualUI implements UI {
             while (genericUILogic.getState() == clientGameState) {
                 try {
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -133,12 +135,17 @@ public class TextualUI implements UI {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting for the game to start...");
                 }
-                case WAITING_FOR_OTHER_PLAYER ->
-                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                //case WAITING_FOR_OTHER_PLAYER ->
+                        //System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
+                    if(genericUILogic.getState() == ClientGameState.WAITING_FOR_OTHER_PLAYER) {
+                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                    }
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
