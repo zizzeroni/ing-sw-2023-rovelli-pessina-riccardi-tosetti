@@ -2,8 +2,9 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.GUI.ThPrintCountdown;
 
-public class CountdownHandler extends Thread{
+public class CountdownHandler extends Thread {
     private final GenericUILogic genericUILogic;
+
     public CountdownHandler(GenericUILogic genericUILogic) {
         super();
         this.genericUILogic = genericUILogic;
@@ -33,7 +34,7 @@ public class CountdownHandler extends Thread{
                             this.interrupt();
                         }
                     }
-                } else if(printCountdownThread.isAlive()) {
+                } else if (printCountdownThread.isAlive()) {
                     printCountdownThread.interrupt();
                     printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
                     firstTime = true;

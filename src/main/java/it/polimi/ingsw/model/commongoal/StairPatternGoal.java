@@ -7,12 +7,38 @@ import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 import java.util.List;
 
+/**
+ * Class to represent the goal pattern with all {@code Tile}s
+ * disposed to form a stair-shaped figure on the {@code Board} .
+ *
+ * @see it.polimi.ingsw.model.tile.Tile
+ * @see it.polimi.ingsw.model.Board
+ */
 public class StairPatternGoal extends CommonGoal {
+    /**
+     * Class constructor.
+     * Builds an StairPatternGoal with a specified type, ID, ...
+     *
+     * @param imageID           the image assigned to the card.
+     * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
+     * @param type              the type of check that has to be done on the considered common goal's card.
+     */
     //Constructors
     public StairPatternGoal(int id, int patternRepetition, CheckType type) {
         super(id, patternRepetition, type);
     }
 
+    /**
+     * Class constructor.
+     * Builds a StairPatternGoal with specific type, ID ...
+     * (in this case numberOfPlayers and commonGoalID are also considered).
+     *
+     * @param imageID                            the image assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers                    number of active players.
+     * @param commonGoalID                       the identifier of the given common goal.
+     */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
@@ -21,11 +47,16 @@ public class StairPatternGoal extends CommonGoal {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
 
-    /*
-    Start from the first column, if there are minimum 1 and at least the number of rows minus 3 tiles, control if the bookshelf have a stair (one more tile in the consecutive column) x4,
-    then if there are minimum 5 tiles on the first column and haven't found a stair yet control if the bookshelf have a stair (one less tile in the consecutive column) x4
-    @param bookshelf contains the bookshelf of the player
-    @return 1 if found a stair, otherwise 0
+    /**
+     * Start from the first column, if there are minimum 1 and at least the number of rows minus 3 tiles,
+     * control if the {@code Bookshelf} have a stair (one more tile in the consecutive column) x4,
+     * then if there are minimum 5 tiles on the first column and haven't found a stair yet control if the bookshelf have
+     * a stair (one less {@code Tile} in the consecutive column) x4
+     *
+     * @param bookshelf contains the bookshelf of the player.
+     * @return 1 if found a stair, otherwise 0.
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see Bookshelf#getNumberOfTilesInColumn(int)
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         int column = 0;
@@ -53,9 +84,12 @@ public class StairPatternGoal extends CommonGoal {
         return 0;
     }
 
-    /*
-    @return an immutable copy of the common goal
-    */
+    /**
+     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     *
+     * @return an immutable copy of the FourCornersPatternGoalView.
+     * @see CommonGoal
+     */
     @Override
     public CommonGoalView copyImmutable() {
         return new StairPatternGoalView(this);

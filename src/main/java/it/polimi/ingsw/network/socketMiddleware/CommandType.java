@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.socketMiddleware;
 
+/**
+ * Enumeration of all the possible types of commands/exceptions.
+ */
 public enum CommandType {
     ADD_PLAYER,
     CHANGE_TURN,

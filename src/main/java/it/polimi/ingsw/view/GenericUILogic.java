@@ -7,6 +7,13 @@ import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 
+/**
+ * The abstract class used to represent the User Interface (UI).
+ * It has two different implementations in the TextualUI and the GUI classes.
+ *
+ * @see it.polimi.ingsw.GUI.User
+ * @see TextualUI
+ */
 public class GenericUILogic {
     private volatile GameView model;
     private ChatThread chat;
@@ -15,12 +22,24 @@ public class GenericUILogic {
     //Indicate the state of the game from client perspective
     private GenericException exceptionToHandle;
     private ClientGameState clientGameState;
-    //Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value
+
+    /**
+     * Lock associated with the "state" attribute. It's used by the UI in order to synchronize on the state value.
+     */
     private final Object lockState = new Object();
     private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
     private boolean areThereStoredGamesForPlayer = false;
 
-
+    /**
+     * Class constructor.
+     * Initialize the model and the controller to the associated values.
+     *
+     * @param model      the given model.
+     * @param controller the assigned controller.
+     * @param nickname   the UI's nickname.
+     * @see GameView
+     * @see ViewListener
+     */
     public GenericUILogic(GameView model, ViewListener controller, String nickname) {
         this.model = model;
         this.controller = controller;
@@ -30,6 +49,15 @@ public class GenericUILogic {
         this.initializeChatThread(this.controller, this.nickname, this.getModel());
     }
 
+    /**
+     * Class constructor.
+     * Initialize the model and the controller to the associated values.
+     *
+     * @param model      the given model.
+     * @param controller the assigned controller.
+     * @see GameView
+     * @see ViewListener
+     */
     public GenericUILogic(GameView model, ViewListener controller) {
         this.model = model;
         this.controller = controller;
@@ -38,6 +66,13 @@ public class GenericUILogic {
         this.exceptionToHandle = null;
     }
 
+    /**
+     * Class constructor.
+     * Initialize the model and the controller to the associated values.
+     *
+     * @param model the given model.
+     * @see GameView
+     */
     public GenericUILogic(GameView model) {
         this.model = model;
         this.controller = null;
@@ -46,6 +81,10 @@ public class GenericUILogic {
         this.exceptionToHandle = null;
     }
 
+    /**
+     * Class constructor.
+     * Initialize the model and the controller to the default values (null).
+     */
     public GenericUILogic() {
         this.model = null;
         this.controller = null;
@@ -54,24 +93,55 @@ public class GenericUILogic {
         this.exceptionToHandle = null;
     }
 
+    /**
+     * Gets the GenericException exception to be handled.
+     *
+     * @return the exception that has occurred.
+     * @see GenericException
+     */
     public GenericException getExceptionToHandle() {
         return this.exceptionToHandle;
     }
 
+    /**
+     * Sets the exception to be handled using a GenericException.
+     *
+     * @param exceptionToHandle the occurred exception.
+     * @see GenericException
+     */
     public void setExceptionToHandle(GenericException exceptionToHandle) {
         this.exceptionToHandle = exceptionToHandle;
     }
 
+    /**
+     * Gets a lock on the current client's game state.
+     *
+     * @return lockState
+     * @see ClientGameState
+     */
     public Object getLockState() {
         return this.lockState;
     }
 
+
+    /**
+     * Gets the current Client's GameState
+     *
+     * @return the current game's state associated to the client.
+     * @see ClientGameState
+     */
     public ClientGameState getState() {
         synchronized (this.lockState) {
             return this.clientGameState;
         }
     }
 
+    /**
+     * Sets the current Client's GameState.
+     *
+     * @param clientGameState the actual state of the game's client.
+     * @see ClientGameState
+     */
     public void setState(ClientGameState clientGameState) {
         synchronized (this.lockState) {
             this.clientGameState = clientGameState;
@@ -79,23 +149,53 @@ public class GenericUILogic {
         }
     }
 
+    /**
+     * Gets the UI's nickname.
+     *
+     * @return the UI's associated nickname.
+     */
     public String getNickname() {
         return this.nickname;
     }
 
+    /**
+     * Sets the UI's nickname.
+     *
+     * @param nickname the UI associated nickname.
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
         this.chat.setNickname(nickname);
     }
 
+    /**
+     * Getter used to retrieve the game's model.
+     * Its value is used for enabling different settings in other class's methods.
+     *
+     * @return the game's model.
+     */
     public GameView getModel() {
         return this.model;
     }
 
+    /**
+     * Getter used the current controller.
+     *
+     * @return game's controller.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public ViewListener getController() {
         return this.controller;
     }
 
+    /**
+     * Registers the controller listener.
+     *
+     * @param controller the controller to be registered to.
+     * @see ViewListener
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
@@ -104,10 +204,20 @@ public class GenericUILogic {
         this.controller = null;
     }
 
+    /**
+     * TODO
+     */
     public int getCountdown() {
         return countdown;
     }
 
+    /**
+     * Used to print an exception when it is identified.
+     *
+     * @param clientErrorState the state associated to a client's error.
+     * @see it.polimi.ingsw.network.Client
+     * @see GenericException
+     */
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
         if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
@@ -115,6 +225,15 @@ public class GenericUILogic {
         }
     }
 
+    /**
+     * Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
+     * this method changes the State of the game from the UI perspective.
+     *
+     * @param game the current game.
+     * @see it.polimi.ingsw.model.Game
+     * @see GameView
+     * @see it.polimi.ingsw.network.Server
+     */
     //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
     //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
@@ -139,6 +258,18 @@ public class GenericUILogic {
         }
     }
 
+    /**
+     * Initialize the chat's thread.
+     * Moreover, this method sets the GameView.
+     * The game view is not set in the constructor because we need the value passed as reference instead of the real value.
+     *
+     * @param controller is the GameController.
+     * @param nickname   the player's (client's) nickname.
+     * @param model      the model used to set the GameView.
+     * @see it.polimi.ingsw.controller.GameController
+     * @see it.polimi.ingsw.model.Game
+     * @see GameView
+     */
     public void initializeChatThread(ViewListener controller, String nickname, GameView model) {
         chat = new ChatThread(controller, nickname);
         //we do not set the game view in the constructor because we need the value passed as reference instead of value
