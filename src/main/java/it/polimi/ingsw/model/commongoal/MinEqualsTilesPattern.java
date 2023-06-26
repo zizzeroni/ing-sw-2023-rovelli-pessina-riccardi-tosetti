@@ -39,7 +39,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
 
     /**
      * Class constructor with parameters.
-     * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
+     * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      *
      * @param id the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
@@ -55,7 +55,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
 
     /**
      * Class constructor with parameters.
-     * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
+     * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      * (numberOfPlayers and commonGoalID are also considered in this version).
      *
      * @param id the identifier assigned to the card.
