@@ -27,6 +27,7 @@ public abstract class ControllerState {
     public abstract void tryToResumeGame();
 
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
+
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     public abstract void startGame();

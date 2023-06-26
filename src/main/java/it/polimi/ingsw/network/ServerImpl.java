@@ -231,14 +231,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         switch (this.controller.getModel().getGameState()) {
             case ON_GOING -> {
                 this.controller.changeState(new OnGoingState(this.controller));
-                this.controller.getModel().registerListener(this);
                 this.controller.getModel().setGameState(OnGoingState.toEnum());
             }
             case FINISHING -> {
                 this.controller.changeState(new FinishingState(this.controller));
-                this.controller.getModel().registerListener(this);
                 this.controller.getModel().setGameState(FinishingState.toEnum());
-
             }
         }
     }

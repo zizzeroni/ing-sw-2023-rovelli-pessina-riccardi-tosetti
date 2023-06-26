@@ -211,6 +211,7 @@ public class CreationState extends ControllerState {
 
         if (storedCurrentGame != null) {
             this.controller.setModel(storedCurrentGame);
+            this.controller.getModel().registerListener(server);
         } else {
             throw new RuntimeException("There aren't available games to restore for player " + nickname);
         }
