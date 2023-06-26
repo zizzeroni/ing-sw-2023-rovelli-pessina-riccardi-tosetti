@@ -90,29 +90,36 @@ public class GraphicalUI extends Application implements UI {
         this.port = temp.get(2);
         this.primaryStage = primaryStage;
         //this.primaryStage.set
-        if (typeOfConnection == 2) {
-            ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
-            //Creating a new client with a TextualUI and a Socket Server
-            Client client = null;
-            try {
-                client = new ClientImpl(serverStub, this);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+        var th = new Thread(() -> {
+            if (typeOfConnection == 2) {
+                ServerStub serverStub = new ServerStub(ip, Integer.parseInt(port));
+                //Creating a new client with a TextualUI and a Socket Server
+                Client client = null;
+                try {
+                    client = new ClientImpl(serverStub, this);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                //Creating a new Thread that will take care of checking on availability of connected client
+                startPingSenderThread(serverStub);
+                //Creating a new Thread that will take care of the responses coming from the Server side
+                startReceiverThread(client, serverStub);
+            } else {
+                try {
+                    Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
+                    Server server = (Server) registry.lookup("server");
+                    new ClientImpl(server, this);
+                    startPingSenderThread(server);
+                } catch (RemoteException | NotBoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            //Creating a new Thread that will take care of checking on availability of connected client
-            startPingSenderThread(serverStub);
-            //Creating a new Thread that will take care of the responses coming from the Server side
-            startReceiverThread(client, serverStub);
-        } else {
-            try {
-                Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
-                Server server = (Server) registry.lookup("server");
-                new ClientImpl(server, this);
-                startPingSenderThread(server);
-            } catch (RemoteException | NotBoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        });
+        th.setUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread");
+            e.printStackTrace();
+        });
+        th.start();
         run();
     }
 

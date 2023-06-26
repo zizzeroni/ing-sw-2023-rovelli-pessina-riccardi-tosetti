@@ -651,16 +651,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                     Client client = clientOptionalEntry.getKey();
                                     String nickname = clientOptionalEntry.getValue().orElse("Unknown");
 
-                                    //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                                    /*Thread selfThread = this;
-                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            selfThread.interrupt();
-                                            System.err.println("stopIfWaitTooLongTimer executed");
-                                        }
-                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
+
 
                                     try {
                                         client.ping();
@@ -709,6 +700,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
 
 }
+//I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
+                                    /*Thread selfThread = this;
+                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
+                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            selfThread.interrupt();
+                                            System.err.println("stopIfWaitTooLongTimer executed");
+                                        }
+                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
+
 
 
 /*
