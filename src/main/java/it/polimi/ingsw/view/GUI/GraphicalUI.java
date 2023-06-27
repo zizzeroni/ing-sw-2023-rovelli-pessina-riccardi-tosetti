@@ -55,6 +55,14 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    public double getWidthOld() {
+        return widthOld;
+    }
+
+    public double getHeightOld() {
+        return heightOld;
+    }
+
     /**
      * Class constructor.
      * Initialize the game's model.
@@ -378,6 +386,10 @@ public class GraphicalUI extends Application implements UI {
             List<CommonGoalView> commonGoals = this.genericUILogic.getModel().getCommonGoals();
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
+
+            if(!activePlayer.equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()))){
+                mainSceneController.lockAllTiles();
+            }
 
             mainSceneController.setGameOn(true);
             mainSceneController.chatUpdate(true);
