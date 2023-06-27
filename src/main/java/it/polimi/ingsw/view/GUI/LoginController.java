@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.model.exceptions.ExceptionType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
  *
  * @see it.polimi.ingsw.view.GenericUILogic
  * @see it.polimi.ingsw.model.Player
- *
  */
 public class LoginController implements Initializable {
     private GraphicalUI mainGraphicalUI;
@@ -58,32 +57,26 @@ public class LoginController implements Initializable {
      * If every control is passed successfully, passes the username
      * <p> to the GUI.
      *
-     *
      * @param actionEvent is the event linked to username entering.
-     * @throws IOException is the exception called if the wrong username has been passed as input.
+     * @throws IOException       is the exception called if the wrong username has been passed as input.
      * @throws NotBoundException is the exception called when lookup or unbind in the registry
-     *                              for username that has no associated binding is attempted.
+     *                           for username that has no associated binding is attempted.
      */
     @FXML
     public void controlNickname(ActionEvent actionEvent) throws IOException, NotBoundException {
 
         //Controllo se è corretto l'username
         String nickname = Nickname.getText();
-        if((this.mainGraphicalUI.genericUILogic.getModel()!=null)&&(this.mainGraphicalUI.genericUILogic.getModel().getNumberOfPlayers()==this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size())){
+        if ((this.mainGraphicalUI.genericUILogic.getModel() != null) && (this.mainGraphicalUI.genericUILogic.getModel().getNumberOfPlayers() == this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size()) || !nickname.isEmpty()) {
+            //Pass the nickname to the GUI
+            mainGraphicalUI.joinGameWithNick(Nickname.getText());
+            //Se i è uguale a 1 devo scegliere il numero di giocatori
+            //Altrimenti metto in pausa in attesa che arrivino giocatori
+        } else {
             error.setVisible(true);
-            ErrorLabel.setText("Game is already full :( ");
-        }else {
-            if (!nickname.isEmpty()) {
-                //Pass the nickname to the GUI
-
-                mainGraphicalUI.joinGameWithNick(Nickname.getText());
-                //Se i è uguale a 1 devo scegliere il numero di giocatori
-                //Altrimenti metto in pausa in attesa che arrivino giocatori
-            } else {
-                error.setVisible(true);
-                ErrorLabel.setText("Insert a nickname!");
-            }
+            ErrorLabel.setText("Insert a nickname!");
         }
+
     }
 
     /**
@@ -113,9 +106,8 @@ public class LoginController implements Initializable {
      * This method initialize the url and resource bundle used for the
      * setting of GUI scenes linked to the {@code Player}s login.
      *
-     * @param url is the resources url.
+     * @param url            is the resources url.
      * @param resourceBundle is the bundle of the resources utilized in the scenes development.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -195,16 +187,19 @@ public class LoginController implements Initializable {
      * Setter used to adjust the {@code mainGraphicalUI}.
      *
      * @param graphicalUI the Graphical User Interface passed to be set
-     *
      */
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
     }
 
-    public void nicknameAlreadyUsed() {
+    public void nicknameException(ExceptionType exceptionType) {
         Platform.runLater(() -> {
             error.setVisible(true);
-            ErrorLabel.setText("nickname already used!");
+            if (exceptionType == ExceptionType.DUPLICATE_NICKNAME_EXCEPTION) {
+                ErrorLabel.setText("nickname already used!");
+            } else {
+                ErrorLabel.setText("Game is already full!");
+            }
         });
     }
 
