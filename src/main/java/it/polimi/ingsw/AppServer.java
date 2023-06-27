@@ -145,6 +145,10 @@ public class AppServer {
         }
     }
 
+    /**
+     * @return
+     * @throws RemoteException
+     */
     private static String getFirstUpNetworkInterface() throws RemoteException {
         //TODO: Da verificarne funzionamento
         Random rand = new Random();

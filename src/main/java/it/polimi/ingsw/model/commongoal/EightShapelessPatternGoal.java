@@ -46,18 +46,28 @@ public class EightShapelessPatternGoal extends CommonGoal {
      *
      * Class constructor with parameters.
      * Builds a EightShapelessPatternGoal with specific type, ID ...
-     * (numberOfPlayers and commonGoalID are also considered).
+     * (numberOfPlayers is also considered).
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
 
+    /**
+     *
+     * Class constructor with parameters.
+     * Builds a EightShapelessPatternGoal with specific type, ID ...
+     * (scoreTiles list is also considered).
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles  list of current score tiles.
+     */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }

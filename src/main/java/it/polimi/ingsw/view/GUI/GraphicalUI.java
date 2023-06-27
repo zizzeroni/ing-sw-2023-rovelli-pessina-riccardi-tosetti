@@ -75,16 +75,36 @@ public class GraphicalUI extends Application implements UI {
     public GraphicalUI() {
         this.genericUILogic = new GenericUILogic();
     }
-
+    /**
+     * Class constructor.
+     * <p>
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
         this.genericUILogic = new GenericUILogic(model, controller, nickname);
     }
-
+    /**
+     * Class constructor.
+     * <p>
+     * Sets the attributes as in the UI's superclass.
+     *
+     * @see UI
+     */
     public GraphicalUI(GameView model, ViewListener controller) {
         super();
         this.genericUILogic = new GenericUILogic(model, controller);
     }
 
+    /**
+     * Start up the GUI, displaying the primary's game window containing the main graphical elements.
+     *
+     * @param primaryStage the game's window.
+     * @throws Exception called if a communication error related to the gui occurs.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         List<String> temp = this.getParameters().getRaw();
@@ -172,31 +192,73 @@ public class GraphicalUI extends Application implements UI {
 
     }
 
+    /**
+     * Adds a
+     *
+     * @param listener the View's Listener.
+     *
+     * @see java.net.http.WebSocket.Listener
+     */
     @Override
     public void registerListener(ViewListener listener) {
         this.genericUILogic.registerListener(listener);
     }
 
+    /**
+     * Removes the generic ui logic associated listener.
+     *
+     * @see GenericUILogic
+     */
     @Override
     public void removeListener() {
         this.genericUILogic.removeListener();
     }
 
+    /**
+     * Sets the player's nickname for the provided part of the generic ui's logic.
+     *
+     * @param nickname the player's nickname.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see GenericUILogic
+     */
     @Override
     public void setNickname(String nickname) {
         this.genericUILogic.setNickname(nickname);
     }
 
+    /**
+     * Signals that the game's model has been modified.
+     *
+     * @param modelUpdated the updated model.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     @Override
     public void modelModified(GameView modelUpdated) {
         this.genericUILogic.modelModified(modelUpdated);
     }
 
+    /**
+     * Used to display a generic game's exception through the generic ui's logic.
+     *
+     * @param exception the given GenericException.
+     *
+     * @see GenericUILogic
+     * @see GenericException
+     */
     @Override
     public void printException(GenericException exception) {
         this.genericUILogic.printException(exception);
     }
 
+    /**
+     * Setter used to provided stored game's for the player reconnecting to the current's game server.
+     *
+     * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) {
         this.genericUILogic.setAreThereStoredGamesForPlayer(result);
@@ -373,6 +435,13 @@ public class GraphicalUI extends Application implements UI {
         th.start();
     }
 
+    /**
+     * Permits to wait while the client is in the specified ClientGameState.
+     *
+     * @param state is the given state causing the wait.
+     *
+     * @see ClientGameState
+     */
     public void waitWhileInState(ClientGameState state) {
         synchronized (this.genericUILogic.getLockState()) {
             switch (state) {
@@ -428,10 +497,24 @@ public class GraphicalUI extends Application implements UI {
         th.start();
     }
 
+    /**
+     * Used for game's management between a turn and the next one.
+     *
+     * @param takenTiles the tiles taken by the player in his last turn.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     public void finishTurn(Choice takenTiles) {
         this.takenTiles = takenTiles;
     }
 
+    /**
+     * Displays the updates associated to the player's gui graphical elements.
+     * Update board, bookshelf, ... tile related elements.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     public void showUpdateFromOtherPlayer() {
 
         //mainSceneController.updateChat();
@@ -456,6 +539,17 @@ public class GraphicalUI extends Application implements UI {
         mainSceneController.setCommonGoalPoints(this.genericUILogic.getModel().getCommonGoals());
     }
 
+    /**
+     * Creates a new Thread that will take care of the responses coming from the Server side.
+     *
+     * @param client is the player's client.
+     * @param serverStub is the stub of the server used in the current game.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see Client
+     * @see Server
+     * @see it.polimi.ingsw.model.Game
+     */
     private static void startReceiverThread(Client client, ServerStub serverStub) {
         //Creating a new Thread that will take care of the responses coming from the Server side
         new Thread(() -> {
@@ -475,6 +569,14 @@ public class GraphicalUI extends Application implements UI {
         }).start();
     }
 
+    /**
+     * Sets the window displaying the GUI elements.
+     *
+     * @param scene is the scene containing the associated gui's elements (bookshelves, board, ...).
+     *
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see it.polimi.ingsw.model.Board
+     */
     private void setPrimaryStage(Scene scene) {
         resizing = false;
         primaryStage.setScene(scene);
@@ -491,6 +593,14 @@ public class GraphicalUI extends Application implements UI {
         resizing = true;
     }
 
+    /**
+     * Allows the game's windows rescaling.
+     *
+     * @param wi the window's width.
+     * @param he the window's height.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     public void rescale(double wi, double he) {
         if (resizing) {
             double w = wi / widthOld;

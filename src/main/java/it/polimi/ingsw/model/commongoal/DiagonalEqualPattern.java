@@ -46,13 +46,11 @@ public class DiagonalEqualPattern extends CommonGoal {
     /**
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with a specific type, ID ...
-     * (numberOfPlayers and commonGoalID are also considered).
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
     public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, List<List<Integer>> pattern) {
@@ -60,6 +58,16 @@ public class DiagonalEqualPattern extends CommonGoal {
         this.pattern = pattern;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds a DiagonalEqualPattern with a specific type, ID ...
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles is the list of current score tiles.
+     * @param pattern the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     */
     public DiagonalEqualPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> pattern) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.pattern = pattern;
@@ -74,7 +82,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      * In the second part we count the number of different groups when the counter of the tiles in a group is
      * at least the minimum number of consecutive tiles of the goal pattern.
      *
-     * @params bookshelf contains the bookshelf of the player.
+     * @param bookshelf contains the bookshelf of the player.
      * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles.
      */
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
