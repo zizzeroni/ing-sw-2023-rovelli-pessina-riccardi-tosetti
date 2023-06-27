@@ -107,7 +107,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Allows to notify the input insertion through the controller.
+     * Allows to execute the input insertion through the controller.
      *
      * @param playerChoice the choice made by the player.
      * @throws RemoteException is called when a communication error occurs.
@@ -157,7 +157,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Adds a player to the game through its client. Updates the connection state of the new player to 'connected'.
+     * Adds a player to the game associated with his client.
      *
      * @param client   is the player's client.
      * @param nickname is the reference for the name of the {@code Player} being added.
@@ -198,6 +198,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * This method tries to resume the current's game when possible.
+     */
     @Override
     public synchronized void tryToResumeGame() throws RemoteException {
         this.controller.tryToResumeGame();
@@ -270,12 +273,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param client   is the client registering to the server.
      * @param nickname the player's nickname related to the client.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Client
      * @see Server
      */
-    //TODO: Ask if we should pass nickname to register client
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -284,35 +286,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     }
 
-    /**
-     * Routes the server's pings to the proper player's client.
-     *
-     * @throws RemoteException if a communication error occurs.
-     *
-     * @see Player
-     */
-    public synchronized void pingClients() throws RemoteException {
-        Game model = this.controller.getModel();
-        Client clientToRemove = null;
-        for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
-            String nickname = entry.getValue().orElse("Unknown");
-            Client client = entry.getKey();
-            try {
-                client.ping();
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
-                if (model.getGameState() == GameState.IN_CREATION) {
-                    clientToRemove = client;
-                }
-                if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
-                    this.controller.disconnectPlayer(nickname);
-                }
-
-            }
-
-        }
-        this.clientsToHandle.remove(clientToRemove);
-    }
 
     /**
      * Receives ping from the client.
@@ -338,6 +311,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.disconnectPlayer(nickname);
     }
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param nickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
+     */
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
         this.controller.restoreGameForPlayer(this, nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
@@ -346,6 +327,14 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         notifyClientsAfterRestoring();
     }
 
+    /**
+     * Disconnects the players not in actually present in the game's lobby.
+     *
+     * @throws RemoteException called when a communication error occurs.
+     *
+     * @see Player
+     * @see Game
+     */
     private void disconnectPlayerNotPartOfTheLobby() throws RemoteException {
         Game model = this.controller.getModel();
         List<String> orderedConnectedPlayersNickname = model.getPlayers().stream().map(Player::getNickname).toList();
@@ -361,7 +350,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    //TODO: Possibilmente da cambiare, non mi piace che la notifica venga inviata "a mano" in questo metodo e soprattutto dal server
+    /**
+     * Notifies the client after being restored.
+     *
+     * @see Client
+     */
     private void notifyClientsAfterRestoring() {
         switch (this.controller.getModel().getGameState()) {
             case ON_GOING -> {
@@ -375,6 +368,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Verifies if there are any saved games associated to the given player.
+     *
+     * @param nickname the given player's nickname.
+     * @throws RemoteException called when a communication error occurs.
+     *
+     * @see Game
+     * @see Player
+     */
     @Override
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
         boolean result = this.controller.areThereStoredGamesForPlayer(nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
@@ -469,7 +471,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Notifies to the game's view that the number of players has changed (due to a disconnection/reconnection/registration event).
+     * Notifies to the game's view that the number of players to start the game has been set.
      *
      * @see Player
      */
@@ -519,7 +521,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
+     * Notifies the given commonGoals have been modified.
      *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     @Override
     public void commonGoalsModified() {
@@ -612,45 +616,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    /*@Override
-    public void gameRestored() {
-        for (Client client : this.clientsToHandle.keySet()) {
-            try {
-                client.updateModelView(new GameView(this.controller.getModel()));
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(gameRestored):" + e.getMessage() + ".Skipping update");
-            }
-        }
-    }*/
-
     /**
      * Allows the server to ping a game's thread.
+     * Starts a different thread to execute the pinging.
      *
      * @param server the server starting the thread's pinging.
      *
      * @see Game
      */
 
-    /*private void startPingSenderThread(ServerImpl server) {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    server.pingClients();
-                } catch (RemoteException e) {
-                    System.err.println("prova");
-                }
-            }
-        };
-
-        Timer pingSender = new Timer("PingSender");
-        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
-    }*/
-
-    /*TODO: DA TESTARE NON IN LOCALHOST*/
-
-    /*TODO: PROBLEMA: A volte capita che il metodo ping venga invocato contemporaneamente o comunque in vicinanza alla riconnessione del client al server,
-     *                 cosa che quindi fa disconnettere nuovamente il client anche se dovrebbe essere connesso*/
     private void startPingSenderThread(ServerImpl server) {
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -706,6 +680,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         pingSender.scheduleAtFixedRate(timerTask, 30, OptionsValues.MILLISECOND_PING_TO_CLIENT_PERIOD);
     }
 
+    /**
+     * This method is used to reset the server.
+     *
+     * @see Server
+     */
     private void resetServer() {
         this.model = new Game();
         this.controller = new GameController(this.model);

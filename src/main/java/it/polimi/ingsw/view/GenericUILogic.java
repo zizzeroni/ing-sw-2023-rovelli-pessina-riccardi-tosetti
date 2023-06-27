@@ -8,11 +8,11 @@ import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 
 /**
- * The abstract class used to represent a generic User Interface (UI).
- * It has two different implementations in the TextualUI and the GraphicalUI classes.
+ * The class used to represent a generic User Interface (UI).
+ * It contains common methods used by both GUI and TextualUI.
  *
  * @see TextualUI
- * @see GraphicalUI
+ * @see it.polimi.ingsw.view.GUI.GraphicalUI
  */
 public class GenericUILogic {
     private volatile GameView model;
@@ -123,7 +123,7 @@ public class GenericUILogic {
      *
      * @return lockState
      *
-     * @see UI#lockState
+     * @see GenericUILogic#lockState
      * @see ClientGameState
      */
     public Object getLockState() {
@@ -172,7 +172,7 @@ public class GenericUILogic {
      *
      * @param nickname the UI associated nickname.
      *
-     * @see UI
+     * @see GenericUILogic
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;

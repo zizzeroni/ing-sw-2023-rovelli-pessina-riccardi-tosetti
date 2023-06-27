@@ -84,7 +84,7 @@ public class ServerStub implements Server {
      *
      *
      * @param playerChoice the choice made by the player.
-     * @throws RemoteException
+     * @throws RemoteException called when a communication error occurs.
      *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board

@@ -7,12 +7,10 @@ import it.polimi.ingsw.utils.OptionsValues;
 import java.io.Serializable;
 
 /**
+ * This class represents the PersonalGoal's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
- * This class implements the {@code PersonalGoalView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code View} of their {@code PersonalGoal}s,
- * and are sensible to the inherent modifies.
- * Also, the class contains a series of getters to access the personal goal's pattern,
- * the score associated to it, its number of repetitions in the {@code Bookshelf} and to access a single pattern's {@code Tile}.
  *
  * @see PersonalGoal
  * @see it.polimi.ingsw.model.tile.Tile

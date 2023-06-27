@@ -47,7 +47,7 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      *
      * Constructor of the class in the implementation with parameters.
      * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
-     * In this version are also considered the commonGoalID and numberOfPlayers.
+     * In this version the numberOfPlayers is also considered.
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
@@ -60,6 +60,18 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
         this.consecutiveTiles = consecutiveTiles;
     }
 
+    /**
+     *
+     * Constructor of the class in the implementation with parameters.
+     * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
+     * In this version the scoreTiles list is also considered.
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
+     * @param scoreTiles the list of current score tiles.
+     */
     public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, int consecutiveTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.consecutiveTiles = consecutiveTiles;

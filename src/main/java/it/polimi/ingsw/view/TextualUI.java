@@ -34,7 +34,8 @@ public class TextualUI implements UI {
      * Class constructor.
      * Initialize the game's model.
      *
-     * @param TODO
+     * @param genericUILogic the logic associated to the given TextualUI.
+     *
      * @see GenericUILogic
      */
     public TextualUI(GenericUILogic genericUILogic) {
@@ -104,7 +105,8 @@ public class TextualUI implements UI {
     /**
      * Evaluates the waiting states for the game's lobby and the adding of a player.
      *
-     * @param clientGameState
+     * @param clientGameState the current state of the given game's client.
+     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      */

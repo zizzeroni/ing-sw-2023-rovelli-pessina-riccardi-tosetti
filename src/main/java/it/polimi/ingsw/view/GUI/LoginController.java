@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.utils.CommandReader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,11 +19,11 @@ import java.util.ResourceBundle;
 
 /**
  * This class contains a series of methods used to set and
- * to modify the primary scenes of the {@code MainGui}.
+ * to modify the primary scenes of the main gui.
  * and to verify the user data when the different {@code Player}s
  * decide to log into the lobby.
  *
- * @see MainGui
+ * @see it.polimi.ingsw.view.GenericUILogic
  * @see it.polimi.ingsw.model.Player
  *
  */
@@ -42,6 +43,8 @@ public class LoginController implements Initializable {
     private ChoiceBox<String> NumberOfPlayerChoice;
     @FXML
     private Button PlayerOk;
+    @FXML
+    private Button restoreButton;
     private final String[] playerNumber = {"2", "3", "4"};
     private String numberOfPlayerInGame;
 
@@ -66,15 +69,20 @@ public class LoginController implements Initializable {
 
         //Controllo se è corretto l'username
         String nickname = Nickname.getText();
-        if (!nickname.isEmpty()) {
-            //Pass the nickname to the GUI
-
-            mainGraphicalUI.joinGameWithNick(Nickname.getText());
-            //Se i è uguale a 1 devo scegliere il numero di giocatori
-            //Altrimenti metto in pausa in attesa che arrivino giocatori
-        } else {
+        if((this.mainGraphicalUI.genericUILogic.getModel()!=null)&&(this.mainGraphicalUI.genericUILogic.getModel().getNumberOfPlayers()==this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size())){
             error.setVisible(true);
-            ErrorLabel.setText("Insert a nickname!");
+            ErrorLabel.setText("Game is already full :( ");
+        }else {
+            if (!nickname.isEmpty()) {
+                //Pass the nickname to the GUI
+
+                mainGraphicalUI.joinGameWithNick(Nickname.getText());
+                //Se i è uguale a 1 devo scegliere il numero di giocatori
+                //Altrimenti metto in pausa in attesa che arrivino giocatori
+            } else {
+                error.setVisible(true);
+                ErrorLabel.setText("Insert a nickname!");
+            }
         }
     }
 
@@ -118,6 +126,7 @@ public class LoginController implements Initializable {
         NumberOfPlayerChoice.setVisible(false);
         error.setVisible(false);
         ErrorLabel.setText("");
+        restoreButton.setVisible(false);
     }
 
     /**
@@ -128,6 +137,11 @@ public class LoginController implements Initializable {
      * @see it.polimi.ingsw.model.Game
      */
     public void changeScene() {
+        this.mainGraphicalUI.genericUILogic.getController().areThereStoredGamesForPlayer(this.mainGraphicalUI.genericUILogic.getNickname());
+
+        if (this.mainGraphicalUI.genericUILogic.areThereStoredGamesForPlayer() && this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size() == 1) {
+            restoreButton.setVisible(true);
+        }
         //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
         principalLabel.setText("Inserisci il numero di giocatori");
@@ -147,6 +161,8 @@ public class LoginController implements Initializable {
      * @param actionEvent the join event
      */
     public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException, InterruptedException {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
         //Inserisco la scelta del numero di giocatori e metto in attesa
         numberOfPlayerInGame = NumberOfPlayerChoice.getValue();
         if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
@@ -157,6 +173,7 @@ public class LoginController implements Initializable {
 
             Font font = principalLabel.getFont();
             principalLabel.setText("Attesa di altri giocatori");
+            restoreButton.setVisible(false);
             error.setVisible(false);
             ErrorLabel.setText("");
             principalLabel.setFont(font);
@@ -169,7 +186,6 @@ public class LoginController implements Initializable {
             if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
                 mainGraphicalUI.setNumberOfPlayer(Integer.parseInt(numberOfPlayerInGame));
 
-//            mainGui.waitWhileInState(State.WAITING_IN_LOBBY);
             }
         });
 
@@ -190,5 +206,11 @@ public class LoginController implements Initializable {
             error.setVisible(true);
             ErrorLabel.setText("nickname already used!");
         });
+    }
+
+    public void restoreGame(ActionEvent actionEvent) {
+        if (!(actionEvent.getSource() instanceof Button button))
+            return;
+        this.mainGraphicalUI.genericUILogic.getController().restoreGameForPlayer(this.mainGraphicalUI.genericUILogic.getNickname());
     }
 }

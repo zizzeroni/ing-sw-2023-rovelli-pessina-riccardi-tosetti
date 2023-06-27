@@ -46,12 +46,22 @@ public class FourCornersPatternGoal extends CommonGoal {
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      */
     public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
 
+    /**
+     *
+     * Class constructor with parameters.
+     * Builds a FourCornersPatternGoal with specific type, ID ...
+     * (scoreTiles parameter is also considered).
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles list of current score tiles.
+     */
     public FourCornersPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
@@ -60,8 +70,7 @@ public class FourCornersPatternGoal extends CommonGoal {
      * Check if there are {@code Tile}s of the same color in the 4 corners of the {@code Bookshelf}.
      *
      * @param bookshelf contains the bookshelf of the {@code Player}.
-     * @return {@code true} if and only if the initial condition is satisfied,
-     *         {@code false} otherwise.
+     * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player

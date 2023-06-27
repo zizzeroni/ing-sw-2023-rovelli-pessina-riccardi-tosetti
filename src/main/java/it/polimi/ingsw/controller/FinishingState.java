@@ -305,10 +305,7 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
-    /**
-     * In this implementation it is referred to the FINISHING state.
-     * It falls unused.
-     */
+
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
@@ -316,6 +313,10 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
+    /**
+     * In this implementation it is referred to the FINISHING state.
+     * It falls unused.
+     */
     @Override
     public void startGame(int numberOfCommonGoalCards) {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)

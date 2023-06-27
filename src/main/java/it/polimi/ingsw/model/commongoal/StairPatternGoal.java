@@ -31,18 +31,26 @@ public class StairPatternGoal extends CommonGoal {
     /**
      * Class constructor.
      * Builds a StairPatternGoal with specific type, ID ...
-     * (in this case numberOfPlayers and commonGoalID are also considered).
+     * (in this case numberOfPlayers is also considered).
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
-
+    /**
+     * Class constructor.
+     * Builds a StairPatternGoal with specific type, ID ...
+     * (in this case scoreTiles is also considered).
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles list of current score tiles.
+     */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
@@ -54,7 +62,7 @@ public class StairPatternGoal extends CommonGoal {
      * a stair (one less {@code Tile} in the consecutive column) x4
      *
      * @param bookshelf contains the bookshelf of the player.
-     * @return 1 if found a stair, otherwise 0.
+     * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf#getNumberOfTilesInColumn(int)

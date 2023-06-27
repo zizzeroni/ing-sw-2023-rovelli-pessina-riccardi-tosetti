@@ -43,9 +43,12 @@ public class GameController {
     private final Random randomizer = new Random();
 
     /**
+     * Class constructor.
+     * Used to associate the game's controller with the game's model.
      *
+     * @param model is the model class used to represent the main elements of the active game.
      *
-     * @param model
+     * @see Game
      */
     public GameController(Game model) {
         this.model = model;
@@ -174,8 +177,12 @@ public class GameController {
         state.addPlayer(nickname);
     }
 
-    /*
-     * TODO
+
+    /**
+     * Signals that an attempt of resuming the game is in progress,
+     * modifying the related state.
+     *
+     * @see Game
      */
     public void tryToResumeGame() {
         state.tryToResumeGame();
@@ -410,7 +417,13 @@ public class GameController {
     }
 
     /**
-     * Method to restore stored games.
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param playerNickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
      */
     public void restoreGameForPlayer(GameListener server, String playerNickname, String gamesStoragePath) {
         state.restoreGameForPlayer(server, playerNickname, gamesStoragePath);

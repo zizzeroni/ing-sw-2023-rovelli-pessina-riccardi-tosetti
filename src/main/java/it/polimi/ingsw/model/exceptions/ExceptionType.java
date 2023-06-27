@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model.exceptions;
 
+/**
+ * Enumerates the game defined exceptions.
+ *
+ * @see it.polimi.ingsw.model.Game
+ */
 public enum ExceptionType {
     NONE,
     DUPLICATE_NICKNAME_EXCEPTION,

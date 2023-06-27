@@ -9,8 +9,22 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the Deserializer used to enact the game model's deserialization.
+ *
+ * @see Game
+ */
 public class GameModelDeserializer implements JsonDeserializer<Game> {
 
+    /**
+     * Reads the json game's files and deserialize it into a Game's instance.
+     *
+     * @param jsonElement the json of the current element.
+     * @param type the element's type.
+     * @param jsonDeserializationContext the context in which the json is being deserialized.
+     * @return the deserialized game.
+     * @throws JsonParseException occurs in case of an error in jason's parsing.
+     */
     @Override
     public Game deserialize(JsonElement jsonElement, Type type,
                             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
