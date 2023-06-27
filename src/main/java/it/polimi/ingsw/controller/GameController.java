@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -237,7 +238,7 @@ public class GameController {
      * @see Board#numberOfTilesToRefill()
      */
     public void startGame() {
-        state.startGame();
+        state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
     }
 
     /*
@@ -361,10 +362,9 @@ public class GameController {
      *
      * @return if there are stored games.
      */
-    public boolean areThereStoredGamesForPlayer(String playerNickname) {
-        String gamesPath = "src/main/resources/storage/games.json";
+    public boolean areThereStoredGamesForPlayer(String playerNickname, String gamesPath) {
         this.model.createGameFileIfNotExist(gamesPath);
-        Game[] games = this.getStoredGamesFromJson();
+        Game[] games = this.getStoredGamesFromJson(gamesPath);
 
         if (games == null || games.length == 0) return false;
 
@@ -379,12 +379,11 @@ public class GameController {
      *
      * @return all stored games.
      */
-    private Game[] getStoredGamesFromJson() {
+    private Game[] getStoredGamesFromJson(String gamesStoragePath) {
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
         Gson gson = gsonBuilder.create();
         Reader fileReader;
-        String gamesPath = "src/main/resources/storage/games.json";
-        Path source = Paths.get(gamesPath);
+        Path source = Paths.get(gamesStoragePath);
         Game[] games;
 
         try {
@@ -426,7 +425,7 @@ public class GameController {
      * @see Player
      * @see Game
      */
-    public void restoreGameForPlayer(GameListener server, String playerNickname) {
-        state.restoreGameForPlayer(server, playerNickname);
+    public void restoreGameForPlayer(GameListener server, String playerNickname, String gamesStoragePath) {
+        state.restoreGameForPlayer(server, playerNickname, gamesStoragePath);
     }
 }

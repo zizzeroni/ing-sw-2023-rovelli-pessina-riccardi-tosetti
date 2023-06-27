@@ -132,7 +132,7 @@ public class CreationState extends ControllerState {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
-        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
+        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<>(), new Bookshelf());
         if ((this.controller.getModel().getNumberOfPlayersToStartGame() == OptionsValues.MIN_NUMBER_OF_PLAYERS_TO_START_GAME
                 || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame())
                 && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
@@ -167,7 +167,7 @@ public class CreationState extends ControllerState {
      * @see Board#numberOfTilesToRefill()
      */
     @Override
-    public void startGame() {
+    public void startGame(int numberOfCommonGoalCards) {
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
             Collections.shuffle(this.controller.getModel().getPlayers());
 
@@ -182,7 +182,7 @@ public class CreationState extends ControllerState {
             CommonGoal newCommonGoal;
             while (this.controller.getModel().getCommonGoals().size() != OptionsValues.NUMBER_OF_COMMON_GOAL) {
                 try {
-                    newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                    newCommonGoal = this.getRandomCommonGoalSubclassInstance(numberOfCommonGoalCards);
                     if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
                         this.controller.getModel().getCommonGoals().add(newCommonGoal);
                     }
@@ -259,10 +259,10 @@ public class CreationState extends ControllerState {
      * @see CommonGoal
      * @see Game#getNumberOfPlayersToStartGame()
      */
-    public CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
+    public CommonGoal getRandomCommonGoalSubclassInstance(int numberOfCommonGoalCards) throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
 
-        switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
+        switch (this.controller.getRandomizer().nextInt(numberOfCommonGoalCards)) {
             case 0 -> {
                 return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
                         new ArrayList<>(Arrays.asList(1, 1)),
@@ -328,17 +328,15 @@ public class CreationState extends ControllerState {
      * @see Game
      */
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
-        String gamesPath = "src/main/resources/storage/games.json";
-        this.controller.getModel().createGameFileIfNotExist(gamesPath);
-        Game[] games = this.getStoredGamesFromJson();
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
+        this.controller.getModel().createGameFileIfNotExist(gamesStoragePath);
+        Game[] games = this.getStoredGamesFromJson(gamesStoragePath);
 
         if (games == null || games.length == 0) {
             throw new RuntimeException("There aren't available games to restore!");
         }
 
         Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
-
 
         if (storedCurrentGame != null) {
             this.controller.setModel(storedCurrentGame);
@@ -353,11 +351,10 @@ public class CreationState extends ControllerState {
      *
      * @return all stored games.
      */
-    private Game[] getStoredGamesFromJson() {
+    private Game[] getStoredGamesFromJson(String gamesPath) {
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
         Gson gson = gsonBuilder.create();
         Reader fileReader;
-        String gamesPath = "src/main/resources/storage/games.json";
         Path source = Paths.get(gamesPath);
         Game[] games;
 

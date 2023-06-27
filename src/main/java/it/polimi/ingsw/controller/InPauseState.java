@@ -217,7 +217,7 @@ public class InPauseState extends ControllerState {
      * @see Board#numberOfTilesToRefill()
      */
     @Override
-    public void startGame() {
+    public void startGame(int numberOfCommonGoalCards) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
@@ -250,7 +250,7 @@ public class InPauseState extends ControllerState {
      * @see Game
      */
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
