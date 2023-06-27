@@ -100,7 +100,7 @@ public class Player {
      * @see ScoreTile
      * @see PersonalGoal
      */
-    public Player(String nickname, boolean connected, PersonalGoal personalGoal, ArrayList<ScoreTile> scoreTiles, Bookshelf bookshelf) {
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<ScoreTile> scoreTiles, Bookshelf bookshelf) {
         this.nickname = nickname;
         this.connected = connected;
         this.personalGoal = personalGoal;
