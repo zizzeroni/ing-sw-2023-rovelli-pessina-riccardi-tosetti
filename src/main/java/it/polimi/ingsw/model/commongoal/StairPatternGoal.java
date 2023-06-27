@@ -62,7 +62,7 @@ public class StairPatternGoal extends CommonGoal {
      * a stair (one less {@code Tile} in the consecutive column) x4
      *
      * @param bookshelf contains the bookshelf of the player.
-     * @return 1 if found a stair, otherwise 0.
+     * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf#getNumberOfTilesInColumn(int)

@@ -22,7 +22,7 @@ public class SingleClientHandler extends Thread {
      *
      * @param server is the server communicating to.
      * @param socket is the communication port used to forward the machine messages.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      */
     public SingleClientHandler(Server server, Socket socket) throws RemoteException {
         this.socket = socket;

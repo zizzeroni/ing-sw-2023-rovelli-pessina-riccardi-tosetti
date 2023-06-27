@@ -35,7 +35,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      *
      * @param server the current server.
      * @param view the UI's view.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Server
      * @see UI
@@ -57,7 +57,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * @param server the current server.
      * @param view the UI's view.
      * @param nickname the client's (player's) nickname.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Server
      * @see UI
@@ -80,7 +80,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * @param server the current server.
      * @param view the UI's view.
      * @param nickname the client's (player's) nickname.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Server
      * @see UI
@@ -108,7 +108,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * @param view the UI's view.
      * @param nickname the client's (player's) nickname.
      *
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Server
      * @see RMIClientSocketFactory
@@ -283,7 +283,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      *
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     * @throws RemoteException called if a communication error occurs.
      *
      * @see Player
      * @see Server

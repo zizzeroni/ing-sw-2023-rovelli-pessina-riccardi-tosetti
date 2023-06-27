@@ -82,8 +82,8 @@ public class DisconnectPlayerCommand implements CommandToServer {
     /**
      * This method permits the execution of the {@code PLayer}'s disconnection command.
      *
-     * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws NullPointerException if there is no actuator to execute the command.
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see it.polimi.ingsw.model.Player
      */

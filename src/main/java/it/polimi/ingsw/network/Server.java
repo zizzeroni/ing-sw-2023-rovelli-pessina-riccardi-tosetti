@@ -37,7 +37,7 @@ public interface Server extends Remote {
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board

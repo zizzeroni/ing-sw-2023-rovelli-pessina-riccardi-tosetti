@@ -318,6 +318,15 @@ public class CreationState extends ControllerState {
         }
     }
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param nickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
+     */
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname) {
         String gamesPath = "src/main/resources/storage/games.json";

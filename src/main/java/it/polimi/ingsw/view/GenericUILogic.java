@@ -8,8 +8,8 @@ import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 
 /**
- * The abstract class used to represent a generic User Interface (UI).
- * It has two different implementations in the TextualUI and the GraphicalUI classes.
+ * The class used to represent a generic User Interface (UI).
+ * It contains common methods used by both GUI and TextualUI.
  *
  * @see TextualUI
  * @see it.polimi.ingsw.view.GUI.GraphicalUI
