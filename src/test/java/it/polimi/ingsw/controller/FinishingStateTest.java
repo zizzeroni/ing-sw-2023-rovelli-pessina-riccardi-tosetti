@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -60,8 +60,61 @@ public class FinishingStateTest {
     }
 
     @Test
-    @DisplayName("Test that changeTurn method does  nothing ")
-    public void change_turn_method_does_nothing_in_creation_test() {
+    @DisplayName("Test that change turn for a player that's not the last with only single tiles on board cause it's refill")
+    public void changing_turn_for_not_last_player_with_a_single_tiles_board_cause_the_refill() {
+
+        int[][] pattern = new int[][]{
+                {0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 1, 1},
+                {0, 1, 1, 1, 1, 1, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0}
+        };
+
+        this.controller.getModel().getBoard().setPattern(new JsonBoardPattern(3, pattern));
+        this.controller.getModel().getBoard().removeTiles(new ArrayList<>(Arrays.asList(
+                new Coordinates(3, 0),
+                new Coordinates(3, 1),
+                new Coordinates(4, 1),
+                new Coordinates(2, 2),
+                new Coordinates(3, 2),
+                //new Coordinates(4, 2),
+                new Coordinates(5, 2),
+                new Coordinates(6, 2),
+                new Coordinates(2, 3),
+                new Coordinates(3, 3),
+                new Coordinates(4, 3),
+                //new Coordinates(5, 3),
+                new Coordinates(6, 3),
+                new Coordinates(7, 3),
+                new Coordinates(8, 3),
+                new Coordinates(1, 4),
+                new Coordinates(2, 4),
+                new Coordinates(3, 4),
+                new Coordinates(4, 4),
+                new Coordinates(5, 4),
+                new Coordinates(6, 4),
+                //new Coordinates(7, 4),
+                new Coordinates(0, 5),
+                new Coordinates(1, 5),
+                new Coordinates(2, 5),
+                new Coordinates(3, 5),
+                new Coordinates(4, 5),
+                new Coordinates(5, 5),
+                new Coordinates(6, 5),
+                new Coordinates(2, 6),
+                new Coordinates(3, 6),
+                new Coordinates(4, 6),
+                new Coordinates(5, 6),
+                new Coordinates(6, 6),
+                new Coordinates(4, 7),
+                new Coordinates(5, 7),
+                new Coordinates(5, 8)
+        )));
         this.state.changeTurn();
     }
 

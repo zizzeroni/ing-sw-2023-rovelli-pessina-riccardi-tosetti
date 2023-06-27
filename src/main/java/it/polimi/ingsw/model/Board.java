@@ -113,7 +113,7 @@ public class Board {
     }
 
     /**
-     * The method searches in the board for "lonely" {@code Tile}s (whitout any nearby, adjacent tiles).
+     * The method searches in the board for "lonely" {@code Tile}s (without any nearby, adjacent tiles).
      *
      * @return if 2 or more nearby tiles are found, returns '0',
      *          otherwise returns the number of "lonely" tiles.
