@@ -40,7 +40,7 @@ public class AppServer {
      * Starts the Thread that will take care of initializing Socket connection.
      *
      * @param args the main's arguments.
-     * @throws RemoteException
+     * @throws RemoteException called when connection error occurs.
      *
      * @see Server
      * @see javax.management.remote.rmi.RMIConnection
@@ -145,6 +145,10 @@ public class AppServer {
         }
     }
 
+    /**
+     * @return
+     * @throws RemoteException
+     */
     private static String getFirstUpNetworkInterface() throws RemoteException {
         //TODO: Da verificarne funzionamento
         Random rand = new Random();

@@ -46,18 +46,28 @@ public class EightShapelessPatternGoal extends CommonGoal {
      *
      * Class constructor with parameters.
      * Builds a EightShapelessPatternGoal with specific type, ID ...
-     * (numberOfPlayers and commonGoalID are also considered).
+     * (numberOfPlayers is also considered).
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
      */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
 
+    /**
+     *
+     * Class constructor with parameters.
+     * Builds a EightShapelessPatternGoal with specific type, ID ...
+     * (scoreTiles list is also considered).
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles  list of current score tiles.
+     */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
@@ -65,15 +75,9 @@ public class EightShapelessPatternGoal extends CommonGoal {
     /**
     * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
      *<p>
-     * Transforms the bookshelf in a Stream of tiles' ARRAYS.<p>
-     * Transforms the ARRAY of tiles Stream into a Stream of ONLY tiles.<p>
-     * Filters them, removing all elements equals to NULL (which can't be regrouped after).<p>
-     * Regroups the tiles with "groupingBy" into a Map<TileColor, numberOfOccurences>, where uses the TileColor key specifying "Tile::GetColor", for the values instead it uses the "counting()" method.<p>
-     * Transforms the Map into a Set and then into a Stream.<p>
-     * Filters the Stream keeping only the Colors to which are associated more than 7 tiles and then counts them.
      *
-    * @param bookshelf contains the {@code Bookshelf} of the {@code Player}.
-    * @return {@code true} if and only if 8 tiles of the same colour are found, otherwise returns {@code false}.
+    * @param bookshelf the {@code Bookshelf} of the {@code Player}.
+    * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.Board
      * @see it.polimi.ingsw.model.Player

@@ -10,12 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * This class implements the {@code CommonGoalView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code CommonGoal}s various views,
- * and are sensible to any inherent modification.
- * Also, the class contains a series of getters to access the goals, their linked tiles pattern, the number of repetitions associated to the goal {@code Tile}s
- * and a series of other related relevant informations.
+ * This class represents the CommonGoal's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
  * @see CommonGoal
  * @see it.polimi.ingsw.model.tile.Tile

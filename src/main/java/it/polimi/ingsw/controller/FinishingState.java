@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +52,7 @@ public class FinishingState extends ControllerState {
             }
             changeActivePlayer();
         }
-        this.controller.getModel().saveGame();
+        this.controller.getModel().saveGame(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
     }
 
     /**
@@ -304,10 +305,7 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
-    /**
-     * In this implementation it is referred to the FINISHING state.
-     * It falls unused.
-     */
+
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
@@ -315,8 +313,12 @@ public class FinishingState extends ControllerState {
         //Game is finishing, so do nothing...
     }
 
+    /**
+     * In this implementation it is referred to the FINISHING state.
+     * It falls unused.
+     */
     @Override
-    public void startGame() {
+    public void startGame(int numberOfCommonGoalCards) {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
@@ -343,7 +345,7 @@ public class FinishingState extends ControllerState {
     }
 
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...

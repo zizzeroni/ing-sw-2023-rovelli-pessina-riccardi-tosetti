@@ -56,7 +56,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
     /**
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
-     * (numberOfPlayers and commonGoalID are also considered in this version).
+     * (numberOfPlayers is also considered in this version).
      *
      * @param id the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
@@ -64,7 +64,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @param direction contains the directions that can be used in this pattern.
      * @param maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row.
      * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal
      */
     public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, Direction direction, int maxEqualsTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
@@ -72,6 +71,17 @@ public class MinEqualsTilesPattern extends CommonGoal {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
+    /**
+     * Class constructor with parameters.
+     * Builds an MinEqualsTilesPattern with a specified type, ID, ...
+     *
+     * @param id the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param direction contains the directions that can be used in this pattern.
+     * @param maxEqualsTiles contains the maximum number of tiles that can be the same in a column/row.
+     * @param scoreTiles number of active players.
+     */
     public MinEqualsTilesPattern(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, Direction direction, int maxEqualsTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
         this.direction = direction;
@@ -114,7 +124,6 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * with the maximum number of equal tiles.
      *
      * @param bookshelf is the selected {@code Bookshelf}.
-     * @return the number of rows or column that respect the maxEquals
      * @return the number of times the current pattern occurs in the {@code Bookshelf}.
      *
      * @see Bookshelf

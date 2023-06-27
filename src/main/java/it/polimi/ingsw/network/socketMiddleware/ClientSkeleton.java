@@ -18,6 +18,7 @@ import java.rmi.RemoteException;
  * This class represents the {@code Client}'s skeleton, it is necessary for the correct functioning of the {@code Server}
  * It contains for pinging the client, updating the model view, receiving exceptions, ...
  * and also displaying modifies to the current client's implementation.
+ * It implements the client-server communication using sockets.
  *
  * @see Client
  * @see javax.swing.text.View
@@ -31,9 +32,9 @@ public class ClientSkeleton implements Client {
 
     /**
      * The class constructor.
-     * Initialize the client's socket.
+     * Initialize the socket used by the server to communicate with the client.
      *
-     * @param socket is the client's socket.
+     * @param socket is the server's socket.
      * @throws RemoteException to signal the occurrence of a resource error on input or output streams.
      *
      * @see Client
@@ -89,9 +90,9 @@ public class ClientSkeleton implements Client {
     }
 
     /**
-     * Used to receive a generic exception in order to handle it.
+     * Used by the server to communicate a generic exception.
      *
-     * @param exception the GENERIC except being received.
+     * @param exception the GENERIC except to be sent.
      * @throws RemoteException called when a communication error with the client occurs.
      *
      * @see Client
@@ -107,6 +108,13 @@ public class ClientSkeleton implements Client {
         }
     }
 
+    /**
+     * Setter used to provide knowledge on the stored game's for the player reconnecting to the current's game server.
+     *
+     * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     @Override
     public synchronized void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
@@ -119,7 +127,7 @@ public class ClientSkeleton implements Client {
     }
 
     /**
-     * Receives (and provides a response) to server's messages.
+     * Receives (and provides a response) to client's messages.
      *
      * @param server is the server communicating to.
      * @throws RemoteException called when the server's message can't be cast or received.

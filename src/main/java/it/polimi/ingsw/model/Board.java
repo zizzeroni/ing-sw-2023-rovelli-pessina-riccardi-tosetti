@@ -7,12 +7,13 @@ import java.util.List;
 
 /**
  * This class represents the {@code Board} on which the {@code Game}'s {@code Tile}s are disposed.
- * It may vary in its size and form depending on the number of {@code Player}s that will
+ * It may vary in its size and form, depending on the number of {@code Player}s that will
  * be registered in the lobby when the game starts.
  *
  *
  * @see Game
  * @see Board
+ * @see Player
  * @see Tile
  */
 public class Board {
@@ -34,6 +35,12 @@ public class Board {
         this.listener = listener;
     }
 
+    /**
+     * Removes the {@code BoardListener} from the Board.
+     *
+     * @see BoardListener
+     * @see java.net.http.WebSocket.Listener
+     */
     public void removeListener() {
         this.listener = null;
     }
@@ -69,7 +76,7 @@ public class Board {
      * Initializes the number of usable tiles and the set of tiles that can ben placed on the Board.
      *
      * @param numberOfUsableTiles number of {@code Tile}s that are usable, set during the {@code Game}'s creation.
-     * @param tiles
+     * @param tiles are the considered tiles.
      *
      * @see Tile
      * @see Game

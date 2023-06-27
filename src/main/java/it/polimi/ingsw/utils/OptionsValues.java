@@ -5,6 +5,7 @@ public class OptionsValues {
     public static final int MIN_NUMBER_OF_PLAYERS_TO_START_GAME = 0;
     public static final int MAX_NUMBER_OF_PLAYERS_TO_START_GAME = 4;
     public static final int NUMBER_OF_COMMON_GOAL = 2;
+    public static final int NUMBER_OF_COMMON_GOAL_CARDS = 12;
     public static final int MIN_SELECTABLE_NUMBER_OF_PLAYERS = 2;
     public static final int MAX_SELECTABLE_NUMBER_OF_PLAYERS = 4;
     public static final int NUMBER_OF_PERSONAL_GOALS = 12;
@@ -27,4 +28,6 @@ public class OptionsValues {
     public static final int MILLISECOND_PING_TO_SERVER_PERIOD = 3000;
     public static final String SERVER_RMI_NAME = "server";
     public static final int SOCKET_PORT = 1234;
+    public static final String GAMES_STORAGE_DEFAULT_PATH = "src/main/resources/storage/games.json";
+    public static final String GAMES_STORAGE_BACKUP_DEFAULT_PATH = "src/main/resources/storage/games-bkp.json";
 }

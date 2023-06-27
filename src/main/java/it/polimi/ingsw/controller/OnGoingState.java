@@ -42,7 +42,7 @@ public class OnGoingState extends ControllerState {
             this.refillBoard();
         }
         changeActivePlayer();
-        this.controller.getModel().saveGame();
+        this.controller.getModel().saveGame(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
     }
 
     /**
@@ -340,7 +340,7 @@ public class OnGoingState extends ControllerState {
      * It falls unused.
      */
     @Override
-    public void startGame() {
+    public void startGame(int numberOfCommonGoalCards) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
@@ -374,7 +374,7 @@ public class OnGoingState extends ControllerState {
     }
 
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...

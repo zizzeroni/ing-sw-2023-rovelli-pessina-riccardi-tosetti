@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -42,9 +43,12 @@ public class GameController {
     private final Random randomizer = new Random();
 
     /**
+     * Class constructor.
+     * Used to associate the game's controller with the game's model.
      *
+     * @param model is the model class used to represent the main elements of the active game.
      *
-     * @param model
+     * @see Game
      */
     public GameController(Game model) {
         this.model = model;
@@ -173,8 +177,12 @@ public class GameController {
         state.addPlayer(nickname);
     }
 
-    /*
-     * TODO
+
+    /**
+     * Signals that an attempt of resuming the game is in progress,
+     * modifying the related state.
+     *
+     * @see Game
      */
     public void tryToResumeGame() {
         state.tryToResumeGame();
@@ -230,7 +238,7 @@ public class GameController {
      * @see Board#numberOfTilesToRefill()
      */
     public void startGame() {
-        state.startGame();
+        state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
     }
 
     /*
@@ -354,10 +362,9 @@ public class GameController {
      *
      * @return if there are stored games.
      */
-    public boolean areThereStoredGamesForPlayer(String playerNickname) {
-        String gamesPath = "src/main/resources/storage/games.json";
+    public boolean areThereStoredGamesForPlayer(String playerNickname, String gamesPath) {
         this.model.createGameFileIfNotExist(gamesPath);
-        Game[] games = this.getStoredGamesFromJson();
+        Game[] games = this.getStoredGamesFromJson(gamesPath);
 
         if (games == null || games.length == 0) return false;
 
@@ -372,12 +379,11 @@ public class GameController {
      *
      * @return all stored games.
      */
-    private Game[] getStoredGamesFromJson() {
+    private Game[] getStoredGamesFromJson(String gamesStoragePath) {
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
         Gson gson = gsonBuilder.create();
         Reader fileReader;
-        String gamesPath = "src/main/resources/storage/games.json";
-        Path source = Paths.get(gamesPath);
+        Path source = Paths.get(gamesStoragePath);
         Game[] games;
 
         try {
@@ -411,9 +417,15 @@ public class GameController {
     }
 
     /**
-     * Method to restore stored games.
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param playerNickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
      */
-    public void restoreGameForPlayer(GameListener server, String playerNickname) {
-        state.restoreGameForPlayer(server, playerNickname);
+    public void restoreGameForPlayer(GameListener server, String playerNickname, String gamesStoragePath) {
+        state.restoreGameForPlayer(server, playerNickname, gamesStoragePath);
     }
 }

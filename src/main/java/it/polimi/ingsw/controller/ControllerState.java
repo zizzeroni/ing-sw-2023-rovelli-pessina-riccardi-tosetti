@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
@@ -95,12 +97,12 @@ public abstract class ControllerState {
     public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 
     /**
-     * TODO
+     * This method tries to resume the current's game when possible.
      */
     public abstract void tryToResumeGame();
 
     /**
-     * Permits to set the number of active players in the current {@code Game}.
+     * Set the number of active players in the current {@code Game}.
      * Used during the creation state.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
@@ -110,17 +112,26 @@ public abstract class ControllerState {
      */
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 
+    /**
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players.
+     *
+     * @param chosenNumberOfPlayers is the current number of players.
+     * @throws ExcessOfPlayersException signals an excess in the player's number.
+     * @throws WrongInputDataException occurs when data has not been entered correctly.
+     *
+     * @see Player
+     */
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     /**
      * The implementation of this method (in the {@code CreationState})
      * controls that all the necessary preparing has been done due to initiating the {@code Game}.
      *
-     * @see CreationState#startGame()
-     * @see FinishingState#startGame()
-     * @see OnGoingState#startGame()
+     * @see CreationState#startGame(int numberOfCommonGoalCards)
+     * @see FinishingState#startGame(int numberOfCommonGoalCards)
+     * @see OnGoingState#startGame(int numberOfCommonGoalCards)
      */
-    public abstract void startGame();
+    public abstract void startGame(int numberOfCommonGoalCards);
 
     /**
      * The implementation of this method in the different states
@@ -134,5 +145,15 @@ public abstract class ControllerState {
      */
     public abstract void disconnectPlayer(String nickname);
 
-    public abstract void restoreGameForPlayer(GameListener server, String nickname);
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param nickname the given player's nickname.
+     * @param gamesStoragePath the path where are stored the games.
+     *
+     * @see Player
+     * @see Game
+     */
+    public abstract void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath);
 }
