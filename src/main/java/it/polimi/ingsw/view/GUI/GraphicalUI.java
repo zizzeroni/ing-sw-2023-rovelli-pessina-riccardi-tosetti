@@ -263,7 +263,7 @@ public class GraphicalUI extends Application implements UI {
             this.genericUILogic.getController().addPlayer(nickname);
 
             if (this.genericUILogic.getExceptionToHandle() != null) {
-                loginController.nicknameAlreadyUsed();
+                loginController.nicknameException(this.genericUILogic.getExceptionToHandle().toEnum());
                 return;
             }
             boolean askNumberOfPlayer = this.genericUILogic.getModel().getPlayers().size() == 1;
