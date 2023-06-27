@@ -26,6 +26,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -325,15 +326,16 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
-            if(!activePlayer.equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()))){
+            if(!activePlayer.getNickname().equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname())){
                 mainSceneController.lockAllTiles();
+                mainSceneController.lockAllTilesAfterPick();
             }
 
             mainSceneController.setGameOn(true);
             mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-                waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
+                waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER,ClientGameState.WAITING_FOR_RESUME));
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
                 showNewTurnIntro();
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
@@ -385,29 +387,66 @@ public class GraphicalUI extends Application implements UI {
         th.start();
     }
 
-    public void waitWhileInState(ClientGameState state) {
+    private void waitWhileInStates(List<ClientGameState> gameStates) {
         synchronized (this.genericUILogic.getLockState()) {
-            switch (state) {
-                //Questo non dovrebbe più servire
+            switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
-                    System.out.println("Waiting...");
                 }
                 case WAITING_FOR_OTHER_PLAYER -> {
-                    System.out.println("Waiting for others player moves...");
-                    //mainSceneController.updateChat();
                     mainSceneController.lockAllTiles();
                 }
+                case WAITING_FOR_RESUME -> {
+                    System.out.println("CIAO");
+                    this.mainSceneController.startCensure();
+                }
+                case GAME_ONGOING -> {
+                    this.mainSceneController.endCensure();
+                }
             }
-            while (genericUILogic.getState() == state) {
+            boolean firstTime = true;
+            while (gameStates.contains(genericUILogic.getState())) {
                 showUpdateFromOtherPlayer();
                 try {
                     genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME){
+                    if (firstTime) {
+                        firstTime = false;
+                        this.mainSceneController.startCensure();
+                    }else {
+                        if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
+                            this.mainSceneController.endCensure();
+                            firstTime = true;
+                        } else {
+                            this.mainSceneController.endCensure();
+                        }
+                    }
+                }
             }
         }
     }
+
+//    public void waitWhileInState(ClientGameState state) {
+//        synchronized (this.genericUILogic.getLockState()) {
+//            switch (state) {
+//                case WAITING_IN_LOBBY -> {
+//                }
+//                case WAITING_FOR_OTHER_PLAYER -> {
+//                    mainSceneController.lockAllTiles();
+//                }
+//            }
+//            while (genericUILogic.getState() == state) {
+//                showUpdateFromOtherPlayer();
+//                try {
+//                    genericUILogic.getLockState().wait();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Sets the number of players for the current Game.
