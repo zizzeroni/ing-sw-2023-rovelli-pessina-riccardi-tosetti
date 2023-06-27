@@ -20,7 +20,6 @@ import java.util.TimerTask;
  */
 public class InPauseState extends ControllerState {
     private final Timer timer = new Timer();
-    //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
     private boolean gameResumed;
 
     /**

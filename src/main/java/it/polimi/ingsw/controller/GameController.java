@@ -279,7 +279,6 @@ public class GameController {
 
     public void setModel(Game model) {
         this.model = model;
-        //this.listener.gameRestored();
     }
 
     /**

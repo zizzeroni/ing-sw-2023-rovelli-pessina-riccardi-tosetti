@@ -207,7 +207,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         //Necessary because with the socket connection, in case the addPlayer method threw an exception I still need to execute the tryToResumeGame otherwise i get stuck in the semaphore wait.
         //Wouldn't be necessary for RMI because once the methods calling reach the notification method (gameStateChanged in this case) it will throw an exception and simply return. Socket
         //don't do this on his own.
-        //TODO: Verificare se esiste una soluzione migliore
         Optional<String> nullNickname = Optional.empty();
         this.clientsToHandle.values().removeAll(Collections.singleton(nullNickname));
     }
