@@ -7,6 +7,7 @@ import it.polimi.ingsw.utils.OptionsValues;
 import java.io.Serializable;
 
 /**
+ *
  * This class implements the {@code PersonalGoalView} through the {@code Serializable} interface.
  * All the {@code Player}s always access only the implementation of the {@code View} of their {@code PersonalGoal}s,
  * and are sensible to the inherent modifies.
@@ -29,7 +30,9 @@ public class PersonalGoalView implements Serializable {
      * with the linked logic in the {@code personalGoalModel} (passed as parameter).
      *
      * @param personalGoalModel the model of the considered {@code PersonalGoal}.
+     *
      * @see PersonalGoal
+     *
      */
     public PersonalGoalView(PersonalGoal personalGoalModel) {
         this.numberOfColumns = personalGoalModel.getNumberOfColumns();
@@ -55,6 +58,7 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of columns.
+     *
      * @see Bookshelf
      */
     public int getNumColumns() {
@@ -66,6 +70,7 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of rows.
+     *
      * @see Bookshelf
      */
     public int getNumRows() {
@@ -76,6 +81,7 @@ public class PersonalGoalView implements Serializable {
      * Getter to access the pattern (the one linked to the current {@code PersonalGoal}).
      *
      * @return the current personal goal's pattern.
+     *
      * @see PersonalGoal
      */
     public TileView[][] getPattern() {
@@ -86,9 +92,10 @@ public class PersonalGoalView implements Serializable {
      * Used to access the value of a specified {@code Tile} in the {@code Bookshelf}.
      * The one at the given coordinates.
      *
-     * @param row    is the first bookshelf's coordinate.
+     * @param row is the first bookshelf's coordinate.
      * @param column is the second bookshelf's coordinate
      * @return the tile at the given coordinates.
+     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -102,6 +109,7 @@ public class PersonalGoalView implements Serializable {
      * of the active {@code Player}s.
      *
      * @return a string representing the display of the PersonalGoal.
+     *
      * @see it.polimi.ingsw.model.Game
      * @see PersonalGoal
      * @see it.polimi.ingsw.model.Player
@@ -130,6 +138,7 @@ public class PersonalGoalView implements Serializable {
      *
      * @param bookshelf the bookshelf of the considered player.
      * @return the current score.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Bookshelf
@@ -169,6 +178,7 @@ public class PersonalGoalView implements Serializable {
      *
      * @param bookshelf
      * @return
+     *
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Player
      */

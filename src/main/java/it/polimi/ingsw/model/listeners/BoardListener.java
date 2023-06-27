@@ -17,6 +17,7 @@ public interface BoardListener {
      * Notifies when tiles are added to the {@code Board} passed as parameter.
      *
      * @param board the tiles are added on this board.
+     *
      * @see Board
      */
     public void addedTilesToBoard(Board board);
@@ -25,6 +26,7 @@ public interface BoardListener {
      * Notifies when tiles are removed from the {@code Board} passed as parameter.
      *
      * @param board the tiles are removed from this board.
+     *
      * @see Board
      */
     public void removedTilesFromBoard(Board board);

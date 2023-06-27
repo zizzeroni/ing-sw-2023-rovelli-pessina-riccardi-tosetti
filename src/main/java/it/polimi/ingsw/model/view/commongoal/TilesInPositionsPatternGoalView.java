@@ -16,8 +16,6 @@ import java.util.List;
  *
  * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
  */
-
-
 public class TilesInPositionsPatternGoalView extends CommonGoalView {
     private final List<List<Integer>> positions;
 
@@ -26,7 +24,7 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
      *
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
-     *                        in order to make possible the construction of the class object.
+     *                         in order to make possible the construction of the class object.
      */
     public TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal commonGoalModel) {
         super(commonGoalModel);
@@ -37,7 +35,8 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      * Getter for identifying pattern's tiles positions.
      *
      * @return A matrix, linked to the particular class pattern, that contains 1
-     * in positions where there must be same colour tiles, otherwise 0.
+     *          in positions where there must be same colour tiles, otherwise 0.
+     *
      * @see TilesInPositionsPatternGoalView
      */
     public List<List<Integer>> getPositions() {
@@ -49,7 +48,8 @@ public class TilesInPositionsPatternGoalView extends CommonGoalView {
      * during the {@code Game} (those that produced a {@code TilesInPositionsPatternGoal}).
      *
      * @return a text message associated to the various combinations of tiles associated
-     * that may satisfy the conditions to verify the TilesInPositionsPatternGoal.
+     *          that may satisfy the conditions to verify the TilesInPositionsPatternGoal.
+     *
      * @see it.polimi.ingsw.model.commongoal.TilesInPositionsPatternGoal
      */
     @Override

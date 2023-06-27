@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.*;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
+import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
@@ -25,6 +26,7 @@ import java.util.*;
  * different useful information such as the number of the active players,
  * their present state (connected or not) and other methods linked to game,
  * turn and players management.
+ *
  */
 public class CreationState extends ControllerState {
 
@@ -40,6 +42,8 @@ public class CreationState extends ControllerState {
      */
     @Override
     public void changeTurn() {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
@@ -49,11 +53,14 @@ public class CreationState extends ControllerState {
      *
      * @param playerChoice the {@code Choice} made by the {@code Player}
      *                     (as a selection of multiple tiles).
+     *
      * @see Game
      * @see Choice
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
@@ -64,8 +71,9 @@ public class CreationState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender   the {@code Player} sending the message.
-     * @param content  the text of the message being sent.
+     * @param sender the {@code Player} sending the message.
+     * @param content the text of the message being sent.
+     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -88,8 +96,9 @@ public class CreationState extends ControllerState {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender  the {@code Player} sending the message.
+     * @param sender the {@code Player} sending the message.
      * @param content the text of the message being sent.
+     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -114,11 +123,12 @@ public class CreationState extends ControllerState {
      * The method also sets the connection state of any given {@code Player} to {@code true}.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
+     *
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
      */
     @Override
-    public void addPlayer(String nickname) /*throws LobbyIsFullException*/ {
+    public void addPlayer(String nickname) throws LobbyIsFullException {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
@@ -128,13 +138,15 @@ public class CreationState extends ControllerState {
                 && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
             this.controller.getModel().addPlayer(newPlayer);
         } else {
-            //throw new LobbyIsFullException("Cannot access a game: Lobby is full");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full");
         }
     }
 
     @Override
     public void tryToResumeGame() {
+        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is in creation phase, so do nothing...
     }
 
     /**
@@ -194,11 +206,11 @@ public class CreationState extends ControllerState {
         }
     }
 
-    /**
-     * Disconnects the selected {@code Player} from the {@code Game}.
+    /** Disconnects the selected {@code Player} from the {@code Game}.
      * (only possible when the {@code Game} has already started).
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
+     *
      * @see Game
      * @see Player
      * @see Game#getPlayerFromNickname
@@ -215,8 +227,10 @@ public class CreationState extends ControllerState {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
+     *
      * @see Game
      * @see Game#getPlayers()
+     *
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
@@ -240,7 +254,8 @@ public class CreationState extends ControllerState {
      *
      * @return the {@code CommonGoal} object being randomly generated
      * @throws Exception signals if generation cannot be provided due to an error
-     *                   linked to class instantiation
+     * linked to class instantiation
+     *
      * @see CommonGoal
      * @see Game#getNumberOfPlayersToStartGame()
      */
@@ -249,7 +264,7 @@ public class CreationState extends ControllerState {
 
         switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
             case 0 -> {
-                return new TilesInPositionsPatternGoal(1, 1, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
+                return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
                         new ArrayList<>(Arrays.asList(1, 1)),
                         new ArrayList<>(Arrays.asList(1, 1))
                 )));
@@ -371,6 +386,7 @@ public class CreationState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the {@code IN_CREATION} state of the {@code Game}.
+     *
      * @see GameState#IN_CREATION
      */
     public static GameState toEnum() {

@@ -33,10 +33,10 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Class constructor with parameters.
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      *
-     * @param id           the image assigned to the card.
+     * @param id the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type              the type of check that has to be done on the considered common goal's card.
-     * @param positions         the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     * @param type the type of check that has to be done on the considered common goal's card.
+     * @param positions the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
     public TilesInPositionsPatternGoal(int id, int patternRepetition, CheckType type, List<List<Integer>> positions) {
         super(id, patternRepetition, type);
@@ -95,13 +95,13 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * for every not null tile it assigns a 1 in the support matrix ( 0 for the nulls).
      * Starting from the first not null {@code Tile}, assigns in the support matrix in the position of the tile the group 2
      * then searches if the nearby tiles are of the same colour and, if it results true, assigns the same group of the first tile.
-     * <p>
+     *
      * In the second part we count the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
      *
      * @param bookshelf is the selected {@code Bookshelf}.
-     * @return generalCounter contains the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
      * @return the number of repetitions of the TilesInPositionsPatternGoal.
-     * @params bookshelf contains the bookshelf of the player.
+     * @return generalCounter contains the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
+     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.view.PlayerView
      * @see it.polimi.ingsw.model.tile.Tile
@@ -170,12 +170,13 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Also, a support matrix is used when necessary to keep track of the current group of tiles,
      * each group is distinguished for both number of tiles and color.
      *
-     * @param bookshelf        the bookshelf of the current active player.
-     * @param supportMatrix    the matrix used as a support during the algorithm's unfolding.
-     * @param row              the current row.
-     * @param column           the current column.
-     * @param group            the group assigned to the current set of tiles.
+     * @param bookshelf the bookshelf of the current active player.
+     * @param supportMatrix the matrix used as a support during the algorithm's unfolding.
+     * @param row the current row.
+     * @param column the current column.
+     * @param group the group assigned to the current set of tiles.
      * @param currentTileColor the color of the actual group of tiles.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
      */
@@ -215,6 +216,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
      * @return an immutable copy of the TilesInPositionsPatternGoalView.
+     *
      * @see CommonGoal
      */
     @Override

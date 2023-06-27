@@ -41,6 +41,7 @@ public class AppServer {
      *
      * @param args the main's arguments.
      * @throws RemoteException
+     *
      * @see Server
      * @see javax.management.remote.rmi.RMIConnection
      * @see Socket
@@ -122,6 +123,7 @@ public class AppServer {
      *
      * @param server the server involved in the socket service creation.
      * @throws RemoteException called if a communication error with the server occurs.
+     *
      * @see it.polimi.ingsw.network.Client
      * @see Server
      * @see Thread
@@ -133,6 +135,7 @@ public class AppServer {
             while (true) {
                 //Waiting for a connection request from a client
                 Socket socket = serverSocket.accept();
+                socket.setTcpNoDelay(true);
 
                 //Let handle the client to another Thread, letting this thread to take care of new Client's connection requests
                 executorService.submit(new SingleClientHandler(server, socket));

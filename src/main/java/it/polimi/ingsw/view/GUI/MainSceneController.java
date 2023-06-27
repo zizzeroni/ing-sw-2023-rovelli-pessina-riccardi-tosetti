@@ -91,8 +91,8 @@ public class MainSceneController implements Initializable {
         selectedColumn = "";
         Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
         Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
-        commonGoal2.setImage(firstCommonGoalImage);
-        commonGoal1.setImage(secondCommonGoalImage);
+        commonGoal1.setImage(firstCommonGoalImage);
+        commonGoal2.setImage(secondCommonGoalImage);
 
         Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
         personalGoal.setImage(personalGoalImage);
@@ -1106,9 +1106,11 @@ public class MainSceneController implements Initializable {
     }
 
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
+        //I take the number of score tiles remaining for both common goals
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
         int numberOfScoreTiles2 = commonGoals.get(1).getScoreTiles().size();
         if (numberOfScoreTiles1 != 0) {
+            //I take the value of the first score tile of the first commonGoal
             int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->

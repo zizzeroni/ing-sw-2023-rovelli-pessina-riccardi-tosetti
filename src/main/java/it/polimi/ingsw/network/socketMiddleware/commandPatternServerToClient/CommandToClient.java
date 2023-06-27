@@ -43,6 +43,7 @@ public interface CommandToClient extends Serializable {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the command.
+     *
      * @see CommandType
      */
     public CommandType toEnum();

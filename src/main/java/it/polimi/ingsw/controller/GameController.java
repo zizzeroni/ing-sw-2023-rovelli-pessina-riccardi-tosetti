@@ -42,6 +42,8 @@ public class GameController {
     private final Random randomizer = new Random();
 
     /**
+     *
+     *
      * @param model
      */
     public GameController(Game model) {
@@ -72,6 +74,7 @@ public class GameController {
      * A setter employed to change the current state of the {@Game}
      *
      * @param state is the current state to be setted.
+     *
      * @see GameState
      */
     public void changeState(ControllerState state) {
@@ -82,6 +85,7 @@ public class GameController {
      * A getter which returns the current state of the {@code Game}.
      *
      * @return the game's current state.
+     *
      * @see Game
      */
     public ControllerState getState() {
@@ -101,10 +105,12 @@ public class GameController {
      * the controller linked to the actual state.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player} in the current selection.
-     * @throws TODO
+     *
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
+     * 
+     * @throws WrongInputDataException when input data is not valid.
      */
     public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         state.insertUserInputIntoModel(playerChoice);
@@ -117,8 +123,9 @@ public class GameController {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender   the {@code Player} sending the message.
-     * @param content  the text of the message being sent.
+     * @param sender the {@code Player} sending the message.
+     * @param content the text of the message being sent.
+     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -133,8 +140,9 @@ public class GameController {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender  the {@code Player} sending the message.
+     * @param sender the {@code Player} sending the message.
      * @param content the text of the message being sent.
+     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -155,9 +163,11 @@ public class GameController {
      * The method also sets the connection state of any given {@code Player} to {@code true}.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
-     * @throws TODO
+     *
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
+     * 
+     * @throws LobbyIsFullException when lobby is full of players or the given nickname is not in the allowed ones.
      */
     public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
@@ -175,10 +185,11 @@ public class GameController {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
+     *
      * @see Game
      * @see Game#getPlayers()
+     *
      */
-
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
     }
@@ -201,6 +212,23 @@ public class GameController {
      * @see Board#numberOfTilesToRefill()
      */
 
+    /**
+     * The method starts verifying  if the {@code Game} creation has occurred properly,
+     * confronting the number of active players registered during the previous phase with
+     * that stored in the {@code Model}.
+     * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
+     * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
+     * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
+     *
+     * @see Game
+     * @see Player
+     * @see ScoreTile
+     * @see CommonGoal
+     * @see Game#getNumberOfPlayersToStartGame()
+     * @see Game#getPlayers()
+     * @see Board#setPattern(JsonBoardPattern)
+     * @see Board#numberOfTilesToRefill()
+     */
     public void startGame() {
         state.startGame();
     }
@@ -230,11 +258,11 @@ public class GameController {
 
 
     //------------------------------------UTILITY METHODS------------------------------------
-
     /**
      * Getter used to retrieve the {@code Game} model.
      *
      * @return the model of the game created.
+     *
      * @see Game
      */
     public Game getModel() {
@@ -250,6 +278,7 @@ public class GameController {
      * Getter used to retrieve the number of {@code Player}s in the {@code Game}.
      *
      * @return the number of active players for the current game.
+     *
      * @see Player
      * @see Game
      */
@@ -260,8 +289,10 @@ public class GameController {
     /**
      * Getter used to access the {@code PersonalGoal} assigned to a {@code Player}.
      *
+     *
      * @param index is the identifier of the goal.
      * @return the player's indexed personalGoal.
+     *
      * @see PersonalGoal
      */
     public PersonalGoal getPersonalGoal(int index) {
@@ -300,6 +331,7 @@ public class GameController {
      * Getter to access the {@code Board}'s patterns of tiles (stored in a json file).
      *
      * @return the list of possible identified patterns
+     *
      * @see GameController#boardPatterns
      */
     public List<JsonBoardPattern> getBoardPatterns() {
@@ -310,6 +342,7 @@ public class GameController {
      * This method is used to access the randomizer used to shuffle the {@code personalGoalsDeck}.
      *
      * @return the randomizer used for shuffling.
+     *
      * @see GameController#personalGoalsDeck
      */
     public Random getRandomizer() {

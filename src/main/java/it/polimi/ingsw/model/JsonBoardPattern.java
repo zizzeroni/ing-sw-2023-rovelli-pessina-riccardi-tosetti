@@ -5,7 +5,8 @@ package it.polimi.ingsw.model;
  * depending on the number of {@code Player}s.
  *
  * @param numberOfPlayers the number of participants in the active {@code Game}.
- * @param pattern         the identified {@code Board}'s pattern, based on the number of active players entered when the game started.
+ * @param pattern the identified {@code Board}'s pattern, based on the number of active players entered when the game started.
+ *
  * @see Board
  * @see Game
  * @see Player

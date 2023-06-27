@@ -27,7 +27,7 @@ public class SendPingToClientCommand implements CommandToClient {
 
     /**
      * Class constructor.
-     * <p>
+     *
      * Initialize the command's actuator to its default value (null).
      */
     public SendPingToClientCommand() {
@@ -38,6 +38,7 @@ public class SendPingToClientCommand implements CommandToClient {
      * Gets the client's ping sending command's actuator.
      *
      * @return the actuator of the client's ping sending command.
+     *
      * @see Client
      */
     @Override
@@ -49,6 +50,7 @@ public class SendPingToClientCommand implements CommandToClient {
      * Sets the client's ping sending command's actuator.
      *
      * @param actuator the actuator of the client's ping sending command.
+     *
      * @see Client
      */
     @Override
@@ -61,6 +63,7 @@ public class SendPingToClientCommand implements CommandToClient {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
+     *
      * @see Client
      */
     public void execute() throws NullPointerException, RemoteException {
@@ -75,6 +78,7 @@ public class SendPingToClientCommand implements CommandToClient {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the client's ping sending command.
+     *
      * @see CommandType
      * @see it.polimi.ingsw.network.ClientImpl
      * @see Client
@@ -88,6 +92,7 @@ public class SendPingToClientCommand implements CommandToClient {
      * Displays the type of command being executed altogether with the command receiver and command's parameters.
      *
      * @return the string representing the class command.
+     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

@@ -34,7 +34,7 @@ public class Player {
     /**
      * Class constructor.
      *
-     * @param nickname  player's nickname.
+     * @param nickname player's nickname.
      * @param connected indicates the status of player's connection.
      */
     //Constructors
@@ -51,8 +51,8 @@ public class Player {
     /**
      * Class constructor.
      *
-     * @param nickname   player's nickname.
-     * @param connected  indicates the status of player's connection.
+     * @param nickname player's nickname.
+     * @param connected indicates the status of player's connection.
      * @param scoreTiles the player's list of scoreTiles
      */
     public Player(String nickname, boolean connected, List<ScoreTile> scoreTiles) {
@@ -68,10 +68,11 @@ public class Player {
     /**
      * Class constructor.
      *
-     * @param nickname   player's nickname.
-     * @param connected  indicates the status of player's connection.
+     * @param nickname player's nickname.
+     * @param connected indicates the status of player's connection.
      * @param scoreTiles the player's list of {@code ScoreTile}s.
-     * @param bookshelf  the player's {@code Bookshelf}.
+     * @param bookshelf the player's {@code Bookshelf}.
+     *
      * @see Bookshelf
      * @see ScoreTile
      */
@@ -89,11 +90,12 @@ public class Player {
      * Class constructor.
      * In this implementation all the possible player's parameter are used.
      *
-     * @param nickname     player's nickname.
-     * @param connected    indicates the status of player's connection.
-     * @param scoreTiles   the player's list of {@code ScoreTile}s.
-     * @param bookshelf    the player's {@code Bookshelf}.
+     * @param nickname player's nickname.
+     * @param connected indicates the status of player's connection.
+     * @param scoreTiles the player's list of {@code ScoreTile}s.
+     * @param bookshelf the player's {@code Bookshelf}.
      * @param personalGoal the player's {@code PersonalGoal}.
+     *
      * @see Bookshelf
      * @see ScoreTile
      * @see PersonalGoal
@@ -112,9 +114,10 @@ public class Player {
      * Registers the {@code PlayerListener} on the PLayer.
      *
      * @param listener the listener that will register on the {@code Player}.
+     *
      * @see PlayerListener
      * @see java.net.http.WebSocket.Listener
-     * @see Player
+     * @see  Player
      * @see java.net.http.WebSocket.Listener
      */
     public void registerListener(PlayerListener listener) {
@@ -134,6 +137,7 @@ public class Player {
      * Getter to retrieve the player's personal goal.
      *
      * @return the player's {@code PersonalGoal}.
+     *
      * @see PersonalGoal
      */
     //Getter and Setter
@@ -145,6 +149,7 @@ public class Player {
      * Sets the player's personal goal.
      *
      * @param personalGoal the player's {@code PersonalGoal}.
+     *
      * @see PersonalGoal
      */
     public void setPersonalGoal(PersonalGoal personalGoal) {
@@ -152,20 +157,23 @@ public class Player {
     }
 
     /**
-     * Gets the goal {@code Tile}s list.
+     * Gets the score {@code Tile}s list.
      *
-     * @return the player's goal tiles list.
+     * @return the player's score tiles list.
+     *
      * @see Tile
      */
     public List<ScoreTile> getScoreTiles() {
         return this.scoreTiles;
     }
-
+    
     /**
-     * Sets the goal {@code Tile}s list.
+     * Sets the score {@code Tile}s list.
      *
-     * @param scoreTiles is the player list of goal tiles.
-     * @return the player's goal tiles list.
+     * @param scoreTiles is the player list of score tiles.
+     *
+     * @return the player's score tiles list.
+     *
      * @see Tile
      */
     public void setScoreTiles(List<ScoreTile> scoreTiles) {
@@ -176,6 +184,7 @@ public class Player {
      * Gets the {@code Bookshelf} associated to the current {@code Player}.
      *
      * @return the Bookshelf of the given player.
+     *
      * @see Bookshelf
      */
     public Bookshelf getBookshelf() {
@@ -205,7 +214,7 @@ public class Player {
      * Gets the player's connection state.
      *
      * @return {@code true} if and only if the connection is established,
-     * false otherwise.
+     *          false otherwise.
      */
     public boolean isConnected() {
         return this.connected;
@@ -232,11 +241,11 @@ public class Player {
         }
     }
 
-
     /**
      * Adds the given {@code ScoreTile} to the player's list of score {@code Tile}s.
      *
      * @param tile the tile to be added.
+     *
      * @see Tile
      * @see ScoreTile
      */
@@ -247,8 +256,9 @@ public class Player {
     /**
      * Sets the values of the specified {@code ScoreTile}.
      *
-     * @param tile     the tile to be set.
+     * @param tile the tile to be set.
      * @param position the tile's position.
+     *
      * @see ScoreTile
      * @see Tile
      */

@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.tile;
 
 /**
  * This class represents the {@code Tile} and all the necessary
- * methods (getters and setters) used to access and modify its fields (color, imageID).
+ * methods (getters and setters) used to access and modify its fields (color, id).
  */
 public class Tile {
     private TileColor color;
@@ -20,8 +20,9 @@ public class Tile {
      * Constructor of the class, assigns {@code Tile}'s
      * color and id (passed as parameters).
      *
-     * @param color   the tile's color.
-     * @param imageID the identifier associated to the tile.
+     * @param color the tile's color.
+     * @param id the identifier associated to the tile.
+     *
      * @see Tile
      */
     public Tile(TileColor color, int id) {
@@ -30,9 +31,10 @@ public class Tile {
     }
 
     /**
-     * Getter used to access {@code Tile}'s identifier.
+     * Getter used to access {@code Tile}'s image identifier.
      *
      * @return the tile's id.
+     *
      * @see Tile
      */
     public int getId() {
@@ -40,9 +42,10 @@ public class Tile {
     }
 
     /**
-     * Setter used to modify {@code Tile}'s identifier.
+     * Setter used to modify {@code Tile}'s id.
      *
-     * @param id is the image identifier of the considered tile.
+     * @param id is the identifier of the considered tile.
+     *
      * @see Tile
      */
     public void setId(int id) {
@@ -54,6 +57,7 @@ public class Tile {
      * Sets the {@code Tile}'s color to an initial value.
      *
      * @param color is the color given to the current tile.
+     *
      * @see Tile
      */
     public Tile(TileColor color) {
@@ -64,6 +68,7 @@ public class Tile {
      * Getter used to access {@code Tile}'s color.
      *
      * @return the tile's color.
+     *
      * @see Tile
      */
     public TileColor getColor() {
@@ -74,6 +79,7 @@ public class Tile {
      * Setter used to modify {@code Tile}'s color.
      *
      * @param color is the color of the considered tile.
+     *
      * @see Tile
      */
     public void setColor(TileColor color) {

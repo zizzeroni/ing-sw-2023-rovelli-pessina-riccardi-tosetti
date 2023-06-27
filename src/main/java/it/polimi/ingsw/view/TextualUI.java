@@ -120,6 +120,8 @@ public class TextualUI implements UI {
             while (genericUILogic.getState() == clientGameState) {
                 try {
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -133,12 +135,17 @@ public class TextualUI implements UI {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting for the game to start...");
                 }
-                case WAITING_FOR_OTHER_PLAYER ->
-                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                //case WAITING_FOR_OTHER_PLAYER ->
+                        //System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
+                    if(genericUILogic.getState() == ClientGameState.WAITING_FOR_OTHER_PLAYER) {
+                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                    }
                     genericUILogic.getLockState().wait();
+
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -236,9 +243,10 @@ public class TextualUI implements UI {
     /**
      * Identifies the choices of the player during the turn, the ones related to tiles selection.
      *
-     * @param iterationCount   used to iterate on the player's choice (the calls for input insertion in a turn are limited).
+     * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
      * @param isRowBeingChosen {@code true} if and only if the selected bookshelf's row is the one passed as parameter, {@code false} otherwise.
      * @return the index of the chosen rowColumnTile.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see Choice
      * @see it.polimi.ingsw.model.Bookshelf
@@ -270,6 +278,7 @@ public class TextualUI implements UI {
      *
      * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
      * @return the index of the selected column.
+     *
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Player
      * @see Choice
@@ -308,6 +317,7 @@ public class TextualUI implements UI {
      * The possible choices are: 'display the personal recap', tile's selection, 'send chat message', call disconnection.
      *
      * @return the player's choice.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.network.Client
      * @see it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.DisconnectPlayerCommand
@@ -455,11 +465,12 @@ public class TextualUI implements UI {
      * of the chosen set from in column.
      * Verify if the {@code Player} commit mistakes during selection.
      *
-     * @param row         the row in selection.
-     * @param column      the column in selection.
-     * @param firstRow    the inspection starting row.
+     * @param row the row in selection.
+     * @param column the column in selection.
+     * @param firstRow the inspection starting row.
      * @param firstColumn the inspection starting column.
      * @return the direction of the two current tiles chosen.
+     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -483,12 +494,13 @@ public class TextualUI implements UI {
      * present in the current selection at the given coordinates and
      * if the {@code Player} has properly inserted all the tiles in the {@code Board}.
      *
-     * @param row                  the row in selection.
-     * @param column               the column in selection.
+     * @param row the row in selection.
+     * @param column the column in selection.
      * @param prevTilesCoordinates the coordinates of the Tiles which have already been placed on the {@code Board}.
-     * @param directionToCheck     the direction (on row/column) which is selected for inspection.
+     * @param directionToCheck the direction (on row/column) which is selected for inspection.
      * @return {@code true} if and only if the {@code Tile}
-     * has already been placed in a previous turn.
+     *          has already been placed in a previous turn.
+     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
@@ -538,12 +550,13 @@ public class TextualUI implements UI {
      * Method that verifies if the tiles in the turn selection are available
      * to the player for picking.
      *
-     * @param row    is the index of the selected row.
+     * @param row is the index of the selected row.
      * @param column is the index of the selected column.
      * @return {@code true} if and only if the {@code boardMatrix}
-     * presents a collectable tile in the position
-     * identified though the given coordinates;
-     * {@code false} otherwise
+     *                presents a collectable tile in the position
+     *                identified though the given coordinates;
+     *                {@code false} otherwise
+     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -621,15 +634,15 @@ public class TextualUI implements UI {
      *
      * @see it.polimi.ingsw.model.Game
      */
-    public void printTitleScreen() {
+    public void printTitleScreen(){
 
-        System.out.println("███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗");
-        System.out.println("████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝");
-        System.out.println("██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░");
-        System.out.println("██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░");
-        System.out.println("██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗");
-        System.out.println("╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝");
-        System.out.println("                           GAME OF THE YEAR EDITION");
+        System.out.println ("███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗");
+        System.out.println ("████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝");
+        System.out.println ("██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░");
+        System.out.println ("██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░");
+        System.out.println ("██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗");
+        System.out.println ("╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝");
+        System.out.println ("                           GAME OF THE YEAR EDITION");
     }
 
 /*
