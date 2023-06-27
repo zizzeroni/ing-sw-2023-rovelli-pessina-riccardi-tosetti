@@ -307,7 +307,7 @@ public class FinishingState extends ControllerState {
 
 
     @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...
