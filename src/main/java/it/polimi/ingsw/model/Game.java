@@ -410,7 +410,7 @@ public class Game {
      * @see Game
      * @see Player
      */
-    public void saveGame() {
+    public void saveGame(String gamesStoragePath, String gamesStoragePathBackup) {
         //there is no need to store games in different files or handle simultaneous access to the file because there
         //are no cases in which this method is called from different games (multi game is not available) neither the
         //file is accessed while saving and vice-versa
@@ -419,22 +419,20 @@ public class Game {
         Gson gson = gsonBuilder.create();
         Reader fileReader;
         FileWriter fileWriter;
-        String gamesPath = "src/main/resources/storage/games.json";
-        String gamesBkpPath = "src/main/resources/storage/games-bkp.json";
-        Path source = Paths.get(gamesPath);
+        Path source = Paths.get(gamesStoragePath);
         List<Game> games;
 
         try {
-            this.createGameFileIfNotExist(gamesPath);
+            this.createGameFileIfNotExist(gamesStoragePath);
             //make a backup of the stored games in case something goes wrong during the saving
-            Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, Paths.get(gamesStoragePathBackup), StandardCopyOption.REPLACE_EXISTING);
 
             fileReader = Files.newBufferedReader(source);
 
             Game[] gamesAsArray = gson.fromJson(fileReader, Game[].class);
             fileReader.close();
 
-            fileWriter = new FileWriter(gamesPath);
+            fileWriter = new FileWriter(gamesStoragePath);
             if (gamesAsArray == null) gamesAsArray = new Game[0];
             games = new ArrayList<>(Arrays.asList(gamesAsArray));
 
@@ -449,7 +447,7 @@ public class Game {
                         )
                         .findFirst()
                         .orElse(null);
-                System.out.println(storedCurrentGame);
+
                 if (storedCurrentGame != null) {
                     games.set(games.indexOf(storedCurrentGame), this);
                 } else {

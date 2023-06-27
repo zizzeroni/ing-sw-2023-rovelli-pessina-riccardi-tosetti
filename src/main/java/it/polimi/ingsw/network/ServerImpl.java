@@ -340,7 +340,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
-        this.controller.restoreGameForPlayer(this, nickname);
+        this.controller.restoreGameForPlayer(this, nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
         this.model = this.controller.getModel();
         disconnectPlayerNotPartOfTheLobby();
         notifyClientsAfterRestoring();
@@ -377,7 +377,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     @Override
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
-        boolean result = this.controller.areThereStoredGamesForPlayer(nickname);
+        boolean result = this.controller.areThereStoredGamesForPlayer(nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
         for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.setAreThereStoredGamesForPlayer(result);

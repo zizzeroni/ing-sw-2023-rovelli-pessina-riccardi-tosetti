@@ -116,11 +116,11 @@ public abstract class ControllerState {
      * The implementation of this method (in the {@code CreationState})
      * controls that all the necessary preparing has been done due to initiating the {@code Game}.
      *
-     * @see CreationState#startGame()
-     * @see FinishingState#startGame()
-     * @see OnGoingState#startGame()
+     * @see CreationState#startGame(int numberOfCommonGoalCards)
+     * @see FinishingState#startGame(int numberOfCommonGoalCards)
+     * @see OnGoingState#startGame(int numberOfCommonGoalCards)
      */
-    public abstract void startGame();
+    public abstract void startGame(int numberOfCommonGoalCards);
 
     /**
      * The implementation of this method in the different states
@@ -134,5 +134,5 @@ public abstract class ControllerState {
      */
     public abstract void disconnectPlayer(String nickname);
 
-    public abstract void restoreGameForPlayer(GameListener server, String nickname);
+    public abstract void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath);
 }
