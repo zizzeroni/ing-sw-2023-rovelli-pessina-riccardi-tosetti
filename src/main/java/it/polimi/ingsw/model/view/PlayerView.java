@@ -11,11 +11,9 @@ import java.util.List;
 
 /**
  *
- * This class implements the {@code PlayerView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code View}s,
- * and are sensible to the inherent modifies.
- * Also, the class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other related relevant informations.
+ * This class represents the player's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other player related relevant informations.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Player

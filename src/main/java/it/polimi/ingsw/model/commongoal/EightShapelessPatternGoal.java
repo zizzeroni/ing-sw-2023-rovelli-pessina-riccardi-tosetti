@@ -75,15 +75,9 @@ public class EightShapelessPatternGoal extends CommonGoal {
     /**
     * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
      *<p>
-     * Transforms the bookshelf in a Stream of tiles' ARRAYS.<p>
-     * Transforms the ARRAY of tiles Stream into a Stream of ONLY tiles.<p>
-     * Filters them, removing all elements equals to NULL (which can't be regrouped after).<p>
-     * Regroups the tiles with "groupingBy" into a Map<TileColor, numberOfOccurences>, where uses the TileColor key specifying "Tile::GetColor", for the values instead it uses the "counting()" method.<p>
-     * Transforms the Map into a Set and then into a Stream.<p>
-     * Filters the Stream keeping only the Colors to which are associated more than 7 tiles and then counts them.
      *
-    * @param bookshelf contains the {@code Bookshelf} of the {@code Player}.
-    * @return {@code true} if and only if 8 tiles of the same colour are found, otherwise returns {@code false}.
+    * @param bookshelf the {@code Bookshelf} of the {@code Player}.
+    * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.Board
      * @see it.polimi.ingsw.model.Player

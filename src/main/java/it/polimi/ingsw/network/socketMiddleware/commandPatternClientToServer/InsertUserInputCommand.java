@@ -14,7 +14,6 @@ import java.rmi.RemoteException;
  *
  *
  * @see CommandToServer
- * @see it.polimi.ingsw.GUI.User
  */
 public class InsertUserInputCommand implements CommandToServer {
     private Server actuator;

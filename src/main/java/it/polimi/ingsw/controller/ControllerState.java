@@ -97,12 +97,12 @@ public abstract class ControllerState {
     public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 
     /**
-     * TODO
+     * This method tries to resume the current's game when possible.
      */
     public abstract void tryToResumeGame();
 
     /**
-     * Permits to set the number of active players in the current {@code Game}.
+     * Set the number of active players in the current {@code Game}.
      * Used during the creation state.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.

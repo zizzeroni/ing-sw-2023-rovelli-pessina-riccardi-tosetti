@@ -5,14 +5,9 @@ import it.polimi.ingsw.model.Board;
 import java.io.Serializable;
 
 /**
- * This class represents the {@code BoardView} through the {@code Serializable} interface.
- * All the {@code Player}s always 'see' only the implementation of the {@code View} of the relative {@code Board},
- * and are sensible to the inherent modifies.
- * The class also contains a series of getters to access the number of
- * rows/columns and to retrieve the selected tiles from the {@code Board},
- * given the current number of active players.
- *
- * @see Serializable
+ * This class represents the Board's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  */
 public class BoardView implements Serializable {
     //private final Board boardModel;

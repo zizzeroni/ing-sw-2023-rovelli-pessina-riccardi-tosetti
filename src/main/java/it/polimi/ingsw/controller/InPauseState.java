@@ -148,7 +148,7 @@ public class InPauseState extends ControllerState {
     }
 
     /**
-     * Verifies the time quantum and tries to resume the current's game.
+     * This method tries to resume the current's game when possible.
      */
     @Override
     public void tryToResumeGame() {

@@ -7,11 +7,9 @@ import java.io.Serializable;
 
 /**
  *
- * This class implements the {@code ScoreTileView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code ScoreTile}s different views,
- * and are sensible to any inherent modification.
- * Also, the class contains a series of methods to access the goals through their ID and their values
- * and a series of other related, relevant, informations.
+ * This class represents the ScoreTile's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
  * @see ScoreTile
  * @see it.polimi.ingsw.model.tile.Tile

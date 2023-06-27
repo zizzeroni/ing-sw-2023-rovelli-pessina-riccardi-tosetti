@@ -70,8 +70,7 @@ public class FourCornersPatternGoal extends CommonGoal {
      * Check if there are {@code Tile}s of the same color in the 4 corners of the {@code Bookshelf}.
      *
      * @param bookshelf contains the bookshelf of the {@code Player}.
-     * @return {@code true} if and only if the initial condition is satisfied,
-     *         {@code false} otherwise.
+     * @return the number of times the pattern is achieved.
      *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player

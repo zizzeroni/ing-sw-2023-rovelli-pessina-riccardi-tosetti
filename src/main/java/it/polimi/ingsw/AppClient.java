@@ -204,6 +204,12 @@ public class AppClient {
         }).start();
     }
 
+    /**
+     * Get a random network interface (non localhost).
+     *
+     * @return the identified network interfaces.
+     * @throws RemoteException when a communication error occurs.
+     */
     private static String getFirstUpNetworkInterface() throws RemoteException {
         //TODO: Da verificarne funzionamento
         Random rand = new Random();

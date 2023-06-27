@@ -9,13 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- *
- * This class implements the {@code BookshelfView} through serialization.
- * All the players always access only the implementation of the {@code View} of the relative {@code Bookshelf},
- * and are sensible to the inherent modifies.
- * Also, the class contains a series of getters to access the number of
- * rows/columns and to retrieve the selected tiles from the {@code Board},
- * given the current number of active players, the considered group of {@code Tile}s, ...
+ * This class represents the Bookshelf's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
  * @see Bookshelf
  * @see it.polimi.ingsw.model.Board

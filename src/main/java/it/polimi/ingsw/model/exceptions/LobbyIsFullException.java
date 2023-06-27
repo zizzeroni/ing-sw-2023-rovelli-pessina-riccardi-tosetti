@@ -25,7 +25,7 @@ public class LobbyIsFullException extends GenericException {
     }
 
     /**
-     * Handler of the message linked to the generic exception.
+     * Handler of the message linked to the class exception.
      *
      * @see it.polimi.ingsw.model.Player
      */
