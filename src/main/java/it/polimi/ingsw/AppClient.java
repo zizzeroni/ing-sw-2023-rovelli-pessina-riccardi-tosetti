@@ -46,7 +46,7 @@ public class AppClient {
      */
     public static void main(String[] args) throws RemoteException, NotBoundException {
         Scanner input = new Scanner(System.in);
-        String ServeripAddress = args.length > 0 ? args[0] : "";
+        String ServeripAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -59,8 +59,8 @@ public class AppClient {
         }
 
         String clientIpAddress;
-        if (ServeripAddress.equals("localhost")) {
-            clientIpAddress = "localhost";
+        if (ServeripAddress.equals("localhost") || ServeripAddress.equals("127.0.0.1")) {
+            clientIpAddress = "127.0.0.1";
         } else {
             clientIpAddress = getFirstUpNetworkInterface();
         }
@@ -211,7 +211,6 @@ public class AppClient {
      * @throws RemoteException when a communication error occurs.
      */
     private static String getFirstUpNetworkInterface() throws RemoteException {
-        //TODO: Da verificarne funzionamento
         Random rand = new Random();
         List<NetworkInterface> networkInterfacesList;
         try {
