@@ -238,6 +238,7 @@ public class InPauseState extends ControllerState {
     public void disconnectPlayer(String nickname) {
         Game model = this.controller.getModel();
         model.getPlayerFromNickname(nickname).setConnected(false);
+        this.controller.getModel().setGameState(GameState.RESET_NEEDED);
     }
 
     /**

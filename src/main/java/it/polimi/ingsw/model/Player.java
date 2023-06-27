@@ -111,6 +111,32 @@ public class Player {
     }
 
     /**
+     * Class constructor.
+     * In this implementation all the possible player's parameter are used.
+     *
+     * @param nickname player's nickname.
+     * @param connected indicates the status of player's connection.
+     * @param scoreTiles the player's list of {@code ScoreTile}s.
+     * @param bookshelf the player's {@code Bookshelf}.
+     * @param personalGoal the player's {@code PersonalGoal}.
+     * @param chat the player's messages' history.
+     *
+     * @see Bookshelf
+     * @see ScoreTile
+     * @see PersonalGoal
+     * @see Message
+     */
+    public Player(String nickname, boolean connected, PersonalGoal personalGoal, List<ScoreTile> scoreTiles, Bookshelf bookshelf, List<Message> chat) {
+        this.nickname = nickname;
+        this.connected = connected;
+        this.personalGoal = personalGoal;
+        this.scoreTiles = scoreTiles;
+        this.bookshelf = bookshelf;
+        this.listener = null;
+        this.chat = chat;
+    }
+
+    /**
      * Registers the {@code PlayerListener} on the PLayer.
      *
      * @param listener the listener that will register on the {@code Player}.

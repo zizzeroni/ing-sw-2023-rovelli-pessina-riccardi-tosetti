@@ -490,7 +490,7 @@ public class Game {
         gameCopy.setNumberOfPlayersToStartGame(this.numberOfPlayersToStartGame);
         gameCopy.setActivePlayerIndex(this.activePlayerIndex);
         for (Player player: this.players) {
-            gameCopy.addPlayer(new Player(player.getNickname(), false, player.getPersonalGoal(), player.getScoreTiles(), player.getBookshelf()));
+            gameCopy.addPlayer(new Player(player.getNickname(), false, player.getPersonalGoal(), player.getScoreTiles(), player.getBookshelf(), player.getChat()));
         }
         gameCopy.setBag(this.bag);
         gameCopy.setBoard(this.board);
