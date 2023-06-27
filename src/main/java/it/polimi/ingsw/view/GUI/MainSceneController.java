@@ -1292,7 +1292,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void startCensure() {
-        onCountdown = true;
+        //onCountdown = true;
         double wi = this.mainGraphicalUI.getWidthOld();
         double he = this.mainGraphicalUI.getHeightOld();
         censure.setMaxSize(wi, he);
@@ -1306,15 +1306,26 @@ public class MainSceneController implements Initializable {
         countdownLabel.setLayoutX(wi * 0.55);
         countdownLabel.setLayoutY(he * 0.70);
         personalGoal.setVisible(false);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            countdownLabel.setText("Only 1 player remaining, \n" +
+                    "waiting for other player to reconnect");
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-        this.threadCounter();
+        //this.threadCounter();
     }
 
     public void endCensure() {
-        if (onCountdown) {
-            printCountdownThread.interrupt();
-            onCountdown = false;
-            printCountdownThread = createPrintCountdownThread();
+        //if (onCountdown) {
+            //printCountdownThread.interrupt();
+            //onCountdown = false;
+            //printCountdownThread = createPrintCountdownThread();
             censure.setMaxSize(1, 1);
             censure.setOpacity(0.0);
             commonGoal1.setOnMouseEntered(this::onCommonGoal1);
@@ -1334,49 +1345,49 @@ public class MainSceneController implements Initializable {
                 throw new RuntimeException(e);
             }
             personalGoal.setVisible(true);
-        }
+        //}
     }
 
     private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
-
-    public void threadCounter() {
-        printCountdownThread = createPrintCountdownThread();
-        printCountdownThread.start();
-        printCountdownThread.setUncaughtExceptionHandler((t, e) -> {
-            System.err.println("Uncaught exception in thread");
-            e.printStackTrace();
-        });
-    }
-
-    private Thread createPrintCountdownThread() {
-        return new Thread(() -> {
-            AtomicInteger countdownAtomic = new AtomicInteger(countdown - 1);
-//            countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
-            setCountdownLabel(countdownAtomic);
-            for (; countdownAtomic.get() > 0; countdownAtomic.getAndDecrement()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    //RESUME
-                    return;
-                }
-                    setCountdownLabel(countdownAtomic);
-//                countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
-            }
-        });
-    }
-
-    private void setCountdownLabel(AtomicInteger countdown) {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            countdownLabel.setText("COUNTDOWN STARTED: " + countdown);
-            countDownLatch.countDown();
-        });
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//
+//    public void threadCounter() {
+//        printCountdownThread = createPrintCountdownThread();
+//        printCountdownThread.start();
+//        printCountdownThread.setUncaughtExceptionHandler((t, e) -> {
+//            System.err.println("Uncaught exception in thread");
+//            e.printStackTrace();
+//        });
+//    }
+//
+//    private Thread createPrintCountdownThread() {
+//        return new Thread(() -> {
+//            AtomicInteger countdownAtomic = new AtomicInteger(countdown - 1);
+////            countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
+//            setCountdownLabel(countdownAtomic);
+//            for (; countdownAtomic.get() > 0; countdownAtomic.getAndDecrement()) {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    //RESUME
+//                    return;
+//                }
+//                    setCountdownLabel(countdownAtomic);
+////                countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
+//            }
+//        });
+//    }
+//
+//    private void setCountdownLabel(AtomicInteger countdown) {
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        Platform.runLater(() -> {
+//            countdownLabel.setText("COUNTDOWN STARTED: " + countdown);
+//            countDownLatch.countDown();
+//        });
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
 

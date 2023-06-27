@@ -343,6 +343,7 @@ public class GraphicalUI extends Application implements UI {
                     Thread.onSpinWait();
                     //Aspetto che arrivino le scelte del player;
                 }
+
                 this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
