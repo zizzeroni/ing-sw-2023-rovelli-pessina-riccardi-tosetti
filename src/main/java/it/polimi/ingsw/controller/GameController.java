@@ -418,7 +418,13 @@ public class GameController {
     }
 
     /**
-     * Method to restore stored games.
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param playerNickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
      */
     public void restoreGameForPlayer(GameListener server, String playerNickname) {
         state.restoreGameForPlayer(server, playerNickname);

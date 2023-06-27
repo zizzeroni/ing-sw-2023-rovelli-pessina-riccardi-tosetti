@@ -270,7 +270,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param client   is the client registering to the server.
      * @param nickname the player's nickname related to the client.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      *
      * @see Client
      * @see Server

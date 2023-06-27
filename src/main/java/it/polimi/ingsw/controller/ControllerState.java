@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
@@ -110,6 +112,15 @@ public abstract class ControllerState {
      */
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 
+    /**
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players.
+     *
+     * @param chosenNumberOfPlayers is the current number of players.
+     * @throws ExcessOfPlayersException signals an excess in the player's number.
+     * @throws WrongInputDataException occurs when data has not been entered correctly.
+     *
+     * @see Player
+     */
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     /**
@@ -134,5 +145,14 @@ public abstract class ControllerState {
      */
     public abstract void disconnectPlayer(String nickname);
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param server the server controlling the game's execution.
+     * @param nickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
+     */
     public abstract void restoreGameForPlayer(GameListener server, String nickname);
 }

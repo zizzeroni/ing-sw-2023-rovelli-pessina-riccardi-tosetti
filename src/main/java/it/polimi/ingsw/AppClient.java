@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
  *
  * @see Client
  * @see Server
- * @see App
  */
 public class AppClient {
     static CommandReader commandReader = new CommandReader();
@@ -43,7 +42,7 @@ public class AppClient {
      *
      * @see it.polimi.ingsw.model.Player
      * @see Client
-     * @see it.polimi.ingsw.view.UI
+     * @see it.polimi.ingsw.view.GenericUILogic
      */
     public static void main(String[] args) throws RemoteException, NotBoundException {
         Scanner input = new Scanner(System.in);

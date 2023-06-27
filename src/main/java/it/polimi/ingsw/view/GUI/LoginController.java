@@ -18,11 +18,11 @@ import java.util.ResourceBundle;
 
 /**
  * This class contains a series of methods used to set and
- * to modify the primary scenes of the {@code MainGui}.
+ * to modify the primary scenes of the main gui.
  * and to verify the user data when the different {@code Player}s
  * decide to log into the lobby.
  *
- * @see MainGui
+ * @see it.polimi.ingsw.view.GenericUILogic
  * @see it.polimi.ingsw.model.Player
  *
  */

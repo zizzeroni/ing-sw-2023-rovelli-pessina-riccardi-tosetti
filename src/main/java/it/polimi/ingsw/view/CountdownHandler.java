@@ -3,12 +3,12 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.view.GUI.ThPrintCountdown;
 
 /**
- * This class is used to represent the handler of the Player's countdown
- * when there is only a remaining connected client to the current game.
+ * This class is used to handle the countdown occurring when there is only one player remaining connected to the current's game.
+ * It has been implemented as an extension of the Thread's class.
  *
+ * @see Thread
  * @see it.polimi.ingsw.model.Player
  * @see it.polimi.ingsw.model.Game
- * @see it.polimi.ingsw.network.Client
  */
 public class CountdownHandler extends Thread {
     private final GenericUILogic genericUILogic;
@@ -17,8 +17,7 @@ public class CountdownHandler extends Thread {
      * Class constructor.
      * It is used the generic ui's logic and other related values for the player's countdown.
      *
-     * @param genericUILogic the logic associated to the client's countdown.
-     *
+     * @param genericUILogic used to call methods that implement logic in common with every user interface.
      * @see GenericUILogic
      * @see it.polimi.ingsw.model.Player
      */
