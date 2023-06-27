@@ -332,7 +332,6 @@ public class GraphicalUI extends Application implements UI {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInState(ClientGameState.WAITING_FOR_OTHER_PLAYER);
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
-                this.mainSceneController.endCensure();
                 showNewTurnIntro();
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                 while (takenTiles == null) {
@@ -343,7 +342,6 @@ public class GraphicalUI extends Application implements UI {
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
-                this.mainSceneController.startCensure();
                 this.mainSceneController.refreshPoint();
 
             }

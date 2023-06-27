@@ -1310,7 +1310,6 @@ public class MainSceneController implements Initializable {
         countdownLabel.setLayoutX(wi*0.55);
         countdownLabel.setLayoutY(he*0.70);
         personalGoal.setVisible(false);
-        this.threadCounter();
     }
     public void endCensure(){
         censure.setMaxSize(1, 1);
