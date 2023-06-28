@@ -34,10 +34,10 @@ public class OnGoingState extends ControllerState {
     /**
      * Change the turn in the context of the present state.
      *
-     * @see ControllerState#changeTurn()
+     * @see ControllerState#changeTurn(String gamesStoragePath, String gamesStoragePathBackup)
      */
     @Override
-    public void changeTurn() {
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         if (this.controller.getModel().getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
@@ -203,7 +203,7 @@ public class OnGoingState extends ControllerState {
         Board board = this.controller.getModel().getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
+        return (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) && (
                 row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 ||
                         (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                         (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
