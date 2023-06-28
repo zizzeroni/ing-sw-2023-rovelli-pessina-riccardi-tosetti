@@ -160,7 +160,6 @@ public class GraphicalUI extends Application implements UI {
 
         int tileId;
         String tileColor;
-        takenTiles = null;
 
         BoardView boardView = this.genericUILogic.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
@@ -394,19 +393,28 @@ public class GraphicalUI extends Application implements UI {
             }
 
             mainSceneController.setGameOn(true);
-            mainSceneController.chatUpdate(true);
+            //mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER,ClientGameState.WAITING_FOR_RESUME));
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
-                showNewTurnIntro();
-                //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
-                while (takenTiles == null) {
-                    Thread.onSpinWait();
-                    //Aspetto che arrivino le scelte del player;
+                if(this.mainSceneController.getInCensure()==0){
+                    showNewTurnIntro();
+                    //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
+                    while (takenTiles == null) {
+                        Thread.onSpinWait();
+                        //Aspetto che arrivino le scelte del player;
+                    }
+                }else{
+                        this.mainSceneController.endCensure();
                 }
 
+                if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
                 this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
+                if(this.mainSceneController.getInCensure()==0) {
+                    takenTiles = null;
+                }
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
@@ -474,7 +482,9 @@ public class GraphicalUI extends Application implements UI {
             }
             boolean firstTime = true;
             while (gameStates.contains(genericUILogic.getState())) {
-                showUpdateFromOtherPlayer();
+                if(this.mainSceneController.getInCensure()==0) {
+                    showUpdateFromOtherPlayer();
+                }
                 try {
                     genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {

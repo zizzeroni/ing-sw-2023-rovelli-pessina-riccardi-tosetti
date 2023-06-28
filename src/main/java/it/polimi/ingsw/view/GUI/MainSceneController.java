@@ -83,7 +83,12 @@ public class MainSceneController implements Initializable {
     private boolean gameOn;
     private Thread printCountdownThread;
     private boolean onCountdown;
+    private int inCensure=0;
 
+
+    public int getInCensure() {
+        return inCensure;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameOn = true;
@@ -271,7 +276,6 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
-        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -303,6 +307,9 @@ public class MainSceneController implements Initializable {
                     String nome = "#firstPlayerTile" + (row) + (column);
                     Button button = (Button) scene.lookup(nome);
                     if (button != null) {
+                        if(button.getStyleClass().size()>1){
+                            button.getStyleClass().remove(1);
+                        }
                         button.setOpacity(1);
                         //set tile color
                         if (tileStyle.equals("B0")) {
@@ -1249,7 +1256,7 @@ public class MainSceneController implements Initializable {
 //        th1.start();
 //    }
 
-    public void chatUpdate(boolean gameState) {
+//    public void chatUpdate(boolean gameState) {
 //        var th = new Thread(() -> {
 //            gameOn = gameState;
 //            while (gameOn) {
@@ -1280,7 +1287,7 @@ public class MainSceneController implements Initializable {
 //            e.printStackTrace();
 //        });
 //        th.start();
-    }
+//    }
 
     public boolean isGameOn() {
         return gameOn;
@@ -1291,6 +1298,8 @@ public class MainSceneController implements Initializable {
     }
 
     public void startCensure() {
+        this.inCensure = this.inCensure+1;
+        //this.setTable();
         //onCountdown = true;
         double wi = this.mainGraphicalUI.getWidthOld();
         double he = this.mainGraphicalUI.getHeightOld();
@@ -1322,6 +1331,9 @@ public class MainSceneController implements Initializable {
     }
 
     public void endCensure() {
+        if(this.inCensure==1) {
+            this.inCensure = 0;
+        }
         //if (onCountdown) {
             //printCountdownThread.interrupt();
             //onCountdown = false;
