@@ -271,6 +271,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
+        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;

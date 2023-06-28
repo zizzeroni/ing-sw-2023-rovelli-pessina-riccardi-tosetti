@@ -146,6 +146,7 @@ public class InPauseState extends ControllerState {
         }
     }
 
+
     /**
      * This method tries to resume the current's game when possible.
      */
@@ -156,11 +157,33 @@ public class InPauseState extends ControllerState {
             this.timer.cancel();
             //executorService.shutdownNow();
             System.out.println("RESET_NEEDED Timer cancelled");
+            this.changeActivePlayer();
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(GameState.ON_GOING);
         } else {
             //Set the current game state in order to generate a notification, sent to the client
             this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        }
+    }
+
+    /**
+     * Verifies if whether the current {@code Player}
+     * is considered active or not, mainly through a call to the
+     * {@code getActivePlayerIndex} method in the {@code GameController}
+     * (linked to the active {@code Game}).
+     *
+     * @see GameController#getModel()
+     * @see Game#getActivePlayerIndex()
+     */
+    private void changeActivePlayer(){
+        Game model = this.controller.getModel();
+        if(!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()){
+            if(model.getActivePlayerIndex()==model.getPlayers().size()-1){
+                model.setActivePlayerIndex(0);
+            }else{
+                model.setActivePlayerIndex(model.getActivePlayerIndex()+1);
+            }
+            changeActivePlayer();
         }
     }
 
