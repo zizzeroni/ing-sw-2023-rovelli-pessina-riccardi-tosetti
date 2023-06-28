@@ -35,6 +35,7 @@ public class CreationStateTest {
     public void resetCreationState() {
         controller = new GameController(new Game());
         state = new CreationState(controller);
+        this.controller.changeState(state);
     }
 
     @Test

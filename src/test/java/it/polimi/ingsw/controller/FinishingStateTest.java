@@ -29,9 +29,10 @@ public class FinishingStateTest {
      * Test class
      */
     @BeforeEach
-    public void resetCreationState() {
+    public void resetFinishingState() {
         controller = new GameController(new Game());
         state = new FinishingState(controller);
+        this.controller.changeState(state);
     }
 
     /**
@@ -41,7 +42,7 @@ public class FinishingStateTest {
     @DisplayName("Test that private messages aren't sent to other players")
     public void private_messages_are_not_visible_to_other_players() {
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true), new Player("Francesco", true)));
-        this.state.sendPrivateMessage("Luca", "Andrea", "ciao");
+        this.controller.sendPrivateMessage("Luca", "Andrea", "ciao");
 
         Message senderPrivateMessage = this.controller.getModel().getPlayers().get(0).getChat().get(0);
         Message receiverPrivateMessage = this.controller.getModel().getPlayers().get(1).getChat().get(0);
@@ -61,7 +62,7 @@ public class FinishingStateTest {
     @DisplayName("Test that broadcast messages are sent to all players")
     public void broadcast_messages_are_sent_to_all_players() {
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true), new Player("Francesco", true)));
-        this.state.sendBroadcastMessage("Andrea", "ciao");
+        this.controller.sendBroadcastMessage("Andrea", "ciao");
 
         for (Player player : this.controller.getModel().getPlayers()) {
             Message playerLastMessage = player.getChat().get(0);
@@ -109,7 +110,7 @@ public class FinishingStateTest {
 
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
         this.controller.getModel().setActivePlayerIndex(1);
-        this.state.changeTurn(gamesPath, gamesPathBackup);
+        this.controller.changeTurn(gamesPath, gamesPathBackup);
 
         assertEquals(this.controller.getModel().getGameState(), GameState.RESET_NEEDED);
     }
@@ -186,12 +187,16 @@ public class FinishingStateTest {
         assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1]);
 
 
-        this.state.insertUserInputIntoModel(new Choice(
-                new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
-                new ArrayList<>(Arrays.asList(new Coordinates(4, 1), new Coordinates(0, 2))),
-                new int[]{0, 1},
-                1
-        ));
+        try {
+            this.controller.insertUserInputIntoModel(new Choice(
+                    new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
+                    new ArrayList<>(Arrays.asList(new Coordinates(4, 1), new Coordinates(0, 2))),
+                    new int[]{0, 1},
+                    1
+            ));
+        } catch (WrongInputDataException e) {
+            throw new RuntimeException(e);
+        }
 
         assertNotNull(this.controller.getModel().getBoard().getTiles()[0][0]);
         assertNotNull(this.controller.getModel().getBoard().getTiles()[0][1]);
@@ -228,7 +233,7 @@ public class FinishingStateTest {
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", false), new Player("Luca", true)));
 
         try {
-            this.state.addPlayer("Andrea");
+            this.controller.addPlayer("Andrea");
 
         } catch (LobbyIsFullException e) {
             throw new RuntimeException(e);
@@ -244,7 +249,7 @@ public class FinishingStateTest {
     @Test
     @DisplayName("Test that resuming the game changes the state of the game to the same as the controller")
     public void change_state_when_resuming_game() {
-        this.state.tryToResumeGame();
+        this.controller.tryToResumeGame();
         assertEquals(this.state.controller.getModel().getGameState(), this.controller.getModel().getGameState());
     }
 
@@ -254,7 +259,7 @@ public class FinishingStateTest {
     @Test
     @DisplayName("Test that startGame method does nothing in finishing state")
     public void start_game_method_does_nothing_in_finishing_state() {
-        this.state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
+        this.controller.startGame();
     }
 
     /**
@@ -267,7 +272,7 @@ public class FinishingStateTest {
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
         this.controller.getModel().setActivePlayerIndex(0);
 
-        this.state.disconnectPlayer("Andrea");
+        this.controller.disconnectPlayer("Andrea");
 
         assertEquals(this.controller.getModel().getActivePlayerIndex(), 1);
         assertFalse(this.controller.getModel().getPlayerFromNickname("Andrea").isConnected());
@@ -295,7 +300,7 @@ public class FinishingStateTest {
     @Test
     @DisplayName("Test that choosing the number of players does nothing in finishing state")
     public void choosing_number_of_players_does_nothing() {
-        this.state.chooseNumberOfPlayerInTheGame(2);
+        this.controller.chooseNumberOfPlayerInTheGame(2);
         assertEquals(this.controller.getModel().getNumberOfPlayersToStartGame(), 0);
     }
 
@@ -305,7 +310,7 @@ public class FinishingStateTest {
     @Test
     @DisplayName("Test that checkExceedingPlayer method does nothing in finishing state")
     public void check_exceeding_number_of_players_does_nothing() {
-         assertDoesNotThrow(() -> this.state.checkExceedingPlayer(OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS - 1));
+         assertDoesNotThrow(() -> this.controller.checkExceedingPlayer(OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS - 1));
     }
 
     /**
@@ -326,7 +331,7 @@ public class FinishingStateTest {
             throw new RuntimeException(e);
         }
 
-        this.state.restoreGameForPlayer(null, "Andrea", "src/test/resources/storage/games.json");
+        this.controller.restoreGameForPlayer(null, "Andrea", "src/test/resources/storage/games.json");
         assertEquals(this.state.controller.getModel().getPlayers().size(), 0);
     }
 
