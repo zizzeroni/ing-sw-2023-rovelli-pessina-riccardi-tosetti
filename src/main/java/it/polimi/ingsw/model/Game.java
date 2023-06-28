@@ -436,6 +436,8 @@ public class Game {
             if (gamesAsArray == null) gamesAsArray = new Game[0];
             games = new ArrayList<>(Arrays.asList(gamesAsArray));
 
+            Game currentGameCopy = this.getCopyToStore();
+
             if (!games.isEmpty()) {
                 //use hash set in filter to increase performance
                 Game storedCurrentGame = games.stream()
@@ -449,13 +451,13 @@ public class Game {
                         .orElse(null);
 
                 if (storedCurrentGame != null) {
-                    games.set(games.indexOf(storedCurrentGame), this);
+                    games.set(games.indexOf(storedCurrentGame), currentGameCopy);
                 } else {
-                    games.add(this);
+                    games.add(currentGameCopy);
                 }
             } else {
                 games = new ArrayList<>();
-                games.add(this);
+                games.add(currentGameCopy);
             }
 
             gson.toJson(games, fileWriter);
@@ -480,6 +482,21 @@ public class Game {
             }
             this.bag.add(new Tile(TileColor.values()[i % 6], id));
         }
+    }
+
+    private Game getCopyToStore() {
+        Game gameCopy = new Game();
+        gameCopy.setGameState(this.gameState);
+        gameCopy.setNumberOfPlayersToStartGame(this.numberOfPlayersToStartGame);
+        gameCopy.setActivePlayerIndex(this.activePlayerIndex);
+        for (Player player: this.players) {
+            gameCopy.addPlayer(new Player(player.getNickname(), false, player.getPersonalGoal(), player.getScoreTiles(), player.getBookshelf(), player.getChat()));
+        }
+        gameCopy.setBag(this.bag);
+        gameCopy.setBoard(this.board);
+        gameCopy.setCommonGoals(this.commonGoals);
+
+        return gameCopy;
     }
 
 }

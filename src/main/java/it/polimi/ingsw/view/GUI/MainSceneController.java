@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainSceneController implements Initializable {
     private GraphicalUI mainGraphicalUI;

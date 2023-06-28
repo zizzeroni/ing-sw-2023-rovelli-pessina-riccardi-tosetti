@@ -100,7 +100,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      */
     @Override
     public synchronized void changeTurn() throws RemoteException {
-        this.controller.changeTurn();
+        this.controller.changeTurn(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
         if (this.model.getGameState() == GameState.RESET_NEEDED) {
             resetServer();
         }

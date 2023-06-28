@@ -20,7 +20,6 @@ import java.util.TimerTask;
  */
 public class InPauseState extends ControllerState {
     private final Timer timer = new Timer();
-    //TODO: Chiedere a rovo, non dovrebbe essere necessario ma per qualche motivo il metodo cancel chiamato nel metodo tryToResumeGame non cancella il timer
     private boolean gameResumed;
 
     /**
@@ -53,7 +52,7 @@ public class InPauseState extends ControllerState {
      * @see Game
      */
     @Override
-    public void changeTurn() {
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
@@ -141,7 +140,7 @@ public class InPauseState extends ControllerState {
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
-            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full or you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }
@@ -193,7 +192,7 @@ public class InPauseState extends ControllerState {
      * @see Player
      */
     @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
@@ -238,6 +237,7 @@ public class InPauseState extends ControllerState {
     public void disconnectPlayer(String nickname) {
         Game model = this.controller.getModel();
         model.getPlayerFromNickname(nickname).setConnected(false);
+        this.controller.getModel().setGameState(GameState.RESET_NEEDED);
     }
 
     /**
