@@ -60,7 +60,7 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
                 if (this.pattern.get(i).get(j) == 1) {
                     sendBack.append(" " + TileColor.BLUE + " ");
                 } else {
-                    sendBack.append(" -");
+                    sendBack.append("-");
                 }
             }
             sendBack.append(" ]\n");

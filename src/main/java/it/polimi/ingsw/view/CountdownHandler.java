@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.view.GUI.ThPrintCountdown;
 
 /**
@@ -33,24 +34,32 @@ public class CountdownHandler extends Thread {
      */
     @Override
     public void run() {
+        GameView model;
         boolean firstTime = true;
         Thread printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
         while (!Thread.interrupted()) {
             synchronized (this.genericUILogic.getLockState()) {
                 try {
-                    genericUILogic.getLockState().wait();
+                    this.genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME && this.genericUILogic.getModel().getPlayerViewFromNickname(this.genericUILogic.getNickname()).isConnected() && this.genericUILogic.getModel().isPaused()) {
+                model = this.genericUILogic.getModel();
+                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME
+                        && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()) != null
+                        && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()).isConnected()
+                        && model.isPaused()
+                        ) {
                     if (firstTime) {
                         firstTime = false;
                         printCountdownThread.start();
                     } else {
                         if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
-                            printCountdownThread.interrupt();
-                            printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
-                            firstTime = true;
+                            if(this.genericUILogic.getState()!=ClientGameState.WAITING_FOR_RESUME) {
+                                printCountdownThread.interrupt();
+                                printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
+                                firstTime = true;
+                            }
                         } else {
                             this.interrupt();
                         }

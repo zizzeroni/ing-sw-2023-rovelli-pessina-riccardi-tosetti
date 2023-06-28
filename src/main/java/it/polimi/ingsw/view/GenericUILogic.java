@@ -218,7 +218,11 @@ public class GenericUILogic {
     }
 
     /**
-     * TODO
+     * Getter used to get the countdown time after which the games end
+     * if it remains only one player in the lobby
+     *
+     * @see CountdownHandler
+     * @see it.polimi.ingsw.view.GUI.ThPrintCountdown
      */
     public int getCountdown() {
         return countdown;

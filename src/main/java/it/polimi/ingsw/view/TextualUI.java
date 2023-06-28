@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.GUI.UI;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -223,8 +224,7 @@ public class TextualUI implements UI {
         if (this.genericUILogic.getExceptionToHandle() != null) {
             this.genericUILogic.getExceptionToHandle().handle();
         } else {
-            showPersonalRecap();
-            System.out.println("---GAME ENDED---");
+            showGameEnd();
         }
     }
 
@@ -597,11 +597,15 @@ public class TextualUI implements UI {
         int playerScore = activePlayer.score();
 
         List<CommonGoalView> commonGoals = this.genericUILogic.getModel().getCommonGoals();
+        List<ScoreTileView> scoreTileFirstCommonGoal = commonGoals.get(0).getScoreTiles();
+        List<ScoreTileView> scoreTileSecondCommonGoal = commonGoals.get(1).getScoreTiles();
 
         System.out.println("Here is your recap:");
         System.out.println("Bookshelf's state:\n" + playerBookshelf + "\n" +
                 "Personal goal:\n" + playerPersonalGoal + "\n" +
-                "Common goals:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
+                "Common goals:\n" +
+                commonGoals.get(0) + "Highest tile available: " + (scoreTileFirstCommonGoal.size() > 0 ? scoreTileFirstCommonGoal.get(0).getValue() : "0") + "\n\n" +
+                commonGoals.get(1) + "Highest tile available: " + (scoreTileSecondCommonGoal.size() > 0 ? scoreTileSecondCommonGoal.get(0).getValue() : "0") + "\n\n" +
                 "Completed common goals: First common goal:" + (playerScoreTiles.size() > 0 && playerScoreTiles.get(0) != null ? playerScoreTiles.get(0).getValue() : "/") +
                 ", Second common goal:" + (playerScoreTiles.size() > 1 && playerScoreTiles.get(1) != null ? playerScoreTiles.get(1).getValue() : "/") + ", Victory:" +
                 (playerScoreTiles.size() > 2 && playerScoreTiles.get(2) != null ? playerScoreTiles.get(2).getValue() : "/") + " (Score tiles values)" + "\n" +
@@ -667,5 +671,20 @@ public class TextualUI implements UI {
                     ██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                     ╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """);
+    }
+
+    /**
+     * Show the scoreboard of the game, sorting the player in
+     * descending order of their score
+     */
+    public void showGameEnd() {
+        List<PlayerView> playerOrderedByPoints = this.genericUILogic.getModel().getPlayers().stream().sorted((p1,p2)->p2.score() - p1.score()).toList();
+        System.out.println("""
+              ---GAME ENDED---
+              SCOREBOARD:
+              """);
+        for(int playerPosition = 0;playerPosition<playerOrderedByPoints.size();playerPosition++) {
+            System.out.println((playerPosition+1)+")"+playerOrderedByPoints.get(playerPosition).getNickname() + ": " + playerOrderedByPoints.get(playerPosition).score());
+        }
     }
 }

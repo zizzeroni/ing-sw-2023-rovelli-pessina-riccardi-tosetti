@@ -248,8 +248,13 @@ public class GameController {
         state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
     }
 
-    /*
-     * TODO
+    /**
+     * Checks if there are some player in excess within the game lobby that shouldn't be connected.
+     *
+     * @see CreationState#checkExceedingPlayer(int)
+     * @see FinishingState#checkExceedingPlayer(int)
+     * @see InPauseState#checkExceedingPlayer(int)
+     * @see OnGoingState#checkExceedingPlayer(int)
      */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);

@@ -146,13 +146,24 @@ public interface Server extends Remote {
      */
     public void register(Client client, String nickname) throws RemoteException;
 
-    /*
-     * TODO
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param nickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
      */
     public void restoreGameForPlayer(String nickname) throws RemoteException;
 
-    /*
-     * TODO
+    /**
+     * Verifies if there are any saved games associated to the given player.
+     *
+     * @param nickname the given player's nickname.
+     * @throws RemoteException called when a communication error occurs.
+     *
+     * @see Game
+     * @see Player
      */
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
 
