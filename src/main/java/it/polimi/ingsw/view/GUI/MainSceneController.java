@@ -1487,40 +1487,43 @@ public class MainSceneController implements Initializable {
     }
 
     public void startCensure() {
-        this.inCensure = this.inCensure+1;
-        //this.setTable();
-        //onCountdown = true;
-        double wi = this.mainGraphicalUI.getWidthOld();
-        double he = this.mainGraphicalUI.getHeightOld();
-        censure.setMaxSize(wi, he);
-        censure.setOpacity(0.5);
-        commonGoal1.setOnMouseEntered(null);
-        commonGoal2.setOnMouseEntered(null);
-        commonGoal1.setOnMouseExited(null);
-        commonGoal2.setOnMouseExited(null);
-        personalGoal.setOnMouseEntered(null);
-        personalGoal.setOnMouseExited(null);
-        countdownLabel.setLayoutX(wi * 0.55);
-        countdownLabel.setLayoutY(he * 0.70);
-        personalGoal.setVisible(false);
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            countdownLabel.setText("Only 1 player remaining, \n" +
-                    "waiting for other player to reconnect \n"+
-                    mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
-            countDownLatch.countDown();
-        });
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(inCensure==0) {
+            System.out.println("inizio censura");
+            this.inCensure = this.inCensure + 1;
+            //this.setTable();
+            //onCountdown = true;
+            double wi = this.mainGraphicalUI.getWidthOld();
+            double he = this.mainGraphicalUI.getHeightOld();
+            censure.setMaxSize(wi, he);
+            censure.setOpacity(0.5);
+            commonGoal1.setOnMouseEntered(null);
+            commonGoal2.setOnMouseEntered(null);
+            commonGoal1.setOnMouseExited(null);
+            commonGoal2.setOnMouseExited(null);
+            personalGoal.setOnMouseEntered(null);
+            personalGoal.setOnMouseExited(null);
+            countdownLabel.setLayoutX(wi * 0.55);
+            countdownLabel.setLayoutY(he * 0.70);
+            personalGoal.setVisible(false);
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                countdownLabel.setText("Only 1 player remaining, \n" +
+                        "waiting for other player to reconnect \n" +
+                        mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-
         //this.threadCounter();
     }
 
     public void endCensure() {
         if(this.inCensure==1) {
+            System.out.println("finisco censura");
             this.inCensure = 0;
         }
         //if (onCountdown) {

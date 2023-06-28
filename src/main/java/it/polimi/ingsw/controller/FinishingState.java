@@ -72,6 +72,7 @@ public class FinishingState extends ControllerState {
      * @see Game#getActivePlayerIndex()
      */
     private void changeActivePlayer() {
+        System.out.println("cambio player");
         if (this.controller.getModel().getActivePlayerIndex() == this.controller.getModel().getPlayers().size() - 1) {
             this.controller.getModel().setGameState(GameState.RESET_NEEDED);
         } else {

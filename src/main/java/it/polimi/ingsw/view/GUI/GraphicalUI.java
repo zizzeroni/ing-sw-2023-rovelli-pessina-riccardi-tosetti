@@ -383,6 +383,8 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
+            Choice temp = null;
+
             if (!activePlayer.getNickname().equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname())) {
                 mainSceneController.lockAllTiles();
                 mainSceneController.lockAllTilesAfterPick();
@@ -400,16 +402,23 @@ public class GraphicalUI extends Application implements UI {
                         Thread.onSpinWait();
                         //Aspetto che arrivino le scelte del player;
                     }
+                    if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
+                    this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
+                    temp = takenTiles;
+                    takenTiles = null;
                 }else{
                         this.mainSceneController.endCensure();
+                    if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
+                    this.genericUILogic.getController().insertUserInputIntoModel(temp);
                 }
 
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
 
-                this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
-                if(this.mainSceneController.getInCensure()==0) {
-                    takenTiles = null;
-                }
+                System.out.println(takenTiles);
+                System.out.println(this.mainSceneController.getInCensure());
+
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
@@ -487,7 +496,7 @@ public class GraphicalUI extends Application implements UI {
                 if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME) {
                     if (firstTime) {
                         firstTime = false;
-                        this.mainSceneController.startCensure();
+                        //this.mainSceneController.startCensure();
                     } else {
                         if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                             this.mainSceneController.endCensure();
