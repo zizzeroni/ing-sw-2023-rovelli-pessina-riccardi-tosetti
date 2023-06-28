@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;/image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
     <children>
-      <Pane fx:id="censure" opacity="0.0" prefHeight="826.0" prefWidth="1520.0" style="-fx-background-color: White;">
+      <Pane fx:id="content">
          <children>
             <Label fx:id="countdownLabel" layoutX="650.0" layoutY="400.0">
                <font>
