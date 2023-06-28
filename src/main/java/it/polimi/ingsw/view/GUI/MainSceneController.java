@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.OptionsValues;
 import javafx.application.Platform;
@@ -28,6 +29,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The controller associated with the GUI's main scene and employed in its management.
+ */
 public class MainSceneController implements Initializable {
     private GraphicalUI mainGraphicalUI;
     @FXML
@@ -85,6 +89,12 @@ public class MainSceneController implements Initializable {
     private Thread printCountdownThread;
     private boolean onCountdown;
 
+    /**
+     * Initialize the resources for the main scene.
+     *
+     * @param url the given url
+     * @param resourceBundle the graphical bundle used in GUI's scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameOn = true;
@@ -109,6 +119,11 @@ public class MainSceneController implements Initializable {
 
     }
 
+    /**
+     * Effectuates a selection on the given action event.
+     *
+     * @param actionEvent the considered action event.
+     */
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -178,6 +193,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void overButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
@@ -185,6 +205,11 @@ public class MainSceneController implements Initializable {
         node.setOpacity(0.5);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void notOverButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
@@ -192,6 +217,11 @@ public class MainSceneController implements Initializable {
         node.setOpacity(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void onCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -207,6 +237,11 @@ public class MainSceneController implements Initializable {
         thirdPlayerBookshelf.setViewOrder(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void exitCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -222,6 +257,14 @@ public class MainSceneController implements Initializable {
         thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the first common goal image.
+     *
+     * @param mouseEvent the given mouse event.
+     *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     */
     public void onCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -237,6 +280,14 @@ public class MainSceneController implements Initializable {
         thirdPlayerBookshelf.setViewOrder(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
+     *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     */
     public void exitCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -252,6 +303,9 @@ public class MainSceneController implements Initializable {
         thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
+    /**
+     * @param mouseEvent
+     */
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -261,6 +315,9 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(450);
     }
 
+    /**
+     * @param mouseEvent
+     */
     public void exitPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -271,6 +328,10 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(510);
     }
 
+    /**
+     * Sets the disposal of the various scene elements shown in the GUI,
+     * considering their positioning, names, and other characteristics.
+     */
     public void setTable() {
         startOrder = 0;
         firstColumn = 0;
@@ -425,6 +486,15 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Cancels the actual tile's disposal on the game's board
+     *
+     * @param row the selected row.
+     * @param column the selected column.
+     *
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Board
+     */
     public void cancelBoardTile(int row, int column) {
         tileName = "";
         tileName += "#boardTile";
@@ -449,6 +519,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Sets the tile's disposal on the GUI for the current game's board.
+     *
+     * @param row the selected row.
+     * @param column the selected column.
+     * @param tileId the tile identifier.
+     * @param tileColor the color of the considered tile.
+     */
     public void setBoardTile(int row, int column, int tileId, String tileColor) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -536,6 +614,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of the tile in given position (for game's set up).
+     *
+     * @param row the selected row.
+     * @param column the selected column.
+     */
     public void disableTile(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -562,6 +646,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of the tile in given position (for player's moves during the game's development
+     *  when a tile is picked).
+     *
+     * @param row the selected row.
+     * @param column the selected column.
+     */
     public void disableTileAfterPick(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -577,6 +668,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Permits to access a tile again after a previous call to some access restriction related methods.
+     *
+     * @param row the selected row.
+     * @param column the selected column.
+     */
     public void ableTile(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -600,19 +697,43 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Sets the GUI for the Main Scene.
+     *
+     * @param graphicalUI the GUI to be set.
+     */
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
     }
 
+    /**
+     * Sets the main scene
+     *
+     * @param scene the scene being set.
+     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }
 
+    /**
+     * Sets the number of player at the starting of the game.
+     *
+     * @param numberOfPlayers the number of players for the current game.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setNumberOfPlayer(int numberOfPlayers) {
         this.numberOfPlayer = numberOfPlayers;
         playerName = new String[numberOfPlayers + 1];
     }
 
+    /**
+     * Sets the nicknames for the given list of players.
+     *
+     * @param players the players list.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -649,6 +770,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to set the personal goals linked to the main scene.
+     *
+     * @param personalGoal the given personal goal.
+     *
+     * @see it.polimi.ingsw.model.PersonalGoal
+     */
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
         personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getId() + ".png";
@@ -669,6 +797,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to set the common goals list linked to the main scene.
+     *
+     * @param commonGoals the list of common goals.
+     *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     */
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
         int firstCommonGoalID = commonGoals.get(0).getId();
         int secondCommonGoalID = commonGoals.get(1).getId();
@@ -692,6 +827,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows tiles selection in the main scene context.
+     *
+     * @param actionEvent the action event associated to tiles selection.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -730,6 +872,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Used to indicate the end of the tiles selection phase.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     public void endSelectionTiles() {
         String style;
         String selectedName;
@@ -764,6 +911,23 @@ public class MainSceneController implements Initializable {
 
     }
 
+    /**
+     * Checks if the first two tiles chosen by the {@code Player} are present in the same direction.
+     * The HORIZONTAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in row.
+     * The VERTICAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in column.
+     * Verify if the {@code Player} commit mistakes during selection.
+     *
+     * @param row the row in selection.
+     * @param column the column in selection.
+     * @param firstRow the inspection starting row.
+     * @param firstColumn the inspection starting column.
+     * @return the direction of the two current tiles chosen.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
             System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
@@ -779,6 +943,24 @@ public class MainSceneController implements Initializable {
         return null;
     }
 
+    /**
+     * Checks if the first two tiles chosen by the {@code Player} are present in the same direction.
+     * The HORIZONTAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in row.
+     * The VERTICAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in column.
+     * Verify if the {@code Player} commit mistakes during selection.
+     *
+     * @param row the row in selection.
+     * @param column the column in selection.
+     * @param  prevTilesCoordinates the coordinates of the previously chosen tiles.
+     * @param directionToCheck the direction of the two current tiles chosen.
+     * @return {@code true} iff the check is successful, {@code false} otherwise.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see it.polimi.ingsw.model.Game
+     */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
             directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
@@ -821,6 +1003,16 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
+     *
+     * @param row is the row of the checked {@code Tile}.
+     * @param column is the column of the checked {@code Tile}.
+     * @return {@code true} if and only if the {@code Tile}'s can be picked,
+     *         {@code false} otherwise.
+     *
+     * @see Tile
+     */
     private boolean checkIfPickable(int row, int column) {
         BoardView board = mainGraphicalUI.genericUILogic.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
@@ -840,6 +1032,11 @@ public class MainSceneController implements Initializable {
         return false;
     }
 
+    /**
+     * Identifies the presence of the mouse cursor over a column.
+     *
+     * @param mouseEvent the associated mouse event.
+     */
     public void overColumn(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
@@ -861,6 +1058,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Identifies the absence of the mouse cursor over a column.
+     *
+     * @param mouseEvent the associated mouse event.
+     */
     public void notOverColumn(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
@@ -881,6 +1083,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows to insert the selected tile in a bookshelf slot.
+     *
+     * @param actionEvent the event associated to tiles insertion.
+     *
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see Tile
+     */
     public void insertTileIntoBookshelf(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -921,6 +1131,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Sets the nickname of the first player joining the game's lobby.
+     *
+     * @param nickname the chosen nickname.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setFirstPlayerNickname(String nickname) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -936,6 +1154,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows column selection in the main scene context.
+     *
+     * @param actionEvent the action of column selection.
+     */
     public void selectColumn(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -961,6 +1184,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Disables the button selection related actions of the first player.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     private void disableFirstPlayerButton() {
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 6; c++) {
@@ -975,6 +1203,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Enables the button selection related actions of the first player.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     private void ableFirstPlayerButton() {
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 6; c++) {
@@ -989,6 +1222,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of all the tiles.
+     *
+     * @see Tile
+     */
     public void lockAllTiles() {
         for (int r = 0; r < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); r++) {
             for (int c = 0; c < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); c++) {
@@ -997,6 +1235,7 @@ public class MainSceneController implements Initializable {
         }
     }
 
+<<<<<<< Updated upstream
     public void lockAllTilesAfterPick() {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -1014,6 +1253,16 @@ public class MainSceneController implements Initializable {
         }
     }
 
+=======
+    /**
+     * Sets the disposal of the player's bookshelf.
+     *
+     * @param players the list of players.
+     *
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Bookshelf
+     */
+>>>>>>> Stashed changes
     public void setBookshelf(List<PlayerView> players) {
         for (int i = 0; i < players.size() - 1; i++) {
             int playerNumber = i + 2;
@@ -1108,6 +1357,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+
+    /**
+     * Sets the points associated to the common goals.
+     *
+     * @param commonGoals the list of given common goals.
+     *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     */
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
         //I take the number of score tiles remaining for both common goals
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
@@ -1162,6 +1419,11 @@ public class MainSceneController implements Initializable {
     }
 
 
+    /**
+     * Deletes the previous mouse event.
+     *
+     * @param mouseEvent the event to be deleted.
+     */
     public void DeletePrevious(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof TextField node))
             return;
@@ -1169,6 +1431,11 @@ public class MainSceneController implements Initializable {
         node.setText("");
     }
 
+    /**
+     * Identifies the refresh point for the board and other graphical elements on the GUI.
+     *
+     * @see GraphicalUI
+     */
     public void refreshPoint() {
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -1184,6 +1451,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows to send a message through the GUI's chat.
+     *
+     * @param actionEvent the event linked to the message sending.
+     *
+     * @see GraphicalUI
+     */
     public void sendMessage(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -1250,6 +1524,13 @@ public class MainSceneController implements Initializable {
 //        th1.start();
 //    }
 
+    /**
+     * Deprecated. It was used for testing during chat development.
+     *
+     * @param gameState the current game's state
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     public void chatUpdate(boolean gameState) {
 //        var th = new Thread(() -> {
 //            gameOn = gameState;
@@ -1287,6 +1568,13 @@ public class MainSceneController implements Initializable {
         return gameOn;
     }
 
+    /**
+     * Signals that the current game is on going.
+     *
+     * @param gameOn the boolean used to change the current game's state.
+     *
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setGameOn(boolean gameOn) {
         this.gameOn = gameOn;
     }

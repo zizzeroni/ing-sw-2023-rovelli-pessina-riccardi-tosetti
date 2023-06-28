@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Choice;
 
 /**
  * An interface used to represent an object of type 'listener'.
- * In this case the listener registers itself to the {@code View}.
+ * In this case the interface is used by the client implementation.
  * When the view is subject to changes the listener responds to them
  * through a set of various methods reported in the different states, having
  * similar, but distinct, implementations.
