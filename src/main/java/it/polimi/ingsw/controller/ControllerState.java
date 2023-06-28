@@ -32,7 +32,7 @@ public abstract class ControllerState {
      * @see FinishingState#sendPrivateMessage(String, String, String)
      * @see OnGoingState#sendPrivateMessage(String, String, String)
      */
-    public abstract void changeTurn();
+    public abstract void changeTurn(String gamesStoragePath, String gamesStoragePathBackup);
 
     /**
      * Through its various implementations, allows the {@code Player}

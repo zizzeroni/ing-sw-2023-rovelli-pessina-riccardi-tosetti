@@ -12,9 +12,10 @@ import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 import it.polimi.ingsw.utils.OptionsValues;
+import org.junit.platform.commons.logging.LoggerFactory;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,21 +58,27 @@ public class GameController {
         this.boardPatterns = new ArrayList<>();
 
         Gson gson = new Gson();
-        Reader reader;
-        try {
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
+
+        try(InputStream is = getClass().getClassLoader().getResourceAsStream("storage/patterns/personal-goals.json");
+            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
             this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
-            reader.close();
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load personal-goals.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
 
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
-            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
-            }.getType());
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
 
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("storage/patterns/boards.json");
+            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)){
+            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load boards.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
+        }
     }
 
     /**
@@ -99,8 +106,8 @@ public class GameController {
     /**
      * Change the turn in the context of the present {@code State}.
      */
-    public void changeTurn() {
-        state.changeTurn();
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
+        state.changeTurn(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
@@ -259,9 +266,9 @@ public class GameController {
      * @see Player#setConnected(boolean)
      */
     public void disconnectPlayer(String nickname) {
-        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players before disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
-        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players after disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
     }
 
 
@@ -279,7 +286,6 @@ public class GameController {
 
     public void setModel(Game model) {
         this.model = model;
-        //this.listener.gameRestored();
     }
 
     /**

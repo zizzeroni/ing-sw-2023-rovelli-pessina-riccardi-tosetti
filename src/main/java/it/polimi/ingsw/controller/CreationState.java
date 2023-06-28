@@ -41,7 +41,7 @@ public class CreationState extends ControllerState {
      * @see Game
      */
     @Override
-    public void changeTurn() {
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
@@ -187,7 +187,7 @@ public class CreationState extends ControllerState {
                         this.controller.getModel().getCommonGoals().add(newCommonGoal);
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -339,7 +339,10 @@ public class CreationState extends ControllerState {
         Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
 
         if (storedCurrentGame != null) {
+            storedCurrentGame.getPlayers().forEach(p -> p.setConnected(false));
+            storedCurrentGame.getPlayerFromNickname(nickname).setConnected(true);
             this.controller.setModel(storedCurrentGame);
+            this.controller.getModel().setActivePlayerIndex(this.controller.getModel().getPlayers().indexOf(this.controller.getModel().getPlayerFromNickname(nickname)));
             this.controller.getModel().registerListener(server);
         } else {
             throw new RuntimeException("There aren't available games to restore for player " + nickname);

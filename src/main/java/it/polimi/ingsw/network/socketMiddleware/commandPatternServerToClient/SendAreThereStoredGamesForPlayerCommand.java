@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 
 /**

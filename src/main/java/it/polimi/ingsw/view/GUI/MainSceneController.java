@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The controller associated with the GUI's main scene and employed in its management.
@@ -333,6 +332,7 @@ public class MainSceneController implements Initializable {
      * considering their positioning, names, and other characteristics.
      */
     public void setTable() {
+        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -867,8 +867,6 @@ public class MainSceneController implements Initializable {
             }
             ableFirstPlayerButton();
             button.setOnAction(null);
-        } else {
-            System.err.println("seleziona almeno una tile");
         }
     }
 
@@ -930,7 +928,6 @@ public class MainSceneController implements Initializable {
      */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return null;
         }
         if ((row == firstRow) && (column - 1 == firstColumn || column + 1 == firstColumn)) {
@@ -939,7 +936,6 @@ public class MainSceneController implements Initializable {
         if ((column == firstColumn) && (row - 1 == firstRow || row + 1 == firstRow)) {
             return Direction.VERTICAL;
         }
-        System.err.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
         return null;
     }
 
@@ -964,13 +960,11 @@ public class MainSceneController implements Initializable {
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
             directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
         }
         switch (directionToCheck) {
             case HORIZONTAL -> {
                 if (row != prevTilesCoordinates.get(0).getX()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -978,13 +972,11 @@ public class MainSceneController implements Initializable {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
             case VERTICAL -> {
                 if (column != prevTilesCoordinates.get(0).getY()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -992,12 +984,10 @@ public class MainSceneController implements Initializable {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
             default -> {
-                System.err.println("Something went wrong, i didn't expected this value");
                 return false;
             }
         }
@@ -1023,11 +1013,7 @@ public class MainSceneController implements Initializable {
                     (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
-            } else {
-                System.err.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
             }
-        } else {
-            System.err.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
         }
         return false;
     }
@@ -1117,16 +1103,6 @@ public class MainSceneController implements Initializable {
         if (startOrder == takenTiles.getChosenTiles().size()) {
             takenTiles.setChosenColumn(Integer.parseInt(selectedColumn));
             takenTiles.setTileOrder(order);
-            System.out.println("END TURN");
-
-//            for (int i = 5-startOrder+activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn)); i >= 0; i--) {
-//                String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
-//                Button buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-//                if (buttonOfColumn != null) {
-//                    buttonOfColumn.setOpacity(0);
-//                    buttonOfColumn.setBorder(null);
-//                }
-//            }
             mainGraphicalUI.finishTurn(takenTiles);
         }
     }
@@ -1171,7 +1147,6 @@ public class MainSceneController implements Initializable {
         PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
         if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
-            System.err.println("La colonna non è selezionabile");
         } else {
             for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
                 selectedButtonName = "#selected" + i;
@@ -1235,7 +1210,6 @@ public class MainSceneController implements Initializable {
         }
     }
 
-<<<<<<< Updated upstream
     public void lockAllTilesAfterPick() {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -1253,7 +1227,6 @@ public class MainSceneController implements Initializable {
         }
     }
 
-=======
     /**
      * Sets the disposal of the player's bookshelf.
      *
@@ -1262,7 +1235,6 @@ public class MainSceneController implements Initializable {
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Bookshelf
      */
->>>>>>> Stashed changes
     public void setBookshelf(List<PlayerView> players) {
         for (int i = 0; i < players.size() - 1; i++) {
             int playerNumber = i + 2;
@@ -1493,77 +1465,6 @@ public class MainSceneController implements Initializable {
         th.start();
     }
 
-//    public void updateChat() {
-//        var th1 = new Thread(() -> {
-//            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
-//
-//            CountDownLatch countDownLatch = new CountDownLatch(1);
-//            Platform.runLater(() -> {
-//                VBoxMessage.getChildren().clear();
-//                if (fullChat.size() != 0) {
-//                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-//                        Text text = new Text(message.toString());
-//                        Font font = new Font(14);
-//                        text.setFont(font);
-//                        VBoxMessage.getChildren().add(0, text); // add on top
-//                    }
-//                }
-//                countDownLatch.countDown();
-//            });
-//
-//            try {
-//                countDownLatch.await();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        th1.setUncaughtExceptionHandler((t, e) -> {
-//            System.err.println("Uncaught exception in thread");
-//            e.printStackTrace();
-//        });
-//        th1.start();
-//    }
-
-    /**
-     * Deprecated. It was used for testing during chat development.
-     *
-     * @param gameState the current game's state
-     *
-     * @see it.polimi.ingsw.model.Game
-     */
-    public void chatUpdate(boolean gameState) {
-//        var th = new Thread(() -> {
-//            gameOn = gameState;
-//            while (gameOn) {
-//                List<Message> fullChat = this.mainGraphicalUI.genericUILogic.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
-//
-//                CountDownLatch countDownLatch = new CountDownLatch(1);
-//                Platform.runLater(() -> {
-//                    VBoxMessage.getChildren().clear();
-//                    if (fullChat.size() != 0) {
-//                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-//                            Text text = new Text(message.toString());
-//                            Font font = new Font(14);
-//                            text.setFont(font);
-//                            VBoxMessage.getChildren().add(0, text); // add on top
-//                        }
-//                    }
-//                    countDownLatch.countDown();
-//                });
-//                try {
-//                    countDownLatch.await();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//        th.setUncaughtExceptionHandler((t, e) -> {
-//            System.err.println("Uncaught exception in thread");
-//            e.printStackTrace();
-//        });
-//        th.start();
-    }
-
     public boolean isGameOn() {
         return gameOn;
     }
@@ -1597,7 +1498,8 @@ public class MainSceneController implements Initializable {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
             countdownLabel.setText("Only 1 player remaining, \n" +
-                    "waiting for other player to reconnect");
+                    "waiting for other player to reconnect \n"+
+                    mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
             countDownLatch.countDown();
         });
         try {
@@ -1635,47 +1537,5 @@ public class MainSceneController implements Initializable {
             personalGoal.setVisible(true);
         //}
     }
-
-    private final int countdown = OptionsValues.MILLISECOND_COUNTDOWN_VALUE / 1000;
-//
-//    public void threadCounter() {
-//        printCountdownThread = createPrintCountdownThread();
-//        printCountdownThread.start();
-//        printCountdownThread.setUncaughtExceptionHandler((t, e) -> {
-//            System.err.println("Uncaught exception in thread");
-//            e.printStackTrace();
-//        });
-//    }
-//
-//    private Thread createPrintCountdownThread() {
-//        return new Thread(() -> {
-//            AtomicInteger countdownAtomic = new AtomicInteger(countdown - 1);
-////            countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
-//            setCountdownLabel(countdownAtomic);
-//            for (; countdownAtomic.get() > 0; countdownAtomic.getAndDecrement()) {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    //RESUME
-//                    return;
-//                }
-//                    setCountdownLabel(countdownAtomic);
-////                countdownLabel.setText("COUNTDOWN STARTED: " + countdownAtomic);
-//            }
-//        });
-//    }
-//
-//    private void setCountdownLabel(AtomicInteger countdown) {
-//        CountDownLatch countDownLatch = new CountDownLatch(1);
-//        Platform.runLater(() -> {
-//            countdownLabel.setText("COUNTDOWN STARTED: " + countdown);
-//            countDownLatch.countDown();
-//        });
-//        try {
-//            countDownLatch.await();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
 

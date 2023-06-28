@@ -11,6 +11,8 @@ import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.UI;
 
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -35,7 +37,6 @@ public class TextualUI implements UI {
      * Initialize the game's model.
      *
      * @param genericUILogic the logic associated to the given TextualUI.
-     *
      * @see GenericUILogic
      */
     public TextualUI(GenericUILogic genericUILogic) {
@@ -106,7 +107,6 @@ public class TextualUI implements UI {
      * Evaluates the waiting states for the game's lobby and the adding of a player.
      *
      * @param clientGameState the current state of the given game's client.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      */
@@ -132,18 +132,20 @@ public class TextualUI implements UI {
     }
 
     private void waitWhileInStates(List<ClientGameState> gameStates) {
+        int precActivePlayerIndex = -1;
         synchronized (this.genericUILogic.getLockState()) {
             switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
                     System.out.println("Waiting for the game to start...");
                 }
-                //case WAITING_FOR_OTHER_PLAYER ->
-                        //System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
             }
             while (gameStates.contains(genericUILogic.getState())) {
                 try {
-                    if(genericUILogic.getState() == ClientGameState.WAITING_FOR_OTHER_PLAYER) {
-                        System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                    if (genericUILogic.getState() == ClientGameState.WAITING_FOR_OTHER_PLAYER) {
+                        if (precActivePlayerIndex != genericUILogic.getModel().getActivePlayerIndex()) {
+                            System.out.println("Waiting for others player moves: " + this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname() + "...");
+                            precActivePlayerIndex = genericUILogic.getModel().getActivePlayerIndex();
+                        }
                     }
                     genericUILogic.getLockState().wait();
 
@@ -245,10 +247,9 @@ public class TextualUI implements UI {
     /**
      * Identifies the choices of the player during the turn, the ones related to tiles selection.
      *
-     * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
+     * @param iterationCount   used to iterate on the player's choice (the calls for input insertion in a turn are limited).
      * @param isRowBeingChosen {@code true} if and only if the selected bookshelf's row is the one passed as parameter, {@code false} otherwise.
      * @return the index of the chosen rowColumnTile.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Choice
      * @see it.polimi.ingsw.model.Bookshelf
@@ -280,7 +281,6 @@ public class TextualUI implements UI {
      *
      * @param iterationCount used to iterate on the player's choice (the calls for input insertion in a turn are limited).
      * @return the index of the selected column.
-     *
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Player
      * @see Choice
@@ -319,7 +319,6 @@ public class TextualUI implements UI {
      * The possible choices are: 'display the personal recap', tile's selection, 'send chat message', call disconnection.
      *
      * @return the player's choice.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.network.Client
      * @see it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer.DisconnectPlayerCommand
@@ -408,7 +407,7 @@ public class TextualUI implements UI {
                         playerChoice.setTileOrder(new int[]{0});
                     } else {
                         System.out.println("Choose the tiles' insertion order(1 stands for the first picked tile, 2 for the second and 3 for the third.");
-                        System.out.println("An example of insertion is: 1,3,2)");
+                        System.out.println("An example of insertion is: (1,3,2)");
                         boolean isInsertCorrect = false;
                         do {
                             input = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
@@ -453,7 +452,7 @@ public class TextualUI implements UI {
                     System.exit(0);
                 }
                 default -> {
-                    System.err.println("Non hai inserito un valore valido, riprova! (Inserisci uno degli indici del menù)");
+                    System.err.println("You have not entered a valid value, please try again! (Enter one of the menu indexes)");
                 }
             }
         }
@@ -467,18 +466,17 @@ public class TextualUI implements UI {
      * of the chosen set from in column.
      * Verify if the {@code Player} commit mistakes during selection.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
-     * @param firstRow the inspection starting row.
+     * @param row         the row in selection.
+     * @param column      the column in selection.
+     * @param firstRow    the inspection starting row.
      * @param firstColumn the inspection starting column.
      * @return the direction of the two current tiles chosen.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            System.err.println("You cannot choose a tile that has already been chosen, try again!");
             return null;
         }
         if ((row == firstRow) && (column - 1 == firstColumn || column + 1 == firstColumn)) {
@@ -487,7 +485,7 @@ public class TextualUI implements UI {
         if ((column == firstColumn) && (row - 1 == firstRow || row + 1 == firstRow)) {
             return Direction.VERTICAL;
         }
-        System.err.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
+        System.err.println("Selected tiles must form a straight line and be adjacent, try again!");
         return null;
     }
 
@@ -496,26 +494,25 @@ public class TextualUI implements UI {
      * present in the current selection at the given coordinates and
      * if the {@code Player} has properly inserted all the tiles in the {@code Board}.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
+     * @param row                  the row in selection.
+     * @param column               the column in selection.
      * @param prevTilesCoordinates the coordinates of the Tiles which have already been placed on the {@code Board}.
-     * @param directionToCheck the direction (on row/column) which is selected for inspection.
+     * @param directionToCheck     the direction (on row/column) which is selected for inspection.
      * @return {@code true} if and only if the {@code Tile}
-     *          has already been placed in a previous turn.
-     *
+     * has already been placed in a previous turn.
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
+            System.err.println("You cannot choose a tile that has already been chosen, try again!");
             return false;
         }
         switch (directionToCheck) {
             case HORIZONTAL -> {
                 if (row != prevTilesCoordinates.get(0).getX()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Selected tiles must form a straight line and be adjacent, try again!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -523,13 +520,13 @@ public class TextualUI implements UI {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Selected tiles must form a straight line and be adjacent, try again!");
                 }
                 return false;
             }
             case VERTICAL -> {
                 if (column != prevTilesCoordinates.get(0).getY()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Selected tiles must form a straight line and be adjacent, try again!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -537,7 +534,7 @@ public class TextualUI implements UI {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
+                    System.err.println("Selected tiles must form a straight line and be adjacent, try again!");
                 }
                 return false;
             }
@@ -552,13 +549,12 @@ public class TextualUI implements UI {
      * Method that verifies if the tiles in the turn selection are available
      * to the player for picking.
      *
-     * @param row is the index of the selected row.
+     * @param row    is the index of the selected row.
      * @param column is the index of the selected column.
      * @return {@code true} if and only if the {@code boardMatrix}
-     *                presents a collectable tile in the position
-     *                identified though the given coordinates;
-     *                {@code false} otherwise
-     *
+     * presents a collectable tile in the position
+     * identified though the given coordinates;
+     * {@code false} otherwise
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -573,10 +569,10 @@ public class TextualUI implements UI {
                     (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
                 return true;
             } else {
-                System.err.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
+                System.err.println("Impossible to take the tile (It has all sides occupied), try again!");
             }
         } else {
-            System.err.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
+            System.err.println("There is no tile in the selected cell, try again!");
         }
         return false;
     }
@@ -636,39 +632,17 @@ public class TextualUI implements UI {
      *
      * @see it.polimi.ingsw.model.Game
      */
-    public void printTitleScreen(){
-
-        System.out.println ("███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗");
-        System.out.println ("████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝");
-        System.out.println ("██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░");
-        System.out.println ("██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░");
-        System.out.println ("██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗");
-        System.out.println ("╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝");
-        System.out.println ("                           GAME OF THE YEAR EDITION");
+    public void printTitleScreen() {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println("""
+                    ███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
+                    ████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝
+                    ██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░
+                    ██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░
+                    ██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
+                    ╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
+                """);
     }
-
-/*
-
-
-
-
-███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
-████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝
-██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░
-██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░
-██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
-╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
-                           GAME OF THE YEAR EDITION
-
-
-
-
-░██████╗░░█████╗░████████╗██╗░░░██╗░░░░░░░░███████╗██████╗░██╗████████╗██╗░█████╗░███╗░░██╗
-██╔════╝░██╔══██╗╚══██╔══╝╚██╗░██╔╝░░░░░░░░██╔════╝██╔══██╗██║╚══██╔══╝██║██╔══██╗████╗░██║
-██║░░██╗░██║░░██║░░░██║░░░░╚████╔╝░░░░░░░░░█████╗░░██║░░██║██║░░░██║░░░██║██║░░██║██╔██╗██║
-██║░░╚██╗██║░░██║░░░██║░░░░░╚██╔╝░░░░░░░░░░██╔══╝░░██║░░██║██║░░░██║░░░██║██║░░██║██║╚████║
-╚██████╔╝╚█████╔╝░░░██║░░░░░░██║░░░░░░░░░░░███████╗██████╔╝██║░░░██║░░░██║╚█████╔╝██║░╚███║
-░╚═════╝░░╚════╝░░░░╚═╝░░░░░░╚═╝░░░░░░░░░░░╚══════╝╚═════╝░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
-*/
-
 }

@@ -41,8 +41,8 @@ import static it.polimi.ingsw.AppClient.startPingSenderThread;
  * @see TextualUI
  */
 public class GraphicalUI extends Application implements UI {
-    Server serverConnectedTo;
-    Client selfClient;
+    private Server serverConnectedTo;
+    private Client selfClient;
     protected GenericUILogic genericUILogic;
     private double widthOld, heightOld;
     private boolean resizing = true;
@@ -84,6 +84,7 @@ public class GraphicalUI extends Application implements UI {
     public GraphicalUI() {
         this.genericUILogic = new GenericUILogic();
     }
+
     /**
      * Class constructor.
      * <p>
@@ -94,6 +95,7 @@ public class GraphicalUI extends Application implements UI {
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
         this.genericUILogic = new GenericUILogic(model, controller, nickname);
     }
+
     /**
      * Class constructor.
      * <p>
@@ -111,7 +113,6 @@ public class GraphicalUI extends Application implements UI {
      *
      * @param primaryStage the game's window.
      * @throws Exception called if a communication error related to the gui occurs.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     @Override
@@ -139,7 +140,7 @@ public class GraphicalUI extends Application implements UI {
             try {
                 Registry registry = LocateRegistry.getRegistry(ip, Integer.parseInt(port));
                 serverConnectedTo = (Server) registry.lookup(OptionsValues.SERVER_RMI_NAME);
-                new ClientImpl(serverConnectedTo, this);
+                selfClient = new ClientImpl(serverConnectedTo, this);
                 startPingSenderThread(serverConnectedTo);
             } catch (RemoteException | NotBoundException e) {
                 throw new RuntimeException(e);
@@ -205,7 +206,6 @@ public class GraphicalUI extends Application implements UI {
      * Adds a
      *
      * @param listener the View's Listener.
-     *
      * @see java.net.http.WebSocket.Listener
      */
     @Override
@@ -227,7 +227,6 @@ public class GraphicalUI extends Application implements UI {
      * Sets the player's nickname for the provided part of the generic ui's logic.
      *
      * @param nickname the player's nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see GenericUILogic
      */
@@ -240,7 +239,6 @@ public class GraphicalUI extends Application implements UI {
      * Signals that the game's model has been modified.
      *
      * @param modelUpdated the updated model.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     @Override
@@ -252,7 +250,6 @@ public class GraphicalUI extends Application implements UI {
      * Used to display a generic game's exception through the generic ui's logic.
      *
      * @param exception the given GenericException.
-     *
      * @see GenericUILogic
      * @see GenericException
      */
@@ -265,7 +262,6 @@ public class GraphicalUI extends Application implements UI {
      * Setter used to provided stored game's for the player reconnecting to the current's game server.
      *
      * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     @Override
@@ -388,16 +384,15 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
-            if(!activePlayer.getNickname().equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname())){
+            if (!activePlayer.getNickname().equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname())) {
                 mainSceneController.lockAllTiles();
                 mainSceneController.lockAllTilesAfterPick();
             }
 
             mainSceneController.setGameOn(true);
-            mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
-                waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER,ClientGameState.WAITING_FOR_RESUME));
+                waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
                 showNewTurnIntro();
                 //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
@@ -449,14 +444,14 @@ public class GraphicalUI extends Application implements UI {
         });
         th.start();
     }
-    private void waitWhileInStates(List<ClientGameState> gameStates) {
     /**
      * Permits to wait while the client is in the specified ClientGameState.
      *
-     * @param state is the given state causing the wait.
+     * @param gameStates is the given state causing the wait.
      *
      * @see ClientGameState
      */
+    private void waitWhileInStates(List<ClientGameState> gameStates) {
         synchronized (this.genericUILogic.getLockState()) {
             switch (genericUILogic.getState()) {
                 case WAITING_IN_LOBBY -> {
@@ -465,7 +460,6 @@ public class GraphicalUI extends Application implements UI {
                     mainSceneController.lockAllTiles();
                 }
                 case WAITING_FOR_RESUME -> {
-                    System.out.println("CIAO");
                     this.mainSceneController.startCensure();
                 }
                 case GAME_ONGOING -> {
@@ -480,11 +474,11 @@ public class GraphicalUI extends Application implements UI {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME){
+                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME) {
                     if (firstTime) {
                         firstTime = false;
                         this.mainSceneController.startCensure();
-                    }else {
+                    } else {
                         if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                             this.mainSceneController.endCensure();
                             firstTime = true;
@@ -552,7 +546,6 @@ public class GraphicalUI extends Application implements UI {
      * Used for game's management between a turn and the next one.
      *
      * @param takenTiles the tiles taken by the player in his last turn.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     public void finishTurn(Choice takenTiles) {
@@ -593,9 +586,8 @@ public class GraphicalUI extends Application implements UI {
     /**
      * Creates a new Thread that will take care of the responses coming from the Server side.
      *
-     * @param client is the player's client.
+     * @param client     is the player's client.
      * @param serverStub is the stub of the server used in the current game.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Client
      * @see Server
@@ -624,7 +616,6 @@ public class GraphicalUI extends Application implements UI {
      * Sets the window displaying the GUI elements.
      *
      * @param scene is the scene containing the associated gui's elements (bookshelves, board, ...).
-     *
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Board
      */
@@ -649,7 +640,6 @@ public class GraphicalUI extends Application implements UI {
      *
      * @param wi the window's width.
      * @param he the window's height.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     public void rescale(double wi, double he) {

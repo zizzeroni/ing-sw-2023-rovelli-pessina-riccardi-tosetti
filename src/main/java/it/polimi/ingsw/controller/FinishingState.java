@@ -1,13 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
-import it.polimi.ingsw.utils.OptionsValues;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,19 +38,13 @@ public class FinishingState extends ControllerState {
      *
      */
     @Override
-    public void changeTurn() {
-        Game model = this.controller.getModel();
-
-        if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
-            //Game ended
-            model.setGameState(GameState.RESET_NEEDED);
-        } else {
-            if (this.controller.getModel().getBoard().numberOfTilesToRefill() != 0) {
-                this.refillBoard();
-            }
-            changeActivePlayer();
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
+        if (this.controller.getModel().getBoard().numberOfTilesToRefill() != 0) {
+            this.refillBoard();
         }
-        this.controller.getModel().saveGame(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
+        changeActivePlayer();
+
+        this.controller.getModel().saveGame(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
@@ -81,7 +73,7 @@ public class FinishingState extends ControllerState {
      */
     private void changeActivePlayer() {
         if (this.controller.getModel().getActivePlayerIndex() == this.controller.getModel().getPlayers().size() - 1) {
-            this.controller.getModel().setActivePlayerIndex(0);
+            this.controller.getModel().setGameState(GameState.RESET_NEEDED);
         } else {
             this.controller.getModel().setActivePlayerIndex(this.controller.getModel().getActivePlayerIndex() + 1);
         }
@@ -97,12 +89,12 @@ public class FinishingState extends ControllerState {
      * @param playerChoice is the player's choice
      */
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         if (checkIfUserInputIsCorrect(playerChoice)) {
             removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[INPUT:ERROR]: User data not correct");
+            throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
         }
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
@@ -142,7 +134,6 @@ public class FinishingState extends ControllerState {
                 }
             }
         }
-        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 
@@ -181,7 +172,7 @@ public class FinishingState extends ControllerState {
         Board board = this.controller.getModel().getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
+        return (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) && (
                 (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                         (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                         (column != board.getNumberOfColumns() - 1 && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
@@ -282,7 +273,7 @@ public class FinishingState extends ControllerState {
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
         if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
-            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full or you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }
@@ -307,7 +298,7 @@ public class FinishingState extends ControllerState {
 
 
     @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
         //Necessary in case i call this method while I'm in Finishing state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is finishing, so do nothing...

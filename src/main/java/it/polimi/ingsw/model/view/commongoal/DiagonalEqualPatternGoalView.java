@@ -29,7 +29,6 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
      */
     public DiagonalEqualPatternGoalView(DiagonalEqualPattern commonGoalModel) {
         super(commonGoalModel);
-        //TODO: Controllare se è corretto
         this.pattern = new ArrayList<>(commonGoalModel.getPattern());
     }
 

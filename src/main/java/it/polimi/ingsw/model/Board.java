@@ -105,15 +105,10 @@ public class Board {
                 }
             }
         }
-        /*if (this.listener != null) {
-            this.listener.addedTilesToBoard(this);
-        } else {
-            System.err.println("Bookshelf's listener is NULL!");
-        }*/
     }
 
     /**
-     * The method searches in the board for "lonely" {@code Tile}s (whitout any nearby, adjacent tiles).
+     * The method searches in the board for "lonely" {@code Tile}s (without any nearby, adjacent tiles).
      *
      * @return if 2 or more nearby tiles are found, returns '0',
      *          otherwise returns the number of "lonely" tiles.
@@ -160,12 +155,6 @@ public class Board {
         for (Coordinates coordinate : coordinates) {
             this.removeTile(coordinate.getX(), coordinate.getY());
         }
-
-        /*if (this.listener != null) {
-            this.listener.removedTilesFromBoard(this);
-        } else {
-            System.err.println("Board's listener is NULL!");
-        }*/
     }
 
     /**

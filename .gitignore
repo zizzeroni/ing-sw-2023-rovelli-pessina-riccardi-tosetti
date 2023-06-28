@@ -4,12 +4,9 @@
 /src/main/resources/storage/games.json
 /src/main/resources/storage/games-bkp.json
 
-#Tests
-/src/test/resources/storage/games.json
-/src/test/resources/storage/games-bkp.json
-
 # Maven
 **/target/**
+**/dependency-reduced-pom.xml
 
 # Compiled class file
 *.class
