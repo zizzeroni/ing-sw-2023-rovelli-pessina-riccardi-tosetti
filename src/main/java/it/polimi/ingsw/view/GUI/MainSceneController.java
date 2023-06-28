@@ -271,6 +271,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
+        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -892,7 +893,6 @@ public class MainSceneController implements Initializable {
         if (startOrder == takenTiles.getChosenTiles().size()) {
             takenTiles.setChosenColumn(Integer.parseInt(selectedColumn));
             takenTiles.setTileOrder(order);
-            System.out.println("END TURN");
             mainGraphicalUI.finishTurn(takenTiles);
         }
     }
@@ -1252,8 +1252,9 @@ public class MainSceneController implements Initializable {
         personalGoal.setVisible(false);
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            countdownLabel.setText("Only 1 player remaining, waiting for \n" +
-                    "other player to reconnect ("+OptionsValues.MILLISECOND_COUNTDOWN_VALUE/1000+" seconds to game end)");
+            countdownLabel.setText("Only 1 player remaining, \n" +
+                    "waiting for other player to reconnect \n"+
+                    mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
             countDownLatch.countDown();
         });
         try {

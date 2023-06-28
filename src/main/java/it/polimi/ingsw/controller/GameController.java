@@ -12,9 +12,10 @@ import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
 import it.polimi.ingsw.utils.OptionsValues;
+import org.junit.platform.commons.logging.LoggerFactory;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,21 +58,27 @@ public class GameController {
         this.boardPatterns = new ArrayList<>();
 
         Gson gson = new Gson();
-        Reader reader;
-        try {
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
+
+        try(InputStream is = getClass().getClassLoader().getResourceAsStream("storage/patterns/personal-goals.json");
+            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
             this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
-            reader.close();
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load personal-goals.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
 
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
-            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
-            }.getType());
-            reader.close();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
         }
 
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("storage/patterns/boards.json");
+            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)){
+            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load boards.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
+        }
     }
 
     /**
