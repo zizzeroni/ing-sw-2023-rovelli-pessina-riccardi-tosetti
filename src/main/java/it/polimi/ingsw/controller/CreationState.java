@@ -41,7 +41,7 @@ public class CreationState extends ControllerState {
      * @see Game
      */
     @Override
-    public void changeTurn() {
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...

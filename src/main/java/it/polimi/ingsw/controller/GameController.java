@@ -99,8 +99,8 @@ public class GameController {
     /**
      * Change the turn in the context of the present {@code State}.
      */
-    public void changeTurn() {
-        state.changeTurn();
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
+        state.changeTurn(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
