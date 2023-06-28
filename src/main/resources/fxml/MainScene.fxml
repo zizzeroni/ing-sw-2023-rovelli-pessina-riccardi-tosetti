@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;Image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
+<AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;/image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
     <children>
       <Pane fx:id="censure" opacity="0.0" prefHeight="826.0" prefWidth="1520.0" style="-fx-background-color: White;">
          <children>
@@ -16,7 +16,7 @@
          </children></Pane>
         <Pane fx:id="content" layoutX="30.0" layoutY="17.0">
             <children>
-                <Pane layoutY="13.0" prefHeight="520.0" prefWidth="520.0" style="-fx-background-image: url(&quot;Image/boards/livingroom.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: wheat; -fx-border-width: 5;">
+                <Pane layoutY="13.0" prefHeight="520.0" prefWidth="520.0" style="-fx-background-image: url(&quot;/image/boards/livingroom.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: wheat; -fx-border-width: 5;">
                     <children>
                         <Button fx:id="boardTile13" layoutX="180.5" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
                         <Button fx:id="boardTile14" layoutX="233.0" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
@@ -76,7 +76,7 @@
                         <ImageView fx:id="victoryPoint" fitHeight="50.0" fitWidth="50.0" layoutX="422.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true" rotate="8.0" />
                     </children>
                 </Pane>
-                <Pane fx:id="secondPlayerBookshelf" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                <Pane fx:id="secondPlayerBookshelf" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
                     <children>
                         <ImageView fx:id="chair2" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -120,7 +120,7 @@
                         </Label>
                     </children>
                 </Pane>
-                <Pane layoutX="757.0" layoutY="56.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                <Pane layoutX="757.0" layoutY="56.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
                     <children>
                         <Button fx:id="firstPlayerTile50" layoutX="48.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
                         <Button fx:id="firstPlayerTile40" layoutX="48.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
@@ -174,7 +174,7 @@
                         <Image url="@../image/Publisher%20material/Title%202000x618px.png" />
                     </image>
                 </ImageView>
-                <Pane layoutX="1184.0" layoutY="59.0" prefHeight="666.0" prefWidth="286.0" style="-fx-background-image: url(&quot;Image/misc/base_pagina2.jpg&quot;); -fx-border-color: chocolate; -fx-border-width: 10;">
+                <Pane layoutX="1184.0" layoutY="59.0" prefHeight="666.0" prefWidth="286.0" style="-fx-background-image: url(&quot;/image/misc/base_pagina2.jpg&quot;); -fx-border-color: chocolate; -fx-border-width: 10;">
                     <children>
                         <Label layoutX="14.0" layoutY="14.0" text="CHAT" textFill="#bc882f">
                             <font>
@@ -195,7 +195,7 @@
                         <Button fx:id="sendMessage" layoutX="217.0" layoutY="584.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="56.0" prefWidth="52.0" style="-fx-background-color: Chocolate;" text="SEND" />
                     </children>
                 </Pane>
-                <Pane layoutX="594.0" layoutY="123.0" prefHeight="270.0" prefWidth="110.0" style="-fx-background-image: url(&quot;Image/misc/base_pagina2.jpg&quot;); -fx-border-color: wheat; -fx-border-width: 5;">
+                <Pane layoutX="594.0" layoutY="123.0" prefHeight="270.0" prefWidth="110.0" style="-fx-background-image: url(&quot;/image/misc/base_pagina2.jpg&quot;); -fx-border-color: wheat; -fx-border-width: 5;">
                     <children>
                         <Button fx:id="selected1" layoutX="30.0" layoutY="30.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
                         <Button fx:id="selected3" layoutX="30.0" layoutY="190.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
@@ -217,7 +217,7 @@
                         <Font name="Arial" size="25.0" />
                     </font>
                 </Label>
-                <Pane fx:id="fourthPlayerBookshelf" layoutX="524.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                <Pane fx:id="fourthPlayerBookshelf" layoutX="524.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
                     <children>
                         <ImageView fx:id="chair4" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -268,7 +268,7 @@
                         <Image url="@../image/personal%20goal%20cards/back.jpg" />
                     </image>
                 </ImageView>
-                <Pane fx:id="thirdPlayerBookshelf" layoutX="260.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                <Pane fx:id="thirdPlayerBookshelf" layoutX="260.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
                     <children>
                         <ImageView fx:id="chair3" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
                             <image>
