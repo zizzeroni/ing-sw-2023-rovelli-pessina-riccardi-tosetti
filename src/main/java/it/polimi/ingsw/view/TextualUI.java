@@ -94,7 +94,7 @@ public class TextualUI implements UI {
                 System.out.println("Stored game has been restored correctly");
 
             } else if (restoreGameChoice.equalsIgnoreCase("NO")) {
-                this.setUpLobby();
+                this.setUpLobbyAsFirst();
             }
         } else {
             this.setUpLobby();
@@ -608,7 +608,26 @@ public class TextualUI implements UI {
                 "Your current score: " + playerScore);
     }
 
+    /**
+     * Set up the lobby of the game, and proceed to start it
+     *
+     * @see ViewListener#startGame()
+     */
     private void setUpLobby() {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+            this.genericUILogic.controller.startGame();
+        }
+    }
+
+    /**
+     * Set up the lobby of the game,
+     * ask the player (that is the first one) the number of players of the lobby,
+     * and proceed to start it
+     *
+     * @see #askNumberOfPlayers()
+     * @see ViewListener#startGame()
+     */
+    private void setUpLobbyAsFirst() {
         this.askNumberOfPlayers();
 
         if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
@@ -616,15 +635,19 @@ public class TextualUI implements UI {
         }
     }
 
+    /**
+     * Ask the first player the number of players in order to start the game,
+     *
+     * @see ViewListener#chooseNumberOfPlayerInTheGame(int)
+     */
     private void askNumberOfPlayers() {
         int chosenNumberOfPlayer = 0;
-        if (genericUILogic.getModel().getPlayers().size() == 1) {
-            do {
-                System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
-                chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
-            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
-            this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
-        }
+        do {
+            System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
+            chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
+        } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+        this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+
     }
 
     /**
