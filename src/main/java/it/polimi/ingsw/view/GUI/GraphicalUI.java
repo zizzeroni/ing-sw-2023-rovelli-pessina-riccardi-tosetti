@@ -444,11 +444,11 @@ public class GraphicalUI extends Application implements UI {
         });
         th.start();
     }
+
     /**
      * Permits to wait while the client is in the specified ClientGameState.
      *
      * @param gameStates is the given state causing the wait.
-     *
      * @see ClientGameState
      */
     private void waitWhileInStates(List<ClientGameState> gameStates) {

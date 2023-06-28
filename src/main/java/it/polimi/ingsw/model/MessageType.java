@@ -19,7 +19,6 @@ public enum MessageType {
      * Displays the type of {@code Message} being sent.
      *
      * @return a String to represent the message's type.
-     *
      * @see Message
      */
     @Override

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer;
 
-import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.socketMiddleware.CommandType;
 
@@ -18,7 +17,6 @@ public class RestoreStoredGameCommand implements CommandToServer {
     /**
      * Class builder.
      * Initialize class parameters, including player's nickname.
-     *
      *
      * @param nickname the nickname to be initialized.
      */
@@ -59,8 +57,7 @@ public class RestoreStoredGameCommand implements CommandToServer {
      * This method permits the execution of the games' restoring command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException if a communication error occurs.
-     *
+     * @throws RemoteException      if a communication error occurs.
      */
     @Override
     public void execute() throws NullPointerException, RemoteException {
@@ -75,7 +72,6 @@ public class RestoreStoredGameCommand implements CommandToServer {
      * Enumerates the games' restoring  command.
      *
      * @return the type of the class command.
-     *
      * @see CommandType
      */
     @Override

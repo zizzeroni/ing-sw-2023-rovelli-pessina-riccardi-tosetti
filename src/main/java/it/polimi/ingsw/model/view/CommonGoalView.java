@@ -31,9 +31,7 @@ public class CommonGoalView implements Serializable {
      * with the linked logic in the {@code commonGoalModel} (passed as parameter).
      *
      * @param commonGoalModel the model of the considered {@code CommonGoal}.
-     *
      * @see CommonGoal
-     *
      */
     public CommonGoalView(CommonGoal commonGoalModel) {
         this.numberOfPatternRepetitionsRequired = commonGoalModel.getNumberOfPatternRepetitionsRequired();
@@ -49,7 +47,6 @@ public class CommonGoalView implements Serializable {
      * Gets the list of score {@code Tile}s.
      *
      * @return the list of score tiles.
-     *
      * @see Tile
      */
     public List<ScoreTileView> getScoreTiles() {
@@ -60,7 +57,6 @@ public class CommonGoalView implements Serializable {
      * Gets the number of times the {@code CommonGoal} must be completed to take the {@code ScoreTile}.
      *
      * @return the number of times the personal goal must be completed to take the score tile.
-     *
      * @see CommonGoal
      * @see ScoreTile
      */
@@ -72,7 +68,6 @@ public class CommonGoalView implements Serializable {
      * Gets the type of check that has to be done on the considered common goal's card (inherently to the card's depicted pattern).
      *
      * @return the type's associated value.
-     *
      */
     public CheckType getType() {
         return this.type;
@@ -82,7 +77,6 @@ public class CommonGoalView implements Serializable {
      * Getter used to access {@code CommonGoal}'s image identifier.
      *
      * @return the {@code CommonGoal}'s id.
-     *
      * @see CommonGoal
      */
     public int getId() {

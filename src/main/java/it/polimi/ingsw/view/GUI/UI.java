@@ -26,7 +26,6 @@ public interface UI {
      * Registers the {@code BoardListener} on the Board.
      *
      * @param listener the listener that will register on the {@code Board}.
-     *
      * @see BoardListener
      * @see java.net.http.WebSocket.Listener
      */
@@ -34,10 +33,10 @@ public interface UI {
 
     /**
      * Removes the {@code GameListener}.
-     *
+     * <p>
      * Listener is the {@code GameListener} being registered
      *
-     * @see   GameListener
+     * @see GameListener
      */
     public void removeListener();
 
@@ -45,7 +44,6 @@ public interface UI {
      * Sets the player's nickname.
      *
      * @param nickname the player's nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setNickname(String nickname);
@@ -55,7 +53,6 @@ public interface UI {
      * this method changes the State of the game from the UI perspective.
      *
      * @param modelUpdated the updated game's model.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see GameView
      * @see it.polimi.ingsw.network.Server
@@ -66,19 +63,19 @@ public interface UI {
      * Used to display a generic game's exception through the generic ui's logic.
      *
      * @param exception the given GenericException.
-     *
      * @see GenericUILogic
      * @see GenericException
      */
     public void printException(GenericException exception);
+
     /**
      * Setter used to provided stored game's for the player reconnecting to the current's game server.
      *
      * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     public void setAreThereStoredGamesForPlayer(boolean result);
+
     /**
      * Allows to identify the type of chat's command forwarded by the player.
      *

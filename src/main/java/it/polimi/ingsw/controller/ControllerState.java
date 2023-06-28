@@ -39,12 +39,10 @@ public abstract class ControllerState {
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.
-     *
+     * @throws WrongInputDataException when input data is not valid
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      * @see Choice
-     * 
-     * @throws WrongInputDataException when input data is not valid
      */
     public abstract void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException;
 
@@ -54,14 +52,12 @@ public abstract class ControllerState {
      * specified {@code Player}.
      *
      * @param receiver the receiver of the private message.
-     * @param sender the sender of the broadcast {@code Message}.
-     * @param content the text of the message.
-     *
+     * @param sender   the sender of the broadcast {@code Message}.
+     * @param content  the text of the message.
      * @see it.polimi.ingsw.model.Player
      * @see CreationState#sendPrivateMessage(String, String, String)
      * @see FinishingState#sendPrivateMessage(String, String, String)
      * @see OnGoingState#sendPrivateMessage(String, String, String)
-     *
      */
     public abstract void sendPrivateMessage(String receiver, String sender, String content);
 
@@ -70,14 +66,12 @@ public abstract class ControllerState {
      * broadcast messages, while in different states, to all
      * the {@code Player}s.
      *
-     * @param sender the sender of the broadcast {@code Message}.
+     * @param sender  the sender of the broadcast {@code Message}.
      * @param content the text of the message.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see CreationState#sendBroadcastMessage(String, String)
      * @see FinishingState#sendBroadcastMessage(String, String)
      * @see OnGoingState#sendBroadcastMessage(String, String)
-     *
      */
     public abstract void sendBroadcastMessage(String sender, String content);
 
@@ -86,13 +80,11 @@ public abstract class ControllerState {
      * the possibility to add new players to the current {@code Game}.
      *
      * @param nickname the nickname of the {@code Player}
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#addPlayer(String)
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
-     *
      */
     public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 
@@ -106,7 +98,6 @@ public abstract class ControllerState {
      * Used during the creation state.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
      */
@@ -117,8 +108,7 @@ public abstract class ControllerState {
      *
      * @param chosenNumberOfPlayers is the current number of players.
      * @throws ExcessOfPlayersException signals an excess in the player's number.
-     * @throws WrongInputDataException occurs when data has not been entered correctly.
-     *
+     * @throws WrongInputDataException  occurs when data has not been entered correctly.
      * @see Player
      */
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
@@ -138,7 +128,6 @@ public abstract class ControllerState {
      * enacts the disconnection of a {@code Player}.
      *
      * @param nickname the nickname of the disconnecting player.
-     *
      * @see CreationState#disconnectPlayer(String)
      * @see FinishingState#disconnectPlayer(String)
      * @see OnGoingState#disconnectPlayer(String)
@@ -148,10 +137,9 @@ public abstract class ControllerState {
     /**
      * Restores the current game for the considered player.
      *
-     * @param server the server controlling the game's execution.
-     * @param nickname the given player's nickname.
+     * @param server           the server controlling the game's execution.
+     * @param nickname         the given player's nickname.
      * @param gamesStoragePath the path where are stored the games.
-     *
      * @see Player
      * @see Game
      */

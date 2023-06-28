@@ -34,10 +34,9 @@ public class GenericUILogic {
      * Class constructor.
      * Initialize the model and the controller to the associated values.
      *
-     * @param model the given model.
+     * @param model      the given model.
      * @param controller the assigned controller.
-     * @param nickname the UI's nickname.
-     *
+     * @param nickname   the UI's nickname.
      * @see GameView
      * @see ViewListener
      */
@@ -54,9 +53,8 @@ public class GenericUILogic {
      * Class constructor.
      * Initialize the model and the controller to the associated values.
      *
-     * @param model the given model.
+     * @param model      the given model.
      * @param controller the assigned controller.
-     *
      * @see GameView
      * @see ViewListener
      */
@@ -73,7 +71,6 @@ public class GenericUILogic {
      * Initialize the model and the controller to the associated values.
      *
      * @param model the given model.
-     *
      * @see GameView
      */
     public GenericUILogic(GameView model) {
@@ -100,7 +97,6 @@ public class GenericUILogic {
      * Gets the GenericException exception to be handled.
      *
      * @return the exception that has occurred.
-     *
      * @see GenericException
      */
     public GenericException getExceptionToHandle() {
@@ -111,7 +107,6 @@ public class GenericUILogic {
      * Sets the exception to be handled using a GenericException.
      *
      * @param exceptionToHandle the occurred exception.
-     *
      * @see GenericException
      */
     public void setExceptionToHandle(GenericException exceptionToHandle) {
@@ -122,7 +117,6 @@ public class GenericUILogic {
      * Gets a lock on the current client's game state.
      *
      * @return lockState
-     *
      * @see GenericUILogic#lockState
      * @see ClientGameState
      */
@@ -135,7 +129,6 @@ public class GenericUILogic {
      * Gets the current Client's GameState
      *
      * @return the current game's state associated to the client.
-     *
      * @see ClientGameState
      */
     public ClientGameState getState() {
@@ -148,7 +141,6 @@ public class GenericUILogic {
      * Sets the current Client's GameState.
      *
      * @param clientGameState the actual state of the game's client.
-     *
      * @see ClientGameState
      */
     public void setState(ClientGameState clientGameState) {
@@ -171,7 +163,6 @@ public class GenericUILogic {
      * Sets the UI's nickname.
      *
      * @param nickname the UI associated nickname.
-     *
      * @see GenericUILogic
      */
     public void setNickname(String nickname) {
@@ -193,7 +184,6 @@ public class GenericUILogic {
      * Getter used the current controller.
      *
      * @return game's controller.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.controller.GameController
      */
@@ -205,7 +195,6 @@ public class GenericUILogic {
      * Registers the controller listener.
      *
      * @param controller the controller to be registered to.
-     *
      * @see ViewListener
      * @see it.polimi.ingsw.controller.GameController
      */
@@ -228,7 +217,6 @@ public class GenericUILogic {
      * Used to print an exception when it is identified.
      *
      * @param clientErrorState the state associated to a client's error.
-     *
      * @see it.polimi.ingsw.network.Client
      * @see GenericException
      */
@@ -244,7 +232,6 @@ public class GenericUILogic {
      * this method changes the State of the game from the UI perspective.
      *
      * @param game the current game.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see GameView
      * @see it.polimi.ingsw.network.Server
@@ -279,9 +266,8 @@ public class GenericUILogic {
      * The game view is not set in the constructor because we need the value passed as reference instead of the real value.
      *
      * @param controller is the GameController.
-     * @param nickname the player's (client's) nickname.
-     * @param model the model used to set the GameView.
-     *
+     * @param nickname   the player's (client's) nickname.
+     * @param model      the model used to set the GameView.
      * @see it.polimi.ingsw.controller.GameController
      * @see it.polimi.ingsw.model.Game
      * @see GameView

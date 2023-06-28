@@ -33,4 +33,6 @@ public class OptionsValues {
     public static final int SOCKET_PORT = 1234;
     public static final String GAMES_STORAGE_DEFAULT_PATH = "src/main/resources/storage/games.json";
     public static final String GAMES_STORAGE_BACKUP_DEFAULT_PATH = "src/main/resources/storage/games-bkp.json";
+    public static final String BOARDS_STORAGE_DEFAULT_PATH = "storage/patterns/boards.json";
+    public static final String PERSONAL_GOALS_STORAGE_BACKUP_DEFAULT_PATH = "storage/patterns/personal-goals.json";
 }

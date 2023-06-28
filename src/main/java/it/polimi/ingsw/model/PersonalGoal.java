@@ -35,7 +35,7 @@ public class PersonalGoal extends Card {
     /**
      * Class constructor.
      *
-     * @param id the identifier of the personal goal.
+     * @param id      the identifier of the personal goal.
      * @param pattern the pattern associated to the personal goal.
      */
     public PersonalGoal(int id, Tile[][] pattern) {
@@ -88,10 +88,9 @@ public class PersonalGoal extends Card {
      * Gets the {@code Tile} at the given coordinates,
      * expressed as rows and columns.
      *
-     * @param row is the first coordinate.
+     * @param row    is the first coordinate.
      * @param column is the second coordinate.
      * @return the Tile of the specified {@code PersonalGoal}.
-     *
      * @see Tile
      */
     public Tile getSingleTile(int row, int column) {
@@ -122,8 +121,7 @@ public class PersonalGoal extends Card {
      *
      * @param bookshelf is the {@code Player}'s {@code Bookshelf}.
      * @return the value of the points assigned to the pattern repetitions identified in the {@code Bookshelf}
-     *          using the #numberOfPatternRepetitionInBookshelf.
-     *
+     * using the #numberOfPatternRepetitionInBookshelf.
      * @see Bookshelf
      * @see Player
      */

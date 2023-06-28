@@ -29,60 +29,55 @@ public class EightShapelessPatternGoal extends CommonGoal {
     }
 
     /**
-     *
      * Class constructor with parameters.
      * Builds an EightShapelessPatternGoal with a specified type, ID, ...
      *
-     * @param id the identifier assigned to the card.
+     * @param id                the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     *
+     * @param type              the type of check that has to be done on the considered common goal's card.
      */
     public EightShapelessPatternGoal(int id, int patternRepetition, CheckType type) {
         super(id, patternRepetition, type);
     }
 
     /**
-     *
      * Class constructor with parameters.
      * Builds a EightShapelessPatternGoal with specific type, ID ...
      * (numberOfPlayers is also considered).
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param numberOfPlayers number of active players.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers                    number of active players.
      */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
 
     /**
-     *
      * Class constructor with parameters.
      * Builds a EightShapelessPatternGoal with specific type, ID ...
      * (scoreTiles list is also considered).
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param scoreTiles  list of current score tiles.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles                         list of current score tiles.
      */
     public EightShapelessPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
 
     /**
-    * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
-     *<p>
+     * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
+     * <p>
      *
-    * @param bookshelf the {@code Bookshelf} of the {@code Player}.
-    * @return the number of times the pattern is achieved.
-     *
+     * @param bookshelf the {@code Bookshelf} of the {@code Player}.
+     * @return the number of times the pattern is achieved.
      * @see it.polimi.ingsw.model.Board
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
-    */
+     */
     @Override
     public int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf) {
         return Math.toIntExact(Arrays.stream(bookshelf.getTiles())                //Transform the bookshelf in a Stream of tiles' ARRAYS
@@ -97,7 +92,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
      * @return an immutable copy of the EightShapelessPatternGoalView.
-     *
      * @see CommonGoal
      */
     @Override
