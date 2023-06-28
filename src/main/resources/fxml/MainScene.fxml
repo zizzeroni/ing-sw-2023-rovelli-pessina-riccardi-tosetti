@@ -1,326 +1,339 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;Image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;/image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
     <children>
-      <Pane fx:id="censure" opacity="0.0" prefHeight="826.0" prefWidth="1520.0" style="-fx-background-color: White;">
+      <Pane fx:id="content">
          <children>
-            <Label fx:id="countdownLabel" layoutX="650.0" layoutY="400.0">
-               <font>
-                  <Font name="Forte" size="20.0" />
-               </font>
-            </Label>
-         </children></Pane>
-        <Pane fx:id="content" layoutX="30.0" layoutY="17.0">
-            <children>
-                <Pane layoutY="13.0" prefHeight="520.0" prefWidth="520.0" style="-fx-background-image: url(&quot;Image/boards/livingroom.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: wheat; -fx-border-width: 5;">
-                    <children>
-                        <Button fx:id="boardTile13" layoutX="180.5" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile14" layoutX="233.0" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile03" layoutX="180.5" layoutY="24.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile04" layoutX="233.0" layoutY="24.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile23" layoutX="180.5" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile24" layoutX="233.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile33" layoutX="180.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile34" layoutX="233.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile43" layoutX="180.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile44" layoutX="233.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile53" layoutX="180.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile54" layoutX="233.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile63" layoutX="180.5" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile64" layoutX="233.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile73" layoutX="180.5" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile74" layoutX="233.0" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile42" layoutX="128.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile40" layoutX="23.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile41" layoutX="75.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile84" layoutX="233.0" layoutY="444.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile31" layoutX="75.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile32" layoutX="128.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile22" layoutX="128.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile52" layoutX="128.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile51" layoutX="75.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile62" layoutX="128.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile50" layoutX="23.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile15" layoutX="285.5" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile35" layoutX="285.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile25" layoutX="285.5" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile26" layoutX="338.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile45" layoutX="285.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile55" layoutX="285.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile65" layoutX="285.5" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile75" layoutX="285.5" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile66" layoutX="338.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile85" layoutX="285.5" layoutY="444.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile36" layoutX="338.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile57" layoutX="390.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile47" layoutX="390.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile46" layoutX="338.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile37" layoutX="390.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile56" layoutX="338.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile48" layoutX="443.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="boardTile38" layoutX="443.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                        <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="48.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../image/misc/Sacchetto%20Aperto.png" />
-                            </image>
-                        </ImageView>
-                        <Label layoutX="58.0" layoutY="5.0" text="bag">
-                            <font>
-                                <Font name="Forte" size="35.0" />
-                            </font>
-                        </Label>
-                        <ImageView fx:id="victoryPoint" fitHeight="50.0" fitWidth="50.0" layoutX="422.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true" rotate="8.0" />
-                    </children>
-                </Pane>
-                <Pane fx:id="secondPlayerBookshelf" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
-                    <children>
-                        <ImageView fx:id="chair2" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../image/misc/firstplayertoken.png" />
-                            </image>
-                        </ImageView>
-                        <Button fx:id="secondPlayerTile50" layoutX="28.5" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="secondPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Label fx:id="nickname2" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: White;" text="secondP">
-                            <font>
-                                <Font name="Forte" size="20.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </Pane>
-                <Pane layoutX="757.0" layoutY="56.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
-                    <children>
-                        <Button fx:id="firstPlayerTile50" layoutX="48.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile40" layoutX="48.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile53" layoutX="241.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile52" layoutX="177.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile41" layoutX="112.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile54" layoutX="305.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile51" layoutX="113.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile42" layoutX="177.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile43" layoutX="241.6" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile44" layoutX="305.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile30" layoutX="48.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile20" layoutX="48.0" layoutY="138.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile21" layoutX="112.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile24" layoutX="305.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile34" layoutX="305.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile23" layoutX="241.6" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile33" layoutX="241.6" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile22" layoutX="176.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile32" layoutX="177.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile31" layoutX="112.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile04" layoutX="305.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile14" layoutX="305.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile13" layoutX="241.6" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile02" layoutX="176.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile12" layoutX="177.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile01" layoutX="112.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile11" layoutX="112.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile10" layoutX="48.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile00" layoutX="48.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="firstPlayerTile03" layoutX="241.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <ImageView fx:id="chair1" fitHeight="99.0" fitWidth="99.0" layoutX="331.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../image/misc/firstplayertoken.png" />
-                            </image>
-                        </ImageView>
-                        <Label fx:id="pointsLabel" layoutX="225.0" layoutY="359.0" prefHeight="30.0" prefWidth="93.0" text="0" textFill="WHITE">
-                            <font>
-                                <Font name="Arial" size="25.0" />
-                            </font>
-                        </Label>
-                        <Label layoutX="134.0" layoutY="359.0" text="Points :" textFill="WHITE">
-                            <font>
-                                <Font name="Arial" size="25.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </Pane>
-                <ImageView fitHeight="64.0" fitWidth="267.0" layoutX="544.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../image/Publisher%20material/Title%202000x618px.png" />
-                    </image>
-                </ImageView>
-                <Pane layoutX="1184.0" layoutY="59.0" prefHeight="666.0" prefWidth="286.0" style="-fx-background-image: url(&quot;Image/misc/base_pagina2.jpg&quot;); -fx-border-color: chocolate; -fx-border-width: 10;">
-                    <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="CHAT" textFill="#bc882f">
-                            <font>
-                                <Font name="Forte" size="40.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="chatMessage" layoutX="20.0" layoutY="584.0" onMouseClicked="#DeletePrevious" prefHeight="56.0" prefWidth="197.0" style="-fx-background-color: Chocolate;" text="message...">
-                            <font>
-                                <Font size="22.0" />
-                            </font>
-                        </TextField>
-                        <ScrollPane fx:id="scrollPane" layoutX="20.0" layoutY="60.0" prefHeight="479.0" prefWidth="246.0">
-                            <content>
-                                <VBox fx:id="VBoxMessage" prefHeight="477.0" prefWidth="242.0" />
-                            </content>
-                        </ScrollPane>
-                        <ChoiceBox fx:id="playerChatChoice" layoutX="20.0" layoutY="547.0" prefHeight="30.0" prefWidth="246.0" />
-                        <Button fx:id="sendMessage" layoutX="217.0" layoutY="584.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="56.0" prefWidth="52.0" style="-fx-background-color: Chocolate;" text="SEND" />
-                    </children>
-                </Pane>
-                <Pane layoutX="594.0" layoutY="123.0" prefHeight="270.0" prefWidth="110.0" style="-fx-background-image: url(&quot;Image/misc/base_pagina2.jpg&quot;); -fx-border-color: wheat; -fx-border-width: 5;">
-                    <children>
-                        <Button fx:id="selected1" layoutX="30.0" layoutY="30.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="selected3" layoutX="30.0" layoutY="190.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="selected2" layoutX="30.0" layoutY="110.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
-                    </children>
-                </Pane>
-                <Label layoutX="556.0" layoutY="417.0" text="CommonGoal">
-                    <font>
-                        <Font name="Arial" size="25.0" />
-                    </font>
-                </Label>
-                <Label layoutX="881.0" layoutY="475.0" text="PersonalGoal">
-                    <font>
-                        <Font name="Arial" size="25.0" />
-                    </font>
-                </Label>
-                <Label fx:id="firstPlayerNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="785.0" layoutY="16.0" prefHeight="30.0" prefWidth="346.0" text="firstPlayerNickname">
-                    <font>
-                        <Font name="Arial" size="25.0" />
-                    </font>
-                </Label>
-                <Pane fx:id="fourthPlayerBookshelf" layoutX="524.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
-                    <children>
-                        <ImageView fx:id="chair4" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../image/misc/firstplayertoken.png" />
-                            </image>
-                        </ImageView>
-                        <Button fx:id="fourthPlayerTile50" layoutX="28.5" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="fourthPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Label fx:id="nickname4" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="fourthP">
-                            <font>
-                                <Font name="Forte" size="20.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </Pane>
-                <ImageView fx:id="commonGoal1" fitHeight="110.0" fitWidth="110.0" layoutX="529.0" layoutY="454.0" onMouseEntered="#onCommonGoal1" onMouseExited="#exitCommonGoal1" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="commonGoal2" fitHeight="110.0" fitWidth="110.0" layoutX="646.0" layoutY="454.0" onMouseEntered="#onCommonGoal2" onMouseExited="#exitCommonGoal2" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="personalGoal" fitHeight="210.0" fitWidth="286.0" layoutX="885.0" layoutY="510.0" onMouseEntered="#onPersonalGoal" onMouseExited="#exitPersonalGoal" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../image/personal%20goal%20cards/back.jpg" />
-                    </image>
-                </ImageView>
-                <Pane fx:id="thirdPlayerBookshelf" layoutX="260.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;Image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
-                    <children>
-                        <ImageView fx:id="chair3" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../image/misc/firstplayertoken.png" />
-                            </image>
-                        </ImageView>
-                        <Button fx:id="thirdPlayerTile50" layoutX="28.5" layoutY="156.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Button fx:id="thirdPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
-                        <Label fx:id="nickname3" alignment="CENTER" layoutX="42.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="thirdP">
-                            <font>
-                                <Font name="Forte" size="20.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </Pane>
-                <Button fx:id="insertTile" layoutX="519.0" layoutY="233.0" mnemonicParsing="false" onAction="#SelectTiles" prefHeight="50.0" prefWidth="75.0" text="Select Tiles" />
-                <Label layoutX="580.0" layoutY="84.0" text="Selected tiles">
-                    <font>
-                        <Font name="Times New Roman" size="26.0" />
-                    </font>
-                </Label>
-                <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="590.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-                <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="708.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-            </children>
-        </Pane>
+              <Pane fx:id="censure" opacity="0.0" prefHeight="826.0" prefWidth="1520.0" style="-fx-background-color: White;">
+               <children>
+                  <Label fx:id="countdownLabel" layoutX="650.0" layoutY="400.0">
+                     <font>
+                        <Font name="Forte" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+              <Pane fx:id="contentOne" layoutX="30.0" layoutY="17.0">
+                  <children>
+                      <Pane layoutY="13.0" prefHeight="520.0" prefWidth="520.0" style="-fx-background-image: url(&quot;/image/boards/livingroom.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: wheat; -fx-border-width: 5;">
+                          <children>
+                              <Button fx:id="boardTile13" layoutX="180.5" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile14" layoutX="233.0" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile03" layoutX="180.5" layoutY="24.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile04" layoutX="233.0" layoutY="24.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile23" layoutX="180.5" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile24" layoutX="233.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile33" layoutX="180.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile34" layoutX="233.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile43" layoutX="180.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile44" layoutX="233.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile53" layoutX="180.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile54" layoutX="233.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile63" layoutX="180.5" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile64" layoutX="233.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile73" layoutX="180.5" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile74" layoutX="233.0" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile42" layoutX="128.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile40" layoutX="23.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile41" layoutX="75.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile84" layoutX="233.0" layoutY="444.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile31" layoutX="75.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile32" layoutX="128.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile22" layoutX="128.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile52" layoutX="128.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile51" layoutX="75.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile62" layoutX="128.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile50" layoutX="23.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile15" layoutX="285.5" layoutY="77.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile35" layoutX="285.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile25" layoutX="285.5" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile26" layoutX="338.0" layoutY="130.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile45" layoutX="285.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile55" layoutX="285.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile65" layoutX="285.5" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile75" layoutX="285.5" layoutY="392.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile66" layoutX="338.0" layoutY="339.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile85" layoutX="285.5" layoutY="444.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile36" layoutX="338.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile57" layoutX="390.5" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile47" layoutX="390.5" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile46" layoutX="338.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile37" layoutX="390.5" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile56" layoutX="338.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile48" layoutX="443.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="boardTile38" layoutX="443.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
+                              <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="48.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../image/misc/Sacchetto%20Aperto.png" />
+                                  </image>
+                              </ImageView>
+                              <Label layoutX="58.0" layoutY="5.0" text="bag">
+                                  <font>
+                                      <Font name="Forte" size="35.0" />
+                                  </font>
+                              </Label>
+                              <ImageView fx:id="victoryPoint" fitHeight="50.0" fitWidth="50.0" layoutX="422.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true" rotate="8.0" />
+                          </children>
+                      </Pane>
+                      <Pane fx:id="secondPlayerBookshelf" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                          <children>
+                              <ImageView fx:id="chair2" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../image/misc/firstplayertoken.png" />
+                                  </image>
+                              </ImageView>
+                              <Button fx:id="secondPlayerTile50" layoutX="28.5" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="secondPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Label fx:id="nickname2" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: White;" text="secondP">
+                                  <font>
+                                      <Font name="Forte" size="20.0" />
+                                  </font>
+                              </Label>
+                          </children>
+                      </Pane>
+                      <Pane layoutX="757.0" layoutY="56.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf_orth.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                          <children>
+                              <Button fx:id="firstPlayerTile50" layoutX="48.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile40" layoutX="48.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile53" layoutX="241.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile52" layoutX="177.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile41" layoutX="112.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile54" layoutX="305.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile51" layoutX="113.0" layoutY="304.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile42" layoutX="177.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile43" layoutX="241.6" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile44" layoutX="305.0" layoutY="249.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile30" layoutX="48.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile20" layoutX="48.0" layoutY="138.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile21" layoutX="112.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile24" layoutX="305.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile34" layoutX="305.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile23" layoutX="241.6" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile33" layoutX="241.6" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile22" layoutX="176.0" layoutY="137.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile32" layoutX="177.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile31" layoutX="112.0" layoutY="193.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile04" layoutX="305.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile14" layoutX="305.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile13" layoutX="241.6" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile02" layoutX="176.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile12" layoutX="177.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile01" layoutX="112.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile11" layoutX="112.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile10" layoutX="48.0" layoutY="82.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile00" layoutX="48.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="firstPlayerTile03" layoutX="241.0" layoutY="26.0" onAction="#selectColumn" onMouseEntered="#overColumn" onMouseExited="#notOverColumn" opacity="0.0" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <ImageView fx:id="chair1" fitHeight="99.0" fitWidth="99.0" layoutX="331.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../image/misc/firstplayertoken.png" />
+                                  </image>
+                              </ImageView>
+                              <Label fx:id="pointsLabel" layoutX="225.0" layoutY="359.0" prefHeight="30.0" prefWidth="93.0" text="0" textFill="WHITE">
+                                  <font>
+                                      <Font name="Arial" size="25.0" />
+                                  </font>
+                              </Label>
+                              <Label layoutX="134.0" layoutY="359.0" text="Points :" textFill="WHITE">
+                                  <font>
+                                      <Font name="Arial" size="25.0" />
+                                  </font>
+                              </Label>
+                          </children>
+                      </Pane>
+                      <ImageView fitHeight="64.0" fitWidth="267.0" layoutX="544.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../image/Publisher%20material/Title%202000x618px.png" />
+                          </image>
+                      </ImageView>
+                      <Pane layoutX="1184.0" layoutY="59.0" prefHeight="666.0" prefWidth="286.0" style="-fx-background-image: url(&quot;/image/misc/base_pagina2.jpg&quot;); -fx-border-color: chocolate; -fx-border-width: 10;">
+                          <children>
+                              <Label layoutX="14.0" layoutY="14.0" text="CHAT" textFill="#bc882f">
+                                  <font>
+                                      <Font name="Forte" size="40.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="chatMessage" layoutX="20.0" layoutY="584.0" onMouseClicked="#DeletePrevious" prefHeight="56.0" prefWidth="197.0" style="-fx-background-color: Chocolate;" text="message...">
+                                  <font>
+                                      <Font size="22.0" />
+                                  </font>
+                              </TextField>
+                              <ScrollPane fx:id="scrollPane" layoutX="20.0" layoutY="60.0" prefHeight="479.0" prefWidth="246.0">
+                                  <content>
+                                      <VBox fx:id="VBoxMessage" prefHeight="477.0" prefWidth="242.0" />
+                                  </content>
+                              </ScrollPane>
+                              <ChoiceBox fx:id="playerChatChoice" layoutX="20.0" layoutY="547.0" prefHeight="30.0" prefWidth="246.0" />
+                              <Button fx:id="sendMessage" layoutX="217.0" layoutY="584.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="56.0" prefWidth="52.0" style="-fx-background-color: Chocolate;" text="SEND" />
+                          </children>
+                      </Pane>
+                      <Pane layoutX="594.0" layoutY="123.0" prefHeight="270.0" prefWidth="110.0" style="-fx-background-image: url(&quot;/image/misc/base_pagina2.jpg&quot;); -fx-border-color: wheat; -fx-border-width: 5;">
+                          <children>
+                              <Button fx:id="selected1" layoutX="30.0" layoutY="30.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="selected3" layoutX="30.0" layoutY="190.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="selected2" layoutX="30.0" layoutY="110.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch; -fx-background-color: lightgrey;" stylesheets="@../css/Style.css" />
+                          </children>
+                      </Pane>
+                      <Label layoutX="556.0" layoutY="417.0" text="CommonGoal">
+                          <font>
+                              <Font name="Arial" size="25.0" />
+                          </font>
+                      </Label>
+                      <Label layoutX="881.0" layoutY="475.0" text="PersonalGoal">
+                          <font>
+                              <Font name="Arial" size="25.0" />
+                          </font>
+                      </Label>
+                      <Label fx:id="firstPlayerNickname" alignment="CENTER" contentDisplay="CENTER" layoutX="785.0" layoutY="16.0" prefHeight="30.0" prefWidth="346.0" text="firstPlayerNickname">
+                          <font>
+                              <Font name="Arial" size="25.0" />
+                          </font>
+                      </Label>
+                      <Pane fx:id="fourthPlayerBookshelf" layoutX="524.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                          <children>
+                              <ImageView fx:id="chair4" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../image/misc/firstplayertoken.png" />
+                                  </image>
+                              </ImageView>
+                              <Button fx:id="fourthPlayerTile50" layoutX="28.5" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="fourthPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Label fx:id="nickname4" alignment="CENTER" layoutX="35.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="fourthP">
+                                  <font>
+                                      <Font name="Forte" size="20.0" />
+                                  </font>
+                              </Label>
+                          </children>
+                      </Pane>
+                      <ImageView fx:id="commonGoal1" fitHeight="110.0" fitWidth="110.0" layoutX="529.0" layoutY="454.0" onMouseEntered="#onCommonGoal1" onMouseExited="#exitCommonGoal1" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fx:id="commonGoal2" fitHeight="110.0" fitWidth="110.0" layoutX="646.0" layoutY="454.0" onMouseEntered="#onCommonGoal2" onMouseExited="#exitCommonGoal2" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fx:id="personalGoal" fitHeight="210.0" fitWidth="286.0" layoutX="885.0" layoutY="510.0" onMouseEntered="#onPersonalGoal" onMouseExited="#exitPersonalGoal" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../image/personal%20goal%20cards/back.jpg" />
+                          </image>
+                      </ImageView>
+                      <Pane fx:id="thirdPlayerBookshelf" layoutX="260.0" layoutY="543.0" prefHeight="210.0" prefWidth="210.0" style="-fx-background-image: url(&quot;/image/boards/bookshelf.png&quot;); -fx-background-repeat: stretch; -fx-background-size: cover;">
+                          <children>
+                              <ImageView fx:id="chair3" fitHeight="50.0" fitWidth="50.0" layoutX="175.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../image/misc/firstplayertoken.png" />
+                                  </image>
+                              </ImageView>
+                              <Button fx:id="thirdPlayerTile50" layoutX="28.5" layoutY="156.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile20" layoutX="27.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile40" layoutX="28.5" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile30" layoutX="27.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile00" layoutX="25.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile10" layoutX="25.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile51" layoutX="61.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile21" layoutX="59.0" layoutY="72.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile41" layoutX="61.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile31" layoutX="59.0" layoutY="100.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile01" layoutX="59.0" layoutY="14.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile11" layoutX="59.0" layoutY="43.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile32" layoutX="93.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile42" layoutX="93.0" layoutY="129.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile52" layoutX="93.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile22" layoutX="93.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile12" layoutX="93.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile02" layoutX="93.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile53" layoutX="125.0" layoutY="158.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile43" layoutX="125.0" layoutY="130.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile33" layoutX="125.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile23" layoutX="127.0" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile13" layoutX="127.0" layoutY="45.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile03" layoutX="127.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile04" layoutX="161.0" layoutY="15.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile14" layoutX="161.0" layoutY="44.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile24" layoutX="160.5" layoutY="73.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile34" layoutX="159.0" layoutY="101.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile44" layoutX="158.0" layoutY="131.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Button fx:id="thirdPlayerTile54" layoutX="158.0" layoutY="159.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" style="-fx-background-size: cover; -fx-background-repeat: stretch;" stylesheets="@../css/Style.css" />
+                              <Label fx:id="nickname3" alignment="CENTER" layoutX="42.0" layoutY="183.0" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: white;" text="thirdP">
+                                  <font>
+                                      <Font name="Forte" size="20.0" />
+                                  </font>
+                              </Label>
+                          </children>
+                      </Pane>
+                      <Button fx:id="insertTile" layoutX="519.0" layoutY="233.0" mnemonicParsing="false" onAction="#SelectTiles" prefHeight="50.0" prefWidth="75.0" text="Select Tiles" />
+                      <Label layoutX="580.0" layoutY="84.0" text="Selected tiles">
+                          <font>
+                              <Font name="Times New Roman" size="26.0" />
+                          </font>
+                      </Label>
+                      <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="590.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+                      <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="708.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+                  </children>
+              </Pane>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

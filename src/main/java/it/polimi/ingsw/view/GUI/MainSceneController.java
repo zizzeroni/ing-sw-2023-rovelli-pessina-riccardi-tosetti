@@ -271,6 +271,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void setTable() {
+        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -906,7 +907,6 @@ public class MainSceneController implements Initializable {
         if (startOrder == takenTiles.getChosenTiles().size()) {
             takenTiles.setChosenColumn(Integer.parseInt(selectedColumn));
             takenTiles.setTileOrder(order);
-            System.out.println("END TURN");
 
 //            for (int i = 5-startOrder+activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn)); i >= 0; i--) {
 //                String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
@@ -1308,7 +1308,8 @@ public class MainSceneController implements Initializable {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
             countdownLabel.setText("Only 1 player remaining, \n" +
-                    "waiting for other player to reconnect");
+                    "waiting for other player to reconnect \n"+
+                    mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
             countDownLatch.countDown();
         });
         try {
