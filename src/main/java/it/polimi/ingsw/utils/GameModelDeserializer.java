@@ -115,8 +115,7 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
             game.setCommonGoals(commonGoals);
 
         } catch (IllegalArgumentException ie) {
-            System.out.println(ie.getMessage());
-            System.out.println("Common goals cannot be serialized ..");
+            System.err.println("Error while serializing: Common goals cannot be serialized ..., "+ ie.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

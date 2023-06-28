@@ -303,7 +303,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.restoreGameForPlayer(nickname);
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] while updating server(restoreGameForPlayer):" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] while updating server: " + this.serverConnectedTo + ", error caused by \"restoreGameForPlayer(String)\" invocation:\n  " + e.getMessage() + ".Skipping server update");
         }
     }
 
@@ -312,7 +312,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         try {
             this.serverConnectedTo.areThereStoredGamesForPlayer(nickname);
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] while updating server(areThereStoredGamesForPlayer):" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] while updating server: " + this.serverConnectedTo + ", error caused by \"areThereStoredGamesForPlayer(String)\" invocation:\n  " + e.getMessage() + ".Skipping server update");
         }
     }
 

@@ -163,7 +163,6 @@ public class OnGoingState extends ControllerState {
                 }
             }
         }
-        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 

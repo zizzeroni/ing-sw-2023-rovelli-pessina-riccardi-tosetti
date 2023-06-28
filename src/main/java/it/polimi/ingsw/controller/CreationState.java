@@ -187,7 +187,7 @@ public class CreationState extends ControllerState {
                         this.controller.getModel().getCommonGoals().add(newCommonGoal);
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
 

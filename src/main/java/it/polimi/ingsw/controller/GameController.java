@@ -67,6 +67,7 @@ public class GameController {
             throw new UncheckedIOException("Failed to load personal-goals.json", ex);
         } catch (Exception ex) {
             throw new RuntimeException("Failed to load personal-goals.json", ex);
+
         }
 
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("storage/patterns/boards.json");
@@ -265,9 +266,9 @@ public class GameController {
      * @see Player#setConnected(boolean)
      */
     public void disconnectPlayer(String nickname) {
-        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players before disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
-        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players after disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
     }
 
 
@@ -285,7 +286,6 @@ public class GameController {
 
     public void setModel(Game model) {
         this.model = model;
-        //this.listener.gameRestored();
     }
 
     /**

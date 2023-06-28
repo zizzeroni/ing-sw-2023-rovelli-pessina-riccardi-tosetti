@@ -166,8 +166,6 @@ public class Game {
         this.gameState = gameState;
         if (this.listener != null) {
             this.listener.gameStateChanged();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -222,8 +220,6 @@ public class Game {
 
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -265,8 +261,6 @@ public class Game {
         this.players.add(player);
         if (this.listener != null) {
             this.listener.addedPlayer();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -338,8 +332,6 @@ public class Game {
         this.commonGoals = commonGoals;
         if (this.listener != null) {
             this.listener.commonGoalsModified();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
