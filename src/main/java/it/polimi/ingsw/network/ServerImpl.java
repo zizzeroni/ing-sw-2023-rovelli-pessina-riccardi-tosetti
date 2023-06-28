@@ -641,15 +641,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                     Client client = clientOptionalEntry.getKey();
                                     String nickname = clientOptionalEntry.getValue().orElse("Unknown");
 
-
-
                                     try {
                                         client.ping();
                                         numberOfMissedPings.replace(client, OptionsValues.INITIAL_MISSED_PINGS);
-                                        //stopIfWaitTooLongTimer.cancel();
                                     } catch (RemoteException e) {
                                         try {
-                                            //stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
                                             if (numberOfMissedPings.get(client) >= 3) {
@@ -664,7 +660,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                             }
                                             this.interrupt();
                                         } catch (NullPointerException e1) {
-                                            System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
+                                            this.interrupt();
                                         }
                                     }
                                 }
@@ -693,64 +689,4 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.model.getBoard().registerListener(this);
         this.clientsToHandle.clear();
     }
-
-
 }
-//I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                                    /*Thread selfThread = this;
-                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            selfThread.interrupt();
-                                            System.err.println("stopIfWaitTooLongTimer executed");
-                                        }
-                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
-
-
-
-/*
-                for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
-                    //I declare a new Thread for each client registered, in this way each thread handle the sending of the ping to his associated client
-                    Thread pingSenderThread = new Thread() {
-                        @Override
-                        public void run() {
-                            String nickname = entry.getValue().orElse("Unknown");
-                            Client client = entry.getKey();
-
-                            //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                            Thread selfThread = this;
-                            Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                            stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    selfThread.interrupt();
-                                }
-                            }, 6000);
-
-                            try {
-                                client.ping();
-                                numberOfMissedPings.replace(client, 0);
-                                stopIfWaitTooLongTimer.cancel();
-                            } catch (RemoteException e) {
-                                try {
-                                    numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
-                                    System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
-                                    if (numberOfMissedPings.get(client) == 3) {
-                                        System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
-                                        if (model.getGameState() == GameState.IN_CREATION) {
-                                            clientsToHandle.remove(client);
-                                        }
-                                        if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
-                                            controller.disconnectPlayer(nickname);
-                                        }
-                                    }
-                                } catch (NullPointerException e1) {
-                                    System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
-                                }
-                            }
-                        }
-                    };
-
-                    pingSenderThread.start();
-                }*/

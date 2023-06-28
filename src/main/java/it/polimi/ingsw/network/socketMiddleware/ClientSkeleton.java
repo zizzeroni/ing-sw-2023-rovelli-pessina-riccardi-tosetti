@@ -137,7 +137,6 @@ public class ClientSkeleton implements Client {
     public void receive(Server server) throws RemoteException {
         CommandToServer message;
         try {
-            System.out.println("Ready to receive (from Client)");
             message = (CommandToServer) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from client.", e);

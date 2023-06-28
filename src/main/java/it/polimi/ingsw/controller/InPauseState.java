@@ -37,7 +37,6 @@ public class InPauseState extends ControllerState {
                 if (!gameResumed) {
                     System.out.println(controller.getModel().getGameState());
                     controller.getModel().setGameState(GameState.RESET_NEEDED);
-                    System.out.println("RESET_NEEDED Timer executed");
                 } else {
                     this.cancel();
                 }
@@ -154,8 +153,6 @@ public class InPauseState extends ControllerState {
         if (checkIfGameIsResumable()) {
             this.gameResumed = true;
             this.timer.cancel();
-            //executorService.shutdownNow();
-            System.out.println("RESET_NEEDED Timer cancelled");
             this.controller.changeState(new OnGoingState(this.controller));
             this.controller.getModel().setGameState(GameState.ON_GOING);
         } else {

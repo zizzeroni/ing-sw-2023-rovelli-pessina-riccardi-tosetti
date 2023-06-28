@@ -461,7 +461,6 @@ public class GraphicalUI extends Application implements UI {
                     mainSceneController.lockAllTiles();
                 }
                 case WAITING_FOR_RESUME -> {
-                    System.out.println("CIAO");
                     this.mainSceneController.startCensure();
                 }
                 case GAME_ONGOING -> {

@@ -70,18 +70,18 @@ public class AppClient {
         commandReader.start();
         //Initialize client necessities
         ClientImpl client = null;
-        System.out.println("Client avviato...");
+        System.out.println("Client started...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
         do {
-            System.out.println("Che interfaccia grafica preferisci utilizzare?");
-            System.out.println("1)Testuale");
-            System.out.println("2)Grafica");
+            System.out.println("What interface do you prefer to use?");
+            System.out.println("1)Textual");
+            System.out.println("2)Graphical");
 
             uiChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (uiChoice < 1 || uiChoice > 2);
         do {
-            System.out.println("Che metodo di comunicazione preferisci utilizzare?");
+            System.out.println("What method of communication do you prefer to use?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
 

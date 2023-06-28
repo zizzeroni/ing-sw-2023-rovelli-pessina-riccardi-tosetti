@@ -305,7 +305,7 @@ public class Player {
         try {
             score += this.bookshelf.score();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error while calculating player's score");
         }
         score += this.personalGoal.score(this.bookshelf);
 
