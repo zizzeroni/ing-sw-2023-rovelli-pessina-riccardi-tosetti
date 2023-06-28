@@ -100,9 +100,9 @@ public interface ViewListener {
      * The implementation of this method (in the {@code CreationState})
      * controls that all the necessary preparing has been done due to initiating the {@code Game}.
      *
-     * @see CreationState#startGame()
-     * @see FinishingState#startGame()
-     * @see OnGoingState#startGame()
+     * @see CreationState#startGame(int) 
+     * @see FinishingState#startGame(int) 
+     * @see OnGoingState#startGame(int) 
      */
     public void startGame();
 
