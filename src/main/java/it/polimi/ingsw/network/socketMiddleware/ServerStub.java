@@ -410,7 +410,6 @@ public class ServerStub implements Server {
     public void receive(Client client) throws RemoteException {
         CommandToClient command;
         try {
-            //System.out.println("Ready to receive (from Server)");
             command = (CommandToClient) this.ois.readObject();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Cannot receive message from server.", e);

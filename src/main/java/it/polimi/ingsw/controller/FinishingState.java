@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
+import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.TileView;
@@ -88,12 +89,12 @@ public class FinishingState extends ControllerState {
      * @param playerChoice is the player's choice
      */
     @Override
-    public void insertUserInputIntoModel(Choice playerChoice) {
+    public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         if (checkIfUserInputIsCorrect(playerChoice)) {
             removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
-            System.err.println("[INPUT:ERROR]: User data are not correct");
+            throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
         }
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
     }
@@ -133,7 +134,6 @@ public class FinishingState extends ControllerState {
                 }
             }
         }
-        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 

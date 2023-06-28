@@ -49,7 +49,7 @@ public class AppServer {
     public static void main(String[] args) throws RemoteException {
         //Setting the ipAddress of this server to the one chosen by the admin
         Scanner input = new Scanner(System.in);
-        String ipAddress = args.length > 0 ? args[0] : "";
+        String ipAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -150,7 +150,6 @@ public class AppServer {
      * @throws RemoteException
      */
     private static String getFirstUpNetworkInterface() throws RemoteException {
-        //TODO: Da verificarne funzionamento
         Random rand = new Random();
         List<NetworkInterface> networkInterfacesList;
         try {

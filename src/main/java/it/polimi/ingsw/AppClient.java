@@ -9,6 +9,7 @@ import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.GraphicalUI;
 import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -45,8 +46,9 @@ public class AppClient {
      * @see it.polimi.ingsw.view.GenericUILogic
      */
     public static void main(String[] args) throws RemoteException, NotBoundException {
+        AnsiConsole.systemInstall();
         Scanner input = new Scanner(System.in);
-        String ServeripAddress = args.length > 0 ? args[0] : "";
+        String ServeripAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -59,8 +61,8 @@ public class AppClient {
         }
 
         String clientIpAddress;
-        if (ServeripAddress.equals("localhost")) {
-            clientIpAddress = "localhost";
+        if (ServeripAddress.equals("localhost") || ServeripAddress.equals("127.0.0.1")) {
+            clientIpAddress = "127.0.0.1";
         } else {
             clientIpAddress = getFirstUpNetworkInterface();
         }
@@ -70,18 +72,18 @@ public class AppClient {
         commandReader.start();
         //Initialize client necessities
         ClientImpl client = null;
-        System.out.println("Client avviato...");
+        System.out.println("Client started...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
         do {
-            System.out.println("Che interfaccia grafica preferisci utilizzare?");
-            System.out.println("1)Testuale");
-            System.out.println("2)Grafica");
+            System.out.println("What interface do you prefer to use?");
+            System.out.println("1)Textual");
+            System.out.println("2)Graphical");
 
             uiChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (uiChoice < 1 || uiChoice > 2);
         do {
-            System.out.println("Che metodo di comunicazione preferisci utilizzare?");
+            System.out.println("What method of communication do you prefer to use?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
 
@@ -211,7 +213,6 @@ public class AppClient {
      * @throws RemoteException when a communication error occurs.
      */
     private static String getFirstUpNetworkInterface() throws RemoteException {
-        //TODO: Da verificarne funzionamento
         Random rand = new Random();
         List<NetworkInterface> networkInterfacesList;
         try {
