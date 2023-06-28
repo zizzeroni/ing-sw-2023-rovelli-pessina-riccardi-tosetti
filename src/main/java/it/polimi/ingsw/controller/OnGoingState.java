@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
@@ -42,7 +41,7 @@ public class OnGoingState extends ControllerState {
             this.refillBoard();
         }
         changeActivePlayer();
-        this.controller.getModel().saveGame(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
+        this.controller.getModel().saveGame(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
@@ -103,7 +102,7 @@ public class OnGoingState extends ControllerState {
         Game model = this.controller.getModel();
         Player currentPlayer = model.getPlayers().get(model.getActivePlayerIndex());
         if (checkIfUserInputIsCorrect(playerChoice)) {
-            removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+            removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
             throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
@@ -216,7 +215,6 @@ public class OnGoingState extends ControllerState {
      * The {@code Player} select a list of {@code Tile}s which are passed altogether with their coordinates
      * in order to be removed.
      *
-     * @param chosenTiles is the list of the selected Tiles.
      * @param tileCoordinates is the list of the coordinates associated
      *                       to the respective tiles in the {@code chosenTiles} list.
      *
@@ -225,7 +223,7 @@ public class OnGoingState extends ControllerState {
      * @see Player
      *
      */
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
+    private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
         board.removeTiles(tileCoordinates);
     }
@@ -303,7 +301,7 @@ public class OnGoingState extends ControllerState {
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
         if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
-            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full or you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }

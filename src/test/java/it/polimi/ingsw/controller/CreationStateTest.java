@@ -1,23 +1,17 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
-import it.polimi.ingsw.utils.GameModelDeserializer;
 import it.polimi.ingsw.utils.OptionsValues;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +32,9 @@ public class CreationStateTest {
         this.controller.changeState(state);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that you can't extract the same common goal twice")
     public void common_goals_cannot_be_the_same() {
@@ -57,6 +54,9 @@ public class CreationStateTest {
         assertTrue(this.controller.getModel().getCommonGoals().stream().allMatch(new HashSet<>()::add));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that you trying to get not defined common goals throws an exception")
     public void getting_not_defined_common_goals_throws_an_exception() {
@@ -83,6 +83,9 @@ public class CreationStateTest {
     }
 
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that private messages aren't sent to other players ")
     public void private_messages_are_not_visible_to_other_players() {
@@ -100,6 +103,9 @@ public class CreationStateTest {
         assertEquals(otherPlayerChat.size(), 0);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that broadcast messages are sent to all players ")
     public void broadcast_messages_are_sent_to_all_players() {
@@ -113,18 +119,27 @@ public class CreationStateTest {
         }
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that changeTurn method does  nothing ")
     public void change_turn_method_does_nothing_in_creation_test() {
         this.state.changeTurn(gamesPath, gamesPathBackup);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that insertUserInputInto model method does  nothing ")
     public void user_input_into_model_method_does_nothing_in_creation_test() {
         this.state.insertUserInputIntoModel(new Choice());
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that add player method adds a single player with a personal goal different from the others and the given nickname")
     public void add_player_method_adds_single_player_with_common_goal_and_nickname() {
@@ -152,6 +167,9 @@ public class CreationStateTest {
         assertTrue(this.controller.getModel().getPlayers().stream().map(Player::getPersonalGoal).allMatch(new HashSet<>()::add));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that resuming the game changes the state of the game to the same as the controller")
     public void change_state_when_resuming_game() {
@@ -159,6 +177,9 @@ public class CreationStateTest {
         assertEquals(this.state.controller.getModel().getGameState(), this.controller.getModel().getGameState());
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that starting the game set game state on OnGoing, initializing board, tiles and common goals only if number of players is correct")
     public void starting_the_game_sets_state_board_tiles_and_common_goals() {
@@ -185,6 +206,9 @@ public class CreationStateTest {
         this.controller.getModel().getPlayers().forEach(player -> assertEquals(player.getScoreTiles().size(), this.controller.getModel().getCommonGoals().size() + 1));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that disconnecting a player restore his personal goal in available common goals and removes him from available players")
     public void disconnet_player_removes_the_player_and_restore_the_personal_goal() {
@@ -202,6 +226,9 @@ public class CreationStateTest {
         assertEquals(this.controller.getModel().getPlayers().size(), 0);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that you can set number of players to play within 2 to 4 range")
     public void number_of_players_is_settable_between_2_and_4() {
@@ -213,6 +240,9 @@ public class CreationStateTest {
         assertEquals(this.controller.getModel().getNumberOfPlayersToStartGame(), 4);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that number of players cannot be set over the maximum defined and throws Lobby is full exception")
     public void number_of_players_cannot_be_set_over_the_maximum_defined_with_relative_exception_thrown() {
@@ -236,6 +266,9 @@ public class CreationStateTest {
         assertEquals(actualMessage, expectedMessage);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that given number of players must be a value between minimum and maximum number of players")
     public void given_number_of_players_is_between_its_minimum_and_maximum() {
@@ -256,6 +289,9 @@ public class CreationStateTest {
         assertNotEquals(this.controller.getModel().getNumberOfPlayersToStartGame(), 3);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that current number of players cannot exceed available number of players")
     public void available_players_cannot_exceed_number_of_players_that_can_play() {
@@ -277,11 +313,14 @@ public class CreationStateTest {
         assertNotEquals(this.controller.getModel().getNumberOfPlayersToStartGame(), 3);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test restoring a game for a player")
     public void restore_a_game_for_a_player() {
 
-        
+
         this.controller.getModel().createGameFileIfNotExist(this.gamesPath);
 
         PrintWriter writer;
@@ -300,6 +339,9 @@ public class CreationStateTest {
         assertEquals(this.state.controller.getModel().getPlayers().size(), 2);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that you can't restore any game if there are no games available")
     public void cannot_restore_a_game_if_any_are_present() {
@@ -326,6 +368,9 @@ public class CreationStateTest {
         assertEquals(this.state.controller.getModel().getPlayers().size(), 0);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that you can't restore any game if there are no games available for the given nickname")
     public void cannot_restore_a_game_if_any_are_present_for_the_given_nickname() {
@@ -354,6 +399,9 @@ public class CreationStateTest {
         assertEquals(this.state.controller.getModel().getPlayers().size(), 0);
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that transformation of state into enum is In_Creation")
     public void state_as_enum_value_is_in_creation() {

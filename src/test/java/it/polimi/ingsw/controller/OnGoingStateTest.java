@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 import it.polimi.ingsw.model.view.TileView;
@@ -19,10 +21,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FinishingStateTest {
+public class OnGoingStateTest {
 
     GameController controller;
-    FinishingState state;
+    OnGoingState state;
     String gamesPath = "src/test/resources/storage/games.json";
     String gamesPathBackup = "src/test/resources/storage/games-bkp.json";
 
@@ -30,9 +32,9 @@ public class FinishingStateTest {
      * Test class
      */
     @BeforeEach
-    public void resetFinishingState() {
+    public void resetOnGoingState() {
         controller = new GameController(new Game());
-        state = new FinishingState(controller);
+        state = new OnGoingState(controller);
         this.controller.changeState(state);
     }
 
@@ -76,8 +78,8 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that change turn for a player that's not the last with only single tiles on board cause it's refill")
-    public void changing_turn_for_not_last_player_with_a_single_tiles_board_cause_the_refill() {
+    @DisplayName("Test that change turn with only single tiles on board cause it's refill")
+    public void changing_turn_with_a_single_tiles_board_cause_the_refill() {
 
         int[][] pattern = new int[][]{
                 {0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -91,6 +93,7 @@ public class FinishingStateTest {
                 {0, 0, 0, 0, 0, 1, 0, 0, 0}
         };
 
+        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true), new Player("Francesco", false)));
         this.controller.getModel().getBoard().setPattern(new JsonBoardPattern(3, pattern));
         this.state.changeTurn(gamesPath, gamesPathBackup);
 
@@ -106,21 +109,21 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that change turn for the last player cause a change in the game state")
-    public void changing_turn_for_last_player_cause_the_reset_for_the_server() {
+    @DisplayName("Test that if next player is not connected, his turn is skipped")
+    public void changing_turn_to_someone_disconnected_makes_his_turn_being_skipped() {
 
-        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
+        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true), new Player("Francesco", false)));
         this.controller.getModel().setActivePlayerIndex(1);
         this.controller.changeTurn(gamesPath, gamesPathBackup);
 
-        assertEquals(this.controller.getModel().getGameState(), GameState.RESET_NEEDED);
+        assertEquals(this.controller.getModel().getActivePlayerIndex(), 0);
     }
 
     /**
      * Test class
      */
     @Test
-    @DisplayName("Test that the player's choice is valid and moves some tiles to the board")
+    @DisplayName("Test that the player's choice is valid and moves some tiles from the board to the bookshelf")
     public void player_choice_is_valid_and_move_tiles_from_board_to_player_bookshelf() {
 
         this.controller.getModel().getBoard().setTiles(new Tile[][]{
@@ -139,17 +142,70 @@ public class FinishingStateTest {
         this.controller.getModel().setActivePlayerIndex(0);
         this.controller.getModel().getPlayers().get(0).setBookshelf(new Bookshelf());
 
-        this.state.insertUserInputIntoModel(new Choice(
-                new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
-                new ArrayList<>(Arrays.asList(new Coordinates(0, 0), new Coordinates(0, 1))),
-                new int[]{0, 1},
-                1
-        ));
+        try {
+            this.state.insertUserInputIntoModel(new Choice(
+                    new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
+                    new ArrayList<>(Arrays.asList(new Coordinates(0, 0), new Coordinates(0, 1))),
+                    new int[]{0, 1},
+                    1
+            ));
+        } catch (WrongInputDataException e) {
+            throw new RuntimeException(e);
+        }
 
         assertNull(this.controller.getModel().getBoard().getTiles()[0][0]);
         assertNull(this.controller.getModel().getBoard().getTiles()[0][1]);
         assertEquals(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[4][1].getColor(), TileColor.PURPLE);
         assertEquals(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1].getColor(), TileColor.BLUE);
+    }
+
+
+    /**
+     * Test class
+     */
+    @Test
+    @DisplayName("Test that the player's choice is valid and getting a full bookshelf with a matched common goal gives the score tile for the common goal and start the last turn if it's the first player to fill the bookshelf")
+    public void player_choice_is_valid_and_gives_score_tile_points_and_start_last_turn_if_first_player_to_fulfill_the_bookshelf() {
+
+        this.controller.getModel().getBoard().setTiles(new Tile[][]{
+                {new Tile(TileColor.BLUE, 1), new Tile(TileColor.PURPLE, 1), null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+        });
+
+        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true, new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile(), new ScoreTile()))), new Player("Luca", true)));
+        this.controller.getModel().setCommonGoals(List.of(new FourCornersPatternGoal()));
+        this.controller.getModel().setActivePlayerIndex(0);
+        this.controller.getModel().getPlayers().get(0).setBookshelf(new Bookshelf(new Tile[][]{
+                {null, new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}
+        }
+        ));
+
+        try {
+            this.state.insertUserInputIntoModel(new Choice(
+                    new ArrayList<>(List.of(new TileView(new Tile(TileColor.BLUE, 1)))),
+                    new ArrayList<>(List.of(new Coordinates(0, 0))),
+                    new int[]{0},
+                    0
+            ));
+        } catch (WrongInputDataException e) {
+            throw new RuntimeException(e);
+        }
+
+        assertEquals(2, this.controller.getModel().getPlayerFromNickname("Andrea").getScoreTiles().stream().filter(scoreTile -> scoreTile.getValue() != 0).count());
+        assertTrue(this.controller.getModel().getPlayerFromNickname("Andrea").getBookshelf().isFull());
+        assertInstanceOf(FinishingState.class, this.controller.getState());
     }
 
     /**
@@ -175,18 +231,19 @@ public class FinishingStateTest {
         this.controller.getModel().setActivePlayerIndex(0);
         this.controller.getModel().getPlayers().get(0).setBookshelf(new Bookshelf());
 
-        this.state.insertUserInputIntoModel(new Choice(
-                new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
-                new ArrayList<>(Arrays.asList(new Coordinates(0, 2), new Coordinates(0, 2))),
-                new int[]{0, 1},
-                1
-        ));
-
-        assertNotNull(this.controller.getModel().getBoard().getTiles()[0][0]);
-        assertNotNull(this.controller.getModel().getBoard().getTiles()[0][1]);
-        assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[4][1]);
-        assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1]);
-
+        try {
+            this.state.insertUserInputIntoModel(new Choice(
+                    new ArrayList<>(Arrays.asList(new TileView(new Tile(TileColor.BLUE, 1)), new TileView(new Tile(TileColor.PURPLE, 1)))),
+                    new ArrayList<>(Arrays.asList(new Coordinates(0, 2), new Coordinates(0, 2))),
+                    new int[]{0, 1},
+                    1
+            ));
+        } catch (WrongInputDataException e) {
+            assertNotNull(this.controller.getModel().getBoard().getTiles()[0][0]);
+            assertNotNull(this.controller.getModel().getBoard().getTiles()[0][1]);
+            assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[4][1]);
+            assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1]);
+        }
 
         try {
             this.controller.insertUserInputIntoModel(new Choice(
@@ -196,13 +253,11 @@ public class FinishingStateTest {
                     1
             ));
         } catch (WrongInputDataException e) {
-            throw new RuntimeException(e);
+            assertNotNull(this.controller.getModel().getBoard().getTiles()[0][0]);
+            assertNotNull(this.controller.getModel().getBoard().getTiles()[0][1]);
+            assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[4][1]);
+            assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1]);
         }
-
-        assertNotNull(this.controller.getModel().getBoard().getTiles()[0][0]);
-        assertNotNull(this.controller.getModel().getBoard().getTiles()[0][1]);
-        assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[4][1]);
-        assertNull(this.controller.getModel().getPlayers().get(0).getBookshelf().getTiles()[5][1]);
     }
 
     /**
@@ -229,7 +284,6 @@ public class FinishingStateTest {
     @Test
     @DisplayName("Test that adding a player which was in the original lobby cause the connection of the same user")
     public void adding_a_disconnected_player_cause_his_reconnection() {
-
 
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", false), new Player("Luca", true)));
 
@@ -258,8 +312,8 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that startGame method does nothing in finishing state")
-    public void start_game_method_does_nothing_in_finishing_state() {
+    @DisplayName("Test that startGame method does nothing in on going state")
+    public void start_game_method_does_nothing_in_on_going_state() {
         this.controller.startGame();
     }
 
@@ -267,7 +321,23 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that disconnecting a player set his connection to false and if it's the active player, it changes turn")
+    @DisplayName("Test that disconnecting a player, with enough players to not pause the game, set his connection to false and if it's the active player, it changes turn")
+    public void disconneting_a_player_without_pausing_the_game_set_connnection_false_and_change_turn_if_active() {
+
+        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true), new Player("Alessandro", true)));
+        this.controller.getModel().setActivePlayerIndex(0);
+
+        this.controller.disconnectPlayer("Andrea");
+
+        assertEquals(1, this.controller.getModel().getActivePlayerIndex());
+        assertFalse(this.controller.getModel().getPlayerFromNickname("Andrea").isConnected());
+    }
+
+    /**
+     * Test class
+     */
+    @Test
+    @DisplayName("Test that disconnecting a player with enough players to pause the game, pauses the game")
     public void disconneting_a_player_set_connnection_false_and_change_turn_if_active() {
 
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
@@ -275,7 +345,8 @@ public class FinishingStateTest {
 
         this.controller.disconnectPlayer("Andrea");
 
-        assertEquals(this.controller.getModel().getActivePlayerIndex(), 1);
+        assertInstanceOf(InPauseState.class, this.controller.getState());
+        assertEquals(0, this.controller.getModel().getActivePlayerIndex());
         assertFalse(this.controller.getModel().getPlayerFromNickname("Andrea").isConnected());
     }
 
@@ -299,7 +370,24 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that choosing the number of players does nothing in finishing state")
+    @DisplayName("Test that disconnecting the last connected player cause the reset of the game")
+    public void disconneting_the_last_connected_player_cause_reset() {
+
+        this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", false)));
+        this.controller.getModel().setActivePlayerIndex(0);
+
+        this.state.disconnectPlayer("Andrea");
+
+        assertEquals(GameState.RESET_NEEDED, this.controller.getModel().getGameState());
+        assertEquals(0, this.controller.getModel().getActivePlayerIndex());
+        assertFalse(this.controller.getModel().getPlayerFromNickname("Andrea").isConnected());
+    }
+
+    /**
+     * Test class
+     */
+    @Test
+    @DisplayName("Test that choosing the number of players does nothing in on going state")
     public void choosing_number_of_players_does_nothing() {
         this.controller.chooseNumberOfPlayerInTheGame(2);
         assertEquals(this.controller.getModel().getNumberOfPlayersToStartGame(), 0);
@@ -309,7 +397,7 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that checkExceedingPlayer method does nothing in finishing state")
+    @DisplayName("Test that checkExceedingPlayer method does nothing in on going state")
     public void check_exceeding_number_of_players_does_nothing() {
         assertDoesNotThrow(() -> this.controller.checkExceedingPlayer(OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS - 1));
     }
@@ -318,7 +406,7 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that restoreGameForPlayer method does nothing in finishing state")
+    @DisplayName("Test that restoreGameForPlayer method does nothing in on going state")
     public void restore_a_game_for_a_player_does_nothing() {
         PrintWriter writer;
         try {
@@ -340,8 +428,8 @@ public class FinishingStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that transformation of state into enum is FINISHING")
-    public void state_as_enum_value_is_finishing() {
-        assertEquals(FinishingState.toEnum(), GameState.FINISHING);
+    @DisplayName("Test that transformation of state into enum is ON_GOING")
+    public void state_as_enum_value_is_on_going() {
+        assertEquals(OnGoingState.toEnum(), GameState.ON_GOING);
     }
 }

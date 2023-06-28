@@ -140,7 +140,7 @@ public class InPauseState extends ControllerState {
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
-            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full or you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }

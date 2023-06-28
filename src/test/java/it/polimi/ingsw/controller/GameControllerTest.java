@@ -1,20 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.commongoal.CommonGoal;
-import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
-import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
-import it.polimi.ingsw.model.exceptions.WrongInputDataException;
-import it.polimi.ingsw.utils.OptionsValues;
+import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,16 +18,22 @@ public class GameControllerTest {
     String gamesPathBackup = "src/test/resources/storage/games-bkp.json";
 
     @BeforeEach
-    public void resetGameCOntroller() {
+    public void resetGameController() {
         controller = new GameController(new Game());
     }
-    
+
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that default game controller constructor sets the state to the creation one")
     public void default_game_controller_constructor_sets_state_in_creation() {
         assertInstanceOf(CreationState.class, this.controller.getState());
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that if there aren't any games stored the response is false")
     public void are_stored_games_for_player_return_false_when_no_games_are_stored() {
@@ -55,6 +53,9 @@ public class GameControllerTest {
         assertFalse(this.controller.areThereStoredGamesForPlayer("Andrea", gamesPath));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that if there are some games stored for the given player the response is true")
     public void are_stored_games_for_player_return_true_when_games_are_stored_for_the_given_player() {
