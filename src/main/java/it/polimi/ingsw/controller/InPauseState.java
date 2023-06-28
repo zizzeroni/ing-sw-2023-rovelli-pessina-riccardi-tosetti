@@ -35,7 +35,6 @@ public class InPauseState extends ControllerState {
             @Override
             public void run() {
                 if (!gameResumed) {
-                    System.out.println(controller.getModel().getGameState());
                     controller.getModel().setGameState(GameState.RESET_NEEDED);
                 } else {
                     this.cancel();

@@ -46,7 +46,6 @@ public class CountdownHandler extends Thread {
                 }
                 model = this.genericUILogic.getModel();
                 if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME
-                        && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()) != null
                         && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()).isConnected()
                         && model.isPaused()
                         ) {
