@@ -390,7 +390,7 @@ public class Game {
         File gamesFile = new File(gamesPath);
 
         try {
-            if (gamesFile.createNewFile()) {
+            if (gamesFile.getParentFile().mkdirs() && gamesFile.createNewFile()) {
                 System.out.println("Games' storage file created correctly");
             } else {
                 System.out.println("Games' storage file already exists, skipping creation");
