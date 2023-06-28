@@ -9,6 +9,7 @@ import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.GraphicalUI;
 import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -45,6 +46,7 @@ public class AppClient {
      * @see it.polimi.ingsw.view.GenericUILogic
      */
     public static void main(String[] args) throws RemoteException, NotBoundException {
+        AnsiConsole.systemInstall();
         Scanner input = new Scanner(System.in);
         String ServeripAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";

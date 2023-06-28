@@ -7,18 +7,36 @@ import javafx.scene.control.Label;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The controller used to manage the GUI's final scene.
+ */
 public class FinalSceneController {
     private GraphicalUI mainGraphicalUI;
     private Scene scene;
 
+    /**
+     * The Setter used to provide the graphicalUI for the main scene.
+     *
+     * @param graphicalUI the UI to be set.
+     */
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
     }
 
+    /**
+     * Sets the scene related to the final controller.
+     *
+     * @param scene the scene to be set.
+     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }
 
+    /**
+     * Displays the result on the GUI's final scene.
+     *
+     * @param players the players to be evaluated for result calculation.
+     */
     public void showResult(List<PlayerView> players) {
         for (int i = 0; i < 4; i++) {
             String labelPlayerName = "#Player" + (i + 1);

@@ -36,7 +36,7 @@ public interface CommandToServer extends Serializable {
      * This method permits the execution of the class command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a communication error occurs.
      *
      */
     public void execute() throws NullPointerException, RemoteException;

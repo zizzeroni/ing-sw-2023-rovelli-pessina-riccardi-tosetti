@@ -1,5 +1,8 @@
 package it.polimi.ingsw.utils;
 
+/**
+ * Enumeration used to identify all a series of personal goals , tiles, common goals and players related values.
+ */
 public class OptionsValues {
     public static final int RMI_PORT = 1099;
     public static final int MIN_NUMBER_OF_PLAYERS_TO_START_GAME = 0;

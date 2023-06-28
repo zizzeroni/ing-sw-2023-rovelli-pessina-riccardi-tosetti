@@ -11,6 +11,8 @@ import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.UI;
 
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -631,12 +633,16 @@ public class TextualUI implements UI {
      * @see it.polimi.ingsw.model.Game
      */
     public void printTitleScreen() {
-
-        System.out.println("███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗");
-        System.out.println("████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝");
-        System.out.println("██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░");
-        System.out.println("██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░");
-        System.out.println("██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗");
-        System.out.println("╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝");
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset()
+        ).println("""
+                    ███╗░░░███╗██╗░░░██╗░░░░░░░░░██████╗██╗░░██╗███████╗██╗░░░░░███████╗██╗███████╗
+                    ████╗░████║╚██╗░██╔╝░░░░░░░░██╔════╝██║░░██║██╔════╝██║░░░░░██╔════╝██║██╔════╝
+                    ██╔████╔██║░╚████╔╝░░░░░░░░░╚█████╗░███████║█████╗░░██║░░░░░█████╗░░██║█████╗░░
+                    ██║╚██╔╝██║░░╚██╔╝░░░░░░░░░░░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██╔══╝░░██║██╔══╝░░
+                    ██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
+                    ╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
+                """);
     }
 }

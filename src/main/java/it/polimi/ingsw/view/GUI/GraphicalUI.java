@@ -390,7 +390,6 @@ public class GraphicalUI extends Application implements UI {
             }
 
             mainSceneController.setGameOn(true);
-            mainSceneController.chatUpdate(true);
             while (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));

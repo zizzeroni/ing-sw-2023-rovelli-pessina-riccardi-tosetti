@@ -91,6 +91,13 @@ public interface Server extends Remote {
      */
     public void addPlayer(Client client, String nickname) throws RemoteException;
 
+    /**
+     * This method is used to try to resume the current's game.
+     *
+     * @throws RemoteException if a communication error with the server occurs.
+     *
+     * @see Game
+     */
     public void tryToResumeGame() throws RemoteException;
 
     /**
@@ -112,10 +119,6 @@ public interface Server extends Remote {
      * Controls that all the necessary preparing has been done due to initiating the {@code Game}.
      *
      * @throws RemoteException called if a communication error occurs.
-     *
-     * @see CreationState#startGame()
-     * @see FinishingState#startGame()
-     * @see OnGoingState#startGame()
      */
     public void startGame() throws RemoteException;
 
