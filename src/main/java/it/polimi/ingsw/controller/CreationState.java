@@ -342,6 +342,7 @@ public class CreationState extends ControllerState {
             storedCurrentGame.getPlayers().forEach(p -> p.setConnected(false));
             storedCurrentGame.getPlayerFromNickname(nickname).setConnected(true);
             this.controller.setModel(storedCurrentGame);
+            this.controller.getModel().setActivePlayerIndex(this.controller.getModel().getPlayers().indexOf(this.controller.getModel().getPlayerFromNickname(nickname)));
             this.controller.getModel().registerListener(server);
         } else {
             throw new RuntimeException("There aren't available games to restore for player " + nickname);
