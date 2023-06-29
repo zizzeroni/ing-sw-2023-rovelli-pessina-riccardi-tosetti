@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * This class represents the Game's view.
  * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other class related relevant informations.
+ * and a series of other class related relevant information.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Player
@@ -77,6 +77,13 @@ public class GameView implements Serializable {
                 .orElse(null);
     }
 
+    /**
+     * Control by {nickname} if the player is in the game
+     *
+     * @param nickname the nickname of the player we want to control if is in the game
+     * @return true if the player is in the game.
+     * @see Game
+     */
     public boolean isPlayerInGame(String nickname) {
         return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
@@ -157,10 +164,21 @@ public class GameView implements Serializable {
         return this.commonGoals;
     }
 
+    /**
+     * Used to check if the game's state in PAUSED
+     *
+     * @return if the game's state is PAUSED.
+     */
     public boolean isPaused() {
         return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
+    /**
+     * Contains the players that are connected to the game.
+     *
+     * @return a list of the players connected to the game
+     * @see PlayerView
+     */
     public List<PlayerView> connectedPlayers() {
         return this.players.stream()
                 .filter(PlayerView::isConnected)
