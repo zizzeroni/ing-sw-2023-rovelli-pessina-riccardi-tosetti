@@ -58,6 +58,7 @@ public class GraphicalUI extends Application implements UI {
 
     /**
      * Getter the precedent width
+     *
      * @return the old width of the scene.
      * @see GameView
      */
@@ -68,6 +69,7 @@ public class GraphicalUI extends Application implements UI {
 
     /**
      * Getter of precedent height
+     *
      * @return the old height of the scene.
      * @see GameView
      */

@@ -262,8 +262,8 @@ public class InPauseState extends ControllerState {
     /**
      * Restores the current game for the considered player.
      *
-     * @param server   the server controlling the game's execution.
-     * @param nickname the given player's nickname.
+     * @param server           the server controlling the game's execution.
+     * @param nickname         the given player's nickname.
      * @param gamesStoragePath path in which are stored the games
      * @see Player
      * @see Game

@@ -28,7 +28,6 @@ public class Bookshelf {
         put(5, 5);
         put(6, 8);
     }};
-    private String image;
     private Tile[][] tiles;
 
 
@@ -45,7 +44,6 @@ public class Bookshelf {
 
     /**
      * Set as null the listener of the {@code Bookshelf}
-     *
      */
     public void removeListener() {
         this.listener = null;
@@ -58,7 +56,6 @@ public class Bookshelf {
      * @see Player
      */
     public Bookshelf() {
-        this.image = null;
         this.tiles = new Tile[this.numberOfRows][this.numberOfColumns];
         for (int row = 0; row < this.numberOfRows; row++)
             for (int column = 0; column < this.numberOfColumns; column++)
@@ -134,37 +131,6 @@ public class Bookshelf {
     }
 
     /**
-     * Class constructor.
-     * Assigns default values for bookshelf's image and {@code Tile}s.
-     *
-     * @param image the Bookshelf's image.
-     * @param tiles the Bookshelf's set of tiles.
-     */
-    public Bookshelf(String image, Tile[][] tiles) {
-        this.image = image;
-        this.tiles = tiles;
-    }
-
-    /**
-     * Gets the bookshelf's image.
-     *
-     * @return the bookshelf's image.
-     */
-    public String getImage() {
-        return this.image;
-    }
-
-    /**
-     * Sets the bookshelf's image.
-     *
-     * @param image the image to be set.
-     */
-    public void setImage(String image) {
-        this.image = image;
-        this.listener.imageModified(this.image);
-    }
-
-    /**
      * Getter used to retrieve the {@code Tile}s to be displaced on the bookshelf.
      *
      * @return the bookshelf's tile set.
@@ -188,8 +154,8 @@ public class Bookshelf {
      * Setter used to decide the {@code Tile} to be displaced on the bookshelf.
      *
      * @param column column of the tile
-     * @param tile contains the tile we want to set
-     * @param row row of the tile
+     * @param tile   contains the tile we want to set
+     * @param row    row of the tile
      * @see Tile
      */
     public void setSingleTiles(Tile tile, int row, int column) {
@@ -242,7 +208,6 @@ public class Bookshelf {
     public int getNumberOfRows() {
         return this.numberOfRows;
     }
-
 
     /**
      * evaluates if the current {@code row} is already been filled with {@code tiles}

@@ -101,7 +101,7 @@ public class PersonalGoal extends Card {
      * @see Tile
      */
     public Tile getSingleTile(int row, int column) {
-        return this.pattern[row][column];
+        return this.getPattern()[row][column];
     }
 
     /**
@@ -115,7 +115,7 @@ public class PersonalGoal extends Card {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
             for (int column = 0; column < this.numberOfColumns; column++) {
-                if (this.pattern[row][column] != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
+                if (this.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
                     counter++;
                 }
             }
@@ -166,9 +166,9 @@ public class PersonalGoal extends Card {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        for (int row = 0; row < this.numberOfRows; row++) {
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
             output.append("[ ");
-            for (int column = 0; column < this.numberOfColumns; column++) {
+            for (int column = 0; column < this.getNumberOfColumns(); column++) {
                 Tile currentTile = this.pattern[row][column];
                 if (currentTile == null || currentTile.getColor() == null) {
                     output.append("0 ");

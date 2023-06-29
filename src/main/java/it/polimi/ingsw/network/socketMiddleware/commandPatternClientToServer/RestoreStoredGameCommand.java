@@ -23,6 +23,7 @@ public class RestoreStoredGameCommand implements CommandToServer {
     public RestoreStoredGameCommand(String nickname) {
         this.nickname = nickname;
     }
+
     /**
      * Class builder.
      * Initialize class parameters, including player's nickname.
@@ -32,6 +33,7 @@ public class RestoreStoredGameCommand implements CommandToServer {
     public RestoreStoredGameCommand(Server actuator) {
         this.actuator = actuator;
     }
+
     /**
      * Class builder.
      * Initialize class parameters, including player's nickname.

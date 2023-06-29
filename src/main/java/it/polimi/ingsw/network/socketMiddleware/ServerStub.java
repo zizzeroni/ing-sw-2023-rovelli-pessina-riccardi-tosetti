@@ -375,6 +375,7 @@ public class ServerStub implements Server {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Question the server about the presence of a saved game
      *

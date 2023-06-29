@@ -43,7 +43,7 @@ public class StartGameCommand implements CommandToServer {
      * This method permits the execution of the {@code Game}'s start command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException if a connection error occurs
+     * @throws RemoteException      if a connection error occurs
      * @see it.polimi.ingsw.model.Player
      */
     @Override

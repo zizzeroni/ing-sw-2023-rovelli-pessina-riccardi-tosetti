@@ -28,6 +28,7 @@ public class OnGoingState extends ControllerState {
 
     /**
      * Class constructor
+     *
      * @param controller controller used by the state
      */
     public OnGoingState(GameController controller) {
@@ -158,9 +159,7 @@ public class OnGoingState extends ControllerState {
 
         if (choiceChosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
             if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChosenTiles.size()) {
-                if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
-                    return true;
-                }
+                return checkIfCoordinatesArePlausible(choiceTileCoordinates);
             }
         }
         return false;
@@ -299,6 +298,7 @@ public class OnGoingState extends ControllerState {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }
     }
+
     /**
      * Used to try to resume the game if it is in pause.
      * Does nothing in this implementation since game is
@@ -380,9 +380,10 @@ public class OnGoingState extends ControllerState {
 
     /**
      * Restores the current game for the considered player.
-     *
+     * <p>
      * Does nothing in this implementation since game is
      * in finishing state.
+     *
      * @param server           the server to which the model notifies its changes.
      * @param nickname         player's nickname that requested the restore.
      * @param gamesStoragePath the path where are stored the games.

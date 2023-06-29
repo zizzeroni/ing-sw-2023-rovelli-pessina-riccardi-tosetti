@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.DiagonalEqualPatternGoalView;
 
 import java.util.ArrayList;
@@ -230,7 +229,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      * @return an immutable copy of the DiagonalEqualPatternView.
      */
     @Override
-    public CommonGoalView copyImmutable() {
+    public DiagonalEqualPatternGoalView copyImmutable() {
         return new DiagonalEqualPatternGoalView(this);
     }
 }

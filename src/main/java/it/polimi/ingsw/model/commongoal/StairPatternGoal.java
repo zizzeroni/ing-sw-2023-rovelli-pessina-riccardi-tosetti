@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 import java.util.List;
@@ -95,7 +94,7 @@ public class StairPatternGoal extends CommonGoal {
      * @return an immutable copy of the FourCornersPatternGoalView.
      */
     @Override
-    public CommonGoalView copyImmutable() {
+    public StairPatternGoalView copyImmutable() {
         return new StairPatternGoalView(this);
     }
 }

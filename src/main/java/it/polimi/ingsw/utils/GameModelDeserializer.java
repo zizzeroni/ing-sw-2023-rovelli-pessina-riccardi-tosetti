@@ -96,10 +96,7 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
                         case 9 -> {
                             commonGoals.add(new EightShapelessPatternGoal(id, numberOfPatternRepetitionsRequired, CheckType.INDIFFERENT, scoreTiles));
                         }
-                        case 10 -> {
-                            commonGoals.add(new DiagonalEqualPattern(id, numberOfPatternRepetitionsRequired, CheckType.EQUALS, scoreTiles, pattern));
-                        }
-                        case 11 -> {
+                        case 10, 11 -> {
                             commonGoals.add(new DiagonalEqualPattern(id, numberOfPatternRepetitionsRequired, CheckType.EQUALS, scoreTiles, pattern));
                         }
                         case 12 -> {

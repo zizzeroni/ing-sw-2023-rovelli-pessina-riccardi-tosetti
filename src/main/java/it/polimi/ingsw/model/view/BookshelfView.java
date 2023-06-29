@@ -21,7 +21,6 @@ public class BookshelfView implements Serializable {
     //private final Bookshelf bookshelfModel;
     private final int numberOfColumns;
     private final int numberOfRows;
-    private final String image;
     private final TileView[][] tiles;
     //private final Map<Integer, Integer> pointsForEachGroup;
     private final Map<Integer, Integer> pointsForEachGroup;
@@ -40,7 +39,7 @@ public class BookshelfView implements Serializable {
 
         this.numberOfColumns = bookshelfModel.getNumberOfColumns();
         this.numberOfRows = bookshelfModel.getNumberOfRows();
-        this.image = bookshelfModel.getImage();
+
         for (int row = 0; row < bookshelfModel.getNumberOfRows(); row++) {
             for (int column = 0; column < bookshelfModel.getNumberOfColumns(); column++) {
                 this.tiles[row][column] = (bookshelfModel.getSingleTile(row, column) != null ? new TileView(bookshelfModel.getSingleTile(row, column)) : null);
@@ -54,6 +53,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Getter of a map that associate the points to certain dimension of tiles groups
+     *
      * @return the map
      */
     public Map<Integer, Integer> getPointsForEachGroup() {
@@ -62,6 +62,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if the bookshelf is full
+     *
      * @return true if and only if the bookshelf is full, otherwise false
      */
     public boolean isFull() {
@@ -88,16 +89,6 @@ public class BookshelfView implements Serializable {
             counter++;
         }
         return counter;
-    }
-
-    /**
-     * Getter to retrieve the {@code Bookshelf} image.
-     *
-     * @return the image of the Bookshelf.
-     * @see Bookshelf
-     */
-    public String getImage() {
-        return this.image;
     }
 
     /**
@@ -137,6 +128,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Getter of the number of tiles in a specific column
+     *
      * @param column chosen column
      * @return number of tiles the chosen column
      */
@@ -162,6 +154,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if a certain row is full
+     *
      * @param row chosen row
      * @return true if and only if the chosen row is full, otherwise return false
      */
@@ -193,6 +186,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if column is full
+     *
      * @param column chosen column
      * @return true if and only if the chosen column is full, otherwise return false
      */

@@ -78,7 +78,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * @param server   the current server.
      * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
-     * @param port the port of the client
+     * @param port     the port of the client
      * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see UI
@@ -311,6 +311,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     /**
      * Ask to the server if there are stored games for the given player nickname
+     *
      * @param nickname the nickname of the player that requested the restore.
      */
     @Override

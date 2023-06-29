@@ -76,7 +76,7 @@ public class RegisterCommand implements CommandToServer {
      * This method permits the execution of the registration command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException if a connection error occurs
+     * @throws RemoteException      if a connection error occurs
      */
     @Override
     public void execute() throws NullPointerException, RemoteException {

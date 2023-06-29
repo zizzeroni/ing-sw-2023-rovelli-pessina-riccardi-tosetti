@@ -28,7 +28,7 @@ public abstract class ControllerState {
     /**
      * Change the turn in the context of the present state through its implementations.
      *
-     * @param gamesStoragePath path in which are stored the games
+     * @param gamesStoragePath       path in which are stored the games
      * @param gamesStoragePathBackup backup path in which are stored the games
      * @see CreationState#changeTurn(String, String)
      * @see FinishingState#changeTurn(String, String)
@@ -87,13 +87,13 @@ public abstract class ControllerState {
      * the possibility to add new players to the current {@code Game}.
      *
      * @param nickname the nickname of the {@code Player}
+     * @throws LobbyIsFullException if the lobby is full
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#addPlayer(String)
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
      * @see InPauseState#addPlayer(String)
-     * @throws LobbyIsFullException if the lobby is full
      */
     public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 

@@ -201,6 +201,7 @@ public class GenericUILogic {
     public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
+
     /**
      * Removes the controller listener.
      *
@@ -215,9 +216,9 @@ public class GenericUILogic {
      * Getter used to get the countdown time after which the games end
      * if it remains only one player in the lobby
      *
+     * @return the countdown value
      * @see CountdownHandler
      * @see it.polimi.ingsw.view.GUI.ThPrintCountdown
-     * @return the countdown value
      */
     public int getCountdown() {
         return countdown;
@@ -232,7 +233,7 @@ public class GenericUILogic {
      */
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
-        if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
+        if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYERS_EXCEPTION) {
             this.setState(ClientGameState.GAME_ENDED);
         }
     }
@@ -290,14 +291,17 @@ public class GenericUILogic {
 
     /**
      * Setter of {@code areThereStoredGamesForPlayer} attribute
+     *
      * @param result indicate the result of the query made to the server about the presence of stored games
      *               for the given player
      */
     public void setAreThereStoredGamesForPlayer(boolean result) {
         this.areThereStoredGamesForPlayer = result;
     }
+
     /**
      * Getter of {@code areThereStoredGamesForPlayer} attribute
+     *
      * @return true if and only if there is a stored game for the player
      */
     public boolean areThereStoredGamesForPlayer() {

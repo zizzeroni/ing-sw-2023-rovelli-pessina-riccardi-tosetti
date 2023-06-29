@@ -5,10 +5,11 @@ import java.io.Serializable;
 /**
  * A record that permits the implementation of the serialization
  * of the different types of messages.
- * @param messageType type of the message (private or broadcast).
+ *
+ * @param messageType      type of the message (private or broadcast).
  * @param receiverNickname nickname of the receiver.
- * @param senderNickname nickname of the sender
- * @param content content of the message
+ * @param senderNickname   nickname of the sender
+ * @param content          content of the message
  */
 public record Message(MessageType messageType, String receiverNickname, String senderNickname,
                       String content) implements Serializable {
