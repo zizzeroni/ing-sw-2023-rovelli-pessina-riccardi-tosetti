@@ -23,7 +23,7 @@ public class SendUpdatedModelCommand implements CommandToClient {
      * Class constructor.
      * Initialize the command's actuator altogether with the updated model.
      *
-     * @param actuator the command's actuator.
+     * @param actuator     the command's actuator.
      * @param updatedModel the model after being updated that is being forwarded through the model updating command.
      */
     public SendUpdatedModelCommand(Client actuator, GameView updatedModel) {
@@ -45,7 +45,6 @@ public class SendUpdatedModelCommand implements CommandToClient {
      * Gets the model updating command's actuator.
      *
      * @return the actuator of the model updating command.
-     *
      */
     @Override
     public Client getActuator() {
@@ -80,7 +79,6 @@ public class SendUpdatedModelCommand implements CommandToClient {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the model updating command.
-     *
      * @see CommandType
      */
     @Override
@@ -92,7 +90,6 @@ public class SendUpdatedModelCommand implements CommandToClient {
      * Displays the type of command being executed altogether with the command receiver and command's parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

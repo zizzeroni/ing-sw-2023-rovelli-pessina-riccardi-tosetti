@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  */
 public class SendBroadcastMessageCommand implements CommandToServer {
@@ -31,8 +30,7 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * Initialize the content and the sender of the broadcast message command.
      *
      * @param content the content of the message.
-     * @param sender the sender of the message.
-     *
+     * @param sender  the sender of the message.
      * @see it.polimi.ingsw.model.Player
      */
     public SendBroadcastMessageCommand(String sender, String content) {
@@ -45,7 +43,6 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * Initialize the actuator of the broadcast message command.
      *
      * @param actuator the command's actuator.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public SendBroadcastMessageCommand(Server actuator) {
@@ -57,8 +54,8 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * Initialize the actuator, content and sender of the broadcast message command.
      *
      * @param actuator the command's actuator.
-     * @param content the content of the message.
-     * @param sender the sender of the message.
+     * @param content  the content of the message.
+     * @param sender   the sender of the message.
      */
     public SendBroadcastMessageCommand(Server actuator, String sender, String content) {
         this.actuator = actuator;
@@ -105,7 +102,6 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the broadcast messaging command.
-     *
      * @see CommandType
      */
     @Override
@@ -117,7 +113,6 @@ public class SendBroadcastMessageCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

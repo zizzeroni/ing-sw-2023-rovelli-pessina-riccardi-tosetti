@@ -395,7 +395,7 @@ public class GraphicalUI extends Application implements UI {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
-                if(this.mainSceneController.getInCensure()==0){
+                if (this.mainSceneController.getInCensure() == 0) {
                     showNewTurnIntro();
                     //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
                     while (takenTiles == null) {
@@ -407,8 +407,8 @@ public class GraphicalUI extends Application implements UI {
                     this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
                     temp = takenTiles;
                     takenTiles = null;
-                }else{
-                        this.mainSceneController.endCensure();
+                } else {
+                    this.mainSceneController.endCensure();
                     if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
 
                     this.genericUILogic.getController().insertUserInputIntoModel(temp);
@@ -461,11 +461,11 @@ public class GraphicalUI extends Application implements UI {
         });
         th.start();
     }
+
     /**
      * Permits to wait while the client is in the specified ClientGameState.
      *
      * @param gameStates is the given state causing the wait.
-     *
      * @see ClientGameState
      */
     private void waitWhileInStates(List<ClientGameState> gameStates) {
@@ -485,7 +485,7 @@ public class GraphicalUI extends Application implements UI {
             }
             boolean firstTime = true;
             while (gameStates.contains(genericUILogic.getState())) {
-                if(this.mainSceneController.getInCensure()==0) {
+                if (this.mainSceneController.getInCensure() == 0) {
                     showUpdateFromOtherPlayer();
                 }
                 try {

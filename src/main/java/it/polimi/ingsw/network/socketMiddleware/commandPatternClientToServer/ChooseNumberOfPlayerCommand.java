@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Player
  */
@@ -32,7 +31,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Initialize the content and the sender of the {@code Player}'s number choosing command.
      *
      * @param actuator the command's actuator.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public ChooseNumberOfPlayerCommand(Server actuator) {
@@ -43,9 +41,8 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Class constructor.
      * Initialize the content and the sender of the {@code Player}'s number choosing command.
      *
-     * @param actuator the command's actuator.
+     * @param actuator        the command's actuator.
      * @param numberOfPlayers the {@code Player}s number.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public ChooseNumberOfPlayerCommand(Server actuator, int numberOfPlayers) {
@@ -57,7 +54,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Player}'s number choosing command.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -69,7 +65,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Sets the command's actuator.
      *
      * @param actuator the actuator of the {@code Player}'s number choosing command.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -82,7 +77,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      *
      * @throws NullPointerException if there is no command to execute.
      * @throws RemoteException
-     *
      * @see it.polimi.ingsw.model.Player
      */
     @Override
@@ -98,7 +92,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the {@code Player}'s number choosing command.
-     *
      * @see CommandType
      * @see it.polimi.ingsw.model.Player
      */
@@ -111,7 +104,6 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

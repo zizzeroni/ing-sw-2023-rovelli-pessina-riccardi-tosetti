@@ -15,6 +15,7 @@ public class WrongInputDataException extends GenericException {
     public WrongInputDataException(String message) {
         super(message);
     }
+
     /**
      * Enumerates the class exception.
      *

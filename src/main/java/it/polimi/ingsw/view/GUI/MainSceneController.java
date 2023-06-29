@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.*;
-import it.polimi.ingsw.utils.OptionsValues;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,15 +86,16 @@ public class MainSceneController implements Initializable {
     private boolean gameOn;
     private Thread printCountdownThread;
     private boolean onCountdown;
-    private int inCensure=0;
+    private int inCensure = 0;
 
     public int getInCensure() {
         return inCensure;
     }
+
     /**
      * Initialize the resources for the main scene.
      *
-     * @param url the given url
+     * @param url            the given url
      * @param resourceBundle the graphical bundle used in GUI's scene
      */
     @Override
@@ -265,7 +265,6 @@ public class MainSceneController implements Initializable {
      * Exits the first common goal image.
      *
      * @param mouseEvent the given mouse event.
-     *
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void onCommonGoal2(MouseEvent mouseEvent) {
@@ -288,7 +287,6 @@ public class MainSceneController implements Initializable {
      * Exits the second common goal.
      *
      * @param mouseEvent the given mouse event.
-     *
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void exitCommonGoal2(MouseEvent mouseEvent) {
@@ -367,7 +365,7 @@ public class MainSceneController implements Initializable {
                     String nome = "#firstPlayerTile" + (row) + (column);
                     Button button = (Button) scene.lookup(nome);
                     if (button != null) {
-                        if(button.getStyleClass().size()>1){
+                        if (button.getStyleClass().size() > 1) {
                             button.getStyleClass().remove(1);
                         }
                         button.setOpacity(1);
@@ -495,9 +493,8 @@ public class MainSceneController implements Initializable {
     /**
      * Cancels the actual tile's disposal on the game's board
      *
-     * @param row the selected row.
+     * @param row    the selected row.
      * @param column the selected column.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Board
      */
@@ -528,9 +525,9 @@ public class MainSceneController implements Initializable {
     /**
      * Sets the tile's disposal on the GUI for the current game's board.
      *
-     * @param row the selected row.
-     * @param column the selected column.
-     * @param tileId the tile identifier.
+     * @param row       the selected row.
+     * @param column    the selected column.
+     * @param tileId    the tile identifier.
      * @param tileColor the color of the considered tile.
      */
     public void setBoardTile(int row, int column, int tileId, String tileColor) {
@@ -623,7 +620,7 @@ public class MainSceneController implements Initializable {
     /**
      * Locks the selection of the tile in given position (for game's set up).
      *
-     * @param row the selected row.
+     * @param row    the selected row.
      * @param column the selected column.
      */
     public void disableTile(int row, int column) {
@@ -654,9 +651,9 @@ public class MainSceneController implements Initializable {
 
     /**
      * Locks the selection of the tile in given position (for player's moves during the game's development
-     *  when a tile is picked).
+     * when a tile is picked).
      *
-     * @param row the selected row.
+     * @param row    the selected row.
      * @param column the selected column.
      */
     public void disableTileAfterPick(int row, int column) {
@@ -677,7 +674,7 @@ public class MainSceneController implements Initializable {
     /**
      * Permits to access a tile again after a previous call to some access restriction related methods.
      *
-     * @param row the selected row.
+     * @param row    the selected row.
      * @param column the selected column.
      */
     public void ableTile(int row, int column) {
@@ -725,7 +722,6 @@ public class MainSceneController implements Initializable {
      * Sets the number of player at the starting of the game.
      *
      * @param numberOfPlayers the number of players for the current game.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     public void setNumberOfPlayer(int numberOfPlayers) {
@@ -737,7 +733,6 @@ public class MainSceneController implements Initializable {
      * Sets the nicknames for the given list of players.
      *
      * @param players the players list.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setPlayersName(List<PlayerView> players) {
@@ -780,7 +775,6 @@ public class MainSceneController implements Initializable {
      * This method is used to set the personal goals linked to the main scene.
      *
      * @param personalGoal the given personal goal.
-     *
      * @see it.polimi.ingsw.model.PersonalGoal
      */
     public void setPersonalGoal(PersonalGoalView personalGoal) {
@@ -807,7 +801,6 @@ public class MainSceneController implements Initializable {
      * This method is used to set the common goals list linked to the main scene.
      *
      * @param commonGoals the list of common goals.
-     *
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
@@ -837,7 +830,6 @@ public class MainSceneController implements Initializable {
      * Allows tiles selection in the main scene context.
      *
      * @param actionEvent the action event associated to tiles selection.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public void SelectTiles(ActionEvent actionEvent) {
@@ -923,12 +915,11 @@ public class MainSceneController implements Initializable {
      * of the chosen set from in column.
      * Verify if the {@code Player} commit mistakes during selection.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
-     * @param firstRow the inspection starting row.
+     * @param row         the row in selection.
+     * @param column      the column in selection.
+     * @param firstRow    the inspection starting row.
      * @param firstColumn the inspection starting column.
      * @return the direction of the two current tiles chosen.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -953,12 +944,11 @@ public class MainSceneController implements Initializable {
      * of the chosen set from in column.
      * Verify if the {@code Player} commit mistakes during selection.
      *
-     * @param row the row in selection.
-     * @param column the column in selection.
-     * @param  prevTilesCoordinates the coordinates of the previously chosen tiles.
-     * @param directionToCheck the direction of the two current tiles chosen.
+     * @param row                  the row in selection.
+     * @param column               the column in selection.
+     * @param prevTilesCoordinates the coordinates of the previously chosen tiles.
+     * @param directionToCheck     the direction of the two current tiles chosen.
      * @return {@code true} iff the check is successful, {@code false} otherwise.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Game
@@ -1002,11 +992,10 @@ public class MainSceneController implements Initializable {
     /**
      * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
      *
-     * @param row is the row of the checked {@code Tile}.
+     * @param row    is the row of the checked {@code Tile}.
      * @param column is the column of the checked {@code Tile}.
      * @return {@code true} if and only if the {@code Tile}'s can be picked,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      */
     private boolean checkIfPickable(int row, int column) {
@@ -1079,7 +1068,6 @@ public class MainSceneController implements Initializable {
      * Allows to insert the selected tile in a bookshelf slot.
      *
      * @param actionEvent the event associated to tiles insertion.
-     *
      * @see it.polimi.ingsw.model.Bookshelf
      * @see Tile
      */
@@ -1117,7 +1105,6 @@ public class MainSceneController implements Initializable {
      * Sets the nickname of the first player joining the game's lobby.
      *
      * @param nickname the chosen nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      */
@@ -1237,7 +1224,6 @@ public class MainSceneController implements Initializable {
      * Sets the disposal of the player's bookshelf.
      *
      * @param players the list of players.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Bookshelf
      */
@@ -1340,7 +1326,6 @@ public class MainSceneController implements Initializable {
      * Sets the points associated to the common goals.
      *
      * @param commonGoals the list of given common goals.
-     *
      * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
@@ -1433,7 +1418,6 @@ public class MainSceneController implements Initializable {
      * Allows to send a message through the GUI's chat.
      *
      * @param actionEvent the event linked to the message sending.
-     *
      * @see GraphicalUI
      */
     public void sendMessage(ActionEvent actionEvent) {
@@ -1479,7 +1463,6 @@ public class MainSceneController implements Initializable {
      * Signals that the current game is on going.
      *
      * @param gameOn the boolean used to change the current game's state.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     public void setGameOn(boolean gameOn) {
@@ -1487,7 +1470,7 @@ public class MainSceneController implements Initializable {
     }
 
     public void startCensure() {
-        if(inCensure==0) {
+        if (inCensure == 0) {
             System.out.println("inizio censura");
             this.inCensure = this.inCensure + 1;
             //this.setTable();
@@ -1522,33 +1505,33 @@ public class MainSceneController implements Initializable {
     }
 
     public void endCensure() {
-        if(this.inCensure==1) {
+        if (this.inCensure == 1) {
             System.out.println("finisco censura");
             this.inCensure = 0;
         }
         //if (onCountdown) {
-            //printCountdownThread.interrupt();
-            //onCountdown = false;
-            //printCountdownThread = createPrintCountdownThread();
-            censure.setMaxSize(1, 1);
-            censure.setOpacity(0.0);
-            commonGoal1.setOnMouseEntered(this::onCommonGoal1);
-            commonGoal2.setOnMouseEntered(this::onCommonGoal2);
-            commonGoal1.setOnMouseExited(this::exitCommonGoal1);
-            commonGoal2.setOnMouseExited(this::exitCommonGoal2);
-            personalGoal.setOnMouseEntered(this::onPersonalGoal);
-            personalGoal.setOnMouseExited(this::exitPersonalGoal);
-            CountDownLatch countDownLatch = new CountDownLatch(1);
-            Platform.runLater(() -> {
-                countdownLabel.setText("");
-                countDownLatch.countDown();
-            });
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            personalGoal.setVisible(true);
+        //printCountdownThread.interrupt();
+        //onCountdown = false;
+        //printCountdownThread = createPrintCountdownThread();
+        censure.setMaxSize(1, 1);
+        censure.setOpacity(0.0);
+        commonGoal1.setOnMouseEntered(this::onCommonGoal1);
+        commonGoal2.setOnMouseEntered(this::onCommonGoal2);
+        commonGoal1.setOnMouseExited(this::exitCommonGoal1);
+        commonGoal2.setOnMouseExited(this::exitCommonGoal2);
+        personalGoal.setOnMouseEntered(this::onPersonalGoal);
+        personalGoal.setOnMouseExited(this::exitPersonalGoal);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            countdownLabel.setText("");
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        personalGoal.setVisible(true);
         //}
     }
 }

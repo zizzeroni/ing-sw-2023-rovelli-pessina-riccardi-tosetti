@@ -30,11 +30,11 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
     public SendAreThereStoredGamesForPlayerCommand(boolean result) {
         this.result = result;
     }
+
     /**
      * Gets the command's actuator.
      *
      * @return the actuator of the {@code Game}'s  command.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      */
@@ -52,8 +52,7 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
      * This method permits the execution of the class command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException called when a communication error occurs.
-     *
+     * @throws RemoteException      called when a communication error occurs.
      * @see it.polimi.ingsw.model.Player
      */
     public void execute() throws NullPointerException, RemoteException {
@@ -63,11 +62,11 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
             throw new NullPointerException("[RESOURCE:ERROR] Can't invoke \"updateModelView(boolean)\" command because this.actuator is NULL");
         }
     }
+
     /**
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the {@code Game}'s command.
-     *
      * @see CommandType
      * @see it.polimi.ingsw.model.Player
      */
@@ -80,7 +79,6 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

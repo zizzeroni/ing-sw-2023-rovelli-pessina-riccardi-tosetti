@@ -33,10 +33,10 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Class constructor with parameters.
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      *
-     * @param id the identifier assigned to the card.
+     * @param id                the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param positions the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
+     * @param type              the type of check that has to be done on the considered common goal's card.
+     * @param positions         the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
     public TilesInPositionsPatternGoal(int id, int patternRepetition, CheckType type, List<List<Integer>> positions) {
         super(id, patternRepetition, type);
@@ -48,7 +48,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      * (numberOfPlayers is also considered in this version).
      *
-     * @param id         the image assigned to the card.
+     * @param id              the image assigned to the card.
      * @param type            the type of check that has to be done on the considered common goal's card.
      * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      * @param numberOfPlayers number of active players.
@@ -64,10 +64,9 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * (scoreTiles list is also considered in this version).
      *
      * @param id         the image assigned to the card.
-     * @param type            the type of check that has to be done on the considered common goal's card.
+     * @param type       the type of check that has to be done on the considered common goal's card.
      * @param scoreTiles is the list of current score tiles.
-     * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
-     *
+     * @param positions  the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      */
     public TilesInPositionsPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, List<List<Integer>> positions) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
@@ -100,7 +99,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      *
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the number of repetitions of the TilesInPositionsPatternGoal.
-     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.view.PlayerView
      * @see it.polimi.ingsw.model.tile.Tile
@@ -169,13 +167,12 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Also, a support matrix is used when necessary to keep track of the current group of tiles,
      * each group is distinguished for both number of tiles and color.
      *
-     * @param bookshelf the bookshelf of the current active player.
-     * @param supportMatrix the matrix used as a support during the algorithm's unfolding.
-     * @param row the current row.
-     * @param column the current column.
-     * @param group the group assigned to the current set of tiles.
+     * @param bookshelf        the bookshelf of the current active player.
+     * @param supportMatrix    the matrix used as a support during the algorithm's unfolding.
+     * @param row              the current row.
+     * @param column           the current column.
+     * @param group            the group assigned to the current set of tiles.
      * @param currentTileColor the color of the actual group of tiles.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
      */
@@ -215,7 +212,6 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
      *
      * @return an immutable copy of the TilesInPositionsPatternGoalView.
-     *
      * @see CommonGoal
      */
     @Override

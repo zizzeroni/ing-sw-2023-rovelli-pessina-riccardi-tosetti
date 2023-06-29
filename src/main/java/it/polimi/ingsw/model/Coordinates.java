@@ -14,7 +14,6 @@ public class Coordinates implements Serializable {
     private int y;
 
     /**
-     *
      * Class Builder. Set the attributes' coordinates.
      *
      * @param x is the first coordinate.
@@ -76,7 +75,7 @@ public class Coordinates implements Serializable {
      *
      * @param obj is the object which coordinates will be compared.
      * @return {@code true} if and only if the coordinates of the parameter and
-     *             those of the object are equals, false otherwise.
+     * those of the object are equals, false otherwise.
      */
     public boolean equals(Coordinates obj) {
         return obj.getX() == this.getX() && obj.getY() == this.getY();

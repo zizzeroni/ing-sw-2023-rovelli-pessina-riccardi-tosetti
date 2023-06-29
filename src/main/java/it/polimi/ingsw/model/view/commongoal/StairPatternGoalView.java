@@ -17,7 +17,7 @@ public class StairPatternGoalView extends CommonGoalView {
      * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
      *
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
-     *                         in order to make possible the construction of the class object.
+     *                        in order to make possible the construction of the class object.
      */
     public StairPatternGoalView(CommonGoal commonGoalModel) {
         super(commonGoalModel);
@@ -28,8 +28,7 @@ public class StairPatternGoalView extends CommonGoalView {
      * during the {@code Game} (those that produced a {@code StairPatternGoal}).
      *
      * @return a text message associated to the various combinations of tiles associated
-     *          that may satisfy the conditions to verify the StairPatternGoal.
-     *
+     * that may satisfy the conditions to verify the StairPatternGoal.
      * @see it.polimi.ingsw.model.commongoal.StairPatternGoal
      */
     @Override

@@ -12,7 +12,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  */
 public class InsertUserInputCommand implements CommandToServer {
@@ -31,7 +30,6 @@ public class InsertUserInputCommand implements CommandToServer {
      * Initialize the {@code playerChoice} to the given value.
      *
      * @param playerChoice the {@code Player}'s choice.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Choice
      */
@@ -44,7 +42,6 @@ public class InsertUserInputCommand implements CommandToServer {
      * Initialize the command's actuator to the given value.
      *
      * @param actuator the command's actuator.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public InsertUserInputCommand(Server actuator) {
@@ -56,8 +53,7 @@ public class InsertUserInputCommand implements CommandToServer {
      * Initialize the {@code playerChoice} and actuator to the given values.
      *
      * @param playerChoice the {@code Player}'s choice.
-     * @param actuator the command's actuator.
-     *
+     * @param actuator     the command's actuator.
      * @see it.polimi.ingsw.model.Player
      * @see Choice
      */
@@ -105,7 +101,6 @@ public class InsertUserInputCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the user's input command.
-     *
      * @see CommandType
      */
     @Override
@@ -117,7 +112,6 @@ public class InsertUserInputCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

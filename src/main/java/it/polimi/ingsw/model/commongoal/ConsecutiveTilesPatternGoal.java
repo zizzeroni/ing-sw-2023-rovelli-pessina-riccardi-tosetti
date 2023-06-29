@@ -29,14 +29,13 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     /**
-     *
      * Constructor of the class in the implementation with parameters.
      * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles                   the number of consecutive tile for making a point considering the pattern of the goal.
      */
     public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int consecutiveTiles) {
         super(id, numberOfPatternRepetitionsRequired, type);
@@ -44,16 +43,15 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     /**
-     *
      * Constructor of the class in the implementation with parameters.
      * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
      * In this version the numberOfPlayers is also considered.
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
-     * @param numberOfPlayers number of active players.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles                   the number of consecutive tile for making a point considering the pattern of the goal.
+     * @param numberOfPlayers                    number of active players.
      */
     public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers, int consecutiveTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
@@ -61,16 +59,15 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
     }
 
     /**
-     *
      * Constructor of the class in the implementation with parameters.
      * Builds a ConsecutiveTilesPatternGoal with type, ID, ...
      * In this version the scoreTiles list is also considered.
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param consecutiveTiles the number of consecutive tile for making a point considering the pattern of the goal.
-     * @param scoreTiles the list of current score tiles.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param consecutiveTiles                   the number of consecutive tile for making a point considering the pattern of the goal.
+     * @param scoreTiles                         the list of current score tiles.
      */
     public ConsecutiveTilesPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles, int consecutiveTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
@@ -88,7 +85,6 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      *
      * @param bookshelf contains the bookshelf of the player
      * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf
      */
@@ -137,13 +133,12 @@ public class ConsecutiveTilesPatternGoal extends CommonGoal {
      * Also, a support matrix is used when necessary to keep track of the current group of tiles,
      * each group is distinguished for both number of tiles and color.
      *
-     * @param bookshelf the bookshelf of the current active player.
-     * @param supportMatrix the matrix used as a support during the algorithm's unfolding.
-     * @param row the current row.
-     * @param column the current column.
-     * @param group the group assigned to the current set of tiles.
+     * @param bookshelf        the bookshelf of the current active player.
+     * @param supportMatrix    the matrix used as a support during the algorithm's unfolding.
+     * @param row              the current row.
+     * @param column           the current column.
+     * @param group            the group assigned to the current set of tiles.
      * @param currentTileColor the color of the actual group of tiles.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Bookshelf
      */

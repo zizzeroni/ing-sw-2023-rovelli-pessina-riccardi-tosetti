@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  */
 public class SendPrivateMessageCommand implements CommandToServer {
@@ -31,8 +30,8 @@ public class SendPrivateMessageCommand implements CommandToServer {
      * Class constructor.
      * Initialize the content, sender and receiver of the private message command.
      *
-     * @param content the content of the message.
-     * @param sender the sender of the message.
+     * @param content  the content of the message.
+     * @param sender   the sender of the message.
      * @param receiver the receiver of the message.
      */
     public SendPrivateMessageCommand(String receiver, String sender, String content) {
@@ -56,8 +55,8 @@ public class SendPrivateMessageCommand implements CommandToServer {
      * Initialize the actuator, content, sender and receiver of the private message command.
      *
      * @param actuator the command's actuator.
-     * @param content the content of the message.
-     * @param sender the sender of the message.
+     * @param content  the content of the message.
+     * @param sender   the sender of the message.
      * @param receiver the receiver of the message.
      */
     public SendPrivateMessageCommand(Server actuator, String receiver, String sender, String content) {
@@ -106,7 +105,6 @@ public class SendPrivateMessageCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the private message sending command.
-     *
      * @see CommandType
      */
     @Override
@@ -118,7 +116,6 @@ public class SendPrivateMessageCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override
