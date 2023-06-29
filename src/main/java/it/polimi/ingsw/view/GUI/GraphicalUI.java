@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.controller.ViewListener;
+import it.polimi.ingsw.view.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.exceptions.GenericException;
@@ -12,7 +12,8 @@ import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
-import it.polimi.ingsw.view.TextualUI;
+import it.polimi.ingsw.view.TUI.TextualUI;
+import it.polimi.ingsw.view.UI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.ChatThread;
-import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.exceptions.ExceptionType;
 import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
+import it.polimi.ingsw.view.TUI.CountdownHandler;
+import it.polimi.ingsw.view.TUI.TextualUI;
+import it.polimi.ingsw.view.TUI.ThPrintCountdown;
 
 /**
  * The class used to represent a generic User Interface (UI).
@@ -218,7 +220,7 @@ public class GenericUILogic {
      *
      * @return the countdown value
      * @see CountdownHandler
-     * @see it.polimi.ingsw.view.GUI.ThPrintCountdown
+     * @see ThPrintCountdown
      */
     public int getCountdown() {
         return countdown;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.utils;
 
+import it.polimi.ingsw.view.TUI.TextualUI;
+
 import java.util.Scanner;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Scanner;
  * It is implemented as an extension of the Thread's class.
  *
  * @see it.polimi.ingsw.model.Player
- * @see it.polimi.ingsw.view.TextualUI
+ * @see TextualUI
  * @see it.polimi.ingsw.view.GUI
  */
 public class CommandReader extends Thread {

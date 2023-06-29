@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.socketMiddleware.ServerStub;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.GraphicalUI;
-import it.polimi.ingsw.view.TextualUI;
+import it.polimi.ingsw.view.TUI.TextualUI;
 import javafx.application.Application;
 import org.fusesource.jansi.AnsiConsole;
 

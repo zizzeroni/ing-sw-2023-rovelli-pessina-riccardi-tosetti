@@ -1,0 +1,17 @@
+it.polimi.ingsw
+it.polimi.ingsw.controller
+it.polimi.ingsw.model
+it.polimi.ingsw.model.commongoal
+it.polimi.ingsw.model.exceptions
+it.polimi.ingsw.model.listeners
+it.polimi.ingsw.model.tile
+it.polimi.ingsw.model.view
+it.polimi.ingsw.model.view.commongoal
+it.polimi.ingsw.network
+it.polimi.ingsw.network.socketMiddleware
+it.polimi.ingsw.network.socketMiddleware.commandPatternClientToServer
+it.polimi.ingsw.network.socketMiddleware.commandPatternServerToClient
+it.polimi.ingsw.utils
+it.polimi.ingsw.view
+it.polimi.ingsw.view.GUI
+it.polimi.ingsw.view.TUI
