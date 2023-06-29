@@ -23,7 +23,6 @@ public class SendExceptionCommand implements CommandToClient {
 
     /**
      * Class constructor.
-     * <p>
      * Initialize the exception attribute to the given exception's value.
      *
      * @param exception the attribute to be initialized.

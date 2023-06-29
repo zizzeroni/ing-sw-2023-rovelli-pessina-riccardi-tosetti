@@ -78,6 +78,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * @param server   the current server.
      * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
+     * @param port the port of the client
      * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see UI

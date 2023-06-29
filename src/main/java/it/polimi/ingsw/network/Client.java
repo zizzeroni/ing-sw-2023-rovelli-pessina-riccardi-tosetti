@@ -47,6 +47,7 @@ public interface Client extends Remote {
      *
      * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
      * @see it.polimi.ingsw.model.Game
+     * @throws RemoteException if connection error occurs
      */
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException;
 }

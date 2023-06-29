@@ -101,6 +101,8 @@ public class GameController {
 
     /**
      * Change the turn in the context of the present {@code State}.
+     * @param gamesStoragePath path in which are stored the games
+     * @param gamesStoragePathBackup backup path in which are stored the games
      */
     public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         state.changeTurn(gamesStoragePath, gamesStoragePathBackup);
@@ -221,10 +223,13 @@ public class GameController {
     /**
      * Checks if there are some player in excess within the game lobby that shouldn't be connected.
      *
+     * @param chosenNumberOfPlayers number of player chosen by the first player
      * @see CreationState#checkExceedingPlayer(int)
      * @see FinishingState#checkExceedingPlayer(int)
      * @see InPauseState#checkExceedingPlayer(int)
      * @see OnGoingState#checkExceedingPlayer(int)
+     * @throws ExcessOfPlayersException if there is an excess of player in the lobby when starting
+     * @throws WrongInputDataException when input data is not valid.
      */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);

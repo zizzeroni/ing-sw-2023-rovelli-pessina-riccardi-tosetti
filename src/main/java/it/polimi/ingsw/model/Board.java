@@ -196,6 +196,7 @@ public class Board {
     /**
      * Setter used to decide the {@code Tile}s to be displaced on the board.
      *
+     * @param tiles matrix of the board
      * @see Tile
      */
     public void setTiles(Tile[][] tiles) {

@@ -26,6 +26,10 @@ import java.util.List;
  */
 public class OnGoingState extends ControllerState {
 
+    /**
+     * Class constructor
+     * @param controller controller used by the state
+     */
     public OnGoingState(GameController controller) {
         super(controller);
     }

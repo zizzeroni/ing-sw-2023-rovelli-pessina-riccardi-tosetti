@@ -44,6 +44,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @see GameController
      * @see Game
      * @see Board
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl() throws RemoteException {
         super();
@@ -64,10 +65,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Starts the thread's pinging.
      *
      * @param port the server's port number.
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port) throws RemoteException {
         super(port);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -81,10 +83,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -544,7 +547,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     /**
      * Indicates a change in the current game's state.
      * It is also used to register every player and his bookshelf as a listener on the server implementation
-     * if the game just entered in the {@core ON_GOING} state.
+     * if the game just entered in the {@code ON_GOING} state.
      * Finally, if the {@code Game} is in {@code RESET_NEEDED} state just call resetServer() method.
      *
      * @see Game

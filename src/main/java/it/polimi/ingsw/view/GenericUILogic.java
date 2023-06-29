@@ -217,6 +217,7 @@ public class GenericUILogic {
      *
      * @see CountdownHandler
      * @see it.polimi.ingsw.view.GUI.ThPrintCountdown
+     * @return the countdown value
      */
     public int getCountdown() {
         return countdown;
@@ -297,6 +298,7 @@ public class GenericUILogic {
     }
     /**
      * Getter of {@code areThereStoredGamesForPlayer} attribute
+     * @return true if and only if there is a stored game for the player
      */
     public boolean areThereStoredGamesForPlayer() {
         return this.areThereStoredGamesForPlayer;

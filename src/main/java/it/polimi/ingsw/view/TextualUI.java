@@ -14,7 +14,6 @@ import it.polimi.ingsw.view.GUI.UI;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -58,6 +57,7 @@ public class TextualUI implements UI {
     }
     /**
      * Register the listener of the CountdownHandler
+     * @param listener the listener
      */
     public void registerCountdownListener(TUIListener listener) {
         this.countdownListener = listener;

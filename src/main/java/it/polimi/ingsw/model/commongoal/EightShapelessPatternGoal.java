@@ -70,7 +70,6 @@ public class EightShapelessPatternGoal extends CommonGoal {
 
     /**
      * Controls if there are 8 {@code Tile}s of the same color in any position on the {@code Board}.
-     * <p>
      *
      * @param bookshelf the {@code Bookshelf} of the {@code Player}.
      * @return the number of times the pattern is achieved.

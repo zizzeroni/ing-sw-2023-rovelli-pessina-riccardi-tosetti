@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 

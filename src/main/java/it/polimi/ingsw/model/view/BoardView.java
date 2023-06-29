@@ -36,6 +36,12 @@ public class BoardView implements Serializable {
         }
     }
 
+
+    /**
+     * Getter of the number of usable tiles in the board
+     *
+     * @return number of usable tiles
+     */
     public int getNumberOfUsableTiles() {
         return this.numberOfUsableTiles;
     }

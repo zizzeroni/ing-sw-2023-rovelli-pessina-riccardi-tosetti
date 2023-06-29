@@ -52,10 +52,18 @@ public class BookshelfView implements Serializable {
 
     }
 
+    /**
+     * Getter of a map that associate the points to certain dimension of tiles groups
+     * @return the map
+     */
     public Map<Integer, Integer> getPointsForEachGroup() {
         return this.pointsForEachGroup;
     }
 
+    /**
+     * Check if the bookshelf is full
+     * @return true if and only if the bookshelf is full, otherwise false
+     */
     public boolean isFull() {
         for (int column = 0; column < this.numberOfColumns; column++) {
             if (this.tiles[0][column] == null) {
@@ -127,6 +135,11 @@ public class BookshelfView implements Serializable {
         return this.numberOfColumns;
     }
 
+    /**
+     * Getter of the number of tiles in a specific column
+     * @param column chosen column
+     * @return number of tiles the chosen column
+     */
     public int getNumberOfTilesInColumn(int column) {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
@@ -147,6 +160,11 @@ public class BookshelfView implements Serializable {
         return this.numberOfRows;
     }
 
+    /**
+     * Check if a certain row is full
+     * @param row chosen row
+     * @return true if and only if the chosen row is full, otherwise return false
+     */
     public boolean isRowFull(int row) {
         for (int column = 0; column < this.numberOfColumns; column++) {
             if (this.tiles[row][column] == null) {
@@ -173,6 +191,11 @@ public class BookshelfView implements Serializable {
         return maxNumberOfCellsFreeInBookshelf;
     }
 
+    /**
+     * Check if column is full
+     * @param column chosen column
+     * @return true if and only if the chosen column is full, otherwise return false
+     */
     public boolean isColumnFull(int column) {
         for (int row = 0; row < this.numberOfRows; row++) {
             if (this.tiles[row][column] == null) {
