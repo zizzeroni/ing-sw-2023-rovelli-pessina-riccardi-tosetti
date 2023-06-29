@@ -95,7 +95,7 @@ public class PlayerTest {
         this.player.setNickname("Marco");
         this.player.setScoreTiles(new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile())));
         this.player.addScoreTile(new ScoreTile());
-        this.player.setSingleScoreTile(new ScoreTile(1,1,1), 2);
+        this.player.setSingleScoreTile(new ScoreTile(0,1,1), 2);
         this.player.setConnected(true);
         this.player.setPersonalGoal(new PersonalGoal());
         assertEquals(0, this.player.score());
