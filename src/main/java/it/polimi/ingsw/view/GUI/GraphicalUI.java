@@ -496,7 +496,7 @@ public class GraphicalUI extends Application implements UI {
                 if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME) {
                     if (firstTime) {
                         firstTime = false;
-                        //this.mainSceneController.startCensure();
+                        this.mainSceneController.startCensure();
                     } else {
                         if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
                             this.mainSceneController.endCensure();
