@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.GUI.UI;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class TextualUI implements UI {
 
     private final GenericUILogic genericUILogic;
 
+    private TUIListener countdownListener;
+
     /**
      * Class constructor.
      * Initialize the game's model.
@@ -49,7 +52,17 @@ public class TextualUI implements UI {
      */
     public TextualUI() {
         this.genericUILogic = new GenericUILogic();
-        new CountdownHandler(genericUILogic).start();
+        TUIListener countdownHandlerThread = new CountdownHandler(genericUILogic);
+        this.registerCountdownListener(countdownHandlerThread);
+        countdownHandlerThread.start();
+    }
+
+    public void registerCountdownListener(TUIListener listener) {
+        this.countdownListener = listener;
+    }
+
+    public void removeCountdownListener() {
+        this.countdownListener = null;
     }
 
     /**
@@ -80,6 +93,8 @@ public class TextualUI implements UI {
 
         } while (this.genericUILogic.getExceptionToHandle() != null);
 
+        this.countdownListener.noExceptionOccured();
+
         this.genericUILogic.controller.areThereStoredGamesForPlayer(this.genericUILogic.getNickname());
 
         if (this.genericUILogic.areThereStoredGamesForPlayer() && genericUILogic.getModel().getPlayers().size() == 1) {
@@ -94,10 +109,14 @@ public class TextualUI implements UI {
                 System.out.println("Stored game has been restored correctly");
 
             } else if (restoreGameChoice.equalsIgnoreCase("NO")) {
-                this.setUpLobby();
+                this.setUpLobbyAsFirst();
             }
         } else {
-            this.setUpLobby();
+            if(this.genericUILogic.getModel().getPlayers().size() == 1) {
+                this.setUpLobbyAsFirst();
+            } else {
+                this.setUpLobby();
+            }
         }
         System.out.println(this.genericUILogic.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
@@ -223,8 +242,7 @@ public class TextualUI implements UI {
         if (this.genericUILogic.getExceptionToHandle() != null) {
             this.genericUILogic.getExceptionToHandle().handle();
         } else {
-            showPersonalRecap();
-            System.out.println("---GAME ENDED---");
+            showGameEnd();
         }
     }
 
@@ -597,18 +615,41 @@ public class TextualUI implements UI {
         int playerScore = activePlayer.score();
 
         List<CommonGoalView> commonGoals = this.genericUILogic.getModel().getCommonGoals();
+        List<ScoreTileView> scoreTileFirstCommonGoal = commonGoals.get(0).getScoreTiles();
+        List<ScoreTileView> scoreTileSecondCommonGoal = commonGoals.get(1).getScoreTiles();
 
         System.out.println("Here is your recap:");
         System.out.println("Bookshelf's state:\n" + playerBookshelf + "\n" +
                 "Personal goal:\n" + playerPersonalGoal + "\n" +
-                "Common goals:\n" + commonGoals.get(0) + "\n" + commonGoals.get(1) + "\n" +
+                "Common goals:\n" +
+                commonGoals.get(0) + "Highest tile available: " + (scoreTileFirstCommonGoal.size() > 0 ? scoreTileFirstCommonGoal.get(0).getValue() : "0") + "\n\n" +
+                commonGoals.get(1) + "Highest tile available: " + (scoreTileSecondCommonGoal.size() > 0 ? scoreTileSecondCommonGoal.get(0).getValue() : "0") + "\n\n" +
                 "Completed common goals: First common goal:" + (playerScoreTiles.size() > 0 && playerScoreTiles.get(0) != null ? playerScoreTiles.get(0).getValue() : "/") +
                 ", Second common goal:" + (playerScoreTiles.size() > 1 && playerScoreTiles.get(1) != null ? playerScoreTiles.get(1).getValue() : "/") + ", Victory:" +
                 (playerScoreTiles.size() > 2 && playerScoreTiles.get(2) != null ? playerScoreTiles.get(2).getValue() : "/") + " (Score tiles values)" + "\n" +
                 "Your current score: " + playerScore);
     }
 
+    /**
+     * Set up the lobby of the game, and proceed to start it
+     *
+     * @see ViewListener#startGame()
+     */
     private void setUpLobby() {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+            this.genericUILogic.controller.startGame();
+        }
+    }
+
+    /**
+     * Set up the lobby of the game,
+     * ask the player (that is the first one) the number of players of the lobby,
+     * and proceed to start it
+     *
+     * @see #askNumberOfPlayers()
+     * @see ViewListener#startGame()
+     */
+    private void setUpLobbyAsFirst() {
         this.askNumberOfPlayers();
 
         if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
@@ -616,15 +657,19 @@ public class TextualUI implements UI {
         }
     }
 
+    /**
+     * Ask the first player the number of players in order to start the game,
+     *
+     * @see ViewListener#chooseNumberOfPlayerInTheGame(int)
+     */
     private void askNumberOfPlayers() {
         int chosenNumberOfPlayer = 0;
-        if (genericUILogic.getModel().getPlayers().size() == 1) {
-            do {
-                System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
-                chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
-            } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
-            this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
-        }
+        do {
+            System.out.println("You're the first player, how many people will play? (Min:2, Max:4)");
+            chosenNumberOfPlayer = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
+        } while (chosenNumberOfPlayer < 2 || chosenNumberOfPlayer > 4);
+        this.genericUILogic.controller.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
+
     }
 
     /**
@@ -644,5 +689,20 @@ public class TextualUI implements UI {
                     ██║░╚═╝░██║░░░██║░░░░░░░░░░░██████╔╝██║░░██║███████╗███████╗██║░░░░░██║███████╗
                     ╚═╝░░░░░╚═╝░░░╚═╝░░░░░░░░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░░░░╚═╝╚══════╝
                 """);
+    }
+
+    /**
+     * Show the scoreboard of the game, sorting the player in
+     * descending order of their score
+     */
+    public void showGameEnd() {
+        List<PlayerView> playerOrderedByPoints = this.genericUILogic.getModel().getPlayers().stream().sorted((p1,p2)->p2.score() - p1.score()).toList();
+        System.out.println("""
+              ---GAME ENDED---
+              SCOREBOARD:
+              """);
+        for(int playerPosition = 0;playerPosition<playerOrderedByPoints.size();playerPosition++) {
+            System.out.println((playerPosition+1)+")"+playerOrderedByPoints.get(playerPosition).getNickname() + ": " + playerOrderedByPoints.get(playerPosition).score());
+        }
     }
 }

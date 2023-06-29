@@ -11,12 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Class to represent the goal pattern with all {@code Tile}s
- * disposed in the following pattern on the {@code Board}.
- * Four lines each formed by 5 tiles of
- * maximum three different types. One
- * line can show the same or a different
- * combination of another line.
+ * Class to represent the goal pattern with all {@code Tile}s disposed in the following pattern on the {@code Board}.
+ * Four lines each formed by 5 tiles of maximum three different types.
+ * One line can show the same or a different combination of another line.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Board
@@ -41,7 +38,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      *
-     * @param id                the identifier assigned to the card.
+     * @param id                the identifier assigned to the commonGoal card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
      * @param type              the type of check that has to be done on the considered common goal's card.
      * @param direction         contains the directions that can be used in this pattern.
@@ -58,7 +55,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      * (numberOfPlayers is also considered in this version).
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param direction                          contains the directions that can be used in this pattern.
@@ -75,7 +72,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds an MinEqualsTilesPattern with a specified type, ID, ...
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the personal goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param direction                          contains the directions that can be used in this pattern.
@@ -89,14 +86,19 @@ public class MinEqualsTilesPattern extends CommonGoal {
     }
 
     /**
-     * Gets the directions that is used to retrieve the pattern.
+     * Get the direction that is used to retrieve the pattern.
      *
-     * @return contains the directions that is used for the pattern representation.
+     * @return contain the direction that is used for the pattern representation.
      */
     public Direction getDirection() {
         return this.direction;
     }
 
+    /**
+     * Set the direction that is used to retrieve the pattern.
+     *
+     * @param direction the direction that is used for the pattern representation.
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -111,15 +113,18 @@ public class MinEqualsTilesPattern extends CommonGoal {
         return this.maxEqualsTiles;
     }
 
+    /**
+     * Used to set maxEqualsTiles value.
+     *
+     * @param maxEqualsTiles the maximum number of tiles that can be the same in a column/row.
+     * @see MinEqualsTilesPattern#maxEqualsTiles
+     */
     public void setMaxEqualsTiles(int maxEqualsTiles) {
         this.maxEqualsTiles = maxEqualsTiles;
     }
 
     /**
-     * Based on the direction:
-     * Makes a comparison based on the type of request of all the rows/columns,
-     * finding the number of different {@code Tile}s only in the complete rows/columns,
-     * with the maximum number of equal tiles.
+     * Here we search the number of pattern repetition in the player's bookshelf.
      *
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the number of times the current pattern occurs in the {@code Bookshelf}.
@@ -219,10 +224,9 @@ public class MinEqualsTilesPattern extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the MinEqualsTilesPatternView.
-     * @see CommonGoal
      */
     @Override
     public CommonGoalView copyImmutable() {

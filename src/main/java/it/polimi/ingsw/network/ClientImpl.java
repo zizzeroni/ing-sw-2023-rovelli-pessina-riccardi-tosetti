@@ -154,8 +154,12 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
-    /*
-     * TODO
+    /**
+     * Propagates to the view the result of the lookup made by the server for a saved game
+     * for the player that entered as first in the lobby
+     *
+     * @param result the result of the lookup made by the server
+     * @throws RemoteException if a communication error occurs
      */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {

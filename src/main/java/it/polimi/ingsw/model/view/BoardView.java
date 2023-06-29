@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * This class represents the Board's view.
  * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other class related relevant informations.
+ * and a series of other class related relevant information.
  */
 public class BoardView implements Serializable {
     //private final Board boardModel;

@@ -13,23 +13,25 @@ import java.util.List;
 /**
  * This class is an extension of the {@code ControllerState}, built following the state pattern
  * in order to distinguish through the different possible states of the {@code Game}.
- * It depicts its final state, overriding the same methods of the previous states, with a series
- * of changes to verify if the conditions for game's ending are matched or not (checks if
- * there are still active players, if their choices can still affect the current state...).
- * In case all the conditions are matched the controller force the entrance in the {@code RESET_NEEDED} state.
+ * It depicts its final state. It takes care of the last round of the game
+ * At the end of the round the controller force the entrance in the {@code RESET_NEEDED} state.
  *
  * @see GameState#RESET_NEEDED
  * @see ControllerState
  * @see Game
  */
 public class FinishingState extends ControllerState {
+    /**
+     * Class constructor.
+     * Instantiate a {@code FinishingState}
+     * @param controller controller that delegate its tasks to this state
+     */
     public FinishingState(GameController controller) {
         super(controller);
     }
 
     /**
-     * The method controls in first place if the {@code Game} has ended, using a call
-     * to the {@code getActivePlayerIndex} method in the {@code GameController},
+     * The method controls in first place if the {@code Game} has ended,
      * inspecting the presence of active players.
      * In case the inspection fails it is signaled a change in the {@code GameState}.
      * Otherwise, checks if there are tiles to be refilled and calls the {@code refillBoard} method.
@@ -48,10 +50,10 @@ public class FinishingState extends ControllerState {
 
     /**
      * Shuffle the tiles contained in the object bag,
-     * using {@code Game}'s {@code getBag} method.
      * Refills the {@code Board} with a new set of tiles.
      *
      * @see Game#getBag()
+     * @see Collections#shuffle(List)
      */
     private void refillBoard() {
         Collections.shuffle(this.controller.getModel().getBag());
@@ -63,15 +65,14 @@ public class FinishingState extends ControllerState {
 
     /**
      * Verifies if whether the current {@code Player}
-     * is considered active or not, mainly through a call to the
-     * {@code getActivePlayerIndex} method in the {@code GameController}
-     * (linked to the active {@code Game}).
+     * is considered active or not, and change the current
+     * active player to the first connected player in the
+     * round order
      *
      * @see GameController#getModel()
      * @see Game#getActivePlayerIndex()
      */
     private void changeActivePlayer() {
-        System.out.println("cambio player");
         if (this.controller.getModel().getActivePlayerIndex() == this.controller.getModel().getPlayers().size() - 1) {
             this.controller.getModel().setGameState(GameState.RESET_NEEDED);
         } else {
@@ -80,8 +81,9 @@ public class FinishingState extends ControllerState {
     }
 
     /**
-     * Calls the {@code checkIfUserInputIsCorrect} method.
-     * then proceeds to deploy the chosen tiles in the proper order.
+     * Check if user input is correct.
+     * then proceeds to deploy the chosen tiles in the proper order in the bookshelf and
+     * remove them from the board.
      * If the initial check rejects the {@code Choice}, an error message is printed.
      *
      * @param playerChoice is the player's choice

@@ -190,7 +190,6 @@ public class Player {
      * Sets the score {@code Tile}s list.
      *
      * @param scoreTiles is the player list of score tiles.
-     * @return the player's score tiles list.
      * @see Tile
      */
     public void setScoreTiles(List<ScoreTile> scoreTiles) {

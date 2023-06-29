@@ -56,10 +56,7 @@ public class StairPatternGoal extends CommonGoal {
     }
 
     /**
-     * Start from the first column, if there are minimum 1 and at least the number of rows minus 3 tiles,
-     * control if the {@code Bookshelf} have a stair (one more tile in the consecutive column) x4,
-     * then if there are minimum 5 tiles on the first column and haven't found a stair yet control if the bookshelf have
-     * a stair (one less {@code Tile} in the consecutive column) x4
+     * Here we search the number of pattern repetition in the player's bookshelf.
      *
      * @param bookshelf contains the bookshelf of the player.
      * @return the number of times the pattern is achieved.
@@ -93,10 +90,9 @@ public class StairPatternGoal extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the FourCornersPatternGoalView.
-     * @see CommonGoal
      */
     @Override
     public CommonGoalView copyImmutable() {
