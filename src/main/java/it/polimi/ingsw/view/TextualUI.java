@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents the {@code TextualUI}, an extension of the Game's UI
@@ -55,13 +56,16 @@ public class TextualUI implements UI {
         this.registerCountdownListener(countdownHandlerThread);
         countdownHandlerThread.start();
     }
+
     /**
      * Register the listener of the CountdownHandler
+     *
      * @param listener the listener
      */
     public void registerCountdownListener(TUIListener listener) {
         this.countdownListener = listener;
     }
+
     /**
      * Remove the listener of the CountdownHandler
      */
@@ -116,7 +120,7 @@ public class TextualUI implements UI {
                 this.setUpLobbyAsFirst();
             }
         } else {
-            if(this.genericUILogic.getModel().getPlayers().size() == 1) {
+            if (this.genericUILogic.getModel().getPlayers().size() == 1) {
                 this.setUpLobbyAsFirst();
             } else {
                 this.setUpLobby();
@@ -189,6 +193,7 @@ public class TextualUI implements UI {
 
     /**
      * Register the listener that TUI notify
+     *
      * @param listener the listener that will receive the notification of the TUI.
      */
     @Override
@@ -206,6 +211,7 @@ public class TextualUI implements UI {
 
     /**
      * Set the nickname of the player associated with the TUI
+     *
      * @param nickname the player's nickname.
      */
     @Override
@@ -215,6 +221,7 @@ public class TextualUI implements UI {
 
     /**
      * Delegates its implementation to the {@code GenericUILogic}
+     *
      * @param modelUpdated the updated game's model.
      * @see GenericUILogic#modelModified(GameView)
      */
@@ -225,6 +232,7 @@ public class TextualUI implements UI {
 
     /**
      * Delegates its implementation to the {@code GenericUILogic}
+     *
      * @param exception the given GenericException.
      * @see GenericUILogic#printException(GenericException)
      */
@@ -235,6 +243,7 @@ public class TextualUI implements UI {
 
     /**
      * Delegates its implementation to the {@code GenericUILogic}
+     *
      * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
      * @see GenericUILogic#setAreThereStoredGamesForPlayer(boolean)
      */
@@ -725,13 +734,13 @@ public class TextualUI implements UI {
      * descending order of their score
      */
     public void showGameEnd() {
-        List<PlayerView> playerOrderedByPoints = this.genericUILogic.getModel().getPlayers().stream().sorted((p1,p2)->p2.score() - p1.score()).toList();
+        List<PlayerView> playerOrderedByPoints = this.genericUILogic.getModel().getPlayers().stream().sorted((p1, p2) -> p2.score() - p1.score()).toList();
         System.out.println("""
-              ---GAME ENDED---
-              SCOREBOARD:
-              """);
-        for(int playerPosition = 0;playerPosition<playerOrderedByPoints.size();playerPosition++) {
-            System.out.println((playerPosition+1)+")"+playerOrderedByPoints.get(playerPosition).getNickname() + ": " + playerOrderedByPoints.get(playerPosition).score());
+                ---GAME ENDED---
+                SCOREBOARD:
+                """);
+        for (int playerPosition = 0; playerPosition < playerOrderedByPoints.size(); playerPosition++) {
+            System.out.println((playerPosition + 1) + ")" + playerOrderedByPoints.get(playerPosition).getNickname() + ": " + playerOrderedByPoints.get(playerPosition).score());
         }
     }
 }

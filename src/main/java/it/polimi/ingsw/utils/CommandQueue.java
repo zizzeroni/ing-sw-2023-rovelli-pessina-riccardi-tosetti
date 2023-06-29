@@ -12,7 +12,6 @@ public class CommandQueue {
 
     /**
      * Initialize the commands
-     *
      */
     public CommandQueue() {
         commands = new LinkedBlockingQueue<>();

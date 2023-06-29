@@ -43,10 +43,10 @@ public class Choice implements Serializable {
     /**
      * Class Builder. Creates the object Choice with the values of lists for chosenTile/tileCoordinates, the tileOrder array, ecc.
      *
-     * @param chosenColumn contains the column of the {@code Choice}
-     * @param chosenTiles contains the tiles of the {@code Choice}
+     * @param chosenColumn    contains the column of the {@code Choice}
+     * @param chosenTiles     contains the tiles of the {@code Choice}
      * @param tileCoordinates contains the coordinates of the {@code chosenTiles} of the {@code Choice}
-     * @param tileOrder contains the order of the {@code chosenTiles} of the {@code Choice}
+     * @param tileOrder       contains the order of the {@code chosenTiles} of the {@code Choice}
      */
     public Choice(List<TileView> chosenTiles, List<Coordinates> tileCoordinates, int[] tileOrder, int chosenColumn) {
         this.chosenTiles = chosenTiles;

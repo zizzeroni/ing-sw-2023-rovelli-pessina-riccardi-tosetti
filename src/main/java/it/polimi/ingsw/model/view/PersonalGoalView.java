@@ -46,7 +46,6 @@ public class PersonalGoalView implements Serializable {
      * The id returned uniquely identify each personal goal
      *
      * @return the personal goal id
-     *
      * @see PersonalGoal
      */
     public int getId() {
@@ -58,7 +57,6 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of columns.
-     *
      * @see PersonalGoal
      */
     public int getNumColumns() {
@@ -70,7 +68,6 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of rows.
-     *
      * @see PersonalGoal
      */
     public int getNumRows() {

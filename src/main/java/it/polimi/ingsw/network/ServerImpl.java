@@ -41,10 +41,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * initialize the server's attributes to their default values, also instantiating a new game controller.
      * Finally, the server registers itself as a listener on the game and the board classes to identify changes.
      *
+     * @throws RemoteException if a connection error occurs
      * @see GameController
      * @see Game
      * @see Board
-     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl() throws RemoteException {
         super();
@@ -56,7 +56,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         //Server start listening to Board for changes
         this.model.getBoard().registerListener(this);
         this.numberOfMissedPings = new ConcurrentHashMap<>();
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -80,10 +80,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @param port the server's port number.
      * @param csf  the client socket factory employed for the RMI.
      * @param ssf  the server socket factory employed for the RMI.
+     * @throws RemoteException if a connection error occurs
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
-     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);

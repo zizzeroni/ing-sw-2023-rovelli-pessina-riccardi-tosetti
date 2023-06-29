@@ -299,6 +299,7 @@ public class Game {
 
     /**
      * Setter of the bag
+     *
      * @param bag the new bag
      */
     public void setBag(List<Tile> bag) {
@@ -356,6 +357,7 @@ public class Game {
 
     /**
      * Control if the game is in paused
+     *
      * @return true if the game is in PAUSED
      */
     private boolean isPaused() {
@@ -392,6 +394,7 @@ public class Game {
 
     /**
      * Check if a player with a specific nickname is in the game
+     *
      * @param nickname nickname of the player
      * @return true if and only if the player is in the game, otherwise return false
      */
@@ -401,6 +404,7 @@ public class Game {
 
     /**
      * Create a new game file if it not exists, saving the current model
+     *
      * @param gamesPath path in which the game must be saved
      */
     public void createGameFileIfNotExist(String gamesPath) {
@@ -430,7 +434,7 @@ public class Game {
      * a certain moment avoiding the risk of losing information
      * about the score of a {@code Player} in case of disconnection.
      *
-     * @param gamesStoragePath path in which games are stored
+     * @param gamesStoragePath       path in which games are stored
      * @param gamesStoragePathBackup backup path in which games are stored
      * @see Game
      * @see Player

@@ -209,9 +209,9 @@ public class Player {
     /**
      * Gets the values of the {@code Bookshelf}'s {@code Tile}s associated to the current {@code Player}.
      *
+     * @param bookshelf the new bookshelf
      * @see Bookshelf
      * @see Tile
-     * @param bookshelf the new bookshelf
      */
     public void setBookshelf(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;

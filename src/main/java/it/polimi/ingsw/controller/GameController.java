@@ -101,7 +101,8 @@ public class GameController {
 
     /**
      * Change the turn in the context of the present {@code State}.
-     * @param gamesStoragePath path in which are stored the games
+     *
+     * @param gamesStoragePath       path in which are stored the games
      * @param gamesStoragePathBackup backup path in which are stored the games
      */
     public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
@@ -224,12 +225,12 @@ public class GameController {
      * Checks if there are some player in excess within the game lobby that shouldn't be connected.
      *
      * @param chosenNumberOfPlayers number of player chosen by the first player
+     * @throws ExcessOfPlayersException if there is an excess of player in the lobby when starting
+     * @throws WrongInputDataException  when input data is not valid.
      * @see CreationState#checkExceedingPlayer(int)
      * @see FinishingState#checkExceedingPlayer(int)
      * @see InPauseState#checkExceedingPlayer(int)
      * @see OnGoingState#checkExceedingPlayer(int)
-     * @throws ExcessOfPlayersException if there is an excess of player in the lobby when starting
-     * @throws WrongInputDataException when input data is not valid.
      */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);
@@ -310,6 +311,7 @@ public class GameController {
 
     /**
      * Getter used to get the personal goal deck
+     *
      * @return the personal goal deck
      */
     public List<PersonalGoal> getPersonalGoalsDeck() {
@@ -351,7 +353,7 @@ public class GameController {
      * Method to check if there are stored games for the given nickname.
      *
      * @param playerNickname nickname of the first player who joined the lobby
-     * @param gamesPath path of the file in which are stored the games
+     * @param gamesPath      path of the file in which are stored the games
      * @return if there are stored games.
      */
     public boolean areThereStoredGamesForPlayer(String playerNickname, String gamesPath) {
@@ -395,7 +397,7 @@ public class GameController {
      * Method to get the stored game for the given nickname.
      *
      * @param playerNickname nickname of the player who requested the restore of the game
-     * @param gamesAsArray set of game retrieved from the file
+     * @param gamesAsArray   set of game retrieved from the file
      * @return the stored game.
      */
     private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
@@ -414,8 +416,8 @@ public class GameController {
     /**
      * Restores the current game for the considered player.
      *
-     * @param server         the server controlling the game's execution.
-     * @param playerNickname the given player's nickname.
+     * @param server           the server controlling the game's execution.
+     * @param playerNickname   the given player's nickname.
      * @param gamesStoragePath path of the file in which are stored the games
      * @see Player
      * @see Game

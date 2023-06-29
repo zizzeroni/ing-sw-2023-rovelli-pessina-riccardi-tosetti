@@ -44,7 +44,6 @@ public class Bookshelf {
 
     /**
      * Set as null the listener of the {@code Bookshelf}
-     *
      */
     public void removeListener() {
         this.listener = null;
@@ -155,8 +154,8 @@ public class Bookshelf {
      * Setter used to decide the {@code Tile} to be displaced on the bookshelf.
      *
      * @param column column of the tile
-     * @param tile contains the tile we want to set
-     * @param row row of the tile
+     * @param tile   contains the tile we want to set
+     * @param row    row of the tile
      * @see Tile
      */
     public void setSingleTiles(Tile tile, int row, int column) {

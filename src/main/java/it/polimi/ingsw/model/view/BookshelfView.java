@@ -53,6 +53,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Getter of a map that associate the points to certain dimension of tiles groups
+     *
      * @return the map
      */
     public Map<Integer, Integer> getPointsForEachGroup() {
@@ -61,6 +62,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if the bookshelf is full
+     *
      * @return true if and only if the bookshelf is full, otherwise false
      */
     public boolean isFull() {
@@ -126,6 +128,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Getter of the number of tiles in a specific column
+     *
      * @param column chosen column
      * @return number of tiles the chosen column
      */
@@ -151,6 +154,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if a certain row is full
+     *
      * @param row chosen row
      * @return true if and only if the chosen row is full, otherwise return false
      */
@@ -182,6 +186,7 @@ public class BookshelfView implements Serializable {
 
     /**
      * Check if column is full
+     *
      * @param column chosen column
      * @return true if and only if the chosen column is full, otherwise return false
      */

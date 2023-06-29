@@ -24,6 +24,7 @@ public class FinishingState extends ControllerState {
     /**
      * Class constructor.
      * Instantiate a {@code FinishingState}
+     *
      * @param controller controller that delegate its tasks to this state
      */
     public FinishingState(GameController controller) {
@@ -87,11 +88,11 @@ public class FinishingState extends ControllerState {
      * If the initial check rejects the {@code Choice}, an {@code WrongInputDataException} is thrown.
      *
      * @param playerChoice is the player's choice
+     * @throws WrongInputDataException occurs when data has an unexpected value.
      * @see Choice
      * @see #checkIfUserInputIsCorrect(Choice playerChoice)
-     * @see #removeTilesFromBoard(List) 
-     * @see #addTilesToPlayerBookshelf(List, int[], int)  
-     * @throws WrongInputDataException occurs when data has an unexpected value.
+     * @see #removeTilesFromBoard(List)
+     * @see #addTilesToPlayerBookshelf(List, int[], int)
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
@@ -121,7 +122,7 @@ public class FinishingState extends ControllerState {
      * @see Game#getActivePlayerIndex()
      * @see Player#getNickname()
      * @see Player#getBookshelf()
-     * @see #checkIfCoordinatesArePlausible(List) 
+     * @see #checkIfCoordinatesArePlausible(List)
      */
     private boolean checkIfUserInputIsCorrect(Choice choice) {
         List<TileView> choiceChosenTiles = choice.getChosenTiles();
@@ -148,7 +149,7 @@ public class FinishingState extends ControllerState {
      * {@code false} otherwise.
      * @see Tile
      * @see Board
-     * @see #checkIfPickable(int, int) 
+     * @see #checkIfPickable(int, int)
      */
     private boolean checkIfCoordinatesArePlausible(List<Coordinates> coordinates) {
         for (Coordinates coordinate : coordinates) {
@@ -263,7 +264,6 @@ public class FinishingState extends ControllerState {
      * This method is used to reconnect the {@code Player} in case it was disconnected.
      *
      * @param nickname is the nickname of the previously disconnected {@code Player}.
-     *
      * @throws LobbyIsFullException thrown if the lobby is already full
      */
     @Override
@@ -350,9 +350,10 @@ public class FinishingState extends ControllerState {
 
     /**
      * Restores the current game for the considered player.
-     *
+     * <p>
      * Does nothing in this implementation since game is
      * in finishing state.
+     *
      * @param server           the server to which the model notifies its changes.
      * @param nickname         player's nickname that requested the restore.
      * @param gamesStoragePath the path where are stored the games.

@@ -65,7 +65,7 @@ public class SendUpdatedModelCommand implements CommandToClient {
      * This method permits the execution of the model updating command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException if a connection error occurs
+     * @throws RemoteException      if a connection error occurs
      */
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {
