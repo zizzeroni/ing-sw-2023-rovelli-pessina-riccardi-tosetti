@@ -11,9 +11,10 @@ import it.polimi.ingsw.view.GUI.ThPrintCountdown;
  * @see it.polimi.ingsw.model.Player
  * @see it.polimi.ingsw.model.Game
  */
-public class CountdownHandler extends Thread {
+public class CountdownHandler extends Thread implements TUIListener{
     private final GenericUILogic genericUILogic;
 
+    private boolean canCheckGamePaused;
     /**
      * Class constructor.
      * It is used the generic ui's logic and other related values for the player's countdown.
@@ -38,37 +39,42 @@ public class CountdownHandler extends Thread {
         boolean firstTime = true;
         Thread printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
         while (!Thread.interrupted()) {
-            synchronized (this.genericUILogic.getLockState()) {
-                try {
-                    this.genericUILogic.getLockState().wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                model = this.genericUILogic.getModel();
-                if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME
-                        && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()).isConnected()
-                        && model.isPaused()
-                        ) {
-                    if (firstTime) {
-                        firstTime = false;
-                        printCountdownThread.start();
-                    } else {
-                        if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
-                            if(this.genericUILogic.getState()!=ClientGameState.WAITING_FOR_RESUME) {
-                                printCountdownThread.interrupt();
-                                printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
-                                firstTime = true;
-                            }
-                        } else {
-                            this.interrupt();
-                        }
+            if (this.canCheckGamePaused) {
+                synchronized (this.genericUILogic.getLockState()) {
+                    try {
+                        this.genericUILogic.getLockState().wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
-                } else if (printCountdownThread.isAlive()) {
-                    printCountdownThread.interrupt();
-                    printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
-                    firstTime = true;
+                    model = this.genericUILogic.getModel();
+                    if (this.genericUILogic.getState() == ClientGameState.WAITING_FOR_RESUME
+                            && model.getPlayerViewFromNickname(this.genericUILogic.getNickname()).isConnected()
+                            && model.isPaused()
+                    ) {
+                        if (firstTime) {
+                            firstTime = false;
+                            printCountdownThread.start();
+                        } else {
+                            if (this.genericUILogic.getState() != ClientGameState.GAME_ENDED) {
+                                if (this.genericUILogic.getState() != ClientGameState.WAITING_FOR_RESUME) {
+                                    printCountdownThread.interrupt();
+                                    printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
+                                    firstTime = true;
+                                }
+                            } else {
+                                this.interrupt();
+                            }
+                        }
+                    } else if (printCountdownThread.isAlive()) {
+                        printCountdownThread.interrupt();
+                        printCountdownThread = new ThPrintCountdown(this.genericUILogic.getCountdown());
+                        firstTime = true;
+                    }
                 }
             }
         }
+    }
+    public void noExceptionOccured() {
+        this.canCheckGamePaused = true;
     }
 }
