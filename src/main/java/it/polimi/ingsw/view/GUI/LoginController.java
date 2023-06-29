@@ -91,7 +91,7 @@ public class LoginController implements Initializable {
         } else {
             Platform.runLater(() -> {
                 Font font = principalLabel.getFont();
-                principalLabel.setText("Attesa di altri giocatori");
+                principalLabel.setText("Waiting for other player");
                 ErrorLabel.setText("");
                 principalLabel.setFont(font);
                 error.setVisible(false);
@@ -136,7 +136,7 @@ public class LoginController implements Initializable {
         }
         //Cambio schermata a quella di inserimento numero giocatori
         Font font = principalLabel.getFont();
-        principalLabel.setText("Inserisci il numero di giocatori");
+        principalLabel.setText("Select the number of player");
         error.setVisible(false);
         ErrorLabel.setText("");
         principalLabel.setFont(font);
@@ -152,19 +152,16 @@ public class LoginController implements Initializable {
      *
      * @param actionEvent the join event
      */
-    public void ControlNumberOfPlayer(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void ControlNumberOfPlayer(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
-        //Inserisco la scelta del numero di giocatori e metto in attesa
         numberOfPlayerInGame = NumberOfPlayerChoice.getValue();
         if (numberOfPlayerInGame != null && !numberOfPlayerInGame.isEmpty()) {
 
             PlayerOk.setVisible(false);
             NumberOfPlayerChoice.setVisible(false);
-
-
             Font font = principalLabel.getFont();
-            principalLabel.setText("Attesa di altri giocatori");
+            principalLabel.setText("Waiting for other player");
             restoreButton.setVisible(false);
             error.setVisible(false);
             ErrorLabel.setText("");
@@ -180,7 +177,6 @@ public class LoginController implements Initializable {
 
             }
         });
-
     }
 
     /**
@@ -192,6 +188,11 @@ public class LoginController implements Initializable {
         this.mainGraphicalUI = graphicalUI;
     }
 
+    /**
+     * set the label based on the error returned by the server
+     *
+     * @param exceptionType contains the error
+     */
     public void nicknameException(ExceptionType exceptionType) {
         Platform.runLater(() -> {
             error.setVisible(true);
@@ -203,6 +204,12 @@ public class LoginController implements Initializable {
         });
     }
 
+
+    /**
+     * Restore the game
+     *
+     * @param actionEvent action of pressing the button for restore the game
+     */
     public void restoreGame(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;

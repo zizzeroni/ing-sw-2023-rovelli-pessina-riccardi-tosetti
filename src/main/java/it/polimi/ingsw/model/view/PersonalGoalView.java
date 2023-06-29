@@ -163,9 +163,6 @@ public class PersonalGoalView implements Serializable {
             case 5 -> {
                 return OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE;
             }
-            case 6 -> {
-                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
-            }
             default -> {
                 return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
@@ -173,11 +170,11 @@ public class PersonalGoalView implements Serializable {
     }
 
     /**
-     * Calculates the number of the repetitions of the possible goal patterns
+     * Calculates the number of the repetitions of the possible goal pattern
      * in the {@code Bookshelf} of the active {@code Player}.
      *
-     * @param bookshelf
-     * @return
+     * @param bookshelf contains the bookshelf of the player
+     * @return the number of repetitions of the goal pattern
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Player
      */

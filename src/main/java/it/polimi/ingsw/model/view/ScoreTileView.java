@@ -33,6 +33,13 @@ public class ScoreTileView implements Serializable {
         this.commonGoalID = scoreTileModel.getCommonGoalID();
     }
 
+    /**
+     * Getter to retrieve the {@code Player}'s identifier of the {@code ScoreTile}.
+     *
+     * @return return the id of the player associated at the ScoreTile.
+     * @see ScoreTile
+     * @see it.polimi.ingsw.model.Player
+     */
     public int getPlayerID() {
         return this.playerID;
     }

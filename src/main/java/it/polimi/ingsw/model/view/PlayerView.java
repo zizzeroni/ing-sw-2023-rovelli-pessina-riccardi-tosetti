@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * This class represents the player's view.
  * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other player related relevant informations.
+ * and a series of other player related relevant information.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Player
@@ -59,7 +59,11 @@ public class PlayerView implements Serializable {
     }
 
     /**
-     * @return
+     * Getter used to access the {@code Player}'s {@code ScoreTile}.
+     *
+     * @return the list of the scoreTiles
+     * @see Player
+     * @see ScoreTile
      */
     public List<ScoreTileView> getScoreTiles() {
         return this.scoreTiles;

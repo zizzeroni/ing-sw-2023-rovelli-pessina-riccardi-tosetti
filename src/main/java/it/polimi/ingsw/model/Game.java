@@ -87,6 +87,14 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param boardPattern               contains the boardPattern of the {@code Game}
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param personalGoals              contains the personalGoals of the {@code Game}
+     * @see Player
+     * @see PersonalGoal
+     * @see Board
      */
     public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.gameState = GameState.IN_CREATION;
@@ -119,6 +127,16 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param activePlayerIndex          contains the index of the active player of the {@code Game}
+     * @param bag                        contains the bag of the {@code Game}
+     * @param board                      contains the board of the {@code Game}
+     * @param commonGoals                contains the commonGoals in the {@code Game}
+     * @see Player
+     * @see Board
+     * @see CommonGoal
      */
     public Game(int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
@@ -132,6 +150,17 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param activePlayerIndex          contains the index of the active player of the {@code Game}
+     * @param bag                        contains the bag of the {@code Game}
+     * @param board                      contains the board of the {@code Game}
+     * @param commonGoals                contains the commonGoals in the {@code Game}
+     * @param listener                   contains the listener of the {@code Game}
+     * @see Player
+     * @see Board
+     * @see CommonGoal
      */
     public Game(GameListener listener, int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.listener = listener;
@@ -321,10 +350,10 @@ public class Game {
         }
     }
 
-    private void getPlayerScore(Player player) {
-        player.score();
-    }
-
+    /**
+     * Control if the game is in paused
+     * @return true if the game is in PAUSED
+     */
     private boolean isPaused() {
         return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
@@ -366,7 +395,7 @@ public class Game {
         File gamesFile = new File(gamesPath);
 
         try {
-            if(gamesFile.getParentFile().mkdirs()) {
+            if (gamesFile.getParentFile().mkdirs()) {
                 System.out.println("Games' storage folders created correctly");
             } else {
                 System.out.println("Games' storage folders already exist, skipping creation");

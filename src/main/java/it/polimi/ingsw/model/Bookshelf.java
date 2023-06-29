@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.BookshelfListener;
+import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
@@ -43,6 +45,10 @@ public class Bookshelf {
         this.listener = listener;
     }
 
+    /**
+     * Set as null the listener of the {@code Bookshelf}
+     *
+     */
     public void removeListener() {
         this.listener = null;
     }
@@ -179,6 +185,14 @@ public class Bookshelf {
         this.tiles = tiles;
     }
 
+    /**
+     * Setter used to decide the {@code Tile} to be displaced on the bookshelf.
+     *
+     * @param column column of the tile
+     * @param tile contains the tile we want to set
+     * @param row row of the tile
+     * @see Tile
+     */
     public void setSingleTiles(Tile tile, int row, int column) {
         this.tiles[row][column] = tile;
     }
@@ -221,6 +235,11 @@ public class Bookshelf {
         return counter;
     }
 
+    /**
+     * get the number of Rows of the {@code Bookshelf}.
+     *
+     * @return the number of Rows of the {@code Bookshelf}
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
     }
@@ -243,6 +262,11 @@ public class Bookshelf {
         return true;
     }
 
+    /**
+     * Gets the maximum number of empty {@code Bookshelf}'s cells.
+     *
+     * @return the maximum number of empty {@code Bookshelf}'s cells.
+     */
     public int getMaxNumberOfCellsFreeInBookshelf() {
         int maxNumberOfCellsFreeInBookshelf = 0;
         for (int column = 0; column < this.numberOfColumns; column++) {
