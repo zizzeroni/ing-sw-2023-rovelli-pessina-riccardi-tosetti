@@ -222,7 +222,7 @@ public class GenericUILogic {
      */
     public void printException(GenericException clientErrorState) {
         this.exceptionToHandle = clientErrorState;
-        if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYER_EXCEPTION) {
+        if (this.exceptionToHandle.toEnum() == ExceptionType.EXCESS_OF_PLAYERS_EXCEPTION) {
             this.setState(ClientGameState.GAME_ENDED);
         }
     }

@@ -209,7 +209,7 @@ public class DiagonalEqualPatternTest {
                 new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 1, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1))));
-        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile())), positions);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -235,7 +235,9 @@ public class DiagonalEqualPatternTest {
                 new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 1, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1))));
-        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile())), positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, 3, positions);
+        pattern.setScoreTiles(new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile(), new ScoreTile(), new ScoreTile())));
+
         Tile[][] temp = {
                 {null, null, null, null, new Tile(TileColor.PURPLE)},
                 {null, null, null, new Tile(TileColor.PURPLE), new Tile(TileColor.BLUE)},
@@ -260,7 +262,7 @@ public class DiagonalEqualPatternTest {
                 new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 1, 0)),
                 new ArrayList<>(Arrays.asList(0, 0, 0, 0, 1))));
-        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, 2, positions);
+        pattern = new DiagonalEqualPattern(0, 1, CheckType.EQUALS, 4, positions);
         Tile[][] temp = {
                 {null, null, null, null, new Tile(TileColor.GREEN)},
                 {null, null, null, new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW)},

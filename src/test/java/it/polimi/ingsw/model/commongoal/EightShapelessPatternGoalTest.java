@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
+import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class EightShapelessPatternGoalTest {
     private EightShapelessPatternGoal pattern;
@@ -33,7 +35,9 @@ public class EightShapelessPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches one time on a generic bookshelf")
     public void givenGenericBookshelf_whenSearchingEightTilesEqualsToEachOther_returnOne() {
-        pattern = new EightShapelessPatternGoal(0, 1, CheckType.EQUALS);
+        this.pattern.setNumberOfPatternRepetitionsRequired(1);
+        this.pattern.setType(CheckType.EQUALS);
+
         Tile[][] temp = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -90,7 +94,7 @@ public class EightShapelessPatternGoalTest {
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches one time on a bookshelf completely filled with tiles fo the same color")
     public void givenBookshelfCompletelyFilledWithTilesOfTheSameColor_whenSearchingEightTilesEqualsToEachOther_returnOne() {
-        pattern = new EightShapelessPatternGoal(0, 1, CheckType.EQUALS);
+        pattern = new EightShapelessPatternGoal(0, 1, CheckType.EQUALS, 1);
         Tile[][] temp = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -164,5 +168,28 @@ public class EightShapelessPatternGoalTest {
         assertEquals(this.pattern.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.pattern.getType(), copy.getType());
         assertEquals(this.pattern.getId(), copy.getId());
+    }
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that two personal goal are not the same")
+    public void different_personal_goals_are_not_the_same() {
+        this.pattern = new EightShapelessPatternGoal(1, 1, CheckType.EQUALS);
+        FourCornersPatternGoal comparedCommonGoal = new FourCornersPatternGoal();
+
+        assertNotEquals(this.pattern, comparedCommonGoal);
+        assertNotEquals(comparedCommonGoal, this.pattern);
+    }
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that a common goal is not equal to an object of another class")
+    public void different_classes_are_not_equal_to_a_common_goal() {
+        assertNotEquals(this.pattern, this.bookshelf);
+        assertNotEquals(this.bookshelf, this.pattern);
     }
 }

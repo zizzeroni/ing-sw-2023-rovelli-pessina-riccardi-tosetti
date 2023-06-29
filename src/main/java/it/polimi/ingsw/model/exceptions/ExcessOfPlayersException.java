@@ -22,7 +22,7 @@ public class ExcessOfPlayersException extends GenericException {
      * @return the ExceptionType of the class exception.
      */
     public ExceptionType toEnum() {
-        return ExceptionType.EXCESS_OF_PLAYER_EXCEPTION;
+        return ExceptionType.EXCESS_OF_PLAYERS_EXCEPTION;
     }
 
     /**
