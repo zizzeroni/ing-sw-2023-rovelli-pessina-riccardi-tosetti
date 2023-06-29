@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane fx:id="mainPage" prefHeight="825.0" prefWidth="1262.0" style="-fx-background-image: url(&quot;/image/misc/sfondo%20parquet.jpg&quot;); -fx-background-size: cover; -fx-background-repeat: stretch; -fx-border-color: black; -fx-border-width: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.MainSceneController">
     <children>
       <Pane fx:id="content">
@@ -66,16 +74,6 @@
                               <Button fx:id="boardTile56" layoutX="338.0" layoutY="287.0" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
                               <Button fx:id="boardTile48" layoutX="443.0" layoutY="234.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
                               <Button fx:id="boardTile38" layoutX="443.0" layoutY="182.5" onAction="#selected" onMouseEntered="#overButton" onMouseExited="#notOverButton" prefHeight="50.0" prefWidth="50.0" style="-fx-background-size: stretch;" stylesheets="@../css/Style.css" />
-                              <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="48.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                      <Image url="@../image/misc/Sacchetto%20Aperto.png" />
-                                  </image>
-                              </ImageView>
-                              <Label layoutX="58.0" layoutY="5.0" text="bag">
-                                  <font>
-                                      <Font name="Forte" size="35.0" />
-                                  </font>
-                              </Label>
                               <ImageView fx:id="victoryPoint" fitHeight="50.0" fitWidth="50.0" layoutX="422.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true" rotate="8.0" />
                           </children>
                       </Pane>
@@ -315,7 +313,7 @@
                               </Label>
                           </children>
                       </Pane>
-                      <Button fx:id="insertTile" layoutX="519.0" layoutY="233.0" mnemonicParsing="false" onAction="#SelectTiles" prefHeight="50.0" prefWidth="75.0" text="Select Tiles" />
+                      <Button fx:id="insertTile" layoutX="519.0" layoutY="242.0" mnemonicParsing="false" onAction="#SelectTiles" prefHeight="41.0" prefWidth="75.0" text="Select Tiles" />
                       <Label layoutX="580.0" layoutY="84.0" text="Selected tiles">
                           <font>
                               <Font name="Times New Roman" size="26.0" />
@@ -323,6 +321,16 @@
                       </Label>
                       <ImageView fx:id="pointsItem1" fitHeight="36.0" fitWidth="40.0" layoutX="590.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
                       <ImageView fx:id="pointsItem2" fitHeight="36.0" fitWidth="40.0" layoutX="708.7" layoutY="471.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+                        <ImageView fx:id="bag" fitHeight="75.0" fitWidth="75.0" layoutX="519.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../image/misc/Sacchetto%20Aperto.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="529.0" layoutY="113.0" text="bag">
+                            <font>
+                                <Font name="Forte" size="35.0" />
+                            </font>
+                        </Label>
                   </children>
               </Pane>
          </children>

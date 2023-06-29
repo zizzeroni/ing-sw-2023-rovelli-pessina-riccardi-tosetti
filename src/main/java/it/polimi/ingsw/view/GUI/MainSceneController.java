@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.commongoal.Direction;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.*;
@@ -20,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
@@ -86,6 +89,8 @@ public class MainSceneController implements Initializable {
     private boolean gameOn;
     private int inCensure = 0;
 
+    private Thread printChatThread;
+
     /**
      * Getter of the inCensure "state"
      *
@@ -122,6 +127,8 @@ public class MainSceneController implements Initializable {
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
 
+        this.printChatThread = printChat();
+        this.printChatThread.start();
     }
 
     /**
@@ -1431,13 +1438,10 @@ public class MainSceneController implements Initializable {
 
         String sender = this.firstPlayerNickname.getText();
         String message = this.chatMessage.getText();
-        chatMessage.setText("");
         String receiver = (playerChatChoice.getValue());
 
         var th = new Thread(() -> {
-            CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {
-                System.out.println(message);
                 if (!message.isEmpty()) {
                     if (receiver.equals("All")) {
                         this.mainGraphicalUI.genericUILogic.getController().sendBroadcastMessage(sender, message);
@@ -1445,19 +1449,15 @@ public class MainSceneController implements Initializable {
                         this.mainGraphicalUI.genericUILogic.getController().sendPrivateMessage(sender, receiver, message);
                     }
                 }
-                countDownLatch.countDown();
             });
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         });
         th.setUncaughtExceptionHandler((t, e) -> {
-            System.err.println("Uncaught exception in thread");
+            System.err.println(e);
             e.printStackTrace();
         });
         th.start();
+        chatMessage.setText("");
+
     }
 
     /**
@@ -1535,6 +1535,37 @@ public class MainSceneController implements Initializable {
         }
         personalGoal.setVisible(true);
         //}
+    }
+
+    /**
+     * @return the Thread for print the chat message on the chat VBox
+     */
+    private Thread printChat() {
+        return new Thread(() -> {
+            while (true) {
+                synchronized (this.mainGraphicalUI.genericUILogic.getLockState()) {
+                    try {
+                        this.mainGraphicalUI.genericUILogic.getLockState().wait();
+
+                        List<Message> fullChat = this.mainGraphicalUI.genericUILogic.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
+                        Platform.runLater(() -> {
+                            VBoxMessage.getChildren().clear();
+                            if (fullChat.size() != 0) {
+                                int chatSize = Math.min(fullChat.size(), 30);
+                                for (int i = fullChat.size() - 1; i >= fullChat.size() - chatSize; i--) {
+                                    Text text = new Text(fullChat.get(i).toString());
+                                    Font font = new Font(14);
+                                    text.setFont(font);
+                                    VBoxMessage.getChildren().add(0, text); // add on top
+                                }
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 }
 

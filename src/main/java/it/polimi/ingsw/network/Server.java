@@ -26,8 +26,8 @@ public interface Server extends Remote {
     /**
      * Change the turn in the server's context.
      *
-     * @see OnGoingState#changeTurn(String, String)
      * @throws RemoteException if a connection error occurs
+     * @see OnGoingState#changeTurn(String, String)
      */
     public void changeTurn() throws RemoteException;
 
@@ -139,10 +139,9 @@ public interface Server extends Remote {
      * Restores the current game for the considered player.
      *
      * @param nickname the given player's nickname.
-     *
+     * @throws RemoteException if a connection error occurs
      * @see Player
      * @see Game
-     * @throws RemoteException if a connection error occurs
      */
     public void restoreGameForPlayer(String nickname) throws RemoteException;
 
@@ -151,7 +150,6 @@ public interface Server extends Remote {
      *
      * @param nickname the given player's nickname.
      * @throws RemoteException called when a communication error occurs.
-     *
      * @see Game
      * @see Player
      */

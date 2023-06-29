@@ -118,6 +118,7 @@ public interface ViewListener {
      * @see InPauseState#disconnectPlayer(String)
      */
     public void disconnectPlayer(String nickname);
+
     /**
      * The implementation of this method in the different states
      * enacts the restore of a {@code Game}.
@@ -129,6 +130,7 @@ public interface ViewListener {
      * @see InPauseState#restoreGameForPlayer(GameListener, String, String)
      */
     public void restoreGameForPlayer(String nickname);
+
     /**
      * The implementation of this method in the different states
      * enacts the restore of a {@code Game}.

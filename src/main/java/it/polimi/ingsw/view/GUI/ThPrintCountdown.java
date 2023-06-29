@@ -9,6 +9,7 @@ public class ThPrintCountdown extends Thread {
 
     /**
      * Class constructor
+     *
      * @param countdown countdown to be printed
      */
     public ThPrintCountdown(int countdown) {

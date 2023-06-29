@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class represents the {@code TextualUI}, an extension of the Game's UI
