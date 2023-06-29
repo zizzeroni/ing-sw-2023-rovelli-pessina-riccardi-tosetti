@@ -210,7 +210,7 @@ public class FinishingState extends ControllerState {
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
         Bookshelf bookshelf = this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf();
         for (int i = 0; i < chosenTiles.size(); i++) {
-            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
+            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor(), chosenTiles.get(positions[i]).getId()), chosenColumn);
         }
     }
 
