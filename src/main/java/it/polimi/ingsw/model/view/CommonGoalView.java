@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * This class represents the CommonGoal's view.
  * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other class related relevant informations.
+ * and a series of other class related relevant information.
  *
  * @see CommonGoal
  * @see it.polimi.ingsw.model.tile.Tile

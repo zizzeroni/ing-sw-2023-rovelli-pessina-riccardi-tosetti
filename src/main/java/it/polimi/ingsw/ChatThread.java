@@ -112,6 +112,13 @@ public class ChatThread extends Thread {
         this.nickname = nickname;
     }
 
+    /**
+     * Sets the model used by the chat in order to take care of the logic behind
+     * sending messages.
+     *
+     * @param gameView the game's view
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }

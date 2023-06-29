@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.utils.OptionsValues;
 
@@ -13,6 +14,7 @@ import it.polimi.ingsw.utils.OptionsValues;
  * @see Player
  * @see Bookshelf
  * @see Tile
+ * @see Card
  */
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
@@ -43,6 +45,11 @@ public class PersonalGoal extends Card {
         this.pattern = pattern;
     }
 
+    /**
+     * Class constructor.
+     *
+     * @param personalGoal contains the personal goal.
+     */
     public PersonalGoal(PersonalGoal personalGoal) {
         this.pattern = personalGoal.getPattern();
         this.setId(personalGoal.getId());
@@ -174,6 +181,13 @@ public class PersonalGoal extends Card {
         return output.substring(0, output.length() - 1);
     }
 
+    /**
+     * defines equal method for comparing different personalGoal
+     *
+     * @param obj the personalGoal to compare
+     * @return true if the two personalGoal have the same id.
+     * @see CommonGoal
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PersonalGoal))

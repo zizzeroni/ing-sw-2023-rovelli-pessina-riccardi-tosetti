@@ -33,7 +33,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Class constructor with parameters.
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      *
-     * @param id                the identifier assigned to the card.
+     * @param id                the identifier assigned to the commonGoal card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
      * @param type              the type of check that has to be done on the considered common goal's card.
      * @param positions         the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
@@ -48,7 +48,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      * (numberOfPlayers is also considered in this version).
      *
-     * @param id              the image assigned to the card.
+     * @param id              the image assigned to the commonGoal card.
      * @param type            the type of check that has to be done on the considered common goal's card.
      * @param positions       the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
      * @param numberOfPlayers number of active players.
@@ -63,7 +63,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * Builds an TilesInPositionsPatternGoal with a specified type, ID, ...
      * (scoreTiles list is also considered in this version).
      *
-     * @param id         the image assigned to the card.
+     * @param id         the image assigned to the commonGoal card.
      * @param type       the type of check that has to be done on the considered common goal's card.
      * @param scoreTiles is the list of current score tiles.
      * @param positions  the matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
@@ -91,11 +91,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     }
 
     /**
-     * Searches the number of pattern repetitions in the {@code Bookshelf} of the {@code Player} by declaring a support matrix of the same dimensions of the bookshelf,
-     * for every not null tile it assigns a 1 in the support matrix ( 0 for the nulls).
-     * Starting from the first not null {@code Tile}, assigns in the support matrix in the position of the tile the group 2
-     * then searches if the nearby tiles are of the same colour and, if it results true, assigns the same group of the first tile.
-     * In the second part we count the number of different groups that have at least 1 correspondence with the one's in the matrix positions.
+     * Here we search the number of pattern repetition in the player's bookshelf.
      *
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the number of repetitions of the TilesInPositionsPatternGoal.
@@ -209,10 +205,9 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the TilesInPositionsPatternGoalView.
-     * @see CommonGoal
      */
     @Override
     public CommonGoalView copyImmutable() {
