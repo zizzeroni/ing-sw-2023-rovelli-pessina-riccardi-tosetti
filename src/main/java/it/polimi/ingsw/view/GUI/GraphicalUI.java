@@ -432,9 +432,6 @@ public class GraphicalUI extends Application implements UI {
 
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
 
-                System.out.println(takenTiles);
-                System.out.println(this.mainSceneController.getInCensure());
-
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
@@ -575,7 +572,6 @@ public class GraphicalUI extends Application implements UI {
      */
     public void showUpdateFromOtherPlayer() {
 
-        //mainSceneController.updateChat();
         int tileId;
         String tileColor;
 

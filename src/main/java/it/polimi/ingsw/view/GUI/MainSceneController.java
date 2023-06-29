@@ -1476,7 +1476,6 @@ public class MainSceneController implements Initializable {
      */
     public void startCensure() {
         if (inCensure == 0) {
-            System.out.println("inizio censura");
             this.inCensure = this.inCensure + 1;
             //this.setTable();
             //onCountdown = true;
@@ -1514,13 +1513,8 @@ public class MainSceneController implements Initializable {
      */
     public void endCensure() {
         if (this.inCensure == 1) {
-            System.out.println("finisco censura");
             this.inCensure = 0;
         }
-        //if (onCountdown) {
-        //printCountdownThread.interrupt();
-        //onCountdown = false;
-        //printCountdownThread = createPrintCountdownThread();
         censure.setMaxSize(1, 1);
         censure.setOpacity(0.0);
         commonGoal1.setOnMouseEntered(this::onCommonGoal1);
