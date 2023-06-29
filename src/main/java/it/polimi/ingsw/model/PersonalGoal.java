@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.utils.OptionsValues;
 
@@ -13,6 +14,7 @@ import it.polimi.ingsw.utils.OptionsValues;
  * @see Player
  * @see Bookshelf
  * @see Tile
+ * @see Card
  */
 public class PersonalGoal extends Card {
     private final int numberOfColumns = 5;
@@ -35,7 +37,7 @@ public class PersonalGoal extends Card {
     /**
      * Class constructor.
      *
-     * @param id the identifier of the personal goal.
+     * @param id      the identifier of the personal goal.
      * @param pattern the pattern associated to the personal goal.
      */
     public PersonalGoal(int id, Tile[][] pattern) {
@@ -43,6 +45,11 @@ public class PersonalGoal extends Card {
         this.pattern = pattern;
     }
 
+    /**
+     * Class constructor.
+     *
+     * @param personalGoal contains the personal goal.
+     */
     public PersonalGoal(PersonalGoal personalGoal) {
         this.pattern = personalGoal.getPattern();
         this.setId(personalGoal.getId());
@@ -88,14 +95,13 @@ public class PersonalGoal extends Card {
      * Gets the {@code Tile} at the given coordinates,
      * expressed as rows and columns.
      *
-     * @param row is the first coordinate.
+     * @param row    is the first coordinate.
      * @param column is the second coordinate.
      * @return the Tile of the specified {@code PersonalGoal}.
-     *
      * @see Tile
      */
     public Tile getSingleTile(int row, int column) {
-        return this.pattern[row][column];
+        return this.getPattern()[row][column];
     }
 
     /**
@@ -109,7 +115,7 @@ public class PersonalGoal extends Card {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
             for (int column = 0; column < this.numberOfColumns; column++) {
-                if (this.pattern[row][column] != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
+                if (this.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column) != null && bookshelf.getSingleTile(row, column).getColor().equals(this.pattern[row][column].getColor())) {
                     counter++;
                 }
             }
@@ -122,8 +128,7 @@ public class PersonalGoal extends Card {
      *
      * @param bookshelf is the {@code Player}'s {@code Bookshelf}.
      * @return the value of the points assigned to the pattern repetitions identified in the {@code Bookshelf}
-     *          using the #numberOfPatternRepetitionInBookshelf.
-     *
+     * using the #numberOfPatternRepetitionInBookshelf.
      * @see Bookshelf
      * @see Player
      */
@@ -161,9 +166,9 @@ public class PersonalGoal extends Card {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        for (int row = 0; row < this.numberOfRows; row++) {
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
             output.append("[ ");
-            for (int column = 0; column < this.numberOfColumns; column++) {
+            for (int column = 0; column < this.getNumberOfColumns(); column++) {
                 Tile currentTile = this.pattern[row][column];
                 if (currentTile == null || currentTile.getColor() == null) {
                     output.append("0 ");
@@ -176,6 +181,13 @@ public class PersonalGoal extends Card {
         return output.substring(0, output.length() - 1);
     }
 
+    /**
+     * defines equal method for comparing different personalGoal
+     *
+     * @param obj the personalGoal to compare
+     * @return true if the two personalGoal have the same id.
+     * @see CommonGoal
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PersonalGoal))

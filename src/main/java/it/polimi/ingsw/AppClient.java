@@ -9,6 +9,7 @@ import it.polimi.ingsw.utils.OptionsValues;
 import it.polimi.ingsw.view.GUI.GraphicalUI;
 import it.polimi.ingsw.view.TextualUI;
 import javafx.application.Application;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -26,28 +27,26 @@ import java.util.regex.Pattern;
  *
  * @see Client
  * @see Server
- * @see App
  */
 public class AppClient {
     static CommandReader commandReader = new CommandReader();
 
     /**
      * It is the main method of the AppClient.
-     * Initialize all the necessary client's informations.
+     * Initialize all the necessary client's information.
      * Asks the preferred client connection's and UI types and manages the related player's choices.
      *
      * @param args the main's arguments.
-     *
-     * @throws RemoteException called to handle connection errors.
+     * @throws RemoteException   called to handle connection errors.
      * @throws NotBoundException called to handle UI errors.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Client
-     * @see it.polimi.ingsw.view.UI
+     * @see it.polimi.ingsw.view.GenericUILogic
      */
     public static void main(String[] args) throws RemoteException, NotBoundException {
+        AnsiConsole.systemInstall();
         Scanner input = new Scanner(System.in);
-        String ServeripAddress = args.length > 0 ? args[0] : "";
+        String ServeripAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -60,8 +59,8 @@ public class AppClient {
         }
 
         String clientIpAddress;
-        if (ServeripAddress.equals("localhost")) {
-            clientIpAddress = "localhost";
+        if (ServeripAddress.equals("localhost") || ServeripAddress.equals("127.0.0.1")) {
+            clientIpAddress = "127.0.0.1";
         } else {
             clientIpAddress = getFirstUpNetworkInterface();
         }
@@ -71,18 +70,18 @@ public class AppClient {
         commandReader.start();
         //Initialize client necessities
         ClientImpl client = null;
-        System.out.println("Client avviato...");
+        System.out.println("Client started...");
         int uiChoice, connectionChoice;
         //------------------------------------TYPE CONNECTION & TYPE UI CHOICES------------------------------------
         do {
-            System.out.println("Che interfaccia grafica preferisci utilizzare?");
-            System.out.println("1)Testuale");
-            System.out.println("2)Grafica");
+            System.out.println("What interface do you prefer to use?");
+            System.out.println("1)Textual");
+            System.out.println("2)Graphical");
 
             uiChoice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
         } while (uiChoice < 1 || uiChoice > 2);
         do {
-            System.out.println("Che metodo di comunicazione preferisci utilizzare?");
+            System.out.println("What method of communication do you prefer to use?");
             System.out.println("1)RMI");
             System.out.println("2)Socket");
 
@@ -151,10 +150,9 @@ public class AppClient {
     }
 
     /**
-     * Start up the thread used to ping the server.
+     * Start up the thread by ping the server.
      *
      * @param server the server to be pinged.
-     *
      * @see Server
      */
     public static void startPingSenderThread(Server server) {
@@ -177,9 +175,8 @@ public class AppClient {
      * Creates a new Thread that will take care of the responses coming from the Server side.
      * Starts up the related thread's receiver.
      *
-     * @param client the player's client.
+     * @param client     the player's client.
      * @param serverStub the stub used to enable server's interaction.
-     *
      * @see Thread
      * @see Server
      * @see ServerStub
@@ -205,8 +202,13 @@ public class AppClient {
         }).start();
     }
 
+    /**
+     * Get a random network interface (not localhost).
+     *
+     * @return the identified network interfaces.
+     * @throws RemoteException when a communication error occurs.
+     */
     private static String getFirstUpNetworkInterface() throws RemoteException {
-        //TODO: Da verificarne funzionamento
         Random rand = new Random();
         List<NetworkInterface> networkInterfacesList;
         try {

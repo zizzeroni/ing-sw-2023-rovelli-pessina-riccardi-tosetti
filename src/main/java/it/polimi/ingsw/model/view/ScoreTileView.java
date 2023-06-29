@@ -6,12 +6,9 @@ import it.polimi.ingsw.model.tile.ScoreTile;
 import java.io.Serializable;
 
 /**
- *
- * This class implements the {@code ScoreTileView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code ScoreTile}s different views,
- * and are sensible to any inherent modification.
- * Also, the class contains a series of methods to access the goals through their ID and their values
- * and a series of other related, relevant, informations.
+ * This class represents the ScoreTile's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
  * @see ScoreTile
  * @see it.polimi.ingsw.model.tile.Tile
@@ -28,9 +25,7 @@ public class ScoreTileView implements Serializable {
      * with the linked logic in the {@code scoreTileModel} (passed as parameter).
      *
      * @param scoreTileModel the model of the considered {@code ScoreTile}.
-     *
      * @see ScoreTile
-     *
      */
     public ScoreTileView(ScoreTile scoreTileModel) {
         this.value = scoreTileModel.getValue();
@@ -38,6 +33,13 @@ public class ScoreTileView implements Serializable {
         this.commonGoalID = scoreTileModel.getCommonGoalID();
     }
 
+    /**
+     * Getter to retrieve the {@code Player}'s identifier of the {@code ScoreTile}.
+     *
+     * @return return the id of the player associated at the ScoreTile.
+     * @see ScoreTile
+     * @see it.polimi.ingsw.model.Player
+     */
     public int getPlayerID() {
         return this.playerID;
     }
@@ -46,7 +48,6 @@ public class ScoreTileView implements Serializable {
      * Getter to retrieve the {@code CommonGoal}'s identifier.
      *
      * @return reference to the common goal the {@code ScoreTile} refers to.
-     *
      * @see CommonGoal
      * @see ScoreTile
      */

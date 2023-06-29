@@ -5,14 +5,9 @@ import it.polimi.ingsw.model.Board;
 import java.io.Serializable;
 
 /**
- * This class represents the {@code BoardView} through the {@code Serializable} interface.
- * All the {@code Player}s always 'see' only the implementation of the {@code View} of the relative {@code Board},
- * and are sensible to the inherent modifies.
- * The class also contains a series of getters to access the number of
- * rows/columns and to retrieve the selected tiles from the {@code Board},
- * given the current number of active players.
- *
- * @see Serializable
+ * This class represents the Board's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant information.
  */
 public class BoardView implements Serializable {
     //private final Board boardModel;
@@ -27,9 +22,7 @@ public class BoardView implements Serializable {
      * with logic in the {@code BoardModel} (passed as parameter).
      *
      * @param boardModel the model of the {@code Board}.
-     *
      * @see Board
-     *
      */
     public BoardView(Board boardModel) {
         this.numberOfUsableTiles = boardModel.getNumberOfUsableTiles();
@@ -43,6 +36,12 @@ public class BoardView implements Serializable {
         }
     }
 
+
+    /**
+     * Getter of the number of usable tiles in the board
+     *
+     * @return number of usable tiles
+     */
     public int getNumberOfUsableTiles() {
         return this.numberOfUsableTiles;
     }
@@ -60,7 +59,6 @@ public class BoardView implements Serializable {
      * Returns the number of columns in the {@code Board}.
      *
      * @return the number of columns.
-     *
      * @see Board
      */
     public int getNumberOfColumns() {
@@ -71,7 +69,6 @@ public class BoardView implements Serializable {
      * Returns the number of rows in the {@code Board}.
      *
      * @return the number of rows.
-     *
      * @see Board
      */
     public int getNumberOfRows() {
@@ -83,7 +80,6 @@ public class BoardView implements Serializable {
      * during the {@code Game} (those linked with the {@code Board}).
      *
      * @return the current display of the board
-     *
      * @see it.polimi.ingsw.model.Game
      * @see Board
      */

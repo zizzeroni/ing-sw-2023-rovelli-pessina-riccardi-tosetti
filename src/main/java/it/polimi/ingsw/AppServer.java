@@ -40,8 +40,7 @@ public class AppServer {
      * Starts the Thread that will take care of initializing Socket connection.
      *
      * @param args the main's arguments.
-     * @throws RemoteException
-     *
+     * @throws RemoteException called when connection error occurs.
      * @see Server
      * @see javax.management.remote.rmi.RMIConnection
      * @see Socket
@@ -49,7 +48,7 @@ public class AppServer {
     public static void main(String[] args) throws RemoteException {
         //Setting the ipAddress of this server to the one chosen by the admin
         Scanner input = new Scanner(System.in);
-        String ipAddress = args.length > 0 ? args[0] : "";
+        String ipAddress = "";
         String regex = "(localhost|\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(?::\\d{0,4})?\\b)";
 
         Pattern pattern = Pattern.compile(regex);
@@ -98,8 +97,6 @@ public class AppServer {
         } catch (InterruptedException e) {
             System.err.println("[CONNECTION:ERROR] No connection protocol available. Exiting...");
         }
-
-
     }
 
     /**
@@ -110,7 +107,6 @@ public class AppServer {
      */
     private static void startRMI(Server server) throws RemoteException {
         //RMI service creation
-
 
         Registry registry = LocateRegistry.createRegistry(OptionsValues.RMI_PORT);
         registry.rebind(OptionsValues.SERVER_RMI_NAME, server);
@@ -123,7 +119,6 @@ public class AppServer {
      *
      * @param server the server involved in the socket service creation.
      * @throws RemoteException called if a communication error with the server occurs.
-     *
      * @see it.polimi.ingsw.network.Client
      * @see Server
      * @see Thread
@@ -145,8 +140,13 @@ public class AppServer {
         }
     }
 
+    /**
+     * Get a random network interface (not localhost).
+     *
+     * @return the identified network interfaces.
+     * @throws RemoteException when a communication error occurs.
+     */
     private static String getFirstUpNetworkInterface() throws RemoteException {
-        //TODO: Da verificarne funzionamento
         Random rand = new Random();
         List<NetworkInterface> networkInterfacesList;
         try {

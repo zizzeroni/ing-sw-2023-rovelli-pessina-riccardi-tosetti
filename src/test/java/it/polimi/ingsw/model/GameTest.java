@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class GameTest {
     private Game game;
     private List<Player> players;
@@ -37,36 +38,36 @@ public class GameTest {
         this.commonGoals.add(new EightShapelessPatternGoal());
 
         this.players.get(0).setPersonalGoal(new PersonalGoal(1, new Tile[][]{
-            {null, null, null, null, new Tile(TileColor.CYAN)},
-            {null, new Tile(TileColor.YELLOW), null, null, null},
-            {new Tile(TileColor.WHITE), null, null, null, null},
-            {null, null, null, new Tile(TileColor.GREEN), null},
-            {null, new Tile(TileColor.BLUE), null, null, null},
-            {null, null, null, new Tile(TileColor.PURPLE), null}}
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
         this.players.get(0).setPersonalGoal(new PersonalGoal(2, new Tile[][]{
-            {null, null, null, null, new Tile(TileColor.CYAN)},
-            {null, new Tile(TileColor.YELLOW), null, null, null},
-            {new Tile(TileColor.WHITE), null, null, null, null},
-            {null, null, null, new Tile(TileColor.GREEN), null},
-            {null, new Tile(TileColor.BLUE), null, null, null},
-            {null, null, null, new Tile(TileColor.PURPLE), null}}
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
         this.players.get(0).setPersonalGoal(new PersonalGoal(3, new Tile[][]{
-            {null, null, null, null, new Tile(TileColor.CYAN)},
-            {null, new Tile(TileColor.YELLOW), null, null, null},
-            {new Tile(TileColor.WHITE), null, null, null, null},
-            {null, null, null, new Tile(TileColor.GREEN), null},
-            {null, new Tile(TileColor.BLUE), null, null, null},
-            {null, null, null, new Tile(TileColor.PURPLE), null}}
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
         this.players.get(0).setPersonalGoal(new PersonalGoal(4, new Tile[][]{
-            {null, null, null, null, new Tile(TileColor.CYAN)},
-            {null, new Tile(TileColor.YELLOW), null, null, null},
-            {new Tile(TileColor.WHITE), null, null, null, null},
-            {null, null, null, new Tile(TileColor.GREEN), null},
-            {null, new Tile(TileColor.BLUE), null, null, null},
-            {null, null, null, new Tile(TileColor.PURPLE), null}}
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
 
 
@@ -78,20 +79,20 @@ public class GameTest {
 
         Board board = new Board();
         board.setTiles(new Tile[][]{
-            {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile(), new Tile()},
-            {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
-            {new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
-            {new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
-            {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
-            {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile()},
-            {new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
-            {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
-            {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()}
+                {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
+                {new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
+                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE)},
+                {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile()},
+                {new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()}
         });
 
         List<Tile> bag = new ArrayList<>();
 
-        for (int i = 0; i < 132; i++){
+        for (int i = 0; i < 132; i++) {
             bag.add(new Tile(TileColor.values()[i % 6]));
         }
 

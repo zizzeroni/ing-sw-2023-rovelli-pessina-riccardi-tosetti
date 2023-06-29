@@ -13,12 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
- * This class implements the {@code GameView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code Game}s various views,
- * and are sensible to any inherent modification.
- * Also, the class contains a series of getters to access their images and colors
- * and a series of other related, relevant, informations.
+ * This class represents the Game's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant information.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Player
@@ -39,7 +36,6 @@ public class GameView implements Serializable {
      * Also, sets the bag and the {@code Board} for the game.
      *
      * @param gameModel the model of the {@code Game}.
-     *
      * @see Game
      * @see it.polimi.ingsw.model.Board
      */
@@ -72,7 +68,6 @@ public class GameView implements Serializable {
      *
      * @param nickname the player's nickname.
      * @return the View for the player, based on the nickname received as parameter.
-     *
      * @see Player
      */
     public PlayerView getPlayerViewFromNickname(String nickname) {
@@ -82,6 +77,13 @@ public class GameView implements Serializable {
                 .orElse(null);
     }
 
+    /**
+     * Control by {nickname} if the player is in the game
+     *
+     * @param nickname the nickname of the player we want to control if is in the game
+     * @return true if the player is in the game.
+     * @see Game
+     */
     public boolean isPlayerInGame(String nickname) {
         return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
@@ -90,7 +92,6 @@ public class GameView implements Serializable {
      * Used to retrieve the present state of the {@code Game}.
      *
      * @return the game's state.
-     *
      * @see Game
      */
     public GameState getGameState() {
@@ -101,7 +102,6 @@ public class GameView implements Serializable {
      * Gets the number of active {@code Player}s in the current {@code Game},
      *
      * @return the number of players participating the {@code Game}.
-     *
      * @see Game
      * @see Player
      */
@@ -113,7 +113,6 @@ public class GameView implements Serializable {
      * Gets the number of the active {@code Player}.
      *
      * @return {@code activePlayerIndex}, the index of the current player.
-     *
      * @see Player
      */
     public int getActivePlayerIndex() {
@@ -124,7 +123,6 @@ public class GameView implements Serializable {
      * Gets the game's {@code Player}s.
      *
      * @return the list of players in the {@code Game} linked to the current GameView.
-     *
      * @see Game
      * @see Player
      */
@@ -137,7 +135,6 @@ public class GameView implements Serializable {
      * available to the active {@code Player}s at the start of the {@code Game}, before the shuffle.
      *
      * @return the "bag" of tiles to be shuffled.
-     *
      * @see Player
      * @see Tile
      * @see Game
@@ -150,7 +147,6 @@ public class GameView implements Serializable {
      * Gets the {@code Board}'s view.
      *
      * @return the view of the Board.
-     *
      * @see it.polimi.ingsw.model.Board
      */
     public BoardView getBoard() {
@@ -161,7 +157,6 @@ public class GameView implements Serializable {
      * Gets the views of all the common goals in the {@code Game}.
      *
      * @return the list of the common goals views in the current GameView.
-     *
      * @see CommonGoal
      * @see Game
      */
@@ -169,10 +164,21 @@ public class GameView implements Serializable {
         return this.commonGoals;
     }
 
+    /**
+     * Used to check if the game's state in PAUSED
+     *
+     * @return if the game's state is PAUSED.
+     */
     public boolean isPaused() {
         return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
 
+    /**
+     * Contains the players that are connected to the game.
+     *
+     * @return a list of the players connected to the game
+     * @see PlayerView
+     */
     public List<PlayerView> connectedPlayers() {
         return this.players.stream()
                 .filter(PlayerView::isConnected)

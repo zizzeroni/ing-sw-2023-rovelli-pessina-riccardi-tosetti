@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Game
  */
@@ -30,7 +29,6 @@ public class ChangeTurnCommand implements CommandToServer {
      * Initialize the actuator to the given value.
      *
      * @param actuator the command's actuator.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public ChangeTurnCommand(Server actuator) {
@@ -61,7 +59,7 @@ public class ChangeTurnCommand implements CommandToServer {
      * This method permits the execution of the change turn command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException      if a connection error occurs
      */
     @Override
     public void execute() throws NullPointerException, RemoteException {
@@ -76,7 +74,6 @@ public class ChangeTurnCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the change turn command.
-     *
      * @see CommandType
      */
     @Override
@@ -88,7 +85,6 @@ public class ChangeTurnCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
  * This class represents the command that enables registration of the {@code Player}.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  * @see it.polimi.ingsw.model.Player
  */
@@ -24,7 +23,6 @@ public class RegisterCommand implements CommandToServer {
      * Initialize the {@code Player}'s nickname to the given value.
      *
      * @param nickname the {@code Player}'s nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public RegisterCommand(String nickname) {
@@ -47,7 +45,6 @@ public class RegisterCommand implements CommandToServer {
      *
      * @param actuator the command's actuator.
      * @param nickname the {@code Player}'s nickname.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public RegisterCommand(Server actuator, String nickname) {
@@ -79,7 +76,7 @@ public class RegisterCommand implements CommandToServer {
      * This method permits the execution of the registration command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException      if a connection error occurs
      */
     @Override
     public void execute() throws NullPointerException, RemoteException {
@@ -94,7 +91,6 @@ public class RegisterCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the registration command.
-     *
      * @see CommandType
      */
     @Override
@@ -106,7 +102,6 @@ public class RegisterCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

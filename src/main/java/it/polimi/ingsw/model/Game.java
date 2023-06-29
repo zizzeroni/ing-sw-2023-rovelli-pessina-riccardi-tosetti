@@ -49,8 +49,7 @@ public class Game {
      * Registers the {@code GameListener}.
      *
      * @param listener is the {@code GameListener} being registered.
-     *
-     * @see   GameListener
+     * @see GameListener
      */
     public void registerListener(GameListener listener) {
         this.listener = listener;
@@ -58,10 +57,10 @@ public class Game {
 
     /**
      * Removes the {@code GameListener}.
-     *
+     * <p>
      * Listener is the {@code GameListener} being registered
      *
-     * @see   GameListener
+     * @see GameListener
      */
     public void removeListener() {
         this.listener = null;
@@ -88,6 +87,14 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param boardPattern               contains the boardPattern of the {@code Game}
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param personalGoals              contains the personalGoals of the {@code Game}
+     * @see Player
+     * @see PersonalGoal
+     * @see Board
      */
     public Game(int numberOfPlayersToStartGame, List<Player> players, List<PersonalGoal> personalGoals, JsonBoardPattern boardPattern) {
         this.gameState = GameState.IN_CREATION;
@@ -120,6 +127,16 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param activePlayerIndex          contains the index of the active player of the {@code Game}
+     * @param bag                        contains the bag of the {@code Game}
+     * @param board                      contains the board of the {@code Game}
+     * @param commonGoals                contains the commonGoals in the {@code Game}
+     * @see Player
+     * @see Board
+     * @see CommonGoal
      */
     public Game(int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.numberOfPlayersToStartGame = numberOfPlayersToStartGame;
@@ -133,6 +150,17 @@ public class Game {
 
     /**
      * Class Builder. Creates the object {@code Game} with the initial values of lists for commonGoals, gameState, class listener, ...
+     *
+     * @param numberOfPlayersToStartGame contains the number of player in the {@code Game}
+     * @param players                    contains the players in the {@code Game}
+     * @param activePlayerIndex          contains the index of the active player of the {@code Game}
+     * @param bag                        contains the bag of the {@code Game}
+     * @param board                      contains the board of the {@code Game}
+     * @param commonGoals                contains the commonGoals in the {@code Game}
+     * @param listener                   contains the listener of the {@code Game}
+     * @see Player
+     * @see Board
+     * @see CommonGoal
      */
     public Game(GameListener listener, int numberOfPlayersToStartGame, int activePlayerIndex, List<Player> players, List<Tile> bag, Board board, List<CommonGoal> commonGoals) {
         this.listener = listener;
@@ -148,7 +176,6 @@ public class Game {
      * Gets the current state of the {@code Game}.
      *
      * @return the game's state.
-     *
      * @see Game
      */
     public GameState getGameState() {
@@ -159,23 +186,20 @@ public class Game {
      * Sets the current state of the {@code Game}.
      *
      * @param gameState the state being set.
-     *
      * @see Game
      */
     public synchronized void setGameState(GameState gameState) {
         this.gameState = gameState;
         if (this.listener != null) {
             this.listener.gameStateChanged();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
-    /** Gets the number of {@code Player}s before the {@code Game} starts,
+    /**
+     * Gets the number of {@code Player}s before the {@code Game} starts,
      * respecting the limitations about maximum and minimum number of players.
      *
      * @return {@code numberOfPlayersToStartGame} the number of players participating the {@code Game}.
-     *
      * @see Game
      * @see Player
      */
@@ -188,7 +212,6 @@ public class Game {
      * respecting the limitations about maximum and minimum number of players.
      *
      * @param numberOfPlayersToStartGame the number of players participating the {@code Game}.
-     *
      * @see Game
      * @see Player
      */
@@ -203,7 +226,6 @@ public class Game {
      * Gets the number of the active {@code Player}.
      *
      * @return {@code activePlayerIndex}, the index of the current player.
-     *
      * @see Player
      */
     public int getActivePlayerIndex() {
@@ -214,7 +236,6 @@ public class Game {
      * Sets the index of the {@code Player} actually active.
      *
      * @param activePlayerIndex is the index of the current {@code Player}.
-     *
      * @see Player
      */
     public void setActivePlayerIndex(int activePlayerIndex) {
@@ -222,8 +243,6 @@ public class Game {
 
         if (this.listener != null) {
             this.listener.activePlayerIndexModified();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -231,7 +250,6 @@ public class Game {
      * Gets the list of the {@code Player}s for the {@code Game}.
      *
      * @return the list of {@code Game}'s participants.
-     *
      * @see Game
      * @see Player
      */
@@ -243,7 +261,6 @@ public class Game {
      * Sets the active {@code Player}s.
      *
      * @param players the players participating the {@code Game}.
-     *
      * @see Player
      * @see Game
      */
@@ -255,7 +272,6 @@ public class Game {
      * Adds a {@code Player} to the {@code Game} using the relative {@code GameListener}.
      *
      * @param player the {@code Player} added to the list of the current active players.
-     *
      * @see Game
      * @see GameListener
      * @see java.net.http.WebSocket.Listener
@@ -265,8 +281,6 @@ public class Game {
         this.players.add(player);
         if (this.listener != null) {
             this.listener.addedPlayer();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
@@ -275,7 +289,6 @@ public class Game {
      * available to the active {@code Player} at the start of the {@code Game}, before the shuffling.
      *
      * @return the "bag" of tiles to be shuffled.
-     *
      * @see Tile
      * @see Game
      * @see Player
@@ -284,6 +297,11 @@ public class Game {
         return this.bag;
     }
 
+    /**
+     * Setter of the bag
+     *
+     * @param bag the new bag
+     */
     public void setBag(List<Tile> bag) {
         this.bag = bag;
         if (this.listener != null) {
@@ -295,7 +313,6 @@ public class Game {
      * A getter used to return the {@code Board} state.
      *
      * @return the Board with the changes up to now.
-     *
      * @see Board
      */
     public Board getBoard() {
@@ -306,7 +323,6 @@ public class Game {
      * Sets the changes to the {@code Board}.
      *
      * @param board is the modified {@code Board}.
-     *
      * @see Board
      */
     public void setBoard(Board board) {
@@ -317,7 +333,6 @@ public class Game {
      * Gets the list of the {@code CommonGoal}s in the actual {@code Game}
      *
      * @return the common goals for the players.
-     *
      * @see CommonGoal
      * @see Game
      */
@@ -330,7 +345,6 @@ public class Game {
      *
      * @param commonGoals is the list of goals achievable from all the players
      *                    in any given moment of the {@code Game}.
-     *
      * @see Game
      * @see CommonGoal
      */
@@ -338,15 +352,14 @@ public class Game {
         this.commonGoals = commonGoals;
         if (this.listener != null) {
             this.listener.commonGoalsModified();
-        } else {
-            System.err.println("Game's listener is NULL!");
         }
     }
 
-    private void getPlayerScore(Player player) {
-        player.score();
-    }
-
+    /**
+     * Control if the game is in paused
+     *
+     * @return true if the game is in PAUSED
+     */
     private boolean isPaused() {
         return this.connectedPlayers().size() == OptionsValues.MIN_PLAYERS_TO_GO_ON_PAUSE;
     }
@@ -356,7 +369,6 @@ public class Game {
      * are still connected and participating the {@code Game}.
      *
      * @return the list of the active players.
-     *
      * @see Player
      * @see Game
      */
@@ -371,7 +383,6 @@ public class Game {
      *
      * @param nickname of the player to return
      * @return the player selected by his nickname
-     *
      * @see Player
      */
     public Player getPlayerFromNickname(String nickname) {
@@ -381,15 +392,31 @@ public class Game {
                 .orElse(null);
     }
 
+    /**
+     * Check if a player with a specific nickname is in the game
+     *
+     * @param nickname nickname of the player
+     * @return true if and only if the player is in the game, otherwise return false
+     */
     public boolean isPlayerInGame(String nickname) {
         return this.players.stream().anyMatch(player -> player.getNickname().equals(nickname));
     }
 
+    /**
+     * Create a new game file if it not exists, saving the current model
+     *
+     * @param gamesPath path in which the game must be saved
+     */
     public void createGameFileIfNotExist(String gamesPath) {
         //create a new empty games file if it does not exist
         File gamesFile = new File(gamesPath);
 
         try {
+            if (gamesFile.getParentFile().mkdirs()) {
+                System.out.println("Games' storage folders created correctly");
+            } else {
+                System.out.println("Games' storage folders already exist, skipping creation");
+            }
             if (gamesFile.createNewFile()) {
                 System.out.println("Games' storage file created correctly");
             } else {
@@ -407,10 +434,12 @@ public class Game {
      * a certain moment avoiding the risk of losing information
      * about the score of a {@code Player} in case of disconnection.
      *
+     * @param gamesStoragePath       path in which games are stored
+     * @param gamesStoragePathBackup backup path in which games are stored
      * @see Game
      * @see Player
      */
-    public void saveGame() {
+    public void saveGame(String gamesStoragePath, String gamesStoragePathBackup) {
         //there is no need to store games in different files or handle simultaneous access to the file because there
         //are no cases in which this method is called from different games (multi game is not available) neither the
         //file is accessed while saving and vice-versa
@@ -419,24 +448,24 @@ public class Game {
         Gson gson = gsonBuilder.create();
         Reader fileReader;
         FileWriter fileWriter;
-        String gamesPath = "src/main/resources/storage/games.json";
-        String gamesBkpPath = "src/main/resources/storage/games-bkp.json";
-        Path source = Paths.get(gamesPath);
+        Path source = Paths.get(gamesStoragePath);
         List<Game> games;
 
         try {
-            this.createGameFileIfNotExist(gamesPath);
+            this.createGameFileIfNotExist(gamesStoragePath);
             //make a backup of the stored games in case something goes wrong during the saving
-            Files.copy(source, Paths.get(gamesBkpPath), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, Paths.get(gamesStoragePathBackup), StandardCopyOption.REPLACE_EXISTING);
 
             fileReader = Files.newBufferedReader(source);
 
             Game[] gamesAsArray = gson.fromJson(fileReader, Game[].class);
             fileReader.close();
 
-            fileWriter = new FileWriter(gamesPath);
+            fileWriter = new FileWriter(gamesStoragePath);
             if (gamesAsArray == null) gamesAsArray = new Game[0];
             games = new ArrayList<>(Arrays.asList(gamesAsArray));
+
+            Game currentGameCopy = this.getCopyToStore();
 
             if (!games.isEmpty()) {
                 //use hash set in filter to increase performance
@@ -449,15 +478,15 @@ public class Game {
                         )
                         .findFirst()
                         .orElse(null);
-                System.out.println(storedCurrentGame);
+
                 if (storedCurrentGame != null) {
-                    games.set(games.indexOf(storedCurrentGame), this);
+                    games.set(games.indexOf(storedCurrentGame), currentGameCopy);
                 } else {
-                    games.add(this);
+                    games.add(currentGameCopy);
                 }
             } else {
                 games = new ArrayList<>();
-                games.add(this);
+                games.add(currentGameCopy);
             }
 
             gson.toJson(games, fileWriter);
@@ -482,6 +511,21 @@ public class Game {
             }
             this.bag.add(new Tile(TileColor.values()[i % 6], id));
         }
+    }
+
+    private Game getCopyToStore() {
+        Game gameCopy = new Game();
+        gameCopy.setGameState(this.gameState);
+        gameCopy.setNumberOfPlayersToStartGame(this.numberOfPlayersToStartGame);
+        gameCopy.setActivePlayerIndex(this.activePlayerIndex);
+        for (Player player : this.players) {
+            gameCopy.addPlayer(new Player(player.getNickname(), false, player.getPersonalGoal(), player.getScoreTiles(), player.getBookshelf(), player.getChat()));
+        }
+        gameCopy.setBag(this.bag);
+        gameCopy.setBoard(this.board);
+        gameCopy.setCommonGoals(this.commonGoals);
+
+        return gameCopy;
     }
 
 }

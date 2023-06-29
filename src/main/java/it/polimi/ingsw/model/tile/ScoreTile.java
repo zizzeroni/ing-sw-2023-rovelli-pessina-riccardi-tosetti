@@ -18,9 +18,9 @@ public class ScoreTile {
      * Constructs a ScoreTile considering its assigned value
      * and also current player's and common goal's id.
      *
-     * @param value the value associated to the given ScoreTile.
-     * @param playerID
-     * @param commonGoalID
+     * @param value        the value associated to the given ScoreTile.
+     * @param playerID     the id of the player that have the ScoreTile associated.
+     * @param commonGoalID the id of the commonGoal that have the scoreTile associated.
      */
     public ScoreTile(int value, int playerID, int commonGoalID) {
         this.value = value;
@@ -54,7 +54,6 @@ public class ScoreTile {
      * Sets the {@code ScoreTile}'s value.
      *
      * @param value is the value assigned to the ScoreTile.
-     *
      */
     public void setValue(int value) {
         this.value = value;
@@ -90,7 +89,7 @@ public class ScoreTile {
     /**
      * Setter to assign the {@code CommonGoal}'s identifier.
      *
-     * @return the reference to the common goal the scoreTile refers to.
+     * @param commonGoalID the reference to the common goal the scoreTile refers to.
      */
     public void setCommonGoalID(int commonGoalID) {
         this.commonGoalID = commonGoalID;

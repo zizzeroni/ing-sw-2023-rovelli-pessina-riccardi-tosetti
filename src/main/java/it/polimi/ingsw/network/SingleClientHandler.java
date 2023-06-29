@@ -22,7 +22,7 @@ public class SingleClientHandler extends Thread {
      *
      * @param server is the server communicating to.
      * @param socket is the communication port used to forward the machine messages.
-     * @throws RemoteException
+     * @throws RemoteException called if a communication error occurs.
      */
     public SingleClientHandler(Server server, Socket socket) throws RemoteException {
         this.socket = socket;
@@ -41,9 +41,6 @@ public class SingleClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            //Waiting to receive the nickname from the client
-            //String nickname = this.clientSkeleton.receiveNickname(this.generalServer);
-            //Register the client associated with the nickname received
             this.generalServer.register(this.clientSkeleton, null);
             while (true) {
                 this.clientSkeleton.receive(this.generalServer);

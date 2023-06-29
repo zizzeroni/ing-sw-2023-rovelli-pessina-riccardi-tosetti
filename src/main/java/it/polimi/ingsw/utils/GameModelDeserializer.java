@@ -9,8 +9,22 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the Deserializer used to enact the game model's deserialization.
+ *
+ * @see Game
+ */
 public class GameModelDeserializer implements JsonDeserializer<Game> {
 
+    /**
+     * Reads the json game's files and deserialize it into a Game's instance.
+     *
+     * @param jsonElement                the json of the current element.
+     * @param type                       the element's type.
+     * @param jsonDeserializationContext the context in which the json is being deserialized.
+     * @return the deserialized game.
+     * @throws JsonParseException occurs in case of an error in jason's parsing.
+     */
     @Override
     public Game deserialize(JsonElement jsonElement, Type type,
                             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -82,10 +96,7 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
                         case 9 -> {
                             commonGoals.add(new EightShapelessPatternGoal(id, numberOfPatternRepetitionsRequired, CheckType.INDIFFERENT, scoreTiles));
                         }
-                        case 10 -> {
-                            commonGoals.add(new DiagonalEqualPattern(id, numberOfPatternRepetitionsRequired, CheckType.EQUALS, scoreTiles, pattern));
-                        }
-                        case 11 -> {
+                        case 10, 11 -> {
                             commonGoals.add(new DiagonalEqualPattern(id, numberOfPatternRepetitionsRequired, CheckType.EQUALS, scoreTiles, pattern));
                         }
                         case 12 -> {
@@ -101,8 +112,7 @@ public class GameModelDeserializer implements JsonDeserializer<Game> {
             game.setCommonGoals(commonGoals);
 
         } catch (IllegalArgumentException ie) {
-            System.out.println(ie.getMessage());
-            System.out.println("Common goals cannot be serialized ..");
+            System.err.println("Error while serializing: Common goals cannot be serialized ..., " + ie.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

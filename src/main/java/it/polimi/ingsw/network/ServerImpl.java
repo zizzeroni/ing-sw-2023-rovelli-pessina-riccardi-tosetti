@@ -41,6 +41,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * initialize the server's attributes to their default values, also instantiating a new game controller.
      * Finally, the server registers itself as a listener on the game and the board classes to identify changes.
      *
+     * @throws RemoteException if a connection error occurs
      * @see GameController
      * @see Game
      * @see Board
@@ -55,7 +56,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         //Server start listening to Board for changes
         this.model.getBoard().registerListener(this);
         this.numberOfMissedPings = new ConcurrentHashMap<>();
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -64,10 +65,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Starts the thread's pinging.
      *
      * @param port the server's port number.
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port) throws RemoteException {
         super(port);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -76,42 +78,42 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Starts the thread's pinging.
      *
      * @param port the server's port number.
-     * @param csf the client socket factory employed for the RMI.
-     * @param ssf the server socket factory employed for the RMI.
-     *
+     * @param csf  the client socket factory employed for the RMI.
+     * @param ssf  the server socket factory employed for the RMI.
+     * @throws RemoteException if a connection error occurs
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
      */
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
      * Allows to change the turn and update the state of the game.
-     * Registers a listener for game and board changes.
+     * In case the {@code GameState} is {@code RESET_NEEDED} launch the
+     * resetServer() method
      *
      * @throws RemoteException is called when a communication error occurs.
-     *
      * @see Game
      * @see Board
      * @see java.net.http.WebSocket.Listener
+     * @see #resetServer()
      */
     @Override
     public synchronized void changeTurn() throws RemoteException {
-        this.controller.changeTurn();
+        this.controller.changeTurn(OptionsValues.GAMES_STORAGE_DEFAULT_PATH, OptionsValues.GAMES_STORAGE_BACKUP_DEFAULT_PATH);
         if (this.model.getGameState() == GameState.RESET_NEEDED) {
             resetServer();
         }
     }
 
     /**
-     * Allows to notify the input insertion through the controller.
+     * Allows to execute the input insertion through the controller.
      *
      * @param playerChoice the choice made by the player.
      * @throws RemoteException is called when a communication error occurs.
-     *
      * @see Player
      * @see GameController
      */
@@ -157,12 +159,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Adds a player to the game through its client. Updates the connection state of the new player to 'connected'.
+     * Adds a player to the game associated with his client.
+     * In case the lobby is full, or the nickname il already taken, respond
+     * to the client sending an exception
      *
      * @param client   is the player's client.
      * @param nickname is the reference for the name of the {@code Player} being added.
      * @throws RemoteException is called when a communication error occurs.
-     *
      * @see Player
      * @see Client
      * @see Game
@@ -194,29 +197,28 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             Optional<String> nullNickname = Optional.empty();
             this.clientsToHandle.replace(client, nullNickname); //Look down tryToResumeGame method
             this.numberOfMissedPings.remove(client);            //I will remove it anyway in the next tryToResumeGame call, so I remove it at this point
-            //this.clientsToHandle.remove(client);
         }
     }
 
+    /**
+     * This method tries to resume the current's game when possible.
+     */
     @Override
     public synchronized void tryToResumeGame() throws RemoteException {
         this.controller.tryToResumeGame();
         //Necessary because with the socket connection, in case the addPlayer method threw an exception I still need to execute the tryToResumeGame otherwise i get stuck in the semaphore wait.
         //Wouldn't be necessary for RMI because once the methods calling reach the notification method (gameStateChanged in this case) it will throw an exception and simply return. Socket
         //don't do this on his own.
-        //TODO: Verificare se esiste una soluzione migliore
         Optional<String> nullNickname = Optional.empty();
         this.clientsToHandle.values().removeAll(Collections.singleton(nullNickname));
     }
 
     /**
-     * Allows to communicate the players number selection from the GameController.
+     * Calls the controller to set the number of player requested to start the game.
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @throws RemoteException if a communication error occurs.
-     *
      * @see Game
      * @see GameController
      */
@@ -256,7 +258,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Calls the controller to start up the current Game.
      *
      * @throws RemoteException if a communication error occurs.
-     *
      * @see GameController#startGame()
      * @see Game
      */
@@ -270,12 +271,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      *
      * @param client   is the client registering to the server.
      * @param nickname the player's nickname related to the client.
-     * @throws RemoteException
-     *
+     * @throws RemoteException called if a communication error occurs.
      * @see Client
      * @see Server
      */
-    //TODO: Ask if we should pass nickname to register client
     @Override
     public synchronized void register(Client client, String nickname) throws RemoteException {
         Optional<String> nicknameInInput = Optional.ofNullable(nickname);
@@ -284,35 +283,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     }
 
-    /**
-     * Routes the server's pings to the proper player's client.
-     *
-     * @throws RemoteException if a communication error occurs.
-     *
-     * @see Player
-     */
-    public synchronized void pingClients() throws RemoteException {
-        Game model = this.controller.getModel();
-        Client clientToRemove = null;
-        for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
-            String nickname = entry.getValue().orElse("Unknown");
-            Client client = entry.getKey();
-            try {
-                client.ping();
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
-                if (model.getGameState() == GameState.IN_CREATION) {
-                    clientToRemove = client;
-                }
-                if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
-                    this.controller.disconnectPlayer(nickname);
-                }
-
-            }
-
-        }
-        this.clientsToHandle.remove(clientToRemove);
-    }
 
     /**
      * Receives ping from the client.
@@ -325,11 +295,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Signals to the game's view the disconnection of a player.
+     * Calls the controller implementation of disconnecting .
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException if a communication error occurs.
-     *
      * @see Game
      * @see Player
      */
@@ -338,14 +307,30 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.controller.disconnectPlayer(nickname);
     }
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param nickname the given player's nickname.
+     * @see Player
+     * @see Game
+     * @see #disconnectPlayerNotPartOfTheLobby()
+     * @see #notifyClientsAfterRestoring()
+     */
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
-        this.controller.restoreGameForPlayer(this, nickname);
+        this.controller.restoreGameForPlayer(this, nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
         this.model = this.controller.getModel();
         disconnectPlayerNotPartOfTheLobby();
         notifyClientsAfterRestoring();
     }
 
+    /**
+     * Disconnects the players not in actually present in the game's lobby.
+     *
+     * @throws RemoteException called when a communication error occurs.
+     * @see Player
+     * @see Game
+     */
     private void disconnectPlayerNotPartOfTheLobby() throws RemoteException {
         Game model = this.controller.getModel();
         List<String> orderedConnectedPlayersNickname = model.getPlayers().stream().map(Player::getNickname).toList();
@@ -361,7 +346,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    //TODO: Possibilmente da cambiare, non mi piace che la notifica venga inviata "a mano" in questo metodo e soprattutto dal server
+    /**
+     * Notifies the client after being restored.
+     *
+     * @see Client
+     */
     private void notifyClientsAfterRestoring() {
         switch (this.controller.getModel().getGameState()) {
             case ON_GOING -> {
@@ -375,9 +364,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
+    /**
+     * Verifies if there are any saved games associated to the given player.
+     *
+     * @param nickname the given player's nickname.
+     * @throws RemoteException called when a communication error occurs.
+     * @see Game
+     * @see Player
+     */
     @Override
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
-        boolean result = this.controller.areThereStoredGamesForPlayer(nickname);
+        boolean result = this.controller.areThereStoredGamesForPlayer(nickname, OptionsValues.GAMES_STORAGE_DEFAULT_PATH);
         for (Client client : this.clientsToHandle.keySet()) {
             try {
                 client.setAreThereStoredGamesForPlayer(result);
@@ -392,7 +389,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been added.
      *
      * @param board the tiles are added on this board.
-     *
      * @see Board
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -413,7 +409,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been removed.
      *
      * @param board the tiles are removed from this board.
-     *
      * @see Board
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -433,7 +428,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Tiles have been added.
      *
      * @param bookshelf the tiles are added on this Bookshelf.
-     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.tile.Tile
      * @see javax.swing.text.View
@@ -450,26 +444,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Notifies to the game's view that the given image has been modified.
-     *
-     * @param image the image that has changed following the method call.
-     *
-     * @see Client
-     * @see GameView
-     */
-    @Override
-    public void imageModified(String image) {
-        for (Client client : this.clientsToHandle.keySet()) {
-            try {
-                client.updateModelView(new GameView(this.controller.getModel()));
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(imageModified):" + e.getMessage() + ".Skipping update");
-            }
-        }
-    }
-
-    /**
-     * Notifies to the game's view that the number of players has changed (due to a disconnection/reconnection/registration event).
+     * Notifies to the game's view that the number of players to start the game has been set.
      *
      * @see Player
      */
@@ -519,7 +494,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
+     * Notifies the given commonGoals have been modified.
      *
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     @Override
     public void commonGoalsModified() {
@@ -551,7 +528,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     /**
      * Indicates a change in the current game's state.
-     * It is also used to register every player and his bookshelf as a listener on the server implementation.
+     * It is also used to register every player and his bookshelf as a listener on the server implementation
+     * if the game just entered in the {@code ON_GOING} state.
+     * Finally, if the {@code Game} is in {@code RESET_NEEDED} state just call resetServer() method.
      *
      * @see Game
      * @see Player
@@ -612,46 +591,18 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         }
     }
 
-    /*@Override
-    public void gameRestored() {
-        for (Client client : this.clientsToHandle.keySet()) {
-            try {
-                client.updateModelView(new GameView(this.controller.getModel()));
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(gameRestored):" + e.getMessage() + ".Skipping update");
-            }
-        }
-    }*/
-
     /**
-     * Allows the server to ping a game's thread.
-     *
-     * @param server the server starting the thread's pinging.
+     * For each connected client, start a thread that take care of pinging that specific client.
+     * In case the ping() method call fail three times in a row, disconnect the Player associated to
+     * that client and remove it from the client to handle.
      *
      * @see Game
+     * @see #clientsToHandle
+     * @see Client#ping()
+     * @see GameController#disconnectPlayer(String)
      */
 
-    /*private void startPingSenderThread(ServerImpl server) {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    server.pingClients();
-                } catch (RemoteException e) {
-                    System.err.println("prova");
-                }
-            }
-        };
-
-        Timer pingSender = new Timer("PingSender");
-        pingSender.scheduleAtFixedRate(timerTask, 30, 3000);
-    }*/
-
-    /*TODO: DA TESTARE NON IN LOCALHOST*/
-
-    /*TODO: PROBLEMA: A volte capita che il metodo ping venga invocato contemporaneamente o comunque in vicinanza alla riconnessione del client al server,
-     *                 cosa che quindi fa disconnettere nuovamente il client anche se dovrebbe essere connesso*/
-    private void startPingSenderThread(ServerImpl server) {
+    private void startPingSenderThread() {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -668,15 +619,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                     Client client = clientOptionalEntry.getKey();
                                     String nickname = clientOptionalEntry.getValue().orElse("Unknown");
 
-
-
                                     try {
                                         client.ping();
                                         numberOfMissedPings.replace(client, OptionsValues.INITIAL_MISSED_PINGS);
-                                        //stopIfWaitTooLongTimer.cancel();
                                     } catch (RemoteException e) {
                                         try {
-                                            //stopIfWaitTooLongTimer.cancel();
                                             numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
                                             System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
                                             if (numberOfMissedPings.get(client) >= 3) {
@@ -691,7 +638,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
                                             }
                                             this.interrupt();
                                         } catch (NullPointerException e1) {
-                                            System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
+                                            this.interrupt();
                                         }
                                     }
                                 }
@@ -706,6 +653,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         pingSender.scheduleAtFixedRate(timerTask, 30, OptionsValues.MILLISECOND_PING_TO_CLIENT_PERIOD);
     }
 
+    /**
+     * This method is used to reset the server.
+     *
+     * @see Server
+     */
     private void resetServer() {
         this.model = new Game();
         this.controller = new GameController(this.model);
@@ -715,64 +667,4 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
         this.model.getBoard().registerListener(this);
         this.clientsToHandle.clear();
     }
-
-
 }
-//I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                                    /*Thread selfThread = this;
-                                    Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                                    stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            selfThread.interrupt();
-                                            System.err.println("stopIfWaitTooLongTimer executed");
-                                        }
-                                    }, OptionsValues.MILLISECOND_TIMEOUT_PING);*/
-
-
-
-/*
-                for (Map.Entry<Client, Optional<String>> entry : clientsToHandle.entrySet()) {
-                    //I declare a new Thread for each client registered, in this way each thread handle the sending of the ping to his associated client
-                    Thread pingSenderThread = new Thread() {
-                        @Override
-                        public void run() {
-                            String nickname = entry.getValue().orElse("Unknown");
-                            Client client = entry.getKey();
-
-                            //I save in this variable the instance of this Thread, in order to use it in the next TimerTask for eventually interrupt the Thread "pingSenderThread"
-                            Thread selfThread = this;
-                            Timer stopIfWaitTooLongTimer = new Timer("stopIfWaitTooLong");
-                            stopIfWaitTooLongTimer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    selfThread.interrupt();
-                                }
-                            }, 6000);
-
-                            try {
-                                client.ping();
-                                numberOfMissedPings.replace(client, 0);
-                                stopIfWaitTooLongTimer.cancel();
-                            } catch (RemoteException e) {
-                                try {
-                                    numberOfMissedPings.replace(client, numberOfMissedPings.get(client) + 1);
-                                    System.out.println("Client:" + client + ", pings missed:" + numberOfMissedPings.get(client));
-                                    if (numberOfMissedPings.get(client) == 3) {
-                                        System.err.println("[COMMUNICATION:ERROR] Error while sending heartbeat to the client \"" + nickname + "\":" + e.getMessage());
-                                        if (model.getGameState() == GameState.IN_CREATION) {
-                                            clientsToHandle.remove(client);
-                                        }
-                                        if (model.getPlayerFromNickname(nickname) != null && model.getPlayerFromNickname(nickname).isConnected()) {
-                                            controller.disconnectPlayer(nickname);
-                                        }
-                                    }
-                                } catch (NullPointerException e1) {
-                                    System.out.println("NullPointerException thrown because Client has been already removed from the clientsToHandle map");
-                                }
-                            }
-                        }
-                    };
-
-                    pingSenderThread.start();
-                }*/

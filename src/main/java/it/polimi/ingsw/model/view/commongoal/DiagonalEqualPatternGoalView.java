@@ -25,11 +25,10 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
      * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
      *
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
-     *                         in order to make possible the construction of the class object.
+     *                        in order to make possible the construction of the class object.
      */
     public DiagonalEqualPatternGoalView(DiagonalEqualPattern commonGoalModel) {
         super(commonGoalModel);
-        //TODO: Controllare se è corretto
         this.pattern = new ArrayList<>(commonGoalModel.getPattern());
     }
 
@@ -47,8 +46,7 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
      * during the {@code Game} (those that produced a {@code DiagonalEqualPattern}).
      *
      * @return a text message associated to the various combinations of tiles associated
-     *          that may satisfy the conditions to verify the DiagonalEqualPattern.
-     *
+     * that may satisfy the conditions to verify the DiagonalEqualPattern.
      * @see it.polimi.ingsw.model.commongoal.DiagonalEqualPattern
      */
     @Override
@@ -61,7 +59,7 @@ public class DiagonalEqualPatternGoalView extends CommonGoalView {
                 if (this.pattern.get(i).get(j) == 1) {
                     sendBack.append(" " + TileColor.BLUE + " ");
                 } else {
-                    sendBack.append(" -");
+                    sendBack.append("-");
                 }
             }
             sendBack.append(" ]\n");

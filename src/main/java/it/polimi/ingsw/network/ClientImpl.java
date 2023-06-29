@@ -34,9 +34,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * Registers the view's listener.
      *
      * @param server the current server.
-     * @param view the UI's view.
-     * @throws RemoteException
-     *
+     * @param view   the UI's view.
+     * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -54,11 +53,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the client's server, client's view and nickname to the given values.
      * Registers the view's listener.
      *
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
-     * @throws RemoteException
-     *
+     * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -77,11 +75,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the client's server, client's view and nickname to the given values.
      * Registers the view's listener.
      *
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
-     * @throws RemoteException
-     *
+     * @param port     the port of the client
+     * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see UI
      * @see Player#getNickname()
@@ -101,15 +99,13 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * initialize the server's ip and port to the given values.
      * Registers the view's listener.
      *
-     * @param port the server's port number.
-     * @param csf the client socket factory employed for the RMI.
-     * @param ssf the server socket factory employed for the RMI.
-     * @param server the current server.
-     * @param view the UI's view.
+     * @param port     the server's port number.
+     * @param csf      the client socket factory employed for the RMI.
+     * @param ssf      the server socket factory employed for the RMI.
+     * @param server   the current server.
+     * @param view     the UI's view.
      * @param nickname the client's (player's) nickname.
-     *
-     * @throws RemoteException
-     *
+     * @throws RemoteException called if a communication error occurs.
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
@@ -159,16 +155,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         this.view.printException(exception);
     }
 
-    /*
-     * TODO
+    /**
+     * Propagates to the view the result of the lookup made by the server for a saved game
+     * for the player that entered as first in the lobby
+     *
+     * @param result the result of the lookup made by the server
+     * @throws RemoteException if a communication error occurs
      */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException {
         this.view.setAreThereStoredGamesForPlayer(result);
     }
-    
+
     /**
-     * Allows to transmit the information about turns management to the view.
+     * Communicate to the server to change the current turn of the game.
      */
     @Override
     public void changeTurn() {
@@ -180,7 +180,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /**
-     * Allows to transmit the information about the choices of the player.
+     * Communicate to the server to insert the user input in the model.
      *
      * @param playerChoice the choice made by the player.
      */
@@ -227,10 +227,9 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /**
-     * Signals the adding of a player to the current game.
+     * Communicate to the server to add a player and try to restart the game if it is in pause.
      *
      * @param nickname the nickname of the {@code Player}.
-     *
      * @see Player
      * @see Game
      */
@@ -248,7 +247,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
      * Communicates the choice of the players number.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
-     *
      * @see Player
      * @see Game
      */
@@ -277,14 +275,12 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
-    /** Signals the disconnection of the selected {@code Player} from the current game to the server
+    /**
+     * Signals the disconnection of the selected {@code Player} from the current game to the server
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Server
      * @see Game
@@ -299,28 +295,36 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Communicate to the server to restore the game for a specific player
+     *
+     * @param nickname the nickname of the player that requested the restore.
+     */
     @Override
     public void restoreGameForPlayer(String nickname) {
         try {
             this.serverConnectedTo.restoreGameForPlayer(nickname);
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] while updating server(restoreGameForPlayer):" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] while updating server: " + this.serverConnectedTo + ", error caused by \"restoreGameForPlayer(String)\" invocation:\n  " + e.getMessage() + ".Skipping server update");
         }
     }
 
+    /**
+     * Ask to the server if there are stored games for the given player nickname
+     *
+     * @param nickname the nickname of the player that requested the restore.
+     */
     @Override
     public void areThereStoredGamesForPlayer(String nickname) {
         try {
             this.serverConnectedTo.areThereStoredGamesForPlayer(nickname);
         } catch (RemoteException e) {
-            System.err.println("[COMMUNICATION:ERROR] while updating server(areThereStoredGamesForPlayer):" + e.getMessage() + ".Skipping update");
+            System.err.println("[COMMUNICATION:ERROR] while updating server: " + this.serverConnectedTo + ", error caused by \"areThereStoredGamesForPlayer(String)\" invocation:\n  " + e.getMessage() + ".Skipping server update");
         }
     }
 
     /**
      * Consents to run the Client's implementation.
-     * It basically waits to receive the nickname from the player's client and then
-     * registers the client associated with the nickname received.
      *
      * @see Client
      * @see it.polimi.ingsw.model.Player

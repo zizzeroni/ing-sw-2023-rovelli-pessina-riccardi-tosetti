@@ -33,7 +33,6 @@ public class MinEqualsTilesPatternGoalView extends CommonGoalView {
      * Gets the directions that is used to retrieve the pattern.
      *
      * @return contains the directions that is used for the pattern representation.
-     *
      */
     public Direction getDirection() {
         return this.direction;
@@ -43,7 +42,6 @@ public class MinEqualsTilesPatternGoalView extends CommonGoalView {
      * Used to access maxEqualsTiles value.
      *
      * @return contains the maximum number of tiles that can be the same in a column/row.
-     *
      * @see MinEqualsTilesPattern
      */
     public int getMaxEqualsTiles() {
@@ -55,38 +53,36 @@ public class MinEqualsTilesPatternGoalView extends CommonGoalView {
      * during the {@code Game} (those that produced a {@code MinEqualsTilesPattern} goal).
      *
      * @return a text message associated to the various combinations of tiles associated
-     *          that may satisfy the conditions to verify the MinEqualsTilesPattern
-     *          (or a text message to signal that the pattern has not been found).
-     *
+     * that may satisfy the conditions to verify the MinEqualsTilesPattern
+     * (or a text message to signal that the pattern has not been found).
      * @see MinEqualsTilesPattern
-     *
      */
     @Override
     public String toString() {
         switch (this.direction) {
             case HORIZONTAL -> {
-                switch (getType()) {
+                switch (this.getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 same types of tiles. " +
-                                "[ " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.BLUE + "" +
+                                "[ " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.BLUE +
                                 " " + TileColor.BLUE + " ] \n";
                     }
                     case DIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 different types of tiles. " +
                                 "One line can show the same or a different combination of the other line. \n" +
-                                "[ " + TileColor.BLUE + " " + TileColor.PURPLE + " " + TileColor.GREEN + " " + TileColor.YELLOW + "" +
+                                "[ " + TileColor.BLUE + " " + TileColor.PURPLE + " " + TileColor.GREEN + " " + TileColor.YELLOW +
                                 " " + TileColor.PURPLE + " ] \n";
                     }
                     case INDIFFERENT -> {
                         return getNumberOfPatternRepetitionsRequired() + " lines each formed by 5 tiles of maximum three different types. One \n" +
                                 "line can show the same or a different combination of another line. \n" +
-                                "[ " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.GREEN + " " + TileColor.GREEN + "" +
+                                "[ " + TileColor.BLUE + " " + TileColor.BLUE + " " + TileColor.GREEN + " " + TileColor.GREEN +
                                 " " + TileColor.YELLOW + " ] \n";
                     }
                 }
             }
             case VERTICAL -> {
-                switch (getType()) {
+                switch (this.getType()) {
                     case EQUALS -> {
                         return getNumberOfPatternRepetitionsRequired() + " columns each formed by 6 same types of tiles. " +
                                 "[ " + TileColor.BLUE + " ] \n" +
@@ -121,6 +117,6 @@ public class MinEqualsTilesPatternGoalView extends CommonGoalView {
                 }
             }
         }
-        return "Pattern don't found";
+        return "Pattern not found";
     }
 }

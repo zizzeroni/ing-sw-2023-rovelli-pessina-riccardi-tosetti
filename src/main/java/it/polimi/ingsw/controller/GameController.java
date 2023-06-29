@@ -11,9 +11,10 @@ import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.utils.GameModelDeserializer;
+import it.polimi.ingsw.utils.OptionsValues;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +23,7 @@ import java.util.*;
 /**
  * This class implements the ViewListener, representing the actual {@code GameController}.
  * The Controller is used as an intermediary between the Server
- * and the Client in order to evaluate and perform
+ * and the model in order to evaluate and perform
  * any of the {@code Player} actions. <p>
  * It provides a series of methods to reference the current
  * state of the {@code Game} (such as IN_CREATION, ON_GOING, FINISHING, ...) and
@@ -42,9 +43,11 @@ public class GameController {
     private final Random randomizer = new Random();
 
     /**
+     * Class constructor.
+     * Used to associate the game's controller with the game's model.
      *
-     *
-     * @param model
+     * @param model is the model class used to represent the main elements of the active game.
+     * @see Game
      */
     public GameController(Game model) {
         this.model = model;
@@ -53,28 +56,33 @@ public class GameController {
         this.boardPatterns = new ArrayList<>();
 
         Gson gson = new Gson();
-        Reader reader;
-        try {
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/personal-goals.json"));
+
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(OptionsValues.PERSONAL_GOALS_STORAGE_BACKUP_DEFAULT_PATH);
+             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             this.personalGoalsDeck = gson.fromJson(reader, new TypeToken<ArrayList<PersonalGoal>>() {
             }.getType());
-            reader.close();
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load personal-goals.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
 
-            reader = Files.newBufferedReader(Paths.get("src/main/resources/storage/patterns/boards.json"));
-            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
-            }.getType());
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
 
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(OptionsValues.BOARDS_STORAGE_DEFAULT_PATH);
+             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+            this.boardPatterns = gson.fromJson(reader, new TypeToken<ArrayList<JsonBoardPattern>>() {
+            }.getType());
+        } catch (IOException ex) {
+            throw new UncheckedIOException("Failed to load boards.json", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to load personal-goals.json", ex);
+        }
     }
 
     /**
-     * A setter employed to change the current state of the {@Game}
+     * A setter employed to change the current state of the {@code Game}
      *
-     * @param state is the current state to be setted.
-     *
+     * @param state is the current state to be set.
      * @see GameState
      */
     public void changeState(ControllerState state) {
@@ -85,7 +93,6 @@ public class GameController {
      * A getter which returns the current state of the {@code Game}.
      *
      * @return the game's current state.
-     *
      * @see Game
      */
     public ControllerState getState() {
@@ -94,9 +101,12 @@ public class GameController {
 
     /**
      * Change the turn in the context of the present {@code State}.
+     *
+     * @param gamesStoragePath       path in which are stored the games
+     * @param gamesStoragePathBackup backup path in which are stored the games
      */
-    public void changeTurn() {
-        state.changeTurn();
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
+        state.changeTurn(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
@@ -105,12 +115,10 @@ public class GameController {
      * the controller linked to the actual state.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player} in the current selection.
-     *
+     * @throws WrongInputDataException when input data is not valid.
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
-     * 
-     * @throws WrongInputDataException when input data is not valid.
      */
     public void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException {
         state.insertUserInputIntoModel(playerChoice);
@@ -118,14 +126,13 @@ public class GameController {
 
     /**
      * This method is used to stream a message privately.
-     * Only the specified receiver will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * Only the specified receiver will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -136,13 +143,12 @@ public class GameController {
 
     /**
      * This method is used to stream a message in broadcast mode.
-     * All the players will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * All the players will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -163,18 +169,20 @@ public class GameController {
      * The method also sets the connection state of any given {@code Player} to {@code true}.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
-     *
+     * @throws LobbyIsFullException when lobby is full of players or the given nickname is not in the allowed ones.
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
-     * 
-     * @throws LobbyIsFullException when lobby is full of players or the given nickname is not in the allowed ones.
      */
     public void addPlayer(String nickname) throws LobbyIsFullException {
         state.addPlayer(nickname);
     }
 
-    /*
-     * TODO
+
+    /**
+     * Signals that an attempt of resuming the game is in progress,
+     * modifying the related state.
+     *
+     * @see Game
      */
     public void tryToResumeGame() {
         state.tryToResumeGame();
@@ -185,10 +193,8 @@ public class GameController {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @see Game
      * @see Game#getPlayers()
-     *
      */
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         state.chooseNumberOfPlayerInTheGame(chosenNumberOfPlayers);
@@ -211,30 +217,20 @@ public class GameController {
      * @see Board#setPattern(JsonBoardPattern)
      * @see Board#numberOfTilesToRefill()
      */
-
-    /**
-     * The method starts verifying  if the {@code Game} creation has occurred properly,
-     * confronting the number of active players registered during the previous phase with
-     * that stored in the {@code Model}.
-     * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
-     * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
-     * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
-     *
-     * @see Game
-     * @see Player
-     * @see ScoreTile
-     * @see CommonGoal
-     * @see Game#getNumberOfPlayersToStartGame()
-     * @see Game#getPlayers()
-     * @see Board#setPattern(JsonBoardPattern)
-     * @see Board#numberOfTilesToRefill()
-     */
     public void startGame() {
-        state.startGame();
+        state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
     }
 
-    /*
-     * TODO
+    /**
+     * Checks if there are some player in excess within the game lobby that shouldn't be connected.
+     *
+     * @param chosenNumberOfPlayers number of player chosen by the first player
+     * @throws ExcessOfPlayersException if there is an excess of player in the lobby when starting
+     * @throws WrongInputDataException  when input data is not valid.
+     * @see CreationState#checkExceedingPlayer(int)
+     * @see FinishingState#checkExceedingPlayer(int)
+     * @see InPauseState#checkExceedingPlayer(int)
+     * @see OnGoingState#checkExceedingPlayer(int)
      */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);
@@ -251,34 +247,37 @@ public class GameController {
      * @see Player#setConnected(boolean)
      */
     public void disconnectPlayer(String nickname) {
-        System.out.println("Giocatori prima del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players before disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
         state.disconnectPlayer(nickname);
-        System.out.println("Giocatori dopo del disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
+        System.out.println("Players after disconnect:" + this.model.getPlayers().stream().map(Player::getNickname).toList() + ",valore disconnected:" + this.model.getPlayers().stream().map(Player::isConnected).toList());
     }
 
 
     //------------------------------------UTILITY METHODS------------------------------------
+
     /**
      * Getter used to retrieve the {@code Game} model.
      *
      * @return the model of the game created.
-     *
      * @see Game
      */
     public Game getModel() {
         return this.model;
     }
 
+    /**
+     * Setter used to set the model
+     *
+     * @param model the new model
+     */
     public void setModel(Game model) {
         this.model = model;
-        //this.listener.gameRestored();
     }
 
     /**
      * Getter used to retrieve the number of {@code Player}s in the {@code Game}.
      *
      * @return the number of active players for the current game.
-     *
      * @see Player
      * @see Game
      */
@@ -287,12 +286,10 @@ public class GameController {
     }
 
     /**
-     * Getter used to access the {@code PersonalGoal} assigned to a {@code Player}.
-     *
+     * Getter used to get a {@code PersonalGoal} from the personal goal deck.
      *
      * @param index is the identifier of the goal.
      * @return the player's indexed personalGoal.
-     *
      * @see PersonalGoal
      */
     public PersonalGoal getPersonalGoal(int index) {
@@ -312,6 +309,11 @@ public class GameController {
         personalGoalsDeck.add(personalGoal);
     }
 
+    /**
+     * Getter used to get the personal goal deck
+     *
+     * @return the personal goal deck
+     */
     public List<PersonalGoal> getPersonalGoalsDeck() {
         return personalGoalsDeck;
     }
@@ -331,7 +333,6 @@ public class GameController {
      * Getter to access the {@code Board}'s patterns of tiles (stored in a json file).
      *
      * @return the list of possible identified patterns
-     *
      * @see GameController#boardPatterns
      */
     public List<JsonBoardPattern> getBoardPatterns() {
@@ -342,7 +343,6 @@ public class GameController {
      * This method is used to access the randomizer used to shuffle the {@code personalGoalsDeck}.
      *
      * @return the randomizer used for shuffling.
-     *
      * @see GameController#personalGoalsDeck
      */
     public Random getRandomizer() {
@@ -352,12 +352,13 @@ public class GameController {
     /**
      * Method to check if there are stored games for the given nickname.
      *
+     * @param playerNickname nickname of the first player who joined the lobby
+     * @param gamesPath      path of the file in which are stored the games
      * @return if there are stored games.
      */
-    public boolean areThereStoredGamesForPlayer(String playerNickname) {
-        String gamesPath = "src/main/resources/storage/games.json";
+    public boolean areThereStoredGamesForPlayer(String playerNickname, String gamesPath) {
         this.model.createGameFileIfNotExist(gamesPath);
-        Game[] games = this.getStoredGamesFromJson();
+        Game[] games = this.getStoredGamesFromJson(gamesPath);
 
         if (games == null || games.length == 0) return false;
 
@@ -368,16 +369,16 @@ public class GameController {
 
 
     /**
-     * Method to get all the stored games from the local json file.
+     * Method to get all the stored games from the file.
      *
+     * @param gamesStoragePath path of the file in which are stored the games
      * @return all stored games.
      */
-    private Game[] getStoredGamesFromJson() {
+    private Game[] getStoredGamesFromJson(String gamesStoragePath) {
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
         Gson gson = gsonBuilder.create();
         Reader fileReader;
-        String gamesPath = "src/main/resources/storage/games.json";
-        Path source = Paths.get(gamesPath);
+        Path source = Paths.get(gamesStoragePath);
         Game[] games;
 
         try {
@@ -395,6 +396,8 @@ public class GameController {
     /**
      * Method to get the stored game for the given nickname.
      *
+     * @param playerNickname nickname of the player who requested the restore of the game
+     * @param gamesAsArray   set of game retrieved from the file
      * @return the stored game.
      */
     private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
@@ -411,9 +414,15 @@ public class GameController {
     }
 
     /**
-     * Method to restore stored games.
+     * Restores the current game for the considered player.
+     *
+     * @param server           the server controlling the game's execution.
+     * @param playerNickname   the given player's nickname.
+     * @param gamesStoragePath path of the file in which are stored the games
+     * @see Player
+     * @see Game
      */
-    public void restoreGameForPlayer(GameListener server, String playerNickname) {
-        state.restoreGameForPlayer(server, playerNickname);
+    public void restoreGameForPlayer(GameListener server, String playerNickname, String gamesStoragePath) {
+        state.restoreGameForPlayer(server, playerNickname, gamesStoragePath);
     }
 }

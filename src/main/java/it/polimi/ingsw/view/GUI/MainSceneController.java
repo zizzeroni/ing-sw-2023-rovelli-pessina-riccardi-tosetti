@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.commongoal.Direction;
+import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.view.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -26,6 +27,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * The controller associated with the GUI's main scene and employed in its management.
+ */
 public class MainSceneController implements Initializable {
     private GraphicalUI mainGraphicalUI;
     @FXML
@@ -48,6 +52,8 @@ public class MainSceneController implements Initializable {
     @FXML
     private ImageView personalGoal;
     @FXML
+    private Pane censure;
+    @FXML
     private Pane secondPlayerBookshelf;
     @FXML
     private Pane thirdPlayerBookshelf;
@@ -61,6 +67,8 @@ public class MainSceneController implements Initializable {
     private TextField chatMessage;
     @FXML
     private ChoiceBox<String> playerChatChoice;
+    @FXML
+    private Label countdownLabel;
     private int numberOfPlayer;
     private Choice takenTiles;
     private String[] playerName;
@@ -76,31 +84,51 @@ public class MainSceneController implements Initializable {
     private Image pointsImage1;
     private Image pointsImage2;
     private boolean gameOn;
+    private int inCensure = 0;
 
-    //TODO: NON UTILIZZATO
+    /**
+     * Getter of the inCensure "state"
+     *
+     * @return return the inCensure attribute value
+     */
+    public int getInCensure() {
+        return inCensure;
+    }
+
+    /**
+     * Initialize the resources for the main scene.
+     *
+     * @param url            the given url
+     * @param resourceBundle the graphical bundle used in GUI's scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameOn = true;
         this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
-        Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
-        Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
+        Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg")));
+        Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg")));
         commonGoal1.setImage(firstCommonGoalImage);
         commonGoal2.setImage(secondCommonGoalImage);
 
-        Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
+        Image personalGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg")));
         personalGoal.setImage(personalGoalImage);
 
-        Image victoryImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg"));
+        Image victoryImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg")));
         victoryPoint.setImage(victoryImage);
 
-        Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+        Image pointsImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
 
     }
 
+    /**
+     * Effectuates the selection of a tile on the board
+     *
+     * @param actionEvent the selection of a tile.
+     */
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -157,14 +185,6 @@ public class MainSceneController implements Initializable {
 
                         }
                     }
-//                    case 3 -> {
-//                        if (button.getBorder() == null || button.getBorder().isEmpty()) {
-//                            System.err.println("Numero massimo di tiles scelto");
-//                        } else {
-//                            TileView tileView = mainGui.getModel().getBoard().getTiles()[row][column];
-//                            takenTiles.removeTile(tileView);
-//                        }
-//                    }
                 }
                 firstRow = takenTiles.getTileCoordinates().get(0).getX();
                 firstColumn = takenTiles.getTileCoordinates().get(0).getY();
@@ -177,24 +197,12 @@ public class MainSceneController implements Initializable {
             button.setBorder(Border.EMPTY);
         }
     }
-//
-//    public void setChat() {
-//        CountDownLatch countDownLatch = new CountDownLatch(1);
-//        Platform.runLater(() -> {
-//            int c = 0;
-//            for (int i = 0; i < 10; i++) {
-//                Text text = new Text(10, 10, String.valueOf(i));
-//                VBoxMessage.getChildren().add(0, text); // add on top
-//            }
-//            countDownLatch.countDown();
-//        });
-//        try {
-//            countDownLatch.await();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void overButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
@@ -202,6 +210,11 @@ public class MainSceneController implements Initializable {
         node.setOpacity(0.5);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void notOverButton(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Node node))
             return;
@@ -209,6 +222,11 @@ public class MainSceneController implements Initializable {
         node.setOpacity(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void onCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -221,19 +239,14 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(1);
         pointsItem1.setViewOrder(1);
         commonGoal2.setViewOrder(1);
-
-//        commonGoal2.setVisible(false);
-//        pointsItem2.setVisible(false);
-//
-//        pointsItem1.setFitHeight(78.5454);
-//        pointsItem1.setFitWidth(87.2727);
-//        pointsItem1.setLayoutX(485.45);
-//        pointsItem1.setLayoutY(693.527);
-
-        //pointsItem1.setVisible(false);
-        //pointsItem2.setVisible(false);
+        thirdPlayerBookshelf.setViewOrder(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void exitCommonGoal1(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -246,17 +259,15 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(0.0);
         pointsItem1.setViewOrder(0.0);
         commonGoal2.setViewOrder(0.0);
-//        commonGoal2.setVisible(true);
-//        pointsItem2.setVisible(true);
-//
-//        pointsItem1.setFitHeight(36);
-//        pointsItem1.setFitWidth(40);
-//        pointsItem1.setLayoutX(588.7);
-//        pointsItem1.setLayoutY(473);
-        //pointsItem1.setVisible(true);
-        //pointsItem2.setVisible(true);
+        thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the first common goal image.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void onCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -269,8 +280,15 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(1);
         pointsItem1.setViewOrder(1);
         commonGoal1.setViewOrder(1);
+        thirdPlayerBookshelf.setViewOrder(1);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void exitCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -283,8 +301,15 @@ public class MainSceneController implements Initializable {
         pointsItem2.setViewOrder(0.0);
         pointsItem1.setViewOrder(0.0);
         commonGoal1.setViewOrder(0.0);
+        thirdPlayerBookshelf.setViewOrder(0.0);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -294,6 +319,12 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(450);
     }
 
+    /**
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
+     */
     public void exitPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
             return;
@@ -304,6 +335,10 @@ public class MainSceneController implements Initializable {
         imageView.setLayoutY(510);
     }
 
+    /**
+     * Sets the disposal of the various scene elements shown in the GUI,
+     * considering their positioning, names, and other characteristics.
+     */
     public void setTable() {
         startOrder = 0;
         firstColumn = 0;
@@ -325,6 +360,78 @@ public class MainSceneController implements Initializable {
                             button.setBorder(null);
                         }
                     }
+                }
+            }
+
+
+            for (int column = 0; column < activePlayer.getBookshelf().getNumberOfColumns(); column++) {
+                for (int row = 5; row > 5 - activePlayer.getBookshelf().getNumberOfTilesInColumn(column); row--) {
+                    tileStyle = activePlayer.getBookshelf().getTiles()[row][column].getColor().toGUI()
+                            + activePlayer.getBookshelf().getTiles()[row][column].getId();
+                    String nome = "#firstPlayerTile" + (row) + (column);
+                    Button button = (Button) scene.lookup(nome);
+                    if (button != null) {
+                        if (button.getStyleClass().size() > 1) {
+                            button.getStyleClass().remove(1);
+                        }
+                        button.setOpacity(1);
+                        //set tile color
+                        if (tileStyle.equals("B0")) {
+                            button.getStyleClass().add("B1");
+                        }
+                        if (tileStyle.equals("B1")) {
+                            button.getStyleClass().add("B2");
+                        }
+                        if (tileStyle.equals("B2")) {
+                            button.getStyleClass().add("B3");
+                        }
+                        if (tileStyle.equals("C0")) {
+                            button.getStyleClass().add("C1");
+                        }
+                        if (tileStyle.equals("C1")) {
+                            button.getStyleClass().add("C2");
+                        }
+                        if (tileStyle.equals("C2")) {
+                            button.getStyleClass().add("C3");
+                        }
+                        if (tileStyle.equals("G0")) {
+                            button.getStyleClass().add("G1");
+                        }
+                        if (tileStyle.equals("G1")) {
+                            button.getStyleClass().add("G2");
+                        }
+                        if (tileStyle.equals("G2")) {
+                            button.getStyleClass().add("G3");
+                        }
+                        if (tileStyle.equals("W0")) {
+                            button.getStyleClass().add("W1");
+                        }
+                        if (tileStyle.equals("W1")) {
+                            button.getStyleClass().add("W2");
+                        }
+                        if (tileStyle.equals("W2")) {
+                            button.getStyleClass().add("W3");
+                        }
+                        if (tileStyle.equals("P0")) {
+                            button.getStyleClass().add("P1");
+                        }
+                        if (tileStyle.equals("P1")) {
+                            button.getStyleClass().add("P2");
+                        }
+                        if (tileStyle.equals("P2")) {
+                            button.getStyleClass().add("P3");
+                        }
+                        if (tileStyle.equals("Y0")) {
+                            button.getStyleClass().add("Y1");
+                        }
+                        if (tileStyle.equals("Y1")) {
+                            button.getStyleClass().add("Y2");
+                        }
+                        if (tileStyle.equals("Y2")) {
+                            button.getStyleClass().add("Y3");
+                        }
+                    }
+
                 }
             }
             pointsLabel.setText(String.valueOf(points));
@@ -389,6 +496,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Cancels the actual tile's disposal on the game's board
+     *
+     * @param row    the selected row.
+     * @param column the selected column.
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Board
+     */
     public void cancelBoardTile(int row, int column) {
         tileName = "";
         tileName += "#boardTile";
@@ -413,6 +528,14 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Sets the tile's disposal on the GUI for the current game's board.
+     *
+     * @param row       the selected row.
+     * @param column    the selected column.
+     * @param tileId    the tile identifier.
+     * @param tileColor the color of the considered tile.
+     */
     public void setBoardTile(int row, int column, int tileId, String tileColor) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -500,6 +623,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of the tile in given position (for game's set up).
+     *
+     * @param row    the selected row.
+     * @param column the selected column.
+     */
     public void disableTile(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -526,6 +655,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of the tile in given position (for player's moves during the game's development
+     * when already pick the tile).
+     *
+     * @param row    the selected row.
+     * @param column the selected column.
+     */
     public void disableTileAfterPick(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -541,6 +677,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Permits to access a tile again after a previous call to some access restriction related methods.
+     *
+     * @param row    the selected row.
+     * @param column the selected column.
+     */
     public void ableTile(int row, int column) {
         //Set the name of the button in the tile position
         tileName = "";
@@ -564,19 +706,40 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Sets the GUI for the Main Scene.
+     *
+     * @param graphicalUI the GUI to be set.
+     */
     public void setMainGui(GraphicalUI graphicalUI) {
         this.mainGraphicalUI = graphicalUI;
     }
 
+    /**
+     * Sets the main scene
+     *
+     * @param scene the scene being set.
+     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }
 
+    /**
+     * Sets the number of player at the starting of the game.
+     *
+     * @param numberOfPlayers the number of players for the current game.
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setNumberOfPlayer(int numberOfPlayers) {
         this.numberOfPlayer = numberOfPlayers;
         playerName = new String[numberOfPlayers + 1];
     }
 
+    /**
+     * Sets the nicknames for the given list of players.
+     *
+     * @param players the players list.
+     */
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -613,6 +776,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to set the personal goals linked to the main scene.
+     *
+     * @param personalGoal the given personal goal.
+     */
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
         personalGoalString = "image/personal goal cards/Personal_Goals" + personalGoal.getId() + ".png";
@@ -621,7 +789,7 @@ public class MainSceneController implements Initializable {
 
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(personalGoalString));
+            Image personalGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(personalGoalString)));
 
             this.personalGoal.setImage(personalGoalImage);
             countDownLatchAble.countDown();
@@ -633,6 +801,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to set the common goals list linked to the main scene.
+     *
+     * @param commonGoals the list of common goals.
+     */
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
         int firstCommonGoalID = commonGoals.get(0).getId();
         int secondCommonGoalID = commonGoals.get(1).getId();
@@ -656,6 +829,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows tiles selection in the main scene context.
+     *
+     * @param actionEvent the action event associated to tiles selection.
+     */
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -689,11 +867,14 @@ public class MainSceneController implements Initializable {
             }
             ableFirstPlayerButton();
             button.setOnAction(null);
-        } else {
-            System.err.println("seleziona almeno una tile");
         }
     }
 
+    /**
+     * Used to indicate the end of the tiles selection phase.
+     *
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     public void endSelectionTiles() {
         String style;
         String selectedName;
@@ -728,9 +909,24 @@ public class MainSceneController implements Initializable {
 
     }
 
+    /**
+     * Checks if the first two tiles chosen by the {@code Player} are present in the same direction.
+     * The HORIZONTAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in row.
+     * The VERTICAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in column.
+     * Verify if the {@code Player} commit mistakes during selection.
+     *
+     * @param row         the row in selection.
+     * @param column      the column in selection.
+     * @param firstRow    the inspection starting row.
+     * @param firstColumn the inspection starting column.
+     * @return the direction of the two current tiles chosen.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
+     */
     private Direction checkIfInLine(int row, int column, int firstRow, int firstColumn) {
         if (row == firstRow && column == firstColumn) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return null;
         }
         if ((row == firstRow) && (column - 1 == firstColumn || column + 1 == firstColumn)) {
@@ -739,20 +935,34 @@ public class MainSceneController implements Initializable {
         if ((column == firstColumn) && (row - 1 == firstRow || row + 1 == firstRow)) {
             return Direction.VERTICAL;
         }
-        System.err.println("Le tessere selezionate devono formare una linea retta ed essere adiacenti, riprova!");
         return null;
     }
 
+    /**
+     * Checks if the first two tiles chosen by the {@code Player} are present in the same direction.
+     * The HORIZONTAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in row.
+     * The VERTICAL label is referred to the presence of the second {@code Tile}
+     * of the chosen set from in column.
+     * Verify if the {@code Player} commit mistakes during selection.
+     *
+     * @param row                  the row in selection.
+     * @param column               the column in selection.
+     * @param prevTilesCoordinates the coordinates of the previously chosen tiles.
+     * @param directionToCheck     the direction of the two current tiles chosen.
+     * @return {@code true} iff the check is successful, {@code false} otherwise.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see it.polimi.ingsw.model.Game
+     */
     private boolean checkIfInLine(int row, int column, List<Coordinates> prevTilesCoordinates, Direction
             directionToCheck) {
         if (prevTilesCoordinates.contains(new Coordinates(row, column))) {
-            System.err.println("Non puoi scegliere di nuovo una tessera già scelta, riprova!");
             return false;
         }
         switch (directionToCheck) {
             case HORIZONTAL -> {
                 if (row != prevTilesCoordinates.get(0).getX()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -760,13 +970,11 @@ public class MainSceneController implements Initializable {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
             case VERTICAL -> {
                 if (column != prevTilesCoordinates.get(0).getY()) {
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                     return false;
                 } else {
                     for (Coordinates coordinates : prevTilesCoordinates) {
@@ -774,36 +982,42 @@ public class MainSceneController implements Initializable {
                             return true;
                         }
                     }
-                    System.err.println("Le tessere selezionate devono formare una linea retta e devono essere adiacenti l'una all'altra, riprova!");
                 }
                 return false;
             }
             default -> {
-                System.err.println("Something went wrong, i didn't expected this value");
                 return false;
             }
         }
     }
 
+    /**
+     * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
+     *
+     * @param row    is the row of the checked {@code Tile}.
+     * @param column is the column of the checked {@code Tile}.
+     * @return {@code true} if and only if the {@code Tile}'s can be picked,
+     * {@code false} otherwise.
+     * @see Tile
+     */
     private boolean checkIfPickable(int row, int column) {
         BoardView board = mainGraphicalUI.genericUILogic.getModel().getBoard();
         TileView[][] boardMatrix = board.getTiles();
 
         if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
-            if (row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
+            return row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 || (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                     (row != board.getNumberOfRows() && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
                     (column != board.getNumberOfColumns() && (boardMatrix[row][column + 1] == null || boardMatrix[row][column + 1].getColor() == null)) ||
-                    (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null))) {
-                return true;
-            } else {
-                System.err.println("Impossibile prendere la tessera (Ha tutti i lati occupati), riprova!");
-            }
-        } else {
-            System.err.println("Non è presente nessuna tessera nella cella selezionata, riprova!");
+                    (column != 0 && (boardMatrix[row][column - 1] == null || boardMatrix[row][column - 1].getColor() == null));
         }
         return false;
     }
 
+    /**
+     * Identifies the presence of the mouse cursor over a column, then highlight all the free space in the column.
+     *
+     * @param mouseEvent the associated mouse event.
+     */
     public void overColumn(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
@@ -825,6 +1039,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Identifies the absence of the mouse cursor over a column, then cancel highlight all the free space in the column.
+     *
+     * @param mouseEvent the associated mouse event.
+     */
     public void notOverColumn(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof Button button))
             return;
@@ -845,6 +1064,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows to insert the selected tile in a bookshelf slot.
+     *
+     * @param actionEvent the event associated to tiles insertion.
+     * @see it.polimi.ingsw.model.Bookshelf
+     * @see Tile
+     */
     public void insertTileIntoBookshelf(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -871,20 +1097,17 @@ public class MainSceneController implements Initializable {
         if (startOrder == takenTiles.getChosenTiles().size()) {
             takenTiles.setChosenColumn(Integer.parseInt(selectedColumn));
             takenTiles.setTileOrder(order);
-            System.out.println("END TURN");
-
-//            for (int i = 5-startOrder+activePlayer.getBookshelf().getNumberOfTilesInColumn(Integer.parseInt(selectedColumn)); i >= 0; i--) {
-//                String buttonOfColumnName = "#firstPlayerTile" + i + selectedColumn;
-//                Button buttonOfColumn = (Button) scene.lookup(buttonOfColumnName);
-//                if (buttonOfColumn != null) {
-//                    buttonOfColumn.setOpacity(0);
-//                    buttonOfColumn.setBorder(null);
-//                }
-//            }
             mainGraphicalUI.finishTurn(takenTiles);
         }
     }
 
+    /**
+     * Sets the nickname of the first player joining the game's lobby.
+     *
+     * @param nickname the chosen nickname.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setFirstPlayerNickname(String nickname) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -900,6 +1123,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows column selection in the main scene context.
+     *
+     * @param actionEvent the action of column selection.
+     */
     public void selectColumn(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -912,7 +1140,6 @@ public class MainSceneController implements Initializable {
         PlayerView activePlayer = this.mainGraphicalUI.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.firstPlayerNickname.getText())).toList().get(0);
 
         if (activePlayer.getBookshelf().getNumberOfEmptyCellsInColumn(Integer.parseInt(selectedColumn)) < takenTiles.getChosenTiles().size()) {
-            System.err.println("La colonna non è selezionabile");
         } else {
             for (int i = 1; i <= takenTiles.getChosenTiles().size(); i++) {
                 selectedButtonName = "#selected" + i;
@@ -925,6 +1152,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Disables the button selection related actions of the first player.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     private void disableFirstPlayerButton() {
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 6; c++) {
@@ -939,6 +1171,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Enables the button selection related actions of the first player.
+     *
+     * @see it.polimi.ingsw.model.Player
+     */
     private void ableFirstPlayerButton() {
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 6; c++) {
@@ -953,14 +1190,48 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of all the tiles.
+     *
+     * @see Tile
+     */
     public void lockAllTiles() {
-        for (int row = 0; row < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); row++) {
-            for (int column = 0; column < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); column++) {
-                this.disableTile(row, column);
+        for (int r = 0; r < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); r++) {
+            for (int c = 0; c < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); c++) {
+                this.disableTile(r, c);
             }
         }
     }
 
+    /**
+     * Locks the selection of all the tiles after the pick of the player.
+     *
+     * @see Tile
+     */
+    public void lockAllTilesAfterPick() {
+        CountDownLatch countDownLatchAble = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            for (int r = 0; r < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfRows(); r++) {
+                for (int c = 0; c < mainGraphicalUI.genericUILogic.getModel().getBoard().getNumberOfColumns(); c++) {
+                    this.disableTileAfterPick(r, c);
+                }
+            }
+            countDownLatchAble.countDown();
+        });
+        try {
+            countDownLatchAble.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Sets the disposal of the player's bookshelf.
+     *
+     * @param players the list of players.
+     * @see it.polimi.ingsw.model.Player
+     * @see it.polimi.ingsw.model.Bookshelf
+     */
     public void setBookshelf(List<PlayerView> players) {
         for (int i = 0; i < players.size() - 1; i++) {
             int playerNumber = i + 2;
@@ -1055,6 +1326,13 @@ public class MainSceneController implements Initializable {
         }
     }
 
+
+    /**
+     * Sets the points associated to the common goals.
+     *
+     * @param commonGoals the list of given common goals.
+     * @see it.polimi.ingsw.model.commongoal.CommonGoal
+     */
     public void setCommonGoalPoints(List<CommonGoalView> commonGoals) {
         //I take the number of score tiles remaining for both common goals
         int numberOfScoreTiles1 = commonGoals.get(0).getScoreTiles().size();
@@ -1064,35 +1342,35 @@ public class MainSceneController implements Initializable {
             int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg")));
                 case 4 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg")));
                 case 6 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg")));
                 case 8 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
                 default ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
             }
         } else {
-            pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
         }
         if (numberOfScoreTiles2 != 0) {
             int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg")));
                 case 4 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg")));
                 case 6 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg")));
                 case 8 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
                 default ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
             }
         } else {
-            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
         }
 
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
@@ -1109,6 +1387,11 @@ public class MainSceneController implements Initializable {
     }
 
 
+    /**
+     * Deletes the previous mouse event.
+     *
+     * @param mouseEvent the event to be deleted.
+     */
     public void DeletePrevious(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof TextField node))
             return;
@@ -1116,6 +1399,11 @@ public class MainSceneController implements Initializable {
         node.setText("");
     }
 
+    /**
+     * Identifies the refresh point for the board and other graphical elements on the GUI.
+     *
+     * @see GraphicalUI
+     */
     public void refreshPoint() {
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -1131,6 +1419,12 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Allows to send a message through the GUI's chat.
+     *
+     * @param actionEvent the event linked to the message sending.
+     * @see GraphicalUI
+     */
     public void sendMessage(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
             return;
@@ -1166,75 +1460,87 @@ public class MainSceneController implements Initializable {
         th.start();
     }
 
-//    public void updateChat() {
-//        var th1 = new Thread(() -> {
-//            List<Message> fullChat = this.mainGraphicalUI.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
-//
-//            CountDownLatch countDownLatch = new CountDownLatch(1);
-//            Platform.runLater(() -> {
-//                VBoxMessage.getChildren().clear();
-//                if (fullChat.size() != 0) {
-//                    for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-//                        Text text = new Text(message.toString());
-//                        Font font = new Font(14);
-//                        text.setFont(font);
-//                        VBoxMessage.getChildren().add(0, text); // add on top
-//                    }
-//                }
-//                countDownLatch.countDown();
-//            });
-//
-//            try {
-//                countDownLatch.await();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        th1.setUncaughtExceptionHandler((t, e) -> {
-//            System.err.println("Uncaught exception in thread");
-//            e.printStackTrace();
-//        });
-//        th1.start();
-//    }
-
-    public void chatUpdate(boolean gameState) {
-//        var th = new Thread(() -> {
-//            gameOn = gameState;
-//            while (gameOn) {
-//                List<Message> fullChat = this.mainGraphicalUI.genericUILogic.getModel().getPlayerViewFromNickname(this.firstPlayerNickname.getText()).getChat();
-//
-//                CountDownLatch countDownLatch = new CountDownLatch(1);
-//                Platform.runLater(() -> {
-//                    VBoxMessage.getChildren().clear();
-//                    if (fullChat.size() != 0) {
-//                        for (Message message : fullChat.size() > 50 ? fullChat.subList(fullChat.size() - 50, fullChat.size()) : fullChat) {
-//                            Text text = new Text(message.toString());
-//                            Font font = new Font(14);
-//                            text.setFont(font);
-//                            VBoxMessage.getChildren().add(0, text); // add on top
-//                        }
-//                    }
-//                    countDownLatch.countDown();
-//                });
-//                try {
-//                    countDownLatch.await();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//        th.setUncaughtExceptionHandler((t, e) -> {
-//            System.err.println("Uncaught exception in thread");
-//            e.printStackTrace();
-//        });
-//        th.start();
-    }
-
-    public boolean isGameOn() {
-        return gameOn;
-    }
-
+    /**
+     * Signals that the current game is on going.
+     *
+     * @param gameOn the boolean used to change the current game's state.
+     * @see it.polimi.ingsw.model.Game
+     */
     public void setGameOn(boolean gameOn) {
         this.gameOn = gameOn;
     }
+
+
+    /**
+     * Start the censure of the game
+     */
+    public void startCensure() {
+        if (inCensure == 0) {
+            System.out.println("inizio censura");
+            this.inCensure = this.inCensure + 1;
+            //this.setTable();
+            //onCountdown = true;
+            double wi = this.mainGraphicalUI.getWidthOld();
+            double he = this.mainGraphicalUI.getHeightOld();
+            censure.setMaxSize(wi, he);
+            censure.setOpacity(0.5);
+            commonGoal1.setOnMouseEntered(null);
+            commonGoal2.setOnMouseEntered(null);
+            commonGoal1.setOnMouseExited(null);
+            commonGoal2.setOnMouseExited(null);
+            personalGoal.setOnMouseEntered(null);
+            personalGoal.setOnMouseExited(null);
+            countdownLabel.setLayoutX(wi * 0.55);
+            countdownLabel.setLayoutY(he * 0.70);
+            personalGoal.setVisible(false);
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                countdownLabel.setText("Only 1 player remaining, \n" +
+                        "waiting for other player to reconnect \n" +
+                        mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //this.threadCounter();
+    }
+
+    /**
+     * End the censure of the game
+     */
+    public void endCensure() {
+        if (this.inCensure == 1) {
+            System.out.println("finisco censura");
+            this.inCensure = 0;
+        }
+        //if (onCountdown) {
+        //printCountdownThread.interrupt();
+        //onCountdown = false;
+        //printCountdownThread = createPrintCountdownThread();
+        censure.setMaxSize(1, 1);
+        censure.setOpacity(0.0);
+        commonGoal1.setOnMouseEntered(this::onCommonGoal1);
+        commonGoal2.setOnMouseEntered(this::onCommonGoal2);
+        commonGoal1.setOnMouseExited(this::exitCommonGoal1);
+        commonGoal2.setOnMouseExited(this::exitCommonGoal2);
+        personalGoal.setOnMouseEntered(this::onPersonalGoal);
+        personalGoal.setOnMouseExited(this::exitPersonalGoal);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            countdownLabel.setText("");
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        personalGoal.setVisible(true);
+        //}
+    }
 }
+

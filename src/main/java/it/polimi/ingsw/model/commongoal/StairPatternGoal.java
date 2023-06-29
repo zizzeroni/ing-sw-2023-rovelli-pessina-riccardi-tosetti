@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
-import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.StairPatternGoalView;
 
 import java.util.List;
@@ -19,10 +18,9 @@ public class StairPatternGoal extends CommonGoal {
      * Class constructor.
      * Builds an StairPatternGoal with a specified type, ID, ...
      *
-     * @param id the identifier assigned to the card.
+     * @param id                the identifier assigned to the card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     *
+     * @param type              the type of check that has to be done on the considered common goal's card.
      */
     public StairPatternGoal(int id, int patternRepetition, CheckType type) {
         super(id, patternRepetition, type);
@@ -31,31 +29,36 @@ public class StairPatternGoal extends CommonGoal {
     /**
      * Class constructor.
      * Builds a StairPatternGoal with specific type, ID ...
-     * (in this case numberOfPlayers and commonGoalID are also considered).
+     * (in this case numberOfPlayers is also considered).
      *
-     * @param id the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
-     * @param type the type of check that has to be done on the considered common goal's card.
-     * @param numberOfPlayers number of active players.
-     * @param commonGoalID the identifier of the given common goal.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param numberOfPlayers                    number of active players.
      */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, int numberOfPlayers) {
         super(id, numberOfPatternRepetitionsRequired, type, numberOfPlayers);
     }
 
+    /**
+     * Class constructor.
+     * Builds a StairPatternGoal with specific type, ID ...
+     * (in this case scoreTiles is also considered).
+     *
+     * @param id                                 the identifier assigned to the card.
+     * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
+     * @param type                               the type of check that has to be done on the considered common goal's card.
+     * @param scoreTiles                         list of current score tiles.
+     */
     public StairPatternGoal(int id, int numberOfPatternRepetitionsRequired, CheckType type, List<ScoreTile> scoreTiles) {
         super(id, numberOfPatternRepetitionsRequired, type, scoreTiles);
     }
 
     /**
-     * Start from the first column, if there are minimum 1 and at least the number of rows minus 3 tiles,
-     * control if the {@code Bookshelf} have a stair (one more tile in the consecutive column) x4,
-     * then if there are minimum 5 tiles on the first column and haven't found a stair yet control if the bookshelf have
-     * a stair (one less {@code Tile} in the consecutive column) x4
+     * Here we search the number of pattern repetition in the player's bookshelf.
      *
      * @param bookshelf contains the bookshelf of the player.
-     * @return 1 if found a stair, otherwise 0.
-     *
+     * @return the number of times the pattern is achieved.
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Bookshelf#getNumberOfTilesInColumn(int)
      */
@@ -86,14 +89,12 @@ public class StairPatternGoal extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the FourCornersPatternGoalView.
-     *
-     * @see CommonGoal
      */
     @Override
-    public CommonGoalView copyImmutable() {
+    public StairPatternGoalView copyImmutable() {
         return new StairPatternGoalView(this);
     }
 }

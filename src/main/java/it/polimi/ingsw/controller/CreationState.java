@@ -21,45 +21,54 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * This class is referred to the first state assumed by the {@code Game}.
- * It contains methods used during its creation and setup to provide
+ * This class is referred to the first state assumed by the {@code Game} as soon as instantiated.
+ * It contains methods used during its creation and setup to set
  * different useful information such as the number of the active players,
  * their present state (connected or not) and other methods linked to game,
  * turn and players management.
  *
+ * @see ControllerState
  */
 public class CreationState extends ControllerState {
 
+
+    /**
+     * Class constructor.
+     * Instantiate a {@code CreationState}
+     *
+     * @param controller controller that delegate its tasks to this state
+     */
     public CreationState(GameController controller) {
         super(controller);
     }
 
     /**
      * Method employed for turn management.
-     * If the {@code Game} is in creation phase, does nothing.
+     * Does nothing in this implementation since
+     * game is in creation.
      *
      * @see Game
      */
     @Override
-    public void changeTurn() {
-        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
+        //Necessary in case I call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
     /**
-     * Method employed to read the {@code User} input.
-     * When the {@code Game} is in creation phase, does nothing.
+     * Method employed to read the {@code Player} input.
+     * Does nothing in this implementation since
+     * game is in creation.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player}
      *                     (as a selection of multiple tiles).
-     *
      * @see Game
      * @see Choice
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
-        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
@@ -71,9 +80,8 @@ public class CreationState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -96,9 +104,8 @@ public class CreationState extends ControllerState {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -114,25 +121,25 @@ public class CreationState extends ControllerState {
     /**
      * This method is used to add a {@code Player} to the current {@code Game}
      * through the nickname he has chosen during game creation and to assign a player a
-     * randomly chosen {@code PersonalGoal}. In order to provide the goal it as to
-     * access the GameController to get the number of persona goals for each player.
+     * randomly chosen {@code PersonalGoal}.
      * <p>
      * All the added players are characterized by {@code Bookshelf},
-     * {@code PersonalGoal} and an array of {@code ScoreTile} elements.
+     * {@code PersonalGoal} and a set of {@code ScoreTile} elements.
      * <p>
-     * The method also sets the connection state of any given {@code Player} to {@code true}.
+     * The method also sets any given {@code Player} to connected.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
-     *
+     * @throws LobbyIsFullException thrown if lobby is already full
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
+     * @see Player
      */
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
         Random randomizer = new Random();
         PersonalGoal randomPersonalGoal = this.controller.getPersonalGoal(randomizer.nextInt(this.controller.getNumberOfPersonalGoals()));
 
-        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<ScoreTile>(), new Bookshelf());
+        Player newPlayer = new Player(nickname, true, randomPersonalGoal, new ArrayList<>(), new Bookshelf());
         if ((this.controller.getModel().getNumberOfPlayersToStartGame() == OptionsValues.MIN_NUMBER_OF_PLAYERS_TO_START_GAME
                 || this.controller.getNumberOfPlayersCurrentlyInGame() < this.controller.getModel().getNumberOfPlayersToStartGame())
                 && this.controller.getNumberOfPlayersCurrentlyInGame() < OptionsValues.MAX_NUMBER_OF_PLAYERS_TO_START_GAME) {
@@ -142,20 +149,26 @@ public class CreationState extends ControllerState {
         }
     }
 
+
+    /**
+     * Used to try to resume the game if it is in pause.
+     * Does nothing in this implementation since game is
+     * in creation state.
+     *
+     * @see Game
+     */
     @Override
     public void tryToResumeGame() {
-        //Necessary in case i call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in Creation state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is in creation phase, so do nothing...
     }
 
     /**
-     * The method starts verifying  if the {@code Game} creation has occurred properly,
-     * confronting the number of active players registered during the previous phase with
-     * that stored in the {@code Model}.
-     * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
-     * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
-     * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
+     * Method that starts the {@code Game} by initializing the board
+     * through a {@code JsonBoardPattern}, then adds the necessary
+     * tiles to the board itself.
+     * Initialize the players, and finally set game's state as {@code ON_GOING}
      *
      * @see Game
      * @see Player
@@ -165,9 +178,11 @@ public class CreationState extends ControllerState {
      * @see Game#getPlayers()
      * @see Board#setPattern(JsonBoardPattern)
      * @see Board#numberOfTilesToRefill()
+     * @see GameController#changeState(ControllerState)
+     * @see GameState
      */
     @Override
-    public void startGame() {
+    public void startGame(int numberOfCommonGoalCards) {
         if (this.controller.getNumberOfPlayersCurrentlyInGame() == this.controller.getModel().getNumberOfPlayersToStartGame()) {
             Collections.shuffle(this.controller.getModel().getPlayers());
 
@@ -182,12 +197,12 @@ public class CreationState extends ControllerState {
             CommonGoal newCommonGoal;
             while (this.controller.getModel().getCommonGoals().size() != OptionsValues.NUMBER_OF_COMMON_GOAL) {
                 try {
-                    newCommonGoal = this.getRandomCommonGoalSubclassInstance();
+                    newCommonGoal = this.getRandomCommonGoalSubclassInstance(numberOfCommonGoalCards);
                     if (!this.controller.getModel().getCommonGoals().contains(newCommonGoal)) {
                         this.controller.getModel().getCommonGoals().add(newCommonGoal);
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -206,15 +221,16 @@ public class CreationState extends ControllerState {
         }
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}.
-     * (only possible when the {@code Game} has already started).
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}.
+     * The player's personal goal is reassigned to the personal goal deck
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Game
      * @see Player
      * @see Game#getPlayerFromNickname
      * @see Player#getPersonalGoal()
+     * @see GameController#addPersonalGoal(PersonalGoal)
      */
     @Override
     public void disconnectPlayer(String nickname) {
@@ -223,20 +239,27 @@ public class CreationState extends ControllerState {
     }
 
     /**
-     * Method to implement the selection of the number of players for the {@code Game}.
+     * Sets the number of players for the {@code Game}.
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @see Game
      * @see Game#getPlayers()
-     *
+     * @see Game#setNumberOfPlayersToStartGame(int)
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
         this.controller.getModel().setNumberOfPlayersToStartGame(chosenNumberOfPlayers);
     }
 
+    /**
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players
+     *
+     * @param chosenNumberOfPlayers number of players chosen by the first player.
+     * @throws ExcessOfPlayersException signals an excess in the player's number.
+     * @throws WrongInputDataException  occurs when data has an unexpected value.
+     * @see Game#getNumberOfPlayersToStartGame()
+     */
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         if (chosenNumberOfPlayers >= OptionsValues.MIN_SELECTABLE_NUMBER_OF_PLAYERS && chosenNumberOfPlayers <= OptionsValues.MAX_SELECTABLE_NUMBER_OF_PLAYERS) {
@@ -249,20 +272,18 @@ public class CreationState extends ControllerState {
     }
 
     /**
-     * Method implementing the random generation of a series
-     * of different-type {@code CommonGoal} objects.
+     * Method implementing the random generation of {@code CommonGoal}.
      *
      * @return the {@code CommonGoal} object being randomly generated
      * @throws Exception signals if generation cannot be provided due to an error
-     * linked to class instantiation
-     *
+     *                   linked to class instantiation
      * @see CommonGoal
      * @see Game#getNumberOfPlayersToStartGame()
      */
-    public CommonGoal getRandomCommonGoalSubclassInstance() throws Exception {
+    public CommonGoal getRandomCommonGoalSubclassInstance(int numberOfCommonGoalCards) throws Exception {
         int numberOfPlayersToStartGame = this.controller.getModel().getNumberOfPlayersToStartGame();
 
-        switch (this.controller.getRandomizer().nextInt(OptionsValues.NUMBER_OF_PERSONAL_GOALS)) {
+        switch (this.controller.getRandomizer().nextInt(numberOfCommonGoalCards)) {
             case 0 -> {
                 return new TilesInPositionsPatternGoal(1, 2, CheckType.EQUALS, numberOfPlayersToStartGame, new ArrayList<>(Arrays.asList(
                         new ArrayList<>(Arrays.asList(1, 1)),
@@ -318,11 +339,21 @@ public class CreationState extends ControllerState {
         }
     }
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param server           the server to which the model notifies its changes.
+     * @param nickname         player's nickname that requested the restore.
+     * @param gamesStoragePath the path where are stored the games.
+     * @see Player
+     * @see Game
+     * @see Game#createGameFileIfNotExist(String)
+     * @see CreationState#getStoredGamesFromJson(String)
+     */
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
-        String gamesPath = "src/main/resources/storage/games.json";
-        this.controller.getModel().createGameFileIfNotExist(gamesPath);
-        Game[] games = this.getStoredGamesFromJson();
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
+        this.controller.getModel().createGameFileIfNotExist(gamesStoragePath);
+        Game[] games = this.getStoredGamesFromJson(gamesStoragePath);
 
         if (games == null || games.length == 0) {
             throw new RuntimeException("There aren't available games to restore!");
@@ -330,9 +361,11 @@ public class CreationState extends ControllerState {
 
         Game storedCurrentGame = this.getStoredGameForPlayer(nickname, games);
 
-
         if (storedCurrentGame != null) {
+            storedCurrentGame.getPlayers().forEach(p -> p.setConnected(false));
+            storedCurrentGame.getPlayerFromNickname(nickname).setConnected(true);
             this.controller.setModel(storedCurrentGame);
+            this.controller.getModel().setActivePlayerIndex(this.controller.getModel().getPlayers().indexOf(this.controller.getModel().getPlayerFromNickname(nickname)));
             this.controller.getModel().registerListener(server);
         } else {
             throw new RuntimeException("There aren't available games to restore for player " + nickname);
@@ -342,13 +375,13 @@ public class CreationState extends ControllerState {
     /**
      * Method to get all the stored games from the local json file.
      *
+     * @param gamesPath path where the game is stored
      * @return all stored games.
      */
-    private Game[] getStoredGamesFromJson() {
+    private Game[] getStoredGamesFromJson(String gamesPath) {
         GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Game.class, new GameModelDeserializer());
         Gson gson = gsonBuilder.create();
         Reader fileReader;
-        String gamesPath = "src/main/resources/storage/games.json";
         Path source = Paths.get(gamesPath);
         Game[] games;
 
@@ -367,6 +400,8 @@ public class CreationState extends ControllerState {
     /**
      * Method to get the stored game for the given nickname.
      *
+     * @param playerNickname nickname of player that requested the restore.
+     * @param gamesAsArray   set of games retrieved from the file
      * @return the stored game.
      */
     private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
@@ -386,7 +421,6 @@ public class CreationState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the {@code IN_CREATION} state of the {@code Game}.
-     *
      * @see GameState#IN_CREATION
      */
     public static GameState toEnum() {

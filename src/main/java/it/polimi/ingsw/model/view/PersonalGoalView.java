@@ -7,12 +7,9 @@ import it.polimi.ingsw.utils.OptionsValues;
 import java.io.Serializable;
 
 /**
- *
- * This class implements the {@code PersonalGoalView} through the {@code Serializable} interface.
- * All the {@code Player}s always access only the implementation of the {@code View} of their {@code PersonalGoal}s,
- * and are sensible to the inherent modifies.
- * Also, the class contains a series of getters to access the personal goal's pattern,
- * the score associated to it, its number of repetitions in the {@code Bookshelf} and to access a single pattern's {@code Tile}.
+ * This class represents the PersonalGoal's view.
+ * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
+ * and a series of other class related relevant informations.
  *
  * @see PersonalGoal
  * @see it.polimi.ingsw.model.tile.Tile
@@ -30,9 +27,7 @@ public class PersonalGoalView implements Serializable {
      * with the linked logic in the {@code personalGoalModel} (passed as parameter).
      *
      * @param personalGoalModel the model of the considered {@code PersonalGoal}.
-     *
      * @see PersonalGoal
-     *
      */
     public PersonalGoalView(PersonalGoal personalGoalModel) {
         this.numberOfColumns = personalGoalModel.getNumberOfColumns();
@@ -46,8 +41,12 @@ public class PersonalGoalView implements Serializable {
         }
     }
 
-    /*
-     * TODO
+    /**
+     * Getter that returns the personal goal id.
+     * The id returned uniquely identify each personal goal
+     *
+     * @return the personal goal id
+     * @see PersonalGoal
      */
     public int getId() {
         return this.id;
@@ -58,8 +57,7 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of columns.
-     *
-     * @see Bookshelf
+     * @see PersonalGoal
      */
     public int getNumColumns() {
         return this.numberOfColumns;
@@ -70,8 +68,7 @@ public class PersonalGoalView implements Serializable {
      * in the {@code Bookshelf}.
      *
      * @return the number of rows.
-     *
-     * @see Bookshelf
+     * @see PersonalGoal
      */
     public int getNumRows() {
         return this.numberOfRows;
@@ -81,7 +78,6 @@ public class PersonalGoalView implements Serializable {
      * Getter to access the pattern (the one linked to the current {@code PersonalGoal}).
      *
      * @return the current personal goal's pattern.
-     *
      * @see PersonalGoal
      */
     public TileView[][] getPattern() {
@@ -92,10 +88,9 @@ public class PersonalGoalView implements Serializable {
      * Used to access the value of a specified {@code Tile} in the {@code Bookshelf}.
      * The one at the given coordinates.
      *
-     * @param row is the first bookshelf's coordinate.
+     * @param row    is the first bookshelf's coordinate.
      * @param column is the second bookshelf's coordinate
      * @return the tile at the given coordinates.
-     *
      * @see Bookshelf
      * @see it.polimi.ingsw.model.tile.Tile
      */
@@ -109,25 +104,28 @@ public class PersonalGoalView implements Serializable {
      * of the active {@code Player}s.
      *
      * @return a string representing the display of the PersonalGoal.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see PersonalGoal
      * @see it.polimi.ingsw.model.Player
      */
     @Override
     public String toString() {
-        StringBuilder output = new StringBuilder();
+        String output = "    ";
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            output += column + 1 + " ";
+        }
+        output += "\n";
         for (int row = 0; row < this.numberOfRows; row++) {
-            output.append("[ ");
+            output += (row + 1) + " [ ";
             for (int column = 0; column < this.numberOfColumns; column++) {
                 TileView currentTile = this.pattern[row][column];
-                if (currentTile == null || currentTile.getColor() == null) {
-                    output.append("0 ");
+                if ((currentTile == null || currentTile.getColor() == null)) {
+                    output += "0 ";
                 } else {
-                    output.append(currentTile.getColor()).append(" ");
+                    output += (currentTile.getColor()) + " ";
                 }
             }
-            output.append("]\n");
+            output += "] " + "\n";
         }
         return output.substring(0, output.length() - 1);
     }
@@ -138,7 +136,6 @@ public class PersonalGoalView implements Serializable {
      *
      * @param bookshelf the bookshelf of the considered player.
      * @return the current score.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.tile.Tile
      * @see it.polimi.ingsw.model.Bookshelf
@@ -163,9 +160,6 @@ public class PersonalGoalView implements Serializable {
             case 5 -> {
                 return OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE;
             }
-            case 6 -> {
-                return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
-            }
             default -> {
                 return OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE;
             }
@@ -173,12 +167,11 @@ public class PersonalGoalView implements Serializable {
     }
 
     /**
-     * Calculates the number of the repetitions of the possible goal patterns
+     * Calculates the number of the repetitions of the possible goal pattern
      * in the {@code Bookshelf} of the active {@code Player}.
      *
-     * @param bookshelf
-     * @return
-     *
+     * @param bookshelf contains the bookshelf of the player
+     * @return the number of repetitions of the goal pattern
      * @see it.polimi.ingsw.model.Bookshelf
      * @see it.polimi.ingsw.model.Player
      */

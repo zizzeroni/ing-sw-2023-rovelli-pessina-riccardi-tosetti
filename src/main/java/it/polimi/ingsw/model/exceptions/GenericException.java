@@ -12,7 +12,6 @@ public class GenericException extends Exception {
      * Initializes the exception used to handle the occurrence of a generic exception.
      *
      * @param message is the message to signal a generic exception.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public GenericException(String message) {
@@ -23,7 +22,6 @@ public class GenericException extends Exception {
      * Used to enumerate the type of the class exception.
      *
      * @return the {@code ExceptionType} of the generic exception.
-     *
      * @see ExceptionType
      */
     public ExceptionType toEnum() {

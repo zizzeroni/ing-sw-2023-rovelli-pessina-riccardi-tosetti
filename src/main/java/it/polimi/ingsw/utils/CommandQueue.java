@@ -8,13 +8,20 @@ import java.util.concurrent.LinkedBlockingQueue;
  * the active {@code Player} commands as represented in a default queue {@code commands}.
  */
 public class CommandQueue {
-
     private BlockingQueue<String> commands;
 
+    /**
+     * Initialize the commands
+     */
     public CommandQueue() {
         commands = new LinkedBlockingQueue<>();
     }
 
+    /**
+     * Wait since the first command available.
+     *
+     * @return the command identified in the queue.
+     */
     public String waitAndGetFirstCommandAvailable() {
         String command = "";
         try {
@@ -46,7 +53,7 @@ public class CommandQueue {
      *
      * @param command the {@code command} from the
      * @throws Exception if the command can't be added,
-     * prints an error message with the size of the queue.
+     *                   prints an error message with the size of the queue.
      */
     public void addCommand(String command) throws Exception {
         if (!this.commands.add(command)) {
@@ -54,10 +61,20 @@ public class CommandQueue {
         }
     }
 
+    /**
+     * get the command of the BlockingQueue.
+     *
+     * @return the list of command identified in the queue.
+     */
     public BlockingQueue<String> getCommands() {
         return this.commands;
     }
 
+    /**
+     * set the command of the BlockingQueue.
+     *
+     * @param commands the list of command identified in the queue.
+     */
     public void setCommands(BlockingQueue<String> commands) {
         this.commands = commands;
     }

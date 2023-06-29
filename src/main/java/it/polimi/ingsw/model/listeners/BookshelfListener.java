@@ -15,15 +15,7 @@ public interface BookshelfListener {
      * Notifies when tiles are added to the {@code Bookshelf} passed as parameter.
      *
      * @param bookshelf the tiles are added on this board.
-     *
      * @see Bookshelf
      */
     public void tileAddedToBookshelf(Bookshelf bookshelf);
-    
-    /**
-     * Notifies if the current {@code Bookshelf} image has been modified.
-     *
-     * @param image the image that has changed following the method call.
-     */
-    public void imageModified(String image);
 }

@@ -42,19 +42,23 @@ public class Choice implements Serializable {
 
     /**
      * Class Builder. Creates the object Choice with the values of lists for chosenTile/tileCoordinates, the tileOrder array, ecc.
+     *
+     * @param chosenColumn    contains the column of the {@code Choice}
+     * @param chosenTiles     contains the tiles of the {@code Choice}
+     * @param tileCoordinates contains the coordinates of the {@code chosenTiles} of the {@code Choice}
+     * @param tileOrder       contains the order of the {@code chosenTiles} of the {@code Choice}
      */
     public Choice(List<TileView> chosenTiles, List<Coordinates> tileCoordinates, int[] tileOrder, int chosenColumn) {
         this.chosenTiles = chosenTiles;
+        this.tileCoordinates = tileCoordinates;
         this.tileOrder = tileOrder;
         this.chosenColumn = chosenColumn;
-        this.tileCoordinates = tileCoordinates;
     }
 
     /**
      * Gets the list of the coordinates of the {@code Tile}s employed in the {@code Choice}.
      *
      * @return the list of tiles' coordinates.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public List<Coordinates> getTileCoordinates() {
@@ -65,15 +69,19 @@ public class Choice implements Serializable {
      * sets the list of the coordinates of the {@code Tile}s employed in the {@code Choice}.
      *
      * @param tileCoordinates the coordinates of the tiles to be inserted in the list.
-     *
-     * @return the list of tiles' coordinates.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public void setTileCoordinates(List<Coordinates> tileCoordinates) {
         this.tileCoordinates = tileCoordinates;
     }
 
+    /**
+     * Gets the list of {@code Tile}s chosen by the {@code Player}.
+     *
+     * @return contains the tiles chosen by the player
+     * @see it.polimi.ingsw.model.tile.Tile
+     * @see Player
+     */
     public List<TileView> getChosenTiles() {
         return this.chosenTiles;
     }
@@ -81,8 +89,7 @@ public class Choice implements Serializable {
     /**
      * Sets the list of {@code Tile}s chosen by the {@code Player}.
      *
-     * @return chosenTiles is the list of selected tiles.
-     *
+     * @param chosenTiles contains the tiles chosen by the player
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Player
      */
@@ -94,7 +101,6 @@ public class Choice implements Serializable {
      * Gets the selected {@code Tile}s order during the player turn.
      *
      * @return the {@code tileOrder} given from the {@code Player} to the tiles' list.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Player
      */
@@ -106,7 +112,6 @@ public class Choice implements Serializable {
      * Sets the selected {@code Tile}s order during the player's turn.
      *
      * @param tileOrder given from the {@code Player} to the tiles' list.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Player
      */
@@ -118,7 +123,6 @@ public class Choice implements Serializable {
      * Gets the index of the column chosen by the {@code Player}.
      *
      * @return the chosen column.
-     *
      * @see Player
      */
     public int getChosenColumn() {
@@ -129,7 +133,6 @@ public class Choice implements Serializable {
      * Sets the chosen column at the given value.
      *
      * @param chosenColumn is the column chosen by the {@code Player}
-     *
      * @see Player
      */
     public void setChosenColumn(int chosenColumn) {
@@ -140,7 +143,6 @@ public class Choice implements Serializable {
      * Method for tiles selection during the {@code Player} turn.
      *
      * @param tile the {@code Tile} to be added in the {@code chosenTiles} list.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public void addTile(TileView tile) {
@@ -152,7 +154,6 @@ public class Choice implements Serializable {
      * The selected {@code Tile} is removed from its actual position.
      *
      * @param tile the tile to be removed from the {@code chosenTiles} list.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      * @see Player
      */
@@ -166,7 +167,6 @@ public class Choice implements Serializable {
      * Adds {@code Tile}s coordinates to the relative {@code tileCoordinates} list.
      *
      * @param coordinates are the coordinates to be inserted in their reference list.
-     *
      * @see it.polimi.ingsw.model.tile.Tile
      */
     public void addCoordinates(Coordinates coordinates) {

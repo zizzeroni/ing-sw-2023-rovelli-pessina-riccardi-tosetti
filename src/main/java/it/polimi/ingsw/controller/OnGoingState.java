@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.exceptions.ExcessOfPlayersException;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.exceptions.WrongInputDataException;
 import it.polimi.ingsw.model.listeners.GameListener;
@@ -27,6 +26,11 @@ import java.util.List;
  */
 public class OnGoingState extends ControllerState {
 
+    /**
+     * Class constructor
+     *
+     * @param controller controller used by the state
+     */
     public OnGoingState(GameController controller) {
         super(controller);
     }
@@ -34,20 +38,19 @@ public class OnGoingState extends ControllerState {
     /**
      * Change the turn in the context of the present state.
      *
-     * @see ControllerState#changeTurn()
+     * @see ControllerState#changeTurn(String gamesStoragePath, String gamesStoragePathBackup)
      */
     @Override
-    public void changeTurn() {
+    public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         if (this.controller.getModel().getBoard().numberOfTilesToRefill() != 0) {
             this.refillBoard();
         }
         changeActivePlayer();
-        this.controller.getModel().saveGame();
+        this.controller.getModel().saveGame(gamesStoragePath, gamesStoragePathBackup);
     }
 
     /**
      * Shuffle the tiles contained in the object bag,
-     * using {@code Game}'s {@code getBag} method.
      * Refills the {@code Board} with a new set of tiles.
      *
      * @see Game#getBag()
@@ -62,9 +65,9 @@ public class OnGoingState extends ControllerState {
 
     /**
      * Verifies if whether the current {@code Player}
-     * is considered active or not, mainly through a call to the
-     * {@code getActivePlayerIndex} method in the {@code GameController}
-     * (linked to the active {@code Game}).
+     * is considered active or not, and change the current
+     * active player to the first connected player in the
+     * round order
      *
      * @see GameController#getModel()
      * @see Game#getActivePlayerIndex()
@@ -93,7 +96,6 @@ public class OnGoingState extends ControllerState {
      * the controller linked to the actual state.
      *
      * @param playerChoice the {@code Choice} made by the {@code Player} in the current selection.
-     *
      * @see Player
      * @see Choice
      * @see ControllerState#insertUserInputIntoModel(Choice)
@@ -103,7 +105,7 @@ public class OnGoingState extends ControllerState {
         Game model = this.controller.getModel();
         Player currentPlayer = model.getPlayers().get(model.getActivePlayerIndex());
         if (checkIfUserInputIsCorrect(playerChoice)) {
-            removeTilesFromBoard(playerChoice.getChosenTiles(), playerChoice.getTileCoordinates());
+            removeTilesFromBoard(playerChoice.getTileCoordinates());
             addTilesToPlayerBookshelf(playerChoice.getChosenTiles(), playerChoice.getTileOrder(), playerChoice.getChosenColumn());
         } else {
             throw new WrongInputDataException("[INPUT:ERROR]: User data not correct");
@@ -112,7 +114,7 @@ public class OnGoingState extends ControllerState {
         for (int i = 0; i < model.getCommonGoals().size(); i++) {
             int finalI = i;
             if (model.getCommonGoals().get(i).numberOfPatternRepetitionInBookshelf(currentPlayer.getBookshelf()) >= model.getCommonGoals().get(i).getNumberOfPatternRepetitionsRequired()
-                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == model.getCommonGoals().get(finalI).getId()) && model.getCommonGoals().get(i).getScoreTiles().size()!=0) {
+                    && currentPlayer.getScoreTiles().stream().map(ScoreTile::getCommonGoalID).noneMatch(elem -> elem == model.getCommonGoals().get(finalI).getId()) && model.getCommonGoals().get(i).getScoreTiles().size() != 0) {
                 currentPlayer.setSingleScoreTile(model.getCommonGoals().get(i).getScoreTiles().remove(0), i);
                 currentPlayer.getScoreTiles().get(i).setPlayerID(model.getActivePlayerIndex());
             }
@@ -135,11 +137,9 @@ public class OnGoingState extends ControllerState {
      * prints an error message. To effectively produce the check the method also needs to access
      * the {@code Bookshelf} of the player making the choice.
      *
-     *
      * @param choice is the player's {@code Choice}.
      * @return {@code true} if and only if the player has entered his choice in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Player
      * @see Choice
@@ -159,12 +159,9 @@ public class OnGoingState extends ControllerState {
 
         if (choiceChosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
             if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChosenTiles.size()) {
-                if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
-                    return true;
-                }
+                return checkIfCoordinatesArePlausible(choiceTileCoordinates);
             }
         }
-        System.err.println("[INPUT:ERROR] User input data are incorrect");
         return false;
     }
 
@@ -174,11 +171,9 @@ public class OnGoingState extends ControllerState {
      *
      * @param coordinates represents the list of the coordinates being checked.
      * @return {@code true} if and only if the player has entered all the {@code Tile}'s coordinates in a correct format,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      * @see Board
-     *
      */
     private boolean checkIfCoordinatesArePlausible(List<Coordinates> coordinates) {
         for (Coordinates coordinate : coordinates) {
@@ -192,18 +187,17 @@ public class OnGoingState extends ControllerState {
     /**
      * Used to check if at the given coordinates it is possible to pick up a {@code Tile}.
      *
-     * @param row is the row of the checked {@code Tile}.
+     * @param row    is the row of the checked {@code Tile}.
      * @param column is the column of the checked {@code Tile}.
      * @return {@code true} if and only if the {@code Tile}'s can be picked,
-     *         {@code false} otherwise.
-     *
+     * {@code false} otherwise.
      * @see Tile
      */
     private boolean checkIfPickable(int row, int column) {
         Board board = this.controller.getModel().getBoard();
         Tile[][] boardMatrix = board.getTiles();
 
-        return (boardMatrix[row][column] != null || boardMatrix[row][column].getColor() != null) && (
+        return (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) && (
                 row == board.getNumberOfRows() - 1 || column == board.getNumberOfColumns() - 1 ||
                         (row != 0 && (boardMatrix[row - 1][column] == null || boardMatrix[row - 1][column].getColor() == null)) ||
                         (row != board.getNumberOfRows() - 1 && (boardMatrix[row + 1][column] == null || boardMatrix[row + 1][column].getColor() == null)) ||
@@ -213,19 +207,16 @@ public class OnGoingState extends ControllerState {
 
     /**
      * This method implements the tiles removal from the {@code Board}.
-     * The {@code Player} select a list of {@code Tile}s which are passed altogether with their coordinates
-     * in order to be removed.
+     * The {@code Player} select a list of {@code Tile}s whose coordinates are passed
+     * in order to remove them.
      *
-     * @param chosenTiles is the list of the selected Tiles.
      * @param tileCoordinates is the list of the coordinates associated
-     *                       to the respective tiles in the {@code chosenTiles} list.
-     *
+     *                        to the respective tiles in the {@code chosenTiles} list.
      * @see Board
      * @see Board#removeTiles(List)
      * @see Player
-     *
      */
-    private void removeTilesFromBoard(List<TileView> chosenTiles, List<Coordinates> tileCoordinates) {
+    private void removeTilesFromBoard(List<Coordinates> tileCoordinates) {
         Board board = this.controller.getModel().getBoard();
         board.removeTiles(tileCoordinates);
     }
@@ -234,10 +225,9 @@ public class OnGoingState extends ControllerState {
      * Used to deploy the tiles chosen from the {@code Board} by {@code Player}
      * in the correspondent {@code Bookshelf}
      *
-     * @param chosenTiles is the list of the selected Tiles.
-     * @param positions are the positions selected for each tile during its placing in the {@code Bookshelf}.
+     * @param chosenTiles  is the list of the selected Tiles.
+     * @param positions    are the positions selected for each tile during its placing in the {@code Bookshelf}.
      * @param chosenColumn the column of the bookshelf selected for placing the tiles.
-     *
      * @see Bookshelf
      * @see Player
      * @see Board
@@ -245,9 +235,10 @@ public class OnGoingState extends ControllerState {
     private void addTilesToPlayerBookshelf(List<TileView> chosenTiles, int[] positions, int chosenColumn) {
         Bookshelf bookshelf = this.controller.getModel().getPlayers().get(this.controller.getModel().getActivePlayerIndex()).getBookshelf();
         for (int i = 0; i < chosenTiles.size(); i++) {
-            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor()), chosenColumn);
+            bookshelf.addTile(new Tile(chosenTiles.get(positions[i]).getColor(), chosenTiles.get(positions[i]).getId()), chosenColumn);
         }
     }
+
     /**
      * This method is used to stream a message privately.
      * Only the specified receiver will be able to read the message
@@ -255,9 +246,8 @@ public class OnGoingState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -271,17 +261,16 @@ public class OnGoingState extends ControllerState {
                 player.addMessage(message);
             }
         }
-
     }
+
     /**
      * This method is used to stream a message in broadcast mode.
      * All the players will be able to read the message
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -294,6 +283,7 @@ public class OnGoingState extends ControllerState {
         }
 
     }
+
     /**
      * This method is used to reconnect the {@code Player} in case of temporary disconnection.
      *
@@ -303,55 +293,70 @@ public class OnGoingState extends ControllerState {
     public void addPlayer(String nickname) throws LobbyIsFullException {
         //Reconnecting player
         if (this.controller.getModel().getPlayerFromNickname(nickname) == null) {
-            throw new LobbyIsFullException("Cannot access a game: Lobby is full and you were not part of it at the start of the game");
+            throw new LobbyIsFullException("Cannot access a game: Lobby is full or you were not part of it at the start of the game");
         } else {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }
     }
 
+    /**
+     * Used to try to resume the game if it is in pause.
+     * Does nothing in this implementation since game is
+     * in on_going state.
+     *
+     * @see Game
+     */
     @Override
     public void tryToResumeGame() {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
 
     /**
-     * In this implementation it is referred to the ON_GOING state.
-     * It falls unused.
+     * Sets the number of player necessary to start the game
+     * Does nothing in this implementation since game is
+     * in on_going state.
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
-        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-        //Game is going, so do nothing...
-    }
-
-
-    @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
 
     /**
-     * In this implementation it is referred to the ON_GOING state.
-     * It falls unused.
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players
+     * Does nothing in this implementation since game is
+     * in on_going state.
+     *
+     * @param chosenNumberOfPlayers number of players chosen by the first player.
+     * @see Game#getNumberOfPlayersToStartGame()
      */
     @Override
-    public void startGame() {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
-    /** Disconnects the selected {@code Player} from the {@code Game}
+
+    /**
+     * Method that starts the {@code Game}
+     * Does nothing in this implementation since game is
+     * in on_going state.
+     */
+    @Override
+    public void startGame(int numberOfCommonGoalCards) {
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is going, so do nothing...
+    }
+
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
-     * (only possible because the {@code Game} has already started).
-     *
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -373,8 +378,20 @@ public class OnGoingState extends ControllerState {
         }
     }
 
+    /**
+     * Restores the current game for the considered player.
+     * <p>
+     * Does nothing in this implementation since game is
+     * in finishing state.
+     *
+     * @param server           the server to which the model notifies its changes.
+     * @param nickname         player's nickname that requested the restore.
+     * @param gamesStoragePath the path where are stored the games.
+     * @see Player
+     * @see Game
+     */
     @Override
-    public void restoreGameForPlayer(GameListener server, String nickname) {
+    public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
@@ -384,7 +401,6 @@ public class OnGoingState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the ONGOING STATE of the {@code Game}.
-     *
      * @see Game
      * @see GameState#ON_GOING
      */

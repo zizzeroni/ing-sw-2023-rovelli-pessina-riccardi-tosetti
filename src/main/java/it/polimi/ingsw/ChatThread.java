@@ -33,8 +33,7 @@ public class ChatThread extends Thread {
      * Initialize the employed controller and client chat's nickname to the given values.
      *
      * @param controller the game's controller.
-     * @param nickname the player's nickname used in the chatroom.
-     *
+     * @param nickname   the player's nickname used in the chatroom.
      * @see it.polimi.ingsw.controller.GameController
      * @see ViewListener
      * @see it.polimi.ingsw.network.Client
@@ -107,13 +106,19 @@ public class ChatThread extends Thread {
      * Sets the chat's nickname.
      *
      * @param nickname the player's nickname associated with the chat's thread.
-     *
      * @see it.polimi.ingsw.model.Player
      */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * Sets the model used by the chat in order to take care of the logic behind
+     * sending messages.
+     *
+     * @param gameView the game's view
+     * @see it.polimi.ingsw.model.Player
+     */
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }
