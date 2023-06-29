@@ -97,8 +97,6 @@ public class AppServer {
         } catch (InterruptedException e) {
             System.err.println("[CONNECTION:ERROR] No connection protocol available. Exiting...");
         }
-
-
     }
 
     /**
@@ -109,7 +107,6 @@ public class AppServer {
      */
     private static void startRMI(Server server) throws RemoteException {
         //RMI service creation
-
 
         Registry registry = LocateRegistry.createRegistry(OptionsValues.RMI_PORT);
         registry.rebind(OptionsValues.SERVER_RMI_NAME, server);
@@ -144,8 +141,10 @@ public class AppServer {
     }
 
     /**
-     * @return
-     * @throws RemoteException
+     * Get a random network interface (not localhost).
+     *
+     * @return the identified network interfaces.
+     * @throws RemoteException when a communication error occurs.
      */
     private static String getFirstUpNetworkInterface() throws RemoteException {
         Random rand = new Random();

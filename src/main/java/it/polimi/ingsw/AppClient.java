@@ -33,7 +33,7 @@ public class AppClient {
 
     /**
      * It is the main method of the AppClient.
-     * Initialize all the necessary client's informations.
+     * Initialize all the necessary client's information.
      * Asks the preferred client connection's and UI types and manages the related player's choices.
      *
      * @param args the main's arguments.
@@ -150,7 +150,7 @@ public class AppClient {
     }
 
     /**
-     * Start up the thread used to ping the server.
+     * Start up the thread by ping the server.
      *
      * @param server the server to be pinged.
      * @see Server
@@ -203,7 +203,7 @@ public class AppClient {
     }
 
     /**
-     * Get a random network interface (non localhost).
+     * Get a random network interface (not localhost).
      *
      * @return the identified network interfaces.
      * @throws RemoteException when a communication error occurs.
