@@ -25,6 +25,8 @@ public class InPauseState extends ControllerState {
     /**
      * Class constructor.
      * Sets the game's controller to given value.
+     * Starts a timer at the which the {@code GameState} is set
+     * to {@code RESET_NEEDED}
      *
      * @param controller the GameController used.
      */
@@ -45,34 +47,35 @@ public class InPauseState extends ControllerState {
 
     /**
      * Used to handle the pausing when changing game's turn.
-     * Necessary in case this method is called while in the InPauseState state (SHOULDN'T BE HAPPENING but if happen then prevents being "stuck" when using socket).
+     * Does nothing since the {@code Game} is in pause.
      *
      * @see Game
      */
     @Override
     public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
 
     /**
      * Used to handle the input insertion in the game's model
+     * Does nothing since the {@code Game} is in pause.
      *
      * @param playerChoice the choice made by the player.
      * @see Player
      */
     @Override
     public void insertUserInputIntoModel(Choice playerChoice) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
 
     /**
      * This method is used to stream a message privately.
-     * Only the specified receiver will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * Only the specified receiver will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
@@ -95,8 +98,8 @@ public class InPauseState extends ControllerState {
 
     /**
      * This method is used to stream a message in broadcast mode.
-     * All the players will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * All the players will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
      * @param sender  the {@code Player} sending the message.
@@ -114,7 +117,8 @@ public class InPauseState extends ControllerState {
     }
 
     /**
-     * Verifies if the current game can be redeemed (under some countdown circumstances it could not be possible).
+     * Verifies if the current game can be resumable.
+     * A game is resumable if there are more than one player connected to the game
      *
      * @return {@code true} if and only if the current game can be redeemed, {@code false} otherwise.
      */
@@ -124,7 +128,7 @@ public class InPauseState extends ControllerState {
     }
 
     /**
-     * This method implementation in the different states enables
+     * This method enables
      * the possibility to add new players to the current {@code Game}.
      *
      * @param nickname the nickname of the {@code Player}
@@ -146,6 +150,8 @@ public class InPauseState extends ControllerState {
 
     /**
      * This method tries to resume the current's game when possible.
+     *
+     * @see #checkIfGameIsResumable()
      */
     @Override
     public void tryToResumeGame() {
@@ -163,9 +169,9 @@ public class InPauseState extends ControllerState {
 
     /**
      * Verifies if whether the current {@code Player}
-     * is considered active or not, mainly through a call to the
-     * {@code getActivePlayerIndex} method in the {@code GameController}
-     * (linked to the active {@code Game}).
+     * is considered active or not, and change the current
+     * active player to the first connected player in the
+     * round order
      *
      * @see GameController#getModel()
      * @see Game#getActivePlayerIndex()
@@ -186,6 +192,7 @@ public class InPauseState extends ControllerState {
     /**
      * Permits to set the number of active players in the current {@code Game}.
      * Used during the creation state.
+     * Does nothing since the game is in pause state.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
      * @see it.polimi.ingsw.model.Game
@@ -193,7 +200,7 @@ public class InPauseState extends ControllerState {
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
@@ -201,15 +208,14 @@ public class InPauseState extends ControllerState {
 
     /**
      * Checks if the number of players in the current lobby is exceeding the game's set number of players.
+     * Does nothing since the game is in pause state.
      *
      * @param chosenNumberOfPlayers is the current number of players.
-     * @throws ExcessOfPlayersException signals an excess in the player's number.
-     * @throws WrongInputDataException  occurs when data has not been entered correctly.
      * @see Player
      */
     @Override
     public void checkExceedingPlayer(int chosenNumberOfPlayers) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
@@ -221,6 +227,7 @@ public class InPauseState extends ControllerState {
      * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
      * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
      * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
+     * Does nothing since the game is in pause state.
      *
      * @see Game
      * @see Player
@@ -233,7 +240,7 @@ public class InPauseState extends ControllerState {
      */
     @Override
     public void startGame(int numberOfCommonGoalCards) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }
@@ -241,7 +248,6 @@ public class InPauseState extends ControllerState {
     /**
      * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
-     * (only possible because the {@code Game} has already started).
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @see Player
@@ -260,12 +266,13 @@ public class InPauseState extends ControllerState {
      *
      * @param server   the server controlling the game's execution.
      * @param nickname the given player's nickname.
+     * @param gamesStoragePath path in which are stored the games
      * @see Player
      * @see Game
      */
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //In pause so do nothing...
     }

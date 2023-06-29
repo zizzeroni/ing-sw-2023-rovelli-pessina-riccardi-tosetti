@@ -167,7 +167,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /**
-     * Allows to transmit the information about turns management to the view.
+     * Communicate to the server to change the current turn of the game.
      */
     @Override
     public void changeTurn() {
@@ -179,7 +179,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /**
-     * Allows to transmit the information about the choices of the player.
+     * Communicate to the server to insert the user input in the model.
      *
      * @param playerChoice the choice made by the player.
      */
@@ -226,7 +226,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
     }
 
     /**
-     * Signals the adding of a player to the current game.
+     * Communicate to the server to add a player and try to restart the game if it is in pause.
      *
      * @param nickname the nickname of the {@code Player}.
      * @see Player
@@ -294,6 +294,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Communicate to the server to restore the game for a specific player
+     *
+     * @param nickname the nickname of the player that requested the restore.
+     */
     @Override
     public void restoreGameForPlayer(String nickname) {
         try {
@@ -303,6 +308,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
         }
     }
 
+    /**
+     * Ask to the server if there are stored games for the given player nickname
+     * @param nickname the nickname of the player that requested the restore.
+     */
     @Override
     public void areThereStoredGamesForPlayer(String nickname) {
         try {
@@ -314,8 +323,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client, ViewListe
 
     /**
      * Consents to run the Client's implementation.
-     * It basically waits to receive the nickname from the player's client and then
-     * registers the client associated with the nickname received.
      *
      * @see Client
      * @see it.polimi.ingsw.model.Player

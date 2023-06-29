@@ -201,7 +201,12 @@ public class GenericUILogic {
     public void registerListener(ViewListener controller) {
         this.controller = controller;
     }
-
+    /**
+     * Removes the controller listener.
+     *
+     * @see ViewListener
+     * @see it.polimi.ingsw.controller.GameController
+     */
     public void removeListener() {
         this.controller = null;
     }
@@ -240,8 +245,6 @@ public class GenericUILogic {
      * @see GameView
      * @see it.polimi.ingsw.network.Server
      */
-    //Method used to update the model by receiving a GameView object from the Server. Depending on the UI state and different model attributes
-    //this method change the State of the game from the UI perspective
     public void modelModified(GameView game) {
         this.model = game;
         this.chat.setGameView(game);
@@ -266,7 +269,7 @@ public class GenericUILogic {
 
     /**
      * Initialize the chat's thread.
-     * Moreover, this method sets the GameView.
+     * Moreover, this method sets his GameView.
      * The game view is not set in the constructor because we need the value passed as reference instead of the real value.
      *
      * @param controller is the GameController.
@@ -283,10 +286,18 @@ public class GenericUILogic {
         chat.start();
     }
 
+
+    /**
+     * Setter of {@code areThereStoredGamesForPlayer} attribute
+     * @param result indicate the result of the query made to the server about the presence of stored games
+     *               for the given player
+     */
     public void setAreThereStoredGamesForPlayer(boolean result) {
         this.areThereStoredGamesForPlayer = result;
     }
-
+    /**
+     * Getter of {@code areThereStoredGamesForPlayer} attribute
+     */
     public boolean areThereStoredGamesForPlayer() {
         return this.areThereStoredGamesForPlayer;
     }

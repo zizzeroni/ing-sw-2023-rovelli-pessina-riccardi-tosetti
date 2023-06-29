@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Choice;
+import it.polimi.ingsw.model.listeners.GameListener;
 
 /**
  * An interface used to represent an object of type 'listener'.
@@ -19,9 +20,10 @@ public interface ViewListener {
     /**
      * Change the turn in the context of the present state through its implementations.
      *
-     * @see CreationState#sendPrivateMessage(String, String, String)
-     * @see FinishingState#sendPrivateMessage(String, String, String)
-     * @see OnGoingState#sendPrivateMessage(String, String, String)
+     * @see CreationState#changeTurn(String, String)
+     * @see FinishingState#changeTurn(String, String)
+     * @see OnGoingState#changeTurn(String, String)
+     * @see InPauseState#changeTurn(String, String)
      */
     public void changeTurn();
 
@@ -48,6 +50,7 @@ public interface ViewListener {
      * @see CreationState#sendPrivateMessage(String, String, String)
      * @see FinishingState#sendPrivateMessage(String, String, String)
      * @see OnGoingState#sendPrivateMessage(String, String, String)
+     * @see InPauseState#sendPrivateMessage(String, String, String)
      */
     public void sendPrivateMessage(String receiver, String sender, String content);
 
@@ -62,6 +65,7 @@ public interface ViewListener {
      * @see CreationState#sendBroadcastMessage(String, String)
      * @see FinishingState#sendBroadcastMessage(String, String)
      * @see OnGoingState#sendBroadcastMessage(String, String)
+     * @see InPauseState#sendBroadcastMessage(String, String)
      */
     public void sendBroadcastMessage(String sender, String content);
 
@@ -75,6 +79,7 @@ public interface ViewListener {
      * @see CreationState#addPlayer(String)
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
+     * @see InPauseState#addPlayer(String)
      */
     public void addPlayer(String nickname);
 
@@ -85,6 +90,9 @@ public interface ViewListener {
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
+     * @see FinishingState#chooseNumberOfPlayerInTheGame(int)
+     * @see OnGoingState#chooseNumberOfPlayerInTheGame(int)
+     * @see InPauseState#chooseNumberOfPlayerInTheGame(int)
      */
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 
@@ -95,6 +103,7 @@ public interface ViewListener {
      * @see CreationState#startGame(int)
      * @see FinishingState#startGame(int)
      * @see OnGoingState#startGame(int)
+     * @see InPauseState#startGame(int)
      */
     public void startGame();
 
@@ -106,10 +115,26 @@ public interface ViewListener {
      * @see CreationState#disconnectPlayer(String)
      * @see FinishingState#disconnectPlayer(String)
      * @see OnGoingState#disconnectPlayer(String)
+     * @see InPauseState#disconnectPlayer(String)
      */
     public void disconnectPlayer(String nickname);
-
+    /**
+     * The implementation of this method in the different states
+     * enacts the restore of a {@code Game}.
+     *
+     * @param nickname the nickname of the player that requested the restore.
+     * @see CreationState#restoreGameForPlayer(GameListener, String, String)
+     * @see FinishingState#restoreGameForPlayer(GameListener, String, String)
+     * @see OnGoingState#restoreGameForPlayer(GameListener, String, String)
+     * @see InPauseState#restoreGameForPlayer(GameListener, String, String)
+     */
     public void restoreGameForPlayer(String nickname);
-
+    /**
+     * The implementation of this method in the different states
+     * enacts the restore of a {@code Game}.
+     *
+     * @param nickname the nickname of the player that requested the restore.
+     * @see GameController#areThereStoredGamesForPlayer(String, String)
+     */
     public void areThereStoredGamesForPlayer(String nickname);
 }

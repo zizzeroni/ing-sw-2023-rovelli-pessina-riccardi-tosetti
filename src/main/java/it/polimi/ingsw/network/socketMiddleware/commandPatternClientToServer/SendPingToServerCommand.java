@@ -59,7 +59,7 @@ public class SendPingToServerCommand implements CommandToServer {
      * This method permits the execution of the server's ping sending command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      */
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {

@@ -26,12 +26,12 @@ public interface Server extends Remote {
     /**
      * Change the turn in the server's context.
      *
-     * @see OnGoingState#changeTurn()
+     * @see OnGoingState#changeTurn(String, String)
      */
     public void changeTurn() throws RemoteException;
 
     /**
-     * Allows the {@code Player} communicating with the server
+     * Allows
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.

@@ -46,7 +46,6 @@ public class OnGoingState extends ControllerState {
 
     /**
      * Shuffle the tiles contained in the object bag,
-     * using {@code Game}'s {@code getBag} method.
      * Refills the {@code Board} with a new set of tiles.
      *
      * @see Game#getBag()
@@ -61,9 +60,9 @@ public class OnGoingState extends ControllerState {
 
     /**
      * Verifies if whether the current {@code Player}
-     * is considered active or not, mainly through a call to the
-     * {@code getActivePlayerIndex} method in the {@code GameController}
-     * (linked to the active {@code Game}).
+     * is considered active or not, and change the current
+     * active player to the first connected player in the
+     * round order
      *
      * @see GameController#getModel()
      * @see Game#getActivePlayerIndex()
@@ -205,8 +204,8 @@ public class OnGoingState extends ControllerState {
 
     /**
      * This method implements the tiles removal from the {@code Board}.
-     * The {@code Player} select a list of {@code Tile}s which are passed altogether with their coordinates
-     * in order to be removed.
+     * The {@code Player} select a list of {@code Tile}s whose coordinates are passed
+     * in order to remove them.
      *
      * @param tileCoordinates is the list of the coordinates associated
      *                        to the respective tiles in the {@code chosenTiles} list.
@@ -296,40 +295,55 @@ public class OnGoingState extends ControllerState {
             this.controller.getModel().getPlayerFromNickname(nickname).setConnected(true);
         }
     }
-
+    /**
+     * Used to try to resume the game if it is in pause.
+     * Does nothing in this implementation since game is
+     * in on_going state.
+     *
+     * @see Game
+     */
     @Override
     public void tryToResumeGame() {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
 
     /**
-     * In this implementation it is referred to the ON_GOING state.
-     * It falls unused.
+     * Sets the number of player necessary to start the game
+     * Does nothing in this implementation since game is
+     * in on_going state.
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
-        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-        //Game is going, so do nothing...
-    }
-
-
-    @Override
-    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
 
     /**
-     * In this implementation it is referred to the ON_GOING state.
-     * It falls unused.
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players
+     * Does nothing in this implementation since game is
+     * in on_going state.
+     *
+     * @param chosenNumberOfPlayers number of players chosen by the first player.
+     * @see Game#getNumberOfPlayersToStartGame()
+     */
+    @Override
+    public void checkExceedingPlayer(int chosenNumberOfPlayers) {
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
+        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
+        //Game is going, so do nothing...
+    }
+
+    /**
+     * Method that starts the {@code Game}
+     * Does nothing in this implementation since game is
+     * in on_going state.
      */
     @Override
     public void startGame(int numberOfCommonGoalCards) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
+        //Necessary in case I call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then I'm not "stuck" when using socket)
         this.controller.getModel().setGameState(this.controller.getModel().getGameState());
         //Game is going, so do nothing...
     }
@@ -337,7 +351,6 @@ public class OnGoingState extends ControllerState {
     /**
      * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
-     * (only possible because the {@code Game} has already started).
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @see Player
@@ -361,6 +374,17 @@ public class OnGoingState extends ControllerState {
         }
     }
 
+    /**
+     * Restores the current game for the considered player.
+     *
+     * Does nothing in this implementation since game is
+     * in finishing state.
+     * @param server           the server to which the model notifies its changes.
+     * @param nickname         player's nickname that requested the restore.
+     * @param gamesStoragePath the path where are stored the games.
+     * @see Player
+     * @see Game
+     */
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
         //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)

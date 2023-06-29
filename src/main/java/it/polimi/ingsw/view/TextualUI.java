@@ -56,11 +56,15 @@ public class TextualUI implements UI {
         this.registerCountdownListener(countdownHandlerThread);
         countdownHandlerThread.start();
     }
-
+    /**
+     * Register the listener of the CountdownHandler
+     */
     public void registerCountdownListener(TUIListener listener) {
         this.countdownListener = listener;
     }
-
+    /**
+     * Remove the listener of the CountdownHandler
+     */
     public void removeCountdownListener() {
         this.countdownListener = null;
     }
@@ -123,9 +127,9 @@ public class TextualUI implements UI {
     }
 
     /**
-     * Evaluates the waiting states for the game's lobby and the adding of a player.
+     * Implement the wait of the view when in a certain state
      *
-     * @param clientGameState the current state of the given game's client.
+     * @param clientGameState a state in which the client must wait
      * @see it.polimi.ingsw.model.Game
      * @see it.polimi.ingsw.model.Player
      */
@@ -150,6 +154,13 @@ public class TextualUI implements UI {
         }
     }
 
+    /**
+     * EImplement the wait of the view when in a certain state
+     *
+     * @param gameStates a set of state in which the client must wait
+     * @see it.polimi.ingsw.model.Game
+     * @see it.polimi.ingsw.model.Player
+     */
     private void waitWhileInStates(List<ClientGameState> gameStates) {
         int precActivePlayerIndex = -1;
         synchronized (this.genericUILogic.getLockState()) {
@@ -177,46 +188,64 @@ public class TextualUI implements UI {
     }
 
     /**
-     * Performs the following in game actions. <p>
-     * Adds the first player to the game's lobby. <p>
-     * Waits for other players.<p>
-     * Enacts the first player interaction.<p>
-     * Notifies the controller.
-     *
-     * @see it.polimi.ingsw.model.Player
-     * @see it.polimi.ingsw.model.Game
-     * @see it.polimi.ingsw.controller.GameController
+     * Register the listener that TUI notify
+     * @param listener the listener that will receive the notification of the TUI.
      */
     @Override
     public void registerListener(ViewListener listener) {
         this.genericUILogic.registerListener(listener);
     }
 
+    /**
+     * Remove the listener that TUI notify
+     */
     @Override
     public void removeListener() {
         this.genericUILogic.removeListener();
     }
 
+    /**
+     * Set the nickname of the player associated with the TUI
+     * @param nickname the player's nickname.
+     */
     @Override
     public void setNickname(String nickname) {
         this.genericUILogic.setNickname(nickname);
     }
 
+    /**
+     * Delegates its implementation to the {@code GenericUILogic}
+     * @param modelUpdated the updated game's model.
+     * @see GenericUILogic#modelModified(GameView)
+     */
     @Override
     public void modelModified(GameView modelUpdated) {
         this.genericUILogic.modelModified(modelUpdated);
     }
 
+    /**
+     * Delegates its implementation to the {@code GenericUILogic}
+     * @param exception the given GenericException.
+     * @see GenericUILogic#printException(GenericException)
+     */
     @Override
     public void printException(GenericException exception) {
         this.genericUILogic.printException(exception);
     }
 
+    /**
+     * Delegates its implementation to the {@code GenericUILogic}
+     * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
+     * @see GenericUILogic#setAreThereStoredGamesForPlayer(boolean)
+     */
     @Override
     public void setAreThereStoredGamesForPlayer(boolean result) {
         this.genericUILogic.setAreThereStoredGamesForPlayer(result);
     }
 
+    /**
+     * Implements the game flow of the TUI
+     */
     @Override
     public void run() {
         //------------------------------------ADDING PLAYER TO THE LOBBY------------------------------------

@@ -5,7 +5,6 @@ import it.polimi.ingsw.view.GUI.ThPrintCountdown;
 
 /**
  * This class is used to handle the countdown occurring when there is only one player remaining connected to the current's game.
- * It has been implemented as an extension of the Thread's class.
  *
  * @see Thread
  * @see it.polimi.ingsw.model.Player
@@ -17,7 +16,7 @@ public class CountdownHandler extends Thread implements TUIListener {
 
     /**
      * Class constructor.
-     * It is used the generic ui's logic and other related values for the player's countdown.
+     * It is used the generic UI's logic and other related values for the player's countdown.
      *
      * @param genericUILogic used to call methods that implement logic in common with every user interface.
      * @see GenericUILogic
@@ -29,7 +28,7 @@ public class CountdownHandler extends Thread implements TUIListener {
     }
 
     /**
-     * Runs the game's countdown providing a way to handle the case of only a single client remaining connected to the current game.
+     * Handle the start and interrupt of the {@code ThPrintCountdown} according to {@code Game} state
      *
      * @see it.polimi.ingsw.network.Client
      */
@@ -76,6 +75,9 @@ public class CountdownHandler extends Thread implements TUIListener {
     }
 
 
+    /**
+     * Used to notify the countdown handler that he can start to check if the game is paused
+     */
     @Override
     public void noExceptionOccured() {
         this.canCheckGamePaused = true;
