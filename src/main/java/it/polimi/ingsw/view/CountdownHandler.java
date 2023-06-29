@@ -11,10 +11,10 @@ import it.polimi.ingsw.view.GUI.ThPrintCountdown;
  * @see it.polimi.ingsw.model.Player
  * @see it.polimi.ingsw.model.Game
  */
-public class CountdownHandler extends Thread implements TUIListener{
+public class CountdownHandler extends Thread implements TUIListener {
     private final GenericUILogic genericUILogic;
-
     private boolean canCheckGamePaused;
+
     /**
      * Class constructor.
      * It is used the generic ui's logic and other related values for the player's countdown.
@@ -74,6 +74,9 @@ public class CountdownHandler extends Thread implements TUIListener{
             }
         }
     }
+
+
+    @Override
     public void noExceptionOccured() {
         this.canCheckGamePaused = true;
     }

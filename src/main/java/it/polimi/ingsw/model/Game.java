@@ -382,7 +382,12 @@ public class Game {
         File gamesFile = new File(gamesPath);
 
         try {
-            if (gamesFile.getParentFile().mkdirs() && gamesFile.createNewFile()) {
+            if(gamesFile.getParentFile().mkdirs()) {
+                System.out.println("Games' storage folders created correctly");
+            } else {
+                System.out.println("Games' storage folders already exist, skipping creation");
+            }
+            if (gamesFile.createNewFile()) {
                 System.out.println("Games' storage file created correctly");
             } else {
                 System.out.println("Games' storage file already exists, skipping creation");

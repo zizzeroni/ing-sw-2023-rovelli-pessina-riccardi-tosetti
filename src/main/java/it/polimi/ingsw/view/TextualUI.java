@@ -33,6 +33,8 @@ public class TextualUI implements UI {
 
     private final GenericUILogic genericUILogic;
 
+    private TUIListener countdownListener;
+
     /**
      * Class constructor.
      * Initialize the game's model.
@@ -50,7 +52,17 @@ public class TextualUI implements UI {
      */
     public TextualUI() {
         this.genericUILogic = new GenericUILogic();
-        new CountdownHandler(genericUILogic).start();
+        TUIListener countdownHandlerThread = new CountdownHandler(genericUILogic);
+        this.registerCountdownListener(countdownHandlerThread);
+        countdownHandlerThread.start();
+    }
+
+    public void registerCountdownListener(TUIListener listener) {
+        this.countdownListener = listener;
+    }
+
+    public void removeCountdownListener() {
+        this.countdownListener = null;
     }
 
     /**
@@ -81,6 +93,8 @@ public class TextualUI implements UI {
 
         } while (this.genericUILogic.getExceptionToHandle() != null);
 
+        this.countdownListener.noExceptionOccured();
+
         this.genericUILogic.controller.areThereStoredGamesForPlayer(this.genericUILogic.getNickname());
 
         if (this.genericUILogic.areThereStoredGamesForPlayer() && genericUILogic.getModel().getPlayers().size() == 1) {
@@ -98,7 +112,11 @@ public class TextualUI implements UI {
                 this.setUpLobbyAsFirst();
             }
         } else {
-            this.setUpLobby();
+            if(this.genericUILogic.getModel().getPlayers().size() == 1) {
+                this.setUpLobbyAsFirst();
+            } else {
+                this.setUpLobby();
+            }
         }
         System.out.println(this.genericUILogic.getState());
         waitWhileInState(ClientGameState.WAITING_IN_LOBBY);
