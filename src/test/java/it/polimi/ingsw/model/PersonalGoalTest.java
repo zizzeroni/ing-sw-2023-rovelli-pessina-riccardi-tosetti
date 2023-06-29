@@ -29,7 +29,7 @@ public class PersonalGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that personal goal on the given this.bookshelf matches one time")
@@ -46,6 +46,9 @@ public class PersonalGoalTest {
         assertEquals(1, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal on the rulebook's this.bookshelf matches 0 times")
     public void givenRulebookBookshelf_whenCountingMatches_thenReturnZero() {
@@ -61,6 +64,9 @@ public class PersonalGoalTest {
         assertEquals(0, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches zero times on a this.bookshelf filled with nulls")
     public void givenBookshelfFilledWithNulls_whenCountingMatches_thenReturnZero() {
@@ -76,6 +82,9 @@ public class PersonalGoalTest {
         assertEquals(0, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches three times on a this.bookshelf with tiles groups consisting of a single tile")
     public void givenBookshelfWithGroupsOfOneSingleTile_whenCountingMatches_thenReturnThree() {
@@ -91,6 +100,9 @@ public class PersonalGoalTest {
         assertEquals(3, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf zero times")
     public void givenRandomBookshelf_whenThereAreNoMatches_thenReturnZero() {
@@ -107,6 +119,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_ZERO_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf one time")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnOne() {
@@ -123,6 +138,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_ONE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf two times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnTwo() {
@@ -139,6 +157,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_TWO_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf three times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnThree() {
@@ -155,6 +176,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_THREE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf four times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnFour() {
@@ -171,6 +195,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_FOUR_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf five times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnFive() {
@@ -187,6 +214,9 @@ public class PersonalGoalTest {
         assertEquals(OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     * Test class
+     */
     @Test
     @DisplayName("Test that personal goal matches on the given this.bookshelf six times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnSix() {
@@ -204,7 +234,7 @@ public class PersonalGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that to string method return the expected value for null personal goal")
@@ -221,7 +251,7 @@ public class PersonalGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that to string method return the expected value for a generic personal goal")
@@ -249,7 +279,7 @@ public class PersonalGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that two personal goal are not the same")
@@ -270,7 +300,7 @@ public class PersonalGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that a personal goal is not equal to an object of another class")

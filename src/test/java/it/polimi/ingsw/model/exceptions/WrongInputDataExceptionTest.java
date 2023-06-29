@@ -11,6 +11,7 @@ public class WrongInputDataExceptionTest {
 
     private final String message = "[INPUT:ERROR]: User data not correct";
     private static final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
+    private static final PrintStream originalErr = System.err;
     WrongInputDataException exception;
 
     @BeforeAll
@@ -20,7 +21,7 @@ public class WrongInputDataExceptionTest {
 
     @AfterAll
     public static void restoreStreams() {
-        System.setErr(null);
+        System.setErr(originalErr);
     }
 
     /**

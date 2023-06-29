@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.tile.ScoreTile;
+import it.polimi.ingsw.model.tile.Tile;
+import it.polimi.ingsw.model.tile.TileColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,7 +67,8 @@ public class PlayerTest {
         assertEquals(personalGoal, this.player.getPersonalGoal());
 
         List<Message> chat = new ArrayList<>(List.of(new Message(MessageType.PRIVATE, "Paolo", "Andrea", "Ciao")));
-        this.player = new Player("Andrea", true, personalGoal, emptyScoreTiles, bookshelf);
+
+        this.player = new Player("Andrea", true, personalGoal, emptyScoreTiles, bookshelf, chat);
         assertEquals("Andrea", this.player.getNickname());
         assertTrue(this.player.isConnected());
 
@@ -89,8 +92,33 @@ public class PlayerTest {
     @DisplayName("Test that you can retrieve a player score")
     public void retrieve_player_score() {
         this.player = new Player("Andrea", true);
-        this.player.setScoreTiles(Arrays.asList(new ScoreTile(), new ScoreTile(), new ScoreTile()));
+        this.player.setNickname("Marco");
+        this.player.setScoreTiles(new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile())));
+        this.player.addScoreTile(new ScoreTile());
+        this.player.setSingleScoreTile(new ScoreTile(0,1,1), 2);
+        this.player.setConnected(true);
+        this.player.setPersonalGoal(new PersonalGoal());
         assertEquals(0, this.player.score());
+    }
+
+    /**
+     * Test class
+     */
+    @Test
+    @DisplayName("Test that you can retrieve a correct player score")
+    public void retrieve_correct_player_score() {
+        this.player = new Player("Andrea", true);
+        this.player.setScoreTiles(Arrays.asList(new ScoreTile(8, 1, 2), new ScoreTile(), new ScoreTile()));
+        this.player.setBookshelf(new Bookshelf(new Tile[][]{
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
+                {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}
+        }));
+        this.player.setPersonalGoal(new PersonalGoal());
+        assertEquals(32, this.player.score());
     }
 
 }
