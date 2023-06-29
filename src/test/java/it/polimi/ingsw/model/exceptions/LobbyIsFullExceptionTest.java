@@ -11,6 +11,7 @@ public class LobbyIsFullExceptionTest {
 
     private final String message = "Cannot access a game: Lobby is full or you were not part of it at the start of the game";
     private static final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
+    private static final PrintStream originalErr = System.err;
     LobbyIsFullException exception;
 
     @BeforeAll
@@ -20,7 +21,7 @@ public class LobbyIsFullExceptionTest {
 
     @AfterAll
     public static void restoreStreams() {
-        System.setErr(null);
+        System.setErr(originalErr);
     }
 
     /**

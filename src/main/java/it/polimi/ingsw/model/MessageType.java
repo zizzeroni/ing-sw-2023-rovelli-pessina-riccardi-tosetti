@@ -21,7 +21,7 @@ public enum MessageType {
      * @return a String to represent the message's type.
      * @see Message
      */
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         String name;
@@ -38,5 +38,5 @@ public enum MessageType {
         }
 
         return stringBuilder.append(ansi().fg(Ansi.Color.YELLOW).a(name).fg(Ansi.Color.DEFAULT)).toString();
-    }
+    }*/
 }

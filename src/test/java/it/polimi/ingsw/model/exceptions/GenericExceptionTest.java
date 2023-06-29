@@ -11,6 +11,7 @@ public class GenericExceptionTest {
 
     private final String message = "Chosen nickname is already being utilized, please try another one!";
     private static final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
+    private static final PrintStream originalErr = System.err;
     GenericException exception;
 
     @BeforeAll
@@ -20,7 +21,7 @@ public class GenericExceptionTest {
 
     @AfterAll
     public static void restoreStreams() {
-        System.setErr(null);
+        System.setErr(originalErr);
     }
 
     /**
