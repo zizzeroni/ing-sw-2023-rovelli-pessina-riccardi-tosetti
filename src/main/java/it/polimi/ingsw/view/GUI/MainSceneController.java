@@ -86,6 +86,11 @@ public class MainSceneController implements Initializable {
     private boolean gameOn;
     private Thread printCountdownThread;
     private boolean onCountdown;
+    private int inCensure = 0;
+
+    public int getInCensure() {
+        return inCensure;
+    }
 
     /**
      * Initialize the resources for the main scene.
@@ -329,7 +334,6 @@ public class MainSceneController implements Initializable {
      * considering their positioning, names, and other characteristics.
      */
     public void setTable() {
-        this.endCensure();
         startOrder = 0;
         firstColumn = 0;
         firstRow = 0;
@@ -361,6 +365,9 @@ public class MainSceneController implements Initializable {
                     String nome = "#firstPlayerTile" + (row) + (column);
                     Button button = (Button) scene.lookup(nome);
                     if (button != null) {
+                        if (button.getStyleClass().size() > 1) {
+                            button.getStyleClass().remove(1);
+                        }
                         button.setOpacity(1);
                         //set tile color
                         if (tileStyle.equals("B0")) {
@@ -1463,37 +1470,45 @@ public class MainSceneController implements Initializable {
     }
 
     public void startCensure() {
-        //onCountdown = true;
-        double wi = this.mainGraphicalUI.getWidthOld();
-        double he = this.mainGraphicalUI.getHeightOld();
-        censure.setMaxSize(wi, he);
-        censure.setOpacity(0.5);
-        commonGoal1.setOnMouseEntered(null);
-        commonGoal2.setOnMouseEntered(null);
-        commonGoal1.setOnMouseExited(null);
-        commonGoal2.setOnMouseExited(null);
-        personalGoal.setOnMouseEntered(null);
-        personalGoal.setOnMouseExited(null);
-        countdownLabel.setLayoutX(wi * 0.55);
-        countdownLabel.setLayoutY(he * 0.70);
-        personalGoal.setVisible(false);
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            countdownLabel.setText("Only 1 player remaining, \n" +
-                    "waiting for other player to reconnect \n" +
-                    mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
-            countDownLatch.countDown();
-        });
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if (inCensure == 0) {
+            System.out.println("inizio censura");
+            this.inCensure = this.inCensure + 1;
+            //this.setTable();
+            //onCountdown = true;
+            double wi = this.mainGraphicalUI.getWidthOld();
+            double he = this.mainGraphicalUI.getHeightOld();
+            censure.setMaxSize(wi, he);
+            censure.setOpacity(0.5);
+            commonGoal1.setOnMouseEntered(null);
+            commonGoal2.setOnMouseEntered(null);
+            commonGoal1.setOnMouseExited(null);
+            commonGoal2.setOnMouseExited(null);
+            personalGoal.setOnMouseEntered(null);
+            personalGoal.setOnMouseExited(null);
+            countdownLabel.setLayoutX(wi * 0.55);
+            countdownLabel.setLayoutY(he * 0.70);
+            personalGoal.setVisible(false);
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            Platform.runLater(() -> {
+                countdownLabel.setText("Only 1 player remaining, \n" +
+                        "waiting for other player to reconnect \n" +
+                        mainGraphicalUI.genericUILogic.getCountdown() + " seconds to game end");
+                countDownLatch.countDown();
+            });
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-
         //this.threadCounter();
     }
 
     public void endCensure() {
+        if (this.inCensure == 1) {
+            System.out.println("finisco censura");
+            this.inCensure = 0;
+        }
         //if (onCountdown) {
         //printCountdownThread.interrupt();
         //onCountdown = false;
