@@ -28,9 +28,10 @@ public abstract class ControllerState {
     /**
      * Change the turn in the context of the present state through its implementations.
      *
-     * @see CreationState#sendPrivateMessage(String, String, String)
-     * @see FinishingState#sendPrivateMessage(String, String, String)
-     * @see OnGoingState#sendPrivateMessage(String, String, String)
+     * @see CreationState#changeTurn(String, String)
+     * @see FinishingState#changeTurn(String, String)
+     * @see OnGoingState#changeTurn(String, String)
+     * @see InPauseState#changeTurn(String, String)
      */
     public abstract void changeTurn(String gamesStoragePath, String gamesStoragePathBackup);
 
@@ -39,9 +40,11 @@ public abstract class ControllerState {
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.
-     * @throws WrongInputDataException when input data is not valid
-     * @see it.polimi.ingsw.model.Player
-     * @see it.polimi.ingsw.model.Board
+     * @throws WrongInputDataException thrown when input data is not valid
+     * @see CreationState#insertUserInputIntoModel(Choice)
+     * @see FinishingState#insertUserInputIntoModel(Choice)
+     * @see OnGoingState#insertUserInputIntoModel(Choice)
+     * @see InPauseState#insertUserInputIntoModel(Choice)
      * @see Choice
      */
     public abstract void insertUserInputIntoModel(Choice playerChoice) throws WrongInputDataException;
@@ -58,6 +61,7 @@ public abstract class ControllerState {
      * @see CreationState#sendPrivateMessage(String, String, String)
      * @see FinishingState#sendPrivateMessage(String, String, String)
      * @see OnGoingState#sendPrivateMessage(String, String, String)
+     * @see InPauseState#sendPrivateMessage(String, String, String)
      */
     public abstract void sendPrivateMessage(String receiver, String sender, String content);
 
@@ -72,6 +76,7 @@ public abstract class ControllerState {
      * @see CreationState#sendBroadcastMessage(String, String)
      * @see FinishingState#sendBroadcastMessage(String, String)
      * @see OnGoingState#sendBroadcastMessage(String, String)
+     * @see InPauseState#sendBroadcastMessage(String, String)
      */
     public abstract void sendBroadcastMessage(String sender, String content);
 
@@ -85,6 +90,7 @@ public abstract class ControllerState {
      * @see CreationState#addPlayer(String)
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
+     * @see InPauseState#addPlayer(String)
      */
     public abstract void addPlayer(String nickname) throws LobbyIsFullException;
 
@@ -94,32 +100,40 @@ public abstract class ControllerState {
     public abstract void tryToResumeGame();
 
     /**
-     * Set the number of active players in the current {@code Game}.
-     * Used during the creation state.
+     * This method implementation in the different states enables
+     * setting the number of active players in the current {@code Game}.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
+     * @see FinishingState#chooseNumberOfPlayerInTheGame(int)
+     * @see OnGoingState#chooseNumberOfPlayerInTheGame(int)
+     * @see InPauseState#chooseNumberOfPlayerInTheGame(int)
      */
     public abstract void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers);
 
     /**
-     * Checks if the number of players in the current lobby is exceeding the game's set number of players.
+     * Checks if the number of players in the current lobby is exceeding the game's set number of players
+     * through its various implementations.
      *
-     * @param chosenNumberOfPlayers is the current number of players.
+     * @param chosenNumberOfPlayers number of players chosen by the first player.
      * @throws ExcessOfPlayersException signals an excess in the player's number.
-     * @throws WrongInputDataException  occurs when data has not been entered correctly.
-     * @see Player
+     * @throws WrongInputDataException  occurs when data has an unexpected value.
+     * @see CreationState#checkExceedingPlayer(int)
+     * @see OnGoingState#checkExceedingPlayer(int)
+     * @see FinishingState#checkExceedingPlayer(int)
+     * @see InPauseState#checkExceedingPlayer(int)
      */
     public abstract void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException;
 
     /**
-     * The implementation of this method (in the {@code CreationState})
+     * Method that permit to start the game through its different implementation
      * controls that all the necessary preparing has been done due to initiating the {@code Game}.
      *
-     * @see CreationState#startGame(int numberOfCommonGoalCards)
-     * @see FinishingState#startGame(int numberOfCommonGoalCards)
-     * @see OnGoingState#startGame(int numberOfCommonGoalCards)
+     * @see CreationState#startGame(int)
+     * @see FinishingState#startGame(int)
+     * @see OnGoingState#startGame(int)
+     * @see InPauseState#startGame(int)
      */
     public abstract void startGame(int numberOfCommonGoalCards);
 
@@ -128,20 +142,26 @@ public abstract class ControllerState {
      * enacts the disconnection of a {@code Player}.
      *
      * @param nickname the nickname of the disconnecting player.
+     * @see Player
      * @see CreationState#disconnectPlayer(String)
      * @see FinishingState#disconnectPlayer(String)
      * @see OnGoingState#disconnectPlayer(String)
+     * @see InPauseState#disconnectPlayer(String)
      */
     public abstract void disconnectPlayer(String nickname);
 
     /**
      * Restores the current game for the considered player.
      *
-     * @param server           the server controlling the game's execution.
-     * @param nickname         the given player's nickname.
+     * @param server           the server to which the model notifies its changes.
+     * @param nickname         player's nickname that requested the restore.
      * @param gamesStoragePath the path where are stored the games.
      * @see Player
      * @see Game
+     * @see CreationState#restoreGameForPlayer(GameListener, String, String)
+     * @see FinishingState#restoreGameForPlayer(GameListener, String, String)
+     * @see OnGoingState#restoreGameForPlayer(GameListener, String, String)
+     * @see InPauseState#restoreGameForPlayer(GameListener, String, String)
      */
     public abstract void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath);
 }
