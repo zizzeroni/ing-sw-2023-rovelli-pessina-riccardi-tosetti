@@ -315,7 +315,7 @@ public class TextualUI implements UI {
         boolean isInsertCorrect = false;
         int choice = 0;
         while (!isInsertCorrect) {
-            System.out.println("Insert the " + (isRowBeingChosen ? "row" : "column") + " of the " + (iterationCount + 1) + "° tile you want to take:");
+            System.out.println("Insert the " + (isRowBeingChosen ? "row" : "column") + " of the " + (iterationCount + 1) + "^ tile you want to take:");
             try {
                 choice = CommandReader.standardCommandQueue.waitAndGetFirstIntegerCommandAvailable();
             } catch (InputMismatchException e) {
