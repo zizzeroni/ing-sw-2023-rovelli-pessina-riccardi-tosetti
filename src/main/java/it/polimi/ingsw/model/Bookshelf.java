@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.listeners.BookshelfListener;
-import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
@@ -179,6 +177,7 @@ public class Bookshelf {
     /**
      * Setter used to decide the {@code Tile}s to be displaced on the bookshelf.
      *
+     * @param tiles tiles matrix of the bookshelf
      * @see Tile
      */
     public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata

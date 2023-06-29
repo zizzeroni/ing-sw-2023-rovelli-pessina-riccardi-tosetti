@@ -56,7 +56,7 @@ public class ServerStub implements Server {
     /**
      * Change the turn in the server's context.
      *
-     * @see OnGoingState#changeTurn()
+     * @see OnGoingState#changeTurn(String, String)
      */
     @Override
     public synchronized void changeTurn() throws RemoteException {
@@ -347,6 +347,15 @@ public class ServerStub implements Server {
         }
     }
 
+    /**
+     * Communicate to the server to restore a game for the given nickname
+     *
+     * @param nickname is the nickname identifying the player which requested the restore.
+     * @throws RemoteException called if a communication error occurs.
+     * @see Player
+     * @see Server
+     * @see Game
+     */
     @Override
     public synchronized void restoreGameForPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -366,7 +375,15 @@ public class ServerStub implements Server {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Question the server about the presence of a saved game
+     *
+     * @param nickname is the nickname identifying the first player that entered the lobby.
+     * @throws RemoteException called if a communication error occurs.
+     * @see Player
+     * @see Server
+     * @see Game
+     */
     @Override
     public synchronized void areThereStoredGamesForPlayer(String nickname) throws RemoteException {
         this.semaphoreUpdate.drainPermits();
@@ -388,7 +405,7 @@ public class ServerStub implements Server {
     }
 
     /**
-     * Receives (and provides a response) to client's messages.
+     * Receives (and provides a response) to server's messages.
      *
      * @param client is the client communicating to.
      * @throws RemoteException called when the client's message can't be cast or received.
@@ -416,7 +433,7 @@ public class ServerStub implements Server {
     }
 
     /**
-     * Used to close the server's socket.
+     * Used to close the client's socket.
      *
      * @throws RemoteException is launched if it is not possible to close the socket connection.
      */

@@ -42,5 +42,12 @@ public interface Client extends Remote {
      */
     public void receiveException(GenericException exception) throws RemoteException;
 
+    /**
+     * Setter used to provide knowledge on the stored game's for the player reconnecting to the current's game server.
+     *
+     * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
+     * @see it.polimi.ingsw.model.Game
+     * @throws RemoteException if connection error occurs
+     */
     public void setAreThereStoredGamesForPlayer(boolean result) throws RemoteException;
 }

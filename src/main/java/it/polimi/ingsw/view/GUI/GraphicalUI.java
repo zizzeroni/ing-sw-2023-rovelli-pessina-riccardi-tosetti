@@ -57,17 +57,18 @@ public class GraphicalUI extends Application implements UI {
     private String port;
 
     /**
+     * Getter the precedent width
      * @return the old width of the scene.
-     *
      * @see GameView
      */
 
     public double getWidthOld() {
         return widthOld;
     }
+
     /**
+     * Getter of precedent height
      * @return the old height of the scene.
-     *
      * @see GameView
      */
     public double getHeightOld() {
@@ -78,6 +79,7 @@ public class GraphicalUI extends Application implements UI {
      * Class constructor.
      * Initialize the game's model.
      *
+     * @param genericUILogic object implementing the common operation between TUI and GUI
      * @see GameView
      */
     public GraphicalUI(GenericUILogic genericUILogic) {
@@ -100,6 +102,9 @@ public class GraphicalUI extends Application implements UI {
      * <p>
      * Sets the attributes as in the {@code UI}'s superclass.
      *
+     * @param model      the model assigned to the genericUILogic
+     * @param controller controller of the GUI
+     * @param nickname   nickname of the player associated to the GUI
      * @see UI
      */
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
@@ -111,6 +116,8 @@ public class GraphicalUI extends Application implements UI {
      * <p>
      * Sets the attributes as in the {@code UI}'s superclass.
      *
+     * @param model      the model assigned to the genericUILogic
+     * @param controller controller of the GUI
      * @see UI
      */
     public GraphicalUI(GameView model, ViewListener controller) {
@@ -276,9 +283,9 @@ public class GraphicalUI extends Application implements UI {
     }
 
     /**
-     * Performs the following in game actions. <p>
-     * Creates the first scene root. <p>
-     * Displays the first scene. <p>
+     * Performs the following in game actions.
+     * Creates the first scene root.
+     * Displays the first scene.
      *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game

@@ -60,7 +60,7 @@ public class SendPingToClientCommand implements CommandToClient {
      * This method permits the execution of the client's ping sending command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      * @see Client
      */
     public void execute() throws NullPointerException, RemoteException {

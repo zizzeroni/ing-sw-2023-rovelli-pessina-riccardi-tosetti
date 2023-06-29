@@ -101,7 +101,7 @@ public class AddPlayerCommand implements CommandToServer {
      * This method permits the execution of the {@code PLayer}'s command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      * @see it.polimi.ingsw.model.Player
      */
     @Override

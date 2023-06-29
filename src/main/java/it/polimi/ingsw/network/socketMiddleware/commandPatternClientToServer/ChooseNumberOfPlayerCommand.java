@@ -21,6 +21,8 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
 
     /**
      * Class constructor.
+     *
+     * @param numberOfPlayers number of players to start the game
      */
     public ChooseNumberOfPlayerCommand(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
@@ -42,7 +44,7 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * Initialize the content and the sender of the {@code Player}'s number choosing command.
      *
      * @param actuator        the command's actuator.
-     * @param numberOfPlayers the {@code Player}s number.
+     * @param numberOfPlayers the {@code Player}s number to start the game.
      * @see it.polimi.ingsw.model.Player
      */
     public ChooseNumberOfPlayerCommand(Server actuator, int numberOfPlayers) {
@@ -76,7 +78,7 @@ public class ChooseNumberOfPlayerCommand implements CommandToServer {
      * This method permits the execution of the {@code Player}'s number choosing command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      * @see it.polimi.ingsw.model.Player
      */
     @Override

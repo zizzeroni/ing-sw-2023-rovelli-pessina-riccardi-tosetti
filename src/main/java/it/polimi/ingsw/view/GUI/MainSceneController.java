@@ -86,6 +86,10 @@ public class MainSceneController implements Initializable {
     private boolean gameOn;
     private int inCensure = 0;
 
+    /**
+     * Getter of the inCensure "state"
+     * @return return the inCensure attribute value
+     */
     public int getInCensure() {
         return inCensure;
     }

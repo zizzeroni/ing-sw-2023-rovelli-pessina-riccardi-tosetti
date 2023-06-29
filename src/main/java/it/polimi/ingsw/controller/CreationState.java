@@ -35,7 +35,8 @@ public class CreationState extends ControllerState {
     /**
      * Class constructor.
      * Instantiate a {@code CreationState}
-     * @param controller controller that delegate its tasks to this state 
+     *
+     * @param controller controller that delegate its tasks to this state
      */
     public CreationState(GameController controller) {
         super(controller);
@@ -128,11 +129,10 @@ public class CreationState extends ControllerState {
      * The method also sets any given {@code Player} to connected.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
+     * @throws LobbyIsFullException thrown if lobby is already full
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
      * @see Player
-     *
-     * @throws LobbyIsFullException thrown if lobby is already full
      */
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
@@ -347,8 +347,8 @@ public class CreationState extends ControllerState {
      * @param gamesStoragePath the path where are stored the games.
      * @see Player
      * @see Game
-     * @see Game#createGameFileIfNotExist(String)  
-     * @see CreationState#getStoredGamesFromJson(String) 
+     * @see Game#createGameFileIfNotExist(String)
+     * @see CreationState#getStoredGamesFromJson(String)
      */
     @Override
     public void restoreGameForPlayer(GameListener server, String nickname, String gamesStoragePath) {
@@ -401,8 +401,7 @@ public class CreationState extends ControllerState {
      * Method to get the stored game for the given nickname.
      *
      * @param playerNickname nickname of player that requested the restore.
-     * @param gamesAsArray set of games retrieved from the file
-     *
+     * @param gamesAsArray   set of games retrieved from the file
      * @return the stored game.
      */
     private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
