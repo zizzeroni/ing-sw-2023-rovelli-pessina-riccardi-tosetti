@@ -2,10 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
-import it.polimi.ingsw.model.exceptions.WrongInputDataException;
-import it.polimi.ingsw.model.tile.Tile;
-import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.view.TileView;
 import it.polimi.ingsw.utils.OptionsValues;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

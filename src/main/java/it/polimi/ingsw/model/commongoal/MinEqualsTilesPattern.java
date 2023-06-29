@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.MinEqualsTilesPatternGoalView;
 
 import java.util.ArrayList;
@@ -225,7 +224,7 @@ public class MinEqualsTilesPattern extends CommonGoal {
      * @see CommonGoal
      */
     @Override
-    public CommonGoalView copyImmutable() {
+    public MinEqualsTilesPatternGoalView copyImmutable() {
         return new MinEqualsTilesPatternGoalView(this);
     }
 }

@@ -18,11 +18,4 @@ public interface BookshelfListener {
      * @see Bookshelf
      */
     public void tileAddedToBookshelf(Bookshelf bookshelf);
-
-    /**
-     * Notifies if the current {@code Bookshelf} image has been modified.
-     *
-     * @param image the image that has changed following the method call.
-     */
-    public void imageModified(String image);
 }

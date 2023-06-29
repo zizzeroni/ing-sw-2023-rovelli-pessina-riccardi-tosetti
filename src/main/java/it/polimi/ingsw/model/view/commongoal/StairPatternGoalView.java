@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.view.commongoal;
 
-import it.polimi.ingsw.model.commongoal.CommonGoal;
+import it.polimi.ingsw.model.commongoal.StairPatternGoal;
 import it.polimi.ingsw.model.view.CommonGoalView;
 
 /**
@@ -14,12 +14,12 @@ import it.polimi.ingsw.model.view.CommonGoalView;
 public class StairPatternGoalView extends CommonGoalView {
     /**
      * Class constructor.
-     * Assign the values as in the {@code CommonGoal} parameter, commonGoalModel.
+     * Assign the values as in the {@code StairPatternGoal} parameter, commonGoalModel.
      *
      * @param commonGoalModel the referencing class for the call of the super method in the constructor
      *                        in order to make possible the construction of the class object.
      */
-    public StairPatternGoalView(CommonGoal commonGoalModel) {
+    public StairPatternGoalView(StairPatternGoal commonGoalModel) {
         super(commonGoalModel);
     }
 

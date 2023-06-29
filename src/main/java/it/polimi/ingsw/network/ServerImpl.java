@@ -436,24 +436,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Notifies to the game's view that the given image has been modified.
-     *
-     * @param image the image that has changed following the method call.
-     * @see Client
-     * @see GameView
-     */
-    @Override
-    public void imageModified(String image) {
-        for (Client client : this.clientsToHandle.keySet()) {
-            try {
-                client.updateModelView(new GameView(this.controller.getModel()));
-            } catch (RemoteException e) {
-                System.err.println("[COMMUNICATION:ERROR] Error while updating client(imageModified):" + e.getMessage() + ".Skipping update");
-            }
-        }
-    }
-
-    /**
      * Notifies to the game's view that the number of players to start the game has been set.
      *
      * @see Player

@@ -127,9 +127,7 @@ public class FinishingState extends ControllerState {
 
         if (choiceChosenTiles.size() == choiceTileOrder.length && choiceTileOrder.length == choiceTileCoordinates.size()) {
             if (choiceColumn >= 0 && choiceColumn < currentPlayerBookshelf.getNumberOfColumns() && currentPlayerBookshelf.getNumberOfEmptyCellsInColumn(choiceColumn) >= choiceChosenTiles.size()) {
-                if (checkIfCoordinatesArePlausible(choiceTileCoordinates)) {
-                    return true;
-                }
+                return checkIfCoordinatesArePlausible(choiceTileCoordinates);
             }
         }
         return false;

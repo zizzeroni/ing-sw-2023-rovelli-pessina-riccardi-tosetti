@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.commongoal;
 import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.view.CommonGoalView;
 import it.polimi.ingsw.model.view.commongoal.TilesInPositionsPatternGoalView;
 
 import java.util.ArrayList;
@@ -215,7 +214,7 @@ public class TilesInPositionsPatternGoal extends CommonGoal {
      * @see CommonGoal
      */
     @Override
-    public CommonGoalView copyImmutable() {
+    public TilesInPositionsPatternGoalView copyImmutable() {
         return new TilesInPositionsPatternGoalView(this);
     }
 }

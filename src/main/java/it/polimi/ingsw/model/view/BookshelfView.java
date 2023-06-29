@@ -21,7 +21,6 @@ public class BookshelfView implements Serializable {
     //private final Bookshelf bookshelfModel;
     private final int numberOfColumns;
     private final int numberOfRows;
-    private final String image;
     private final TileView[][] tiles;
     //private final Map<Integer, Integer> pointsForEachGroup;
     private final Map<Integer, Integer> pointsForEachGroup;
@@ -40,7 +39,7 @@ public class BookshelfView implements Serializable {
 
         this.numberOfColumns = bookshelfModel.getNumberOfColumns();
         this.numberOfRows = bookshelfModel.getNumberOfRows();
-        this.image = bookshelfModel.getImage();
+
         for (int row = 0; row < bookshelfModel.getNumberOfRows(); row++) {
             for (int column = 0; column < bookshelfModel.getNumberOfColumns(); column++) {
                 this.tiles[row][column] = (bookshelfModel.getSingleTile(row, column) != null ? new TileView(bookshelfModel.getSingleTile(row, column)) : null);
@@ -80,16 +79,6 @@ public class BookshelfView implements Serializable {
             counter++;
         }
         return counter;
-    }
-
-    /**
-     * Getter to retrieve the {@code Bookshelf} image.
-     *
-     * @return the image of the Bookshelf.
-     * @see Bookshelf
-     */
-    public String getImage() {
-        return this.image;
     }
 
     /**

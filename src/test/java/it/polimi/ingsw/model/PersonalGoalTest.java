@@ -1,37 +1,40 @@
-package it.polimi.ingsw.model.commongoal;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
+import it.polimi.ingsw.utils.OptionsValues;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class PersonalGoalTest {
-    private Tile[][] patternPersonalGoal1;
-    private PersonalGoal personalGoal1;
-    private Bookshelf b;
+    private PersonalGoal personalGoal;
+    private Bookshelf bookshelf;
 
     @BeforeEach
     public void cleanGoal() {
-        patternPersonalGoal1 = new Tile[][]{
+        Tile[][] personalGoalTiles = new Tile[][]{
                 {null, null, null, null, new Tile(TileColor.CYAN)},
                 {null, new Tile(TileColor.YELLOW), null, null, null},
                 {new Tile(TileColor.WHITE), null, null, null, null},
                 {null, null, null, new Tile(TileColor.GREEN), null},
                 {null, new Tile(TileColor.BLUE), null, null, null},
                 {null, null, null, new Tile(TileColor.PURPLE), null}};
-        b = null;
-        personalGoal1 = new PersonalGoal(1,patternPersonalGoal1);
+
+        this.bookshelf = null;
+        this.personalGoal = new PersonalGoal(1, personalGoalTiles);
     }
 
+    /**
+     *
+     */
     @Test
-    @DisplayName("Test that personal goal on the given bookshelf matches one time")
+    @DisplayName("Test that personal goal on the given this.bookshelf matches one time")
     public void givenGenericBookshelf_whenCountingMatches_thenReturnOne() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {null, new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
@@ -39,14 +42,14 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.BLUE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(1,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(1, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal on the rulebook's bookshelf matches 0 times")
+    @DisplayName("Test that personal goal on the rulebook's this.bookshelf matches 0 times")
     public void givenRulebookBookshelf_whenCountingMatches_thenReturnZero() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null, null, null},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), null},
                 {new Tile(TileColor.BLUE), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE)},
@@ -54,14 +57,14 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)},
                 {new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.CYAN), new Tile(TileColor.GREEN), new Tile(TileColor.GREEN)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(0, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches zero times on a bookshelf filled with nulls")
+    @DisplayName("Test that personal goal matches zero times on a this.bookshelf filled with nulls")
     public void givenBookshelfFilledWithNulls_whenCountingMatches_thenReturnZero() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -69,14 +72,14 @@ public class PersonalGoalTest {
                 {null, null, null, null, null},
                 {null, null, null, null, null}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(0, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches three times on a bookshelf with tiles groups consisting of a single tile")
+    @DisplayName("Test that personal goal matches three times on a this.bookshelf with tiles groups consisting of a single tile")
     public void givenBookshelfWithGroupsOfOneSingleTile_whenCountingMatches_thenReturnThree() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE)},
@@ -84,23 +87,14 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.CYAN), new Tile(TileColor.PURPLE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(3,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(3, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
     }
 
-
-/*
-    @ParameterizedTest
-    @ArgumentsSource(testProvaProvider.class)
-    public void testProva(Tile[][] input) {
-        b = new Bookshelf("", input);
-        assertEquals(1,personalGoal1.goalPattern(b));
-    }*/
-
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf zero times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf zero times")
     public void givenRandomBookshelf_whenThereAreNoMatches_thenReturnZero() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, null},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), null, null, null},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE), null, null, null},
@@ -108,14 +102,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(0,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(0, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_ZERO_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf one time")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf one time")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnOne() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -123,14 +118,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(1,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(1, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_ONE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf two times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf two times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnTwo() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -138,14 +134,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(2,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(2, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_TWO_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf three times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf three times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnThree() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -153,14 +150,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(3,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(3, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_THREE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf four times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf four times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnFour() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -168,14 +166,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.YELLOW), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(4,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(4, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_FOUR_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf five times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf five times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnFive() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -183,14 +182,15 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(5,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(5, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_FIVE_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
     @Test
-    @DisplayName("Test that personal goal matches on the given bookshelf six times")
+    @DisplayName("Test that personal goal matches on the given this.bookshelf six times")
     public void givenRandomBookshelf_whenCountingMatches_thenReturnSix() {
-        Tile[][] bs = {
+        Tile[][] tiles = {
                 {new Tile(TileColor.BLUE), new Tile(TileColor.GREEN), null, null, new Tile(TileColor.CYAN)},
                 {new Tile(TileColor.YELLOW), new Tile(TileColor.YELLOW), null, null, new Tile(TileColor.BLUE)},
                 {new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), null, null, new Tile(TileColor.BLUE)},
@@ -198,9 +198,84 @@ public class PersonalGoalTest {
                 {new Tile(TileColor.CYAN), new Tile(TileColor.BLUE), new Tile(TileColor.PURPLE), new Tile(TileColor.GREEN), null},
                 {new Tile(TileColor.GREEN), new Tile(TileColor.CYAN), new Tile(TileColor.WHITE), new Tile(TileColor.PURPLE), new Tile(TileColor.WHITE)}};
 
-        b = new Bookshelf("", bs);
-        assertEquals(6,personalGoal1.numberOfPatternRepetitionInBookshelf(b));
+        this.bookshelf = new Bookshelf(tiles);
+        assertEquals(6, this.personalGoal.numberOfPatternRepetitionInBookshelf(this.bookshelf));
+        assertEquals(OptionsValues.PERSONAL_GOAL_SIX_TILE_SCORE, this.personalGoal.score(this.bookshelf));
     }
 
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that to string method return the expected value for null personal goal")
+    public void to_string_return_expected_value_for_null_personal_goal() {
+        this.personalGoal = new PersonalGoal();
+        assertEquals(
+                "[ 0 0 0 0 0 ]\n" +
+                        "[ 0 0 0 0 0 ]\n" +
+                        "[ 0 0 0 0 0 ]\n" +
+                        "[ 0 0 0 0 0 ]\n" +
+                        "[ 0 0 0 0 0 ]\n" +
+                        "[ 0 0 0 0 0 ]", this.personalGoal.toString()
+        );
+    }
 
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that to string method return the expected value for a generic personal goal")
+    public void to_string_return_expected_value_for_generic_personal_goal() {
+        Tile[][] personalGoalTiles = new Tile[][]{
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}};
+
+        PersonalGoal parameterPersonalGoal = new PersonalGoal(1, personalGoalTiles);
+
+        this.personalGoal = new PersonalGoal(parameterPersonalGoal);
+
+        assertEquals(
+                "[ 0 0 0 0 \u001B[36mC\u001B[39m ]\n" +
+                        "[ 0 \u001B[33mY\u001B[39m 0 0 0 ]\n" +
+                        "[ \u001B[37mW\u001B[39m 0 0 0 0 ]\n" +
+                        "[ 0 0 0 \u001B[32mG\u001B[39m 0 ]\n" +
+                        "[ 0 \u001B[34mB\u001B[39m 0 0 0 ]\n" +
+                        "[ 0 0 0 \u001B[35mP\u001B[39m 0 ]", this.personalGoal.toString()
+        );
+    }
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that two personal goal are not the same")
+    public void different_personal_goals_are_not_the_same() {
+        Tile[][] personalGoalTiles = new Tile[][]{
+                {null, null, null, null, new Tile(TileColor.CYAN)},
+                {null, new Tile(TileColor.YELLOW), null, null, null},
+                {new Tile(TileColor.WHITE), null, null, null, null},
+                {null, null, null, new Tile(TileColor.GREEN), null},
+                {null, new Tile(TileColor.BLUE), null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null}};
+
+        PersonalGoal parameterPersonalGoal = new PersonalGoal();
+        parameterPersonalGoal.setPattern(personalGoalTiles);
+
+        assertNotEquals(parameterPersonalGoal, this.personalGoal);
+        assertNotEquals(this.personalGoal, parameterPersonalGoal);
+    }
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test that a personal goal is not equal to an object of another class")
+    public void different_classes_are_not_equal_to_a_personal_goal() {
+        assertNotEquals(this.personalGoal, this.bookshelf);
+        assertNotEquals(this.bookshelf, this.personalGoal);
+    }
 }
