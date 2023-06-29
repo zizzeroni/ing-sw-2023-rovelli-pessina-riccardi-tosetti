@@ -35,7 +35,6 @@ public abstract class Card {
      *
      * @param bookshelf is the selected {@code Bookshelf}.
      * @return the total number of goal pattern repetitions.
-     *
      * @see Bookshelf
      */
     public abstract int numberOfPatternRepetitionInBookshelf(Bookshelf bookshelf);

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.exceptions;
+
 /**
  * This class represents the exception occurring when the current's game lobby is considered as full and some other player tries to join it.
  *

@@ -161,7 +161,6 @@ public class GraphicalUI extends Application implements UI {
 
         int tileId;
         String tileColor;
-        takenTiles = null;
 
         BoardView boardView = this.genericUILogic.getModel().getBoard();
         //TileView[][] boardMatrix = boardView.getTiles();
@@ -384,6 +383,8 @@ public class GraphicalUI extends Application implements UI {
             mainSceneController.setCommonGoal(commonGoals);
             showNewTurnIntro();
 
+            Choice temp = null;
+
             if (!activePlayer.getNickname().equals(this.genericUILogic.getModel().getPlayers().get(this.genericUILogic.getModel().getActivePlayerIndex()).getNickname())) {
                 mainSceneController.lockAllTiles();
                 mainSceneController.lockAllTilesAfterPick();
@@ -394,14 +395,30 @@ public class GraphicalUI extends Application implements UI {
                 //------------------------------------WAITING OTHER PLAYERS-----------------------------------
                 waitWhileInStates(Arrays.asList(ClientGameState.WAITING_FOR_OTHER_PLAYER, ClientGameState.WAITING_FOR_RESUME));
                 if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
-                showNewTurnIntro();
-                //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
-                while (takenTiles == null) {
-                    Thread.onSpinWait();
-                    //Aspetto che arrivino le scelte del player;
+                if (this.mainSceneController.getInCensure() == 0) {
+                    showNewTurnIntro();
+                    //------------------------------------FIRST GAME RELATED INTERACTION------------------------------------
+                    while (takenTiles == null) {
+                        Thread.onSpinWait();
+                        //Aspetto che arrivino le scelte del player;
+                    }
+                    if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
+                    this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
+                    temp = takenTiles;
+                    takenTiles = null;
+                } else {
+                    this.mainSceneController.endCensure();
+                    if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
+                    this.genericUILogic.getController().insertUserInputIntoModel(temp);
                 }
 
-                this.genericUILogic.getController().insertUserInputIntoModel(takenTiles);
+                if (this.genericUILogic.getState() == ClientGameState.GAME_ENDED) break;
+
+                System.out.println(takenTiles);
+                System.out.println(this.mainSceneController.getInCensure());
+
                 //---------------------------------NOTIFY CONTROLLER---------------------------------
 
                 this.genericUILogic.getController().changeTurn();
@@ -444,11 +461,11 @@ public class GraphicalUI extends Application implements UI {
         });
         th.start();
     }
+
     /**
      * Permits to wait while the client is in the specified ClientGameState.
      *
      * @param gameStates is the given state causing the wait.
-     *
      * @see ClientGameState
      */
     private void waitWhileInStates(List<ClientGameState> gameStates) {
@@ -468,7 +485,9 @@ public class GraphicalUI extends Application implements UI {
             }
             boolean firstTime = true;
             while (gameStates.contains(genericUILogic.getState())) {
-                showUpdateFromOtherPlayer();
+                if (this.mainSceneController.getInCensure() == 0) {
+                    showUpdateFromOtherPlayer();
+                }
                 try {
                     genericUILogic.getLockState().wait();
                 } catch (InterruptedException e) {

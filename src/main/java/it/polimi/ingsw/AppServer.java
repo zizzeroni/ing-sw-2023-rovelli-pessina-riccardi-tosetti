@@ -41,7 +41,6 @@ public class AppServer {
      *
      * @param args the main's arguments.
      * @throws RemoteException called when connection error occurs.
-     *
      * @see Server
      * @see javax.management.remote.rmi.RMIConnection
      * @see Socket
@@ -123,7 +122,6 @@ public class AppServer {
      *
      * @param server the server involved in the socket service creation.
      * @throws RemoteException called if a communication error with the server occurs.
-     *
      * @see it.polimi.ingsw.network.Client
      * @see Server
      * @see Thread

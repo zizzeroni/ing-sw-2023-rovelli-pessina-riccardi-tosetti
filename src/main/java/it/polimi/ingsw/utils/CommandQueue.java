@@ -46,7 +46,7 @@ public class CommandQueue {
      *
      * @param command the {@code command} from the
      * @throws Exception if the command can't be added,
-     * prints an error message with the size of the queue.
+     *                   prints an error message with the size of the queue.
      */
     public void addCommand(String command) throws Exception {
         if (!this.commands.add(command)) {

@@ -26,7 +26,6 @@ import java.util.*;
  * different useful information such as the number of the active players,
  * their present state (connected or not) and other methods linked to game,
  * turn and players management.
- *
  */
 public class CreationState extends ControllerState {
 
@@ -53,7 +52,6 @@ public class CreationState extends ControllerState {
      *
      * @param playerChoice the {@code Choice} made by the {@code Player}
      *                     (as a selection of multiple tiles).
-     *
      * @see Game
      * @see Choice
      */
@@ -71,9 +69,8 @@ public class CreationState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -96,9 +93,8 @@ public class CreationState extends ControllerState {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -123,7 +119,6 @@ public class CreationState extends ControllerState {
      * The method also sets the connection state of any given {@code Player} to {@code true}.
      *
      * @param nickname is the reference for the name of the {@code Player} being added.
-     *
      * @see PersonalGoal
      * @see GameController#getNumberOfPersonalGoals()
      */
@@ -206,11 +201,11 @@ public class CreationState extends ControllerState {
         }
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}.
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}.
      * (only possible when the {@code Game} has already started).
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Game
      * @see Player
      * @see Game#getPlayerFromNickname
@@ -227,10 +222,8 @@ public class CreationState extends ControllerState {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @see Game
      * @see Game#getPlayers()
-     *
      */
     @Override
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) {
@@ -254,8 +247,7 @@ public class CreationState extends ControllerState {
      *
      * @return the {@code CommonGoal} object being randomly generated
      * @throws Exception signals if generation cannot be provided due to an error
-     * linked to class instantiation
-     *
+     *                   linked to class instantiation
      * @see CommonGoal
      * @see Game#getNumberOfPlayersToStartGame()
      */
@@ -321,9 +313,8 @@ public class CreationState extends ControllerState {
     /**
      * Restores the current game for the considered player.
      *
-     * @param server the server controlling the game's execution.
+     * @param server   the server controlling the game's execution.
      * @param nickname the given player's nickname.
-     *
      * @see Player
      * @see Game
      */
@@ -395,7 +386,6 @@ public class CreationState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the {@code IN_CREATION} state of the {@code Game}.
-     *
      * @see GameState#IN_CREATION
      */
     public static GameState toEnum() {

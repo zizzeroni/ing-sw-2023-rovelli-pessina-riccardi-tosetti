@@ -25,7 +25,7 @@ public class CommandReader extends Thread {
      * Identifies the command written by the {@code Player} in the CLI.
      * The available commands are /all /private and /showChat.
      * If the given input doesn't match the referred command names, prints a message error.
-     * 
+     *
      * @see CommandQueue#addCommand(String)
      * @see it.polimi.ingsw.model.Player
      */

@@ -60,7 +60,6 @@ public class InPauseState extends ControllerState {
      * Used to handle the input insertion in the game's model
      *
      * @param playerChoice the choice made by the player.
-     *
      * @see Player
      */
     @Override
@@ -77,18 +76,21 @@ public class InPauseState extends ControllerState {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
-     *
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
      */
     @Override
     public void sendPrivateMessage(String receiver, String sender, String content) {
-        //Necessary in case i call this method while I'm in InPauseState state (SHOULDN'T BE HAPPENING but if happen then i'm not "stuck" when using socket)
-        this.controller.getModel().setGameState(this.controller.getModel().getGameState());
-        //In pause so do nothing...
+        Message message = new Message(MessageType.PRIVATE, receiver, sender, content);
+        for (Player player : this.controller.getModel().getPlayers()) {
+            //sender and receiver will see the message, in order to keep the full history
+            if (player.getNickname().equals(receiver) || player.getNickname().equals(sender)) {
+                player.addMessage(message);
+            }
+        }
     }
 
     /**
@@ -97,9 +99,8 @@ public class InPauseState extends ControllerState {
      * in any chat implementation. It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
-     * @param sender the {@code Player} sending the message.
+     * @param sender  the {@code Player} sending the message.
      * @param content the text of the message being sent.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -127,13 +128,11 @@ public class InPauseState extends ControllerState {
      * the possibility to add new players to the current {@code Game}.
      *
      * @param nickname the nickname of the {@code Player}
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#addPlayer(String)
      * @see FinishingState#addPlayer(String)
      * @see OnGoingState#addPlayer(String)
-     *
      */
     @Override
     public void addPlayer(String nickname) throws LobbyIsFullException {
@@ -171,13 +170,13 @@ public class InPauseState extends ControllerState {
      * @see GameController#getModel()
      * @see Game#getActivePlayerIndex()
      */
-    private void changeActivePlayer(){
+    private void changeActivePlayer() {
         Game model = this.controller.getModel();
-        if(!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()){
-            if(model.getActivePlayerIndex()==model.getPlayers().size()-1){
+        if (!model.getPlayers().get(model.getActivePlayerIndex()).isConnected()) {
+            if (model.getActivePlayerIndex() == model.getPlayers().size() - 1) {
                 model.setActivePlayerIndex(0);
-            }else{
-                model.setActivePlayerIndex(model.getActivePlayerIndex()+1);
+            } else {
+                model.setActivePlayerIndex(model.getActivePlayerIndex() + 1);
             }
             changeActivePlayer();
         }
@@ -189,7 +188,6 @@ public class InPauseState extends ControllerState {
      * Used during the creation state.
      *
      * @param chosenNumberOfPlayers the number of players joining the {@code Game}.
-     *
      * @see it.polimi.ingsw.model.Game
      * @see CreationState#chooseNumberOfPlayerInTheGame(int)
      */
@@ -206,8 +204,7 @@ public class InPauseState extends ControllerState {
      *
      * @param chosenNumberOfPlayers is the current number of players.
      * @throws ExcessOfPlayersException signals an excess in the player's number.
-     * @throws WrongInputDataException occurs when data has not been entered correctly.
-     *
+     * @throws WrongInputDataException  occurs when data has not been entered correctly.
      * @see Player
      */
     @Override
@@ -241,13 +238,12 @@ public class InPauseState extends ControllerState {
         //In pause so do nothing...
     }
 
-    /** Disconnects the selected {@code Player} from the {@code Game}
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible because the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -262,9 +258,8 @@ public class InPauseState extends ControllerState {
     /**
      * Restores the current game for the considered player.
      *
-     * @param server the server controlling the game's execution.
+     * @param server   the server controlling the game's execution.
      * @param nickname the given player's nickname.
-     *
      * @see Player
      * @see Game
      */
@@ -280,7 +275,6 @@ public class InPauseState extends ControllerState {
      * Returns the current {@code State} of the {@code Game}.
      *
      * @return the {@code PAUSED} state of the {@code Game}.
-     *
      * @see GameState#PAUSED
      */
     public static GameState toEnum() {

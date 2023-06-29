@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
  * and for the associated command execution and displaying.
  * It is developed as an implementation of the {@code CommandToServer} interface.
  *
- *
  * @see CommandToServer
  * @see Server
  * @see it.polimi.ingsw.network.ServerImpl
@@ -74,7 +73,6 @@ public class SendPingToServerCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the server's ping sending command.
-     *
      * @see CommandType
      */
     @Override
@@ -86,7 +84,6 @@ public class SendPingToServerCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

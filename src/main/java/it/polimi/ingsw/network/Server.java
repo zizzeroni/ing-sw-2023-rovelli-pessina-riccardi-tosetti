@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.CreationState;
-import it.polimi.ingsw.controller.FinishingState;
 import it.polimi.ingsw.controller.OnGoingState;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Game;
@@ -38,7 +36,6 @@ public interface Server extends Remote {
      *
      * @param playerChoice the choice made by the player.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Board
      * @see Choice
@@ -52,10 +49,9 @@ public interface Server extends Remote {
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
-     * @param sender the {@code Player} sending the message.
-     * @param content the text of the message being sent.
+     * @param sender   the {@code Player} sending the message.
+     * @param content  the text of the message being sent.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Player#getNickname()
      * @see Message#messageType()
@@ -66,10 +62,9 @@ public interface Server extends Remote {
      * This method implementations allow to send
      * broadcast messages to all the {@code Player}s.
      *
-     * @param sender the sender of the broadcast {@code Message}.
+     * @param sender  the sender of the broadcast {@code Message}.
      * @param content the text of the message.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Message
      */
@@ -80,11 +75,9 @@ public interface Server extends Remote {
      * through the knowledge of the nickname he has chosen during game creation and the client
      * he has been assigned to.
      *
-     *
-     * @param client is the player's client
+     * @param client   is the player's client
      * @param nickname is the reference for the name of the {@code Player} being added.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Client
      * @see Game
      * @see Player
@@ -95,7 +88,6 @@ public interface Server extends Remote {
      * This method is used to try to resume the current's game.
      *
      * @throws RemoteException if a communication error with the server occurs.
-     *
      * @see Game
      */
     public void tryToResumeGame() throws RemoteException;
@@ -105,13 +97,10 @@ public interface Server extends Remote {
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
-     *
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Game
      * @see Game#getPlayers()
      * @see Player
-     *
      */
     public void chooseNumberOfPlayerInTheGame(int chosenNumberOfPlayers) throws RemoteException;
 
@@ -122,14 +111,13 @@ public interface Server extends Remote {
      */
     public void startGame() throws RemoteException;
 
-    /** Disconnects the selected {@code Player} from the {@code Game}
+    /**
+     * Disconnects the selected {@code Player} from the {@code Game}
      * by changing his connectivity state.
      * (only possible when the {@code Game} has already started).
      *
-     *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException called if a communication error occurs.
-     *
      * @see Player
      * @see Game
      * @see Player#setConnected(boolean)
@@ -171,9 +159,7 @@ public interface Server extends Remote {
      * Allows to ping the server.
      *
      * @throws RemoteException called if a communication error occurs.
-     *
      * @throws RemoteException signals the occurrence of a communication error with the server.
-     *
      * @see Server
      */
     public void ping() throws RemoteException;

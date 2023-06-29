@@ -71,7 +71,6 @@ public class AreThereStoredGamesForPlayerCommand implements CommandToServer {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the class command.
-     *
      * @see CommandType
      */
     @Override
@@ -83,7 +82,6 @@ public class AreThereStoredGamesForPlayerCommand implements CommandToServer {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

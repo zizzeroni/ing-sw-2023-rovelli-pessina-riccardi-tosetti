@@ -123,7 +123,7 @@ public class CreationStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that changeTurn method does  nothing ")
+    @DisplayName("Test that changeTurn method does nothing ")
     public void change_turn_method_does_nothing_in_creation_test() {
         this.state.changeTurn(gamesPath, gamesPathBackup);
     }
@@ -132,7 +132,7 @@ public class CreationStateTest {
      * Test class
      */
     @Test
-    @DisplayName("Test that insertUserInputInto model method does  nothing ")
+    @DisplayName("Test that insertUserInputInto model method does nothing ")
     public void user_input_into_model_method_does_nothing_in_creation_test() {
         this.state.insertUserInputIntoModel(new Choice());
     }

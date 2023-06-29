@@ -37,10 +37,8 @@ public class AppClient {
      * Asks the preferred client connection's and UI types and manages the related player's choices.
      *
      * @param args the main's arguments.
-     *
-     * @throws RemoteException called to handle connection errors.
+     * @throws RemoteException   called to handle connection errors.
      * @throws NotBoundException called to handle UI errors.
-     *
      * @see it.polimi.ingsw.model.Player
      * @see Client
      * @see it.polimi.ingsw.view.GenericUILogic
@@ -155,7 +153,6 @@ public class AppClient {
      * Start up the thread used to ping the server.
      *
      * @param server the server to be pinged.
-     *
      * @see Server
      */
     public static void startPingSenderThread(Server server) {
@@ -178,9 +175,8 @@ public class AppClient {
      * Creates a new Thread that will take care of the responses coming from the Server side.
      * Starts up the related thread's receiver.
      *
-     * @param client the player's client.
+     * @param client     the player's client.
      * @param serverStub the stub used to enable server's interaction.
-     *
      * @see Thread
      * @see Server
      * @see ServerStub

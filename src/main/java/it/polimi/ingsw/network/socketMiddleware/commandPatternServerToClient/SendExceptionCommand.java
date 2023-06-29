@@ -23,7 +23,7 @@ public class SendExceptionCommand implements CommandToClient {
 
     /**
      * Class constructor.
-     *
+     * <p>
      * Initialize the exception attribute to the given exception's value.
      *
      * @param exception the attribute to be initialized.
@@ -43,7 +43,7 @@ public class SendExceptionCommand implements CommandToClient {
 
     /**
      * Class constructor.
-     *
+     * <p>
      * Initialize the actuator to its default value (null).
      */
     public SendExceptionCommand() {
@@ -88,7 +88,6 @@ public class SendExceptionCommand implements CommandToClient {
      * Used to enumerate the type of the class command.
      *
      * @return the {@code CommandType} of the exception sending command.
-     *
      * @see CommandType
      */
     @Override
@@ -100,7 +99,6 @@ public class SendExceptionCommand implements CommandToClient {
      * Displays the type of command being executed altogether with the command receiver ({@code GameController}) and command parameters.
      *
      * @return the string representing the class command.
-     *
      * @see it.polimi.ingsw.controller.GameController
      */
     @Override

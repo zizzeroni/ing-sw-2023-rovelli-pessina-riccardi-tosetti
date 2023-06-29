@@ -36,7 +36,6 @@ public class ClientSkeleton implements Client {
      *
      * @param socket is the server's socket.
      * @throws RemoteException to signal the occurrence of a resource error on input or output streams.
-     *
      * @see Client
      */
     public ClientSkeleton(Socket socket) throws RemoteException {
@@ -57,7 +56,6 @@ public class ClientSkeleton implements Client {
      *
      * @param modelUpdated contains the model updates.
      * @throws RemoteException is called when a communication error occurs and the modelView can't be sent.
-     *
      * @see javax.swing.text.View
      */
     @Override
@@ -75,7 +73,6 @@ public class ClientSkeleton implements Client {
      * Allows to ping the client.
      *
      * @throws RemoteException signals the occurrence of a communication error with the client.
-     *
      * @see Client
      */
     @Override
@@ -94,7 +91,6 @@ public class ClientSkeleton implements Client {
      *
      * @param exception the GENERIC except to be sent.
      * @throws RemoteException called when a communication error with the client occurs.
-     *
      * @see Client
      */
     @Override
@@ -112,7 +108,6 @@ public class ClientSkeleton implements Client {
      * Setter used to provide knowledge on the stored game's for the player reconnecting to the current's game server.
      *
      * @param result {@code true} if and only if the game has been stored properly, {@code false} otherwise.
-     *
      * @see it.polimi.ingsw.model.Game
      */
     @Override
@@ -131,7 +126,6 @@ public class ClientSkeleton implements Client {
      *
      * @param server is the server communicating to.
      * @throws RemoteException called when the server's message can't be cast or received.
-     *
      * @see Server
      */
     public void receive(Server server) throws RemoteException {
