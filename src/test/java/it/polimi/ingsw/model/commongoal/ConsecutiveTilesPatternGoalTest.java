@@ -27,7 +27,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a generic bookshelf matches three time")
@@ -47,7 +47,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a generic bookshelf matches zero time")
@@ -67,7 +67,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in a bookshelf filled with elements of the same type matches one time")
@@ -87,7 +87,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in a bookshelf filled with elements of the same type matches one time")
@@ -107,7 +107,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least two consecutive element of the same colour in an empty bookshelf matches zero time")
@@ -127,7 +127,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with at least four consecutive element of the same colour in an empty bookshelf matches zero time")
@@ -147,7 +147,7 @@ public class ConsecutiveTilesPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")

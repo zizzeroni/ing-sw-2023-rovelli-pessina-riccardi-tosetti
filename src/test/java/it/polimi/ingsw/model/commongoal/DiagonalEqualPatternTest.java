@@ -29,7 +29,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element making an X in a generic bookshelf matches zero time")
@@ -53,7 +53,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element making an X matches zero times on an empty bookshelf")
@@ -76,7 +76,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element making an X matches four times on a bookshelf completely filled with same colour tiles")
@@ -99,7 +99,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element making an X matches two times on a bookshelf with the first 3 column of inverted color")
@@ -123,7 +123,7 @@ public class DiagonalEqualPatternTest {
 
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal in a bookshelf with five blue element on the second diagonal matches one time")
@@ -148,7 +148,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal in a bookshelf whit the first two rows filled of null element matches zero")
@@ -173,7 +173,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal matches zero times on a bookshelf completely filled with nulls")
@@ -198,7 +198,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal matches two times on a bookshelf completely filled with same colour tiles")
@@ -223,7 +223,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal in a bookshelf whit five purple element on the first diagonal and five blue element on " +
@@ -251,7 +251,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with five element on a diagonal matches zero time on a generic bookshelf")
@@ -276,7 +276,7 @@ public class DiagonalEqualPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")

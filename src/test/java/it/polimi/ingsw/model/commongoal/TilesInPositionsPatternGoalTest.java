@@ -29,7 +29,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a generic bookshelf matches zero time")
@@ -52,7 +52,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a full of blue element bookshelf matches one time")
@@ -75,7 +75,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a full of null element bookshelf matches zero time")
@@ -98,7 +98,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a generic bookshelf matches zero time")
@@ -121,7 +121,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four element as a square in a casual three colour bookshelf matches two time")
@@ -144,7 +144,7 @@ public class TilesInPositionsPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")

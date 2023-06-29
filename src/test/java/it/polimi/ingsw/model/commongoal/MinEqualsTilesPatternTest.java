@@ -34,7 +34,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively one time, one time, zero times and zero times on the given bookshelf")
@@ -56,7 +56,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively one time, zero times, zero times and zero times on the given bookshelf")
@@ -78,7 +78,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively zero times, zero times, zero times and zero times on the given bookshelf")
@@ -100,7 +100,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively one time, one time, zero times and zero times on the given bookshelf")
@@ -122,7 +122,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively zero times, zero times, six times and five times on the given bookshelf")
@@ -144,7 +144,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the vertical and horizontal commonGoals, with the parameterized number of max tiles equals to each other, match respectively nine times, six times, zero times and zero times on the given bookshelf")
@@ -189,7 +189,7 @@ public class MinEqualsTilesPatternTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")

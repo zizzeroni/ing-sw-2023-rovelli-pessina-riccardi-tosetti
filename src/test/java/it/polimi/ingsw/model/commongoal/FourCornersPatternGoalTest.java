@@ -27,7 +27,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
@@ -46,7 +46,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
@@ -65,7 +65,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on an empty bookshelf")
@@ -84,7 +84,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches one time on the given bookshelf")
@@ -103,7 +103,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with four tiles equals to each others at the corners of the bookshelf matches zero times on the given bookshelf")
@@ -122,7 +122,7 @@ public class FourCornersPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")

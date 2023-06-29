@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.commongoal;
 
 import it.polimi.ingsw.model.Bookshelf;
-import it.polimi.ingsw.model.PersonalGoal;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
@@ -30,7 +29,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches one time on a generic bookshelf")
@@ -51,7 +50,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches one time on the rulebook's bookshelf")
@@ -70,7 +69,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches zero times on an empty bookshelf")
@@ -89,7 +88,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches one time on a bookshelf completely filled with tiles fo the same color")
@@ -108,7 +107,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches zero times on a bookshelf completely filled with groups of tiles each consisting of a single tile")
@@ -127,7 +126,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with eight tiles equals to each others matches three times on a bookshelf containing three different groups of eight or more tiles equals to each others")
@@ -146,7 +145,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")
@@ -171,7 +170,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that two personal goal are not the same")
@@ -184,7 +183,7 @@ public class EightShapelessPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that a common goal is not equal to an object of another class")

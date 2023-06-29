@@ -27,7 +27,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with stair on columns in a bookshelf full of tiles matches zero times")
@@ -46,7 +46,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with stair on columns matches zero times on a bookshelf completely filled with nulls")
@@ -65,7 +65,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with one element on the first column, two on the second, three on the third" +
@@ -85,7 +85,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with stair on columns matches one times on a bookshelf with five element on the first column, four on the second, three on the third" +
@@ -105,7 +105,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that the commonGoal with stair on columns matches zero times on a bookshelf with zero element on the first column, one on the second, two on the third" +
@@ -125,7 +125,7 @@ public class StairPatternGoalTest {
     }
 
     /**
-     *
+     * Test class
      */
     @Test
     @DisplayName("Test that copyImmutable creates a view equal to the model")
