@@ -63,6 +63,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendUpdatedModelCommand(modelUpdated);
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
@@ -80,6 +81,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendPingToClientCommand();
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client.", e);
@@ -98,6 +100,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendExceptionCommand(exception);
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " to client.", e);
@@ -115,6 +118,7 @@ public class ClientSkeleton implements Client {
         CommandToClient command = new SendAreThereStoredGamesForPlayerCommand(result);
         try {
             this.oos.writeObject(command);
+            this.oos.flush();
             this.oos.reset();
         } catch (IOException e) {
             throw new RemoteException("[COMMUNICATION:ERROR] Error while sending message: " + command + " ,to client: " + e.getMessage());

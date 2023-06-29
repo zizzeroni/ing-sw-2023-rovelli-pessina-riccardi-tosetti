@@ -16,6 +16,9 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
     private Client actuator;
     private final boolean result;
 
+    /**
+     * Class constructor.
+     */
     public SendAreThereStoredGamesForPlayerCommand(Client actuator, boolean result) {
         this.actuator = actuator;
         this.result = result;

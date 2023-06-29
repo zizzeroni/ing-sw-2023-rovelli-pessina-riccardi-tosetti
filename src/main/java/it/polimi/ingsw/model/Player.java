@@ -190,7 +190,6 @@ public class Player {
      * Sets the score {@code Tile}s list.
      *
      * @param scoreTiles is the player list of score tiles.
-     * @return the player's score tiles list.
      * @see Tile
      */
     public void setScoreTiles(List<ScoreTile> scoreTiles) {
@@ -212,6 +211,7 @@ public class Player {
      *
      * @see Bookshelf
      * @see Tile
+     * @param bookshelf the new bookshelf
      */
     public void setBookshelf(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;
@@ -316,7 +316,7 @@ public class Player {
     /**
      * Returns the list of the current messages
      *
-     * @return the {@Code List<Message>} of the messages sent by the active player
+     * @return the {@code List<Message>} of the messages sent by the active player
      */
     public List<Message> getChat() {
         return chat;

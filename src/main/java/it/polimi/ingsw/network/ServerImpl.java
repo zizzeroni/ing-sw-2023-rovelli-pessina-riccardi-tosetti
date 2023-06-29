@@ -44,6 +44,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @see GameController
      * @see Game
      * @see Board
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl() throws RemoteException {
         super();
@@ -64,10 +65,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * Starts the thread's pinging.
      *
      * @param port the server's port number.
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port) throws RemoteException {
         super(port);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
@@ -81,20 +83,23 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @see Server
      * @see RMIClientSocketFactory
      * @see RMIServerSocketFactory
+     * @throws RemoteException if a connection error occurs
      */
     public ServerImpl(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-        startPingSenderThread(this);
+        startPingSenderThread();
     }
 
     /**
      * Allows to change the turn and update the state of the game.
-     * Registers a listener for game and board changes.
+     * In case the {@code GameState} is {@code RESET_NEEDED} launch the
+     * resetServer() method
      *
      * @throws RemoteException is called when a communication error occurs.
      * @see Game
      * @see Board
      * @see java.net.http.WebSocket.Listener
+     * @see #resetServer()
      */
     @Override
     public synchronized void changeTurn() throws RemoteException {
@@ -155,6 +160,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     /**
      * Adds a player to the game associated with his client.
+     * In case the lobby is full, or the nickname il already taken, respond
+     * to the client sending an exception
      *
      * @param client   is the player's client.
      * @param nickname is the reference for the name of the {@code Player} being added.
@@ -190,7 +197,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
             Optional<String> nullNickname = Optional.empty();
             this.clientsToHandle.replace(client, nullNickname); //Look down tryToResumeGame method
             this.numberOfMissedPings.remove(client);            //I will remove it anyway in the next tryToResumeGame call, so I remove it at this point
-            //this.clientsToHandle.remove(client);
         }
     }
 
@@ -208,7 +214,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Allows to communicate the players number selection from the GameController.
+     * Calls the controller to set the number of player requested to start the game.
      *
      * @param chosenNumberOfPlayers identifies the number of players present
      *                              in the lobby during the game creation.
@@ -289,7 +295,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Signals to the game's view the disconnection of a player.
+     * Calls the controller implementation of disconnecting .
      *
      * @param nickname is the nickname identifying the player selected for disconnection.
      * @throws RemoteException if a communication error occurs.
@@ -307,6 +313,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
      * @param nickname the given player's nickname.
      * @see Player
      * @see Game
+     * @see #disconnectPlayerNotPartOfTheLobby()
+     * @see #notifyClientsAfterRestoring()
      */
     @Override
     public void restoreGameForPlayer(String nickname) throws RemoteException {
@@ -520,7 +528,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
 
     /**
      * Indicates a change in the current game's state.
-     * It is also used to register every player and his bookshelf as a listener on the server implementation.
+     * It is also used to register every player and his bookshelf as a listener on the server implementation
+     * if the game just entered in the {@code ON_GOING} state.
+     * Finally, if the {@code Game} is in {@code RESET_NEEDED} state just call resetServer() method.
      *
      * @see Game
      * @see Player
@@ -582,14 +592,17 @@ public class ServerImpl extends UnicastRemoteObject implements Server, ModelList
     }
 
     /**
-     * Allows the server to ping a game's thread.
-     * Starts a different thread to execute the pinging.
+     * For each connected client, start a thread that take care of pinging that specific client.
+     * In case the ping() method call fail three times in a row, disconnect the Player associated to
+     * that client and remove it from the client to handle.
      *
-     * @param server the server starting the thread's pinging.
      * @see Game
+     * @see #clientsToHandle
+     * @see Client#ping()
+     * @see GameController#disconnectPlayer(String)
      */
 
-    private void startPingSenderThread(ServerImpl server) {
+    private void startPingSenderThread() {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

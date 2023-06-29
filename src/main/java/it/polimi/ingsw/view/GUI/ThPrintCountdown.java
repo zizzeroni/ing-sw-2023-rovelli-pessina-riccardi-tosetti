@@ -7,6 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThPrintCountdown extends Thread {
     private int countdown;
 
+    /**
+     * Class constructor
+     * @param countdown countdown to be printed
+     */
     public ThPrintCountdown(int countdown) {
         this.countdown = countdown;
     }

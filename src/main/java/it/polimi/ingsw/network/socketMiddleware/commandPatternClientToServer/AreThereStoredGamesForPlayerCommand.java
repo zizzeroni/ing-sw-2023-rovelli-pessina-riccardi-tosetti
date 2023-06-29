@@ -22,11 +22,21 @@ public class AreThereStoredGamesForPlayerCommand implements CommandToServer {
     public AreThereStoredGamesForPlayerCommand(String nickname) {
         this.nickname = nickname;
     }
-
+    /**
+     * Class constructor.
+     *
+     * @param actuator the server that receive the message
+     */
     public AreThereStoredGamesForPlayerCommand(Server actuator) {
         this.actuator = actuator;
     }
 
+    /**
+     * Class constructor.
+     *
+     * @param nickname is the nickname of the player associated to his stored games.
+     * @param actuator the server that receive the message
+     */
     public AreThereStoredGamesForPlayerCommand(Server actuator, String nickname) {
         this.actuator = actuator;
         this.nickname = nickname;
@@ -56,7 +66,7 @@ public class AreThereStoredGamesForPlayerCommand implements CommandToServer {
      * This method permits the execution of the class command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      */
     @Override
     public void execute() throws NullPointerException, RemoteException {

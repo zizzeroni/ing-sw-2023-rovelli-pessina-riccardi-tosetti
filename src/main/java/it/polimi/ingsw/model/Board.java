@@ -74,7 +74,7 @@ public class Board {
      * Initializes the number of usable tiles and the set of tiles that can ben placed on the Board.
      *
      * @param numberOfUsableTiles number of {@code Tile}s that are usable, set during the {@code Game}'s creation.
-     * @param tiles               are the considered tiles.
+     * @param tiles               matrix with the considered tiles.
      * @see Tile
      * @see Game
      */
@@ -106,7 +106,7 @@ public class Board {
     /**
      * The method searches in the board for "lonely" {@code Tile}s (without any nearby, adjacent tiles).
      *
-     * @return if 2 or more nearby tiles are found, returns '0',
+     * @return if two or more nearby tiles are found, returns '0',
      * otherwise returns the number of "lonely" tiles.
      * @see Tile
      */
@@ -196,6 +196,7 @@ public class Board {
     /**
      * Setter used to decide the {@code Tile}s to be displaced on the board.
      *
+     * @param tiles matrix of the board
      * @see Tile
      */
     public void setTiles(Tile[][] tiles) {

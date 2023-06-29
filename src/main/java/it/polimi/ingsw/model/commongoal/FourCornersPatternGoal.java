@@ -25,7 +25,7 @@ public class FourCornersPatternGoal extends CommonGoal {
      * Class constructor with parameters.
      * Builds an FourCornersPatternGoal with a specified type, ID, ...
      *
-     * @param id                the identifier assigned to the card.
+     * @param id                the identifier assigned to the commonGoal card.
      * @param patternRepetition contains the number of times the personal goal must be completed to take the score tile.
      * @param type              the type of check that has to be done on the considered common goal's card.
      */
@@ -38,7 +38,7 @@ public class FourCornersPatternGoal extends CommonGoal {
      * Builds a FourCornersPatternGoal with specific type, ID ...
      * (numberOfPlayers and commonGoalID are also considered).
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers                    number of active players.
@@ -52,7 +52,7 @@ public class FourCornersPatternGoal extends CommonGoal {
      * Builds a FourCornersPatternGoal with specific type, ID ...
      * (scoreTiles parameter is also considered).
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param scoreTiles                         list of current score tiles.
@@ -79,10 +79,9 @@ public class FourCornersPatternGoal extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the FourCornersPatternGoalView.
-     * @see CommonGoal
      */
     @Override
     public FourCornersPatternGoalView copyImmutable() {

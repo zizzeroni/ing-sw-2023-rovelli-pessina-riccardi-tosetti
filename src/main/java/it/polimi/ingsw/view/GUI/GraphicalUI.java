@@ -56,10 +56,21 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    /**
+     * Getter the precedent width
+     * @return the old width of the scene.
+     * @see GameView
+     */
+
     public double getWidthOld() {
         return widthOld;
     }
 
+    /**
+     * Getter of precedent height
+     * @return the old height of the scene.
+     * @see GameView
+     */
     public double getHeightOld() {
         return heightOld;
     }
@@ -68,6 +79,7 @@ public class GraphicalUI extends Application implements UI {
      * Class constructor.
      * Initialize the game's model.
      *
+     * @param genericUILogic object implementing the common operation between TUI and GUI
      * @see GameView
      */
     public GraphicalUI(GenericUILogic genericUILogic) {
@@ -77,7 +89,7 @@ public class GraphicalUI extends Application implements UI {
     /**
      * Class constructor.
      * <p>
-     * Sets the attributes as in the UI's superclass.
+     * Sets the attributes as in the {@code UI}'s superclass.
      *
      * @see UI
      */
@@ -88,8 +100,11 @@ public class GraphicalUI extends Application implements UI {
     /**
      * Class constructor.
      * <p>
-     * Sets the attributes as in the UI's superclass.
+     * Sets the attributes as in the {@code UI}'s superclass.
      *
+     * @param model      the model assigned to the genericUILogic
+     * @param controller controller of the GUI
+     * @param nickname   nickname of the player associated to the GUI
      * @see UI
      */
     public GraphicalUI(GameView model, ViewListener controller, String nickname) {
@@ -99,8 +114,10 @@ public class GraphicalUI extends Application implements UI {
     /**
      * Class constructor.
      * <p>
-     * Sets the attributes as in the UI's superclass.
+     * Sets the attributes as in the {@code UI}'s superclass.
      *
+     * @param model      the model assigned to the genericUILogic
+     * @param controller controller of the GUI
      * @see UI
      */
     public GraphicalUI(GameView model, ViewListener controller) {
@@ -168,9 +185,6 @@ public class GraphicalUI extends Application implements UI {
 
         mainSceneController.setTable();
 
-        //mainSceneController.setChat();
-        //mainSceneController.updateChat();
-
         for (int row = 0; row < boardView.getNumberOfRows(); row++) {
             for (int column = 0; column < boardView.getNumberOfColumns(); column++) {
                 if (boardMatrix[row][column] != null && boardMatrix[row][column].getColor() != null) {
@@ -202,7 +216,7 @@ public class GraphicalUI extends Application implements UI {
     }
 
     /**
-     * Adds a
+     * Adds a listener
      *
      * @param listener the View's Listener.
      * @see java.net.http.WebSocket.Listener
@@ -269,9 +283,9 @@ public class GraphicalUI extends Application implements UI {
     }
 
     /**
-     * Performs the following in game actions. <p>
-     * Creates the first scene root. <p>
-     * Displays the first scene. <p>
+     * Performs the following in game actions.
+     * Creates the first scene root.
+     * Displays the first scene.
      *
      * @see it.polimi.ingsw.model.Player
      * @see it.polimi.ingsw.model.Game
@@ -510,26 +524,6 @@ public class GraphicalUI extends Application implements UI {
         }
     }
 
-//    public void waitWhileInState(ClientGameState state) {
-//        synchronized (this.genericUILogic.getLockState()) {
-//            switch (state) {
-//                case WAITING_IN_LOBBY -> {
-//                }
-//                case WAITING_FOR_OTHER_PLAYER -> {
-//                    mainSceneController.lockAllTiles();
-//                }
-//            }
-//            while (genericUILogic.getState() == state) {
-//                showUpdateFromOtherPlayer();
-//                try {
-//                    genericUILogic.getLockState().wait();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
-//    }
-
     /**
      * Sets the number of players for the current Game.
      *
@@ -538,7 +532,6 @@ public class GraphicalUI extends Application implements UI {
      * @see it.polimi.ingsw.model.Player
      */
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
-        //Setto il numero di player
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         var th = new Thread(() -> {
             if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {

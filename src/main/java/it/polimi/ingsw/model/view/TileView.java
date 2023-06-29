@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.view;
 
-import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
 
@@ -9,7 +8,7 @@ import java.io.Serializable;
 /**
  * This class represents the Tile's view.
  * The class contains a series of getters to access their personal goals, their goal tiles, their {@code Bookshelf}s, chats
- * and a series of other class related relevant informations.
+ * and a series of other class related relevant information.
  *
  * @see it.polimi.ingsw.model.tile.Tile
  * @see it.polimi.ingsw.model.Player
@@ -32,10 +31,10 @@ public class TileView implements Serializable {
     }
 
     /**
-     * Getter used to access {@code CommonGoal}'s image identifier.
+     * Getter used to access {@code TileView}'s identifier.
      *
-     * @return the {@code CommonGoal}'s id.
-     * @see CommonGoal
+     * @return the {@code Tile}'s id.
+     * @see Tile
      */
     public int getId() {
         return this.id;

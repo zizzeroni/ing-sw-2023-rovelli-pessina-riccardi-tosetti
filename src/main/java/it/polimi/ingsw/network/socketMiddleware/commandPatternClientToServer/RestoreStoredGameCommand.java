@@ -23,11 +23,22 @@ public class RestoreStoredGameCommand implements CommandToServer {
     public RestoreStoredGameCommand(String nickname) {
         this.nickname = nickname;
     }
-
+    /**
+     * Class builder.
+     * Initialize class parameters, including player's nickname.
+     *
+     * @param actuator the server that receive the message.
+     */
     public RestoreStoredGameCommand(Server actuator) {
         this.actuator = actuator;
     }
-
+    /**
+     * Class builder.
+     * Initialize class parameters, including player's nickname.
+     *
+     * @param nickname the nickname to be initialized.
+     * @param actuator the server that receive the message.
+     */
     public RestoreStoredGameCommand(Server actuator, String nickname) {
         this.actuator = actuator;
         this.nickname = nickname;

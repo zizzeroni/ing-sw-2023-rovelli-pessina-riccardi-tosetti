@@ -12,6 +12,7 @@ import java.util.List;
  * Class to represent the goal pattern with all the {@code Tile}s disposed diagonally.
  *
  * @see it.polimi.ingsw.model.tile.Tile
+ * @see CommonGoal
  */
 public class DiagonalEqualPattern extends CommonGoal {
     //matrix that contains 1 in positions where there must be same colour tiles, otherwise 0
@@ -32,7 +33,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with type, ID ...
      *
-     * @param id                the identifier assigned to the card.
+     * @param id                the identifier assigned to the commonGoal card.
      * @param patternRepetition contains the number of times the goal must be completed to take the score tile.
      * @param type              the type of check that has to be done on the considered common goal's card.
      * @param pattern           the given pattern. A matrix that contains 1 in positions where there must be same colour tiles, otherwise 0.
@@ -46,7 +47,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with a specific type, ID ...
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param numberOfPlayers                    number of active players.
@@ -61,7 +62,7 @@ public class DiagonalEqualPattern extends CommonGoal {
      * Class constructor with parameters.
      * Builds a DiagonalEqualPattern with a specific type, ID ...
      *
-     * @param id                                 the identifier assigned to the card.
+     * @param id                                 the identifier assigned to the commonGoal card.
      * @param numberOfPatternRepetitionsRequired contains the number of times the goal must be completed to take the score tile.
      * @param type                               the type of check that has to be done on the considered common goal's card.
      * @param scoreTiles                         is the list of current score tiles.
@@ -73,13 +74,8 @@ public class DiagonalEqualPattern extends CommonGoal {
     }
 
     /**
-     * Here we search the number of pattern repetition in the bookshelf of the player by declaring a support matrix of the same dimensions of the bookshelf,
-     * for every not null tile we assign the number 1 in the support matrix ( 0 for the nulls) and an alreadyChecked matrix for checking if a tiles is already checked.
-     * Start from the first not null tile, we assign in the support matrix in the position of the tile the group 2
-     * then we search if the oblique nearby tiles are of the same colour and if it is true we assign the same group of the first tile.
-     * <p>
-     * In the second part we count the number of different groups when the counter of the tiles in a group is
-     * at least the minimum number of consecutive tiles of the goal pattern.
+     * Here we search the number of pattern repetition in the player's bookshelf,
+     * maximum one for each group
      *
      * @param bookshelf contains the bookshelf of the player.
      * @return generalCounter contains the number of group that have at least the minimum number of consecutive tiles.
@@ -228,10 +224,9 @@ public class DiagonalEqualPattern extends CommonGoal {
     }
 
     /**
-     * This method will be redefined in each common goal and will serve to print on the terminal the current type of common goal.
+     * Generates an immutable copy of the current {@code commonGoal}.
      *
      * @return an immutable copy of the DiagonalEqualPatternView.
-     * @see CommonGoal
      */
     @Override
     public DiagonalEqualPatternGoalView copyImmutable() {

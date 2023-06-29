@@ -84,10 +84,12 @@ public class MainSceneController implements Initializable {
     private Image pointsImage1;
     private Image pointsImage2;
     private boolean gameOn;
-    private Thread printCountdownThread;
-    private boolean onCountdown;
     private int inCensure = 0;
 
+    /**
+     * Getter of the inCensure "state"
+     * @return return the inCensure attribute value
+     */
     public int getInCensure() {
         return inCensure;
     }
@@ -101,31 +103,30 @@ public class MainSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameOn = true;
-        this.onCountdown = false;
         this.turn = 0;
         startOrder = 0;
         selectedColumn = "";
-        Image firstCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
-        Image secondCommonGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg"));
+        Image firstCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg")));
+        Image secondCommonGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/common goal cards/back.jpg")));
         commonGoal1.setImage(firstCommonGoalImage);
         commonGoal2.setImage(secondCommonGoalImage);
 
-        Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg"));
+        Image personalGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/personal goal cards/back.jpg")));
         personalGoal.setImage(personalGoalImage);
 
-        Image victoryImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg"));
+        Image victoryImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/end game.jpg")));
         victoryPoint.setImage(victoryImage);
 
-        Image pointsImage = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+        Image pointsImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
         pointsItem1.setImage(pointsImage);
         pointsItem2.setImage(pointsImage);
 
     }
 
     /**
-     * Effectuates a selection on the given action event.
+     * Effectuates the selection of a tile on the board
      *
-     * @param actionEvent the considered action event.
+     * @param actionEvent the selection of a tile.
      */
     public void selected(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
@@ -265,7 +266,6 @@ public class MainSceneController implements Initializable {
      * Exits the first common goal image.
      *
      * @param mouseEvent the given mouse event.
-     * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void onCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
@@ -287,7 +287,6 @@ public class MainSceneController implements Initializable {
      * Exits the second common goal.
      *
      * @param mouseEvent the given mouse event.
-     * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void exitCommonGoal2(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
@@ -305,7 +304,10 @@ public class MainSceneController implements Initializable {
     }
 
     /**
-     * @param mouseEvent
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
      */
     public void onPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
@@ -317,7 +319,10 @@ public class MainSceneController implements Initializable {
     }
 
     /**
-     * @param mouseEvent
+     * Handles the correspondent mouse event described in the method name.
+     * Exits the second common goal.
+     *
+     * @param mouseEvent the given mouse event.
      */
     public void exitPersonalGoal(MouseEvent mouseEvent) {
         if (!(mouseEvent.getSource() instanceof ImageView imageView))
@@ -651,7 +656,7 @@ public class MainSceneController implements Initializable {
 
     /**
      * Locks the selection of the tile in given position (for player's moves during the game's development
-     * when a tile is picked).
+     * when already pick the tile).
      *
      * @param row    the selected row.
      * @param column the selected column.
@@ -733,7 +738,6 @@ public class MainSceneController implements Initializable {
      * Sets the nicknames for the given list of players.
      *
      * @param players the players list.
-     * @see it.polimi.ingsw.model.Player
      */
     public void setPlayersName(List<PlayerView> players) {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
@@ -775,7 +779,6 @@ public class MainSceneController implements Initializable {
      * This method is used to set the personal goals linked to the main scene.
      *
      * @param personalGoal the given personal goal.
-     * @see it.polimi.ingsw.model.PersonalGoal
      */
     public void setPersonalGoal(PersonalGoalView personalGoal) {
 
@@ -785,7 +788,7 @@ public class MainSceneController implements Initializable {
 
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
-            Image personalGoalImage = new Image(getClass().getClassLoader().getResourceAsStream(personalGoalString));
+            Image personalGoalImage = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(personalGoalString)));
 
             this.personalGoal.setImage(personalGoalImage);
             countDownLatchAble.countDown();
@@ -801,7 +804,6 @@ public class MainSceneController implements Initializable {
      * This method is used to set the common goals list linked to the main scene.
      *
      * @param commonGoals the list of common goals.
-     * @see it.polimi.ingsw.model.commongoal.CommonGoal
      */
     public void setCommonGoal(List<CommonGoalView> commonGoals) {
         int firstCommonGoalID = commonGoals.get(0).getId();
@@ -830,7 +832,6 @@ public class MainSceneController implements Initializable {
      * Allows tiles selection in the main scene context.
      *
      * @param actionEvent the action event associated to tiles selection.
-     * @see it.polimi.ingsw.model.tile.Tile
      */
     public void SelectTiles(ActionEvent actionEvent) {
         if (!(actionEvent.getSource() instanceof Button button))
@@ -1012,7 +1013,7 @@ public class MainSceneController implements Initializable {
     }
 
     /**
-     * Identifies the presence of the mouse cursor over a column.
+     * Identifies the presence of the mouse cursor over a column, then highlight all the free space in the column.
      *
      * @param mouseEvent the associated mouse event.
      */
@@ -1038,7 +1039,7 @@ public class MainSceneController implements Initializable {
     }
 
     /**
-     * Identifies the absence of the mouse cursor over a column.
+     * Identifies the absence of the mouse cursor over a column, then cancel highlight all the free space in the column.
      *
      * @param mouseEvent the associated mouse event.
      */
@@ -1201,6 +1202,11 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    /**
+     * Locks the selection of all the tiles after the pick of the player.
+     *
+     * @see Tile
+     */
     public void lockAllTilesAfterPick() {
         CountDownLatch countDownLatchAble = new CountDownLatch(1);
         Platform.runLater(() -> {
@@ -1335,35 +1341,35 @@ public class MainSceneController implements Initializable {
             int firstScoringTile = commonGoals.get(0).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg")));
                 case 4 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg")));
                 case 6 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg")));
                 case 8 ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
                 default ->
-                        pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                        pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
             }
         } else {
-            pointsImage1 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            pointsImage1 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
         }
         if (numberOfScoreTiles2 != 0) {
             int firstScoringTile = commonGoals.get(1).getScoreTiles().get(0).getValue();
             switch (firstScoringTile) {
                 case 2 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_2.jpg")));
                 case 4 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_4.jpg")));
                 case 6 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_6.jpg")));
                 case 8 ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring_8.jpg")));
                 default ->
-                        pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+                        pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
             }
         } else {
-            pointsImage2 = new Image(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg"));
+            pointsImage2 = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("image/scoring tokens/scoring.jpg")));
         }
 
         CountDownLatch countDownLatchCommonGoal = new CountDownLatch(1);
@@ -1453,10 +1459,6 @@ public class MainSceneController implements Initializable {
         th.start();
     }
 
-    public boolean isGameOn() {
-        return gameOn;
-    }
-
     /**
      * Signals that the current game is on going.
      *
@@ -1467,6 +1469,10 @@ public class MainSceneController implements Initializable {
         this.gameOn = gameOn;
     }
 
+
+    /**
+     * Start the censure of the game
+     */
     public void startCensure() {
         if (inCensure == 0) {
             System.out.println("inizio censura");
@@ -1502,6 +1508,9 @@ public class MainSceneController implements Initializable {
         //this.threadCounter();
     }
 
+    /**
+     * End the censure of the game
+     */
     public void endCensure() {
         if (this.inCensure == 1) {
             System.out.println("finisco censura");

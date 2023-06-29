@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * This class implements the ViewListener, representing the actual {@code GameController}.
  * The Controller is used as an intermediary between the Server
- * and the Client in order to evaluate and perform
+ * and the model in order to evaluate and perform
  * any of the {@code Player} actions. <p>
  * It provides a series of methods to reference the current
  * state of the {@code Game} (such as IN_CREATION, ON_GOING, FINISHING, ...) and
@@ -80,9 +80,9 @@ public class GameController {
     }
 
     /**
-     * A setter employed to change the current state of the {@Game}
+     * A setter employed to change the current state of the {@code Game}
      *
-     * @param state is the current state to be setted.
+     * @param state is the current state to be set.
      * @see GameState
      */
     public void changeState(ControllerState state) {
@@ -101,6 +101,8 @@ public class GameController {
 
     /**
      * Change the turn in the context of the present {@code State}.
+     * @param gamesStoragePath path in which are stored the games
+     * @param gamesStoragePathBackup backup path in which are stored the games
      */
     public void changeTurn(String gamesStoragePath, String gamesStoragePathBackup) {
         state.changeTurn(gamesStoragePath, gamesStoragePathBackup);
@@ -123,8 +125,8 @@ public class GameController {
 
     /**
      * This method is used to stream a message privately.
-     * Only the specified receiver will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * Only the specified receiver will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname}s of the receiving {@code Player}s and its message type to {@code PRIVATE}.
      *
      * @param receiver the {@code Player} receiving the message.
@@ -140,8 +142,8 @@ public class GameController {
 
     /**
      * This method is used to stream a message in broadcast mode.
-     * All the players will be able to read the message
-     * in any chat implementation. It builds a new object message at each call, setting
+     * All the players will be able to read the message.
+     * It builds a new object message at each call, setting
      * the {@code nickname} of the sending {@code Player} and its message type to {@code BROADCAST}.
      *
      * @param sender  the {@code Player} sending the message.
@@ -214,30 +216,20 @@ public class GameController {
      * @see Board#setPattern(JsonBoardPattern)
      * @see Board#numberOfTilesToRefill()
      */
-
-    /**
-     * The method starts verifying  if the {@code Game} creation has occurred properly,
-     * confronting the number of active players registered during the previous phase with
-     * that stored in the {@code Model}.
-     * Then, it proceeds to adjust the {@code Board} and to draw a list of Tiles.
-     * Finally, it initializes the {@code ScoreTile} list for each active {@code Player},
-     * (necessary in order to replace them later if a player complete a {@code CommonGoal}).
-     *
-     * @see Game
-     * @see Player
-     * @see ScoreTile
-     * @see CommonGoal
-     * @see Game#getNumberOfPlayersToStartGame()
-     * @see Game#getPlayers()
-     * @see Board#setPattern(JsonBoardPattern)
-     * @see Board#numberOfTilesToRefill()
-     */
     public void startGame() {
         state.startGame(OptionsValues.NUMBER_OF_COMMON_GOAL_CARDS);
     }
 
-    /*
-     * TODO
+    /**
+     * Checks if there are some player in excess within the game lobby that shouldn't be connected.
+     *
+     * @param chosenNumberOfPlayers number of player chosen by the first player
+     * @see CreationState#checkExceedingPlayer(int)
+     * @see FinishingState#checkExceedingPlayer(int)
+     * @see InPauseState#checkExceedingPlayer(int)
+     * @see OnGoingState#checkExceedingPlayer(int)
+     * @throws ExcessOfPlayersException if there is an excess of player in the lobby when starting
+     * @throws WrongInputDataException when input data is not valid.
      */
     public void checkExceedingPlayer(int chosenNumberOfPlayers) throws ExcessOfPlayersException, WrongInputDataException {
         state.checkExceedingPlayer(chosenNumberOfPlayers);
@@ -272,6 +264,11 @@ public class GameController {
         return this.model;
     }
 
+    /**
+     * Setter used to set the model
+     *
+     * @param model the new model
+     */
     public void setModel(Game model) {
         this.model = model;
     }
@@ -288,7 +285,7 @@ public class GameController {
     }
 
     /**
-     * Getter used to access the {@code PersonalGoal} assigned to a {@code Player}.
+     * Getter used to get a {@code PersonalGoal} from the personal goal deck.
      *
      * @param index is the identifier of the goal.
      * @return the player's indexed personalGoal.
@@ -311,6 +308,10 @@ public class GameController {
         personalGoalsDeck.add(personalGoal);
     }
 
+    /**
+     * Getter used to get the personal goal deck
+     * @return the personal goal deck
+     */
     public List<PersonalGoal> getPersonalGoalsDeck() {
         return personalGoalsDeck;
     }
@@ -349,6 +350,8 @@ public class GameController {
     /**
      * Method to check if there are stored games for the given nickname.
      *
+     * @param playerNickname nickname of the first player who joined the lobby
+     * @param gamesPath path of the file in which are stored the games
      * @return if there are stored games.
      */
     public boolean areThereStoredGamesForPlayer(String playerNickname, String gamesPath) {
@@ -364,8 +367,9 @@ public class GameController {
 
 
     /**
-     * Method to get all the stored games from the local json file.
+     * Method to get all the stored games from the file.
      *
+     * @param gamesStoragePath path of the file in which are stored the games
      * @return all stored games.
      */
     private Game[] getStoredGamesFromJson(String gamesStoragePath) {
@@ -390,6 +394,8 @@ public class GameController {
     /**
      * Method to get the stored game for the given nickname.
      *
+     * @param playerNickname nickname of the player who requested the restore of the game
+     * @param gamesAsArray set of game retrieved from the file
      * @return the stored game.
      */
     private Game getStoredGameForPlayer(String playerNickname, Game[] gamesAsArray) {
@@ -410,6 +416,7 @@ public class GameController {
      *
      * @param server         the server controlling the game's execution.
      * @param playerNickname the given player's nickname.
+     * @param gamesStoragePath path of the file in which are stored the games
      * @see Player
      * @see Game
      */

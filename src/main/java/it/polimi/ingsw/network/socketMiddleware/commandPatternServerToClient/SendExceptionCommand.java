@@ -23,7 +23,6 @@ public class SendExceptionCommand implements CommandToClient {
 
     /**
      * Class constructor.
-     * <p>
      * Initialize the exception attribute to the given exception's value.
      *
      * @param exception the attribute to be initialized.
@@ -74,7 +73,7 @@ public class SendExceptionCommand implements CommandToClient {
      * This method permits the execution of the exception sending command.
      *
      * @throws NullPointerException if there is no command to execute.
-     * @throws RemoteException
+     * @throws RemoteException if a connection error occurs
      */
     public void execute() throws NullPointerException, RemoteException {
         if (this.actuator != null) {

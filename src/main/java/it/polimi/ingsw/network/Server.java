@@ -26,12 +26,13 @@ public interface Server extends Remote {
     /**
      * Change the turn in the server's context.
      *
-     * @see OnGoingState#changeTurn()
+     * @see OnGoingState#changeTurn(String, String)
+     * @throws RemoteException if a connection error occurs
      */
     public void changeTurn() throws RemoteException;
 
     /**
-     * Allows the {@code Player} communicating with the server
+     * Allows
      * to insert {@code Tile}s, in a given order (contained in {@code Choice}) into the {@code Board} .
      *
      * @param playerChoice the choice made by the player.
@@ -134,13 +135,25 @@ public interface Server extends Remote {
      */
     public void register(Client client, String nickname) throws RemoteException;
 
-    /*
-     * TODO
+    /**
+     * Restores the current game for the considered player.
+     *
+     * @param nickname the given player's nickname.
+     *
+     * @see Player
+     * @see Game
+     * @throws RemoteException if a connection error occurs
      */
     public void restoreGameForPlayer(String nickname) throws RemoteException;
 
-    /*
-     * TODO
+    /**
+     * Verifies if there are any saved games associated to the given player.
+     *
+     * @param nickname the given player's nickname.
+     * @throws RemoteException called when a communication error occurs.
+     *
+     * @see Game
+     * @see Player
      */
     public void areThereStoredGamesForPlayer(String nickname) throws RemoteException;
 

@@ -42,6 +42,10 @@ public class Bookshelf {
         this.listener = listener;
     }
 
+    /**
+     * Set as null the listener of the {@code Bookshelf}
+     *
+     */
     public void removeListener() {
         this.listener = null;
     }
@@ -140,12 +144,21 @@ public class Bookshelf {
     /**
      * Setter used to decide the {@code Tile}s to be displaced on the bookshelf.
      *
+     * @param tiles tiles matrix of the bookshelf
      * @see Tile
      */
     public void setTiles(Tile[][] tiles) { // funzione estrazione singola Tile selezionata
         this.tiles = tiles;
     }
 
+    /**
+     * Setter used to decide the {@code Tile} to be displaced on the bookshelf.
+     *
+     * @param column column of the tile
+     * @param tile contains the tile we want to set
+     * @param row row of the tile
+     * @see Tile
+     */
     public void setSingleTiles(Tile tile, int row, int column) {
         this.tiles[row][column] = tile;
     }
@@ -188,19 +201,13 @@ public class Bookshelf {
         return counter;
     }
 
+    /**
+     * get the number of Rows of the {@code Bookshelf}.
+     *
+     * @return the number of Rows of the {@code Bookshelf}
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
-    }
-
-    public int getMaxNumberOfCellsFreeInBookshelf() {
-        int maxNumberOfCellsFreeInBookshelf = 0;
-        for (int column = 0; column < this.numberOfColumns; column++) {
-            int numberOfFreeCells = this.getNumberOfEmptyCellsInColumn(column);
-            if (numberOfFreeCells > maxNumberOfCellsFreeInBookshelf) {
-                maxNumberOfCellsFreeInBookshelf = numberOfFreeCells;
-            }
-        }
-        return maxNumberOfCellsFreeInBookshelf;
     }
 
     /**
@@ -218,6 +225,22 @@ public class Bookshelf {
             }
         }
         return true;
+    }
+
+    /**
+     * Gets the maximum number of empty {@code Bookshelf}'s cells.
+     *
+     * @return the maximum number of empty {@code Bookshelf}'s cells.
+     */
+    public int getMaxNumberOfCellsFreeInBookshelf() {
+        int maxNumberOfCellsFreeInBookshelf = 0;
+        for (int column = 0; column < this.numberOfColumns; column++) {
+            int numberOfFreeCells = this.getNumberOfEmptyCellsInColumn(column);
+            if (numberOfFreeCells > maxNumberOfCellsFreeInBookshelf) {
+                maxNumberOfCellsFreeInBookshelf = numberOfFreeCells;
+            }
+        }
+        return maxNumberOfCellsFreeInBookshelf;
     }
 
     /**
