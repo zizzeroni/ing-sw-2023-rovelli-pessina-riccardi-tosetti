@@ -91,6 +91,7 @@ public class GenericUILogic {
         this.nickname = null;
         this.clientGameState = ClientGameState.WAITING_IN_LOBBY;
         this.exceptionToHandle = null;
+        this.initializeChatThread(controller, nickname, model);
     }
 
     /**
