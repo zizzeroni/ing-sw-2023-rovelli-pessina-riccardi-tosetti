@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
-import org.fusesource.jansi.Ansi;
-
 import java.io.Serializable;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 /**
  * A record that permits the implementation of the serialization
@@ -30,14 +26,14 @@ public record Message(MessageType messageType, String receiverNickname, String s
 
         switch (this.messageType) {
             case PRIVATE -> {
-                stringBuilder.append(ansi().fg(Ansi.Color.YELLOW).a("[FROM] " + this.senderNickname)).append(ansi().fg(Ansi.Color.BLUE).a(" [TO] " + this.receiverNickname + ": "));
+                stringBuilder.append("[PVT] ");
             }
             case BROADCAST -> {
-                stringBuilder.append(ansi().fg(Ansi.Color.BLUE).a("[ALL] " + this.senderNickname + ": "));
+                stringBuilder.append("[ALL] ");
             }
         }
 
-        stringBuilder.append(ansi().fg(Ansi.Color.YELLOW).a(this.content));
+        stringBuilder.append(this.senderNickname).append(": ").append(this.content);
 
         return stringBuilder.toString();
     }
