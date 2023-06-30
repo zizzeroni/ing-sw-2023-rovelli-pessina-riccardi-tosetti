@@ -33,7 +33,7 @@ Per tale motivo non l'abbiamo segnalata tra i requisiti completati.
 
 # Copertura Test
 
-![coverageModelController.png](https://github.com/zizzeroni/ing-sw-2023-rovelli-pessina-riccardi-tosetti/blob/develop/documents/coverageModelController.png?row=true)
+![coverageModelController.png](https://github.com/zizzeroni/ing-sw-2023-rovelli-pessina-riccardi-tosetti/blob/develop/documents/coverageModelController.png)
 
 # Modalità di esecuzione Jar
 
