@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.TUI;
 
-import it.polimi.ingsw.view.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameState;
@@ -9,13 +8,17 @@ import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.view.*;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.utils.OptionsValues;
-import it.polimi.ingsw.view.*;
+import it.polimi.ingsw.view.ClientGameState;
+import it.polimi.ingsw.view.GenericUILogic;
+import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.ViewListener;
 
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents the {@code TextualUI}, an extension of the Game's UI
@@ -673,7 +676,7 @@ public class TextualUI implements UI {
      * @see ViewListener#startGame()
      */
     private void setUpLobby() {
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
             this.genericUILogic.getController().startGame();
         }
     }
@@ -689,7 +692,7 @@ public class TextualUI implements UI {
     private void setUpLobbyAsFirst() {
         this.askNumberOfPlayers();
 
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
             this.genericUILogic.getController().startGame();
         }
     }

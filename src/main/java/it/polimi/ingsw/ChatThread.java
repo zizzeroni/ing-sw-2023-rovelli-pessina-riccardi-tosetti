@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.ViewListener;
 import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.CommandReader;
 import it.polimi.ingsw.view.TUI.TextualUI;
+import it.polimi.ingsw.view.ViewListener;
 
 import java.util.List;
 

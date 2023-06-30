@@ -26,14 +26,14 @@ public record Message(MessageType messageType, String receiverNickname, String s
 
         switch (this.messageType) {
             case PRIVATE -> {
-                stringBuilder.append("[PVT] ");
+                stringBuilder.append("[FROM] ").append(this.senderNickname).append(" [TO] ").append(this.receiverNickname);
             }
             case BROADCAST -> {
-                stringBuilder.append("[ALL] ");
+                stringBuilder.append("[ALL] ").append(this.senderNickname);
             }
         }
 
-        stringBuilder.append(this.senderNickname).append(": ").append(this.content);
+        stringBuilder.append(": ").append(this.content);
 
         return stringBuilder.toString();
     }

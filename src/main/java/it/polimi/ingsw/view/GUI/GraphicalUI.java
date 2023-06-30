@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.view.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.GameState;
 import it.polimi.ingsw.model.exceptions.GenericException;
@@ -14,6 +13,7 @@ import it.polimi.ingsw.view.ClientGameState;
 import it.polimi.ingsw.view.GenericUILogic;
 import it.polimi.ingsw.view.TUI.TextualUI;
 import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.ViewListener;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -344,7 +344,7 @@ public class GraphicalUI extends Application implements UI {
 
             loginController.numberOfPlayer(askNumberOfPlayer);
 
-            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.genericUILogic.getController().startGame();
@@ -390,7 +390,7 @@ public class GraphicalUI extends Application implements UI {
             }
             mainSceneController.setFirstPlayerNickname(nickname);
             mainSceneController.setScene(primaryStage.getScene());
-            mainSceneController.setNumberOfPlayer(genericUILogic.getModel().getNumberOfPlayers());
+            mainSceneController.setNumberOfPlayer(genericUILogic.getModel().getNumberOfPlayersToStartGame());
             mainSceneController.setPlayersName(genericUILogic.getModel().getPlayers());
 
             PlayerView activePlayer = this.genericUILogic.getModel().getPlayers().stream().filter(player -> player.getNickname().equals(this.genericUILogic.getNickname())).toList().get(0);
@@ -534,7 +534,7 @@ public class GraphicalUI extends Application implements UI {
     public void setNumberOfPlayer(int chosenNumberOfPlayer) {
         this.genericUILogic.getController().chooseNumberOfPlayerInTheGame(chosenNumberOfPlayer);
         var th = new Thread(() -> {
-            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers()) {
+            if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame()) {
                 CountDownLatch countDownLatchStartGame = new CountDownLatch(1);
                 Platform.runLater(() -> {
                     this.genericUILogic.getController().startGame();

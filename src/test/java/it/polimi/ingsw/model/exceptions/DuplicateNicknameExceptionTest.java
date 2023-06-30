@@ -1,19 +1,11 @@
 package it.polimi.ingsw.model.exceptions;
 
-import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.InPauseState;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.utils.OptionsValues;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DuplicateNicknameExceptionTest {
 

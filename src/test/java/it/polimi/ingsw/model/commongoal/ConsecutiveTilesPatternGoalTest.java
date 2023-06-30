@@ -171,5 +171,11 @@ public class ConsecutiveTilesPatternGoalTest {
         assertEquals(this.consecutiveTilesPatternGoal.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.consecutiveTilesPatternGoal.getType(), copy.getType());
         assertEquals(this.consecutiveTilesPatternGoal.getId(), copy.getId());
+        assertEquals("1 groups each containing at least 4 tiles of the same type (not necessarily in the depicted shape). \n" +
+                "The tiles of one group can be different from those of another group. \n" +
+                "[ \u001B[34mB\u001B[39m ]\n" +
+                "[ \u001B[34mB\u001B[39m ]\n" +
+                "[ \u001B[34mB\u001B[39m ]\n" +
+                "[ \u001B[34mB\u001B[39m ]\n", copy.toString());
     }
 }

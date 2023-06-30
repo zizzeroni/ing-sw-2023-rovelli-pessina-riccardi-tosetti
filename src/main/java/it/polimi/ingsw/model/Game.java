@@ -82,7 +82,6 @@ public class Game {
         this.initializeBag(numberOfTilesInBag);
         Collections.shuffle(this.bag);
         this.board = new Board();
-
     }
 
     /**

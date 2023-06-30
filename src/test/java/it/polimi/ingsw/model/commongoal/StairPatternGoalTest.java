@@ -147,5 +147,13 @@ public class StairPatternGoalTest {
         assertEquals(this.stairPatternGoal.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.stairPatternGoal.getType(), copy.getType());
         assertEquals(this.stairPatternGoal.getId(), copy.getId());
+        assertEquals("Five columns of increasing or decreasing height. Starting from the first column on the left or on the right, \n" +
+                "each next column must be made of exactly one more tile. Tiles can be of any type. \n" +
+                "[ 0 0 0 0 0 ] \n" +
+                "[ - 0 0 0 0 ] \n" +
+                "[ - - 0 0 0 ] \n" +
+                "[ - - - 0 0 ] \n" +
+                "[ - - - - 0 ] \n" +
+                "[ - - - - - ] \n", copy.toString());
     }
 }
