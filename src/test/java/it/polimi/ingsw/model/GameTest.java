@@ -254,9 +254,9 @@ public class GameTest {
                 {0, 0, 0, 0, 0, 1, 0, 0, 0}
         };
 
-        this.game = new Game(null, 2, 1, players, new ArrayList<>(Arrays.asList(new Tile(TileColor.PURPLE, 1), new Tile(TileColor.BLUE, 3))), new Board(new JsonBoardPattern(2, pattern)), new ArrayList<>());
+        this.game = new Game(null, 2, 1, this.players, new ArrayList<>(Arrays.asList(new Tile(TileColor.PURPLE, 1), new Tile(TileColor.BLUE, 3))), new Board(new JsonBoardPattern(2, pattern)), new ArrayList<>());
         GameView view = new GameView(this.game);
-
+        
         assertNotNull(view.getPlayerViewFromNickname("Francesco"));
         assertEquals("Francesco", view.getPlayerViewFromNickname("Francesco").getNickname());
         assertTrue(view.isPlayerInGame("Francesco"));
