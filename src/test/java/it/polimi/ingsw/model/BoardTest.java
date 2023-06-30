@@ -202,7 +202,7 @@ public class BoardTest {
                 {new Tile(), new Tile(), new Tile(), new Tile(), null, new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
         });
 
-        this.board.setSingleTile(0,4, new Tile(TileColor.GREEN));
+        this.board.setSingleTile(0, 4, new Tile(TileColor.GREEN));
 
         assertEquals("    1 2 3 4 5 6 7 8 9 \n" +
                 "1 [ 0 0 0 \u001B[35mP\u001B[39m \u001B[32mG\u001B[39m 0 0 0 0 ] \n" +

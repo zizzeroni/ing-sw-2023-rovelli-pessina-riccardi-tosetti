@@ -247,9 +247,9 @@ public class MinEqualsTilesPatternTest {
 
         minEqualsTilesPattern.setDirection(Direction.HORIZONTAL);
         copy = minEqualsTilesPattern.copyImmutable();
-            assertEquals("3 lines each formed by 5 tiles of maximum three different types. One \n" +
-                    "line can show the same or a different combination of another line. \n" +
-                    "[ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[32mG\u001B[39m \u001B[32mG\u001B[39m \u001B[33mY\u001B[39m ] \n", copy.toString());
+        assertEquals("3 lines each formed by 5 tiles of maximum three different types. One \n" +
+                "line can show the same or a different combination of another line. \n" +
+                "[ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[32mG\u001B[39m \u001B[32mG\u001B[39m \u001B[33mY\u001B[39m ] \n", copy.toString());
 
         minEqualsTilesPattern.setType(CheckType.DIFFERENT);
         copy = minEqualsTilesPattern.copyImmutable();
