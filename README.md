@@ -27,13 +27,13 @@ Le funzionalità avanzate implementate sono:
 \
 *Per quanto riguarda la funazionalità avanzata della Chat, siamo riusciti a implementarla
 correttamente sia su TUI, che GUI. Tuttavia funziona solamente tramite l'uso di socket e
-non RMI (il quale fa crashare il client utilizzatore, ma da nostri test non incidendo
-sull'andamento effettivo del game, semplicemente dopo un po il giocatore viene disconnesso).\
+non RMI (il quale fa crashare il client utilizzatore ma, da nostri test, non incidendo
+sull'andamento effettivo del game, semplicemente dopo un po' il giocatore viene disconnesso).\
 Per tale motivo non l'abbiamo segnalata tra i requisiti completati.
 
 # Copertura Test
 
-
+![coverageModelController.png](https://github.com/zizzeroni/ing-sw-2023-rovelli-pessina-riccardi-tosetti/blob/develop/coverageModelController.png?row=true)
 
 # Modalità di esecuzione Jar
 
@@ -47,6 +47,10 @@ Per far in modo che i jar vengano eseguiti senza problemi e la connessione (in p
 - Consigliamo la disattivazione di qualsiasi firewall presente sul PC
 - Consigliamo di disattivare tutte le schede di rete superflue (diverse da quella che si intende utilizzare per instaurare la connessione, in particolare quelle virtuali) 
 ,infatti il software procederà a prendere per ogni client una scheda di rete tra quelle attive e che non sia di loopback).
+- Per l'utilizzo della chat nella TUI, abbiamo predisposto una serie di comandi scrivibili da terminale per inviare e visualizzare i messaggi:
+  - `/all [contenuto del messaggio]` per inviare a tutti un messaggio
+  - `/pvt [nickname utente destinatario] [contenuto del messaggio]` per inviare un messaggio ad uno specifico player
+  - `/showChat` per poter visualizzare la chat
 
 # Scelte implementative?
 
