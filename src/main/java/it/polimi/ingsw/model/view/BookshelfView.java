@@ -83,7 +83,7 @@ public class BookshelfView implements Serializable {
     public int getNumberOfEmptyCellsInColumn(int column) {
         int counter = 0;
         for (int row = 0; row < this.numberOfRows; row++) {
-            if (this.tiles[row][column] != null) {
+            if (this.getTiles()[row][column] != null) {
                 return counter;
             }
             counter++;

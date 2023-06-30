@@ -67,6 +67,7 @@ public class PlayerTest {
         assertEquals(personalGoal, this.player.getPersonalGoal());
 
         List<Message> chat = new ArrayList<>(List.of(new Message(MessageType.PRIVATE, "Paolo", "Andrea", "Ciao")));
+        this.player.addMessage(new Message(MessageType.BROADCAST, "Andrea", "Andrea", "Ciao a tutti"));
 
         this.player = new Player("Andrea", true, personalGoal, emptyScoreTiles, bookshelf, chat);
         assertEquals("Andrea", this.player.getNickname());
@@ -95,7 +96,11 @@ public class PlayerTest {
         this.player.setNickname("Marco");
         this.player.setScoreTiles(new ArrayList<>(Arrays.asList(new ScoreTile(), new ScoreTile())));
         this.player.addScoreTile(new ScoreTile());
-        this.player.setSingleScoreTile(new ScoreTile(0,1,1), 2);
+        ScoreTile singleScoreTile = new ScoreTile();
+        singleScoreTile.setPlayerID(1);
+        singleScoreTile.setCommonGoalID(1);
+        singleScoreTile.setValue(0);
+        this.player.setSingleScoreTile(singleScoreTile, 2);
         this.player.setConnected(true);
         this.player.setPersonalGoal(new PersonalGoal());
         assertEquals(0, this.player.score());

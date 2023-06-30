@@ -197,6 +197,8 @@ public class MinEqualsTilesPatternTest {
         MinEqualsTilesPattern minEqualsTilesPattern = new MinEqualsTilesPattern();
         minEqualsTilesPattern.setDirection(Direction.VERTICAL);
         minEqualsTilesPattern.setMaxEqualsTiles(3);
+        minEqualsTilesPattern.setType(CheckType.EQUALS);
+        minEqualsTilesPattern.setNumberOfPatternRepetitionsRequired(3);
 
         MinEqualsTilesPatternGoalView copy = minEqualsTilesPattern.copyImmutable();
 
@@ -215,5 +217,47 @@ public class MinEqualsTilesPatternTest {
         assertEquals(minEqualsTilesPattern.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(minEqualsTilesPattern.getType(), copy.getType());
         assertEquals(minEqualsTilesPattern.getId(), copy.getId());
+        assertEquals("3 columns each formed by 6 same types of tiles. [ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n", copy.toString());
+
+        minEqualsTilesPattern.setType(CheckType.DIFFERENT);
+        copy = minEqualsTilesPattern.copyImmutable();
+        assertEquals("3 columns each formed by 6 different types of tiles. \n" +
+                "One column can show the same or a different combination of another column. \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[33mY\u001B[39m ] \n" +
+                "[ \u001B[32mG\u001B[39m ] \n" +
+                "[ \u001B[36mC\u001B[39m ] \n" +
+                "[ \u001B[37mW\u001B[39m ] \n" +
+                "[ \u001B[35mP\u001B[39m ] \n", copy.toString());
+
+        minEqualsTilesPattern.setType(CheckType.INDIFFERENT);
+        copy = minEqualsTilesPattern.copyImmutable();
+        assertEquals("3 columns each formed by 5 tiles of maximum three different types.One column can show the same or a different combination of another column. \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[34mB\u001B[39m ] \n" +
+                "[ \u001B[32mG\u001B[39m ] \n" +
+                "[ \u001B[33mY\u001B[39m ] \n" +
+                "[ \u001B[33mY\u001B[39m ] \n" +
+                "[ \u001B[33mY\u001B[39m ] \n", copy.toString());
+
+        minEqualsTilesPattern.setDirection(Direction.HORIZONTAL);
+        copy = minEqualsTilesPattern.copyImmutable();
+            assertEquals("3 lines each formed by 5 tiles of maximum three different types. One \n" +
+                    "line can show the same or a different combination of another line. \n" +
+                    "[ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[32mG\u001B[39m \u001B[32mG\u001B[39m \u001B[33mY\u001B[39m ] \n", copy.toString());
+
+        minEqualsTilesPattern.setType(CheckType.DIFFERENT);
+        copy = minEqualsTilesPattern.copyImmutable();
+        assertEquals("3 lines each formed by 5 different types of tiles. One line can show the same or a different combination of the other line. \n" +
+                "[ \u001B[34mB\u001B[39m \u001B[35mP\u001B[39m \u001B[32mG\u001B[39m \u001B[33mY\u001B[39m \u001B[35mP\u001B[39m ] \n", copy.toString());
+
+        minEqualsTilesPattern.setType(CheckType.EQUALS);
+        copy = minEqualsTilesPattern.copyImmutable();
+        assertEquals("3 lines each formed by 5 same types of tiles. [ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m ] \n", copy.toString());
     }
 }

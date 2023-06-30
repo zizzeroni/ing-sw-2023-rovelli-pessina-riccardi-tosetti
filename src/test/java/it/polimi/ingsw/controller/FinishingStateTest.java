@@ -224,8 +224,7 @@ public class FinishingStateTest {
 
         assertNull(this.controller.getModel().getPlayers().stream().filter(player -> player.getNickname().equals("Andrea")).findFirst().orElse(null));
     }
-
-
+    
     /**
      * Test class
      */

@@ -39,7 +39,7 @@ public class CommonGoalView implements Serializable {
         this.scoreTiles = new ArrayList<>();
         this.id = commonGoalModel.getId();
         for (ScoreTile scoreTile : commonGoalModel.getScoreTiles()) {
-            this.scoreTiles.add(new ScoreTileView(scoreTile));
+            this.getScoreTiles().add(new ScoreTileView(scoreTile));
         }
     }
 
