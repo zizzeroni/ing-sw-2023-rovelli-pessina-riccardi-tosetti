@@ -57,6 +57,10 @@ public class GraphicalUI extends Application implements UI {
     private String ip;
     private String port;
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     /**
      * Getter the precedent width
      *

@@ -1479,8 +1479,9 @@ public class MainSceneController implements Initializable {
             this.inCensure = this.inCensure + 1;
             //this.setTable();
             //onCountdown = true;
-            double wi = this.mainGraphicalUI.getWidthOld();
-            double he = this.mainGraphicalUI.getHeightOld();
+            double wi = this.mainGraphicalUI.getPrimaryStage().getWidth();
+            double he = this.mainGraphicalUI.getPrimaryStage().getHeight();
+
             censure.setMaxSize(wi, he);
             censure.setOpacity(0.5);
             commonGoal1.setOnMouseEntered(null);
@@ -1489,8 +1490,17 @@ public class MainSceneController implements Initializable {
             commonGoal2.setOnMouseExited(null);
             personalGoal.setOnMouseEntered(null);
             personalGoal.setOnMouseExited(null);
-            countdownLabel.setLayoutX(wi * 0.55);
-            countdownLabel.setLayoutY(he * 0.70);
+            if(wi < 1600) {
+                countdownLabel.setLayoutX(wi * 0.55);
+                countdownLabel.setLayoutY(he * 0.70);
+            } else if(wi < 2000){
+                countdownLabel.setLayoutX(wi * 0.45);
+                countdownLabel.setLayoutY(he * 0.60);
+            } else {
+                countdownLabel.setLayoutX(wi * 0.25);
+                countdownLabel.setLayoutY(he * 0.40);
+            }
+
             personalGoal.setVisible(false);
             CountDownLatch countDownLatch = new CountDownLatch(1);
             Platform.runLater(() -> {

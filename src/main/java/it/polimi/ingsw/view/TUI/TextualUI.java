@@ -110,7 +110,7 @@ public class TextualUI implements UI {
         if (this.genericUILogic.areThereStoredGamesForPlayer() && genericUILogic.getModel().getPlayers().size() == 1) {
             String restoreGameChoice;
             do {
-                System.out.println("There is a stored game for your user. Would you like to restore it? (Type \"YES\" to restore it, \"NO\" to delete it)");
+                System.out.println("There is a stored game for your user. Would you like to restore it? (Type \"YES\" to restore it, \"NO\" to create a new game)");
                 restoreGameChoice = CommandReader.standardCommandQueue.waitAndGetFirstCommandAvailable();
             } while (!restoreGameChoice.equalsIgnoreCase("YES") && !restoreGameChoice.equalsIgnoreCase("NO"));
 
