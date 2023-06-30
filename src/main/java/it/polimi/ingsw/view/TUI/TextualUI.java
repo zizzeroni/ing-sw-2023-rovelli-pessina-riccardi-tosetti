@@ -673,7 +673,7 @@ public class TextualUI implements UI {
      * @see ViewListener#startGame()
      */
     private void setUpLobby() {
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
             this.genericUILogic.getController().startGame();
         }
     }
@@ -689,7 +689,7 @@ public class TextualUI implements UI {
     private void setUpLobbyAsFirst() {
         this.askNumberOfPlayers();
 
-        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayers() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
+        if (genericUILogic.getModel().getPlayers().size() == genericUILogic.getModel().getNumberOfPlayersToStartGame() && genericUILogic.getModel().getGameState() == GameState.IN_CREATION) {
             this.genericUILogic.getController().startGame();
         }
     }

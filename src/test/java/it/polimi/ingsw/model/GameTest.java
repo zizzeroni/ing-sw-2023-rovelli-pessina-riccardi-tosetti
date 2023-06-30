@@ -3,11 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.commongoal.CommonGoal;
 import it.polimi.ingsw.model.commongoal.EightShapelessPatternGoal;
 import it.polimi.ingsw.model.commongoal.FourCornersPatternGoal;
-import it.polimi.ingsw.model.exceptions.LobbyIsFullException;
 import it.polimi.ingsw.model.tile.ScoreTile;
 import it.polimi.ingsw.model.tile.Tile;
 import it.polimi.ingsw.model.tile.TileColor;
-import it.polimi.ingsw.model.view.BookshelfView;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.OptionsValues;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +47,7 @@ public class GameTest {
                 {null, new Tile(TileColor.BLUE), null, null, null},
                 {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
-        this.players.get(0).setPersonalGoal(new PersonalGoal(2, new Tile[][]{
+        this.players.get(1).setPersonalGoal(new PersonalGoal(2, new Tile[][]{
                 {null, null, null, null, new Tile(TileColor.CYAN)},
                 {null, new Tile(TileColor.YELLOW), null, null, null},
                 {new Tile(TileColor.WHITE), null, null, null, null},
@@ -58,7 +55,7 @@ public class GameTest {
                 {null, new Tile(TileColor.BLUE), null, null, null},
                 {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
-        this.players.get(0).setPersonalGoal(new PersonalGoal(3, new Tile[][]{
+        this.players.get(2).setPersonalGoal(new PersonalGoal(3, new Tile[][]{
                 {null, null, null, null, new Tile(TileColor.CYAN)},
                 {null, new Tile(TileColor.YELLOW), null, null, null},
                 {new Tile(TileColor.WHITE), null, null, null, null},
@@ -66,7 +63,7 @@ public class GameTest {
                 {null, new Tile(TileColor.BLUE), null, null, null},
                 {null, null, null, new Tile(TileColor.PURPLE), null}}
         ));
-        this.players.get(0).setPersonalGoal(new PersonalGoal(4, new Tile[][]{
+        this.players.get(3).setPersonalGoal(new PersonalGoal(4, new Tile[][]{
                 {null, null, null, null, new Tile(TileColor.CYAN)},
                 {null, new Tile(TileColor.YELLOW), null, null, null},
                 {new Tile(TileColor.WHITE), null, null, null, null},
@@ -243,9 +240,117 @@ public class GameTest {
     @DisplayName("Test view version of the game")
     public void test_view_version_of_the_game() {
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new GameView(null));
+        assertThrows(IllegalArgumentException.class, () -> new GameView(null));
 
-        GameView view = new GameView(new Game());;
+        int[][] pattern = new int[][]{
+                {0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 1, 1},
+                {0, 1, 1, 1, 1, 1, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 1, 1, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0}
+        };
+
+        this.game = new Game(null, 2, 1, players, new ArrayList<>(Arrays.asList(new Tile(TileColor.PURPLE, 1), new Tile(TileColor.BLUE, 3))), new Board(new JsonBoardPattern(2, pattern)), new ArrayList<>());
+        GameView view = new GameView(this.game);
+
+        assertNotNull(view.getPlayerViewFromNickname("Francesco"));
+        assertEquals("Francesco", view.getPlayerViewFromNickname("Francesco").getNickname());
+        assertTrue(view.isPlayerInGame("Francesco"));
+        assertFalse(view.isPlayerInGame("Marco"));
+        assertEquals(this.game.getActivePlayerIndex(), view.getActivePlayerIndex());
+        assertEquals(this.game.getNumberOfPlayersToStartGame(), view.getNumberOfPlayersToStartGame());
+        assertEquals(this.game.getGameState(), view.getGameState());
+
+        for (int i = 0; i < view.getBag().size(); i++) {
+            assertEquals(this.game.getBag().get(i).getId(), view.getBag().get(i).getId());
+            assertEquals(this.game.getBag().get(i).getColor(), view.getBag().get(i).getColor());
+        }
+
+        assertEquals(this.game.getBoard().getNumberOfUsableTiles(), view.getBoard().getNumberOfUsableTiles());
+        assertEquals(this.game.getBoard().getNumberOfColumns(), view.getBoard().getNumberOfColumns());
+        assertEquals(this.game.getBoard().getNumberOfRows(), view.getBoard().getNumberOfRows());
+        assertEquals("    1 2 3 4 5 6 7 8 9 \n" +
+                "1 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "2 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "3 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "4 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "5 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "6 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "7 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "8 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "9 [ 0 0 0 0 0 0 0 0 0 ] ", view.getBoard().toString());
+
+        for (int row = 0; row < view.getBoard().getTiles().length; row++) {
+            for (int column = 0; column < view.getBoard().getTiles()[0].length; column++) {
+                if (view.getBoard().getTiles()[row][column] != null) {
+                    assertEquals(this.game.getBoard().getTiles()[row][column].getId(), view.getBoard().getTiles()[row][column].getId());
+                    assertEquals(this.game.getBoard().getTiles()[row][column].getColor(), view.getBoard().getTiles()[row][column].getColor());
+                }
+            }
+        }
+
+        for (int i = 0; i < view.getPlayers().size(); i++) {
+            assertEquals(this.game.getPlayers().get(i).getChat(), view.getPlayers().get(i).getChat());
+            assertEquals(this.game.getPlayers().get(i).getNickname(), view.getPlayers().get(i).getNickname());
+
+            for (int row = 0; row < view.getPlayers().get(i).getBookshelf().getTiles().length; row++) {
+                for (int column = 0; column < view.getPlayers().get(i).getBookshelf().getTiles()[0].length; column++) {
+                    if (view.getPlayers().get(i).getBookshelf().getTiles()[row][column] != null) {
+                        assertEquals(this.game.getPlayers().get(i).getBookshelf().getTiles()[row][column].getId(), view.getPlayers().get(i).getBookshelf().getTiles()[row][column].getId());
+                        assertEquals(this.game.getPlayers().get(i).getBookshelf().getTiles()[row][column].getColor(), view.getPlayers().get(i).getBookshelf().getTiles()[row][column].getColor());
+                        assertEquals(this.game.getPlayers().get(i).getBookshelf().getNumberOfEmptyCellsInColumn(column), view.getPlayers().get(i).getBookshelf().getNumberOfEmptyCellsInColumn(column));
+                    }
+                }
+            }
+
+            assertEquals(this.game.getPlayers().get(i).getBookshelf().getNumberOfRows(), view.getPlayers().get(i).getBookshelf().getNumberOfRows());
+            assertEquals(this.game.getPlayers().get(i).getBookshelf().getNumberOfColumns(), view.getPlayers().get(i).getBookshelf().getNumberOfColumns());
+            assertEquals(this.game.getPlayers().get(i).getBookshelf().getMaxNumberOfCellsFreeInBookshelf(), view.getPlayers().get(i).getBookshelf().getMaxNumberOfCellsFreeInBookshelf());
+            assertEquals(this.game.getPlayers().get(i).getBookshelf().getPointsForEachGroup(), view.getPlayers().get(i).getBookshelf().getPointsForEachGroup());
+
+            for (int j = 0; j < view.getPlayers().get(i).getScoreTiles().size(); j++) {
+                assertEquals(this.game.getPlayers().get(i).getScoreTiles().get(j).getValue(), view.getPlayers().get(i).getScoreTiles().get(j).getValue());
+                assertEquals(this.game.getPlayers().get(i).getScoreTiles().get(j).getPlayerID(), view.getPlayers().get(i).getScoreTiles().get(j).getPlayerID());
+                assertEquals(this.game.getPlayers().get(i).getScoreTiles().get(j).getCommonGoalID(), view.getPlayers().get(i).getScoreTiles().get(j).getCommonGoalID());
+            }
+
+            assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getNumberOfRows(), view.getPlayers().get(i).getPersonalGoal().getNumberOfRows());
+            assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getNumberOfColumns(), view.getPlayers().get(i).getPersonalGoal().getNumberOfColumns());
+            assertEquals("    1 2 3 4 5 \n" +
+                    "1 [ 0 0 0 0 \u001B[36mC\u001B[39m ] \n" +
+                    "2 [ 0 \u001B[33mY\u001B[39m 0 0 0 ] \n" +
+                    "3 [ \u001B[37mW\u001B[39m 0 0 0 0 ] \n" +
+                    "4 [ 0 0 0 \u001B[32mG\u001B[39m 0 ] \n" +
+                    "5 [ 0 \u001B[34mB\u001B[39m 0 0 0 ] \n" +
+                    "6 [ 0 0 0 \u001B[35mP\u001B[39m 0 ] ", view.getPlayers().get(i).getPersonalGoal().toString());
+
+            for (int row = 0; row < view.getPlayers().get(i).getPersonalGoal().getPattern().length; row++) {
+                for (int column = 0; column < view.getPlayers().get(i).getPersonalGoal().getPattern()[0].length; column++) {
+                    if (view.getPlayers().get(i).getPersonalGoal().getPattern()[row][column] != null) {
+                        assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getPattern()[row][column].getId(), view.getPlayers().get(i).getPersonalGoal().getPattern()[row][column].getId());
+                        assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getPattern()[row][column].getColor(), view.getPlayers().get(i).getPersonalGoal().getPattern()[row][column].getColor());
+                    }
+                }
+            }
+
+            assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getId(), view.getPlayers().get(i).getPersonalGoal().getId());
+            if (view.getPlayers().get(i).getPersonalGoal().getSingleTile(0, 4) != null) {
+                assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getSingleTile(0, 4).getId(), view.getPlayers().get(i).getPersonalGoal().getSingleTile(0, 4).getId());
+                assertEquals(this.game.getPlayers().get(i).getPersonalGoal().getSingleTile(0, 4).getColor(), view.getPlayers().get(i).getPersonalGoal().getSingleTile(0, 4).getColor());
+            }
+            assertEquals(this.game.getPlayers().get(i).getPersonalGoal().score(this.game.getPlayers().get(i).getBookshelf()), view.getPlayers().get(i).getPersonalGoal().score(view.getPlayers().get(i).getBookshelf()));
+
+        }
+
+        assertFalse(view.isPaused());
+
+        for (int i = 0; i < view.connectedPlayers().size(); i++) {
+            assertTrue(this.game.getPlayerFromNickname(view.connectedPlayers().get(i).getNickname()).isConnected());
+        }
 
     }
 }

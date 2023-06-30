@@ -67,7 +67,7 @@ public class LoginController implements Initializable {
 
         //Controllo se è corretto l'username
         String nickname = Nickname.getText();
-        if ((this.mainGraphicalUI.genericUILogic.getModel() != null) && (this.mainGraphicalUI.genericUILogic.getModel().getNumberOfPlayers() == this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size()) || !nickname.isEmpty()) {
+        if ((this.mainGraphicalUI.genericUILogic.getModel() != null) && (this.mainGraphicalUI.genericUILogic.getModel().getNumberOfPlayersToStartGame() == this.mainGraphicalUI.genericUILogic.getModel().getPlayers().size()) || !nickname.isEmpty()) {
             //Pass the nickname to the GUI
             mainGraphicalUI.joinGameWithNick(Nickname.getText());
             //Se i è uguale a 1 devo scegliere il numero di giocatori

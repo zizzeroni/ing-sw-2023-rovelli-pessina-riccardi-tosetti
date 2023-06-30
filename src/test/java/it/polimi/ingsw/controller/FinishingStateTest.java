@@ -224,7 +224,7 @@ public class FinishingStateTest {
 
         assertNull(this.controller.getModel().getPlayers().stream().filter(player -> player.getNickname().equals("Andrea")).findFirst().orElse(null));
     }
-    
+
     /**
      * Test class
      */
@@ -270,7 +270,7 @@ public class FinishingStateTest {
      */
     @Test
     @DisplayName("Test that disconnecting a player set his connection to false and if it's the active player, it changes turn")
-    public void disconneting_a_player_set_connnection_false_and_change_turn_if_active() {
+    public void disconnecting_a_player_set_connection_false_and_change_turn_if_active() {
 
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
         this.controller.getModel().setActivePlayerIndex(0);
@@ -286,7 +286,7 @@ public class FinishingStateTest {
      */
     @Test
     @DisplayName("Test that disconnecting a non active player does not change the turn")
-    public void disconneting_a_non_active_player_does_not_change_turn() {
+    public void disconnecting_a_non_active_player_does_not_change_turn() {
 
         this.controller.getModel().setPlayers(Arrays.asList(new Player("Andrea", true), new Player("Luca", true)));
         this.controller.getModel().setActivePlayerIndex(0);

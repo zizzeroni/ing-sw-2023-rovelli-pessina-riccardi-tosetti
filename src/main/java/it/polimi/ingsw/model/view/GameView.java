@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @see it.polimi.ingsw.model.Player
  */
 public class GameView implements Serializable {
-    private final int numberOfPlayers;
+    private final int numberOfPlayersToStartGame;
     private final GameState gameState;
     private final int activePlayerIndex;
     private final List<PlayerView> players;
@@ -48,7 +48,7 @@ public class GameView implements Serializable {
         this.bag = new ArrayList<>();
         this.commonGoals = new ArrayList<>();
 
-        this.numberOfPlayers = gameModel.getNumberOfPlayersToStartGame();
+        this.numberOfPlayersToStartGame = gameModel.getNumberOfPlayersToStartGame();
         this.activePlayerIndex = gameModel.getActivePlayerIndex();
         for (Player player : gameModel.getPlayers()) {
             this.players.add(new PlayerView(player));
@@ -99,14 +99,14 @@ public class GameView implements Serializable {
     }
 
     /**
-     * Gets the number of active {@code Player}s in the current {@code Game},
+     * Gets the number of {@code Player}s required to start the {@code Game},
      *
-     * @return the number of players participating the {@code Game}.
+     * @return the number of players required to start the {@code Game}.
      * @see Game
      * @see Player
      */
-    public int getNumberOfPlayers() {
-        return this.numberOfPlayers;
+    public int getNumberOfPlayersToStartGame() {
+        return this.numberOfPlayersToStartGame;
     }
 
     /**

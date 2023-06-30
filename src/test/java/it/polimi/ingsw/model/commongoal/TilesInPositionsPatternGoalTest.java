@@ -177,5 +177,10 @@ public class TilesInPositionsPatternGoalTest {
         assertEquals(this.fourElementAsASquare.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.fourElementAsASquare.getType(), copy.getType());
         assertEquals(this.fourElementAsASquare.getId(), copy.getId());
+        assertEquals("Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles\n" +
+                "of one square can be different from those of the other square.\n" +
+                "[ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m ]\n" +
+                "[ \u001B[34mB\u001B[39m \u001B[34mB\u001B[39m ]\n" +
+                "x 2 times \n", copy.toString());
     }
 }

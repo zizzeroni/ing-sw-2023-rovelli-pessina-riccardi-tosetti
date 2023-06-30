@@ -311,5 +311,12 @@ public class DiagonalEqualPatternTest {
         assertEquals(this.pattern.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.pattern.getType(), copy.getType());
         assertEquals(this.pattern.getId(), copy.getId());
+        assertEquals("Tiles of the same type forming this pattern:\n" +
+                "[ \u001B[34mB\u001B[39m ---- ]\n" +
+                "[- \u001B[34mB\u001B[39m --- ]\n" +
+                "[-- \u001B[34mB\u001B[39m -- ]\n" +
+                "[--- \u001B[34mB\u001B[39m - ]\n" +
+                "[---- \u001B[34mB\u001B[39m  ]\n" +
+                "x 1 time \n", copy.toString());
     }
 }

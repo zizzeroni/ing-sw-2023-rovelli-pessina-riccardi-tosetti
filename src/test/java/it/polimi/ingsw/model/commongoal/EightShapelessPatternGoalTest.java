@@ -167,6 +167,13 @@ public class EightShapelessPatternGoalTest {
         assertEquals(this.pattern.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.pattern.getType(), copy.getType());
         assertEquals(this.pattern.getId(), copy.getId());
+        assertEquals("At least Eight tiles of the same type. There’s no restriction about the position of these tiles.\n" +
+                "[ - - - - \u001B[34mB\u001B[39m ] \n" +
+                "[ - \u001B[34mB\u001B[39m - - - ] \n" +
+                "[ - \u001B[34mB\u001B[39m - - - ] \n" +
+                "[ - - \u001B[34mB\u001B[39m - - ] \n" +
+                "[ - - - \u001B[34mB\u001B[39m - ] \n" +
+                "[ \u001B[34mB\u001B[39m - \u001B[34mB\u001B[39m - \u001B[34mB\u001B[39m ] \n", copy.toString());
     }
 
     /**
