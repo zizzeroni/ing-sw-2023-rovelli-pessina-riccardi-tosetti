@@ -59,7 +59,7 @@ public class PersonalGoalView implements Serializable {
      * @return the number of columns.
      * @see PersonalGoal
      */
-    public int getNumColumns() {
+    public int getNumberOfColumns() {
         return this.numberOfColumns;
     }
 
@@ -70,7 +70,7 @@ public class PersonalGoalView implements Serializable {
      * @return the number of rows.
      * @see PersonalGoal
      */
-    public int getNumRows() {
+    public int getNumberOfRows() {
         return this.numberOfRows;
     }
 

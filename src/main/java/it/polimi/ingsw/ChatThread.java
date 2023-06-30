@@ -1,9 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Message;
 import it.polimi.ingsw.model.view.GameView;
 import it.polimi.ingsw.utils.CommandReader;
+import it.polimi.ingsw.view.TUI.TextualUI;
+import it.polimi.ingsw.view.ViewListener;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class ChatThread extends Thread {
      * based on the type of string entered in CLI (TextualUI) or the GUI's chat selection.
      *
      * @see it.polimi.ingsw.view.GUI
-     * @see it.polimi.ingsw.view.TextualUI
+     * @see TextualUI
      * @see CommandReader
      */
     @Override

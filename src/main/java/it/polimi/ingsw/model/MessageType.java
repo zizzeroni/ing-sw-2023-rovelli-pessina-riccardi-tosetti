@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model;
 
-import org.fusesource.jansi.Ansi;
-
-import static org.fusesource.jansi.Ansi.ansi;
-
 /**
  * An enumeration of the possible types of {@code Message}s
  * that the {@code Player} may send: {@code BROADCAST},
@@ -13,7 +9,7 @@ import static org.fusesource.jansi.Ansi.ansi;
  * @see Message
  */
 public enum MessageType {
-    BROADCAST, PRIVATE;
+    BROADCAST, PRIVATE
 
     /**
      * Displays the type of {@code Message} being sent.
@@ -21,7 +17,7 @@ public enum MessageType {
      * @return a String to represent the message's type.
      * @see Message
      */
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         String name;
@@ -38,5 +34,5 @@ public enum MessageType {
         }
 
         return stringBuilder.append(ansi().fg(Ansi.Color.YELLOW).a(name).fg(Ansi.Color.DEFAULT)).toString();
-    }
+    }*/
 }

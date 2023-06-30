@@ -18,6 +18,9 @@ public class SendAreThereStoredGamesForPlayerCommand implements CommandToClient 
 
     /**
      * Class constructor.
+     *
+     * @param actuator the client that execute the command
+     * @param result   the result of the request to the server
      */
     public SendAreThereStoredGamesForPlayerCommand(Client actuator, boolean result) {
         this.actuator = actuator;

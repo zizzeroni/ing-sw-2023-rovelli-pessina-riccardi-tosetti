@@ -1,9 +1,9 @@
-# Progetto - IGSW
+# Progetto - IGSW (MyShelfie)
 
-Progetto per il corso: PROVA FINALE (INGEGNERIA DEL SOFTWARE) \
-Docente: Cugola Giampaolo \
-A.A: 2022/2023 \
-Gruppo 03: Rovelli Andrea - Tosetti Luca - Riccardi Francesco - Pessina Alessandro
+### Corso: PROVA FINALE (INGEGNERIA DEL SOFTWARE)
+`Docente: Cugola Giampaolo` \
+`A.A: 2022/2023` \
+`Gruppo 03: Rovelli Andrea - Tosetti Luca - Riccardi Francesco - Pessina Alessandro`
 
 
 # Feature implementate
@@ -15,17 +15,38 @@ Gruppo 03: Rovelli Andrea - Tosetti Luca - Riccardi Francesco - Pessina Alessand
 | Regole Complete + TUI + RMI o Socket + 1 FA | `22`  | ✓            |
 | Regole Complete + TUI + GUI + RMI o Socket + 1 FA | `24`  | ✓            |
 | Regole Complete + TUI + GUI + RMI + Socket + 1 FA | `27`  | ✓            |
-| Regole Complete + TUI + GUI + RMI + Socket + 2 FA | `30`  | ✗            |
+| Regole Complete + TUI + GUI + RMI + Socket + 2 FA | `30`  | ✓            |
 | Regole Complete + TUI + GUI + RMI + Socket + 3 FA | `30L` | ✗            |
 
-Oltre a ciò abbiamo implementato parzialmente la feature avanzata della chat: In particolare tale feature funziona correttamente all'interno della TUI, ma non all'interno della GUI.
+Le funzionalità avanzate implementate sono:
+ 
+ - **Resilienza alle disconnessioni**
+ - **Persistenza**
+ - **Chat** *
+
+\
+*Per quanto riguarda la funazionalità avanzata della Chat, siamo riusciti a implementarla
+correttamente sia su TUI, che GUI. Tuttavia funziona solamente tramite l'uso di socket e
+non RMI (il quale fa crashare il client utilizzatore, ma da nostri test non incidendo
+sull'andamento effettivo del game, semplicemente dopo un po il giocatore viene disconnesso).\
+Per tale motivo non l'abbiamo segnalata tra i requisiti completati.
+
+# Copertura Test
+
+
 
 # Modalità di esecuzione Jar
 
+Per l'esecuzione dei Jar è sufficiente entrare nella cartella in cui si trova il Jar e digitare:
+`java -jar [nome del jar]`.\
+Questo vale sia per il Jar del server che quello del client. \
+Durante l'esecuzione verrà creata nello stesso luogo in cui si trova il jar del server, al fine di memorizzare una serie di directory `src\main\resources\storage` con all'interno due file json: `games.json` e `games-bkp.json`.
 # Ulteriori indicazioni
 
 Per far in modo che i jar vengano eseguiti senza problemi e la connessione (in particolare RMI) funzioni:
 - Consigliamo la disattivazione di qualsiasi firewall presente sul PC
-- Consigliamo di disattivare tutte le schede di rete di macchine virtuali (il software procederà a prendere per ogni client una scheda di rete attiva e che non sia di loopback)
+- Consigliamo di disattivare tutte le schede di rete superflue (diverse da quella che si intende utilizzare per instaurare la connessione, in particolare quelle virtuali) 
+,infatti il software procederà a prendere per ogni client una scheda di rete tra quelle attive e che non sia di loopback).
 
+# Scelte implementative?
 

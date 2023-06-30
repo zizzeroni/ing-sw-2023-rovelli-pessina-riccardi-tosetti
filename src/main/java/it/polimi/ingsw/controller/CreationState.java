@@ -274,6 +274,7 @@ public class CreationState extends ControllerState {
     /**
      * Method implementing the random generation of {@code CommonGoal}.
      *
+     * @param numberOfCommonGoalCards number of the total common goal cards
      * @return the {@code CommonGoal} object being randomly generated
      * @throws Exception signals if generation cannot be provided due to an error
      *                   linked to class instantiation

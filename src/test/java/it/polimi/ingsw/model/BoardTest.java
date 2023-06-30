@@ -38,6 +38,11 @@ public class BoardTest {
         List<Tile> tilesToAdd = new ArrayList<>();
         TileColor[][] emptyPositionsExpectedColor = new TileColor[this.board.getNumberOfRows()][this.board.getNumberOfColumns()];
 
+        this.board.registerListener(null);
+
+        this.board.setNumberOfUsableTiles(3);
+        assertEquals(3, this.board.getNumberOfUsableTiles());
+
         for (int row = 0; row < this.board.getNumberOfRows(); row++) {
             for (int column = 0; column < this.board.getNumberOfColumns(); column++) {
                 if (this.board.getSingleTile(row, column) == null) {
@@ -81,6 +86,8 @@ public class BoardTest {
                 {new Tile(), new Tile(), new Tile(), new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), new Tile(TileColor.BLUE), new Tile(), new Tile(), new Tile()},
                 {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(TileColor.WHITE), new Tile(TileColor.WHITE), new Tile(), new Tile(), new Tile()},
         });
+
+        this.board.removeListener();
 
         assertEquals(0, this.board.numberOfTilesToRefill());
     }
@@ -177,5 +184,36 @@ public class BoardTest {
                 }
             }
         }
+    }
+
+    @Test
+    @DisplayName("Test that to string method generates the right string")
+    public void to_string_generates_the_right_string() {
+
+        this.board.setTiles(new Tile[][]{
+                {new Tile(), new Tile(), new Tile(), new Tile(TileColor.PURPLE), null, new Tile(), new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), null, null, null, new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), null, null, null, null, null, new Tile(), new Tile()},
+                {new Tile(), null, new Tile(TileColor.PURPLE), null, null, null, null, null, null},
+                {null, null, null, new Tile(TileColor.PURPLE), null, new Tile(TileColor.PURPLE), null, null, new Tile(TileColor.PURPLE)},
+                {null, null, null, null, null, null, new Tile(TileColor.PURPLE), null, new Tile()},
+                {new Tile(), new Tile(), null, null, null, null, null, new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), null, null, null, new Tile(), new Tile(), new Tile()},
+                {new Tile(), new Tile(), new Tile(), new Tile(), null, new Tile(TileColor.PURPLE), new Tile(), new Tile(), new Tile()},
+        });
+
+        this.board.setSingleTile(0, 4, new Tile(TileColor.GREEN));
+
+        assertEquals("    1 2 3 4 5 6 7 8 9 \n" +
+                "1 [ 0 0 0 \u001B[35mP\u001B[39m \u001B[32mG\u001B[39m 0 0 0 0 ] \n" +
+                "2 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "3 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "4 [ 0 0 \u001B[35mP\u001B[39m 0 0 0 0 0 0 ] \n" +
+                "5 [ 0 0 0 \u001B[35mP\u001B[39m 0 \u001B[35mP\u001B[39m 0 0 \u001B[35mP\u001B[39m ] \n" +
+                "6 [ 0 0 0 0 0 0 \u001B[35mP\u001B[39m 0 0 ] \n" +
+                "7 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "8 [ 0 0 0 0 0 0 0 0 0 ] \n" +
+                "9 [ 0 0 0 0 0 \u001B[35mP\u001B[39m 0 0 0 ] ", this.board.toString());
+
     }
 }

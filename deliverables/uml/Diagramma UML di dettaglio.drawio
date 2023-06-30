@@ -1,0 +1,805 @@
+<mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" background="none" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="node15" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AddPlayerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ AddPlayerCommand(String): &lt;br/&gt;+ AddPlayerCommand(Server, String): &lt;br/&gt;+ AddPlayerCommand(Server): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- nickname: String&lt;br/&gt;- client: Client&lt;br/&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getActuator(): Server&lt;br/&gt;+ toString(): String&lt;br/&gt;+ setClient(Client): void&lt;br/&gt;+ execute(): void&lt;br/&gt;+ getClient(): Client&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ toEnum(): CommandType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2337" y="674" width="240" height="322" as="geometry" />
+    </mxCell>
+    <mxCell id="node33" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AppClient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ AppClient(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ commandReader: CommandReader&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- startReceiverThread(Client, ServerStub): void&lt;br/&gt;+ startPingSenderThread(Server): void&lt;br/&gt;- getFirstUpNetworkInterface(): String&lt;br/&gt;+ main(String[]): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3029" y="3015" width="279" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node24" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AppServer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ AppServer(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- executorService: ExecutorService&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- startRMI(Server): void&lt;br/&gt;+ main(String[]): void&lt;br/&gt;- startSocket(Server): void&lt;br/&gt;- getFirstUpNetworkInterface(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2902" y="3853" width="236" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node73" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AreThereStoredGamesForPlayerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ AreThereStoredGamesForPlayerCommand(Server, String): &lt;br/&gt;+ AreThereStoredGamesForPlayerCommand(String): &lt;br/&gt;+ AreThereStoredGamesForPlayerCommand(Server): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;br/&gt;- nickname: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ execute(): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ toString(): String&lt;br/&gt;+ setActuator(Server): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5429" y="117" width="352" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node34" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Board&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Board(JsonBoardPattern): &lt;br/&gt;+ Board(int, Tile[][]): &lt;br/&gt;+ Board(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- listener: BoardListener&lt;br/&gt;- numberOfColumns: int&lt;br/&gt;- numberOfRows: int&lt;br/&gt;- tiles: Tile[][]&lt;br/&gt;- numberOfUsableTiles: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getNumberOfUsableTiles(): int&lt;br/&gt;+ getNumberOfColumns(): int&lt;br/&gt;+ setSingleTile(int, int, Tile): void&lt;br/&gt;+ getSingleTile(int, int): Tile&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ getNumberOfRows(): int&lt;br/&gt;- removeTile(int, int): void&lt;br/&gt;+ addTiles(List&amp;lt;Tile&amp;gt;): void&lt;br/&gt;+ registerListener(BoardListener): void&lt;br/&gt;+ setTiles(Tile[][]): void&lt;br/&gt;+ removeTiles(List&amp;lt;Coordinates&amp;gt;): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ numberOfTilesToRefill(): int&lt;br/&gt;+ setNumberOfUsableTiles(int): void&lt;br/&gt;+ getTiles(): Tile[][]&lt;br/&gt;+ setPattern(JsonBoardPattern): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5287" y="3663" width="244" height="564" as="geometry" />
+    </mxCell>
+    <mxCell id="node88" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;BoardListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ addedTilesToBoard(Board): void&lt;br/&gt;+ removedTilesFromBoard(Board): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3782" y="198" width="243" height="95" as="geometry" />
+    </mxCell>
+    <mxCell id="node42" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BoardView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ BoardView(Board): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- numberOfColumns: int&lt;br/&gt;- numberOfUsableTiles: int&lt;br/&gt;- tiles: TileView[][]&lt;br/&gt;- numberOfRows: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ getNumberOfUsableTiles(): int&lt;br/&gt;+ getTiles(): TileView[][]&lt;br/&gt;+ getNumberOfColumns(): int&lt;br/&gt;+ getNumberOfRows(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1119" y="2653" width="206" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node77" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Bookshelf&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Bookshelf(Tile[][]): &lt;br/&gt;+ Bookshelf(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- pointsForEachGroup: Map&amp;lt;Integer, Integer&amp;gt;&lt;br/&gt;- numberOfColumns: int&lt;br/&gt;- numberOfRows: int&lt;br/&gt;- tiles: Tile[][]&lt;br/&gt;- listener: BookshelfListener&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getNumberOfColumns(): int&lt;br/&gt;+ getMaxNumberOfCellsFreeInBookshelf(): int&lt;br/&gt;+ toString(): String&lt;br/&gt;+ isFull(): boolean&lt;br/&gt;+ getNumberOfEmptyCellsInColumn(int): int&lt;br/&gt;+ setSingleTiles(Tile, int, int): void&lt;br/&gt;+ getNumberOfTilesInColumn(int): int&lt;br/&gt;+ isColumnFull(int): boolean&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ addTile(Tile, int): void&lt;br/&gt;+ getTiles(): Tile[][]&lt;br/&gt;+ getPointsForEachGroup(): Map&amp;lt;Integer, Integer&amp;gt;&lt;br/&gt;+ setTiles(Tile[][]): void&lt;br/&gt;+ registerListener(BookshelfListener): void&lt;br/&gt;- assignGroupToBookshelfEqualTiles(int[][], int, int, int, TileColor): void&lt;br/&gt;+ isRowFull(int): boolean&lt;br/&gt;+ score(): int&lt;br/&gt;+ getSingleTile(int, int): Tile&lt;br/&gt;+ getNumberOfRows(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2475" y="3320" width="366" height="608" as="geometry" />
+    </mxCell>
+    <mxCell id="node62" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;BookshelfListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ tileAddedToBookshelf(Bookshelf): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4180" y="324" width="251" height="68" as="geometry" />
+    </mxCell>
+    <mxCell id="node0" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BookshelfView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ BookshelfView(Bookshelf): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- pointsForEachGroup: Map&amp;lt;Integer, Integer&amp;gt;&lt;br/&gt;- numberOfRows: int&lt;br/&gt;- tiles: TileView[][]&lt;br/&gt;- numberOfColumns: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ getNumberOfRows(): int&lt;br/&gt;- assignGroupToBookshelfEqualTiles(int[][], int, int, int, TileColor): void&lt;br/&gt;+ getNumberOfColumns(): int&lt;br/&gt;+ getNumberOfTilesInColumn(int): int&lt;br/&gt;+ getPointsForEachGroup(): Map&amp;lt;Integer, Integer&amp;gt;&lt;br/&gt;+ isColumnFull(int): boolean&lt;br/&gt;+ getMaxNumberOfCellsFreeInBookshelf(): int&lt;br/&gt;+ getNumberOfEmptyCellsInColumn(int): int&lt;br/&gt;+ getSingleTile(int, int): TileView&lt;br/&gt;+ isRowFull(int): boolean&lt;br/&gt;+ getTiles(): TileView[][]&lt;br/&gt;+ isFull(): boolean&lt;br/&gt;+ score(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4326" y="2729" width="366" height="454" as="geometry" />
+    </mxCell>
+    <mxCell id="node63" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Card&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Card(): &lt;br/&gt;+ Card(int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- id: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;+ setId(int): void&lt;br/&gt;+ getId(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1126" y="1124" width="335" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node36" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ChangeTurnCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ChangeTurnCommand(): &lt;br/&gt;+ ChangeTurnCommand(Server): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getActuator(): Server&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ execute(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="297" y="2020" width="214" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node6" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ChatThread&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ChatThread(): &lt;br/&gt;+ ChatThread(ViewListener, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- nickname: String&lt;br/&gt;- gameView: GameView&lt;br/&gt;- controller: ViewListener&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setGameView(GameView): void&lt;br/&gt;+ setNickname(String): void&lt;br/&gt;+ run(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="435" y="2891" width="224" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node13" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;CheckType&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CheckType(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ INDIFFERENT: &lt;br/&gt;+ EQUALS: &lt;br/&gt;+ DIFFERENT: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ valueOf(String): CheckType&lt;br/&gt;+ values(): CheckType[]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1899" y="2670" width="191" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node22" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Choice&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Choice(List&amp;lt;TileView&amp;gt;, List&amp;lt;Coordinates&amp;gt;, int[], int): &lt;br/&gt;+ Choice(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- tileOrder: int[]&lt;br/&gt;- chosenTiles: List&amp;lt;TileView&amp;gt;&lt;br/&gt;- chosenColumn: int&lt;br/&gt;- tileCoordinates: List&amp;lt;Coordinates&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ addTile(TileView): void&lt;br/&gt;+ getTileCoordinates(): List&amp;lt;Coordinates&amp;gt;&lt;br/&gt;+ removeTile(TileView): void&lt;br/&gt;+ addCoordinates(Coordinates): void&lt;br/&gt;+ setTileOrder(int[]): void&lt;br/&gt;+ setTileCoordinates(List&amp;lt;Coordinates&amp;gt;): void&lt;br/&gt;+ getChosenColumn(): int&lt;br/&gt;+ getChosenTiles(): List&amp;lt;TileView&amp;gt;&lt;br/&gt;+ getTileOrder(): int[]&lt;br/&gt;+ setChosenColumn(int): void&lt;br/&gt;+ setChosenTiles(List&amp;lt;TileView&amp;gt;): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4393" y="3339" width="326" height="410" as="geometry" />
+    </mxCell>
+    <mxCell id="node39" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ChooseNumberOfPlayerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ChooseNumberOfPlayerCommand(int): &lt;br/&gt;+ ChooseNumberOfPlayerCommand(Server): &lt;br/&gt;+ ChooseNumberOfPlayerCommand(Server, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;br/&gt;- numberOfPlayers: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ execute(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1330" y="1772" width="298" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node65" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Client&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ receiveException(GenericException): void&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;br/&gt;+ ping(): void&lt;br/&gt;+ updateModelView(GameView): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2795" y="1271" width="307" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="node3" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;ClientGameState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ClientGameState(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GAME_ONGOING: &lt;br/&gt;+ GAME_ENDED: &lt;br/&gt;+ WAITING_FOR_RESUME: &lt;br/&gt;+ WAITING_IN_LOBBY: &lt;br/&gt;+ WAITING_FOR_OTHER_PLAYER: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): ClientGameState[]&lt;br/&gt;+ valueOf(String): ClientGameState&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2799" y="1518" width="221" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node72" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ClientImpl&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ClientImpl(Server, UI, String): &lt;br/&gt;+ ClientImpl(Server, UI): &lt;br/&gt;+ ClientImpl(Server, UI, String, int): &lt;br/&gt;+ ClientImpl(Server, UI, String, int, RMIClientSocketFactory, RMIServerSocketFactory): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- view: UI&lt;br/&gt;- serverConnectedTo: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ run(): void&lt;br/&gt;+ receiveException(GenericException): void&lt;br/&gt;+ restoreGameForPlayer(String): void&lt;br/&gt;+ ping(): void&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ changeTurn(): void&lt;br/&gt;+ areThereStoredGamesForPlayer(String): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ updateModelView(GameView): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3700" y="1998" width="352" height="498" as="geometry" />
+    </mxCell>
+    <mxCell id="node61" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ClientSkeleton&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ClientSkeleton(Socket): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- oos: ObjectOutputStream&lt;br/&gt;- ois: ObjectInputStream&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ping(): void&lt;br/&gt;+ receiveException(GenericException): void&lt;br/&gt;+ receive(Server): void&lt;br/&gt;+ updateModelView(GameView): void&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3086" y="1538" width="307" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node48" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CommandQueue&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CommandQueue(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- commands: BlockingQueue&amp;lt;String&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getCommands(): BlockingQueue&amp;lt;String&amp;gt;&lt;br/&gt;+ waitAndGetFirstCommandAvailable(): String&lt;br/&gt;+ waitAndGetFirstIntegerCommandAvailable(): int&lt;br/&gt;+ setCommands(BlockingQueue&amp;lt;String&amp;gt;): void&lt;br/&gt;+ addCommand(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2183" y="2668" width="300" height="190" as="geometry" />
+    </mxCell>
+    <mxCell id="node99" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CommandReader&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CommandReader(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ chatCommandQueue: CommandQueue&lt;br/&gt;+ standardCommandQueue: CommandQueue&lt;br/&gt;- scanner: Scanner&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ run(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1537" y="2679" width="282" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node17" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;CommandToClient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setActuator(Client): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ getActuator(): Client&lt;br/&gt;+ execute(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4394" y="2482" width="184" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="node66" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;CommandToServer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setActuator(Server): void&lt;br/&gt;+ execute(): void&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ toEnum(): CommandType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2823" y="673" width="184" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="node26" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;CommandType&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CommandType(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ START_GAME: &lt;br/&gt;+ SEND_UPDATED_MODEL: &lt;br/&gt;+ ADD_PLAYER: &lt;br/&gt;+ SEND_PRIVATE_MESSAGE: &lt;br/&gt;+ SEND_PING_TO_SERVER: &lt;br/&gt;+ RESTORE_STORED_GAME: &lt;br/&gt;+ CHANGE_TURN: &lt;br/&gt;+ EXCEPTION: &lt;br/&gt;+ CHOOSE_NUMBER_OF_PLAYER: &lt;br/&gt;+ DISCONNECT_PLAYER: &lt;br/&gt;+ TRY_TO_RESUME_GAME: &lt;br/&gt;+ REGISTER: &lt;br/&gt;+ SEND_BROADCAST_MESSAGE: &lt;br/&gt;+ SEND_PING_TO_CLIENT: &lt;br/&gt;+ INSERT_USER_INPUT: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): CommandType[]&lt;br/&gt;+ valueOf(String): CommandType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3711" y="4282" width="217" height="432" as="geometry" />
+    </mxCell>
+    <mxCell id="node54" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CommonGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CommonGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;): &lt;br/&gt;+ CommonGoal(int, int, CheckType, int): &lt;br/&gt;+ CommonGoal(): &lt;br/&gt;+ CommonGoal(int, int, CheckType): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- type: CheckType&lt;br/&gt;- numberOfPatternRepetitionsRequired: int&lt;br/&gt;- scoreTiles: List&amp;lt;ScoreTile&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ copyImmutable(): CommonGoalView&lt;br/&gt;+ setType(CheckType): void&lt;br/&gt;+ equals(Object): boolean&lt;br/&gt;+ setNumberOfPatternRepetitionsRequired(int): void&lt;br/&gt;+ getNumberOfPatternRepetitionsRequired(): int&lt;br/&gt;+ getScoreTiles(): List&amp;lt;ScoreTile&amp;gt;&lt;br/&gt;- initScoreTiles(int, int): void&lt;br/&gt;+ setScoreTiles(List&amp;lt;ScoreTile&amp;gt;): void&lt;br/&gt;+ getType(): CheckType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="672" y="1252" width="320" height="388" as="geometry" />
+    </mxCell>
+    <mxCell id="node60" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CommonGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CommonGoalView(CommonGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- type: CheckType&lt;br/&gt;- id: int&lt;br/&gt;- numberOfPatternRepetitionsRequired: int&lt;br/&gt;- scoreTiles: List&amp;lt;ScoreTileView&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getId(): int&lt;br/&gt;+ getScoreTiles(): List&amp;lt;ScoreTileView&amp;gt;&lt;br/&gt;+ getNumberOfPatternRepetitionsRequired(): int&lt;br/&gt;+ getType(): CheckType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1697" y="1807" width="292" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node40" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ConsecutiveTilesPatternGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ConsecutiveTilesPatternGoal(int, int, CheckType, int, int): &lt;br/&gt;+ ConsecutiveTilesPatternGoal(int, int, CheckType, int): &lt;br/&gt;+ ConsecutiveTilesPatternGoal(): &lt;br/&gt;+ ConsecutiveTilesPatternGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- consecutiveTiles: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getConsecutiveTiles(): int&lt;br/&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;+ copyImmutable(): ConsecutiveTilesPatternGoalView&lt;br/&gt;- searchGroup(Bookshelf, int[][], int, int, int, TileColor): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-180" y="1948" width="356" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node47" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ConsecutiveTilesPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ConsecutiveTilesPatternGoalView(ConsecutiveTilesPatternGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- consecutiveTiles: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getConsecutiveTiles(): int&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="249" y="2308" width="385" height="134" as="geometry" />
+    </mxCell>
+    <mxCell id="node67" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ControllerState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ControllerState(GameController): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;# controller: GameController&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ addPlayer(String): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ startGame(int): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2326" y="1056" width="345" height="322" as="geometry" />
+    </mxCell>
+    <mxCell id="node2" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Coordinates&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Coordinates(): &lt;br/&gt;+ Coordinates(int, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- x: int&lt;br/&gt;- y: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getX(): int&lt;br/&gt;+ setX(int): void&lt;br/&gt;+ getY(): int&lt;br/&gt;+ setY(int): void&lt;br/&gt;+ equals(Coordinates): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-51" y="2886" width="201" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node45" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CountdownHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CountdownHandler(GenericUILogic): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- genericUILogic: GenericUILogic&lt;br/&gt;- canCheckGamePaused: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ run(): void&lt;br/&gt;+ noExceptionOccured(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4021" y="2642" width="245" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node41" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CreationState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CreationState(GameController): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- getStoredGameForPlayer(String, Game[]): Game&lt;br/&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;- getStoredGamesFromJson(String): Game[]&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ startGame(int): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ toEnum(): GameState&lt;br/&gt;+ getRandomCommonGoalSubclassInstance(int): CommonGoal&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3539" y="997" width="375" height="386" as="geometry" />
+    </mxCell>
+    <mxCell id="node94" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DiagonalEqualPattern&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ DiagonalEqualPattern(int, int, CheckType, int, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;br/&gt;+ DiagonalEqualPattern(List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;br/&gt;+ DiagonalEqualPattern(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;br/&gt;+ DiagonalEqualPattern(int, int, CheckType, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- pattern: List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;- rotateMatrix(List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;br/&gt;+ copyImmutable(): DiagonalEqualPatternGoalView&lt;br/&gt;+ getPattern(): List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;br/&gt;- assignGroupToDiagonalEqualTiles(Bookshelf, int[][], int, int, int, TileColor): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1063" y="1419" width="371" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node32" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DiagonalEqualPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ DiagonalEqualPatternGoalView(DiagonalEqualPattern): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- pattern: List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getPattern(): List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2942" y="1916" width="337" height="134" as="geometry" />
+    </mxCell>
+    <mxCell id="node27" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Direction&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Direction(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ VERTICAL: &lt;br/&gt;+ HORIZONTAL: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ valueOf(String): Direction&lt;br/&gt;+ values(): Direction[]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3374" y="4270" width="181" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node70" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DisconnectPlayerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ DisconnectPlayerCommand(Server): &lt;br/&gt;+ DisconnectPlayerCommand(Server, String): &lt;br/&gt;+ DisconnectPlayerCommand(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;br/&gt;- nickname: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ execute(): void&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Server): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3146" y="623" width="277" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node74" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DuplicateNicknameException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ DuplicateNicknameException(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ handle(): void&lt;br/&gt;+ toEnum(): ExceptionType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="384" y="2507" width="247" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="node83" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EightShapelessPatternGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ EightShapelessPatternGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;): &lt;br/&gt;+ EightShapelessPatternGoal(): &lt;br/&gt;+ EightShapelessPatternGoal(int, int, CheckType): &lt;br/&gt;+ EightShapelessPatternGoal(int, int, CheckType, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ copyImmutable(): EightShapelessPatternGoalView&lt;br/&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1530" y="1502" width="367" height="166" as="geometry" />
+    </mxCell>
+    <mxCell id="node31" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EightShapelessPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ EightShapelessPatternGoalView(CommonGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1370" y="2102" width="300" height="84" as="geometry" />
+    </mxCell>
+    <mxCell id="node84" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;ExceptionType&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ExceptionType(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ LOBBY_IS_FULL_EXCEPTION: &lt;br/&gt;+ DUPLICATE_NICKNAME_EXCEPTION: &lt;br/&gt;+ EXCESS_OF_PLAYERS_EXCEPTION: &lt;br/&gt;+ NONE: &lt;br/&gt;+ GENERIC_EXCEPTION: &lt;br/&gt;+ WRONG_INPUT_DATA_EXCEPTION: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ valueOf(String): ExceptionType&lt;br/&gt;+ values(): ExceptionType[]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4780" y="2864" width="244" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node89" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ExcessOfPlayersException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ExcessOfPlayersException(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): ExceptionType&lt;br/&gt;+ handle(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1672" y="2424" width="227" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="node64" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FinalSceneController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FinalSceneController(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- scene: Scene&lt;br/&gt;- mainGraphicalUI: GraphicalUI&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setMainGui(GraphicalUI): void&lt;br/&gt;+ showResult(List&amp;lt;PlayerView&amp;gt;): void&lt;br/&gt;+ setScene(Scene): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5718" y="2401" width="234" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node100" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FinishingState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FinishingState(GameController): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;br/&gt;- changeActivePlayer(): void&lt;br/&gt;- checkIfCoordinatesArePlausible(List&amp;lt;Coordinates&amp;gt;): boolean&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;+ toEnum(): GameState&lt;br/&gt;+ startGame(int): void&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;- removeTilesFromBoard(List&amp;lt;Coordinates&amp;gt;): void&lt;br/&gt;- refillBoard(): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;- checkIfPickable(int, int): boolean&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;- addTilesToPlayerBookshelf(List&amp;lt;TileView&amp;gt;, int[], int): void&lt;br/&gt;- checkIfUserInputIsCorrect(Choice): boolean&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2367" y="1439" width="368" height="474" as="geometry" />
+    </mxCell>
+    <mxCell id="node71" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FourCornersPatternGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FourCornersPatternGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;): &lt;br/&gt;+ FourCornersPatternGoal(): &lt;br/&gt;+ FourCornersPatternGoal(int, int, CheckType): &lt;br/&gt;+ FourCornersPatternGoal(int, int, CheckType, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;+ copyImmutable(): FourCornersPatternGoalView&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1884" y="718" width="372" height="166" as="geometry" />
+    </mxCell>
+    <mxCell id="node20" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FourCornersPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FourCornersPatternGoalView(FourCornersPatternGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-38" y="2526" width="339" height="84" as="geometry" />
+    </mxCell>
+    <mxCell id="node57" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Game&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Game(int, int, List&amp;lt;Player&amp;gt;, List&amp;lt;Tile&amp;gt;, Board, List&amp;lt;CommonGoal&amp;gt;): &lt;br/&gt;+ Game(GameListener, int, int, List&amp;lt;Player&amp;gt;, List&amp;lt;Tile&amp;gt;, Board, List&amp;lt;CommonGoal&amp;gt;): &lt;br/&gt;+ Game(int, List&amp;lt;Player&amp;gt;, List&amp;lt;PersonalGoal&amp;gt;, JsonBoardPattern): &lt;br/&gt;+ Game(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- board: Board&lt;br/&gt;- gameState: GameState&lt;br/&gt;- numberOfPlayersToStartGame: int&lt;br/&gt;- listener: GameListener&lt;br/&gt;- bag: List&amp;lt;Tile&amp;gt;&lt;br/&gt;- players: List&amp;lt;Player&amp;gt;&lt;br/&gt;- commonGoals: List&amp;lt;CommonGoal&amp;gt;&lt;br/&gt;- activePlayerIndex: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setBag(List&amp;lt;Tile&amp;gt;): void&lt;br/&gt;+ getPlayers(): List&amp;lt;Player&amp;gt;&lt;br/&gt;+ getActivePlayerIndex(): int&lt;br/&gt;+ getNumberOfPlayersToStartGame(): int&lt;br/&gt;+ getGameState(): GameState&lt;br/&gt;- isPaused(): boolean&lt;br/&gt;+ getCommonGoals(): List&amp;lt;CommonGoal&amp;gt;&lt;br/&gt;- initializeBag(int): void&lt;br/&gt;+ setActivePlayerIndex(int): void&lt;br/&gt;+ getPlayerFromNickname(String): Player&lt;br/&gt;+ setPlayers(List&amp;lt;Player&amp;gt;): void&lt;br/&gt;+ setNumberOfPlayersToStartGame(int): void&lt;br/&gt;+ saveGame(String, String): void&lt;br/&gt;- getCopyToStore(): Game&lt;br/&gt;+ getBoard(): Board&lt;br/&gt;+ getBag(): List&amp;lt;Tile&amp;gt;&lt;br/&gt;+ createGameFileIfNotExist(String): void&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ addPlayer(Player): void&lt;br/&gt;+ setCommonGoals(List&amp;lt;CommonGoal&amp;gt;): void&lt;br/&gt;+ setBoard(Board): void&lt;br/&gt;+ isPlayerInGame(String): boolean&lt;br/&gt;+ registerListener(GameListener): void&lt;br/&gt;+ setGameState(GameState): void&lt;br/&gt;- connectedPlayers(): List&amp;lt;Player&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5609" y="3409" width="378" height="850" as="geometry" />
+    </mxCell>
+    <mxCell id="node102" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GameController(Game): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- randomizer: Random&lt;br/&gt;- model: Game&lt;br/&gt;- personalGoalsDeck: List&amp;lt;PersonalGoal&amp;gt;&lt;br/&gt;- boardPatterns: List&amp;lt;JsonBoardPattern&amp;gt;&lt;br/&gt;- state: ControllerState&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ changeState(ControllerState): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ setModel(Game): void&lt;br/&gt;+ getRandomizer(): Random&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;+ getModel(): Game&lt;br/&gt;+ getNumberOfPlayersCurrentlyInGame(): int&lt;br/&gt;+ getBoardPatterns(): List&amp;lt;JsonBoardPattern&amp;gt;&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ addPersonalGoal(PersonalGoal): void&lt;br/&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ getPersonalGoal(int): PersonalGoal&lt;br/&gt;+ getNumberOfPersonalGoals(): int&lt;br/&gt;- getStoredGamesFromJson(String): Game[]&lt;br/&gt;+ getState(): ControllerState&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;- getStoredGameForPlayer(String, Game[]): Game&lt;br/&gt;+ areThereStoredGamesForPlayer(String, String): boolean&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ getPersonalGoalsDeck(): List&amp;lt;PersonalGoal&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2570" y="2542" width="345" height="718" as="geometry" />
+    </mxCell>
+    <mxCell id="node91" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;GameListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ addedPlayer(): void&lt;br/&gt;+ numberOfPlayersModified(): void&lt;br/&gt;+ commonGoalsModified(): void&lt;br/&gt;+ activePlayerIndexModified(): void&lt;br/&gt;+ bagModified(): void&lt;br/&gt;+ gameStateChanged(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3050" y="398" width="223" height="164" as="geometry" />
+    </mxCell>
+    <mxCell id="node14" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameModelDeserializer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GameModelDeserializer(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ deserialize(JsonElement, Type, JsonDeserializationContext): Game&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4506" y="2253" width="389" height="84" as="geometry" />
+    </mxCell>
+    <mxCell id="node92" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;GameState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GameState(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FINISHING: &lt;br/&gt;+ ON_GOING: &lt;br/&gt;+ IN_CREATION: &lt;br/&gt;+ RESET_NEEDED: &lt;br/&gt;+ PAUSED: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): GameState[]&lt;br/&gt;+ valueOf(String): GameState&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="723" y="2747" width="190" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node101" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GameView(Game): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- bag: List&amp;lt;TileView&amp;gt;&lt;br/&gt;- board: BoardView&lt;br/&gt;- commonGoals: List&amp;lt;CommonGoalView&amp;gt;&lt;br/&gt;- players: List&amp;lt;PlayerView&amp;gt;&lt;br/&gt;- gameState: GameState&lt;br/&gt;- activePlayerIndex: int&lt;br/&gt;- numberOfPlayers: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getNumberOfPlayers(): int&lt;br/&gt;+ getPlayers(): List&amp;lt;PlayerView&amp;gt;&lt;br/&gt;+ getCommonGoals(): List&amp;lt;CommonGoalView&amp;gt;&lt;br/&gt;+ isPlayerInGame(String): boolean&lt;br/&gt;+ getPlayerViewFromNickname(String): PlayerView&lt;br/&gt;+ getGameState(): GameState&lt;br/&gt;+ getActivePlayerIndex(): int&lt;br/&gt;+ isPaused(): boolean&lt;br/&gt;+ getBag(): List&amp;lt;TileView&amp;gt;&lt;br/&gt;+ getBoard(): BoardView&lt;br/&gt;+ connectedPlayers(): List&amp;lt;PlayerView&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2111" y="3037" width="304" height="454" as="geometry" />
+    </mxCell>
+    <mxCell id="node79" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GenericException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GenericException(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): ExceptionType&lt;br/&gt;+ handle(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="746" y="2186" width="183" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="node1" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GenericUILogic&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GenericUILogic(GameView, ViewListener, String): &lt;br/&gt;+ GenericUILogic(GameView): &lt;br/&gt;+ GenericUILogic(GameView, ViewListener): &lt;br/&gt;+ GenericUILogic(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- exceptionToHandle: GenericException&lt;br/&gt;- areThereStoredGamesForPlayer: boolean&lt;br/&gt;- chat: ChatThread&lt;br/&gt;# controller: ViewListener&lt;br/&gt;- nickname: String&lt;br/&gt;- clientGameState: ClientGameState&lt;br/&gt;- countdown: int&lt;br/&gt;- model: GameView&lt;br/&gt;- lockState: Object&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getController(): ViewListener&lt;br/&gt;+ setState(ClientGameState): void&lt;br/&gt;+ getLockState(): Object&lt;br/&gt;+ getCountdown(): int&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;br/&gt;+ printException(GenericException): void&lt;br/&gt;+ areThereStoredGamesForPlayer(): boolean&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ setExceptionToHandle(GenericException): void&lt;br/&gt;+ getExceptionToHandle(): GenericException&lt;br/&gt;+ registerListener(ViewListener): void&lt;br/&gt;+ initializeChatThread(ViewListener, String, GameView): void&lt;br/&gt;+ getState(): ClientGameState&lt;br/&gt;+ getNickname(): String&lt;br/&gt;+ modelModified(GameView): void&lt;br/&gt;+ getModel(): GameView&lt;br/&gt;+ setNickname(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3624" y="3513" width="352" height="696" as="geometry" />
+    </mxCell>
+    <mxCell id="node69" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GraphicalUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GraphicalUI(GameView, ViewListener): &lt;br/&gt;+ GraphicalUI(): &lt;br/&gt;+ GraphicalUI(GameView, ViewListener, String): &lt;br/&gt;+ GraphicalUI(GenericUILogic): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- heightOld: double&lt;br/&gt;- port: String&lt;br/&gt;- loginController: LoginController&lt;br/&gt;- selfClient: Client&lt;br/&gt;- loader: FXMLLoader&lt;br/&gt;- typeOfConnection: int&lt;br/&gt;- mainSceneController: MainSceneController&lt;br/&gt;- resizing: boolean&lt;br/&gt;- ip: String&lt;br/&gt;- finalSceneController: FinalSceneController&lt;br/&gt;# genericUILogic: GenericUILogic&lt;br/&gt;- widthOld: double&lt;br/&gt;- primaryStage: Stage&lt;br/&gt;- serverConnectedTo: Server&lt;br/&gt;- takenTiles: Choice&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- setPrimaryStage(Scene): void&lt;br/&gt;+ getHeightOld(): double&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;br/&gt;+ removeListener(): void&lt;br/&gt;- startReceiverThread(Client, ServerStub): void&lt;br/&gt;+ printException(GenericException): void&lt;br/&gt;- waitWhileInStates(List&amp;lt;ClientGameState&amp;gt;): void&lt;br/&gt;+ getWidthOld(): double&lt;br/&gt;+ start(Stage): void&lt;br/&gt;+ registerListener(ViewListener): void&lt;br/&gt;+ setNumberOfPlayer(int): void&lt;br/&gt;+ rescale(double, double): void&lt;br/&gt;+ showNewTurnIntro(): void&lt;br/&gt;+ joinGameWithNick(String): void&lt;br/&gt;+ modelModified(GameView): void&lt;br/&gt;+ run(): void&lt;br/&gt;+ finishTurn(Choice): void&lt;br/&gt;+ showUpdateFromOtherPlayer(): void&lt;br/&gt;+ setNickname(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3652" y="2567" width="307" height="872" as="geometry" />
+    </mxCell>
+    <mxCell id="node35" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;InPauseState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ InPauseState(GameController): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- timer: Timer&lt;br/&gt;- gameResumed: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;- changeActivePlayer(): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;br/&gt;- checkIfGameIsResumable(): boolean&lt;br/&gt;+ startGame(int): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ toEnum(): GameState&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2054" y="1973" width="345" height="410" as="geometry" />
+    </mxCell>
+    <mxCell id="node98" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;InsertUserInputCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ InsertUserInputCommand(Server, Choice): &lt;br/&gt;+ InsertUserInputCommand(Server): &lt;br/&gt;+ InsertUserInputCommand(Choice): &lt;br/&gt;+ InsertUserInputCommand(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- playerChoice: Choice&lt;br/&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ execute(): void&lt;br/&gt;+ setActuator(Server): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="992" y="1813" width="272" height="278" as="geometry" />
+    </mxCell>
+    <mxCell id="node5" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;record&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;JsonBoardPattern&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ JsonBoardPattern(int, int[][]): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- pattern: int[][]&lt;br/&gt;- numberOfPlayers: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPlayers(): int&lt;br/&gt;+ pattern(): int[][]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1959" y="2444" width="202" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node96" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;LobbyIsFullException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ LobbyIsFullException(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ handle(): void&lt;br/&gt;+ toEnum(): ExceptionType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1106" y="2204" width="203" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="node44" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;LoginController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ LoginController(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- NumberOfPlayerChoice: ChoiceBox&amp;lt;String&amp;gt;&lt;br/&gt;- numberOfPlayerInGame: String&lt;br/&gt;- principalLabel: Label&lt;br/&gt;- FirstButton: Button&lt;br/&gt;- mainGraphicalUI: GraphicalUI&lt;br/&gt;- PlayerOk: Button&lt;br/&gt;- Nickname: TextField&lt;br/&gt;- restoreButton: Button&lt;br/&gt;- ErrorLabel: Label&lt;br/&gt;- error: Pane&lt;br/&gt;- playerNumber: String[]&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPlayer(boolean): void&lt;br/&gt;+ restoreGame(ActionEvent): void&lt;br/&gt;+ controlNickname(ActionEvent): void&lt;br/&gt;+ initialize(URL, ResourceBundle): void&lt;br/&gt;+ setMainGui(GraphicalUI): void&lt;br/&gt;+ changeScene(): void&lt;br/&gt;+ nicknameException(ExceptionType): void&lt;br/&gt;+ ControlNumberOfPlayer(ActionEvent): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3357" y="1810" width="282" height="476" as="geometry" />
+    </mxCell>
+    <mxCell id="node28" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MainSceneController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MainSceneController(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- inCensure: int&lt;br/&gt;- pointsItem1: ImageView&lt;br/&gt;- printChatThread: Thread&lt;br/&gt;- secondPlayerBookshelf: Pane&lt;br/&gt;- order: int[]&lt;br/&gt;- commonGoal1: ImageView&lt;br/&gt;- personalGoal: ImageView&lt;br/&gt;- tileStyle: String&lt;br/&gt;- pointsImage1: Image&lt;br/&gt;- personalGoalString: String&lt;br/&gt;- tileName: String&lt;br/&gt;- victoryPoint: ImageView&lt;br/&gt;- playerChatChoice: ChoiceBox&amp;lt;String&amp;gt;&lt;br/&gt;- scene: Scene&lt;br/&gt;- secondCommonGoalString: String&lt;br/&gt;- firstRow: int&lt;br/&gt;- pointsLabel: Label&lt;br/&gt;- firstPlayerNickname: Label&lt;br/&gt;- numberOfPlayer: int&lt;br/&gt;- directionToCheck: Direction&lt;br/&gt;- countdownLabel: Label&lt;br/&gt;- VBoxMessage: VBox&lt;br/&gt;- thirdPlayerBookshelf: Pane&lt;br/&gt;- turn: int&lt;br/&gt;- commonGoal2: ImageView&lt;br/&gt;- takenTiles: Choice&lt;br/&gt;- fourthPlayerBookshelf: Pane&lt;br/&gt;- pointsImage2: Image&lt;br/&gt;- selectedColumn: String&lt;br/&gt;- startOrder: int&lt;br/&gt;- mainGraphicalUI: GraphicalUI&lt;br/&gt;- censure: Pane&lt;br/&gt;- firstCommonGoalString: String&lt;br/&gt;- chatMessage: TextField&lt;br/&gt;- pointsItem2: ImageView&lt;br/&gt;- firstColumn: int&lt;br/&gt;- gameOn: boolean&lt;br/&gt;- playerName: String[]&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ exitCommonGoal1(MouseEvent): void&lt;br/&gt;+ lockAllTiles(): void&lt;br/&gt;+ notOverColumn(MouseEvent): void&lt;br/&gt;- ableFirstPlayerButton(): void&lt;br/&gt;+ selected(ActionEvent): void&lt;br/&gt;+ cancelBoardTile(int, int): void&lt;br/&gt;+ overColumn(MouseEvent): void&lt;br/&gt;+ setBookshelf(List&amp;lt;PlayerView&amp;gt;): void&lt;br/&gt;+ setPlayersName(List&amp;lt;PlayerView&amp;gt;): void&lt;br/&gt;- checkIfInLine(int, int, int, int): Direction?&lt;br/&gt;+ initialize(URL, ResourceBundle): void&lt;br/&gt;- disableFirstPlayerButton(): void&lt;br/&gt;+ onPersonalGoal(MouseEvent): void&lt;br/&gt;+ setScene(Scene): void&lt;br/&gt;+ SelectTiles(ActionEvent): void&lt;br/&gt;+ setCommonGoal(List&amp;lt;CommonGoalView&amp;gt;): void&lt;br/&gt;+ DeletePrevious(MouseEvent): void&lt;br/&gt;+ onCommonGoal1(MouseEvent): void&lt;br/&gt;+ disableTile(int, int): void&lt;br/&gt;+ selectColumn(ActionEvent): void&lt;br/&gt;+ setNumberOfPlayer(int): void&lt;br/&gt;+ setFirstPlayerNickname(String): void&lt;br/&gt;+ setPersonalGoal(PersonalGoalView): void&lt;br/&gt;+ overButton(MouseEvent): void&lt;br/&gt;- checkIfPickable(int, int): boolean&lt;br/&gt;+ refreshPoint(): void&lt;br/&gt;+ exitPersonalGoal(MouseEvent): void&lt;br/&gt;+ setCommonGoalPoints(List&amp;lt;CommonGoalView&amp;gt;): void&lt;br/&gt;+ startCensure(): void&lt;br/&gt;+ exitCommonGoal2(MouseEvent): void&lt;br/&gt;+ setBoardTile(int, int, int, String): void&lt;br/&gt;+ disableTileAfterPick(int, int): void&lt;br/&gt;+ setGameOn(boolean): void&lt;br/&gt;+ setTable(): void&lt;br/&gt;+ insertTileIntoBookshelf(ActionEvent): void&lt;br/&gt;+ endCensure(): void&lt;br/&gt;+ notOverButton(MouseEvent): void&lt;br/&gt;+ ableTile(int, int): void&lt;br/&gt;- printChat(): Thread&lt;br/&gt;+ lockAllTilesAfterPick(): void&lt;br/&gt;+ getInCensure(): int&lt;br/&gt;+ endSelectionTiles(): void&lt;br/&gt;+ onCommonGoal2(MouseEvent): void&lt;br/&gt;+ setMainGui(GraphicalUI): void&lt;br/&gt;- checkIfInLine(int, int, List&amp;lt;Coordinates&amp;gt;, Direction): boolean&lt;br/&gt;+ sendMessage(ActionEvent): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5298" y="433" width="365" height="1906" as="geometry" />
+    </mxCell>
+    <mxCell id="node30" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;record&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Message&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Message(MessageType, String, String, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- receiverNickname: String&lt;br/&gt;- senderNickname: String&lt;br/&gt;- content: String&lt;br/&gt;- messageType: MessageType&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ receiverNickname(): String&lt;br/&gt;+ senderNickname(): String&lt;br/&gt;+ content(): String&lt;br/&gt;+ toString(): String&lt;br/&gt;+ messageType(): MessageType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4037" y="3513" width="288" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node7" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;MessageType&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MessageType(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ BROADCAST: &lt;br/&gt;+ PRIVATE: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): MessageType[]&lt;br/&gt;+ valueOf(String): MessageType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5674" y="2773" width="204" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node78" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MinEqualsTilesPattern&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MinEqualsTilesPattern(int, int, CheckType, Direction, int): &lt;br/&gt;+ MinEqualsTilesPattern(): &lt;br/&gt;+ MinEqualsTilesPattern(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;, Direction, int): &lt;br/&gt;+ MinEqualsTilesPattern(int, int, CheckType, int, Direction, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- maxEqualsTiles: int&lt;br/&gt;- direction: Direction&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setDirection(Direction): void&lt;br/&gt;+ copyImmutable(): MinEqualsTilesPatternGoalView&lt;br/&gt;+ setMaxEqualsTiles(int): void&lt;br/&gt;+ getDirection(): Direction&lt;br/&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;- confrontEqualsDifferentTiles(int, CheckType): boolean&lt;br/&gt;+ getMaxEqualsTiles(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="580" y="1709" width="351" height="322" as="geometry" />
+    </mxCell>
+    <mxCell id="node59" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MinEqualsTilesPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MinEqualsTilesPatternGoalView(MinEqualsTilesPattern): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- direction: Direction&lt;br/&gt;- maxEqualsTiles: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getMaxEqualsTiles(): int&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getDirection(): Direction&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1958" y="1467" width="341" height="168" as="geometry" />
+    </mxCell>
+    <mxCell id="node87" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;ModelListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3862" y="386" width="144" height="36" as="geometry" />
+    </mxCell>
+    <mxCell id="node95" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;OnGoingState&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ OnGoingState(GameController): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): GameState&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ checkExceedingPlayer(int): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ startGame(int): void&lt;br/&gt;- changeActivePlayer(): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;- checkIfUserInputIsCorrect(Choice): boolean&lt;br/&gt;+ changeTurn(String, String): void&lt;br/&gt;- checkIfCoordinatesArePlausible(List&amp;lt;Coordinates&amp;gt;): boolean&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;- addTilesToPlayerBookshelf(List&amp;lt;TileView&amp;gt;, int[], int): void&lt;br/&gt;- checkIfPickable(int, int): boolean&lt;br/&gt;- removeTilesFromBoard(List&amp;lt;Coordinates&amp;gt;): void&lt;br/&gt;+ restoreGameForPlayer(GameListener, String, String): void&lt;br/&gt;- refillBoard(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2502" y="1978" width="368" height="474" as="geometry" />
+    </mxCell>
+    <mxCell id="node8" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;OptionsValues&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ OptionsValues(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MAX_SELECTABLE_NUMBER_OF_PLAYERS: int&lt;br/&gt;+ PERSONAL_GOALS_STORAGE_BACKUP_DEFAULT_PATH: String&lt;br/&gt;+ MAX_NUMBER_OF_PLAYERS_TO_START_GAME: int&lt;br/&gt;+ PERSONAL_GOAL_ZERO_TILE_SCORE: int&lt;br/&gt;+ GAMES_STORAGE_BACKUP_DEFAULT_PATH: String&lt;br/&gt;+ MIN_NUMBER_OF_PLAYERS_TO_START_GAME: int&lt;br/&gt;+ NUMBER_OF_PERSONAL_GOALS: int&lt;br/&gt;+ MIN_SELECTABLE_NUMBER_OF_PLAYERS: int&lt;br/&gt;+ PERSONAL_GOAL_FIVE_TILE_SCORE: int&lt;br/&gt;+ NUMBER_OF_SCORE_TILE: int&lt;br/&gt;+ SOCKET_PORT: int&lt;br/&gt;+ MILLISECOND_PING_TO_SERVER_PERIOD: int&lt;br/&gt;+ PERSONAL_GOAL_TWO_TILE_SCORE: int&lt;br/&gt;+ MIN_PLAYERS_TO_GO_ON_PAUSE: int&lt;br/&gt;+ MILLISECOND_TIMEOUT_PING: int&lt;br/&gt;+ BOARDS_STORAGE_DEFAULT_PATH: String&lt;br/&gt;+ WINNING_TILE_VALUE: int&lt;br/&gt;+ MAX_NUMBER_PICKABLE_TILES: int&lt;br/&gt;+ PERSONAL_GOAL_ONE_TILE_SCORE: int&lt;br/&gt;+ PERSONAL_GOAL_FOUR_TILE_SCORE: int&lt;br/&gt;+ INITIAL_MISSED_PINGS: int&lt;br/&gt;+ RMI_PORT: int&lt;br/&gt;+ MILLISECOND_COUNTDOWN_VALUE: int&lt;br/&gt;+ GAMES_STORAGE_DEFAULT_PATH: String&lt;br/&gt;+ BAG_SIZE: int&lt;br/&gt;+ PERSONAL_GOAL_SIX_TILE_SCORE: int&lt;br/&gt;+ MILLISECOND_PING_TO_CLIENT_PERIOD: int&lt;br/&gt;+ NUMBER_OF_COMMON_GOAL: int&lt;br/&gt;+ PERSONAL_GOAL_THREE_TILE_SCORE: int&lt;br/&gt;+ SERVER_RMI_NAME: String&lt;br/&gt;+ NUMBER_OF_COMMON_GOAL_CARDS: int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5171" y="2864" width="377" height="738" as="geometry" />
+    </mxCell>
+    <mxCell id="node16" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PersonalGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ PersonalGoal(): &lt;br/&gt;+ PersonalGoal(PersonalGoal): &lt;br/&gt;+ PersonalGoal(int, Tile[][]): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- numberOfRows: int&lt;br/&gt;- pattern: Tile[][]&lt;br/&gt;- numberOfColumns: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ score(Bookshelf): int&lt;br/&gt;+ getPattern(): Tile[][]&lt;br/&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;+ getSingleTile(int, int): Tile&lt;br/&gt;+ getNumberOfRows(): int&lt;br/&gt;+ getNumberOfColumns(): int&lt;br/&gt;+ setPattern(Tile[][]): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ equals(Object): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1531" y="1060" width="335" height="366" as="geometry" />
+    </mxCell>
+    <mxCell id="node76" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PersonalGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ PersonalGoalView(PersonalGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- id: int&lt;br/&gt;- pattern: TileView[][]&lt;br/&gt;- numberOfColumns: int&lt;br/&gt;- numberOfRows: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getId(): int&lt;br/&gt;+ score(BookshelfView): int&lt;br/&gt;+ getPattern(): TileView[][]&lt;br/&gt;+ getNumRows(): int&lt;br/&gt;+ getNumColumns(): int&lt;br/&gt;+ getSingleTile(int, int): TileView&lt;br/&gt;+ toString(): String&lt;br/&gt;- numberOfPatternRepetitionInBookshelf(BookshelfView): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="694" y="2365" width="360" height="322" as="geometry" />
+    </mxCell>
+    <mxCell id="node21" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Player&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Player(String, boolean, List&amp;lt;ScoreTile&amp;gt;, Bookshelf): &lt;br/&gt;+ Player(String, boolean, List&amp;lt;ScoreTile&amp;gt;): &lt;br/&gt;+ Player(String, boolean): &lt;br/&gt;+ Player(String, boolean, PersonalGoal, List&amp;lt;ScoreTile&amp;gt;, Bookshelf): &lt;br/&gt;+ Player(String, boolean, PersonalGoal, List&amp;lt;ScoreTile&amp;gt;, Bookshelf, List&amp;lt;Message&amp;gt;): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- listener: PlayerListener&lt;br/&gt;- connected: boolean&lt;br/&gt;- personalGoal: PersonalGoal&lt;br/&gt;- bookshelf: Bookshelf&lt;br/&gt;- nickname: String&lt;br/&gt;- scoreTiles: List&amp;lt;ScoreTile&amp;gt;&lt;br/&gt;- chat: List&amp;lt;Message&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getBookshelf(): Bookshelf&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ getScoreTiles(): List&amp;lt;ScoreTile&amp;gt;&lt;br/&gt;+ addScoreTile(ScoreTile): void&lt;br/&gt;+ addMessage(Message): void&lt;br/&gt;+ registerListener(PlayerListener): void&lt;br/&gt;+ setBookshelf(Bookshelf): void&lt;br/&gt;+ score(): int&lt;br/&gt;+ getChat(): List&amp;lt;Message&amp;gt;&lt;br/&gt;+ setConnected(boolean): void&lt;br/&gt;+ getPersonalGoal(): PersonalGoal&lt;br/&gt;+ setPersonalGoal(PersonalGoal): void&lt;br/&gt;+ getNickname(): String&lt;br/&gt;+ setScoreTiles(List&amp;lt;ScoreTile&amp;gt;): void&lt;br/&gt;+ setSingleScoreTile(ScoreTile, int): void&lt;br/&gt;+ isConnected(): boolean&lt;br/&gt;+ setNickname(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4780" y="3663" width="362" height="674" as="geometry" />
+    </mxCell>
+    <mxCell id="node12" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;PlayerListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ chatUpdated(): void&lt;br/&gt;+ playerHasReconnected(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4507" y="1017" width="204" height="95" as="geometry" />
+    </mxCell>
+    <mxCell id="node86" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PlayerView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ PlayerView(Player): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- scoreTiles: List&amp;lt;ScoreTileView&amp;gt;&lt;br/&gt;- nickname: String&lt;br/&gt;- personalGoal: PersonalGoalView&lt;br/&gt;- connected: boolean&lt;br/&gt;- chat: List&amp;lt;Message&amp;gt;&lt;br/&gt;- bookshelf: BookshelfView&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ isConnected(): boolean&lt;br/&gt;+ getChat(): List&amp;lt;Message&amp;gt;&lt;br/&gt;+ getPersonalGoal(): PersonalGoalView&lt;br/&gt;+ score(): int&lt;br/&gt;+ getNickname(): String&lt;br/&gt;+ getScoreTiles(): List&amp;lt;ScoreTileView&amp;gt;&lt;br/&gt;+ getBookshelf(): BookshelfView&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1371" y="2246" width="240" height="344" as="geometry" />
+    </mxCell>
+    <mxCell id="node25" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;RegisterCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ RegisterCommand(Server, String): &lt;br/&gt;+ RegisterCommand(String): &lt;br/&gt;+ RegisterCommand(Server): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;br/&gt;- nickname: String&lt;br/&gt;- client: Client&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ execute(): void&lt;br/&gt;+ setActuator(Server): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3181" y="1027" width="228" height="278" as="geometry" />
+    </mxCell>
+    <mxCell id="node90" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;RestoreStoredGameCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ RestoreStoredGameCommand(String): &lt;br/&gt;+ RestoreStoredGameCommand(Server): &lt;br/&gt;+ RestoreStoredGameCommand(Server, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- nickname: String&lt;br/&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ execute(): void&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Server): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4947" y="1836" width="290" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node18" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ScoreTile&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ScoreTile(): &lt;br/&gt;+ ScoreTile(int): &lt;br/&gt;+ ScoreTile(int, int, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- commonGoalID: int&lt;br/&gt;- value: int&lt;br/&gt;- playerID: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setPlayerID(int): void&lt;br/&gt;+ setValue(int): void&lt;br/&gt;+ getPlayerID(): int&lt;br/&gt;+ getValue(): int&lt;br/&gt;+ getCommonGoalID(): int&lt;br/&gt;+ setCommonGoalID(int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3376" y="2739" width="198" height="300" as="geometry" />
+    </mxCell>
+    <mxCell id="node56" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ScoreTileView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ScoreTileView(ScoreTile): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- commonGoalID: int&lt;br/&gt;- value: int&lt;br/&gt;- playerID: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getPlayerID(): int&lt;br/&gt;+ getValue(): int&lt;br/&gt;+ getCommonGoalID(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5644" y="3143" width="179" height="190" as="geometry" />
+    </mxCell>
+    <mxCell id="node43" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendAreThereStoredGamesForPlayerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendAreThereStoredGamesForPlayerCommand(boolean): &lt;br/&gt;+ SendAreThereStoredGamesForPlayerCommand(Client, boolean): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Client&lt;br/&gt;- result: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ execute(): void&lt;br/&gt;+ getActuator(): Client&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Client): void&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4850" y="138" width="389" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node82" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendBroadcastMessageCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendBroadcastMessageCommand(): &lt;br/&gt;+ SendBroadcastMessageCommand(Server, String, String): &lt;br/&gt;+ SendBroadcastMessageCommand(String, String): &lt;br/&gt;+ SendBroadcastMessageCommand(Server): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;br/&gt;- sender: String&lt;br/&gt;- content: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ execute(): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ getActuator(): Server&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4090" y="1346" width="347" height="300" as="geometry" />
+    </mxCell>
+    <mxCell id="node52" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendExceptionCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendExceptionCommand(Client): &lt;br/&gt;+ SendExceptionCommand(GenericException): &lt;br/&gt;+ SendExceptionCommand(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Client&lt;br/&gt;- exception: GenericException&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Client&lt;br/&gt;+ execute(): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ setActuator(Client): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4123" y="2082" width="287" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node19" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendPingToClientCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendPingToClientCommand(): &lt;br/&gt;+ SendPingToClientCommand(Client): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Client&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): CommandType&lt;br/&gt;+ getActuator(): Client&lt;br/&gt;+ setActuator(Client): void&lt;br/&gt;+ execute(): void&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3462" y="1452" width="242" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node4" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendPingToServerCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendPingToServerCommand(Server): &lt;br/&gt;+ SendPingToServerCommand(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setActuator(Server): void&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ execute(): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-56" y="2254" width="244" height="212" as="geometry" />
+    </mxCell>
+    <mxCell id="node93" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendPrivateMessageCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendPrivateMessageCommand(String, String, String): &lt;br/&gt;+ SendPrivateMessageCommand(): &lt;br/&gt;+ SendPrivateMessageCommand(Server): &lt;br/&gt;+ SendPrivateMessageCommand(Server, String, String, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- receiver: String&lt;br/&gt;- sender: String&lt;br/&gt;- content: String&lt;br/&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getActuator(): Server&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ execute(): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4510" y="1730" width="368" height="322" as="geometry" />
+    </mxCell>
+    <mxCell id="node53" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SendUpdatedModelCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SendUpdatedModelCommand(GameView): &lt;br/&gt;+ SendUpdatedModelCommand(Client, GameView): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Client&lt;br/&gt;- updatedModel: GameView&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Client&lt;br/&gt;+ setActuator(Client): void&lt;br/&gt;+ execute(): void&lt;br/&gt;+ toEnum(): CommandType&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4920" y="2464" width="315" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node23" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Server&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ areThereStoredGamesForPlayer(String): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ changeTurn(): void&lt;br/&gt;+ ping(): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ restoreGameForPlayer(String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ addPlayer(Client, String): void&lt;br/&gt;+ register(Client, String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3296" y="-15" width="295" height="318" as="geometry" />
+    </mxCell>
+    <mxCell id="node58" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ServerImpl&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ServerImpl(): &lt;br/&gt;+ ServerImpl(int): &lt;br/&gt;+ ServerImpl(int, RMIClientSocketFactory, RMIServerSocketFactory): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- numberOfMissedPings: Map&amp;lt;Client, Integer&amp;gt;&lt;br/&gt;- controller: GameController&lt;br/&gt;- clientsToHandle: Map&amp;lt;Client, Optional&amp;lt;String&amp;gt;&amp;gt;&lt;br/&gt;- model: Game&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ tryToResumeGame(): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;- startPingSenderThread(): void&lt;br/&gt;+ numberOfPlayersModified(): void&lt;br/&gt;+ changeTurn(): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ playerHasReconnected(): void&lt;br/&gt;+ commonGoalsModified(): void&lt;br/&gt;+ removedTilesFromBoard(Board): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;- disconnectPlayerNotPartOfTheLobby(): void&lt;br/&gt;+ addPlayer(Client, String): void&lt;br/&gt;+ ping(): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;- resetServer(): void&lt;br/&gt;+ addedPlayer(): void&lt;br/&gt;+ register(Client, String): void&lt;br/&gt;+ addedTilesToBoard(Board): void&lt;br/&gt;+ areThereStoredGamesForPlayer(String): void&lt;br/&gt;+ gameStateChanged(): void&lt;br/&gt;+ restoreGameForPlayer(String): void&lt;br/&gt;+ bagModified(): void&lt;br/&gt;+ tileAddedToBookshelf(Bookshelf): void&lt;br/&gt;- notifyClientsAfterRestoring(): void&lt;br/&gt;+ activePlayerIndexModified(): void&lt;br/&gt;+ chatUpdated(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4004" y="476" width="376" height="806" as="geometry" />
+    </mxCell>
+    <mxCell id="node51" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ServerStub&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ServerStub(String, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- ip: String&lt;br/&gt;- socket: Socket&lt;br/&gt;- oos: ObjectOutputStream&lt;br/&gt;- semaphoreUpdate: Semaphore&lt;br/&gt;- port: int&lt;br/&gt;- ois: ObjectInputStream&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ areThereStoredGamesForPlayer(String): void&lt;br/&gt;+ receive(Client): void&lt;br/&gt;+ changeTurn(): void&lt;br/&gt;+ close(): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ addPlayer(Client, String): void&lt;br/&gt;+ restoreGameForPlayer(String): void&lt;br/&gt;+ ping(): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ tryToResumeGame(): void&lt;br/&gt;+ register(Client, String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3483" y="369" width="295" height="520" as="geometry" />
+    </mxCell>
+    <mxCell id="node80" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SingleClientHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SingleClientHandler(Server, Socket): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ generalServer: Server&lt;br/&gt;~ clientSkeleton: ClientSkeleton&lt;br/&gt;~ socket: Socket&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ run(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="157" y="2669" width="238" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node46" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StairPatternGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ StairPatternGoal(int, int, CheckType): &lt;br/&gt;+ StairPatternGoal(int, int, CheckType, int): &lt;br/&gt;+ StairPatternGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;br/&gt;+ copyImmutable(): StairPatternGoalView&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="183" y="1723" width="335" height="144" as="geometry" />
+    </mxCell>
+    <mxCell id="node50" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StairPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ StairPatternGoalView(StairPatternGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1733" y="2197" width="255" height="84" as="geometry" />
+    </mxCell>
+    <mxCell id="node97" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StartGameCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ StartGameCommand(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ execute(): void&lt;br/&gt;+ setActuator(Server): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getActuator(): Server&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2051" y="1105" width="191" height="190" as="geometry" />
+    </mxCell>
+    <mxCell id="node29" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;TUIListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ noExceptionOccured(): void&lt;br/&gt;+ start(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4640" y="2545" width="194" height="95" as="geometry" />
+    </mxCell>
+    <mxCell id="node38" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TextualUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TextualUI(GenericUILogic): &lt;br/&gt;+ TextualUI(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- genericUILogic: GenericUILogic&lt;br/&gt;- countdownListener: TUIListener&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ registerCountdownListener(TUIListener): void&lt;br/&gt;+ askPlayer(): Choice&lt;br/&gt;- bookshelfColumnChoice(int): int&lt;br/&gt;- setUpLobby(): void&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ setNickname(String): void&lt;br/&gt;+ printTitleScreen(): void&lt;br/&gt;- rowColumnTileChoiceFromBoard(int, boolean): int&lt;br/&gt;- waitWhileInStates(List&amp;lt;ClientGameState&amp;gt;): void&lt;br/&gt;+ showGameEnd(): void&lt;br/&gt;- setUpLobbyAsFirst(): void&lt;br/&gt;- waitWhileInState(ClientGameState): void&lt;br/&gt;+ printException(GenericException): void&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;br/&gt;+ showPersonalRecap(): void&lt;br/&gt;+ registerListener(ViewListener): void&lt;br/&gt;+ removeCountdownListener(): void&lt;br/&gt;+ showNewTurnIntro(): void&lt;br/&gt;- checkIfPickable(int, int): boolean&lt;br/&gt;+ modelModified(GameView): void&lt;br/&gt;- checkIfInLine(int, int, int, int): Direction?&lt;br/&gt;+ run(): void&lt;br/&gt;- checkIfInLine(int, int, List&amp;lt;Coordinates&amp;gt;, Direction): boolean&lt;br/&gt;- firstInteractionWithUser(): void&lt;br/&gt;- askNumberOfPlayers(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3198" y="3482" width="365" height="674" as="geometry" />
+    </mxCell>
+    <mxCell id="node55" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ThPrintCountdown&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ThPrintCountdown(int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- countdown: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ run(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="456" y="2708" width="175" height="110" as="geometry" />
+    </mxCell>
+    <mxCell id="node68" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Tile&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Tile(TileColor): &lt;br/&gt;+ Tile(): &lt;br/&gt;+ Tile(TileColor, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- id: int&lt;br/&gt;- color: TileColor&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setId(int): void&lt;br/&gt;+ getColor(): TileColor&lt;br/&gt;+ setColor(TileColor): void&lt;br/&gt;+ getId(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5939" y="2967" width="174" height="234" as="geometry" />
+    </mxCell>
+    <mxCell id="node85" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;TileColor&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TileColor(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ WHITE: &lt;br/&gt;+ YELLOW: &lt;br/&gt;+ GREEN: &lt;br/&gt;+ BLUE: &lt;br/&gt;+ PURPLE: &lt;br/&gt;+ CYAN: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ values(): TileColor[]&lt;br/&gt;+ toGUI(): String&lt;br/&gt;+ valueOf(String): TileColor&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4037" y="4101" width="180" height="278" as="geometry" />
+    </mxCell>
+    <mxCell id="node75" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TileView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TileView(Tile): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- id: int&lt;br/&gt;- color: TileColor&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getId(): int&lt;br/&gt;+ getColor(): TileColor&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4053" y="3013" width="153" height="146" as="geometry" />
+    </mxCell>
+    <mxCell id="node81" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TilesInPositionsPatternGoal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TilesInPositionsPatternGoal(): &lt;br/&gt;+ TilesInPositionsPatternGoal(int, int, CheckType, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;br/&gt;+ TilesInPositionsPatternGoal(int, int, CheckType, int, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;br/&gt;+ TilesInPositionsPatternGoal(int, int, CheckType, List&amp;lt;ScoreTile&amp;gt;, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- positions: List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- searchGroup(Bookshelf, int[][], int, int, int, TileColor): void&lt;br/&gt;+ getPositions(): List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;br/&gt;+ copyImmutable(): TilesInPositionsPatternGoalView&lt;br/&gt;- numberOfElement(): int&lt;br/&gt;+ numberOfPatternRepetitionInBookshelf(Bookshelf): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2489" y="349" width="359" height="256" as="geometry" />
+    </mxCell>
+    <mxCell id="node49" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TilesInPositionsPatternGoalView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TilesInPositionsPatternGoalView(TilesInPositionsPatternGoal): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- positions: List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;br/&gt;+ getPositions(): List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2732" y="943" width="371" height="134" as="geometry" />
+    </mxCell>
+    <mxCell id="node9" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TryToResumeGameCommand&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ TryToResumeGameCommand(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- actuator: Server&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setActuator(Server): void&lt;br/&gt;+ toEnum(): CommandType&lt;br/&gt;+ getActuator(): Server&lt;br/&gt;+ toString(): String&lt;br/&gt;+ execute(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5749" y="1479" width="249" height="190" as="geometry" />
+    </mxCell>
+    <mxCell id="node11" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;UI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ modelModified(GameView): void&lt;br/&gt;+ run(): void&lt;br/&gt;+ showNewTurnIntro(): void&lt;br/&gt;+ registerListener(ViewListener): void&lt;br/&gt;+ setNickname(String): void&lt;br/&gt;+ removeListener(): void&lt;br/&gt;+ printException(GenericException): void&lt;br/&gt;+ setAreThereStoredGamesForPlayer(boolean): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3715" y="1724" width="307" height="208" as="geometry" />
+    </mxCell>
+    <mxCell id="node10" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;ViewListener&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ areThereStoredGamesForPlayer(String): void&lt;br/&gt;+ insertUserInputIntoModel(Choice): void&lt;br/&gt;+ startGame(): void&lt;br/&gt;+ addPlayer(String): void&lt;br/&gt;+ restoreGameForPlayer(String): void&lt;br/&gt;+ disconnectPlayer(String): void&lt;br/&gt;+ sendPrivateMessage(String, String, String): void&lt;br/&gt;+ sendBroadcastMessage(String, String): void&lt;br/&gt;+ chooseNumberOfPlayerInTheGame(int): void&lt;br/&gt;+ changeTurn(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2990" y="2351" width="295" height="252" as="geometry" />
+    </mxCell>
+    <mxCell id="node37" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;WrongInputDataException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ WrongInputDataException(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toEnum(): ExceptionType&lt;br/&gt;+ handle(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-144" y="2702" width="231" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="edge22" edge="1" value="" parent="1" source="node15" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2457" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge51" edge="1" value="" parent="1" source="node73" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.000;exitY=0.016;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4472" y="121" />
+          <mxPoint x="4472" y="1695" />
+          <mxPoint x="3443" y="1695" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge11" edge="1" value="" parent="1" source="node36" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="562" y="2126" />
+          <mxPoint x="562" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge17" edge="1" value="" parent="1" source="node39" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.069;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1941" y="1790" />
+          <mxPoint x="1941" y="1416" />
+          <mxPoint x="3443" y="1416" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge15" edge="1" value="" parent="1" source="node72" target="node65" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.964;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4039" y="1435" />
+          <mxPoint x="2948" y="1435" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge7" edge="1" value="" parent="1" source="node72" target="node10" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.000;exitY=0.960;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge13" edge="1" value="" parent="1" source="node61" target="node65" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3239" y="1435" />
+          <mxPoint x="2948" y="1435" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge39" edge="1" value="" parent="1" source="node54" target="node63" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=1.000;exitY=0.252;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1496" y="1350" />
+          <mxPoint x="1496" y="1208" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge19" edge="1" value="" parent="1" source="node40" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="-2" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge0" edge="1" value="" parent="1" source="node47" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=1.000;exitY=0.319;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="960" y="2347" />
+          <mxPoint x="960" y="1733" />
+          <mxPoint x="1312" y="1733" />
+          <mxPoint x="1312" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge5" edge="1" value="" parent="1" source="node45" target="node29" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.509;exitDx=0;exitDy=0;entryX=0.502;entryY=1.001;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4737" y="2716" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge36" edge="1" value="" parent="1" source="node41" target="node67" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3426" y="1190" />
+          <mxPoint x="3426" y="1781" />
+          <mxPoint x="2765" y="1781" />
+          <mxPoint x="2765" y="1217" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge28" edge="1" value="" parent="1" source="node94" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1248" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge37" edge="1" value="" parent="1" source="node32" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.000;exitY=0.319;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2007" y="1956" />
+          <mxPoint x="2007" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge24" edge="1" value="" parent="1" source="node70" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3443" y="751" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge3" edge="1" value="" parent="1" source="node74" target="node79" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="507" y="2487" />
+          <mxPoint x="672" y="2487" />
+          <mxPoint x="672" y="2326" />
+          <mxPoint x="837" y="2326" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge33" edge="1" value="" parent="1" source="node83" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1713" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge8" edge="1" value="" parent="1" source="node31" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1520" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge46" edge="1" value="" parent="1" source="node89" target="node79" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1785" y="2608" />
+          <mxPoint x="1126" y="2608" />
+          <mxPoint x="1126" y="2326" />
+          <mxPoint x="837" y="2326" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge48" edge="1" value="" parent="1" source="node100" target="node67" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2765" y="1676" />
+          <mxPoint x="2765" y="1217" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge35" edge="1" value="" parent="1" source="node71" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2070" y="1027" />
+          <mxPoint x="-17" y="1027" />
+          <mxPoint x="-17" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge41" edge="1" value="" parent="1" source="node20" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.718;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="205" y="1915" />
+          <mxPoint x="-32" y="1915" />
+          <mxPoint x="-32" y="1012" />
+          <mxPoint x="1914" y="1012" />
+          <mxPoint x="1914" y="1733" />
+          <mxPoint x="1312" y="1733" />
+          <mxPoint x="1312" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge18" edge="1" value="" parent="1" source="node69" target="node11" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3806" y="3461" />
+          <mxPoint x="3610" y="3461" />
+          <mxPoint x="3610" y="2418" />
+          <mxPoint x="3675" y="2418" />
+          <mxPoint x="3675" y="1828" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge32" edge="1" value="" parent="1" source="node35" target="node67" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2227" y="1930" />
+          <mxPoint x="2765" y="1930" />
+          <mxPoint x="2765" y="1217" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge14" edge="1" value="" parent="1" source="node98" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.194;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1045" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge43" edge="1" value="" parent="1" source="node96" target="node79" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1208" y="2326" />
+          <mxPoint x="837" y="2326" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge27" edge="1" value="" parent="1" source="node78" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="755" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge23" edge="1" value="" parent="1" source="node59" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2129" y="1733" />
+          <mxPoint x="1312" y="1733" />
+          <mxPoint x="1312" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge50" edge="1" value="" parent="1" source="node87" target="node88" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.289;exitY=0.001;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge9" edge="1" value="" parent="1" source="node87" target="node62" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.001;exitDx=0;exitDy=0;entryX=0.000;entryY=0.060;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3934" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge47" edge="1" value="" parent="1" source="node87" target="node91" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=1.001;exitDx=0;exitDy=0;entryX=0.203;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3934" y="907" />
+          <mxPoint x="3095" y="907" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge6" edge="1" value="" parent="1" source="node87" target="node12" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.604;exitY=1.002;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3949" y="440" />
+          <mxPoint x="4609" y="440" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge4" edge="1" value="" parent="1" source="node95" target="node67" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.789;exitY=0.000;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2792" y="1781" />
+          <mxPoint x="2765" y="1781" />
+          <mxPoint x="2765" y="1217" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge1" edge="1" value="" parent="1" source="node16" target="node63" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1496" y="1243" />
+          <mxPoint x="1496" y="1208" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge25" edge="1" value="" parent="1" source="node25" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3443" y="1166" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge38" edge="1" value="" parent="1" source="node90" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="5092" y="1695" />
+          <mxPoint x="3443" y="1695" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge45" edge="1" value="" parent="1" source="node43" target="node17" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.422;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4489" y="255" />
+          <mxPoint x="4489" y="2371" />
+          <mxPoint x="4472" y="2371" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge30" edge="1" value="" parent="1" source="node82" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4472" y="1496" />
+          <mxPoint x="4472" y="1695" />
+          <mxPoint x="3443" y="1695" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge12" edge="1" value="" parent="1" source="node52" target="node17" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.422;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4489" y="2210" />
+          <mxPoint x="4489" y="2371" />
+          <mxPoint x="4472" y="2371" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge2" edge="1" value="" parent="1" source="node19" target="node17" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.422;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3962" y="1558" />
+          <mxPoint x="3962" y="458" />
+          <mxPoint x="4489" y="458" />
+          <mxPoint x="4489" y="2371" />
+          <mxPoint x="4472" y="2371" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge52" edge="1" value="" parent="1" source="node4" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=1.000;exitY=0.120;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="562" y="2279" />
+          <mxPoint x="562" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge34" edge="1" value="" parent="1" source="node93" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4694" y="1695" />
+          <mxPoint x="3443" y="1695" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge16" edge="1" value="" parent="1" source="node53" target="node17" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.422;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="5078" y="2409" />
+          <mxPoint x="4489" y="2409" />
+          <mxPoint x="4489" y="2371" />
+          <mxPoint x="4472" y="2371" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge44" edge="1" value="" parent="1" source="node58" target="node87" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.037;exitY=0.000;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4018" y="401" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge26" edge="1" value="" parent="1" source="node58" target="node23" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.409;exitY=0.000;exitDx=0;exitDy=0;entryX=0.548;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4158" y="349" />
+          <mxPoint x="3458" y="349" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge31" edge="1" value="" parent="1" source="node51" target="node23" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.548;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3630" y="349" />
+          <mxPoint x="3458" y="349" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge20" edge="1" value="" parent="1" source="node46" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="351" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge10" edge="1" value="" parent="1" source="node50" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1861" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge21" edge="1" value="" parent="1" source="node97" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2147" y="1416" />
+          <mxPoint x="3443" y="1416" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge49" edge="1" value="" parent="1" source="node38" target="node11" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3381" y="3461" />
+          <mxPoint x="3610" y="3461" />
+          <mxPoint x="3610" y="2418" />
+          <mxPoint x="3675" y="2418" />
+          <mxPoint x="3675" y="1828" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge40" edge="1" value="" parent="1" source="node81" target="node54" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2669" y="1027" />
+          <mxPoint x="-17" y="1027" />
+          <mxPoint x="-17" y="1693" />
+          <mxPoint x="832" y="1693" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge29" edge="1" value="" parent="1" source="node49" target="node60" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.000;exitY=0.679;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2689" y="1027" />
+          <mxPoint x="2689" y="1012" />
+          <mxPoint x="1914" y="1012" />
+          <mxPoint x="1914" y="1733" />
+          <mxPoint x="1312" y="1733" />
+          <mxPoint x="1312" y="2072" />
+          <mxPoint x="1843" y="2072" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge53" edge="1" value="" parent="1" source="node9" target="node66" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#008200;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="5873" y="2356" />
+          <mxPoint x="4472" y="2356" />
+          <mxPoint x="4472" y="1695" />
+          <mxPoint x="3443" y="1695" />
+          <mxPoint x="3443" y="327" />
+          <mxPoint x="2915" y="327" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge42" edge="1" value="" parent="1" source="node37" target="node79" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#000082;exitX=0.384;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="-56" y="2487" />
+          <mxPoint x="672" y="2487" />
+          <mxPoint x="672" y="2326" />
+          <mxPoint x="837" y="2326" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+  </root>
+</mxGraphModel>

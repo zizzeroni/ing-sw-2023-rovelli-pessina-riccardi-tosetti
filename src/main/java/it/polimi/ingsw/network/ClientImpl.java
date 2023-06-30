@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.ViewListener;
 import it.polimi.ingsw.model.Choice;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.GenericException;
 import it.polimi.ingsw.model.listeners.ModelListener;
 import it.polimi.ingsw.model.view.GameView;
-import it.polimi.ingsw.view.GUI.UI;
+import it.polimi.ingsw.view.UI;
+import it.polimi.ingsw.view.ViewListener;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;

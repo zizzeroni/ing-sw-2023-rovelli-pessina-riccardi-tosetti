@@ -144,5 +144,12 @@ public class FourCornersPatternGoalTest {
         assertEquals(this.pattern.getNumberOfPatternRepetitionsRequired(), copy.getNumberOfPatternRepetitionsRequired());
         assertEquals(this.pattern.getType(), copy.getType());
         assertEquals(this.pattern.getId(), copy.getId());
+        assertEquals("Four tiles of the same type in the four corners of the bookshelf. \n" +
+                "[ \u001B[34mB\u001B[39m - - - \u001B[34mB\u001B[39m ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ - - - - - ] \n" +
+                "[ \u001B[34mB\u001B[39m - - - \u001B[34mB\u001B[39m ] \n", copy.toString());
     }
 }
