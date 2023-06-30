@@ -12,7 +12,7 @@
               <Pane prefHeight="178.0" prefWidth="555.0" style="-fx-background-image: url(&quot;/image/Publisher%20material/Title%202000x618px.png&quot;); -fx-background-size: cover; -fx-background-repeat: stretch;" styleClass="firstPageTitle" stylesheets="@../css/Style.css" />
               <Pane layoutX="113.0" layoutY="178.0" opacity="0.9" prefHeight="239.0" prefWidth="330.0" style="-fx-background-color: wheat;" stylesheets="@../css/Style.css">
                   <children>
-                      <Label fx:id="principalLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-6.0" prefHeight="50.0" prefWidth="342.0" text="THE GAME IS FINISHED" textAlignment="CENTER">
+                      <Label fx:id="principalLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-6.0" prefHeight="50.0" prefWidth="342.0" text="THE GAME IS FINISH" textAlignment="CENTER">
                           <font>
                               <Font name="Forte" size="22.0" />
                           </font>

@@ -1480,7 +1480,6 @@ public class MainSceneController implements Initializable {
             //this.setTable();
             //onCountdown = true;
             double wi = this.mainGraphicalUI.getPrimaryStage().getWidth();
-            System.out.println(wi);
             double he = this.mainGraphicalUI.getPrimaryStage().getHeight();
 
             censure.setMaxSize(wi, he);
@@ -1491,12 +1490,15 @@ public class MainSceneController implements Initializable {
             commonGoal2.setOnMouseExited(null);
             personalGoal.setOnMouseEntered(null);
             personalGoal.setOnMouseExited(null);
-            if(wi<1600) {
+            if(wi < 1600) {
                 countdownLabel.setLayoutX(wi * 0.55);
                 countdownLabel.setLayoutY(he * 0.70);
-            } else {
+            } else if(wi < 2000){
                 countdownLabel.setLayoutX(wi * 0.45);
                 countdownLabel.setLayoutY(he * 0.60);
+            } else {
+                countdownLabel.setLayoutX(wi * 0.25);
+                countdownLabel.setLayoutY(he * 0.40);
             }
 
             personalGoal.setVisible(false);
